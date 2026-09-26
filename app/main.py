@@ -22,7 +22,7 @@ import sys
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication
 
-from core import crash_log, gui_gc, startup_manager
+from core import crash_log, gui_gc, startup_manager, web_flags
 from core.settings_store import BUDDY_DIR
 from core.shell_window import ShellWindow
 from core.single_instance import notify_existing_instance, SingleInstanceServer
@@ -41,6 +41,9 @@ def main(start_hidden=False):
     # no-op unless the setting is actually on.
     startup_manager.sync_if_enabled()
 
+    # Web pages are drawn in software: Chromium's GPU path (ANGLE) crashes
+    # inside Buddy's process on some machines (core/web_flags.py).
+    crash_log.trail("web", web_flags.apply(os.environ))
     # Web tool pages (core/web_page.py) share GPU contexts with each other;
     # QtWebEngine needs this set before the QApplication exists.
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)

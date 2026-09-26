@@ -272,7 +272,7 @@ const Buddy = (() => {
 
     /* A colour picker popover: saturation/value square, hue bar, hex box,
        before/after chips and (when the page has one) a screen dropper.
-       pickColor({hex, title, at: DOMRect|{x, y}, onPick(hex), okLabel,
+       pickColor({hex, title, at: Element|DOMRect|{x, y}, onPick(hex), okLabel,
        dropper(set) - set(hex) feeds the sampled colour back}). */
     const picker = (() => {
         let node = null, state = null;
@@ -443,6 +443,9 @@ const Buddy = (() => {
             setHex(state.old);
             node.hidden = false;
             const w = node.offsetWidth, h = node.offsetHeight;
+            // An element has no x/left of its own: anchor to where it's drawn.
+            if (at instanceof Element) at = at.getBoundingClientRect();
+            if (!at) at = {x: (innerWidth - w) / 2, y: 120};
             const x = at.left !== undefined ? at.left : at.x, y = at.bottom !== undefined ? at.bottom + 6 : at.y;
             node.style.left = `${clamp(x, 8, innerWidth - w - 8)}px`;
             node.style.top = `${y + h > innerHeight - 8 ? Math.max(8, (at.top !== undefined ? at.top : y) - h - 6) : y}px`;
