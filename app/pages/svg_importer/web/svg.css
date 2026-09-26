@@ -1,0 +1,77 @@
+/* SVG Importer's layout. Colours come from buddy.css's theme variables. */
+
+.page { gap: 10px; overflow: hidden; }
+.scroll-area { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; }
+
+.comp { display: flex; align-items: center; gap: 8px; padding: 2px 4px 2px 12px; border-radius: var(--r-full); background: var(--raised-bg); }
+.comp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); }
+.comp[data-status="ok"] .comp-dot { background: var(--success); }
+.comp[data-status="none"] .comp-dot, .comp[data-status="offline"] .comp-dot { background: var(--danger-text); }
+.comp .btn.icon { padding: 4px; }
+
+.kinds { align-self: flex-start; flex: none; }
+
+.files { position: relative; flex: none; display: flex; flex-direction: column; min-height: 150px; }
+.file-list { list-style: none; margin: 0; padding: 6px 8px; max-height: 240px; overflow-y: auto; }
+.file-list:empty { display: none; }
+.file-list li { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: var(--r-sm); min-width: 0; }
+.file-list li:hover { background: color-mix(in srgb, var(--raised-bg) 70%, transparent); }
+.file-list .icon-svg { width: 16px; height: 16px; color: var(--emphasis); flex: none; }
+.file-list .name { color: var(--text-strong); font-weight: 600; white-space: nowrap; }
+.file-list .where { flex: 1; min-width: 0; font-size: var(--fs-xs); color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: rtl; text-align: left; }
+.file-list .where bdi { direction: ltr; unicode-bidi: isolate; }
+.file-list .x { border: 0; background: none; color: var(--text-dim); cursor: pointer; font-size: var(--fs-lg); line-height: 1; padding: 2px 6px; border-radius: var(--r-xs); }
+.file-list .x:hover { color: var(--text-strong); background: var(--raised-bg); }
+.file-list li.missing .name { color: var(--danger-text); text-decoration: line-through; }
+
+.drop-hint {
+    flex: 1; margin: 12px; min-height: 90px;
+    border: 2px dashed color-mix(in srgb, var(--text-dim) 40%, transparent);
+    border-radius: var(--r-md);
+    display: grid; place-items: center; text-align: center; padding: 14px;
+    color: var(--text-dim);
+}
+.drop-hint b { color: var(--text-strong); }
+.drop-hint:empty { display: none; }
+.drop-veil {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    background: color-mix(in srgb, var(--accent-text) 14%, transparent);
+    border: 2px dashed var(--accent-text); border-radius: inherit; pointer-events: none;
+}
+.drop-veil span { font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); padding: 6px 14px; border-radius: 999px; background: var(--surface); }
+
+.options { flex: none; padding: var(--card-pad); display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.opt { display: flex; align-items: center; gap: 10px; }
+.opt-wide { flex-basis: 100%; margin: 0; line-height: 1.45; }
+.lbl-inline { font-size: var(--fs-sm); font-weight: 600; color: var(--text-dim); }
+.check b { color: var(--text-strong); }
+
+.go-row { flex: none; flex-wrap: wrap; }
+.btn.big { min-width: 220px; min-height: 36px; }
+
+.result { flex: none; padding: var(--card-pad); display: flex; align-items: center; gap: var(--card-gap); }
+.result .badge { width: 36px; height: 36px; border-radius: 50%; flex: none; display: grid; place-items: center; }
+.result .badge .icon-svg { width: 20px; height: 20px; }
+.result.ok { border-color: color-mix(in srgb, var(--success) 60%, var(--card-border)); }
+.result.ok .badge { background: color-mix(in srgb, var(--success) 18%, transparent); color: var(--success); }
+.result.bad { border-color: color-mix(in srgb, var(--danger-text) 60%, var(--card-border)); }
+.result.bad .badge { background: color-mix(in srgb, var(--danger-text) 16%, transparent); color: var(--danger-text); }
+.result .text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.result .text .strong { font-size: var(--fs-lg); }
+.result kbd, .drop-hint kbd {
+    font: inherit; font-size: var(--fs-sm); padding: 0 6px; border-radius: var(--r-xs);
+    border: var(--bw) solid var(--card-border); background: var(--raised-bg); color: var(--text-strong);
+}
+
+details.card { flex: none; padding: 10px 16px; }
+details.card summary { cursor: pointer; display: flex; align-items: baseline; gap: 8px; }
+details.card[open] summary { margin-bottom: 8px; }
+.debug-toggle { margin-bottom: 6px; }
+.mono { font-family: var(--font-mono); }
+.details-log { list-style: none; margin: 0; padding: 8px 10px; max-height: 260px; overflow: auto; font-size: var(--fs-sm); line-height: 1.5; background: var(--raised-bg); border-radius: var(--r-sm); }
+.details-log li { white-space: pre-wrap; overflow-wrap: anywhere; }
+.details-log .k-debug { color: var(--text-dim); }
+.details-log .k-note { color: var(--second-text); }
+.details-log .k-error { color: var(--danger-text); }
+.details-log.hide-debug .k-debug { display: none; }
+.diag p { margin: 0 0 10px; line-height: 1.45; }

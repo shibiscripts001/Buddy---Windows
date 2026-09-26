@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Scripts only from Buddy's own files and Qt's bridge: an answer can
+         never run code, even if something slipped past the escaping. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Ask Buddy</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="chat.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="chat">
+    <header class="bar">
+        <div class="switcher" id="switcher" hidden>
+            <button class="btn icon ghost" id="prev" title="Previous conversation" disabled></button>
+            <span class="muted small" id="position"></span>
+            <button class="btn icon ghost" id="next" title="Next conversation" disabled></button>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn ghost" id="export" title="Save this conversation to a text file"></button>
+        <button class="btn" id="new" disabled></button>
+    </header>
+
+    <section class="card transcript" id="transcript">
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <div class="suggestions" id="suggestions"></div>
+        <div class="msg buddy thinking" id="thinking" hidden>
+            <div class="who">Buddy</div>
+            <div class="thinking-row">
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span class="muted" id="thinking-text">Thinking…</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="card offer" id="offer" hidden></div>
+    <div class="card proposal" id="proposal" hidden></div>
+
+    <div class="card pictures" id="pictures" hidden>
+        <div class="picture-strip" id="picture-strip"></div>
+        <div class="muted small" id="picture-note"></div>
+    </div>
+    <footer class="composer card">
+        <button class="btn icon ghost" id="attach" title="Add a picture – or paste or drag one in" hidden></button>
+        <textarea class="field" id="input" rows="1"
+                  placeholder="Ask about DaVinci Resolve…"
+                  title="Enter to send, Shift+Enter for a new line"></textarea>
+        <button class="btn accent" id="send" title="Send (Enter)"></button>
+    </footer>
+    <div class="muted small status" id="status"></div>
+</main>
+<script src="chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Batch Clip Renamer</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="renamer.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Batch Clip Renamer</h1>
+        <div class="segmented" id="scope" role="group" aria-label="Which clips">
+            <button type="button" data-scope="bin" title="Every clip in the Media Pool bin that's open in Resolve">Current bin</button>
+            <button type="button" data-scope="selected" title="Only the clips selected in Resolve's Media Pool">Selected clips</button>
+        </div>
+    </header>
+
+    <section class="card form">
+        <div class="tabs" role="tablist">
+            <button type="button" role="tab" data-mode="sequential">Sequential numbering</button>
+            <button type="button" role="tab" data-mode="replace">Find &amp; replace</button>
+        </div>
+
+        <div class="fields" id="fields-sequential">
+            <label class="lbl grow">Base name
+                <input class="field" id="base" placeholder="e.g. Drone_Shot" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="lbl start">Start #
+                <input class="field" id="start" inputmode="numeric" autocomplete="off">
+            </label>
+        </div>
+
+        <div class="fields" id="fields-replace" hidden>
+            <label class="lbl grow">Find
+                <input class="field" id="find" placeholder="Text in the clip names" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="lbl grow">Replace with
+                <input class="field" id="replace" placeholder="Leave empty to remove it" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="check case"><input type="checkbox" id="match-case"> Match case</label>
+        </div>
+        <div class="field-error" id="problem"></div>
+    </section>
+
+    <section class="card preview">
+        <div class="preview-head">
+            <div class="preview-title">
+                <span class="section-title" id="where">Preview</span>
+                <span class="muted small" id="summary"></span>
+            </div>
+            <label class="check small" id="only-changes-box"><input type="checkbox" id="only-changes"> Only changes</label>
+            <button type="button" class="btn ghost" id="refresh" title="Read the clips from Resolve again"></button>
+        </div>
+        <div class="preview-body" id="preview"></div>
+        <div class="warn" id="dupes"></div>
+    </section>
+
+    <footer class="row footer">
+        <button type="button" class="btn" id="undo" hidden></button>
+        <span class="muted small" id="note">Only the clip names change – your media files on disk are never touched.</span>
+        <div class="spacer"></div>
+        <button type="button" class="btn accent" id="rename" disabled>Rename</button>
+    </footer>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="renamer.js"></script>
+</body>
+</html>

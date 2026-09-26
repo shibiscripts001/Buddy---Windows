@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Stills Exporter</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="stills.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Stills Exporter</h1>
+        <span class="timeline" id="timeline"></span>
+        <button type="button" class="btn ghost" data-action="refresh" id="refresh" title="Read the timeline's markers again"></button>
+    </header>
+
+    <section class="card colour-card">
+        <div class="row">
+            <span class="section-title">Marker colour</span>
+            <span class="muted small">Use one colour for every frame you want in a batch – steps 1 and 2 both use it.</span>
+        </div>
+        <div class="colours" id="colours"></div>
+    </section>
+
+    <div class="steps">
+        <section class="card step">
+            <div class="step-head"><span class="num">1</span><span class="section-title">Mark the frames</span></div>
+            <p class="muted small">Move Resolve's playhead to a frame worth keeping, then add a marker there.</p>
+            <label class="lbl">Marker name (optional)
+                <input class="field" id="marker-name" placeholder="e.g. Hero shot" spellcheck="false" autocomplete="off">
+            </label>
+            <button type="button" class="btn accent" id="add-marker">Add marker at playhead</button>
+            <div class="sub-head muted small" id="markers-head"></div>
+            <ol class="rows" id="markers"></ol>
+        </section>
+
+        <section class="card step">
+            <div class="step-head"><span class="num">2</span><span class="section-title">Grab stills</span></div>
+            <p class="muted small">Switches Resolve to the Color page and grabs a still at each marker of the colour, in order.</p>
+            <button type="button" class="btn accent" data-action="grab" id="grab"></button>
+            <p class="muted small grab-note" id="grab-note" hidden></p>
+            <div class="row sub-head">
+                <span class="muted small" id="grabbed-head"></span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="clear" title="Empties this list – stills in Resolve's gallery stay">Clear list</button>
+            </div>
+            <ol class="rows" id="grabbed"></ol>
+        </section>
+
+        <section class="card step">
+            <div class="step-head"><span class="num">3</span><span class="section-title">Export</span></div>
+            <div class="lbl">Format
+                <div class="segmented" id="format"></div>
+            </div>
+            <label class="lbl">Filename prefix
+                <input class="field" id="prefix" spellcheck="false" autocomplete="off">
+            </label>
+            <div class="lbl">Folder
+                <div class="row">
+                    <span class="field path" id="folder"></span>
+                    <button type="button" class="btn" data-action="choose_folder">Browse…</button>
+                </div>
+            </div>
+            <label class="check"><input type="checkbox" id="delete-after"> Delete the stills from Resolve's gallery afterwards</label>
+            <div class="row">
+                <button type="button" class="btn ghost" data-action="open_folder" id="open-folder">Open folder</button>
+                <div class="spacer"></div>
+                <button type="button" class="btn accent" id="export"></button>
+            </div>
+        </section>
+    </div>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="stills.js"></script>
+</body>
+</html>

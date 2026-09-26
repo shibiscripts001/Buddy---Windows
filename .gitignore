@@ -1,0 +1,36 @@
+# Build artifact. Regenerate with:  python build_buddy_zip.py
+/buddy.zip
+
+# A local build of the Ask Buddy manual bundle (~/.buddy/manual/bundle) and
+# its source PDF. Text extracted from Blackmagic's manual - built locally,
+# not for redistribution.
+/manual/
+/DavinciManual.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Buddy's own settings live in ~/.buddy/ and ~/.<tool>/, never inside the
+# project - this is a guard in case a stray copy ever lands nearby. They
+# hold API keys.
+.buddy/
+.manual_chat/
+settings.json
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Installer build output (python build_installer.py)
+/build/
+/dist/
+/installer/buddy_icon_preview.png
+
+# Buddy Network test server database (python -m server --dev)
+buddy_network.db*

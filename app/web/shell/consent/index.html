@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Allow Buddy to change your project</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog">
+    <div class="dialog-body">
+        <h1 class="consent-title" id="title"></h1>
+        <ul class="consent-warning" id="body"></ul>
+        <p class="modal-text">To enable this, type the sentence below exactly:</p>
+        <div class="consent-sentence" id="sentence"></div>
+        <input class="field" id="typed" placeholder="Type the sentence here" spellcheck="false" autocomplete="off"
+               aria-label="Type the sentence here">
+        <div class="set-hint" id="status" role="status"></div>
+    </div>
+    <div class="dialog-foot">
+        <button type="button" class="btn" id="cancel">Cancel</button>
+        <button type="button" class="btn danger" id="enable" disabled>Enable project changes</button>
+    </div>
+</main>
+<script src="consent.js"></script>
+</body>
+</html>

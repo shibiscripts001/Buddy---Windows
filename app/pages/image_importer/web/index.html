@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Image Importer</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="importer.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Image Importer</h1>
+    </header>
+
+    <section class="card settings">
+        <label class="lbl bin">Import into bin
+            <input class="field" id="bin-name" autocomplete="off" spellcheck="false" placeholder="e.g. Downloads">
+        </label>
+        <div class="lbl save">Save images to
+            <div class="row save-row">
+                <span class="field path" id="save-folder" title=""></span>
+                <button type="button" class="btn" data-action="choose_folder">Browse…</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="card gallery" id="gallery">
+        <div class="gallery-head" id="gallery-head" hidden>
+            <span class="section-title" id="count"></span>
+            <span class="muted small" id="selected-note"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn ghost" id="remove-selected" hidden>Remove selected</button>
+            <button type="button" class="btn ghost" data-action="paste">Paste</button>
+            <button type="button" class="btn ghost" data-action="add_files">Add files…</button>
+            <button type="button" class="btn ghost" id="clear">Clear</button>
+        </div>
+        <div class="grid" id="grid"></div>
+        <div class="dropzone" id="dropzone">
+            <div class="drop-icon" id="drop-icon"></div>
+            <div class="drop-title">Paste an image with <kbd>Ctrl</kbd> + <kbd>V</kbd></div>
+            <div class="muted">A copied image, copied image files, or a link to an image – or drag image files here.</div>
+            <div class="row">
+                <button type="button" class="btn accent" data-action="paste">Paste</button>
+                <button type="button" class="btn" data-action="add_files">Add files…</button>
+            </div>
+        </div>
+        <div class="drop-veil" id="drop-veil" hidden><span>Drop to add</span></div>
+    </section>
+
+    <footer class="row footer">
+        <span class="muted small">Pasted and dropped images are saved in the folder above, then imported.</span>
+        <div class="spacer"></div>
+        <button type="button" class="btn accent" data-action="import_images" id="import" disabled>Import</button>
+    </footer>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="importer.js"></script>
+</body>
+</html>

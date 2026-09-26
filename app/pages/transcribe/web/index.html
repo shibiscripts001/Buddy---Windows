@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Transcribe</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="transcribe.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Transcribe</h1>
+        <span class="timeline" id="timeline"></span>
+        <button type="button" class="btn ghost icon" data-action="refresh_timeline" id="refresh" title="Read the timeline again"></button>
+    </header>
+
+    <nav class="tabs" role="tablist" id="tabs">
+        <button type="button" role="tab" data-tab="subtitles">Subtitles</button>
+        <button type="button" role="tab" data-tab="translate">Translate</button>
+        <button type="button" role="tab" data-tab="setup">Setup <i class="badge-dot" id="setup-dot" hidden></i></button>
+    </nav>
+
+    <section class="card jobbar" id="jobbar" hidden>
+        <div class="row">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="stage" id="stage"></span>
+            <div class="spacer"></div>
+            <span class="pct" id="pct"></span>
+            <button type="button" class="btn" id="stop">Stop</button>
+        </div>
+        <div class="bar" id="bar"><i></i></div>
+    </section>
+
+    <!-- ----------------------------------------------------- subtitles -->
+    <section class="panel" id="panel-subtitles">
+        <div class="card callout" id="not-ready" hidden>
+            <div class="callout-text">
+                <b>Set up transcription first</b>
+                <span class="muted" id="not-ready-why"></span>
+            </div>
+            <button type="button" class="btn accent" data-goto="setup">Open Setup</button>
+        </div>
+
+        <section class="card opts">
+            <div class="grid">
+                <label class="lbl">Model
+                    <select class="field" id="model"></select>
+                    <span class="hint" id="model-tip"></span>
+                </label>
+                <label class="lbl">Language spoken
+                    <select class="field" id="language"></select>
+                    <span class="hint" id="language-tip"></span>
+                </label>
+                <label class="lbl narrow">Characters per line
+                    <input class="field num" id="max-chars" inputmode="numeric" maxlength="2" autocomplete="off">
+                    <span class="hint">24–60. 42 is the usual.</span>
+                </label>
+                <div class="lbl narrow">Per subtitle
+                    <div class="segmented" id="max-lines">
+                        <button type="button" data-value="1">1 line</button>
+                        <button type="button" data-value="2">2 lines</button>
+                    </div>
+                </div>
+            </div>
+            <label class="lbl">Names and terms to spell right
+                <input class="field" id="hotwords" spellcheck="false" autocomplete="off"
+                       placeholder="e.g. DaVinci Resolve, Buddy, your guests' names">
+                <span class="hint">Used by the Whisper models. Parakeet has no way to take hints.</span>
+            </label>
+            <div class="run-row">
+                <button type="button" class="btn accent big" data-action="run" id="run">Transcribe timeline</button>
+                <span class="muted small" id="run-note">Renders the timeline's audio, transcribes it on this computer, and puts the subtitles on subtitle track 1.</span>
+            </div>
+        </section>
+
+        <section class="card result" id="result-transcribe" hidden>
+            <div class="result-head"><span class="result-icon" id="rt-icon"></span><b id="rt-message"></b></div>
+            <div class="muted" id="rt-summary"></div>
+            <div class="row wrap">
+                <button type="button" class="btn" data-action="save_srt" id="rt-save">Save SRT…</button>
+                <button type="button" class="btn" data-action="open_animator" id="rt-animator"
+                        title="Text Animator's Subtitle conversion tab turns subtitle track clips into styled Text+">Open in Text Animator</button>
+                <button type="button" class="btn ghost" data-goto="translate" id="rt-translate">Translate it…</button>
+            </div>
+        </section>
+    </section>
+
+    <!-- ----------------------------------------------------- translate -->
+    <section class="panel" id="panel-translate" hidden>
+        <section class="card opts">
+            <label class="lbl">Translate with
+                <select class="field" id="engine"></select>
+                <span class="hint" id="engine-status"></span>
+            </label>
+            <div class="lbl">Into
+                <div class="targets" id="targets"></div>
+                <div><button type="button" class="btn" id="choose-targets">Choose languages…</button></div>
+            </div>
+            <div class="lbl">Save to
+                <div class="row">
+                    <span class="field path" id="folder"></span>
+                    <button type="button" class="btn" data-action="choose_folder">Browse…</button>
+                </div>
+            </div>
+            <label class="check"><input type="checkbox" id="tr-timeline"> Also make a new timeline with a subtitle track for each language</label>
+            <label class="check"><input type="checkbox" id="tr-auto"> Translate automatically after each transcription</label>
+            <div class="row wrap">
+                <button type="button" class="btn accent" data-action="translate_last" id="tr-last">Translate last transcript</button>
+                <button type="button" class="btn" data-action="translate_srt" id="tr-srt">Translate an SRT file…</button>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-action="show_files" id="tr-show">Show files</button>
+            </div>
+            <p class="muted small note">Each language becomes its own SRT file. With the new timeline on, Buddy also copies
+                the current timeline as "&lt;name&gt; (Subtitles)" with every language on its own subtitle track – ready to
+                export them all from Deliver. The timeline you're on isn't changed.</p>
+        </section>
+
+        <section class="card result" id="result-translate" hidden>
+            <div class="result-head"><span class="result-icon" id="rtr-icon"></span><b id="rtr-message"></b></div>
+            <ul class="files" id="rtr-files"></ul>
+        </section>
+    </section>
+
+    <!-- --------------------------------------------------------- setup -->
+    <section class="panel" id="panel-setup" hidden>
+        <section class="card setup-card">
+            <div class="row">
+                <span class="section-title">This computer</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-action="rescan" id="rescan">Check again</button>
+            </div>
+            <div id="hardware" class="muted"></div>
+        </section>
+
+        <section class="card setup-card">
+            <span class="section-title">Transcription engine</span>
+            <div class="engine-row">
+                <div class="engine-text">
+                    <b id="env-status"></b>
+                    <span class="hint" id="env-hint"></span>
+                </div>
+                <button type="button" class="btn accent" data-action="install_env" id="env-button">Install engine</button>
+            </div>
+        </section>
+
+        <section class="card setup-card">
+            <div class="row">
+                <span class="section-title">Speech models</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="pick-model" title="Point Buddy at a faster-whisper model another app already downloaded">Use a model folder…</button>
+            </div>
+            <p class="hint" id="models-hint"></p>
+            <div class="models" id="models"></div>
+        </section>
+
+        <section class="card setup-card">
+            <div class="row">
+                <span class="section-title">Translation models</span>
+                <span class="chip">Optional</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="pick-tmodel" title="Point Buddy at a CTranslate2 NLLB-200 or MADLAD-400 model already on disk">Use a model folder…</button>
+            </div>
+            <p class="hint" id="tmodels-hint"></p>
+            <div class="models" id="tmodels"></div>
+        </section>
+    </section>
+
+    <details class="card activity" id="activity" hidden>
+        <summary><span class="section-title">Activity</span> <span class="muted small" id="activity-last"></span></summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="transcribe.js"></script>
+</body>
+</html>

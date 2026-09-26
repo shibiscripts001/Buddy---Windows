@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Color Palette Manager</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="palette.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title" data-t="Color Palette Manager">Color Palette Manager</h1>
+        <label class="vision" title="See your colours as people with colour blindness do">
+            <span class="vision-icon" id="vision-icon"></span>
+            <span data-t="Vision:">Vision:</span>
+            <select class="field" id="vision"></select>
+        </label>
+    </header>
+
+    <nav class="tabs" role="tablist" id="tabs">
+        <button type="button" role="tab" data-tab="palettes" data-t="Palettes">Palettes</button>
+        <button type="button" role="tab" data-tab="generators" data-t="Generators">Generators</button>
+        <button type="button" role="tab" data-tab="extract" data-t="Extract">Extract</button>
+        <button type="button" role="tab" data-tab="visualize" data-t="Visualize">Visualize</button>
+        <button type="button" role="tab" data-tab="tools" data-t="Tools">Tools</button>
+    </nav>
+
+    <!-- ------------------------------------------------------ palettes -->
+    <section class="panel" id="panel-palettes" role="tabpanel">
+        <div class="row toolbar">
+            <div class="search">
+                <span class="search-icon" id="search-icon"></span>
+                <input class="field" id="search" type="search" autocomplete="off" spellcheck="false"
+                       data-tp="Search palettes…" placeholder="Search palettes…">
+            </div>
+            <span class="muted small" id="lib-count"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn" id="new-folder" data-t="New folder">New folder</button>
+            <button type="button" class="btn accent" id="new-palette" data-t="Create new palette">Create new palette</button>
+        </div>
+        <div class="library" id="library"></div>
+    </section>
+
+    <!-- ---------------------------------------------------- generators -->
+    <section class="panel" id="panel-generators" role="tabpanel" hidden>
+        <div class="gen-home" id="gen-home">
+            <p class="muted intro">Each generator keeps what you left in it while Buddy is open. Drag colours in from
+                your palettes, and save what you make as a new palette or add it to the one that's open.</p>
+            <div class="gen-grid" id="gen-grid"></div>
+        </div>
+        <div class="gen-host" id="gen-host" hidden></div>
+    </section>
+
+    <!-- ------------------------------------------------------- extract -->
+    <section class="panel" id="panel-extract" role="tabpanel" hidden>
+        <div class="extract">
+            <div class="card stage" id="stage">
+                <div class="stage-empty" id="stage-empty">
+                    <div class="stage-icon" id="stage-icon"></div>
+                    <div class="strong" data-t="Extract colours from image">Extract colours from image</div>
+                    <div class="muted">Drop an image here – a file, or one dragged from your browser – or paste one with <kbd>Ctrl</kbd> + <kbd>V</kbd>.</div>
+                    <div class="row">
+                        <button type="button" class="btn accent" data-action="browse_image" data-t="Browse image…">Browse image…</button>
+                        <button type="button" class="btn" data-action="paste_image" data-t="Paste image">Paste image</button>
+                    </div>
+                    <div class="warn" id="no-imaging"></div>
+                </div>
+                <img class="stage-img" id="stage-img" alt="" hidden>
+                <div class="stage-bar" id="stage-bar" hidden>
+                    <span class="stage-name" id="stage-name"></span>
+                    <div class="spacer"></div>
+                    <button type="button" class="btn ghost" data-action="browse_image" title="Open another image" data-t="Browse image…">Browse image…</button>
+                    <button type="button" class="btn ghost" data-action="clear_image">Clear</button>
+                </div>
+                <div class="stage-busy" id="stage-busy" hidden><span class="dots"><i></i><i></i><i></i></span><span id="busy-text"></span></div>
+                <div class="drop-veil" id="drop-veil" hidden><span>Drop to extract colours</span></div>
+            </div>
+
+            <aside class="card controls">
+                <label class="lbl">
+                    <span class="row"><span data-t="Colours:">Colours:</span><span class="spacer"></span><b class="val" id="count-val"></b></span>
+                    <input type="range" id="count" min="2" max="12" step="1" data-default="6">
+                </label>
+                <label class="lbl" title="Spreads the picks across the image's brightness range instead of the most common colours">
+                    <span class="row"><span data-t="Weight:">Weight:</span><span class="spacer"></span><b class="val" id="weight-val"></b></span>
+                    <input type="range" id="weight" min="0" max="100" step="1" data-default="0">
+                </label>
+                <div class="lbl">
+                    <span data-t="Weighing:">Weighing:</span>
+                    <div class="segmented" id="weighing">
+                        <button type="button" data-value="Average" data-t="Average">Average</button>
+                        <button type="button" data-value="Balanced" data-t="Balanced">Balanced</button>
+                    </div>
+                    <span class="hint" id="weighing-hint"></span>
+                </div>
+                <label class="check"><input type="checkbox" id="false-color"> <span data-t="ARRI LogC False Color preview">ARRI LogC False Color preview</span></label>
+                <ul class="legend" id="legend" hidden></ul>
+                <div class="spacer"></div>
+                <div class="export-buttons">
+                    <button type="button" class="btn" data-action="export_strip" id="export-strip" data-t="Export image + palette strip…">Export image + palette strip…</button>
+                    <button type="button" class="btn" data-action="export_false_color" id="export-fc" data-t="Export False Color image…">Export False Color image…</button>
+                </div>
+            </aside>
+        </div>
+
+        <div class="card extracted">
+            <div class="row">
+                <span class="section-title" data-t="Extracted dominant colours">Extracted dominant colours</span>
+                <span class="muted small">Click to copy · right-click to add to a palette</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn accent" id="create-from-image" data-t="Create palette from image…">Create palette from image…</button>
+            </div>
+            <div class="extract-row" id="extracted"></div>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------- visualize -->
+    <section class="panel" id="panel-visualize" role="tabpanel" hidden>
+        <div class="row toolbar wrap">
+            <label class="row"><span data-t="Palette:">Palette:</span> <select class="field" id="vis-palette"></select></label>
+            <label class="check"><input type="checkbox" id="show-hex"> <span data-t="Show HEX">Show HEX</span></label>
+            <label class="check"><input type="checkbox" id="show-pct"> <span data-t="Show %">Show %</span></label>
+            <div class="spacer"></div>
+            <button type="button" class="btn" data-action="reset_slots" id="reset-slots" data-t="Reset to original"
+                    data-tt="Undo any colour changes made via the squares or mockup previews, back to this palette's original colours.">Reset to original</button>
+            <button type="button" class="btn accent" data-action="export_visualizer" id="export-vis" data-t="Export visualizer image…">Export visualizer image…</button>
+        </div>
+        <div class="treemap" id="treemap"></div>
+        <div class="card tray">
+            <span class="muted small tray-hint">Drag a colour onto a block to try it there. Changes here never touch the saved palette.</span>
+            <div class="tray-row" id="tray"></div>
+        </div>
+        <div class="mockups" id="mockups"></div>
+    </section>
+
+    <!-- --------------------------------------------------------- tools -->
+    <section class="panel" id="panel-tools" role="tabpanel" hidden>
+        <div class="tools">
+            <section class="card tool contrast">
+                <div class="tool-head">
+                    <h2 class="section-title" data-t="Contrast checker">Contrast checker</h2>
+                    <span class="muted small" data-t="Check WCAG/APCA text-on-background contrast for accessibility compliance.">Check WCAG/APCA text-on-background contrast for accessibility compliance.</span>
+                </div>
+                <div class="contrast-body">
+                    <div class="pair">
+                        <button type="button" class="target" id="ct-text"><i></i><span class="lbl-sm" data-t="Text colour">Text colour</span><b></b></button>
+                        <button type="button" class="btn icon" data-action="contrast_swap" id="ct-swap" title="Swap text/background colours"></button>
+                        <button type="button" class="target" id="ct-bg"><i></i><span class="lbl-sm" data-t="Background colour">Background colour</span><b></b></button>
+                    </div>
+                    <div class="sample" id="ct-sample">
+                        <span class="sample-big">Sample Text Aa</span>
+                        <span class="sample-small">The quick brown fox jumps over the lazy dog.</span>
+                    </div>
+                    <div class="results">
+                        <div class="ratio"><b id="ct-ratio"></b><span class="muted small">WCAG 2.1 ratio</span></div>
+                        <ul class="checks" id="ct-checks"></ul>
+                        <div class="muted small" id="ct-apca"></div>
+                    </div>
+                </div>
+                <div class="ct-palette">
+                    <label class="row"><span data-t="Test against a saved palette:">Test against a saved palette:</span>
+                        <select class="field" id="ct-palette"></select></label>
+                    <div class="tray-row small-sw" id="ct-tray"></div>
+                    <span class="muted small">Click a colour to use it, or drag it onto Text or Background.</span>
+                </div>
+            </section>
+
+            <section class="card tool">
+                <div class="tool-head">
+                    <h2 class="section-title" data-t="Export palette">Export palette</h2>
+                </div>
+                <div class="row wrap">
+                    <label class="lbl grow"><span data-t="Palette:">Palette:</span><select class="field" id="ex-palette"></select></label>
+                    <label class="lbl grow"><span data-t="Format:">Format:</span><select class="field" id="ex-format"></select></label>
+                </div>
+                <div class="strip" id="ex-strip"></div>
+                <div class="code-box" id="ex-code-box">
+                    <pre class="code" id="ex-code"></pre>
+                    <button type="button" class="btn ghost copy-code" id="ex-copy">Copy</button>
+                </div>
+                <div class="row">
+                    <span class="muted small" id="ex-note"></span>
+                    <div class="spacer"></div>
+                    <button type="button" class="btn accent" data-action="export_file" id="ex-save" data-t="Export palette file…">Export palette file…</button>
+                </div>
+            </section>
+
+            <section class="card tool">
+                <div class="tool-head">
+                    <h2 class="section-title" data-t="Import palette">Import palette</h2>
+                </div>
+                <p class="muted small import-note" data-t="Import a palette file – supports .json, GIMP/Krita/Inkscape (.gpl), Adobe Swatch Exchange (.ase), Photoshop/Illustrator (.aco), Procreate (.swatches), and plain hex lists in .css/.scss/.txt/.js.">Import a palette file – supports .json, GIMP/Krita/Inkscape (.gpl), Adobe Swatch Exchange (.ase), Photoshop/Illustrator (.aco), Procreate (.swatches), and plain hex lists in .css/.scss/.txt/.js.</p>
+                <div class="row">
+                    <div class="spacer"></div>
+                    <button type="button" class="btn accent" data-action="import_file" data-t="Import palette file…">Import palette file…</button>
+                </div>
+            </section>
+        </div>
+    </section>
+</main>
+<script src="palette.js"></script>
+</body>
+</html>

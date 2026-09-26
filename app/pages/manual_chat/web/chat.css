@@ -1,0 +1,219 @@
+/* Ask Buddy's layout. Colours come from buddy.css's theme variables. */
+
+.chat {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: var(--page-pad);
+    /* border-radius (buddy.css's body > main) only clips with a non-visible
+       overflow; .transcript scrolls on its own, so .chat itself never needs
+       to. */
+    overflow: hidden;
+}
+
+.bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+}
+
+.switcher { display: flex; align-items: center; gap: 2px; }
+.switcher[hidden] { display: none; }
+.switcher .muted { min-width: 88px; text-align: center; }
+
+.badge {
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--raised-bg);
+    color: var(--text-dim);
+    line-height: 18px;
+}
+
+/* ---------------------------------------------------------- transcript -- */
+
+.transcript {
+    flex: 1;
+    min-height: 120px;
+    overflow-y: auto;
+    padding: 18px 20px 14px;
+    scroll-behavior: smooth;
+}
+
+.messages { display: flex; flex-direction: column; gap: 18px; }
+
+.msg { display: flex; flex-direction: column; gap: 4px; max-width: 100%; }
+
+.msg .who {
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    letter-spacing: .2px;
+    color: var(--buddy-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.msg.buddy .who::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--buddy-dot);
+    box-shadow: var(--dot-glow);
+}
+
+.msg.user { align-items: flex-end; }
+.msg.user .who { color: var(--you-text); }
+
+.msg.user .bubble {
+    max-width: min(80%, 720px);
+    padding: 8px 14px;
+    border-radius: var(--bubble-radius);
+    background: var(--bubble-bg);
+    border: var(--bw) solid var(--bubble-border);
+    color: var(--bubble-fg);
+}
+
+.msg.buddy .bubble, .msg.error .bubble { color: var(--text-strong); max-width: 760px; }
+
+.msg.error .who { color: var(--danger-text); }
+.msg.error .bubble {
+    padding: 8px 14px;
+    border: var(--bw-thick) solid var(--danger);
+    border-radius: var(--r-lg);
+    background: color-mix(in srgb, var(--danger) 8%, transparent);
+}
+
+/* Answer body: the markdown Python renders (conversation.md_to_html). */
+.body { line-height: 1.55; overflow-wrap: anywhere; }
+.body p { margin: 0 0 8px; }
+.body p:last-child, .body ul:last-child, .body ol:last-child, .body pre:last-child { margin-bottom: 0; }
+.body ul, .body ol { margin: 0 0 8px; padding-left: 22px; }
+.body li { margin: 2px 0; }
+.body h4 { margin: 12px 0 6px; font-size: 1.05em; color: var(--text-strong); }
+.body b { color: var(--text-strong); }
+.body a { color: var(--link); }
+.body code {
+    font-family: var(--font-mono);
+    font-size: .92em;
+    padding: 1px 4px;
+    border-radius: var(--r-xs);
+    background: var(--field-bg);
+    border: var(--bw) solid var(--field-border);
+}
+.body pre {
+    margin: 0 0 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border-radius: var(--r-md);
+    background: var(--field-bg);
+    border: var(--bw) solid var(--field-border);
+}
+.body pre code { padding: 0; border: 0; background: none; }
+.body .cite { color: var(--text-dim); font-size: .92em; }
+.body .source { color: var(--text-dim); font-style: italic; font-size: .92em; }
+
+.trace { margin-top: 6px; }
+.trace summary {
+    cursor: pointer;
+    color: var(--text-dim);
+    font-size: var(--fs-xs);
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    user-select: none;
+}
+.trace summary::-webkit-details-marker { display: none; }
+.trace summary::before { content: "\25B8"; transition: transform .15s; }
+.trace[open] summary::before { transform: rotate(90deg); }
+.trace summary:hover { color: var(--accent-text); }
+.trace .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+
+.actions { display: flex; gap: 4px; margin-top: 2px; opacity: .75; transition: opacity .15s; }
+.msg:hover .actions, .actions:focus-within { opacity: 1; }
+.actions .btn { font-size: var(--fs-xs); padding: 2px 8px; }
+.actions .btn svg { width: 13px; height: 13px; }
+
+.thinking { margin-top: 18px; }
+.thinking-row { display: flex; align-items: center; gap: 10px; min-height: 22px; }
+
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.suggestions:empty { display: none; }
+.suggestions .btn { font-weight: 500; }
+
+/* --------------------------------------------------- offer & proposal -- */
+
+.offer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+}
+.offer .reason { flex: 1; }
+
+.proposal {
+    padding: 12px 14px;
+    border: var(--bw-thick) solid var(--danger);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.proposal .title { font-weight: 700; color: var(--text-strong); display: flex; gap: 8px; align-items: center; }
+.proposal .title svg { color: var(--danger-text); width: 18px; height: 18px; }
+.proposal .items {
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 8px 10px;
+    border-radius: var(--r-md);
+    background: var(--field-bg);
+    border: var(--bw) solid var(--field-border);
+    line-height: 1.5;
+}
+.proposal .warning { color: var(--danger-text); font-weight: 700; }
+.proposal .row { display: flex; align-items: center; gap: 8px; }
+.proposal .note { flex: 1; }
+
+/* ------------------------------------------------------------ composer -- */
+
+.composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 8px;
+}
+
+.composer .field {
+    flex: 1;
+    resize: none;
+    min-height: 40px;
+    max-height: 200px;
+    line-height: 1.45;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.composer:focus-within { border-color: var(--field-focus-border); }
+
+.composer .btn.accent { min-height: 36px; padding-left: 16px; padding-right: 16px; }
+
+.status { min-height: 16px; padding: 0 4px; }
+
+/* ------------------------------------------------------------ pictures -- */
+/* Waiting to go with the next question, and sent in a question's bubble. */
+
+.composer .btn.icon { min-height: 36px; min-width: 36px; }
+.pictures { display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+.picture-strip { display: flex; gap: 8px; flex-wrap: wrap; }
+.picture { position: relative; width: 72px; height: 72px; border-radius: var(--r-sm); overflow: hidden;
+    border: var(--bw) solid var(--card-border); }
+.picture img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.picture .remove { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; padding: 0; border: 0;
+    border-radius: var(--r-full); background: var(--surface); color: var(--text-strong); font-size: var(--fs-xs);
+    cursor: pointer; line-height: 20px; }
+.sent-pictures { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.sent-pictures img { max-width: 160px; max-height: 120px; border-radius: var(--r-sm); display: block; }

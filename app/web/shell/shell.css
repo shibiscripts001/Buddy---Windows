@@ -1,0 +1,226 @@
+/* The shell's header and nav rail (core/shell_web.py), and its windows -
+   Settings, Organize sidebar, announcements, the write consent. */
+
+/* The header and rail are transparent views over the shell window, so
+   each draws its own card. */
+body.chrome { background: transparent; }
+
+/* A window of its own has nothing behind it. */
+body.window { background: var(--surface); }
+
+/* ------------------------------------------------------------ header -- */
+
+.shell-header {
+    display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 12px 20px;
+    background: var(--header-bg); border: var(--bw) solid var(--shell-border); border-radius: var(--header-radius);
+}
+.shell-title { font-size: var(--title-size); font-weight: var(--title-weight); color: var(--title-fg); }
+.orb {
+    width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; flex: none;
+    background: var(--primary); animation: orb-pulse 2.4s ease-in-out infinite;
+}
+@keyframes orb-pulse {
+    0%, 100% { box-shadow: 0 0 2px 1px color-mix(in srgb, var(--primary) 60%, transparent); }
+    50% { box-shadow: 0 0 10px 4px color-mix(in srgb, var(--primary) 45%, transparent); }
+}
+.status { font-weight: 700; white-space: nowrap; }
+.status.ok { color: var(--success); }
+.status.bad { color: var(--danger-text); }
+.icon-btn { width: 36px; height: 36px; padding: 0; }
+.icon-btn svg { width: 20px; height: 20px; }
+#split[aria-pressed="true"] { color: var(--accent-text); }
+#side { width: auto; max-width: 260px; }
+
+/* -------------------------------------------------------------- rail -- */
+
+.shell-rail {
+    /* A hair short of the view: under fractional Windows scaling the
+       view's last pixel row can fall off, taking the bottom border along. */
+    height: calc(100vh - 2px); overflow-y: auto; overflow-x: hidden; padding: 12px 8px;
+    display: flex; flex-direction: column; gap: 2px;
+    background: var(--rail-bg); border: var(--bw) solid var(--shell-border); border-radius: var(--rail-radius);
+}
+.nav-item {
+    font: inherit; text-align: left; cursor: pointer; white-space: nowrap; flex: none;
+    color: var(--nav-fg); background: transparent; border: var(--bw) solid transparent;
+    border-radius: var(--nav-radius); padding: var(--nav-pad);
+    font-size: var(--nav-size); font-weight: var(--nav-weight);
+}
+.nav-item:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.nav-item[aria-current="page"] {
+    background: var(--nav-active-bg); color: var(--nav-active-fg); font-weight: var(--nav-active-weight);
+    border-color: var(--nav-active-border);
+}
+.nav-item:focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
+.nav-heading {
+    font-size: var(--fs-xs); font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--nav-heading); padding: 10px 10px 2px; white-space: nowrap; flex: none;
+}
+.nav-line { flex: none; height: var(--bw); margin: 10px 10px 6px; background: var(--shell-border); }
+/* A short window (a 768px laptop, a 900px window under a roomy theme)
+   tightens the rail's rows - vertical padding only, each theme keeps its own
+   sideways padding and type - so every tool stays in view instead of the
+   last one being cut off at the bottom. The rail is a view of its own, so
+   the viewport height here is the rail's. */
+@media (max-height: 820px) {
+    .shell-rail { padding-block: 8px; gap: 1px; }
+    .nav-item { padding-block: 6px; }
+    .nav-heading { padding-top: 8px; }
+    .nav-line { margin-block: 6px 4px; }
+}
+@media (max-height: 660px) {
+    .shell-rail { padding-block: 6px; gap: 0; }
+    .nav-item { padding-block: 4px; }
+    .nav-heading { padding-top: 6px; padding-bottom: 1px; }
+    .nav-line { margin-block: 4px 2px; }
+}
+
+/* ----------------------------------------------------------- taskbar --
+   The desktop layout's bar along the bottom (core/desk_web.py). */
+
+.taskbar {
+    display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 8px 10px;
+    background: var(--header-bg); border-top: var(--bw) solid var(--shell-border);
+}
+.task-start { flex: none; font-weight: 800; }
+.task-list { flex: 1; min-width: 0; display: flex; gap: 6px; overflow: hidden; }
+.task {
+    font: inherit; position: relative; flex: 0 1 auto; min-width: 44px; max-width: 200px;
+    display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 8px; cursor: pointer;
+    color: var(--nav-fg); background: transparent; border: var(--bw) solid transparent; border-radius: var(--btn-radius);
+}
+.task:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.task[data-state="open"], .task[data-state="min"] { background: var(--raised-bg); border-color: var(--card-border); }
+.task[data-state="min"] .task-label { color: var(--text-dim); }
+.task[aria-pressed="true"] {
+    background: var(--nav-active-bg); color: var(--nav-active-fg); border-color: var(--nav-active-border);
+    font-weight: var(--nav-active-weight);
+}
+.task-swatch {
+    flex: none; width: 12px; height: 12px; border-radius: var(--r-xs);
+    box-shadow: inset 0 0 0 var(--bw) var(--card-border);
+}
+.task-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.task-tray { flex: none; display: flex; align-items: center; gap: 4px; }
+.task-conn { gap: 6px; font-size: var(--fs-sm); }
+.task-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger-text); flex: none; }
+.task-conn.ok .task-dot { background: var(--success); }
+.task-clock { padding: 0 6px 0 4px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-strong); }
+
+/* The taskbar's popup (Programs, or a button's actions) - a window of its
+   own, exactly the card's size plus room for its shadow. */
+.desk-menu {
+    position: absolute; left: 0; top: 0;
+    display: flex; flex-direction: column; gap: 8px; padding: 12px;
+    background: var(--pop-bg); border: var(--bw) solid var(--pop-border); border-radius: var(--card-radius);
+    box-shadow: var(--pop-shadow);
+}
+.desk-menu.programs { width: 300px; }
+.desk-menu.actions { width: 220px; padding: 8px; gap: 2px; }
+.menu-title { padding: 2px 4px; font-weight: 800; color: var(--text-strong); }
+.menu-list { max-height: 440px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; }
+.menu-group {
+    padding: 8px 8px 2px; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--text-dim);
+}
+.menu-row { display: flex; align-items: center; border-radius: var(--r-md); }
+.menu-row:hover, .menu-row:focus-within { background: var(--pop-hover-bg); color: var(--pop-hover-fg); }
+.menu-open { flex: 1; padding: 8px 8px; text-align: left; font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.menu-open:focus-visible { outline: none; }
+/* A tool whose window is open. */
+.menu-row[data-state="open"] .menu-open::after, .menu-row[data-state="min"] .menu-open::after {
+    content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 8px; vertical-align: middle;
+    border-radius: 50%; background: var(--accent-text);
+}
+.menu-pin {
+    flex: none; width: 28px; height: 28px; margin-right: 2px; display: grid; place-items: center;
+    color: var(--text-dim); background: none; border: 0; border-radius: var(--r-sm); cursor: pointer; opacity: 0;
+}
+.menu-row:hover .menu-pin, .menu-row:focus-within .menu-pin, .menu-pin[aria-pressed="true"] { opacity: 1; }
+.menu-pin[aria-pressed="true"] { color: var(--accent-text); }
+.menu-pin:hover { background: var(--raised-bg); }
+.menu-pin svg { width: 15px; height: 15px; }
+.menu-foot { display: flex; padding-top: 8px; border-top: var(--bw) solid var(--card-border); }
+.menu-act {
+    padding: 8px 10px; text-align: left; font: inherit; color: var(--text);
+    background: none; border: 0; border-radius: var(--r-sm); cursor: pointer;
+}
+.menu-act:hover, .menu-act:focus-visible { background: var(--pop-hover-bg); color: var(--pop-hover-fg); outline: none; }
+.menu-act.danger { color: var(--danger-text); }
+
+/* ----------------------------------------------------------- windows -- */
+
+.dialog { height: 100vh; display: flex; flex-direction: column; gap: 14px; padding: 20px 22px 16px; }
+.dialog-title { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); }
+.dialog-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; }
+.dialog-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.dialog-foot .spacer { flex: 1; }
+
+/* ---------------------------------------------------------- settings -- */
+
+.form { gap: 10px; }
+.set-section { display: flex; flex-direction: column; gap: 10px; }
+.set-section + .set-section { border-top: var(--bw) solid var(--card-border); padding-top: 14px; margin-top: 4px; }
+.set-title { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); }
+.set-heading { margin: 4px 0 0; font-size: var(--fs-md); font-weight: 700; color: var(--text-strong); }
+.set-line { border: 0; height: var(--bw); background: var(--card-border); margin: 4px 0; width: 100%; }
+.set-row { display: flex; flex-direction: column; gap: 4px; }
+.set-row.indent, .set-hint.indent { margin-left: 24px; }
+.set-label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.set-label > .field, .set-inline > .field { width: 100%; }
+.set-inline { display: flex; align-items: center; gap: 8px; }
+.set-inline input[type="range"] { flex: 1; accent-color: var(--primary); cursor: pointer; }
+.set-readout { min-width: 58px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-strong); }
+.set-num { width: 90px !important; flex: none; }
+.set-info { font-weight: 400; color: var(--text); user-select: text; }
+.set-hint { font-size: var(--fs-sm); line-height: 1.45; color: var(--text-dim); user-select: text; }
+.set-hint.under-check { margin-left: 22px; }
+.set-hint.danger { color: var(--danger-text); }
+.set-hint.success { color: var(--success); }
+.set-hint a { color: var(--link); }
+.set-buttons { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+.set-color { justify-content: flex-start; width: max-content; }
+.set-color i { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 30%, transparent); }
+.set-color span { font-family: var(--font-mono); font-size: var(--fs-sm); }
+.form-status { font-size: var(--fs-sm); color: var(--text-dim); }
+.form-status.success { color: var(--success); }
+.form-status.danger { color: var(--danger-text); }
+
+/* ----------------------------------------------------------- consent -- */
+
+.consent-title { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--danger-text); }
+.consent-warning {
+    margin: 0; padding: 12px 14px 12px 32px; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;
+    border: 2px solid var(--danger-text); border-radius: var(--r-md);
+}
+.consent-sentence {
+    padding: 8px 10px; font-weight: 700; user-select: text; color: var(--text-strong);
+    border: var(--bw) solid var(--card-border); border-radius: var(--r-sm);
+}
+
+/* --------------------------------------------------------- organizer -- */
+
+.org-body { flex: 1; min-height: 0; display: flex; gap: 12px; }
+.org-list {
+    flex: 1; min-width: 0; margin: 0; padding: 4px; list-style: none; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 2px;
+    background: var(--field-bg); border: var(--bw) solid var(--field-border); border-radius: var(--r-md);
+}
+.org-row { display: flex; align-items: center; gap: 8px; padding: 4px 6px; border-radius: var(--r-sm); cursor: grab; }
+.org-row[aria-selected="true"] { background: var(--raised-bg); box-shadow: inset 3px 0 0 var(--accent-text); }
+.org-row.dragging { opacity: .4; }
+.org-row.drop-on { box-shadow: inset 0 2px 0 var(--accent-text); }
+.org-row:focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
+.org-grip { color: var(--text-dim); letter-spacing: -2px; font-size: var(--fs-sm); }
+.org-divider { flex: 1; font-weight: 700; font-size: var(--fs-xs); letter-spacing: 1px; color: var(--text-dim); }
+.org-tool { flex: 1; }
+.org-side { display: flex; flex-direction: column; gap: 8px; }
+.btn.small { padding: 2px 8px; font-size: var(--fs-sm); }
+
+/* ----------------------------------------------------- announcements -- */
+
+.news { display: flex; flex-direction: column; gap: 4px; }
+.news + .news { border-top: var(--bw) solid var(--card-border); padding-top: 12px; }
+.news h2 { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); overflow-wrap: anywhere; }
+.news .new { color: var(--accent-text); font-size: var(--fs-sm); font-weight: 700; margin-left: 6px; }
+.news p { margin: 4px 0 0; line-height: 1.5; white-space: pre-wrap; user-select: text; overflow-wrap: anywhere; }

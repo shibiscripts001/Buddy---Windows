@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Settings</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog">
+    <div class="dialog-body form" id="form"></div>
+    <div class="dialog-foot">
+        <button type="button" class="btn" id="reset">Reset to default</button>
+        <span class="form-status" id="status" role="status"></span>
+        <div class="spacer"></div>
+        <button type="button" class="btn accent" id="close">Close</button>
+    </div>
+</main>
+<script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Project Setup</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="setup.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Project Setup</h1>
+    </header>
+
+    <nav class="tabs" role="tablist">
+        <button type="button" role="tab" data-tab="bins">Bins</button>
+        <button type="button" role="tab" data-tab="import">Import folder</button>
+        <button type="button" role="tab" data-tab="populate">Populate timeline</button>
+        <button type="button" role="tab" data-tab="sync">Sync</button>
+    </nav>
+
+    <!-- ------------------------------------------------------------ Bins -->
+    <section class="panel" id="panel-bins" hidden>
+        <p class="intro muted">Type the bins you want, one per line. Start a line with <b>&gt;</b> to put it inside the bin above.</p>
+        <div class="bins-grid">
+            <div class="card editor">
+                <div class="card-head">
+                    <h2 class="section-title">Bin list</h2>
+                    <div class="spacer"></div>
+                    <button type="button" class="btn ghost" data-help="bins">How nesting works</button>
+                    <button type="button" class="btn ghost" id="bins-reset" title="Put back the starter list">Reset</button>
+                </div>
+                <textarea class="field mono" id="bin-text" spellcheck="false" autocomplete="off"
+                          aria-label="Bins to create, one per line"></textarea>
+            </div>
+            <div class="card tree-card">
+                <div class="card-head">
+                    <h2 class="section-title">Preview</h2>
+                    <span class="muted small" id="bins-summary"></span>
+                </div>
+                <div class="tree" id="bin-tree"></div>
+            </div>
+        </div>
+        <footer class="row footer">
+            <span class="muted small">Created at the top of the Media Pool.</span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent big" data-action="create_bins" id="create-bins" disabled>Create bins</button>
+        </footer>
+        <details class="activity" data-log="bins" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+
+    <!-- ---------------------------------------------------------- Import -->
+    <section class="panel" id="panel-import" hidden>
+        <p class="intro muted">Bring a whole folder from disk into the Media Pool. Its subfolders become bins, and the media in each lands in the matching bin.</p>
+        <div class="card source">
+            <div class="source-row">
+                <span class="folder-badge" id="import-badge"></span>
+                <div class="source-text">
+                    <div class="source-name" id="import-name">No folder chosen</div>
+                    <div class="muted small path" id="import-path">Choose the folder you want to import.</div>
+                </div>
+                <button type="button" class="btn ghost icon" id="rescan" title="Look in the folder again"></button>
+                <button type="button" class="btn" id="choose-folder">Choose folder…</button>
+                <button type="button" class="btn ghost" data-help="import">Info</button>
+            </div>
+            <div class="stats" id="import-stats"></div>
+        </div>
+
+        <div class="card dest">
+            <div class="dest-text">
+                <div class="section-title">Where it goes</div>
+                <div class="muted small" id="dest-text"></div>
+            </div>
+            <div class="segmented" id="dest" role="group" aria-label="Where the folder's bin is created">
+                <button type="button" data-master="false" title="Inside the bin that's open in Resolve's Media Pool">Open bin</button>
+                <button type="button" data-master="true" title="At the top of the Media Pool">Master</button>
+            </div>
+        </div>
+
+        <footer class="row footer">
+            <span class="muted small">Your files stay where they are – Resolve links to them.</span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent big" data-action="import_folder" id="import-go" disabled>Import</button>
+        </footer>
+        <details class="activity" data-log="import" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+
+    <!-- -------------------------------------------------------- Populate -->
+    <section class="panel" id="panel-populate" hidden>
+        <p class="intro muted">Put every clip in the bin you have open in Resolve onto a timeline, without selecting and dragging. This follows whichever bin you open.</p>
+        <div class="flow" id="flow">
+            <div class="card flow-end">
+                <div class="muted small caps">From bin</div>
+                <div class="flow-name" id="pop-bin">-</div>
+                <div class="muted small" id="pop-count"></div>
+                <label class="check small"><input type="checkbox" id="pop-recursive"> Include bins inside it</label>
+            </div>
+            <div class="flow-arrow" aria-hidden="true"></div>
+            <div class="card flow-end">
+                <div class="muted small caps">To timeline</div>
+                <div class="flow-name" id="pop-timeline">-</div>
+                <div class="muted small" id="pop-timeline-note"></div>
+            </div>
+        </div>
+        <div class="warn" id="pop-error"></div>
+        <footer class="row footer">
+            <span class="muted small">Timelines in the bin are left out – only media is added.</span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent big" data-action="add_to_timeline" id="pop-go" disabled>Add to timeline</button>
+        </footer>
+        <details class="activity" data-log="populate" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+
+    <!-- ------------------------------------------------------------ Sync -->
+    <section class="panel scroll" id="panel-sync" hidden>
+        <div class="card timeline-card">
+            <div class="tl-text">
+                <div class="muted small caps">Open timeline</div>
+                <div class="tl-name" id="tl-name">-</div>
+                <div class="muted small" id="tl-summary"></div>
+            </div>
+            <button type="button" class="btn ghost icon" data-action="refresh" id="tl-refresh" title="Read the timeline again"></button>
+        </div>
+
+        <div class="card job" id="job" hidden>
+            <div class="row">
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span class="strong" id="job-label"></span>
+                <div class="spacer"></div>
+                <button type="button" class="btn" id="job-cancel">Cancel</button>
+            </div>
+            <div class="bar"><i id="job-bar"></i></div>
+            <div class="muted small" id="job-stage"></div>
+        </div>
+
+        <div class="card main-sync">
+            <div class="card-head">
+                <h2 class="section-title">Sync everything</h2>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-help="sync">How it works</button>
+            </div>
+            <p class="muted desc">Lines up every clip on the open timeline, places audio that has no timecode by its waveform, packs it onto the fewest tracks and pulls it to the start. You get one new timeline – the one you started from isn't touched.</p>
+            <div class="row wrap">
+                <span class="lbl-inline">Sync by</span>
+                <div class="segmented" id="method" role="group" aria-label="Sync by">
+                    <button type="button" data-method="timecode" title="Use each clip's embedded timecode">Timecode</button>
+                    <button type="button" data-method="waveform" title="Match clips by their audio – no timecode needed">Waveform</button>
+                </div>
+            </div>
+            <label class="check" id="sync-audio-box"><input type="checkbox" id="sync-audio"> Also place loose audio by waveform <span class="muted small">(reads your media – the slow part)</span></label>
+            <div class="note warn-note" id="ffmpeg-note" hidden></div>
+            <div class="row">
+                <div class="spacer"></div>
+                <button type="button" class="btn accent big" data-action="assemble" data-needs-timeline>Sync everything</button>
+            </div>
+        </div>
+
+        <button type="button" class="disclosure" id="steps-toggle" aria-expanded="false">
+            <span class="chev" aria-hidden="true"></span> Or run the steps yourself
+        </button>
+        <div class="steps" id="steps" hidden>
+            <div class="card step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <h3 class="section-title">Expand</h3>
+                    <p class="muted small">Every clip onto its own track, keeping position and trim. For moving clips around by hand.</p>
+                </div>
+                <button type="button" class="btn" data-action="expand" data-needs-timeline>Expand</button>
+            </div>
+            <div class="card step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <h3 class="section-title">Align</h3>
+                    <p class="muted small">Moves each clip to its timecode, relative to the earliest one. Clips with no timecode stay put.</p>
+                </div>
+                <button type="button" class="btn" data-action="align" data-needs-timeline>Align</button>
+            </div>
+            <div class="card step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <h3 class="section-title">Sync external audio</h3>
+                    <p class="muted small">Places lav packs and field recorders against the camera clips' scratch audio. Run it after Align. Needs ffmpeg.</p>
+                </div>
+                <button type="button" class="btn" data-action="sync_external" data-needs-timeline data-needs-ffmpeg>Sync audio</button>
+            </div>
+            <div class="card step">
+                <div class="step-num">4</div>
+                <div class="step-body">
+                    <h3 class="section-title">Collapse</h3>
+                    <p class="muted small">Packs clips onto the fewest tracks. Only the track changes, never when a clip plays.</p>
+                    <label class="check small"><input type="checkbox" id="delete-silent"> Delete audio clips that are silent throughout (needs ffmpeg)</label>
+                </div>
+                <button type="button" class="btn" data-action="collapse" data-needs-timeline>Collapse</button>
+            </div>
+            <div class="card step">
+                <div class="step-num">5</div>
+                <div class="step-body">
+                    <h3 class="section-title">Shift</h3>
+                    <p class="muted small">Pulls everything to the start of the timeline.</p>
+                    <label class="check small"><input type="checkbox" id="close-gaps"> Also close the gaps between blocks of footage</label>
+                </div>
+                <button type="button" class="btn" data-action="shift" data-needs-timeline>Shift</button>
+            </div>
+        </div>
+        <details class="activity" data-log="sync" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+</main>
+<script src="setup.js"></script>
+</body>
+</html>

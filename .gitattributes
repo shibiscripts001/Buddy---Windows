@@ -1,0 +1,6 @@
+# Shell scripts and service settings used on the Linux server: they must keep
+# Unix line endings.
+*.sh text eol=lf
+server/deploy/*.conf text eol=lf
+# Resolve bin exports (zip files): never touch their bytes.
+*.drb binary

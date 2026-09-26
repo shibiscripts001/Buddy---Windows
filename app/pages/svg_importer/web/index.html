@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>SVG Importer</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="svg.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">SVG Importer</h1>
+        <div class="comp" id="comp">
+            <span class="comp-dot"></span>
+            <span class="small" id="comp-text">Fusion comp not read yet</span>
+            <button type="button" class="btn ghost icon" data-action="refresh_comp" id="comp-refresh" title="Read the Fusion comp's size and frame rate again"></button>
+        </div>
+    </header>
+
+    <div class="scroll-area">
+        <div class="segmented kinds" id="kinds" role="group" aria-label="What to convert">
+            <button type="button" data-kind="svg">SVG artwork</button>
+            <button type="button" data-kind="lottie">Lottie animation</button>
+        </div>
+
+        <section class="card files" id="files-card">
+            <div class="card-head">
+                <h2 class="section-title" id="files-title">Files</h2>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-action="add_files">Add files…</button>
+                <button type="button" class="btn ghost" data-action="add_folder">Add folder…</button>
+                <button type="button" class="btn ghost" data-action="clear_files" id="clear-files">Clear</button>
+            </div>
+            <ul class="file-list" id="file-list"></ul>
+            <div class="drop-hint" id="drop-hint"></div>
+            <div class="drop-veil" id="drop-veil" hidden><span>Drop to add</span></div>
+        </section>
+
+        <section class="card options">
+            <div class="opt">
+                <span class="lbl-inline">Size</span>
+                <div class="segmented" data-option="scale">
+                    <button type="button" data-value="native" title="Every SVG pixel is one comp pixel">Native (1:1)</button>
+                    <button type="button" data-value="fit" title="Scaled to fit the comp">Fit to comp</button>
+                </div>
+            </div>
+            <div class="opt">
+                <span class="lbl-inline">Nodes flow</span>
+                <div class="segmented" data-option="flow">
+                    <button type="button" data-value="horizontal">Left to right</button>
+                    <button type="button" data-value="vertical">Top to bottom</button>
+                </div>
+            </div>
+            <label class="check opt-wide" id="consolidate-box">
+                <input type="checkbox" id="consolidate">
+                <span>Put every solid colour on one <b>Master Controller</b> <span class="muted small">- recolour the whole thing from one set of swatches</span></span>
+            </label>
+            <p class="muted small opt-wide" id="lottie-note" hidden>Shape layers and precomps come in; position, anchor, scale, rotation and opacity become Fusion keyframes, and each layer shows between its in and out points. Shapes don't morph, and trim paths aren't supported – anything skipped is listed in the details.</p>
+        </section>
+
+        <div class="row go-row">
+            <span class="muted small" id="go-note"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent big" data-action="convert" id="convert">Convert &amp; copy for Fusion</button>
+        </div>
+
+        <section class="card result" id="result" hidden></section>
+
+        <details class="card details" id="details" hidden>
+            <summary><span class="section-title">Details</span> <span class="muted small" id="details-note"></span></summary>
+            <label class="check small debug-toggle"><input type="checkbox" id="show-debug"> Show debug lines</label>
+            <ol class="details-log mono" id="details-log"></ol>
+        </details>
+
+        <details class="card diag">
+            <summary><span class="section-title">Diagnostics</span></summary>
+            <p class="muted small">Saves whatever is selected in Fusion's Flow view to a JSON file on your Desktop, exactly as Fusion stores it. Useful for tracking down a size or position mismatch: import the same SVG with this tool and with Fusion's own File &gt; Import &gt; SVG, dump each, and compare the two files.</p>
+            <button type="button" class="btn" data-action="dump" id="dump">Dump selected nodes</button>
+        </details>
+    </div>
+</main>
+<script src="svg.js"></script>
+</body>
+</html>

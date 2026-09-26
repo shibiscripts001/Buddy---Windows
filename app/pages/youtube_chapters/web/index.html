@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>YouTube Chapters</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="chapters.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">YouTube Chapters</h1>
+        <span class="timeline" id="timeline"></span>
+        <button type="button" class="btn ghost" data-action="refresh" id="refresh" title="Read the timeline's markers again"></button>
+    </header>
+
+    <section class="card filter-card">
+        <div class="row">
+            <span class="section-title">Markers</span>
+            <span class="muted small">Chapters come from the open timeline's markers – their names become the chapter titles.</span>
+        </div>
+        <div class="filters" id="filters"></div>
+    </section>
+
+    <div class="layout">
+        <section class="card list-card">
+            <div class="row head">
+                <span class="section-title">Chapters</span>
+                <span class="muted small" id="count"></span>
+            </div>
+            <div class="list" id="list"></div>
+        </section>
+
+        <section class="card text-card">
+            <div class="row head">
+                <span class="section-title">Description text</span>
+                <span class="chip" id="edited" hidden>Edited</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-action="reset_text" id="reset" hidden>Reset</button>
+                <button type="button" class="btn accent" data-action="copy" id="copy">Copy</button>
+            </div>
+            <div class="warn-box" id="warnings"></div>
+            <div class="stale" id="stale" hidden>The markers have changed since you edited this. <button type="button" class="link-btn" data-action="reset_text">Use the new chapters</button></div>
+            <textarea class="field text" id="text" spellcheck="false" placeholder="Chapters show here as you add markers."></textarea>
+            <p class="muted small hint">Paste this into the video's description on YouTube. You can edit it here first.</p>
+        </section>
+    </div>
+
+    <section class="card save-card">
+        <span class="section-title">Save as .txt</span>
+        <div class="save-row">
+            <label class="lbl grow">Folder
+                <span class="row">
+                    <input class="field grow" id="folder" placeholder="Choose or paste a folder" spellcheck="false" autocomplete="off">
+                    <button type="button" class="btn" data-action="browse">Browse…</button>
+                </span>
+            </label>
+            <label class="lbl name">File name
+                <input class="field" id="file-name" spellcheck="false" autocomplete="off">
+            </label>
+            <div class="row actions">
+                <button type="button" class="btn ghost" data-action="open_folder" id="open-folder">Open folder</button>
+                <button type="button" class="btn" data-action="save" id="save">Save .txt</button>
+            </div>
+        </div>
+    </section>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="chapters.js"></script>
+</body>
+</html>

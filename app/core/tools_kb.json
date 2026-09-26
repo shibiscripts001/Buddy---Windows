@@ -1,0 +1,203 @@
+{
+  "_comment": [
+    "What each Buddy tool can do, in the agent's words rather than the nav rail's.",
+    "Every entry is derived from that tool's own README (or its source docstring",
+    "where no README exists) - not invented. When a tool changes,",
+    "update its entry here; nothing reads the tool's code at runtime.",
+    "",
+    "Availability is NOT stored here. core/tools_kb.py computes it from the live",
+    "registry via ToolPage.is_placeholder, so this file can never claim a tool",
+    "works when the shell still shows a placeholder for it."
+  ],
+  "tools": {
+    "manual_chat": {
+      "name": "Ask Buddy",
+      "summary": "This chat. Answers DaVinci Resolve questions from the reference manual with chapter and page citations, and can read your open project.",
+      "needs_resolve": false,
+      "capabilities": [
+        "Hybrid semantic + keyword search over the DaVinci Resolve 21 Reference Manual, citing chapter and page for every claim",
+        "Reads the currently open Resolve project read-only: timeline frame rate and resolution, colour management settings, track counts, selected clip properties",
+        "Points you at whichever other Buddy tool automates what you are asking about",
+        "Runs on the AI model you choose in Settings > Ask Buddy: Google Gemini, Anthropic Claude, OpenAI, OpenRouter, Groq or Azure OpenAI in the cloud; Ollama, llama.cpp's llama-server (started with --jinja) or LM Studio on your own computer or network; or any other OpenAI-compatible endpoint. Test connection checks the key, the model and that it can call tools"
+      ]
+    },
+    "project_setup": {
+      "name": "Project Setup",
+      "summary": "Builds out a new project's Media Pool and timeline: bin structure from a list, folder-tree import, bin-to-timeline, and a full multicam sync suite.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Bins tab: one bin per line, prefix a line with '>' to nest it inside the nearest bin above with one fewer '>' (Tab / Shift+Tab in the list adds or removes one); a live tree preview shows exactly what will be created",
+        "The bin list is remembered between launches and creates the whole nested structure under the Media Pool root in one go",
+        "Import Folder: mirrors an entire folder tree from disk into the Media Pool as nested bins, skipping non-media files; shows what's inside first (video, audio, stills, image sequences counted once, subfolders) and whether it goes into the open bin or the Master level",
+        "Populate Timeline: adds the currently selected Media Pool bin's clips to the open timeline, or creates a new timeline from them; shows which bin and which timeline, following Resolve as you click around",
+        "Sync tab: Sync Everything lines clips up by embedded timecode or waveform, places untimecoded audio, packs to the fewest tracks and shifts to the start - all as one offline transform that imports a NEW timeline and never touches the original; long audio jobs show progress and can be cancelled",
+        "Sync tab: Expand (one clip per track), Align, Sync External Audio, Collapse (with optional silent-audio removal) and Shift (optionally closing gaps) as separate steps under 'Or run the steps yourself'"
+      ],
+      "notes": "Formerly called Resolve Bin Generator, then Media Pool Organizer. Waveform sync and silent-audio detection need ffmpeg installed (path settable in Settings)."
+    },
+    "asset_manager": {
+      "name": "Asset Manager",
+      "summary": "A reusable library of commonly-used images, audio and video, with three views and per-project lists.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Add individual files or whole folders (or drag them in), recursively picking up all supported media beneath them",
+        "Each asset is tracked by a stable id rather than its path, so it survives being moved later",
+        "All media view: filter by type (Image/Audio/Video/Other), live text search, optional grouping by shared source folder",
+        "By folder view: every asset bucketed by the folder it was added from, with Expand all / Collapse all",
+        "Projects view: named lists that link into the shared library; Add from library picks existing assets with a search",
+        "Preview shows images, decoded audio waveforms (click or drag to seek, Space to play) and video with a scrub bar; missing files are flagged",
+        "Imports selected assets (or a whole folder as a new sub-bin) into the open project's Media Pool in one click",
+        "Find it / Moved it? re-points an asset whose file moved, without losing its project links"
+      ]
+    },
+    "image_importer": {
+      "name": "Image Importer",
+      "summary": "Pulls images into a Resolve bin straight from the clipboard - a copied image, copied files, or a copied image URL.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Ctrl+V reads whatever is on the clipboard and stages it for import; image files can also be dragged in from Explorer or added with Add files",
+        "A copied image (from a browser or image editor) is saved as a timestamped PNG",
+        "Copied or dropped files are copied into the save folder, skipping ones that aren't images",
+        "A copied image URL is downloaded and staged, showing in the list while it downloads",
+        "Thumbnails of everything staged; the save folder and bin name are remembered between launches"
+      ]
+    },
+    "svg_importer": {
+      "name": "SVG Importer",
+      "summary": "Converts an SVG or Lottie/Bodymovin JSON into Fusion node-graph paste-text, copied to the clipboard for pasting into the Fusion page.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Parses path, rect, ellipse and polyline geometry, fills, strokes and gradients in pure Python",
+        "Handles blur, drop-shadow and inner-shadow filters, and basic <mask> and group clip-path clipping",
+        "Builds real Fusion PolylineMask / Background / Merge / Group node graphs, with a pivot on every shape and one for the whole graphic",
+        "Batch-converts several files (dragged in, picked, or a whole folder) into one paste",
+        "Consolidate Colors: one Master Controller swatch per distinct solid color, wired to every shape using it",
+        "Reads Lottie/Bodymovin JSON: shape layers and precomps, with real keyframes for position, anchor, scale, rotation and opacity, and each layer's in/out points",
+        "Diagnostics: dumps the selected Fusion nodes' settings to a JSON file on the Desktop"
+      ],
+      "notes": "Works on the Fusion page: a Fusion comp must be open, and the result is pasted with Ctrl+V into the Flow view. Not supported: SVG <text>, Lottie path morphing and trim-path reveal. Known limitations include fill-rule and stroke dash patterns."
+    },
+    "media_relink": {
+      "name": "Media Relink",
+      "summary": "Relinks clips that have gone offline, and relocates media that is still online, through a scan then search-folder then relink loop.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Fix offline media: scans the project for clips whose files have gone missing and relinks them from a chosen search folder - clips that work are never touched",
+        "Move to a new location: points clips at copies somewhere else even when nothing is broken; only the clips you tick are relinked",
+        "Shows each clip's recorded folder and the proposed new one before anything changes; the folder search shows progress and can be cancelled",
+        "When a search finds several files with a clip's name, you pick which one (or browse for another) in the page"
+      ],
+      "notes": "PROTOTYPE. The core loop works but the tool's own README warns against relying on it for anything irreplaceable. Say so when recommending it."
+    },
+    "batch_clip_renamer": {
+      "name": "Batch Clip Renamer",
+      "summary": "Batch renames clips in the current Media Pool bin, or only the selected clips, by sequential numbering or find and replace.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Scope switch between 'All Clips in Current Bin' and 'Selected Clips Only', with a visible reminder of which is active",
+        "Sequential Renamer: give a base name and a starting number to get BaseName_01, BaseName_02 and so on with a 2-digit padded counter",
+        "Find and Replace across the targeted clip names, optionally ignoring case",
+        "Live preview of every targeted clip's current and new name before anything changes, with a count and a warning when two clips would end up with the same name",
+        "Undo last rename puts the old names back (skipping any clip renamed again since)",
+        "Only the Clip Name property is touched, so the underlying file path and extension are untouched",
+        "Timelines sitting in the same bin are filtered out so they cannot be renamed by accident"
+      ],
+      "notes": "Scope deliberately resets to the safer 'All Clips' default each launch, because which clips are selected changes every session."
+    },
+    "text_animator": {
+      "name": "Text Animator",
+      "summary": "Turns subtitles into styled, animated text in Resolve, across subtitle conversion, font styling, layout and animation.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Subtitle Conversion: converts a subtitle track into Text+ clips on a video track (the topmost empty one is suggested), placed from a Media Pool Text+ for exact timing - Buddy adds one (a 'Buddy Text+' bin) if the project has none",
+        "Font Styling: font, size and colour, text outline, drop shadow and background for Text+ clips - on the entire timeline, the clips under the playhead, or one video track - with an approximate live preview; unticked outline/shadow/background are turned off on the clips",
+        "Timeline Layout: a live placement preview of every Text+ clip under the playhead at its real position and size - drag to move, drag a corner to resize, arrow keys to nudge; changes reach Resolve on release. Grid overlays (Standard, Rule of Thirds, Center, Phi), platform safe zones (YouTube Shorts, Instagram, TikTok, General) and snapping (frame centre, other text, safe-zone edges) under Guides & snapping",
+        "Apply Position copies each playhead clip's position to every Text+ on its track; Bounding lines resize every clip's text to fill the space between them, and stack overlapping clips vertically",
+        "Timeline Animation: Pop, Bounce, Fade and Slide (from left/right/top/bottom) whole-clip animations at Fast/Medium/Slow, on the whole timeline, the tracks under the playhead or one track; Remove Animations",
+        "Custom Animation: word-by-word layout presets (Hero + Stack - click a word to make it the hero, Side-by-Side, Grid) for subtitles split one word per clip, with marquee multi-select to move several words together",
+        "Undo/Redo (Ctrl+Z / Ctrl+Shift+Z) for moves, resizes, layouts and animations",
+        "Diagnostics: dumps a selected Fusion node's real settings to JSON on the Desktop for debugging animation issues"
+      ],
+      "notes": "Requires DaVinci Resolve Studio (Fusion scripting). The preview is approximate - Resolve draws the real text."
+    },
+    "color_palette": {
+      "name": "Color Palette Manager",
+      "summary": "A general colour-palette and design tool. It does not read or write anything in a Resolve project.",
+      "needs_resolve": false,
+      "capabilities": [
+        "Palettes: create, rename, tag, folder and version colour palettes (drag palettes onto folders, drag swatches to reorder, right-click a swatch to change or remove it, Undo after a removal); a colour picker with a screen colour dropper; floating mini palette windows",
+        "Generators tab: harmony, light/dark theme, gradient, grayscale, neon/pastel and glass generators - each opens in the tab and keeps its work while Buddy is open; drag colours in from a palette, drag preview swatches to swap them, then create a new palette or add the colours to the open one; the gradient exports a PNG (up to 8192 px, 8 or 16-bit)",
+        "Extract: pull a palette out of an image (browse, drag a file or a web image in, or Ctrl+V to paste), with Average or Balanced weighing, an ARRI LogC false colour preview with its zone legend, and exports of the image with a palette strip or in false colour",
+        "Visualize: an 8-block treemap and three UI mockup cards (header card, stat tile, tags); click a block or card part to recolour it or drag a colour onto it - this never changes the saved palette, and Reset to Original undoes it",
+        "Vision: every tab can show colours as people with protanopia, deuteranopia, tritanopia or achromatopsia see them",
+        "Tools: WCAG 2.1 / APCA contrast checker, palette import (json, gpl, ase, aco, swatches, css/scss/txt/js) and export (CSS, SCSS, JSON, Swift, Tailwind, GPL, ASE, Procreate, .cube LUT) with a copyable preview of text formats",
+        "Runs entirely standalone - no Resolve scripting API dependency at all"
+      ],
+      "notes": "Works with Resolve closed. Never claim it reads or changes a Resolve project. Its own options (language, focus overlay, mini palette transparency, backup/restore) are in Settings while this tool is open."
+    },
+    "stills_exporter": {
+      "name": "Stills Exporter",
+      "summary": "Places markers, grabs stills from them on the Color page, and exports those stills as image files.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Shows the open timeline's markers live, with how many there are of each of Resolve's 16 marker colours",
+        "Drop a marker at the playhead in the chosen colour, optionally named",
+        "Grab stills for one marker colour: switches to the Color page, visits every marker of that colour in frame order, grabbing a still at each",
+        "Reusing one colour across several frames groups them so they can all be grabbed in a single pass",
+        "Lists the grabbed stills; one can be taken off the list (the gallery keeps it)",
+        "Export the grabbed stills as JPEG, PNG or TIFF with a filename prefix, optionally deleting them from Resolve's gallery afterwards (asks first)"
+      ],
+      "notes": "The grabbed-stills list only lives in memory for the current session. Format, prefix and export folder are remembered."
+    },
+    "youtube_chapters": {
+      "name": "YouTube Chapters",
+      "summary": "Turns timeline markers into a YouTube chapter list and saves it as a .txt file.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Reads the open timeline's markers live while the page is open (Refresh reads them again), optionally filtered to one of the 16 marker colours",
+        "Converts each marker's frame position into HH:MM:SS past an hour, or MM:SS before that, using the timeline's own frame rate; marker names become the chapter titles",
+        "Enforces YouTube's first chapter at 00:00: a first marker under 10 seconds in is moved to 00:00 keeping its name, otherwise '00:00 - Intro' is added",
+        "Leaves out markers less than 10 seconds after the previous chapter (YouTube's minimum) and lists them with the reason; warns when there are fewer than 3 chapters",
+        "Copy puts the chapter list on the clipboard to paste into the video description; the text can be edited first",
+        "Save .txt to a remembered folder, with the file name filled in from the timeline name"
+      ],
+      "notes": "Read-only: it never changes the Resolve project."
+    },
+    "time_tracker": {
+      "name": "Time Tracker",
+      "summary": "Automatically tracks time against whichever project is open in Resolve, with idle detection.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Auto-tracking: starts an entry when a project opens, ends it when Resolve closes or switches projects",
+        "Optional manual mode where you drive Start/Pause/Stop yourself, with the project name still coming from Resolve",
+        "Pause and Resume freeze the running entry in place with no reset and no separate log row",
+        "Stop saves the session, resets to zero, asks for confirmation and offers a brief Undo",
+        "Idle detection auto-pauses and trims the idle time off",
+        "The Tracker tab shows today's and this week's time so far, and progress toward a weekly goal",
+        "This Project and History list past sessions: add, edit, hide from exports or delete entries (tick several to act on them together), and export as PDF, CSV, JSON or Excel",
+        "Reports: today / this week / this month totals with earnings per currency, weekly and monthly goals, a last-7-days chart, time per project, a custom date range, and an hourly rate per project",
+        "Generates a client-ready PDF invoice for one project over a date range"
+      ]
+    },
+    "transcribe": {
+      "name": "Transcribe",
+      "summary": "Transcribes the current timeline's dialogue into subtitles on the timeline (Whisper or NVIDIA Parakeet, running locally), and translates subtitles into other languages (NLLB-200 or MADLAD-400 locally, or Ask Buddy's AI model).",
+      "needs_resolve": true,
+      "capabilities": [
+        "Three tabs: Subtitles (transcribe), Translate, and Setup (install the engine and download models)",
+        "Renders the timeline's audio mix, transcribes it locally with Whisper (faster-whisper) and builds readable subtitles from the word timings",
+        "Runs on the GPU with an NVIDIA card and on the CPU on any other Windows PC or Mac; transcription sends nothing to the internet",
+        "Models: Whisper Large v3 (most accurate, every language), Large v3 Turbo (fast, nearly as accurate), Distil-Whisper Large v3.5 (English only, about twice as fast), Small (fastest); NVIDIA Parakeet v3 (25 European languages, very fast even without a GPU, punctuates by itself); downloaded on the Setup tab, or a copy another app already downloaded reused",
+        "Auto model choice: detects the language, then uses Parakeet for its 25 European languages and the best installed Whisper model for everything else",
+        "Language auto-detect, a chosen language, or Mixed languages (tick the ones spoken; each part is transcribed in its own language)",
+        "A box for names and terms to spell right (Whisper models only), and characters-per-line / lines-per-subtitle limits",
+        "Places the subtitles on subtitle track 1 and saves an SRT; Open in Text Animator goes straight to its Subtitle Conversion",
+        "Translates the last transcript, or any SRT file, one SRT per chosen language, saved to a folder the user picks; optionally automatic after each transcription",
+        "Optionally makes a NEW timeline - a copy of the current one named '<name> (Subtitles)' - with the original language on subtitle track 1 and one subtitle track per translation; the timeline the user is on is never changed",
+        "Translation engines: NLLB-200 (200 languages, non-commercial use only), MADLAD-400 (about 180 languages, free for commercial use) on this computer, or the AI model Ask Buddy is set up with (asks before sending a transcript to a cloud provider, once per provider)",
+        "Translation works on whole sentences, then re-cuts them into timed cues; Chinese and Japanese get character-based line breaking and native punctuation"
+      ],
+      "notes": "Needs a one-time setup on the Setup tab: the engine is about 1.45 GB with an NVIDIA GPU, about 110 MB without, plus a model (0.5-3.1 GB). Resolve only lets scripts place subtitles on track 1, so existing subtitles there are replaced only if the user confirms. The user's render settings are restored after the audio render. Local translation needs an NLLB-200 or MADLAD-400 model from the Setup tab; AI translation needs nothing there."
+    }
+  }
+}

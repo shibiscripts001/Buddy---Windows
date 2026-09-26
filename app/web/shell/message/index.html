@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Buddy</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog">
+    <h1 class="dialog-title" id="title"></h1>
+    <div class="dialog-body"><p class="modal-text" id="text"></p></div>
+    <div class="dialog-foot">
+        <button type="button" class="btn" id="cancel" hidden></button>
+        <button type="button" class="btn accent" id="ok"></button>
+    </div>
+</main>
+<script src="message.js"></script>
+</body>
+</html>

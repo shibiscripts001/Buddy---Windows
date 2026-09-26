@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Mini palette</title>
+    <link rel="stylesheet" href="../../../../web/buddy.css">
+    <link rel="stylesheet" href="mini.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="mini">
+    <div class="mini-head">
+        <b class="mini-name" id="name"></b>
+        <button type="button" class="btn ghost icon pin" id="pin" aria-pressed="false"></button>
+    </div>
+    <div class="mini-row">
+        <button type="button" class="btn ghost arrow" id="prev" aria-label="Previous colours"></button>
+        <div class="mini-grid" id="grid"></div>
+        <button type="button" class="btn ghost arrow" id="next" aria-label="More colours"></button>
+    </div>
+</main>
+<script src="mini.js"></script>
+</body>
+</html>

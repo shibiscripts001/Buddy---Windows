@@ -1,0 +1,556 @@
+/*
+ * Buddy's shared web styles - every web tool page links this first.
+ *
+ * Colours, radii and fonts are CSS variables set by buddy.js from the
+ * theme Python sends (core/web_theme.py). Nothing here names a colour of
+ * its own: a component says var(--btn-bg), and whether that is Resolve's
+ * grey pill, Retro's ink outline or Nova's glass is decided in one place.
+ *
+ * What no variable can say - Nova's glow orbs, Off-world's scanlines - is
+ * a theme's own stylesheet, themes/<family>.css, imported below. Only
+ * those name a <html data-family="...">; tests/test_web_theme.py checks.
+ *
+ * Components: .btn (.accent .danger .icon .ghost), .field, .card (.card-head), .chip,
+ * .muted/.small, .toast, .menu-pop, .picker, .spinner. Tool pages add their own layout on top.
+ */
+
+@import url("themes/desktop.css");
+@import url("themes/nova.css");
+@import url("themes/offworld.css");
+@import url("themes/resolve.css");
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../assets/fonts/OpenSans-VariableFont.ttf") format("truetype");
+    font-weight: 300 800;
+}
+
+/* Fallbacks until the theme arrives (a few ms); the body stays hidden
+   until then so there is no flash of the wrong colours. */
+:root {
+    --font: "Segoe UI", sans-serif;
+    --font-size: 9.75pt;
+    --text: #ddd; --text-strong: #fff; --text-dim: #888;
+    --page-bg: transparent;
+    --card-bg: #222; --card-border: #333; --card-radius: 12px;
+    --card-shadow: none; --card-blur: none;
+    --btn-bg: #333; --btn-fg: #ddd; --btn-border: #444; --btn-radius: 12px;
+    --btn-pad: 7px 16px; --btn-weight: 600;
+    --accent-bg: #888; --accent-fg: #000; --accent-border: transparent;
+    --field-bg: #111; --field-fg: #eee; --field-border: #444; --field-radius: 8px;
+    --field-pad: 6px 12px; --field-focus-border: #888; --field-focus-bw: 1px;
+    --scroll: #444; --scroll-hover: #666; --scroll-width: 10px; --scroll-radius: 4px;
+    --bw: 1px;
+    color-scheme: dark;
+}
+
+html[data-light="true"] { color-scheme: light; }
+
+* { box-sizing: border-box; }
+
+/* The hidden attribute wins over any component's display rule. */
+[hidden] { display: none !important; }
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font);
+    font-size: var(--font-size);
+    color: var(--text);
+    background: var(--page-bg);
+    overflow: hidden;
+    visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+html[data-family] body { visibility: visible; }
+
+/* Every page's markup is <body><main class="page"|"chat">...: body's own
+   background never actually paints as a normal box - the UA propagates it
+   to the viewport/canvas instead (CSS background propagation), which is
+   always a plain rectangle no matter what border-radius body itself has.
+   The pane card behind it (core/theme.py's _pane_rules) IS a real rounded
+   box, so anything the page paints flush to its own edge needs the same
+   radius on this <main> - a real element, not the canvas - to keep from
+   showing a square corner past the card's curve. Invisible under an opaque
+   theme (the page's colour already matches the card behind it); it's what
+   keeps a "glass" theme (Nova), whose page is see-through instead, from
+   showing its background past the curve. */
+body > main { border-radius: var(--card-radius); }
+
+::selection {
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+}
+
+/* ------------------------------------------------------------ buttons -- */
+
+.btn {
+    font: inherit;
+    font-weight: var(--btn-weight);
+    color: var(--btn-fg);
+    background: var(--btn-bg);
+    border: var(--bw) solid var(--btn-border);
+    border-radius: var(--btn-radius);
+    padding: var(--btn-pad);
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s;
+}
+
+.btn:hover:not(:disabled) {
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
+    color: var(--btn-hover-fg);
+}
+
+.btn:active:not(:disabled) { background: var(--btn-press-bg); }
+
+/* One disabled look for every button kind and theme (core/web_theme.py
+   _disabled_button): no fill, a faint outline so it still reads as a button,
+   a dimmer but readable label. Declared once, after every kind below, so it
+   wins over their fills - an unavailable Rename or Send must never look like
+   one ready to press. */
+
+.btn.accent {
+    background: var(--accent-bg);
+    color: var(--accent-fg);
+    border-color: var(--accent-border);
+    font-weight: var(--accent-weight);
+    box-shadow: var(--accent-glow);
+}
+
+.btn.accent:hover:not(:disabled) {
+    background: var(--accent-hover-bg);
+    color: var(--accent-hover-fg);
+    border-color: var(--accent-border);
+}
+
+.btn.danger {
+    background: var(--danger-bg);
+    color: var(--danger-fg);
+    border-color: var(--danger-border);
+    font-weight: 700;
+}
+
+.btn.danger:hover:not(:disabled) {
+    background: var(--danger-hover-bg);
+    color: var(--danger-fg);
+    border-color: var(--danger-border);
+}
+
+.btn.icon {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.btn.ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-dim);
+    padding: 2px 8px;
+    font-weight: 600;
+}
+
+.btn.ghost:hover:not(:disabled) {
+    background: var(--raised-bg);
+    border-color: transparent;
+    color: var(--accent-text);
+}
+
+.btn:disabled, .btn.accent:disabled, .btn.danger:disabled {
+    background: var(--btn-disabled-bg);
+    color: var(--btn-disabled-fg);
+    border-color: var(--btn-disabled-border);
+    box-shadow: none;
+    text-shadow: none;
+    cursor: default;
+}
+/* A ghost button is a text button: disabled, it only dims. */
+.btn.ghost:disabled { background: transparent; border-color: transparent; }
+
+.btn svg, .icon-svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- fields -- */
+
+.field {
+    font: inherit;
+    color: var(--field-fg);
+    background: var(--field-bg);
+    border: var(--bw) solid var(--field-border);
+    border-radius: var(--field-radius);
+    padding: var(--field-pad);
+    outline: none;
+    transition: border-color .15s, background-color .15s;
+}
+
+.field::placeholder { color: var(--text-dim); opacity: 1; }
+
+.field:focus {
+    border-color: var(--field-focus-border);
+    background: var(--field-focus-bg);
+    box-shadow: 0 0 0 calc(var(--field-focus-bw) - var(--bw)) var(--field-focus-border);
+}
+
+.field:disabled { color: var(--text-dim); }
+
+/* -------------------------------------------------------------- cards -- */
+
+.card {
+    background: var(--card-bg);
+    border: var(--bw) solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-blur);
+}
+
+/* A card's title strip. One fixed height, whether or not it holds buttons,
+   so two cards side by side line up. */
+.card-head {
+    display: flex; align-items: center; gap: var(--control-gap);
+    min-height: 40px; padding: var(--card-head-pad); flex: none;
+    border-bottom: var(--bw) solid var(--card-border);
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: var(--r-full);
+    background: var(--raised-bg);
+    border: var(--bw) solid var(--card-border);
+    color: var(--text-dim);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+}
+
+
+.muted { color: var(--text-dim); }
+.small { font-size: var(--fs-xs); }
+.strong { color: var(--text-strong); }
+
+/* ------------------------------------------------------ page layout -- */
+
+/* A tool page's frame: title row on top, sections below. */
+.page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
+    padding: var(--page-pad);
+    overflow-y: auto;
+}
+
+.page-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-height: 32px; }
+.page-title { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); flex: 1; }
+.section-title { margin: 0; font-size: var(--fs-md); font-weight: 700; color: var(--text-strong); }
+.spacer { flex: 1; }
+.row { display: flex; align-items: center; gap: var(--control-gap); }
+
+/* A labelled field: <label class="lbl">Name <input class="field"></label> */
+.lbl { display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-xs); font-weight: 600; color: var(--text-dim); }
+.lbl .field { font-size: var(--font-size); font-weight: 400; }
+.field.invalid, .field.invalid:focus { border-color: var(--danger); box-shadow: none; }
+.field-error { color: var(--danger-text); font-size: var(--fs-xs); min-height: 0; }
+.field-error:empty { display: none; }
+
+.check {
+    display: inline-flex; align-items: center; gap: 8px;
+    cursor: pointer; user-select: none; color: var(--text);
+}
+.check input { accent-color: var(--primary); width: 15px; height: 15px; margin: 0; cursor: pointer; }
+
+/* Segmented choice: <div class="segmented"><button aria-pressed="true">A</button>...</div> */
+.segmented {
+    display: inline-flex;
+    padding: 2px;
+    gap: 2px;
+    background: var(--field-bg);
+    border: var(--bw) solid var(--field-border);
+    border-radius: var(--btn-radius);
+}
+.segmented button {
+    font: inherit;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: transparent;
+    border: 0;
+    border-radius: calc(var(--btn-radius) - 2px);
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background-color .15s, color .15s;
+}
+.segmented button:hover { color: var(--text-strong); }
+.segmented button[aria-pressed="true"] { background: var(--selection-bg); color: var(--selection-fg); }
+
+/* Tabs: <div class="tabs" role="tablist"><button role="tab" aria-selected="true">A</button>...</div> */
+.tabs { display: flex; gap: 4px; border-bottom: var(--bw) solid var(--card-border); }
+.tabs button {
+    font: inherit;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: calc(-1 * var(--bw));
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.tabs button:hover { color: var(--text-strong); }
+.tabs button[aria-selected="true"] {
+    background: var(--tab-active-bg);
+    color: var(--tab-active-fg);
+    border-bottom-color: var(--tab-active-line);
+}
+
+/* Data table. Wrap in a scrolling box; the header row sticks. */
+.table { width: 100%; border-collapse: collapse; }
+.table th {
+    position: sticky; top: 0; z-index: 1;
+    text-align: left; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim);
+    padding: 8px 12px; background: var(--raised-bg);
+    border-bottom: var(--bw) solid var(--card-border);
+}
+.table td { padding: 6px 12px; border-bottom: var(--bw) solid color-mix(in srgb, var(--card-border) 60%, transparent); }
+.table tr:last-child td { border-bottom: 0; }
+
+/* Centered placeholder for an empty list or a missing connection. */
+.empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; padding: 28px 16px; text-align: center; color: var(--text-dim);
+}
+.empty .strong { font-size: var(--fs-md); }
+
+.warn { color: var(--danger-text); font-size: var(--fs-xs); }
+.warn:empty { display: none; }
+
+/* --------------------------------------------------------- scrollbars -- */
+
+::-webkit-scrollbar { width: var(--scroll-width); height: var(--scroll-width); }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--scroll);
+    border-radius: var(--scroll-radius);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    min-height: 24px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); background-clip: padding-box; }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* -------------------------------------------------------------- toast -- */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translate(-50%, 12px);
+    max-width: calc(100% - 32px);
+    padding: 8px 14px;
+    background: var(--card-bg);
+    border: var(--bw) solid var(--card-border);
+    border-radius: var(--btn-radius);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+    backdrop-filter: var(--card-blur);
+    color: var(--text-strong);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s, transform .18s;
+    z-index: 100;
+    overflow-wrap: anywhere;
+}
+
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast { display: flex; align-items: center; gap: 14px; }
+.toast.has-action { pointer-events: auto; }
+.toast-action {
+    font: inherit; font-weight: 700; color: var(--accent-text);
+    background: none; border: 0; padding: 0; cursor: pointer;
+}
+.toast-action:hover { text-decoration: underline; }
+
+/* -------------------------------------------------------------- modal -- */
+
+.modal-backdrop {
+    position: fixed; inset: 0; z-index: 90;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    background: var(--overlay-tint);
+    backdrop-filter: blur(3px);
+    animation: buddy-fade .12s ease-out;
+}
+.modal {
+    width: min(440px, 100%);
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 20px 22px 18px;
+    display: flex; flex-direction: column; gap: 14px;
+    background: var(--modal-bg);
+    border: var(--bw) solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, .45);
+    backdrop-filter: var(--card-blur);
+}
+.modal.wide { width: min(620px, 100%); }
+.modal-title { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); }
+.modal-body { display: flex; flex-direction: column; gap: 12px; }
+.modal-text { margin: 0; line-height: 1.5; white-space: pre-wrap; }
+.modal-buttons { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+
+@keyframes buddy-fade { from { opacity: 0; } }
+
+/* --------------------------------------------------------- popup menu -- */
+
+.menu-pop {
+    position: fixed; z-index: 95; min-width: 180px; max-width: 320px; max-height: 60vh; overflow-y: auto;
+    padding: 4px;
+    background: var(--surface); border: var(--bw) solid var(--card-border); border-radius: var(--r-md);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .32);
+    animation: buddy-fade .08s ease-out;
+}
+.menu-pop button {
+    display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+    padding: 6px 12px; border: 0; background: none; font: inherit; color: var(--text);
+    border-radius: var(--r-sm); cursor: pointer;
+}
+.menu-pop button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.menu-pop button:hover:not(:disabled), .menu-pop button:focus-visible {
+    background: var(--selection-bg); color: var(--selection-fg); outline: none;
+}
+.menu-pop button:disabled { color: var(--text-dim); cursor: default; }
+.menu-pop button.danger { color: var(--danger-text); }
+.menu-pop button.danger:hover { color: var(--selection-fg); }
+.menu-pop hr { border: 0; border-top: var(--bw) solid var(--card-border); margin: 4px 6px; }
+.menu-heading { padding: 6px 12px 2px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim); }
+.menu-swatch {
+    flex: none; width: 14px; height: 14px; border-radius: var(--r-xs);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 25%, transparent);
+}
+
+/* ------------------------------------------------------- colour picker -- */
+
+.picker {
+    position: fixed; z-index: 96; width: 260px; padding: 12px;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--surface); border: var(--bw) solid var(--card-border); border-radius: var(--card-radius);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, .45);
+    animation: buddy-fade .1s ease-out;
+}
+.pk-title { font-weight: 700; color: var(--text-strong); }
+.pk-sv { position: relative; height: 150px; border-radius: var(--r-md); cursor: crosshair; touch-action: none; overflow: hidden; }
+.pk-sv i { position: absolute; inset: 0; }
+.pk-hue { position: relative; height: 14px; border-radius: var(--r-full); cursor: pointer; touch-action: none; }
+.pk-knob {
+    position: absolute; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%);
+    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0, 0, 0, .45), 0 2px 6px rgba(0, 0, 0, .4); pointer-events: none;
+}
+.pk-hue .pk-knob { top: 50%; }
+.pk-row { display: flex; align-items: center; gap: 8px; }
+.pk-chips { display: flex; border-radius: var(--r-sm); overflow: hidden; box-shadow: inset 0 0 0 1px var(--field-border); flex: none; }
+.pk-chips i { width: 22px; height: 30px; }
+.pk-old { cursor: pointer; }
+.pk-hex { flex: 1; min-width: 0; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.pk-buttons { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ------------------------------------------------------------ spinner -- */
+
+.dots { display: inline-flex; gap: 4px; align-items: center; }
+.dots i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--emphasis-fill);
+    animation: buddy-dot 1.2s infinite ease-in-out;
+}
+.dots i:nth-child(2) { animation-delay: .15s; }
+.dots i:nth-child(3) { animation-delay: .3s; }
+
+@keyframes buddy-dot {
+    0%, 80%, 100% { opacity: .25; transform: translateY(0); }
+    40% { opacity: 1; transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------------------------------------------------------- dropdowns --
+   <select class="field"> draws its own chevron, and opens buddy.js's list
+   (.dropdown-pop) instead of Chromium's native one, which ignores the theme. */
+
+select.field {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 34px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--text-dim) 50%),
+        linear-gradient(135deg, var(--text-dim) 50%, transparent 50%);
+    background-position: right 17px center, right 12px center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+select.field:hover:not(:disabled) { border-color: var(--field-focus-border); }
+select.field:focus, select.field.open {
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--accent-text) 50%),
+        linear-gradient(135deg, var(--accent-text) 50%, transparent 50%);
+    background-position: right 17px center, right 12px center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+/* Open: the chevron points up. */
+select.field.open {
+    background-image:
+        linear-gradient(135deg, transparent 50%, var(--accent-text) 50%),
+        linear-gradient(45deg, var(--accent-text) 50%, transparent 50%);
+}
+select.field:disabled { cursor: default; opacity: .6; }
+
+.dropdown-pop {
+    position: fixed; z-index: 120; max-width: min(420px, calc(100vw - 12px)); overflow-y: auto; overscroll-behavior: contain;
+    padding: 4px; display: flex; flex-direction: column; gap: 1px;
+    background: var(--pop-bg); border: var(--bw) solid var(--pop-border); border-radius: var(--field-radius);
+    box-shadow: var(--pop-shadow); backdrop-filter: var(--pop-blur);
+    opacity: 0; transform: translateY(-6px) scale(.97); transform-origin: top center;
+    transition: opacity .16s ease, transform .2s cubic-bezier(.2, .9, .3, 1.15);
+}
+.dropdown-pop.up { transform: translateY(6px) scale(.97); transform-origin: bottom center; }
+.dropdown-pop.show { opacity: 1; transform: none; }
+.dropdown-pop.closing { opacity: 0; transform: translateY(-4px) scale(.98); transition: opacity .12s ease, transform .12s ease; pointer-events: none; }
+.dropdown-pop.up.closing { transform: translateY(4px) scale(.98); }
+.dropdown-opt {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px 8px 8px; cursor: pointer;
+    color: var(--text); border-radius: max(0px, var(--field-radius) - 2px); white-space: nowrap;
+    transition: background-color .1s, color .1s;
+}
+.dropdown-opt.active { background: var(--pop-hover-bg); color: var(--pop-hover-fg); }
+.dropdown-opt[aria-selected="true"] { color: var(--accent-text); font-weight: 600; }
+.dropdown-opt[aria-selected="true"].active { color: var(--pop-hover-fg); }
+.dropdown-opt[aria-disabled="true"] { color: var(--text-dim); cursor: default; }
+.dropdown-check { width: 16px; height: 16px; flex: none; display: flex; align-items: center; justify-content: center; }
+.dropdown-check svg { width: 14px; height: 14px; }
+.dropdown-label { overflow: hidden; text-overflow: ellipsis; }
+.dropdown-heading { padding: 8px 12px 4px 32px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim); }
+@media (prefers-reduced-motion: reduce) { .dropdown-pop { transition: opacity .1s; transform: none !important; } }

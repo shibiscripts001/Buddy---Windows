@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- No remote anything: Buddy's own scripts, local files and data: images only.
+         A message can never load an image or script from the web. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Buddy Network</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="network.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Buddy Network</h1>
+        <span class="status" id="status" hidden><i></i><span id="status-text"></span></span>
+    </header>
+
+    <!-- ------------------------------------------------------ off -->
+    <section class="off" id="off" hidden>
+        <div class="card hero">
+            <div class="hero-icon" id="hero-icon"></div>
+            <h2 class="hero-title">Chat with other Buddy users</h2>
+            <p class="muted">A text chat for people who use Buddy, with a Global room and a Help room, rooms
+                anyone can make, and end-to-end encrypted messages with your buddies. Other people see only the
+                name you choose – never your IP address or anything else about you.</p>
+            <p class="muted">It's off until you turn it on: Buddy doesn't connect anywhere for it until then.</p>
+            <p class="warn-text" id="unsupported" hidden></p>
+            <div class="row hero-actions">
+                <button type="button" class="btn accent big" data-action="turn_on" id="turn-on">Turn on Buddy Network</button>
+                <button type="button" class="btn" data-action="import_transfer" id="import-transfer"
+                        title="Moving from another PC? Bring your account, keys and saved messages">I have a transfer file…</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------- chat -->
+    <section class="chat-layout" id="chat" hidden>
+        <aside class="card side">
+            <div class="side-head">
+                <span class="section-title">Chats</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost icon" data-action="browse" id="browse" title="Browse the rooms people have made"></button>
+                <button type="button" class="btn ghost icon" data-action="new_room" id="new-room" title="Make a room"></button>
+            </div>
+            <nav class="side-list" id="side-list"></nav>
+            <div class="me" id="me">
+                <img class="me-avatar" id="me-avatar" alt="">
+                <div class="me-text">
+                    <div class="me-name" id="me-name"></div>
+                    <label class="check small"><input type="checkbox" id="appear-offline"> Appear offline</label>
+                </div>
+            </div>
+            <div class="side-actions">
+                <button type="button" class="btn ghost" data-action="buddies" id="buddies-btn">Buddies</button>
+                <button type="button" class="btn ghost" data-action="account" id="account-btn">Account</button>
+                <button type="button" class="btn ghost" data-action="admin" id="admin-btn" hidden>Admin</button>
+                <button type="button" class="btn ghost" data-action="rules">Rules</button>
+                <button type="button" class="btn ghost" id="turn-off">Turn off</button>
+            </div>
+        </aside>
+
+        <section class="card main">
+            <div class="room-head" id="room-head">
+                <img class="room-avatar" id="room-avatar" alt="" hidden>
+                <div class="room-text">
+                    <div class="room-title" id="room-title"></div>
+                    <div class="room-topic" id="room-topic"></div>
+                </div>
+                <button type="button" class="btn" data-action="safety_code" id="safety-btn" hidden
+                        title="Check nobody could be reading these messages in between">Safety code</button>
+                <button type="button" class="btn ghost icon" id="chat-menu" title="Search, export, mute and more" hidden>⋯</button>
+            </div>
+            <div class="banner" id="banner" hidden></div>
+            <div class="search-bar" id="search-bar" hidden>
+                <input class="field" id="search" type="search" placeholder="Search this chat – the messages loaded here, and any saved on this PC" autocomplete="off">
+                <button type="button" class="btn ghost" data-action="close_search">Close</button>
+            </div>
+            <div class="messages" id="messages"></div>
+            <div class="compose">
+                <div class="compose-bar" id="compose-bar" hidden>
+                    <span class="compose-label" id="compose-label"></span>
+                    <button type="button" class="btn ghost" data-action="cancel_compose" title="Esc">Cancel</button>
+                </div>
+                <div class="attachment" id="attachment" hidden>
+                    <img class="attachment-preview" id="attachment-preview" alt="The picture to send">
+                    <div class="attachment-text">
+                        <div class="attachment-label" id="attachment-label"></div>
+                        <div class="muted small" id="attachment-note"></div>
+                    </div>
+                    <button type="button" class="btn ghost" data-action="remove_attachment" title="Don't send this picture">Remove</button>
+                </div>
+                <div class="compose-row">
+                    <button type="button" class="btn ghost icon attach" data-action="attach_image" id="attach" hidden
+                            title="Send a picture – or paste or drag one in"></button>
+                    <div class="compose-box">
+                        <textarea class="field" id="composer" rows="1" spellcheck="true"></textarea>
+                        <ul class="mentions" id="mentions" hidden></ul>
+                    </div>
+                    <button type="button" class="btn accent send" id="send" title="Enter to send, Shift+Enter for a new line"></button>
+                </div>
+                <div class="compose-foot">
+                    <span class="notice" id="notice"></span>
+                    <span class="reminder muted small" id="reminder">Never share passwords, keys or personal details. Links can be dangerous. <button type="button" class="link-btn" id="rules-link">Rules</button></span>
+                    <span class="counter small" id="counter"></span>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <div class="popup-menu" id="popup" hidden role="menu"></div>
+    <div class="drop-hint" id="drop-hint" hidden>Drop a picture to send it</div>
+</main>
+<script src="network.js"></script>
+</body>
+</html>

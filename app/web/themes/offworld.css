@@ -1,0 +1,41 @@
+/* Off-world: a phosphor terminal (core/web_theme.py _offworld has the
+   colours). The screen glows a little in the middle, every glyph blooms,
+   and scanlines run over everything - an overlay that takes no clicks, so
+   it sits above cards and dialogs alike. Labels are upper-case and tracked
+   out like a terminal menu; what people type is left as typed. */
+
+html[data-family="offworld"] body:not(.chrome) {
+    background: radial-gradient(120% 90% at 50% 45%, var(--screen-glow), transparent 70%), var(--page-bg);
+}
+html[data-family="offworld"] body { text-shadow: var(--phosphor-glow); caret-color: var(--primary); }
+html[data-family="offworld"] body::after {
+    content: ""; position: fixed; inset: 0; z-index: 1000; pointer-events: none;
+    background: repeating-linear-gradient(to bottom, var(--scanline) 0 1px, transparent 1px 3px);
+}
+
+html[data-family="offworld"] :is(.btn, .nav-item, .nav-heading, .tabs button, .segmented button,
+    .page-title, .section-title, .modal-title, .dialog-title, .set-title, .set-heading,
+    .table th, .lbl, .chip, .menu-heading, .dropdown-heading, .shell-title) {
+    text-transform: uppercase;
+    letter-spacing: .12em;
+}
+html[data-family="offworld"] .field { text-transform: none; letter-spacing: normal; }
+
+html[data-family="offworld"] :is(.page-title, .section-title, .modal-title, .dialog-title, .set-title)::before {
+    content: "// "; color: var(--text-dim);
+}
+html[data-family="offworld"] .btn.accent:not(.icon)::before { content: "\203A"; }
+html[data-family="offworld"] .btn.accent:not(:disabled) { text-shadow: 0 0 8px var(--primary); }
+html[data-family="offworld"] .modal {
+    border-color: var(--primary);
+    box-shadow: var(--accent-glow), 0 18px 60px rgba(0, 0, 0, .6);
+}
+
+/* The shell: a terminal menu - the chosen page gets the prompt. Every item
+   keeps the space for it (the type is monospace) so labels stay aligned. */
+html[data-family="offworld"] .nav-item::before { content: "\00a0\00a0"; }
+html[data-family="offworld"] .nav-item[aria-current="page"]::before { content: "\203A\00a0"; }
+html[data-family="offworld"] .shell-title::after {
+    content: "_"; margin-left: 2px; animation: offworld-blink 1.1s steps(1) infinite;
+}
+@keyframes offworld-blink { 50% { opacity: 0; } }

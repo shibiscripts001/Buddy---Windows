@@ -1,0 +1,24 @@
+/* Nova: soft glow orbs behind glass (core/web_theme.py _nova makes the
+   cards translucent). Gradients rather than blurred elements - identical
+   look, no compositing cost. */
+
+/* body > main, not body: body's own background is propagated straight to
+   the viewport canvas (a plain rectangle, border-radius or not - see
+   buddy.css's body > main rule) rather than painted as a normal box. */
+html[data-family="nova"] body > main {
+    background:
+        radial-gradient(38% 45% at 8% 0%, var(--orb-1), transparent 70%),
+        radial-gradient(45% 50% at 88% 100%, var(--orb-2), transparent 70%),
+        radial-gradient(30% 35% at 42% 55%, var(--orb-3), transparent 70%);
+}
+
+/* The shell's header and rail are transparent views over the window. */
+html[data-family="nova"] body.chrome { background: transparent; }
+
+/* A window of its own has nothing behind it: orbs over the page colour. */
+html[data-family="nova"] body.window {
+    background:
+        radial-gradient(38% 45% at 8% 0%, var(--orb-1), transparent 70%),
+        radial-gradient(45% 50% at 88% 100%, var(--orb-2), transparent 70%),
+        var(--surface);
+}

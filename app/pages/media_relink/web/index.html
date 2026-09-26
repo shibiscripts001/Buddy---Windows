@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Media Relink</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="relink.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Media Relink</h1>
+        <div class="segmented" id="mode" role="group" aria-label="What to do">
+            <button type="button" data-mode="fix">Fix offline media</button>
+            <button type="button" data-mode="relocate">Move to a new location</button>
+        </div>
+    </header>
+
+    <section class="card intro">
+        <div class="intro-text">
+            <h2 class="section-title" id="intro-title"></h2>
+            <p class="muted" id="intro-text"></p>
+        </div>
+        <div class="row intro-actions">
+            <button type="button" class="btn" data-action="scan" id="scan">Scan project</button>
+            <button type="button" class="btn" data-action="search" id="search">Search a folder…</button>
+        </div>
+    </section>
+
+    <section class="card search-card" id="search-card" hidden>
+        <span class="dots"><i></i><i></i><i></i></span>
+        <div class="search-text">
+            <div class="strong" id="search-title"></div>
+            <div class="muted small" id="search-count"></div>
+        </div>
+        <button type="button" class="btn" id="cancel-search">Cancel</button>
+    </section>
+
+    <section class="card results">
+        <div class="results-head">
+            <div class="counts" id="counts"></div>
+            <div class="spacer"></div>
+            <label class="check small" id="only-offline-box"><input type="checkbox" id="only-offline" checked> Only clips that need attention</label>
+        </div>
+        <div class="results-body" id="results"></div>
+        <div class="muted small summary" id="summary"></div>
+    </section>
+
+    <footer class="row footer">
+        <button type="button" class="btn" id="select-all">Select all</button>
+        <span class="muted small" id="selection"></span>
+        <div class="spacer"></div>
+        <button type="button" class="btn" id="relink-selected" disabled>Relink selected</button>
+        <button type="button" class="btn accent" id="relink-all" disabled>Relink all matches</button>
+    </footer>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="relink.js"></script>
+</body>
+</html>

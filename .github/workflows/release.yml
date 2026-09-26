@@ -1,0 +1,105 @@
+# Publishes a GitHub release with the Windows installer whenever the VERSION
+# file on main changes - bump the number (even from GitHub's web editor) to
+# release. Tests run first; nothing is published if they fail, and an
+# existing release for the same version is never replaced.
+#
+# It builds from the repo alone on a clean Windows machine: build_installer.py
+# makes buddy.zip and compiles installer/Buddy.iss with Inno Setup.
+
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - VERSION
+      - .github/workflows/release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # The token isn't left in .git/config for the steps that install
+          # packages and run code; only the gh steps get it (GH_TOKEN).
+          persist-credentials: false
+
+      - name: Read VERSION
+        id: version
+        shell: pwsh
+        run: |
+          $v = (Get-Content VERSION -Raw).Trim()
+          if ($v -notmatch '^\d+\.\d+\.\d+$') { throw "VERSION must look like 1.2.3 (got '$v')" }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          "Version $v"
+
+      - name: Skip if this version is already released
+        id: exists
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "v${{ steps.version.outputs.version }}" *> $null
+          if ($LASTEXITCODE -eq 0) {
+            "skip=true" >> $env:GITHUB_OUTPUT
+            "v${{ steps.version.outputs.version }} already exists - bump VERSION to release again."
+          } else {
+            "skip=false" >> $env:GITHUB_OUTPUT
+          }
+          exit 0
+
+      - uses: actions/setup-python@v5
+        if: steps.exists.outputs.skip == 'false'
+        with:
+          python-version: "3.13"
+
+      - name: Run the tests
+        if: steps.exists.outputs.skip == 'false'
+        shell: pwsh
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          python -m pip install --disable-pip-version-check --progress-bar off PySide6-Essentials cryptography pillow
+          python -m unittest discover tests -v
+
+      - name: Install Inno Setup
+        if: steps.exists.outputs.skip == 'false'
+        shell: pwsh
+        run: |
+          $iscc = @("$env:ProgramFiles\Inno Setup 7\ISCC.exe", "${env:ProgramFiles(x86)}\Inno Setup 7\ISCC.exe",
+                    "$env:ProgramFiles\Inno Setup 6\ISCC.exe", "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe") |
+                  Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) { choco install innosetup -y --no-progress }
+
+      - name: Build the installer
+        if: steps.exists.outputs.skip == 'false'
+        shell: pwsh
+        run: python build_installer.py
+
+      - name: Publish the release
+        if: steps.exists.outputs.skip == 'false'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $v = "${{ steps.version.outputs.version }}"
+          $exe = "dist/BuddySetup-$v.exe"
+          $sha = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          $notes = @"
+          **To install:** download BuddySetup-$v.exe below and double-click it. Then open DaVinci Resolve and choose Workspace > Scripts > Buddy.
+
+          Windows may say "Windows protected your PC" (the installer isn't code-signed): click More info > Run anyway. Only ever download it from this page.
+
+          SHA-256 of BuddySetup-$v.exe: ``$sha`` - to check a download, run ``Get-FileHash BuddySetup-$v.exe`` in PowerShell and compare.
+          "@
+          gh release create "v$v" $exe --title "Buddy $v" --notes $notes --generate-notes --target $env:GITHUB_SHA

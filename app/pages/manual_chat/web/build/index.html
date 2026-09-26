@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Rebuild the manual bundle</title>
+    <link rel="stylesheet" href="../../../../web/buddy.css">
+    <link rel="stylesheet" href="../../../../web/shell/shell.css">
+    <link rel="stylesheet" href="build.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../../web/buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog">
+    <div class="dialog-body">
+        <p class="modal-text">When Blackmagic publishes a new Reference Manual, download the PDF and drop it here. Buddy re-reads it and rebuilds the search index Ask Buddy answers from. A full manual takes about 8 minutes.</p>
+        <div class="drop" id="drop">
+            <b id="drop-label">Drop the Reference Manual PDF here</b>
+            <button type="button" class="btn" id="browse">Browse…</button>
+        </div>
+        <div class="set-hint" id="pdf" hidden></div>
+        <div class="checks" id="checks"></div>
+        <div class="set-hint pre" id="saves"></div>
+        <div class="bar" id="bar" hidden><i id="bar-fill"></i><span id="bar-text"></span></div>
+        <div class="build-status pre" id="status" role="status"></div>
+    </div>
+    <div class="dialog-foot">
+        <button type="button" class="btn" id="close">Close</button>
+        <button type="button" class="btn accent" id="build" disabled>Build</button>
+    </div>
+</main>
+<script src="build.js"></script>
+</body>
+</html>

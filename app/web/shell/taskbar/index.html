@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Buddy taskbar</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="chrome">
+<footer class="taskbar" id="bar">
+    <button type="button" class="btn task-start" id="programs" aria-haspopup="menu">Programs</button>
+    <div class="task-list" id="tasks" role="toolbar" aria-label="Pinned and open tools"></div>
+    <div class="task-tray">
+        <button type="button" class="orb" id="orb" hidden title="News from Buddy" aria-label="News from Buddy"></button>
+        <button type="button" class="btn ghost task-conn" id="conn"></button>
+        <button type="button" class="btn ghost icon icon-btn" id="cascade" title="Cascade windows" aria-label="Cascade windows"></button>
+        <button type="button" class="btn ghost icon icon-btn" id="tile" title="Tile windows" aria-label="Tile windows"></button>
+        <button type="button" class="btn ghost icon icon-btn" id="settings" title="Settings" aria-label="Settings"></button>
+        <span class="task-clock" id="clock"></span>
+    </div>
+</footer>
+<script src="taskbar.js"></script>
+</body>
+</html>

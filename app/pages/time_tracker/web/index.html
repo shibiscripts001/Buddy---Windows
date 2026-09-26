@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Time Tracker</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="tracker.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Time Tracker</h1>
+    </header>
+    <nav class="tabs" role="tablist" id="tabs">
+        <button type="button" role="tab" data-tab="tracker">Tracker</button>
+        <button type="button" role="tab" data-tab="this_project">This project</button>
+        <button type="button" role="tab" data-tab="history">History</button>
+        <button type="button" role="tab" data-tab="reports">Reports</button>
+    </nav>
+
+    <!-- ------------------------------------------------------ Tracker -->
+    <section class="panel" id="panel-tracker" role="tabpanel">
+        <div class="card hero" id="hero">
+            <div class="pill" id="pill"><i></i><span id="pill-text">Connecting…</span></div>
+            <div class="project" id="project">No project detected</div>
+            <div class="timer" id="timer">00:00:00</div>
+            <div class="muted hint" id="hint"></div>
+            <div class="controls">
+                <button type="button" class="btn accent big" id="start" hidden>Start tracking</button>
+                <button type="button" class="btn big" id="pause"></button>
+                <button type="button" class="btn big" id="stop" disabled></button>
+            </div>
+            <div class="so-far">
+                <div><span class="muted small">Today</span><b id="today">0m</b></div>
+                <div><span class="muted small">This week</span><b id="week">0m</b></div>
+            </div>
+            <div class="goal" id="week-goal" hidden>
+                <div class="bar"><i id="week-goal-fill"></i></div>
+                <span class="muted small" id="week-goal-text"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ------------------------------------------------- This Project -->
+    <section class="panel" id="panel-this_project" role="tabpanel" hidden>
+        <div class="list-head">
+            <span class="section-title" id="this_project-title">This project</span>
+            <span class="muted small" id="this_project-summary"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn" data-add>Add entry</button>
+            <select class="field" data-format></select>
+            <button type="button" class="btn accent" data-export>Export</button>
+        </div>
+        <div class="card list" id="this_project-list"></div>
+        <div class="selection-bar" id="this_project-bar" hidden></div>
+    </section>
+
+    <!-- ------------------------------------------------------ History -->
+    <section class="panel" id="panel-history" role="tabpanel" hidden>
+        <div class="list-head">
+            <select class="field" id="history-scope" aria-label="Which project"></select>
+            <span class="muted small" id="history-summary"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn" data-add>Add entry</button>
+            <select class="field" data-format></select>
+            <button type="button" class="btn accent" data-export>Export</button>
+        </div>
+        <div class="card list" id="history-list"></div>
+        <div class="selection-bar" id="history-bar" hidden></div>
+    </section>
+
+    <!-- ------------------------------------------------------ Reports -->
+    <section class="panel scroll" id="panel-reports" role="tabpanel" hidden>
+        <div class="list-head">
+            <span class="section-title">Reports</span>
+            <span class="muted small">Finished sessions, hidden entries left out</span>
+            <div class="spacer"></div>
+            <button type="button" class="btn" id="invoice">Generate invoice…</button>
+            <select class="field" id="report-format"></select>
+            <button type="button" class="btn accent" id="report-export">Export</button>
+        </div>
+        <div class="tiles" id="tiles"></div>
+        <div class="card box" id="goals" hidden>
+            <h3 class="section-title">Goals</h3>
+            <div id="goal-rows"></div>
+        </div>
+        <div class="report-grid">
+            <div class="card box">
+                <h3 class="section-title">Last 7 days</h3>
+                <div class="chart" id="chart"></div>
+            </div>
+            <div class="card box">
+                <h3 class="section-title">By project <span class="muted small">(all time)</span></h3>
+                <div id="projects"></div>
+            </div>
+        </div>
+        <div class="card box">
+            <h3 class="section-title">Custom range</h3>
+            <div class="row wrap">
+                <label class="lbl">From <input class="field" type="date" id="custom-from"></label>
+                <label class="lbl">To <input class="field" type="date" id="custom-to"></label>
+                <button type="button" class="btn accent" id="custom-go">Calculate</button>
+                <span class="field-error" id="custom-error"></span>
+            </div>
+            <div id="custom-result" class="muted">Pick a range and press Calculate to see its total time and earnings – it's included in Export too.</div>
+        </div>
+    </section>
+</main>
+<script src="tracker.js"></script>
+</body>
+</html>

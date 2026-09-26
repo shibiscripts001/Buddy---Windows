@@ -1,0 +1,67 @@
+/* YouTube Chapters. Theme colours only; marker colours arrive inline. */
+
+.timeline { color: var(--text-dim); font-size: var(--fs-sm); }
+.timeline b { color: var(--text-strong); }
+.timeline.bad { color: var(--danger-text); }
+.grow { flex: 1; min-width: 0; }
+
+.filter-card, .save-card { display: flex; flex-direction: column; gap: var(--card-gap); padding: var(--card-pad); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter {
+    font: inherit; display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 10px; cursor: pointer; color: var(--text);
+    background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-radius: var(--r-full);
+}
+.filter b { font-size: var(--fs-xs); color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.filter:hover { border-color: var(--text-dim); }
+.filter.on { background: var(--selection-bg); color: var(--selection-fg); border-color: var(--selection-bg); }
+.filter.on b { color: inherit; opacity: .8; }
+.filter.zero { opacity: .6; }
+.dot {
+    width: 10px; height: 10px; border-radius: 50%; flex: none;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 25%, transparent);
+}
+
+/* Never shorter than the description card needs (flex-shrink 0 over an auto
+   basis), or its rows spill out over the save card below. The chapter list
+   is size-contained, so a long list scrolls inside its card instead of
+   stretching the page. */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; flex: 1 0 auto; min-height: 300px; }
+.list-card, .text-card { display: flex; flex-direction: column; gap: var(--card-gap); padding: var(--card-pad); min-height: 0; }
+.list-card { contain: size; }
+.head { min-height: 30px; }
+.list { overflow-y: auto; display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.ch {
+    display: grid; grid-template-columns: 64px 14px minmax(0, 1fr); align-items: baseline; column-gap: 8px;
+    padding: 8px 4px; border-bottom: var(--bw) solid color-mix(in srgb, var(--card-border) 60%, transparent);
+}
+.ch .time { font: 600 var(--fs-sm)/1.4 var(--font-mono); color: var(--emphasis); }
+.ch .dot { align-self: center; }
+.ch .name { color: var(--text-strong); overflow-wrap: anywhere; }
+.ch .note { grid-column: 3; font-size: var(--fs-xs); color: var(--text-dim); }
+.ch.skipped .time, .ch.skipped .name { color: var(--text-dim); text-decoration: line-through; }
+.ch.skipped .note { color: var(--danger-text); }
+.skip-head { margin-top: 12px; padding: 4px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim); }
+
+.text { flex: 1; min-height: 200px; resize: none; font: var(--fs-md)/1.6 var(--font-mono); white-space: pre; }
+.hint { margin: 0; }
+.warn-box:empty { display: none; }
+.warn-line { display: flex; gap: 8px; align-items: center; color: var(--danger-text); font-size: var(--fs-sm); }
+.stale { font-size: var(--fs-sm); color: var(--text-dim); }
+.link-btn { font: inherit; background: none; border: 0; padding: 0; color: var(--link); cursor: pointer; text-decoration: underline; }
+
+.save-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.save-row .lbl.grow { flex: 2 1 280px; }
+.save-row .name { flex: 1 1 200px; }
+.save-row .name .field { width: 100%; }
+.actions { flex: none; }
+
+.activity summary { cursor: pointer; }
+.log { margin: 6px 0 0; padding-left: 18px; font-size: var(--fs-sm); display: flex; flex-direction: column; gap: 2px; }
+.log .error { color: var(--danger-text); }
+.log .ok { color: var(--success); }
+
+@media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .list-card { min-height: 240px; }
+}

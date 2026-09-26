@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Buddy header</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="chrome">
+<header class="shell-header" id="header">
+    <span class="shell-title">Buddy</span>
+    <button type="button" class="orb" id="orb" hidden title="News from Buddy" aria-label="News from Buddy"></button>
+    <div class="spacer"></div>
+    <span class="status" id="status" role="status"></span>
+    <button type="button" class="btn" id="connect" data-action="reconnect">Connect</button>
+    <select class="field" id="side" hidden title="The tool shown on the right" aria-label="The tool shown on the right"></select>
+    <button type="button" class="btn ghost icon icon-btn" id="split" aria-pressed="false"
+            title="Dual view: run a second tool beside this one" aria-label="Dual view"></button>
+    <button type="button" class="btn ghost icon icon-btn" id="settings" title="Settings" aria-label="Settings"></button>
+</header>
+<script src="header.js"></script>
+</body>
+</html>

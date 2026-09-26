@@ -1,0 +1,9 @@
+/* Resolve: the shell as Resolve's own page bar (core/web_theme.py
+   _resolve has the greys). */
+
+html[data-family="resolve"] .shell-header { min-height: 52px; padding: 8px 14px; }
+
+/* No box round the current page - a red marker down its left edge. */
+html[data-family="resolve"] .nav-item { border: 0; border-left: 2px solid transparent; }
+html[data-family="resolve"] .nav-item[aria-current="page"] { border-left-color: var(--nav-marker); }
+html[data-family="resolve"] .nav-heading { letter-spacing: .5px; }

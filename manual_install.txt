@@ -1,0 +1,139 @@
+Installing Buddy without the installer
+======================================
+
+The installer (BuddySetup-x.y.z.exe on the Releases page) is the easy way:
+it does everything below for you. Use these steps if you'd rather not run
+it, or want to see exactly what goes where.
+
+Buddy is two files - Buddy.py and buddy.zip - that DaVinci Resolve runs
+with Python. So a manual install is: have Python, give it Buddy's
+packages, and put the two files where Resolve looks for scripts.
+
+Windows 10 or 11 and DaVinci Resolve (free or Studio). Windows only for now.
+
+
+1. Python 3.10 or newer
+-----------------------
+
+Resolve runs scripts with the Python that Windows' "py" launcher finds.
+Open Command Prompt and check:
+
+    py -3 --version
+
+If that prints Python 3.10 or newer, go on to step 2.
+
+If it says 'py' isn't recognised, or shows an older version, install
+Python from https://www.python.org/downloads/windows/ - the 64-bit
+"Windows installer". Python 3.13 is what the Buddy installer uses. Keep
+"Install py launcher" ticked (it is by default), then close and reopen
+Command Prompt and run the check again.
+
+
+2. Buddy's packages
+-------------------
+
+In Command Prompt, run this one line. It installs into the same Python
+Resolve will use, and takes a few minutes (about 300 MB, mostly PySide6):
+
+    py -3 -m pip install "PySide6>=6.8,<7" pillow numpy openpyxl pynput pymupdf pymupdf4llm cryptography
+
+(From a copy of the source you can run the equivalent
+"py -3 -m pip install -r installer\requirements.txt" instead - it's the
+same list the installer uses.)
+
+What each one is for - Buddy starts without the optional ones, and only
+the feature that needs one is switched off, with a message saying what to
+install:
+
+    PySide6         required - Buddy's window. Install the full "PySide6",
+                    not only "PySide6-Essentials": Buddy Network needs its
+                    WebSockets part, and Asset Manager's previews its
+                    multimedia part.
+    cryptography    Buddy Network (its direct messages are end-to-end
+                    encrypted)
+    pillow          Color Palette: extracting colours from images
+    pynput          Color Palette: the screen colour dropper
+    numpy           Project Setup: syncing audio
+    openpyxl        Time Tracker: Excel export
+    pymupdf,
+    pymupdf4llm     Ask Buddy: building manuals from PDFs
+
+Transcribe isn't in this list: it downloads its own engine and models from
+inside Buddy (Transcribe > "Set up..."), installer or not.
+
+
+3. Buddy.py and buddy.zip
+-------------------------
+
+From a copy of this repository (Code > Download ZIP on GitHub, then
+unzip it), open Command Prompt in its folder and run:
+
+    py -3 build_buddy_zip.py
+
+That makes buddy.zip in the same folder. Buddy.py is already there.
+
+Shortcut: "py -3 build_buddy_zip.py --deploy" also does step 4 for you.
+
+
+4. Put them where Resolve looks for scripts
+-------------------------------------------
+
+Copy Buddy.py and buddy.zip, side by side, into:
+
+    %APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Scripts\Utility
+
+(Paste that line into File Explorer's address bar. If the Utility folder
+doesn't exist yet, create it.) Don't unzip buddy.zip - Buddy.py runs it as
+it is.
+
+
+5. Start Buddy
+--------------
+
+Restart DaVinci Resolve, then choose Workspace > Scripts > Buddy.
+
+That's all of Buddy, Buddy Network included. Once it's open, Buddy can
+also start itself whenever Resolve starts: Settings > Window > "Start
+Buddy automatically when Resolve starts".
+
+
+Updating
+--------
+
+Build or download the new buddy.zip and Buddy.py and replace both files
+in the Utility folder, then relaunch Buddy (quit it from the system tray
+first if it's running). If a new version needs a new package, its release
+notes say so - run the step 2 line again.
+
+
+Uninstalling
+------------
+
+1. If you turned on "Start Buddy automatically when Resolve starts",
+   turn it off first (Settings > Window) - that removes the small helper
+   that watches for Resolve.
+2. Quit Buddy from the system tray.
+3. Delete Buddy.py and buddy.zip from the Utility folder above.
+
+Buddy's settings and downloaded models stay in %USERPROFILE%\.buddy, and
+your Buddy Network identity and keys in %USERPROFILE%\.buddy_network.
+Delete those folders too if you want everything gone - but deleting
+.buddy_network loses your Buddy Network account for good unless you saved
+its recovery code (Buddy Network > Account) or a transfer file first.
+
+Python and its packages are left alone; other programs may use them.
+
+
+If something goes wrong
+-----------------------
+
+"PySide6 is not installed for the Python interpreter DaVinci Resolve is
+using to run this script" - the message shows that Python's full path and the exact command
+to run. Run it, with that path, in Command Prompt. (This happens when a PC
+has more than one Python and packages went into a different one.)
+
+Nothing under Workspace > Scripts - check both files are directly in the
+Utility folder (not in a subfolder), and restart Resolve.
+
+A feature says a package is missing - run the step 2 line again; it only
+adds what isn't there yet.

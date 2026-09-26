@@ -1,0 +1,311 @@
+/*
+ * Project Setup's view. The bin list is typed here and reported to Python
+ * as it changes; everything else - the tree preview, the folder's
+ * contents, what's open in Resolve, jobs and their logs - comes from
+ * page.py, which makes every decision.
+ */
+"use strict";
+
+const $ = id => document.getElementById(id);
+const {el, icon, send} = Buddy;
+
+let state = {tab: "bins", connected: false, busy: false};
+let help = {};
+let sync = null;
+let imp = null;
+let pop = null;
+let binRows = [];
+let job = null;
+
+const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}`;
+
+// ----------------------------------------------------------------- tabs
+
+function showTab(tab) {
+    for (const b of document.querySelectorAll(".tabs [data-tab]")) {
+        b.setAttribute("aria-selected", String(b.dataset.tab === tab));
+    }
+    for (const panel of document.querySelectorAll(".panel")) {
+        panel.hidden = panel.id !== `panel-${tab}`;
+    }
+}
+
+for (const b of document.querySelectorAll(".tabs [data-tab]")) {
+    b.onclick = () => { state.tab = b.dataset.tab; showTab(state.tab); send("tab", {tab: state.tab}); };
+}
+
+// Buttons that act on Resolve say so with data-action; all of them are off
+// while something is running.
+for (const b of document.querySelectorAll("[data-action]")) {
+    b.addEventListener("click", () => send(b.dataset.action));
+}
+for (const b of document.querySelectorAll("[data-help]")) {
+    b.onclick = () => Buddy.modal({
+        title: b.textContent.trim() === "Info" ? "Import folder" : b.textContent.trim(),
+        body: el("p.modal-text", {text: help[b.dataset.help] || ""}),
+        buttons: [{label: "Got it", kind: "accent"}],
+        wide: true,
+    });
+}
+
+function applyEnabled() {
+    // Each tab's own rules, then "nothing while busy" over the top.
+    $("create-bins").disabled = !binRows.length;
+    $("import-go").disabled = !(imp && imp.folder);
+    $("pop-go").disabled = !(pop && pop.connected && pop.bin && pop.count);
+    const noTimeline = !(sync && sync.connected && sync.timeline && !sync.error);
+    for (const b of document.querySelectorAll("[data-needs-timeline]")) {
+        b.disabled = noTimeline || (b.hasAttribute("data-needs-ffmpeg") && !sync.ffmpeg);
+    }
+    if (state.busy) {
+        for (const b of document.querySelectorAll("[data-action], #choose-folder, #rescan, #bins-reset")) {
+            b.disabled = true;
+        }
+    } else {
+        $("choose-folder").disabled = $("rescan").disabled = $("bins-reset").disabled = false;
+        for (const b of document.querySelectorAll("[data-action='connect'], [data-action='refresh']")) b.disabled = false;
+    }
+}
+
+Buddy.on("state", s => {
+    state = s;
+    showTab(s.tab);
+    applyEnabled();
+});
+
+Buddy.on("help", h => { help = h; });
+Buddy.on("alert", a => Buddy.modal({
+    title: a.title, body: el("p.modal-text", {text: a.text}), buttons: [{label: "OK", kind: "accent"}],
+}));
+Buddy.on("toast", t => Buddy.toast(t.text, 3000));
+
+// ----------------------------------------------------------------- bins
+
+const binText = $("bin-text");
+let binTimer = 0;
+binText.addEventListener("input", () => {
+    clearTimeout(binTimer);
+    binTimer = setTimeout(() => send("bins_text", {text: binText.value}), 120);
+});
+binText.addEventListener("keydown", e => {
+    // Tab indents with '>' rather than leaving the box: that's what nesting is.
+    if (e.key !== "Tab") return;
+    e.preventDefault();
+    const start = binText.value.lastIndexOf("\n", binText.selectionStart - 1) + 1;
+    const pos = binText.selectionStart;
+    if (e.shiftKey) {
+        if (binText.value[start] === ">") {
+            binText.setRangeText("", start, start + 1, "preserve");
+            binText.selectionStart = binText.selectionEnd = Math.max(start, pos - 1);
+        }
+    } else {
+        binText.setRangeText(">", start, start, "preserve");
+        binText.selectionStart = binText.selectionEnd = pos + 1;
+    }
+    binText.dispatchEvent(new Event("input"));
+});
+$("bins-reset").onclick = async () => {
+    if (await Buddy.confirm({title: "Reset the bin list?", text: "This puts back the starter list and replaces what you've typed.", ok: "Reset"})) {
+        send("bins_reset");
+    }
+};
+
+Buddy.on("bins_text", d => { binText.value = d.text; });
+
+Buddy.on("bins", d => {
+    binRows = d.rows;
+    const tree = $("bin-tree");
+    if (!d.rows.length) {
+        tree.replaceChildren(el("div.empty", {}, [
+            el("div.strong", {text: "No bins yet"}),
+            el("div.small", {text: "Type a name on each line to see the bins here."}),
+        ]));
+    } else {
+        tree.replaceChildren(...d.rows.map(r => el(
+            `div.tree-row${r.depth ? ".nested" : ".top"}${r.adjusted ? ".adjusted" : ""}`,
+            {style: `--depth: ${r.depth}`, title: r.adjusted
+                ? `Written with ${r.typed} '>' but there's no bin that deep above it, so it goes ${r.depth ? "inside the bin above" : "at the top"}.`
+                : undefined},
+            [icon("folder"), el("span.name", {text: r.name}),
+             r.adjusted ? el("span.chip.small", {text: "moved up"}) : null],
+        )));
+    }
+    const n = d.rows.length;
+    $("bins-summary").textContent = n ? plural(n, "bin") + (d.adjusted ? ` · ${d.adjusted} moved up a level` : "") : "";
+    $("create-bins").textContent = n ? `Create ${plural(n, "bin")}` : "Create bins";
+    applyEnabled();
+});
+
+// --------------------------------------------------------------- import
+
+$("import-badge").append(icon("folder"));
+$("rescan").append(icon("refresh"));
+$("choose-folder").onclick = () => send("choose_folder");
+$("rescan").onclick = () => send("rescan");
+for (const b of document.querySelectorAll("#dest [data-master]")) {
+    b.onclick = () => send("to_master", {on: b.dataset.master === "true"});
+}
+
+function stat(n, label) {
+    return el(`div.stat${n ? "" : ".zero"}`, {}, [el("b", {text: n.toLocaleString()}), el("span.muted.small", {text: label})]);
+}
+
+Buddy.on("import", d => {
+    imp = d;
+    const name = $("import-name");
+    name.textContent = d.folder ? d.name : "No folder chosen";
+    name.classList.toggle("none", !d.folder);
+    const path = $("import-path");
+    path.replaceChildren(d.folder ? el("bdi", {text: d.folder}) : "Choose the folder you want to import.");
+    path.title = d.folder || "";
+    $("rescan").hidden = !d.folder;
+    $("choose-folder").textContent = d.folder ? "Change…" : "Choose folder…";
+
+    const stats = $("import-stats");
+    const s = d.summary;
+    if (!s) {
+        stats.replaceChildren();
+    } else {
+        const parts = [stat(s.video, "video"), stat(s.audio, "audio")];
+        if (s.sequence) parts.push(stat(s.sequence, s.sequence === 1 ? "image sequence" : "image sequences"));
+        parts.push(stat(s.image, s.image === 1 ? "still" : "stills"), stat(s.folders, s.folders === 1 ? "subfolder" : "subfolders"));
+        const notes = [];
+        if (s.skipped) notes.push(`${plural(s.skipped, "other file")} will be skipped`);
+        if (s.partial) notes.push("big folder – counted the first part only");
+        if (notes.length) parts.push(el("span.muted.small.stats-note", {text: notes.join(" · ")}));
+        stats.replaceChildren(...parts);
+    }
+
+    for (const b of document.querySelectorAll("#dest [data-master]")) {
+        b.setAttribute("aria-pressed", String((b.dataset.master === "true") === d.to_master));
+    }
+    const binName = d.folder ? `"${d.name}"` : "The folder's bin";
+    const dest = $("dest-text");
+    if (d.to_master) {
+        dest.replaceChildren(`${binName} is created at the top of the Media Pool.`);
+    } else if (d.destination) {
+        dest.replaceChildren(`${binName} is created inside `, el("b", {text: d.destination}),
+            d.destination === "Master" ? " (the top of the Media Pool)." : ", the bin open in Resolve.");
+    } else {
+        dest.replaceChildren(`${binName} is created inside whichever bin is open in Resolve's Media Pool.`);
+    }
+
+    const go = $("import-go");
+    go.textContent = s && !s.partial && s.items ? `Import ${plural(s.items, "clip")}` : "Import";
+    applyEnabled();
+});
+
+// ------------------------------------------------------------- populate
+
+$("flow").querySelector(".flow-arrow").append(icon("arrow"));
+$("pop-recursive").onchange = e => send("populate_recursive", {on: e.target.checked});
+
+Buddy.on("populate", d => {
+    pop = d;
+    $("pop-recursive").checked = d.recursive;
+    const bin = $("pop-bin");
+    const tl = $("pop-timeline");
+    const note = $("pop-timeline-note");
+    if (!d.connected) {
+        bin.textContent = "-"; tl.textContent = "-";
+        $("pop-count").textContent = "Connect to Resolve to see the open bin.";
+        note.textContent = "";
+    } else {
+        bin.textContent = d.bin || "No bin open";
+        bin.classList.toggle("none", !d.bin);
+        $("pop-count").textContent = d.count === null || d.count === undefined ? "" :
+            d.count ? `${plural(d.count, "clip")} will be added` : "No media clips in this bin";
+        if (d.timeline) {
+            tl.textContent = d.timeline;
+            tl.classList.remove("none");
+            note.textContent = "Added to the end of the open timeline.";
+        } else {
+            tl.textContent = d.bin ? `New timeline "${d.bin}"` : "A new timeline";
+            tl.classList.add("none");
+            note.textContent = "No timeline is open, so one is made from the clips.";
+        }
+    }
+    $("pop-error").textContent = d.error || "";
+    $("pop-go").textContent = d.count ? `Add ${plural(d.count, "clip")} to the timeline` : "Add to timeline";
+    applyEnabled();
+});
+
+// ----------------------------------------------------------------- sync
+
+$("tl-refresh").append(icon("refresh"));
+for (const b of document.querySelectorAll("#method [data-method]")) {
+    b.onclick = () => send("sync_option", {key: "method", value: b.dataset.method});
+}
+$("sync-audio").onchange = e => send("sync_option", {key: "sync_audio", value: e.target.checked});
+$("delete-silent").onchange = e => send("sync_option", {key: "delete_silent", value: e.target.checked});
+$("close-gaps").onchange = e => send("sync_option", {key: "close_gaps", value: e.target.checked});
+$("steps-toggle").onclick = () => send("sync_option", {key: "steps_open", value: $("steps").hidden});
+$("job-cancel").onclick = () => send("cancel_job");
+
+Buddy.on("sync", d => {
+    sync = d;
+    const name = $("tl-name");
+    const summary = $("tl-summary");
+    if (!d.connected) {
+        name.textContent = "Not connected";
+        summary.textContent = "Connect to Resolve to sync the open timeline.";
+    } else if (d.error) {
+        name.textContent = d.timeline || "No timeline open";
+        summary.textContent = d.error;
+    } else if (d.timeline) {
+        name.textContent = d.timeline;
+        const s = d.summary;
+        summary.textContent = s ? [plural(s.clips, "clip"), `${s.video} with picture`, `${s.audio_only} audio only`].join(" · ") : "";
+    } else {
+        name.textContent = "No timeline open";
+        summary.textContent = "";
+    }
+    name.classList.toggle("none", !(d.connected && d.timeline && !d.error));
+
+    for (const b of document.querySelectorAll("#method [data-method]")) {
+        b.setAttribute("aria-pressed", String(b.dataset.method === d.method));
+    }
+    $("sync-audio").checked = d.sync_audio;
+    $("sync-audio-box").hidden = d.method === "waveform";   // Waveform already places every clip by audio
+    $("delete-silent").checked = d.delete_silent;
+    $("close-gaps").checked = d.close_gaps;
+    $("steps").hidden = !d.steps_open;
+    $("steps-toggle").setAttribute("aria-expanded", String(!!d.steps_open));
+
+    const needsFfmpeg = d.method === "waveform" || d.sync_audio;
+    const note = $("ffmpeg-note");
+    note.hidden = d.ffmpeg || !needsFfmpeg;
+    note.textContent = d.method === "waveform"
+        ? "Waveform sync needs ffmpeg, and Buddy can't find it. Install it, or set its path in Settings."
+        : "Buddy can't find ffmpeg, so loose audio won't be placed. Install it, or set its path in Settings.";
+    applyEnabled();
+});
+
+Buddy.on("job", j => {
+    job = j;
+    const box = $("job");
+    box.hidden = !j;
+    if (!j) return;
+    $("job-label").textContent = j.label;
+    const counted = j.total > 1;
+    const step = Math.min(j.done + 1, j.total);
+    $("job-bar").style.width = counted ? `${(step / j.total) * 100}%` : "";
+    $("job-bar").parentElement.classList.toggle("indeterminate", !counted);
+    $("job-stage").textContent = j.stage ? (counted ? `${j.stage} (${step} of ${j.total})` : `${j.stage}…`) : "";
+    $("job-cancel").hidden = j.action === "finish";
+    $("job-cancel").disabled = j.stage === "Stopping";
+});
+
+// ------------------------------------------------------------- activity
+
+Buddy.on("log", d => {
+    const box = document.querySelector(`[data-log="${d.tab}"]`);
+    if (!box) return;
+    const had = box.querySelectorAll(".log li").length;
+    box.hidden = !d.entries.length;
+    box.querySelector(".log").replaceChildren(...d.entries.slice().reverse().map(e =>
+        el(`li.k-${e.kind}`, {}, [el("span.time", {text: e.time}), e.text])));
+    if (d.entries.length > had) box.open = true;
+});
+
+showTab(state.tab);

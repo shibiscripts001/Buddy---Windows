@@ -1,0 +1,2 @@
+# The Buddy Network server only - not Buddy itself (see installer/requirements.txt).
+websockets>=13

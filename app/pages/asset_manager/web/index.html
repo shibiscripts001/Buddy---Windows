@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Asset Manager</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="assets.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Asset Manager</h1>
+        <nav class="tabs views" role="tablist">
+            <button type="button" role="tab" data-view="all">All media</button>
+            <button type="button" role="tab" data-view="folders">By folder</button>
+            <button type="button" role="tab" data-view="projects">Projects</button>
+        </nav>
+    </header>
+
+    <div class="body">
+        <section class="card library" id="library">
+            <div class="toolbar" id="toolbar-all">
+                <div class="segmented" id="categories" role="group" aria-label="Type"></div>
+                <input class="field search" id="search" type="search" placeholder="Search names" autocomplete="off" spellcheck="false">
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-action="add_files">Add files…</button>
+                <button type="button" class="btn ghost" data-action="add_folder">Add folder…</button>
+            </div>
+            <div class="toolbar" id="toolbar-folders" hidden>
+                <span class="muted small">Every asset, grouped by the folder it's in.</span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="expand-all">Expand all</button>
+                <button type="button" class="btn ghost" id="collapse-all">Collapse all</button>
+                <button type="button" class="btn ghost" data-action="add_folder">Add folder…</button>
+            </div>
+            <div class="toolbar" id="toolbar-projects" hidden>
+                <select class="field project-select" id="project-select" aria-label="Project"></select>
+                <button type="button" class="btn ghost" id="rename-project">Rename</button>
+                <button type="button" class="btn ghost" id="delete-project">Delete</button>
+                <button type="button" class="btn ghost" id="new-project">New project</button>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="add-existing">Add from library…</button>
+                <button type="button" class="btn ghost" data-action="add_files">Add files…</button>
+                <button type="button" class="btn ghost" data-action="add_folder">Add folder…</button>
+            </div>
+            <div class="list" id="list" tabindex="0"></div>
+            <div class="list-foot">
+                <span class="muted small" id="list-summary"></span>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost icon" data-action="refresh" id="refresh" title="Check every file again"></button>
+            </div>
+            <div class="drop-veil" id="drop-veil" hidden><span>Drop to add</span></div>
+        </section>
+
+        <aside class="card preview" id="preview">
+            <div class="stage" id="stage"></div>
+            <div class="transport" id="transport" hidden>
+                <button type="button" class="btn icon play" id="play" title="Play / pause (Space)"></button>
+                <input type="range" class="scrub" id="scrub" min="0" max="1000" value="0" aria-label="Position">
+                <span class="time small" id="time"></span>
+            </div>
+            <div class="info" id="info"></div>
+            <div class="volume" id="volume-row" hidden>
+                <span class="muted small">Volume</span>
+                <input type="range" id="volume" min="0" max="100" value="100" aria-label="Volume">
+            </div>
+            <div class="preview-actions" id="preview-actions"></div>
+        </aside>
+    </div>
+
+    <footer class="row footer">
+        <span class="muted small" id="selection">Click an asset to preview it. Ctrl or Shift for several.</span>
+        <div class="spacer"></div>
+        <button type="button" class="btn danger" id="remove" disabled>Remove</button>
+        <button type="button" class="btn accent" id="import" disabled>Import to Media Pool</button>
+    </footer>
+
+    <details class="activity" id="activity" hidden>
+        <summary class="muted small">Activity</summary>
+        <ol class="log" id="log"></ol>
+    </details>
+</main>
+<script src="assets.js"></script>
+</body>
+</html>

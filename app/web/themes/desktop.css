@@ -1,0 +1,33 @@
+/* Desktop: ink-outlined paper to match its floating windows (core/
+   desktop_window.py draws those; core/web_theme.py _desktop has the
+   colours). Buttons sit on a hard shadow and press down into it. */
+
+html[data-family="desktop"] :is(.btn:not(.ghost), .segmented) { box-shadow: var(--btn-shadow); }
+html[data-family="desktop"] .btn:not(.ghost):active:not(:disabled) { transform: translate(2px, 2px); box-shadow: none; }
+html[data-family="desktop"] .btn:disabled { box-shadow: none; }
+html[data-family="desktop"] .btn.accent:not(:disabled) { box-shadow: var(--btn-shadow); }
+/* Focus: the field's own outline lights up in the accent - a halo round
+   it read as a second, muddy border on the dark palettes. */
+html[data-family="desktop"] .field:focus { border-color: var(--accent-text); box-shadow: none; }
+
+html[data-family="desktop"] :is(.page-title, .section-title, .modal-title, .dialog-title, .set-title) { font-weight: 800; }
+
+/* Browser-style tabs: the chosen one is a coloured tab on the line. */
+html[data-family="desktop"] .tabs button[aria-selected="true"] {
+    border: var(--bw) solid var(--card-border);
+    border-bottom-color: var(--tab-active-bg);
+    border-radius: var(--r-md) var(--r-md) 0 0;
+}
+
+/* Halftone where a page waits for something to be dropped on it. */
+html[data-family="desktop"] :is(.dropzone, .drop-hint) {
+    background: radial-gradient(var(--halftone) 1.2px, transparent 1.6px) 0 0 / 10px 10px;
+}
+
+/* The taskbar (the desktop layout's header and rail in one): halftone,
+and the Programs button in the first window colour. */
+html[data-family="desktop"] .taskbar {
+    background: radial-gradient(var(--halftone) 1.2px, transparent 1.6px) 0 0 / 9px 9px, var(--header-bg);
+}
+html[data-family="desktop"] .task-start { background: var(--chrome-title-bg); color: var(--accent-fg); }
+html[data-family="desktop"] .task[aria-pressed="true"] { box-shadow: var(--btn-shadow); }
