@@ -62,6 +62,41 @@ class CrashLogTests(unittest.TestCase):
         self.assertTrue(text.startswith("[older entries trimmed]\n"))
         self.assertIn("newest line", text)
 
+    def test_the_trail_is_a_no_op_until_enabled(self):
+        crash_log.trail("emit", "nothing is open yet")   # must not raise
+
+    def test_the_trail_writes_each_event_straight_through(self):
+        trail = os.path.join(self.dir.name, "crash_trail.log")
+        self.addCleanup(self._close_trail)
+        self.assertTrue(crash_log.enable_trail(trail))
+        crash_log.trail("emit", "buddy_network state 1200B")
+        crash_log.trail("action", "buddy_network send")
+        # No flush: a native crash gives no chance to, so the lines must
+        # already be on their way to disk.
+        with open(trail, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+        self.assertIn("--- started", lines[1])
+        self.assertTrue(lines[-2].endswith("emit     buddy_network state 1200B"), lines[-2])
+        self.assertTrue(lines[-1].endswith("action   buddy_network send"), lines[-1])
+
+    def test_the_trail_rolls_over_when_big(self):
+        trail = os.path.join(self.dir.name, "crash_trail.log")
+        self.addCleanup(self._close_trail)
+        crash_log.enable_trail(trail)
+        big = "x" * 1000
+        for _ in range(crash_log.TRAIL_BYTES // 1000 + 5):
+            crash_log.trail("emit", big)
+        self.assertTrue(os.path.exists(trail + ".1"))
+        self.assertLess(os.path.getsize(trail), crash_log.TRAIL_BYTES)
+        crash_log.trail("emit", "after the roll")
+        with open(trail, encoding="utf-8") as f:
+            self.assertIn("after the roll", f.read())
+
+    def _close_trail(self):
+        if crash_log._trail:
+            crash_log._trail.close()
+        crash_log._trail = None
+
     def test_an_unwritable_place_is_not_fatal(self):
         blocker = os.path.join(self.dir.name, "file")
         with open(blocker, "w"):

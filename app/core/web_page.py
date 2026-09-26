@@ -40,6 +40,7 @@ Set BUDDY_WEB_DEBUG=1 to get Chromium DevTools at http://localhost:9223.
 import json
 import os
 import sys
+import weakref
 
 from PySide6.QtCore import QEvent, QEventLoop, QObject, Qt, QTimer, QUrl, Signal, Slot
 from PySide6.QtGui import QColor, QDesktopServices
@@ -52,6 +53,7 @@ from PySide6.QtWebChannel import QWebChannel
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile, QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
+from core import crash_log
 from core.web_theme import web_theme
 from pages.base import ToolPage
 
@@ -91,6 +93,18 @@ def _shared_profile():
     return _profile
 
 
+def view_label(home_url):
+    """A short name for a view in the crash trail, from its page's folder:
+    pages/buddy_network/web/index.html -> "buddy_network",
+    web/shell/header/index.html -> "shell/header"."""
+    parts = home_url.toLocalFile().replace("\\", "/").split("/")
+    if "web" not in parts:
+        return parts[-1]
+    i = len(parts) - 1 - parts[::-1].index("web")
+    after = parts[i + 1:-1]
+    return "/".join(after if parts[i - 1] == "app" else [parts[i - 1], *after]) or parts[-1]
+
+
 class _Page(QWebEnginePage):
     """Keeps the view on its own file: links to the web open in the user's
     browser, everything else is refused."""
@@ -98,6 +112,7 @@ class _Page(QWebEnginePage):
     def __init__(self, home_url, parent):
         super().__init__(_shared_profile(), parent)
         self._home = home_url
+        self.label = view_label(home_url)
 
     def acceptNavigationRequest(self, url, nav_type, is_main_frame):
         if url.scheme() in EXTERNAL_SCHEMES:
@@ -114,6 +129,7 @@ class _Page(QWebEnginePage):
     def javaScriptConsoleMessage(self, level, message, line, source):
         if level != QWebEnginePage.InfoMessageLevel or os.environ.get("BUDDY_WEB_DEBUG"):
             where = os.path.basename(QUrl(source).path()) or source
+            crash_log.trail("console", f"{self.label} {where}:{line} {message[:160]}")
             print(f"[web {where}:{line}] {message}", file=sys.stderr)
 
 
@@ -125,12 +141,21 @@ class _Bridge(QObject):
     event = Signal(str, str)
 
     def __init__(self, page):
-        super().__init__()
-        self._page = page
+        # A child of the view's widget, so Qt destroys it with the window
+        # (on the GUI thread) rather than leaving Python to.
+        super().__init__(page)
+        # Weak: the page holds this bridge, and a strong reference back made
+        # the pair a reference cycle - a closed dialog's whole web view then
+        # waited for Python's cycle collector, which destroyed it on
+        # whatever thread it ran in. Chromium can't take that (Buddy
+        # crashed in QtWebEngine). Now it goes when the dialog does.
+        self._page = weakref.ref(page)
 
     @Slot()
     def ready(self):
-        self._page._js_ready()
+        page = self._page()
+        if page is not None:
+            page._js_ready()
 
     @Slot(str, str)
     def send(self, name, payload):
@@ -138,8 +163,12 @@ class _Bridge(QObject):
             data = json.loads(payload) if payload else None
         except ValueError:
             data = None
+        page = self._page()
+        if page is None:
+            return
         # Next turn of the event loop, never inside QWebChannel's handler.
-        QTimer.singleShot(0, lambda: self._page._dispatch(name, data))
+        page_ref = self._page
+        QTimer.singleShot(0, lambda: (p := page_ref()) is not None and p._dispatch(name, data))
 
 
 class _FileDropFilter(QObject):
@@ -263,6 +292,7 @@ class WebSurface:
 
     def emit(self, name, payload=None):
         message = (name, json.dumps(payload))
+        crash_log.trail("emit", f"{self._trail_label()} {name} {len(message[1])}B{'' if self._ready else ' (queued)'}")
         if self._ready:
             self._bridge.event.emit(*message)
         else:
@@ -279,7 +309,12 @@ class WebSurface:
         theme["common"] = QUrl.fromLocalFile(WEB_COMMON_DIR + os.sep).toString()
         self.emit("theme", theme)
 
+    def _trail_label(self):
+        view = getattr(self, "view", None)
+        return getattr(view.page(), "label", type(self).__name__) if view is not None else type(self).__name__
+
     def _on_load_started(self):
+        crash_log.trail("load", self._trail_label())
         self._ready = False
         self._queue = []
 
@@ -296,6 +331,7 @@ class WebSurface:
         """The page has its theme and state (see _ReadyToShow)."""
 
     def _dispatch(self, name, data):
+        crash_log.trail("action", f"{self._trail_label()} {name}")
         handler = getattr(self, f"on_{name}", None)
         if handler is None or not name.isidentifier():
             print(f"[web] {type(self).__name__} has no handler for {name!r}", file=sys.stderr)
@@ -303,6 +339,7 @@ class WebSurface:
         handler(data)
 
     def _on_renderer_died(self, _status, _code):
+        crash_log.trail("renderer", f"{self._trail_label()} died (status {_status}, exit {_code})")
         # The Chromium renderer is a separate process; if it dies the view
         # goes blank. Reloading brings it back, and web_ready() redraws
         # everything from the Python-side state.

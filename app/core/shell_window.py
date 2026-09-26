@@ -49,6 +49,7 @@ from core.resolve_bridge import (
 from core.busy_overlay import BusyOverlay
 from core.desk_web import DeskMenu, TaskbarView
 from core.desktop_window import DesktopArea
+from core import crash_log
 from core.settings_dialog import SettingsDialog
 from core.shell_web import HeaderView, RailView
 from core.message_dialog import alert
@@ -1058,6 +1059,7 @@ class ShellWindow(QMainWindow):
         self.move(x, y)
 
     def switch_tool(self, tool_id):
+        crash_log.trail("shown", tool_id)
         if self._layout == "desktop":
             # Open its window, bring it back from minimised, or to the front.
             self._current_tool_id = tool_id
@@ -1129,6 +1131,10 @@ class ShellWindow(QMainWindow):
                         else self.stack.currentWidget())
         dialog = SettingsDialog(self, self.shared_settings, self._on_settings_applied, current_page)
         dialog.exec()
+        # A child of this window, so nothing else would ever free it: each
+        # opening left a hidden Settings web view (and renderer) behind.
+        # deleteLater: destroyed from the event loop, on this thread.
+        dialog.deleteLater()
 
     def _on_settings_applied(self):
         self.apply_theme()

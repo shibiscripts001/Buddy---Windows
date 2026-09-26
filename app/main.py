@@ -22,7 +22,7 @@ import sys
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication
 
-from core import crash_log, startup_manager
+from core import crash_log, gui_gc, startup_manager
 from core.settings_store import BUDDY_DIR
 from core.shell_window import ShellWindow
 from core.single_instance import notify_existing_instance, SingleInstanceServer
@@ -34,6 +34,7 @@ def main(start_hidden=False):
     # Resolve's script host leaves no traceback) says what Python was doing.
     crash_log.enable(os.path.join(BUDDY_DIR, "crash.log"),
                      version=f"from {os.path.dirname(os.path.abspath(__file__))}")
+    crash_log.enable_trail(os.path.join(BUDDY_DIR, "crash_trail.log"))
 
     # Keeps an already-enabled watcher's deployed copy in sync with
     # whatever version of Buddy is currently installed - cheap, and a
@@ -44,6 +45,9 @@ def main(start_hidden=False):
     # QtWebEngine needs this set before the QApplication exists.
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
+    # Cyclic garbage is freed on this thread only, never inside a worker
+    # where a web view's destruction crashes QtWebEngine (core/gui_gc.py).
+    gui_gc.install(app)
     # The tray icon is the app's actual "still running" signal once the
     # window is closed/hidden - without this, Qt would quit the whole app
     # the moment the (now only) top-level window goes away, defeating the
