@@ -70,12 +70,15 @@ class ColorPickerTests(unittest.TestCase):
         return out.get("r")
 
     def test_a_swatch_opens_the_picker_inside_the_window(self):
-        for _ in range(100):   # until the form has drawn
-            if self._js("document.querySelectorAll('.set-color:not(:disabled)').length"):
+        # Until the form has drawn and the window has its real size - on a
+        # slow machine the page can still be a sliver when the swatches appear.
+        for _ in range(300):
+            if self._js("document.querySelectorAll('.set-color:not(:disabled)').length > 0"
+                        " && innerHeight >= 600"):
                 break
             _wait(100)
         else:
-            self.fail("Settings never drew its colour swatches")
+            self.fail("Settings never drew its colour swatches at full size")
         self._js("document.querySelector('.set-color').click()")
         box = json.loads(self._js("""(() => {
             const p = document.querySelector('#picker'), r = p.getBoundingClientRect();
