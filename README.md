@@ -23,13 +23,8 @@ All 13 tools are working (12 ported, plus the new Transcribe):
 - SVG Importer
 - Text Animator
 - Time Tracker
-- Transcribe (new - not ported from a standalone tool)
+- Transcribe (Translate included)
 - YouTube Chapters
-
-A tool that has not been ported yet shows a "not yet integrated" placeholder
-page; the chat agent knows which tools are real and will not offer one that
-isn't. The sidebar can be reordered, and tools hidden, from Settings > Window >
-Organize sidebar.
 
 ## Background behavior (Time Tracker)
 
