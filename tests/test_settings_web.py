@@ -4,6 +4,8 @@ edits (core/nav_layout.py), the write-consent check and the announcements
 list. Tools' sections run against stand-in pages with in-memory settings -
 never the real settings files, never the real clipboard or registry."""
 
+import os
+import tempfile
 import unittest
 from unittest import mock
 
@@ -261,6 +263,8 @@ class ToolSectionTests(unittest.TestCase):
         from pages.manual_chat.settings_panel import ChatSettingsMixin
 
         class Page(ChatSettingsMixin):
+            ask_folder = os.path.join(tempfile.mkdtemp(), "ask_buddy")   # never the real ~/.buddy
+
             def __init__(self):
                 self.settings = Mem(provider="gemini")
                 self.revoked = self.trimmed = 0

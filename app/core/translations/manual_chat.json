@@ -1659,5 +1659,95 @@
   "中文": "图片会随您的问题发送给您的 AI 服务商。模型必须能够识别图像。",
   "العربية": "تذهب الصور إلى مزوّد الذكاء الاصطناعي مع سؤالك. يجب أن يكون النموذج قادرًا على رؤية الصور.",
   "Tiếng Việt": "Ảnh được gửi tới nhà cung cấp AI cùng câu hỏi. Mô hình phải là loại nhìn được ảnh."
+ },
+ "Custom instructions": {
+  "日本語": "カスタム指示",
+  "Español": "Instrucciones personalizadas",
+  "Deutsch": "Eigene Anweisungen",
+  "Français": "Instructions personnalisées",
+  "한국인": "사용자 지정 지침",
+  "中文": "自定义指令",
+  "العربية": "تعليمات مخصصة",
+  "Tiếng Việt": "Hướng dẫn tùy chỉnh"
+ },
+ "What Ask Buddy should know about you and your work": {
+  "日本語": "Buddy に知っておいてほしい、あなたと仕事のこと",
+  "Español": "Lo que Buddy debe saber sobre ti y tu trabajo",
+  "Deutsch": "Was Buddy über Sie und Ihre Arbeit wissen sollte",
+  "Français": "Ce que Buddy doit savoir sur vous et votre travail",
+  "한국인": "Buddy가 알아야 할 당신과 작업에 관한 내용",
+  "中文": "希望 Buddy 了解的关于你和你的工作的信息",
+  "العربية": "ما يجب أن يعرفه Buddy عنك وعن عملك",
+  "Tiếng Việt": "Những điều Buddy nên biết về bạn và công việc của bạn"
+ },
+ "For example:\n- We deliver 4K DCI at 24 fps, ProRes 422 HQ, Rec.709 Gamma 2.4.\n- Clips are named SHOW_EP_SCENE_TAKE.\n- Keep answers short, steps as a list.": {
+  "日本語": "例:\n- 納品は 4K DCI、24 fps、ProRes 422 HQ、Rec.709 Gamma 2.4。\n- クリップ名は SHOW_EP_SCENE_TAKE。\n- 回答は短く、手順は箇条書きで。",
+  "Español": "Por ejemplo:\n- Entregamos en 4K DCI a 24 fps, ProRes 422 HQ, Rec.709 Gamma 2.4.\n- Los clips se llaman SHOW_EP_SCENE_TAKE.\n- Respuestas breves, con los pasos en una lista.",
+  "Deutsch": "Zum Beispiel:\n- Wir liefern 4K DCI mit 24 fps, ProRes 422 HQ, Rec.709 Gamma 2.4.\n- Clips heißen SHOW_EP_SCENE_TAKE.\n- Kurze Antworten, Schritte als Liste.",
+  "Français": "Par exemple :\n- Nous livrons en 4K DCI à 24 i/s, ProRes 422 HQ, Rec.709 Gamma 2.4.\n- Les plans sont nommés SHOW_EP_SCENE_TAKE.\n- Réponses courtes, étapes sous forme de liste.",
+  "한국인": "예:\n- 납품 사양은 4K DCI, 24fps, ProRes 422 HQ, Rec.709 Gamma 2.4입니다.\n- 클립 이름은 SHOW_EP_SCENE_TAKE 형식입니다.\n- 답변은 짧게, 단계는 목록으로.",
+  "中文": "例如:\n- 我们以 4K DCI、24 fps、ProRes 422 HQ、Rec.709 Gamma 2.4 交付。\n- 片段命名为 SHOW_EP_SCENE_TAKE。\n- 回答简短,步骤用列表。",
+  "العربية": "على سبيل المثال:\n- نسلّم بدقة 4K DCI بمعدل 24 إطارًا/ث، ProRes 422 HQ، Rec.709 Gamma 2.4.\n- تُسمّى المقاطع SHOW_EP_SCENE_TAKE.\n- إجابات قصيرة، والخطوات في قائمة.",
+  "Tiếng Việt": "Ví dụ:\n- Chúng tôi giao 4K DCI ở 24 fps, ProRes 422 HQ, Rec.709 Gamma 2.4.\n- Clip được đặt tên SHOW_EP_SCENE_TAKE.\n- Trả lời ngắn gọn, các bước dạng danh sách."
+ },
+ "Sent with every question – your delivery specs, naming conventions, how you like answers. Buddy still cites the manual for how Resolve works, and still asks before changing your project.": {
+  "日本語": "すべての質問と一緒に送信されます。納品仕様、命名規則、好みの回答スタイルなどを書いてください。Resolve の動作については引き続きマニュアルを引用し、プロジェクトを変更する前には必ず確認します。",
+  "Español": "Se envía con cada pregunta: tus especificaciones de entrega, convenciones de nombres, cómo prefieres las respuestas. Buddy sigue citando el manual sobre el funcionamiento de Resolve y sigue preguntando antes de cambiar tu proyecto.",
+  "Deutsch": "Wird mit jeder Frage gesendet – Ihre Lieferspezifikationen, Namenskonventionen, wie Sie Antworten mögen. Buddy zitiert für die Funktionsweise von Resolve weiterhin das Handbuch und fragt weiterhin, bevor es Ihr Projekt ändert.",
+  "Français": "Envoyé avec chaque question – vos spécifications de livraison, conventions de nommage, la forme de réponse que vous préférez. Buddy cite toujours le manuel sur le fonctionnement de Resolve et demande toujours avant de modifier votre projet.",
+  "한국인": "모든 질문과 함께 전송됩니다. 납품 사양, 이름 규칙, 선호하는 답변 방식 등을 적어 주세요. Resolve 작동 방식은 계속 매뉴얼을 인용하며, 프로젝트를 변경하기 전에는 항상 먼저 확인합니다.",
+  "中文": "随每个问题一起发送——你的交付规格、命名规范、喜欢的回答方式。关于 Resolve 如何工作,Buddy 仍会引用手册;更改你的项目前仍会先征求你的同意。",
+  "العربية": "تُرسل مع كل سؤال – مواصفات التسليم لديك، وقواعد التسمية، والطريقة التي تفضّل بها الإجابات. يواصل Buddy الاستشهاد بالدليل حول طريقة عمل Resolve، ويسألك دائمًا قبل تغيير مشروعك.",
+  "Tiếng Việt": "Được gửi kèm mọi câu hỏi – thông số giao hàng, quy ước đặt tên, cách bạn thích nhận câu trả lời. Buddy vẫn trích dẫn sách hướng dẫn về cách Resolve hoạt động và vẫn hỏi trước khi thay đổi dự án của bạn."
+ },
+ "Saved in": {
+  "日本語": "保存先",
+  "Español": "Guardado en",
+  "Deutsch": "Gespeichert in",
+  "Français": "Enregistré dans",
+  "한국인": "저장 위치",
+  "中文": "保存位置",
+  "العربية": "محفوظ في",
+  "Tiếng Việt": "Lưu tại"
+ },
+ "Only the first {limit} characters are sent with each question; these instructions have {count}.": {
+  "日本語": "各質問と一緒に送信されるのは最初の {limit} 文字だけです。この指示は {count} 文字あります。",
+  "Español": "Solo se envían los primeros {limit} caracteres con cada pregunta; estas instrucciones tienen {count}.",
+  "Deutsch": "Mit jeder Frage werden nur die ersten {limit} Zeichen gesendet; diese Anweisungen haben {count}.",
+  "Français": "Seuls les {limit} premiers caractères sont envoyés avec chaque question ; ces instructions en comptent {count}.",
+  "한국인": "각 질문에는 처음 {limit}자만 전송됩니다. 이 지침은 {count}자입니다.",
+  "中文": "每个问题只会发送前 {limit} 个字符;这些指令共有 {count} 个字符。",
+  "العربية": "تُرسل أول {limit} حرف فقط مع كل سؤال؛ وتحتوي هذه التعليمات على {count}.",
+  "Tiếng Việt": "Chỉ {limit} ký tự đầu tiên được gửi kèm mỗi câu hỏi; hướng dẫn này có {count} ký tự."
+ },
+ "Couldn't save the instructions: {error}": {
+  "日本語": "指示を保存できませんでした: {error}",
+  "Español": "No se pudieron guardar las instrucciones: {error}",
+  "Deutsch": "Die Anweisungen konnten nicht gespeichert werden: {error}",
+  "Français": "Impossible d'enregistrer les instructions : {error}",
+  "한국인": "지침을 저장할 수 없습니다: {error}",
+  "中文": "无法保存指令:{error}",
+  "العربية": "تعذّر حفظ التعليمات: {error}",
+  "Tiếng Việt": "Không thể lưu hướng dẫn: {error}"
+ },
+ "Custom instructions saved.": {
+  "日本語": "カスタム指示を保存しました。",
+  "Español": "Instrucciones personalizadas guardadas.",
+  "Deutsch": "Eigene Anweisungen gespeichert.",
+  "Français": "Instructions personnalisées enregistrées.",
+  "한국인": "사용자 지정 지침을 저장했습니다.",
+  "中文": "自定义指令已保存。",
+  "العربية": "تم حفظ التعليمات المخصصة.",
+  "Tiếng Việt": "Đã lưu hướng dẫn tùy chỉnh."
+ },
+ "Couldn't create the folder: {error}": {
+  "日本語": "フォルダーを作成できませんでした: {error}",
+  "Español": "No se pudo crear la carpeta: {error}",
+  "Deutsch": "Der Ordner konnte nicht erstellt werden: {error}",
+  "Français": "Impossible de créer le dossier : {error}",
+  "한국인": "폴더를 만들 수 없습니다: {error}",
+  "中文": "无法创建文件夹:{error}",
+  "العربية": "تعذّر إنشاء المجلد: {error}",
+  "Tiếng Việt": "Không thể tạo thư mục: {error}"
  }
 }

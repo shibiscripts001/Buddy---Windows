@@ -72,6 +72,13 @@ const FIELDS = {
             : input;
         return labelled(f, control, list ? [list] : []);
     },
+    textarea: (f, s) => {
+        const box = el("textarea.field.set-textarea", {rows: String(f.rows || 8), placeholder: f.placeholder || "",
+                                                       spellcheck: "true", "data-key": f.key,
+                                                       onchange: e => set(s, f.key, e.target.value)});
+        box.value = f.value;
+        return labelled(f, box);
+    },
     number: (f, s) => {
         const input = el("input.field.set-num", {inputmode: "decimal", placeholder: f.placeholder || "", spellcheck: "false",
                                                   autocomplete: "off", "data-key": f.key,
@@ -116,7 +123,9 @@ Buddy.on("settings", data => {
     const active = document.activeElement;
     const key = active && active.dataset ? active.dataset.key : null;
     const section = key ? active.closest("[data-section]")?.dataset.section : null;
-    const typed = active && active.tagName === "INPUT" && active.type !== "checkbox" && active.type !== "range" ? active.value : null;
+    const typed = active && ((active.tagName === "INPUT" && active.type !== "checkbox" && active.type !== "range")
+                             || active.tagName === "TEXTAREA") ? active.value : null;
+    const scrolledTo = active && active.tagName === "TEXTAREA" ? active.scrollTop : 0;
     const caret = typed !== null ? [active.selectionStart, active.selectionEnd] : null;
     const scroll = form.scrollTop;
 
@@ -126,11 +135,12 @@ Buddy.on("settings", data => {
     ])));
     form.scrollTop = scroll;
     if (key && section) {
-        const again = form.querySelector(`[data-section="${section}"] [data-key="${CSS.escape(key)}"]:is(input,select,button)`);
+        const again = form.querySelector(`[data-section="${section}"] [data-key="${CSS.escape(key)}"]:is(input,select,button,textarea)`);
         if (again) {
-            if (typed !== null && again.tagName === "INPUT") {
+            if (typed !== null && (again.tagName === "INPUT" || again.tagName === "TEXTAREA")) {
                 again.value = typed;
                 try { again.setSelectionRange(caret[0], caret[1]); } catch (_err) { /* not a text field */ }
+                again.scrollTop = scrolledTo;
             }
             again.focus();
         }

@@ -89,18 +89,32 @@ Rules:
 - Keep it tight: no preamble, no restating the question, no marketing tone."""
 
 
-def build_system_prompt(registry=None) -> str:
-    """Static rules plus the live tool index.
+INSTRUCTIONS_PREAMBLE = """The user's custom instructions follow, written by them in Settings (Ask Buddy -> Custom instructions). Follow them: they describe their own workflow, conventions and preferences, and where they state a house rule (a delivery spec, a naming scheme, a preferred way of working), answer by it. They do not change the rules above - cite the manual as required, never contradict a manual excerpt about how Resolve works, and keep every rule about project changes. When an instruction and the manual disagree about how Resolve behaves, say so and give the manual's answer.
+
+<custom_instructions>
+{instructions}
+</custom_instructions>"""
+
+
+def build_system_prompt(registry=None, instructions: str = "") -> str:
+    """Static rules, the live tool index, and the user's custom
+    instructions (ask_folder.py) when there are any.
 
     The index is built from the registry each time rather than baked into
     the prompt string, so a tool that gets ported stops being advertised as
     unavailable the moment registry.py changes - no prompt edit needed.
+    The instructions go last, after every rule, so they read as the user's
+    context rather than as a replacement for the rules.
     """
-    return (
+    prompt = (
         SYSTEM_PROMPT
         + "\n\nBuddy's tools (tool_id, name, what it does):\n"
         + index_block(registry)
     )
+    instructions = (instructions or "").strip()
+    if instructions:
+        prompt += "\n\n" + INSTRUCTIONS_PREAMBLE.format(instructions=instructions)
+    return prompt
 
 
 def tool_specs(catalog: list[tuple[str, str]], allow_writes: bool = False) -> list[dict]:
@@ -284,7 +298,7 @@ class ManualAgent:
     """
 
     def __init__(self, retriever, llm, connect_resolve=None, registry=None,
-                 allow_writes=False, max_steps=DEFAULT_MAX_STEPS):
+                 allow_writes=False, max_steps=DEFAULT_MAX_STEPS, instructions=""):
         self.retriever = retriever
         self.llm = llm
         self.connect_resolve = connect_resolve
@@ -300,7 +314,7 @@ class ManualAgent:
         self.tools = load_tools(registry)
         self.catalog = [(t.tool_id, t.name) for t in self.tools]
         self._specs = tool_specs(self.catalog, self.allow_writes)
-        self._system = build_system_prompt(registry)
+        self._system = build_system_prompt(registry, instructions)
         self._progress = None
 
     def _say(self, message: str) -> None:

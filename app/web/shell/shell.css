@@ -172,6 +172,7 @@ body.window { background: var(--surface); }
 .set-inline input[type="range"] { flex: 1; accent-color: var(--primary); cursor: pointer; }
 .set-readout { min-width: 58px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-strong); }
 .set-num { width: 90px !important; flex: none; }
+.set-textarea { resize: vertical; min-height: 96px; line-height: 1.45; font-weight: 400; }
 .set-info { font-weight: 400; color: var(--text); user-select: text; }
 .set-hint { font-size: var(--fs-sm); line-height: 1.45; color: var(--text-dim); user-select: text; }
 .set-hint.under-check { margin-left: 22px; }

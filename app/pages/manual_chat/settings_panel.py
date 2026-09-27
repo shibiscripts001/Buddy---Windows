@@ -20,12 +20,21 @@ from __future__ import annotations
 
 import time
 
-from PySide6.QtCore import QThread, Signal
+from PySide6.QtCore import QThread, QUrl, Signal
+from PySide6.QtGui import QDesktopServices
 
 from core import settings_form as sf
 from core.write_consent import WriteConsentDialog
 
 from .agent import DEFAULT_MAX_STEPS, MAX_MAX_STEPS
+from .ask_folder import (
+    ASK_BUDDY_DIR,
+    MAX_INSTRUCTION_CHARS,
+    ensure_folder,
+    instructions_path,
+    read_instructions,
+    write_instructions,
+)
 from .bundle_builder import read_bundle_meta
 from .bundle_dialog import ManualBuildDialog
 from .config import (
@@ -67,6 +76,9 @@ class _LLMJob(QThread):
 
 
 class ChatSettingsMixin:
+    # Where custom instructions live (ask_folder.py); tests point it elsewhere.
+    ask_folder = ASK_BUDDY_DIR
+
     def manual_summary_text(self) -> str:
         bundle = self.settings.get("bundle_dir") or ""
         if not bundle:
@@ -188,6 +200,7 @@ class ChatSettingsMixin:
                       hint_text="How many tool calls Buddy may make per answer before it gives up – manual "
                                 "searches, reading your project, offering tools. More calls let it dig deeper on "
                                 "hard questions, but each one is an extra model round-trip that uses more tokens."),
+            *self._instruction_fields(),
             sf.heading("Project changes"),
             sf.check("allow_project_writes", "Allow Buddy to make changes to my project",
                      self.settings.get("allow_project_writes", False),
@@ -200,7 +213,38 @@ class ChatSettingsMixin:
             sf.buttons(("Rebuild from PDF…", "rebuild_manual")),
         ]
 
+    def _instruction_fields(self):
+        """Custom instructions: the text box edits ask_folder's file, so
+        what's shown is always what's on disk - an edit made in a text
+        editor shows up the next time Settings draws."""
+        text = read_instructions(self.ask_folder)
+        size = len(text.strip())
+        too_long = None
+        if size > MAX_INSTRUCTION_CHARS:
+            too_long = (f"Only the first {MAX_INSTRUCTION_CHARS:,} characters are sent with each question; "
+                        f"these instructions have {size:,}.")
+        return [
+            sf.heading("Custom instructions"),
+            sf.textarea("instructions", "What Ask Buddy should know about you and your work", text,
+                        placeholder="For example:\n- We deliver 4K DCI at 24 fps, ProRes 422 HQ, Rec.709 Gamma 2.4.\n"
+                                    "- Clips are named SHOW_EP_SCENE_TAKE.\n- Keep answers short, steps as a list.",
+                        hint_text="Sent with every question – your delivery specs, naming conventions, how you like "
+                                  "answers. Buddy still cites the manual for how Resolve works, and still asks "
+                                  "before changing your project.",
+                        error=too_long),
+            sf.info("Saved in", instructions_path(self.ask_folder), raw=True),
+            sf.buttons(("Open folder", "open_ask_folder")),
+        ]
+
     def on_setting(self, key, value, ui):
+        if key == "instructions":
+            try:
+                write_instructions(str(value or ""), self.ask_folder)
+            except OSError as exc:
+                ui.status(f"Couldn't save the instructions: {exc}", "danger")
+            else:
+                ui.status("Custom instructions saved.", "success")
+            return
         spec = provider_spec(self.settings)
         if key in ("provider", "model", "api_key", "base_url", "api_version"):
             self._test_result = None   # a test of something else
@@ -235,6 +279,12 @@ class ChatSettingsMixin:
             if client.key_required and not client.api_key:
                 return ui.status("Add the API key first – the model list needs it.", "danger")
             self._start_job("models", lambda: list_openai_models(client.base_url, client.api_key), ui)
+        elif action == "open_ask_folder":
+            try:
+                folder = ensure_folder(self.ask_folder)
+            except OSError as exc:
+                return ui.status(f"Couldn't create the folder: {exc}", "danger")
+            QDesktopServices.openUrl(QUrl.fromLocalFile(folder))
         elif action == "rebuild_manual":
             # Over the Settings window: it's modal, so the build window stacks on it.
             dialog = ManualBuildDialog(ui.parent, rebuild_target(self.settings))

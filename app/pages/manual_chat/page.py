@@ -47,6 +47,7 @@ from core.web_page import WebToolPage
 
 from . import actions, pictures
 from .agent import AgentResult, ManualAgent
+from .ask_folder import instructions_for_prompt
 from .config import (
     DEFAULTS,
     default_data_paths,
@@ -178,6 +179,9 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             registry=getattr(self.host, "registry", None),
             allow_writes=allow_writes,
             max_steps=max_steps_limit(self.settings),
+            # From the file each time, like the consent above: an edit in
+            # Settings or a text editor applies to the next question.
+            instructions=instructions_for_prompt(self.ask_folder),
         )
 
     def _resolve_source(self):

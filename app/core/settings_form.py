@@ -17,6 +17,9 @@ ToolPage.settings_fields() and handling on_setting() / on_settings_action()
     text      key, label, value, [placeholder], [password], [hint],
               [live] (sent as it's typed, not when the field is left),
               [suggest] (a list the field offers), [browse] (an action)
+    textarea  key, label, value, [placeholder], [rows], [hint] - several
+              lines, saved when the field is left; what's typed is the
+              user's, never translated
     number    key, label, value (None = blank), min, max, decimals,
               [placeholder], [suffix]
     slider    key, label, value, min, max, step, default, readouts
@@ -76,6 +79,11 @@ def text(key, label, value, placeholder="", password=False, hint_text=None, live
     return {"kind": "text", "key": key, "label": label, "value": value or "", "placeholder": placeholder,
             "password": password, "hint": hint_text, "live": live, "suggest": suggest, "browse": browse,
             "error": error}
+
+
+def textarea(key, label, value, placeholder="", rows=8, hint_text=None, error=None):
+    return {"kind": "textarea", "key": key, "label": label, "value": value or "", "placeholder": placeholder,
+            "rows": rows, "hint": hint_text, "error": error}
 
 
 def number(key, label, value, minimum, maximum, decimals=0, placeholder="", suffix=""):
