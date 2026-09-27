@@ -45,6 +45,9 @@
 .table tr.bucket td.name { font-weight: 700; color: var(--text-strong); }
 .table tr.bucket .count { color: var(--text-dim); font-weight: 400; margin-left: 6px; }
 .table tr.child td.name { padding-left: 36px; }
+/* Just added: a moment's glow, so they're easy to spot. */
+.table tbody tr.fresh td { animation: am-fresh 1.6s ease-out; }
+@keyframes am-fresh { from { background: color-mix(in srgb, var(--accent-text) 28%, transparent); } }
 .name-cell { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .name-cell > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 .chev {

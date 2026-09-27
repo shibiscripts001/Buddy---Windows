@@ -169,9 +169,10 @@ function emptyList() {
         el("div.small", {text: "Try another type, or a different search."})]);
 }
 
-function drawList() {
+function drawList(reveal = []) {
     const box = $("list");
     const keep = box.scrollTop;
+    const fresh = new Set(reveal.map(id => `a:${id}`));
     if (!list.nodes.length) { box.replaceChildren(emptyList()); return; }
     const body = visibleRows().map(({key, node, child}) => {
         if (node.type === "folder") {
@@ -187,7 +188,7 @@ function drawList() {
                 el("td.folder", {}, el("bdi", {text: node.path, translate: "no"})),
             ]);
         }
-        return el(`tr${child ? ".child" : ""}${node.missing ? ".missing" : ""}${selected.has(key) ? ".selected" : ""}`,
+        return el(`tr${child ? ".child" : ""}${node.missing ? ".missing" : ""}${selected.has(key) ? ".selected" : ""}${fresh.has(key) ? ".fresh" : ""}`,
             {title: node.path, onclick: e => clickRow(e, key)}, [
             el("td.name", {}, el("div.name-cell", {}, [el(`span.kind-dot.${node.category}`), el("span", {text: node.name, translate: "no"})])),
             el("td.type", {text: node.category}),
@@ -201,6 +202,8 @@ function drawList() {
         el("tbody", {}, body),
     ]));
     box.scrollTop = keep;
+    const first = box.querySelector("tr.fresh");
+    if (first) first.scrollIntoView({block: "nearest"});
 }
 
 function drawFooter() {
@@ -409,7 +412,10 @@ Buddy.on("list", l => {
         else keys.add(`a:${n.id}`);
     }
     for (const k of [...selected]) if (!keys.has(k)) selected.delete(k);
-    drawList();
+    // Just added: open the groups they're in, so they don't land out of sight.
+    const reveal = new Set(l.reveal || []);
+    for (const n of l.nodes) if (n.type === "folder" && n.children.some(c => reveal.has(c.id))) expanded.add(n.path);
+    drawList([...reveal]);
     drawFooter();
 });
 Buddy.on("preview", p => {

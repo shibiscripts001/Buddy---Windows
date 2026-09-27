@@ -1339,5 +1339,25 @@
   "中文": "解码超时",
   "العربية": "انتهت مهلة فك الترميز",
   "Tiếng Việt": "Hết thời gian giải mã"
+ },
+ "1 isn't shown – the type or search above hides it.": {
+  "日本語": "1 個は表示されていません – 上の種類または検索で隠れています。",
+  "Español": "1 no se muestra: el tipo o la búsqueda de arriba lo ocultan.",
+  "Deutsch": "1 wird nicht angezeigt – der Typ oder die Suche oben blendet es aus.",
+  "Français": "1 n'est pas affichée – le type ou la recherche ci-dessus la masque.",
+  "한국어": "1개는 표시되지 않습니다 – 위의 유형이나 검색에 가려졌습니다.",
+  "中文": "1 个未显示——被上方的类型或搜索隐藏了。",
+  "العربية": "واحد غير ظاهر – يخفيه النوع أو البحث في الأعلى.",
+  "Tiếng Việt": "1 mục không hiển thị – loại hoặc tìm kiếm phía trên đang ẩn nó."
+ },
+ "{count} aren't shown – the type or search above hides them.": {
+  "日本語": "{count} 個は表示されていません – 上の種類または検索で隠れています。",
+  "Español": "{count} no se muestran: el tipo o la búsqueda de arriba los ocultan.",
+  "Deutsch": "{count} werden nicht angezeigt – der Typ oder die Suche oben blendet sie aus.",
+  "Français": "{count} ne sont pas affichées – le type ou la recherche ci-dessus les masque.",
+  "한국어": "{count}개는 표시되지 않습니다 – 위의 유형이나 검색에 가려졌습니다.",
+  "中文": "{count} 个未显示——被上方的类型或搜索隐藏了。",
+  "العربية": "{count} غير ظاهرة – يخفيها النوع أو البحث في الأعلى.",
+  "Tiếng Việt": "{count} mục không hiển thị – loại hoặc tìm kiếm phía trên đang ẩn chúng."
  }
 }

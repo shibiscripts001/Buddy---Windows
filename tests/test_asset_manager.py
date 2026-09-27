@@ -252,6 +252,39 @@ class PageTests(unittest.TestCase):
         self.assertTrue(wave_event["done"] and 1 <= len(wave_event["bars"]) <= 120)
         self.assertEqual(max(wave_event["bars"]), 1.0)
 
+    def test_picking_a_type_tells_the_page_which_to_highlight(self):
+        for category in ("Audio", "Image", "All"):
+            self.page.on_filter({"category": category})
+            self.assertEqual(self.last("state")["filter"]["category"], category)
+            self.assertEqual(self.last("list")["total"], 0)
+        self.page.on_filter({"category": "Nonsense"})
+        self.assertEqual(self.last("state")["filter"]["category"], "All")
+
+    def test_what_was_just_added_is_revealed_in_every_view(self):
+        music = self.files[:2]
+        for view in ("all", "folders"):
+            with self.subTest(view=view):
+                self.page.on_view({"view": view})
+                self.page.on_files_dropped(music)            # a folder of two: a collapsed group
+                listing = self.last("list")
+                folder = next(n for n in listing["nodes"] if n["type"] == "folder")
+                self.assertEqual(sorted(listing["reveal"]), sorted(c["id"] for c in folder["children"]))
+        self.page.on_view({"view": "folders"})
+        self.assertEqual(self.last("list")["reveal"], [])     # only right after adding
+        self.page.on_view({"view": "projects"})
+        self.page.on_new_project({"name": "Client A"})
+        self.page.on_files_dropped([self.files[2]])
+        (logo,) = self.last("list")["reveal"]
+        self.assertEqual(self.page.library.assets[logo]["name"], "logo.png")
+
+    def test_adding_what_the_filter_hides_says_so(self):
+        self.page.on_filter({"category": "Audio"})
+        self.page.on_files_dropped([self.files[2], self.files[0]])   # a picture and a sound
+        listing = self.last("list")
+        self.assertEqual(listing["total"], 1)
+        self.assertEqual(len(listing["reveal"]), 1)                  # the sound: the picture isn't in the list
+        self.assertIn("1 isn't shown – the type or search above hides it.", self.last("log")[-1]["parts"])
+
 
 if __name__ == "__main__":
     unittest.main()

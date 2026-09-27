@@ -145,7 +145,9 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
             return library_view.matching(assets.values(), self.filter["category"], self.filter["search"])
         return list(assets.values())
 
-    def _push_list(self):
+    def _push_list(self, reveal=()):
+        """reveal: assets just added - the page opens their folders and
+        scrolls to them, so they don't land unseen in a collapsed group."""
         sort = self.sorts[self.list_view]
         include = bool(self.settings.get("include_folders_in_sort", True))
         self._nodes = library_view.build(
@@ -161,6 +163,7 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
             "missing": sum(1 for r in rows if r["missing"]),
             "library_total": len(self.library.assets),
             "project": self.project_id if self.list_view == "projects" else None,
+            "reveal": [r["id"] for r in rows if r["id"] in set(reveal)],
         })
 
     # --------------------------------------------------------- navigation --
@@ -189,6 +192,7 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
         category = payload.get("category", self.filter["category"])
         self.filter = {"category": category if category in CATEGORIES else "All",
                        "search": str(payload.get("search", self.filter["search"]))[:200]}
+        self._push_state()   # the page highlights the type chosen from this
         self._push_list()
 
     def on_project(self, payload):
@@ -261,6 +265,7 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
         the open project). Returns (added, already there)."""
         project = self.projects.projects.get(self.project_id) if self.list_view == "projects" else None
         added = existing = linked = 0
+        touched = []   # every asset these paths are, new or not: what to show
         for path in paths:
             asset_id = self.library.add(path)
             if asset_id is None:
@@ -268,6 +273,8 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
                 asset_id = self.library.find_id_by_path(path)
             else:
                 added += 1
+            if asset_id:
+                touched.append(asset_id)
             if project and asset_id and self.projects.add_asset(project["id"], asset_id):
                 linked += 1
         self.library.save()
@@ -282,9 +289,21 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
                          else f"{existing} were in the library already.")
         if project:
             parts.append(f"{linked} linked into '{project['name']}'.")
+        hidden = self._hidden_by_filter(touched)
+        if hidden:
+            parts.append("1 isn't shown – the type or search above hides it." if hidden == 1
+                         else f"{hidden} aren't shown – the type or search above hides them.")
         self._add_log(parts, "success" if added or linked else "info")
         self._push_projects()
-        self._push_list()
+        self._push_list(reveal=touched)
+
+    def _hidden_by_filter(self, asset_ids):
+        """How many of these the All media view's type and search leave out."""
+        if self.list_view != "all":
+            return 0
+        assets = [self.library.assets[a] for a in dict.fromkeys(asset_ids) if a in self.library.assets]
+        shown = library_view.matching(assets, self.filter["category"], self.filter["search"])
+        return len(assets) - len(shown)
 
     @staticmethod
     def _media_under(folder):
