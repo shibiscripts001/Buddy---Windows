@@ -5,7 +5,7 @@
   "Español": "Registro",
   "Deutsch": "Erfassung",
   "Français": "Suivi",
-  "한국인": "추적",
+  "한국어": "추적",
   "中文": "计时",
   "العربية": "المتتبع",
   "Tiếng Việt": "Theo dõi"
@@ -15,7 +15,7 @@
   "Español": "Este proyecto",
   "Deutsch": "Dieses Projekt",
   "Français": "Ce projet",
-  "한국인": "이 프로젝트",
+  "한국어": "이 프로젝트",
   "中文": "此项目",
   "العربية": "هذا المشروع",
   "Tiếng Việt": "Dự án này"
@@ -25,7 +25,7 @@
   "Español": "Historial",
   "Deutsch": "Verlauf",
   "Français": "Historique",
-  "한국인": "기록",
+  "한국어": "기록",
   "中文": "历史记录",
   "العربية": "السجل",
   "Tiếng Việt": "Lịch sử"
@@ -35,7 +35,7 @@
   "Español": "Informes",
   "Deutsch": "Berichte",
   "Français": "Rapports",
-  "한국인": "보고서",
+  "한국어": "보고서",
   "中文": "报告",
   "العربية": "التقارير",
   "Tiếng Việt": "Báo cáo"
@@ -45,7 +45,7 @@
   "Español": "Conectando…",
   "Deutsch": "Verbindung wird hergestellt…",
   "Français": "Connexion…",
-  "한국인": "연결 중…",
+  "한국어": "연결 중…",
   "中文": "正在连接…",
   "العربية": "جارٍ الاتصال…",
   "Tiếng Việt": "Đang kết nối…"
@@ -55,7 +55,7 @@
   "Español": "No se detecta ningún proyecto",
   "Deutsch": "Kein Projekt erkannt",
   "Français": "Aucun projet détecté",
-  "한국인": "감지된 프로젝트 없음",
+  "한국어": "감지된 프로젝트 없음",
   "中文": "未检测到项目",
   "العربية": "لم يتم اكتشاف مشروع",
   "Tiếng Việt": "Không phát hiện dự án"
@@ -65,7 +65,7 @@
   "Español": "Empezar a registrar",
   "Deutsch": "Erfassung starten",
   "Français": "Démarrer le suivi",
-  "한국인": "추적 시작",
+  "한국어": "추적 시작",
   "中文": "开始计时",
   "العربية": "بدء التتبع",
   "Tiếng Việt": "Bắt đầu theo dõi"
@@ -75,7 +75,7 @@
   "Español": "Hoy",
   "Deutsch": "Heute",
   "Français": "Aujourd'hui",
-  "한국인": "오늘",
+  "한국어": "오늘",
   "中文": "今天",
   "العربية": "اليوم",
   "Tiếng Việt": "Hôm nay"
@@ -85,7 +85,7 @@
   "Español": "Esta semana",
   "Deutsch": "Diese Woche",
   "Français": "Cette semaine",
-  "한국인": "이번 주",
+  "한국어": "이번 주",
   "中文": "本周",
   "العربية": "هذا الأسبوع",
   "Tiếng Việt": "Tuần này"
@@ -95,7 +95,7 @@
   "Español": "Este mes",
   "Deutsch": "Dieser Monat",
   "Français": "Ce mois-ci",
-  "한국인": "이번 달",
+  "한국어": "이번 달",
   "中文": "本月",
   "العربية": "هذا الشهر",
   "Tiếng Việt": "Tháng này"
@@ -105,7 +105,7 @@
   "Español": "Añadir entrada",
   "Deutsch": "Eintrag hinzufügen",
   "Français": "Ajouter une entrée",
-  "한국인": "항목 추가",
+  "한국어": "항목 추가",
   "中文": "添加条目",
   "العربية": "إضافة إدخال",
   "Tiếng Việt": "Thêm mục"
@@ -115,7 +115,7 @@
   "Español": "Qué proyecto",
   "Deutsch": "Welches Projekt",
   "Français": "Quel projet",
-  "한국인": "대상 프로젝트",
+  "한국어": "대상 프로젝트",
   "中文": "哪个项目",
   "العربية": "أي مشروع",
   "Tiếng Việt": "Dự án nào"
@@ -125,7 +125,7 @@
   "Español": "Sesiones terminadas, sin las entradas ocultas",
   "Deutsch": "Abgeschlossene Sitzungen, ausgeblendete Einträge ausgenommen",
   "Français": "Sessions terminées, entrées masquées exclues",
-  "한국인": "완료된 세션, 숨긴 항목 제외",
+  "한국어": "완료된 세션, 숨긴 항목 제외",
   "中文": "已完成的会话，不含隐藏条目",
   "العربية": "الجلسات المنتهية، دون الإدخالات المخفية",
   "Tiếng Việt": "Các phiên đã xong, không tính mục bị ẩn"
@@ -135,7 +135,7 @@
   "Español": "Generar factura…",
   "Deutsch": "Rechnung erstellen…",
   "Français": "Générer une facture…",
-  "한국인": "청구서 생성…",
+  "한국어": "청구서 생성…",
   "中文": "生成发票…",
   "العربية": "إنشاء فاتورة…",
   "Tiếng Việt": "Tạo hóa đơn…"
@@ -145,7 +145,7 @@
   "Español": "Generar factura",
   "Deutsch": "Rechnung erstellen",
   "Français": "Générer une facture",
-  "한국인": "청구서 생성",
+  "한국어": "청구서 생성",
   "中文": "生成发票",
   "العربية": "إنشاء فاتورة",
   "Tiếng Việt": "Tạo hóa đơn"
@@ -155,7 +155,7 @@
   "Español": "Objetivos",
   "Deutsch": "Ziele",
   "Français": "Objectifs",
-  "한국인": "목표",
+  "한국어": "목표",
   "中文": "目标",
   "العربية": "الأهداف",
   "Tiếng Việt": "Mục tiêu"
@@ -165,7 +165,7 @@
   "Español": "Últimos 7 días",
   "Deutsch": "Letzte 7 Tage",
   "Français": "7 derniers jours",
-  "한국인": "최근 7일",
+  "한국어": "최근 7일",
   "中文": "最近 7 天",
   "العربية": "آخر 7 أيام",
   "Tiếng Việt": "7 ngày qua"
@@ -175,7 +175,7 @@
   "Español": "Por proyecto",
   "Deutsch": "Nach Projekt",
   "Français": "Par projet",
-  "한국인": "프로젝트별",
+  "한국어": "프로젝트별",
   "中文": "按项目",
   "العربية": "حسب المشروع",
   "Tiếng Việt": "Theo dự án"
@@ -185,7 +185,7 @@
   "Español": "(desde siempre)",
   "Deutsch": "(gesamt)",
   "Français": "(depuis le début)",
-  "한국인": "(전체 기간)",
+  "한국어": "(전체 기간)",
   "中文": "（全部时间）",
   "العربية": "(كل الأوقات)",
   "Tiếng Việt": "(toàn thời gian)"
@@ -195,7 +195,7 @@
   "Español": "Rango personalizado",
   "Deutsch": "Eigener Zeitraum",
   "Français": "Période personnalisée",
-  "한국인": "사용자 지정 기간",
+  "한국어": "사용자 지정 기간",
   "中文": "自定义范围",
   "العربية": "نطاق مخصص",
   "Tiếng Việt": "Khoảng tùy chỉnh"
@@ -205,7 +205,7 @@
   "Español": "Desde",
   "Deutsch": "Von",
   "Français": "Du",
-  "한국인": "시작",
+  "한국어": "시작",
   "中文": "从",
   "العربية": "من",
   "Tiếng Việt": "Từ"
@@ -215,7 +215,7 @@
   "Español": "Hasta",
   "Deutsch": "Bis",
   "Français": "Au",
-  "한국인": "종료",
+  "한국어": "종료",
   "中文": "到",
   "العربية": "إلى",
   "Tiếng Việt": "Đến"
@@ -225,7 +225,7 @@
   "Español": "Calcular",
   "Deutsch": "Berechnen",
   "Français": "Calculer",
-  "한국인": "계산",
+  "한국어": "계산",
   "中文": "计算",
   "العربية": "احسب",
   "Tiếng Việt": "Tính"
@@ -235,7 +235,7 @@
   "Español": "Elige un rango y pulsa Calcular para ver su tiempo total y sus ingresos; también se incluye al exportar.",
   "Deutsch": "Wählen Sie einen Zeitraum und klicken Sie auf „Berechnen“, um Gesamtzeit und Einnahmen zu sehen – er wird auch beim Export berücksichtigt.",
   "Français": "Choisissez une période et appuyez sur Calculer pour voir son temps total et ses revenus – elle est aussi incluse dans l'export.",
-  "한국인": "기간을 선택하고 계산을 누르면 총 시간과 수입을 볼 수 있습니다 – 내보내기에도 포함됩니다.",
+  "한국어": "기간을 선택하고 계산을 누르면 총 시간과 수입을 볼 수 있습니다 – 내보내기에도 포함됩니다.",
   "中文": "选择一个范围并按“计算”，即可查看其总时长和收入——导出时也会包含。",
   "العربية": "اختر نطاقًا واضغط احسب لرؤية إجمالي الوقت والأرباح – يُضمَّن أيضًا في التصدير.",
   "Tiếng Việt": "Chọn một khoảng rồi nhấn Tính để xem tổng thời gian và thu nhập – khoảng này cũng được đưa vào khi xuất."
@@ -245,7 +245,7 @@
   "Español": "Abre primero un proyecto en DaVinci Resolve",
   "Deutsch": "Öffnen Sie zuerst ein Projekt in DaVinci Resolve",
   "Français": "Ouvrez d'abord un projet dans DaVinci Resolve",
-  "한국인": "먼저 DaVinci Resolve에서 프로젝트를 여세요",
+  "한국어": "먼저 DaVinci Resolve에서 프로젝트를 여세요",
   "中文": "请先在 DaVinci Resolve 中打开项目",
   "العربية": "افتح مشروعًا في DaVinci Resolve أولًا",
   "Tiếng Việt": "Hãy mở một dự án trong DaVinci Resolve trước"
@@ -255,7 +255,7 @@
   "Español": "Reanudar",
   "Deutsch": "Fortsetzen",
   "Français": "Reprendre",
-  "한국인": "재개",
+  "한국어": "재개",
   "中文": "继续",
   "العربية": "استئناف",
   "Tiếng Việt": "Tiếp tục"
@@ -265,7 +265,7 @@
   "Español": "Pausar",
   "Deutsch": "Pause",
   "Français": "Pause",
-  "한국인": "일시 정지",
+  "한국어": "일시 정지",
   "中文": "暂停",
   "العربية": "إيقاف مؤقت",
   "Tiếng Việt": "Tạm dừng"
@@ -275,7 +275,7 @@
   "Español": "{done} de {goal} h del objetivo semanal ({pct} %)",
   "Deutsch": "{done} von {goal} Std. Wochenziel ({pct} %)",
   "Français": "{done} sur {goal} h d'objectif hebdomadaire ({pct} %)",
-  "한국인": "주간 목표 {goal}시간 중 {done}({pct}%)",
+  "한국어": "주간 목표 {goal}시간 중 {done}({pct}%)",
   "中文": "每周目标 {goal} 小时中的 {done}（{pct}%）",
   "العربية": "{done} من هدف أسبوعي قدره {goal} ساعة ({pct}%)",
   "Tiếng Việt": "{done} / mục tiêu tuần {goal} giờ ({pct}%)"
@@ -285,7 +285,7 @@
   "Español": "¿Dejar de registrar?",
   "Deutsch": "Erfassung beenden?",
   "Français": "Arrêter le suivi ?",
-  "한국인": "추적을 중지할까요?",
+  "한국어": "추적을 중지할까요?",
   "中文": "要停止计时吗？",
   "العربية": "إيقاف التتبع؟",
   "Tiếng Việt": "Dừng theo dõi?"
@@ -295,7 +295,7 @@
   "Español": "La sesión actual se guarda en el Historial y el temporizador vuelve a cero.",
   "Deutsch": "Die aktuelle Sitzung wird im Verlauf gespeichert und der Timer auf null zurückgesetzt.",
   "Français": "La session en cours est enregistrée dans l'Historique et le minuteur revient à zéro.",
-  "한국인": "현재 세션이 기록에 저장되고 타이머가 0으로 재설정됩니다.",
+  "한국어": "현재 세션이 기록에 저장되고 타이머가 0으로 재설정됩니다.",
   "中文": "当前会话会保存到历史记录，计时器归零。",
   "العربية": "تُحفظ الجلسة الحالية في السجل ويُعاد ضبط المؤقت إلى الصفر.",
   "Tiếng Việt": "Phiên hiện tại được lưu vào Lịch sử và bộ đếm giờ trở về 0."
@@ -305,7 +305,7 @@
   "Español": "No hay ningún proyecto abierto en Resolve",
   "Deutsch": "Kein Projekt in Resolve geöffnet",
   "Français": "Aucun projet ouvert dans Resolve",
-  "한국인": "Resolve에 열린 프로젝트 없음",
+  "한국어": "Resolve에 열린 프로젝트 없음",
   "中文": "Resolve 中没有打开的项目",
   "العربية": "لا يوجد مشروع مفتوح في Resolve",
   "Tiếng Việt": "Không có dự án nào mở trong Resolve"
@@ -315,7 +315,7 @@
   "Español": "Aún no hay entradas",
   "Deutsch": "Noch keine Einträge",
   "Français": "Aucune entrée pour l'instant",
-  "한국인": "아직 항목이 없음",
+  "한국어": "아직 항목이 없음",
   "中文": "还没有条目",
   "العربية": "لا توجد إدخالات بعد",
   "Tiếng Việt": "Chưa có mục nào"
@@ -325,7 +325,7 @@
   "Español": "Abre un proyecto en DaVinci Resolve para ver aquí sus sesiones.",
   "Deutsch": "Öffnen Sie ein Projekt in DaVinci Resolve, um hier seine Sitzungen zu sehen.",
   "Français": "Ouvrez un projet dans DaVinci Resolve pour voir ses sessions ici.",
-  "한국인": "DaVinci Resolve에서 프로젝트를 열면 해당 세션이 여기에 표시됩니다.",
+  "한국어": "DaVinci Resolve에서 프로젝트를 열면 해당 세션이 여기에 표시됩니다.",
   "中文": "在 DaVinci Resolve 中打开项目，即可在此查看其会话。",
   "العربية": "افتح مشروعًا في DaVinci Resolve لرؤية جلساته هنا.",
   "Tiếng Việt": "Mở một dự án trong DaVinci Resolve để xem các phiên của nó tại đây."
@@ -335,7 +335,7 @@
   "Español": "Las sesiones aparecen aquí mientras trabajas, o puedes añadir una a mano.",
   "Deutsch": "Sitzungen erscheinen hier, während Sie arbeiten – oder fügen Sie eine manuell hinzu.",
   "Français": "Les sessions apparaissent ici pendant que vous travaillez – ou ajoutez-en une manuellement.",
-  "한국인": "작업하는 동안 세션이 여기에 표시됩니다 – 직접 추가할 수도 있습니다.",
+  "한국어": "작업하는 동안 세션이 여기에 표시됩니다 – 직접 추가할 수도 있습니다.",
   "中文": "工作时会话会显示在这里——也可以手动添加。",
   "العربية": "تظهر الجلسات هنا أثناء عملك – أو أضف واحدة يدويًا.",
   "Tiếng Việt": "Các phiên sẽ hiện ở đây khi bạn làm việc – hoặc tự thêm một phiên."
@@ -345,7 +345,7 @@
   "Español": "Fecha",
   "Deutsch": "Datum",
   "Français": "Date",
-  "한국인": "날짜",
+  "한국어": "날짜",
   "中文": "日期",
   "العربية": "التاريخ",
   "Tiếng Việt": "Ngày"
@@ -355,7 +355,7 @@
   "Español": "Inicio",
   "Deutsch": "Beginn",
   "Français": "Début",
-  "한국인": "시작",
+  "한국어": "시작",
   "中文": "开始",
   "العربية": "البداية",
   "Tiếng Việt": "Bắt đầu"
@@ -365,7 +365,7 @@
   "Español": "Fin",
   "Deutsch": "Ende",
   "Français": "Fin",
-  "한국인": "종료",
+  "한국어": "종료",
   "中文": "结束",
   "العربية": "النهاية",
   "Tiếng Việt": "Kết thúc"
@@ -375,7 +375,7 @@
   "Español": "Duración",
   "Deutsch": "Dauer",
   "Français": "Durée",
-  "한국인": "시간",
+  "한국어": "시간",
   "中文": "时长",
   "العربية": "المدة",
   "Tiếng Việt": "Thời lượng"
@@ -385,7 +385,7 @@
   "Español": "Notas",
   "Deutsch": "Notizen",
   "Français": "Notes",
-  "한국인": "메모",
+  "한국어": "메모",
   "中文": "备注",
   "العربية": "الملاحظات",
   "Tiếng Việt": "Ghi chú"
@@ -395,7 +395,7 @@
   "Español": "Seleccionar",
   "Deutsch": "Auswählen",
   "Français": "Sélectionner",
-  "한국인": "선택",
+  "한국어": "선택",
   "中文": "选择",
   "العربية": "تحديد",
   "Tiếng Việt": "Chọn"
@@ -405,7 +405,7 @@
   "Español": "Oculta: excluida de totales, informes y exportaciones",
   "Deutsch": "Ausgeblendet – nicht in Summen, Berichten und Exporten enthalten",
   "Français": "Masquée – exclue des totaux, rapports et exports",
-  "한국인": "숨김 – 합계, 보고서, 내보내기에서 제외됨",
+  "한국어": "숨김 – 합계, 보고서, 내보내기에서 제외됨",
   "中文": "已隐藏——不计入总计、报告和导出",
   "العربية": "مخفي – مستبعد من الإجماليات والتقارير والتصديرات",
   "Tiếng Việt": "Đã ẩn – không tính vào tổng, báo cáo và bản xuất"
@@ -415,7 +415,7 @@
   "Español": "Doble clic para editar",
   "Deutsch": "Zum Bearbeiten doppelklicken",
   "Français": "Double-cliquez pour modifier",
-  "한국인": "두 번 클릭하여 편집",
+  "한국어": "두 번 클릭하여 편집",
   "中文": "双击编辑",
   "العربية": "انقر نقرًا مزدوجًا للتعديل",
   "Tiếng Việt": "Bấm đúp để sửa"
@@ -425,7 +425,7 @@
   "Español": "Editar",
   "Deutsch": "Bearbeiten",
   "Français": "Modifier",
-  "한국인": "편집",
+  "한국어": "편집",
   "中文": "编辑",
   "العربية": "تعديل",
   "Tiếng Việt": "Sửa"
@@ -435,7 +435,7 @@
   "Español": "Mostrar",
   "Deutsch": "Einblenden",
   "Français": "Afficher",
-  "한국인": "숨기기 해제",
+  "한국어": "숨기기 해제",
   "中文": "取消隐藏",
   "العربية": "إظهار",
   "Tiếng Việt": "Bỏ ẩn"
@@ -445,7 +445,7 @@
   "Español": "Ocultar",
   "Deutsch": "Ausblenden",
   "Français": "Masquer",
-  "한국인": "숨기기",
+  "한국어": "숨기기",
   "中文": "隐藏",
   "العربية": "إخفاء",
   "Tiếng Việt": "Ẩn"
@@ -455,7 +455,7 @@
   "Español": "Las entradas ocultas siguen en la lista, pero se excluyen de totales, informes y exportaciones",
   "Deutsch": "Ausgeblendete Einträge bleiben aufgelistet, werden aber nicht in Summen, Berichten und Exporten berücksichtigt",
   "Français": "Les entrées masquées restent listées mais sont exclues des totaux, rapports et exports",
-  "한국인": "숨긴 항목은 목록에 남지만 합계, 보고서, 내보내기에서는 제외됩니다",
+  "한국어": "숨긴 항목은 목록에 남지만 합계, 보고서, 내보내기에서는 제외됩니다",
   "中文": "隐藏的条目仍会列出，但不计入总计、报告和导出",
   "العربية": "تبقى الإدخالات المخفية مدرجة لكنها تُستبعد من الإجماليات والتقارير والتصديرات",
   "Tiếng Việt": "Mục bị ẩn vẫn được liệt kê nhưng không tính vào tổng, báo cáo và bản xuất"
@@ -465,7 +465,7 @@
   "Español": "¿Eliminar 1 entrada?",
   "Deutsch": "1 Eintrag löschen?",
   "Français": "Supprimer 1 entrée ?",
-  "한국인": "항목 1개를 삭제할까요?",
+  "한국어": "항목 1개를 삭제할까요?",
   "中文": "要删除 1 个条目吗？",
   "العربية": "حذف إدخال واحد؟",
   "Tiếng Việt": "Xóa 1 mục?"
@@ -475,7 +475,7 @@
   "Español": "¿Eliminar {count} entradas?",
   "Deutsch": "{count} Einträge löschen?",
   "Français": "Supprimer {count} entrées ?",
-  "한국인": "항목 {count}개를 삭제할까요?",
+  "한국어": "항목 {count}개를 삭제할까요?",
   "中文": "要删除 {count} 个条目吗？",
   "العربية": "حذف {count} إدخالات؟",
   "Tiếng Việt": "Xóa {count} mục?"
@@ -485,7 +485,7 @@
   "Español": "Esto no se puede deshacer.",
   "Deutsch": "Dies kann nicht rückgängig gemacht werden.",
   "Français": "Cette action est irréversible.",
-  "한국인": "이 작업은 되돌릴 수 없습니다.",
+  "한국어": "이 작업은 되돌릴 수 없습니다.",
   "中文": "此操作无法撤销。",
   "العربية": "لا يمكن التراجع عن هذا.",
   "Tiếng Việt": "Không thể hoàn tác."
@@ -495,7 +495,7 @@
   "Español": "¿En qué estabas trabajando?",
   "Deutsch": "Woran haben Sie gearbeitet?",
   "Français": "Sur quoi travailliez-vous ?",
-  "한국인": "어떤 작업을 했나요?",
+  "한국어": "어떤 작업을 했나요?",
   "中文": "您当时在做什么？",
   "العربية": "على ماذا كنت تعمل؟",
   "Tiếng Việt": "Bạn đã làm gì?"
@@ -505,7 +505,7 @@
   "Español": "Editar entrada",
   "Deutsch": "Eintrag bearbeiten",
   "Français": "Modifier l'entrée",
-  "한국인": "항목 편집",
+  "한국어": "항목 편집",
   "中文": "编辑条目",
   "العربية": "تعديل الإدخال",
   "Tiếng Việt": "Sửa mục"
@@ -515,7 +515,7 @@
   "Español": "Notas (opcional)",
   "Deutsch": "Notizen (optional)",
   "Français": "Notes (facultatif)",
-  "한국인": "메모(선택 사항)",
+  "한국어": "메모(선택 사항)",
   "中文": "备注（可选）",
   "العربية": "ملاحظات (اختياري)",
   "Tiếng Việt": "Ghi chú (tùy chọn)"
@@ -525,7 +525,7 @@
   "Español": "{hours} de {goal} h ({pct} %)",
   "Deutsch": "{hours} von {goal} Std. ({pct} %)",
   "Français": "{hours} sur {goal} h ({pct} %)",
-  "한국인": "{goal}시간 중 {hours}시간({pct}%)",
+  "한국어": "{goal}시간 중 {hours}시간({pct}%)",
   "中文": "{goal} 小时中的 {hours} 小时（{pct}%）",
   "العربية": "{hours} من {goal} ساعة ({pct}%)",
   "Tiếng Việt": "{hours} / {goal} giờ ({pct}%)"
@@ -535,7 +535,7 @@
   "Español": "{day}: nada registrado",
   "Deutsch": "{day}: nichts erfasst",
   "Français": "{day} : rien d'enregistré",
-  "한국인": "{day}: 추적 기록 없음",
+  "한국어": "{day}: 추적 기록 없음",
   "中文": "{day}：无记录",
   "العربية": "{day}: لا شيء مُتتبَّع",
   "Tiếng Việt": "{day}: không có dữ liệu"
@@ -545,7 +545,7 @@
   "Español": "Tarifa",
   "Deutsch": "Satz",
   "Français": "Taux",
-  "한국인": "요율",
+  "한국어": "요율",
   "中文": "费率",
   "العربية": "السعر",
   "Tiếng Việt": "Mức giá"
@@ -555,7 +555,7 @@
   "Español": "Fijar tarifa",
   "Deutsch": "Satz festlegen",
   "Français": "Définir le taux",
-  "한국인": "요율 설정",
+  "한국어": "요율 설정",
   "中文": "设置费率",
   "العربية": "تعيين السعر",
   "Tiếng Việt": "Đặt mức giá"
@@ -565,7 +565,7 @@
   "Español": "Tarifa por hora de {name}",
   "Deutsch": "Stundensatz für {name}",
   "Français": "Taux horaire pour {name}",
-  "한국인": "{name}의 시간당 요율",
+  "한국어": "{name}의 시간당 요율",
   "中文": "{name} 的小时费率",
   "العربية": "السعر بالساعة لـ {name}",
   "Tiếng Việt": "Mức giá theo giờ cho {name}"
@@ -575,7 +575,7 @@
   "Español": "Aún no se ha registrado ningún proyecto.",
   "Deutsch": "Noch keine Projekte erfasst.",
   "Français": "Aucun projet suivi pour l'instant.",
-  "한국인": "아직 추적한 프로젝트가 없습니다.",
+  "한국어": "아직 추적한 프로젝트가 없습니다.",
   "中文": "还没有计时的项目。",
   "العربية": "لم يتم تتبع أي مشاريع بعد.",
   "Tiếng Việt": "Chưa theo dõi dự án nào."
@@ -585,7 +585,7 @@
   "Español": "Tarifa por hora - {project}",
   "Deutsch": "Stundensatz - {project}",
   "Français": "Taux horaire - {project}",
-  "한국인": "시간당 요율 - {project}",
+  "한국어": "시간당 요율 - {project}",
   "中文": "小时费率 - {project}",
   "العربية": "السعر بالساعة - {project}",
   "Tiếng Việt": "Mức giá theo giờ - {project}"
@@ -595,7 +595,7 @@
   "Español": "/ hora",
   "Deutsch": "/ Stunde",
   "Français": "/ heure",
-  "한국인": "/ 시간",
+  "한국어": "/ 시간",
   "中文": "/ 小时",
   "العربية": "/ ساعة",
   "Tiếng Việt": "/ giờ"
@@ -605,7 +605,7 @@
   "Español": "Déjalo vacío o en 0 para ocultar los ingresos de este proyecto.",
   "Deutsch": "Leer lassen oder 0 eingeben, um die Einnahmen für dieses Projekt auszublenden.",
   "Français": "Laissez vide ou à 0 pour masquer les revenus de ce projet.",
-  "한국인": "비워 두거나 0으로 두면 이 프로젝트의 수입이 숨겨집니다.",
+  "한국어": "비워 두거나 0으로 두면 이 프로젝트의 수입이 숨겨집니다.",
   "中文": "留空或设为 0 可隐藏此项目的收入。",
   "العربية": "اتركه فارغًا أو 0 لإخفاء أرباح هذا المشروع.",
   "Tiếng Việt": "Để trống hoặc 0 để ẩn thu nhập của dự án này."
@@ -615,7 +615,7 @@
   "Español": "Aún no hay proyectos registrados: nada que facturar.",
   "Deutsch": "Noch keine erfassten Projekte – nichts abzurechnen.",
   "Français": "Aucun projet suivi pour l'instant – rien à facturer.",
-  "한국인": "아직 추적한 프로젝트가 없어 청구할 내용이 없습니다.",
+  "한국어": "아직 추적한 프로젝트가 없어 청구할 내용이 없습니다.",
   "中文": "还没有计时的项目——没有可开票的内容。",
   "العربية": "لا توجد مشاريع مُتتبَّعة بعد – لا شيء لإصدار فاتورة به.",
   "Tiếng Việt": "Chưa có dự án nào được theo dõi – không có gì để lập hóa đơn."
@@ -625,7 +625,7 @@
   "Español": "Tarifa: {rate}",
   "Deutsch": "Satz: {rate}",
   "Français": "Taux : {rate}",
-  "한국인": "요율: {rate}",
+  "한국어": "요율: {rate}",
   "中文": "费率：{rate}",
   "العربية": "السعر: {rate}",
   "Tiếng Việt": "Mức giá: {rate}"
@@ -635,7 +635,7 @@
   "Español": "No hay tarifa para este proyecto: los importes quedan en blanco en la factura.",
   "Deutsch": "Für dieses Projekt ist kein Satz festgelegt – die Beträge bleiben auf der Rechnung leer.",
   "Français": "Aucun taux défini pour ce projet – les montants restent vides sur la facture.",
-  "한국인": "이 프로젝트에 요율이 설정되지 않아 청구서의 금액이 비워집니다.",
+  "한국어": "이 프로젝트에 요율이 설정되지 않아 청구서의 금액이 비워집니다.",
   "中文": "此项目未设置费率——发票上的金额将留空。",
   "العربية": "لم يُحدد سعر لهذا المشروع – تُترك المبالغ فارغة في الفاتورة.",
   "Tiếng Việt": "Dự án này chưa đặt mức giá – số tiền trên hóa đơn sẽ để trống."
@@ -645,7 +645,7 @@
   "Español": "Nombre del cliente o de la empresa",
   "Deutsch": "Kunden- oder Firmenname",
   "Français": "Nom du client ou de l'entreprise",
-  "한국인": "고객 또는 회사 이름",
+  "한국어": "고객 또는 회사 이름",
   "中文": "客户或公司名称",
   "العربية": "اسم العميل أو الشركة",
   "Tiếng Việt": "Tên khách hàng hoặc công ty"
@@ -655,7 +655,7 @@
   "Español": "p. ej., {example}",
   "Deutsch": "z. B. {example}",
   "Français": "ex. : {example}",
-  "한국인": "예: {example}",
+  "한국어": "예: {example}",
   "中文": "例如 {example}",
   "العربية": "مثال: {example}",
   "Tiếng Việt": "vd: {example}"
@@ -665,7 +665,7 @@
   "Español": "Facturar a (opcional)",
   "Deutsch": "Rechnung an (optional)",
   "Français": "Facturer à (facultatif)",
-  "한국인": "청구 대상(선택 사항)",
+  "한국어": "청구 대상(선택 사항)",
   "中文": "收票方（可选）",
   "العربية": "فاتورة إلى (اختياري)",
   "Tiếng Việt": "Người nhận hóa đơn (tùy chọn)"
@@ -675,7 +675,7 @@
   "Español": "N.º de factura (opcional)",
   "Deutsch": "Rechnungsnr. (optional)",
   "Français": "N° de facture (facultatif)",
-  "한국인": "청구서 번호(선택 사항)",
+  "한국어": "청구서 번호(선택 사항)",
   "中文": "发票编号（可选）",
   "العربية": "رقم الفاتورة (اختياري)",
   "Tiếng Việt": "Số hóa đơn (tùy chọn)"
@@ -685,7 +685,7 @@
   "Español": "Generar PDF…",
   "Deutsch": "PDF erstellen…",
   "Français": "Générer le PDF…",
-  "한국인": "PDF 생성…",
+  "한국어": "PDF 생성…",
   "中文": "生成 PDF…",
   "العربية": "إنشاء PDF…",
   "Tiếng Việt": "Tạo PDF…"
@@ -695,7 +695,7 @@
   "Español": "Proyecto abierto en Resolve",
   "Deutsch": "In Resolve geöffnetes Projekt",
   "Français": "Projet ouvert dans Resolve",
-  "한국인": "Resolve에서 열린 프로젝트",
+  "한국어": "Resolve에서 열린 프로젝트",
   "中文": "Resolve 中打开的项目",
   "العربية": "المشروع المفتوح في Resolve",
   "Tiếng Việt": "Dự án đang mở trong Resolve"
@@ -705,7 +705,7 @@
   "Español": "Todos los proyectos",
   "Deutsch": "Alle Projekte",
   "Français": "Tous les projets",
-  "한국인": "모든 프로젝트",
+  "한국어": "모든 프로젝트",
   "中文": "所有项目",
   "العربية": "كل المشاريع",
   "Tiếng Việt": "Tất cả dự án"
@@ -715,7 +715,7 @@
   "Español": "lun",
   "Deutsch": "Mo",
   "Français": "lun.",
-  "한국인": "월",
+  "한국어": "월",
   "中文": "周一",
   "العربية": "الإثنين",
   "Tiếng Việt": "T2"
@@ -725,7 +725,7 @@
   "Español": "mar",
   "Deutsch": "Di",
   "Français": "mar.",
-  "한국인": "화",
+  "한국어": "화",
   "中文": "周二",
   "العربية": "الثلاثاء",
   "Tiếng Việt": "T3"
@@ -735,7 +735,7 @@
   "Español": "mié",
   "Deutsch": "Mi",
   "Français": "mer.",
-  "한국인": "수",
+  "한국어": "수",
   "中文": "周三",
   "العربية": "الأربعاء",
   "Tiếng Việt": "T4"
@@ -745,7 +745,7 @@
   "Español": "jue",
   "Deutsch": "Do",
   "Français": "jeu.",
-  "한국인": "목",
+  "한국어": "목",
   "中文": "周四",
   "العربية": "الخميس",
   "Tiếng Việt": "T5"
@@ -755,7 +755,7 @@
   "Español": "vie",
   "Deutsch": "Fr",
   "Français": "ven.",
-  "한국인": "금",
+  "한국어": "금",
   "中文": "周五",
   "العربية": "الجمعة",
   "Tiếng Việt": "T6"
@@ -765,7 +765,7 @@
   "Español": "sáb",
   "Deutsch": "Sa",
   "Français": "sam.",
-  "한국인": "토",
+  "한국어": "토",
   "中文": "周六",
   "العربية": "السبت",
   "Tiếng Việt": "T7"
@@ -775,7 +775,7 @@
   "Español": "dom",
   "Deutsch": "So",
   "Français": "dim.",
-  "한국인": "일",
+  "한국어": "일",
   "中文": "周日",
   "العربية": "الأحد",
   "Tiếng Việt": "CN"
@@ -785,7 +785,7 @@
   "Español": "Registrando",
   "Deutsch": "Erfassung läuft",
   "Français": "Suivi en cours",
-  "한국인": "추적 중",
+  "한국어": "추적 중",
   "中文": "计时中",
   "العربية": "جارٍ التتبع",
   "Tiếng Việt": "Đang theo dõi"
@@ -795,7 +795,7 @@
   "Español": "En pausa",
   "Deutsch": "Pausiert",
   "Français": "En pause",
-  "한국인": "일시 정지됨",
+  "한국어": "일시 정지됨",
   "中文": "已暂停",
   "العربية": "متوقف مؤقتًا",
   "Tiếng Việt": "Đã tạm dừng"
@@ -805,7 +805,7 @@
   "Español": "Resolve no está en ejecución",
   "Deutsch": "Resolve läuft nicht",
   "Français": "Resolve n'est pas lancé",
-  "한국인": "Resolve가 실행 중이 아님",
+  "한국어": "Resolve가 실행 중이 아님",
   "中文": "Resolve 未运行",
   "العربية": "Resolve لا يعمل",
   "Tiếng Việt": "Resolve chưa chạy"
@@ -815,7 +815,7 @@
   "Español": "Detenido",
   "Deutsch": "Gestoppt",
   "Français": "Arrêté",
-  "한국인": "중지됨",
+  "한국어": "중지됨",
   "中文": "已停止",
   "العربية": "متوقف",
   "Tiếng Việt": "Đã dừng"
@@ -825,7 +825,7 @@
   "Español": "Ausente",
   "Deutsch": "Abwesend",
   "Français": "Absent",
-  "한국인": "자리 비움",
+  "한국어": "자리 비움",
   "中文": "离开",
   "العربية": "بعيد",
   "Tiếng Việt": "Vắng mặt"
@@ -835,7 +835,7 @@
   "Español": "Siguiendo el proyecto que esté abierto en DaVinci Resolve.",
   "Deutsch": "Folgt dem Projekt, das in DaVinci Resolve geöffnet ist.",
   "Français": "Suit le projet ouvert dans DaVinci Resolve.",
-  "한국인": "DaVinci Resolve에서 열려 있는 프로젝트를 따라갑니다.",
+  "한국어": "DaVinci Resolve에서 열려 있는 프로젝트를 따라갑니다.",
   "中文": "正在跟踪 DaVinci Resolve 中打开的项目。",
   "العربية": "يتابع أي مشروع مفتوح في DaVinci Resolve.",
   "Tiếng Việt": "Đang theo dõi dự án đang mở trong DaVinci Resolve."
@@ -845,7 +845,7 @@
   "Español": "En pausa: el temporizador está detenido hasta que lo reanudes.",
   "Deutsch": "Pausiert – der Timer steht, bis Sie fortsetzen.",
   "Français": "En pause – le minuteur est figé jusqu'à ce que vous repreniez.",
-  "한국인": "일시 정지됨 – 재개할 때까지 타이머가 멈춥니다.",
+  "한국어": "일시 정지됨 – 재개할 때까지 타이머가 멈춥니다.",
   "中文": "已暂停——计时器会冻结，直到您继续。",
   "العربية": "متوقف مؤقتًا – المؤقت مجمّد حتى تستأنف.",
   "Tiếng Việt": "Đã tạm dừng – bộ đếm giờ dừng lại cho đến khi bạn tiếp tục."
@@ -855,7 +855,7 @@
   "Español": "Abre DaVinci Resolve con un proyecto para empezar a registrar automáticamente.",
   "Deutsch": "Öffnen Sie DaVinci Resolve mit einem Projekt, um die Erfassung automatisch zu starten.",
   "Français": "Ouvrez DaVinci Resolve avec un projet pour démarrer le suivi automatiquement.",
-  "한국인": "프로젝트를 연 상태로 DaVinci Resolve를 실행하면 자동으로 추적이 시작됩니다.",
+  "한국어": "프로젝트를 연 상태로 DaVinci Resolve를 실행하면 자동으로 추적이 시작됩니다.",
   "中文": "用一个项目打开 DaVinci Resolve 即可自动开始计时。",
   "العربية": "افتح DaVinci Resolve مع مشروع لبدء التتبع تلقائيًا.",
   "Tiếng Việt": "Mở DaVinci Resolve cùng một dự án để tự động bắt đầu theo dõi."
@@ -865,7 +865,7 @@
   "Español": "Pulsa Iniciar para empezar a cronometrar el proyecto abierto en Resolve.",
   "Deutsch": "Klicken Sie auf „Start“, um die Zeitmessung für das in Resolve geöffnete Projekt zu beginnen.",
   "Français": "Appuyez sur Démarrer pour chronométrer le projet ouvert dans Resolve.",
-  "한국인": "시작을 누르면 Resolve에서 열린 프로젝트의 시간 측정을 시작합니다.",
+  "한국어": "시작을 누르면 Resolve에서 열린 프로젝트의 시간 측정을 시작합니다.",
   "中文": "按“开始”即可为 Resolve 中打开的项目计时。",
   "العربية": "اضغط بدء لبدء توقيت المشروع المفتوح في Resolve.",
   "Tiếng Việt": "Nhấn Bắt đầu để tính giờ cho dự án đang mở trong Resolve."
@@ -875,7 +875,7 @@
   "Español": "Cronometrando el proyecto abierto en DaVinci Resolve hasta que lo detengas.",
   "Deutsch": "Misst die Zeit für das in DaVinci Resolve geöffnete Projekt, bis Sie stoppen.",
   "Français": "Chronomètre le projet ouvert dans DaVinci Resolve jusqu'à ce que vous l'arrêtiez.",
-  "한국인": "중지할 때까지 DaVinci Resolve에서 열린 프로젝트의 시간을 측정합니다.",
+  "한국어": "중지할 때까지 DaVinci Resolve에서 열린 프로젝트의 시간을 측정합니다.",
   "中文": "正在为 DaVinci Resolve 中打开的项目计时，直到您停止。",
   "العربية": "يتم توقيت المشروع المفتوح في DaVinci Resolve حتى تتوقف.",
   "Tiếng Việt": "Đang tính giờ dự án mở trong DaVinci Resolve cho đến khi bạn dừng."
@@ -885,7 +885,7 @@
   "Español": "En pausa mientras estás ausente: el registro se reanuda en cuanto vuelvas.",
   "Deutsch": "Pausiert, während Sie abwesend sind – die Erfassung läuft weiter, sobald Sie zurück sind.",
   "Français": "En pause pendant votre absence – le suivi reprend dès votre retour.",
-  "한국인": "자리를 비운 동안 일시 정지됩니다 – 돌아오면 바로 추적이 다시 시작됩니다.",
+  "한국어": "자리를 비운 동안 일시 정지됩니다 – 돌아오면 바로 추적이 다시 시작됩니다.",
   "中文": "您离开时已暂停——您一回来就会继续计时。",
   "العربية": "متوقف مؤقتًا أثناء غيابك – يُستأنف التتبع فور عودتك.",
   "Tiếng Việt": "Tạm dừng khi bạn vắng mặt – việc theo dõi sẽ tiếp tục ngay khi bạn quay lại."
@@ -895,7 +895,7 @@
   "Español": "Se dejó de registrar \"{project}\".",
   "Deutsch": "Erfassung von „{project}“ beendet.",
   "Français": "Suivi de « {project} » arrêté.",
-  "한국인": "\"{project}\" 추적을 중지했습니다.",
+  "한국어": "\"{project}\" 추적을 중지했습니다.",
   "中文": "已停止为“{project}”计时。",
   "العربية": "تم إيقاف تتبع \"{project}\".",
   "Tiếng Việt": "Đã dừng theo dõi \"{project}\"."
@@ -905,7 +905,7 @@
   "Español": "Registro reanudado.",
   "Deutsch": "Erfassung fortgesetzt.",
   "Français": "Suivi repris.",
-  "한국인": "추적을 재개했습니다.",
+  "한국어": "추적을 재개했습니다.",
   "中文": "已继续计时。",
   "العربية": "تم استئناف التتبع.",
   "Tiếng Việt": "Đã tiếp tục theo dõi."
@@ -915,7 +915,7 @@
   "Español": "Esa entrada ya no existe.",
   "Deutsch": "Dieser Eintrag existiert nicht mehr.",
   "Français": "Cette entrée n'existe plus.",
-  "한국인": "해당 항목이 더 이상 없습니다.",
+  "한국어": "해당 항목이 더 이상 없습니다.",
   "中文": "该条目已不存在。",
   "العربية": "لم يعد هذا الإدخال موجودًا.",
   "Tiếng Việt": "Mục đó không còn tồn tại."
@@ -925,7 +925,7 @@
   "Español": "Entrada actualizada",
   "Deutsch": "Eintrag aktualisiert",
   "Français": "Entrée mise à jour",
-  "한국인": "항목을 업데이트했습니다",
+  "한국어": "항목을 업데이트했습니다",
   "中文": "条目已更新",
   "العربية": "تم تحديث الإدخال",
   "Tiếng Việt": "Đã cập nhật mục"
@@ -935,7 +935,7 @@
   "Español": "Entrada añadida",
   "Deutsch": "Eintrag hinzugefügt",
   "Français": "Entrée ajoutée",
-  "한국인": "항목을 추가했습니다",
+  "한국어": "항목을 추가했습니다",
   "中文": "条目已添加",
   "العربية": "تمت إضافة الإدخال",
   "Tiếng Việt": "Đã thêm mục"
@@ -945,7 +945,7 @@
   "Español": "1 entrada eliminada",
   "Deutsch": "1 Eintrag gelöscht",
   "Français": "1 entrée supprimée",
-  "한국인": "항목 1개를 삭제했습니다",
+  "한국어": "항목 1개를 삭제했습니다",
   "中文": "已删除 1 个条目",
   "العربية": "تم حذف إدخال واحد",
   "Tiếng Việt": "Đã xóa 1 mục"
@@ -955,7 +955,7 @@
   "Español": "{count} entradas eliminadas",
   "Deutsch": "{count} Einträge gelöscht",
   "Français": "{count} entrées supprimées",
-  "한국인": "항목 {count}개를 삭제했습니다",
+  "한국어": "항목 {count}개를 삭제했습니다",
   "中文": "已删除 {count} 个条目",
   "العربية": "تم حذف {count} إدخالات",
   "Tiếng Việt": "Đã xóa {count} mục"
@@ -965,7 +965,7 @@
   "Español": "Exportar {format}",
   "Deutsch": "{format} exportieren",
   "Français": "Exporter en {format}",
-  "한국인": "{format} 내보내기",
+  "한국어": "{format} 내보내기",
   "中文": "导出 {format}",
   "العربية": "تصدير {format}",
   "Tiếng Việt": "Xuất {format}"
@@ -975,7 +975,7 @@
   "Español": "No se pudo exportar {format}:\n{error}",
   "Deutsch": "{format} konnte nicht exportiert werden:\n{error}",
   "Français": "Impossible d'exporter en {format} :\n{error}",
-  "한국인": "{format}(으)로 내보낼 수 없습니다:\n{error}",
+  "한국어": "{format}(으)로 내보낼 수 없습니다:\n{error}",
   "中文": "无法导出 {format}：\n{error}",
   "العربية": "تعذر تصدير {format}:\n{error}",
   "Tiếng Việt": "Không thể xuất {format}:\n{error}"
@@ -985,7 +985,7 @@
   "Español": "{format} exportado",
   "Deutsch": "{format} exportiert",
   "Français": "Exporté en {format}",
-  "한국인": "{format}(으)로 내보냈습니다",
+  "한국어": "{format}(으)로 내보냈습니다",
   "中文": "已导出 {format}",
   "العربية": "تم تصدير {format}",
   "Tiếng Việt": "Đã xuất {format}"
@@ -995,7 +995,7 @@
   "Español": "Hoja de cálculo (XLSX)",
   "Deutsch": "Tabelle (XLSX)",
   "Français": "Feuille de calcul (XLSX)",
-  "한국인": "스프레드시트(XLSX)",
+  "한국어": "스프레드시트(XLSX)",
   "中文": "电子表格 (XLSX)",
   "العربية": "جدول بيانات (XLSX)",
   "Tiếng Việt": "Bảng tính (XLSX)"
@@ -1005,7 +1005,7 @@
   "Español": "Archivos CSV",
   "Deutsch": "CSV-Dateien",
   "Français": "Fichiers CSV",
-  "한국인": "CSV 파일",
+  "한국어": "CSV 파일",
   "中文": "CSV 文件",
   "العربية": "ملفات CSV",
   "Tiếng Việt": "Tệp CSV"
@@ -1015,7 +1015,7 @@
   "Español": "Archivos JSON",
   "Deutsch": "JSON-Dateien",
   "Français": "Fichiers JSON",
-  "한국인": "JSON 파일",
+  "한국어": "JSON 파일",
   "中文": "JSON 文件",
   "العربية": "ملفات JSON",
   "Tiếng Việt": "Tệp JSON"
@@ -1025,7 +1025,7 @@
   "Español": "Archivos PDF",
   "Deutsch": "PDF-Dateien",
   "Français": "Fichiers PDF",
-  "한국인": "PDF 파일",
+  "한국어": "PDF 파일",
   "中文": "PDF 文件",
   "العربية": "ملفات PDF",
   "Tiếng Việt": "Tệp PDF"
@@ -1035,7 +1035,7 @@
   "Español": "Archivos de Excel",
   "Deutsch": "Excel-Dateien",
   "Français": "Fichiers Excel",
-  "한국인": "Excel 파일",
+  "한국어": "Excel 파일",
   "中文": "Excel 文件",
   "العربية": "ملفات Excel",
   "Tiếng Việt": "Tệp Excel"
@@ -1045,7 +1045,7 @@
   "Español": "Elige un proyecto.",
   "Deutsch": "Wählen Sie ein Projekt.",
   "Français": "Choisissez un projet.",
-  "한국인": "프로젝트를 선택하세요.",
+  "한국어": "프로젝트를 선택하세요.",
   "中文": "请选择项目。",
   "العربية": "اختر مشروعًا.",
   "Tiếng Việt": "Hãy chọn một dự án."
@@ -1055,7 +1055,7 @@
   "Español": "La fecha \"Desde\" debe ser igual o anterior a la fecha \"Hasta\".",
   "Deutsch": "Das Von-Datum muss am oder vor dem Bis-Datum liegen.",
   "Français": "La date « Du » doit être antérieure ou égale à la date « Au ».",
-  "한국인": "'시작' 날짜는 '종료' 날짜와 같거나 그 이전이어야 합니다.",
+  "한국어": "'시작' 날짜는 '종료' 날짜와 같거나 그 이전이어야 합니다.",
   "中文": "“从”日期必须早于或等于“到”日期。",
   "العربية": "يجب أن يكون تاريخ \"من\" في تاريخ \"إلى\" أو قبله.",
   "Tiếng Việt": "Ngày \"Từ\" phải trước hoặc bằng ngày \"Đến\"."
@@ -1065,7 +1065,7 @@
   "Español": "Elige las dos fechas.",
   "Deutsch": "Wählen Sie beide Daten.",
   "Français": "Choisissez les deux dates.",
-  "한국인": "두 날짜를 모두 선택하세요.",
+  "한국어": "두 날짜를 모두 선택하세요.",
   "中文": "请选择两个日期。",
   "العربية": "اختر التاريخين.",
   "Tiếng Việt": "Hãy chọn cả hai ngày."
@@ -1075,7 +1075,7 @@
   "Español": "Rango personalizado ({start} a {end})",
   "Deutsch": "Eigener Zeitraum ({start} bis {end})",
   "Français": "Période personnalisée ({start} au {end})",
-  "한국인": "사용자 지정 기간({start} ~ {end})",
+  "한국어": "사용자 지정 기간({start} ~ {end})",
   "中文": "自定义范围（{start} 至 {end}）",
   "العربية": "نطاق مخصص ({start} إلى {end})",
   "Tiếng Việt": "Khoảng tùy chỉnh ({start} đến {end})"
@@ -1085,7 +1085,7 @@
   "Español": "{amount} ganados",
   "Deutsch": "{amount} verdient",
   "Français": "{amount} gagnés",
-  "한국인": "{amount} 수입",
+  "한국어": "{amount} 수입",
   "中文": "收入 {amount}",
   "العربية": "تم كسب {amount}",
   "Tiếng Việt": "Kiếm được {amount}"
@@ -1095,7 +1095,7 @@
   "Español": "Error al generar la factura",
   "Deutsch": "Rechnung fehlgeschlagen",
   "Français": "Échec de la facture",
-  "한국인": "청구서 생성 실패",
+  "한국어": "청구서 생성 실패",
   "中文": "发票生成失败",
   "العربية": "فشل إنشاء الفاتورة",
   "Tiếng Việt": "Tạo hóa đơn thất bại"
@@ -1105,7 +1105,7 @@
   "Español": "No se pudo generar la factura:\n{error}",
   "Deutsch": "Die Rechnung konnte nicht erstellt werden:\n{error}",
   "Français": "Impossible de générer la facture :\n{error}",
-  "한국인": "청구서를 생성할 수 없습니다:\n{error}",
+  "한국어": "청구서를 생성할 수 없습니다:\n{error}",
   "中文": "无法生成发票：\n{error}",
   "العربية": "تعذر إنشاء الفاتورة:\n{error}",
   "Tiếng Việt": "Không thể tạo hóa đơn:\n{error}"
@@ -1115,7 +1115,7 @@
   "Español": "Factura guardada en {path}",
   "Deutsch": "Rechnung gespeichert unter {path}",
   "Français": "Facture enregistrée dans {path}",
-  "한국인": "청구서를 {path}에 저장했습니다",
+  "한국어": "청구서를 {path}에 저장했습니다",
   "中文": "发票已保存到 {path}",
   "العربية": "تم حفظ الفاتورة في {path}",
   "Tiếng Việt": "Đã lưu hóa đơn vào {path}"
@@ -1125,7 +1125,7 @@
   "Español": "La tarifa debe ser un número.",
   "Deutsch": "Der Satz muss eine Zahl sein.",
   "Français": "Le taux doit être un nombre.",
-  "한국인": "요율은 숫자여야 합니다.",
+  "한국어": "요율은 숫자여야 합니다.",
   "中文": "费率必须是数字。",
   "العربية": "يجب أن يكون السعر رقمًا.",
   "Tiếng Việt": "Mức giá phải là một số."
@@ -1135,7 +1135,7 @@
   "Español": "Tarifa guardada para {project}",
   "Deutsch": "Satz für {project} gespeichert",
   "Français": "Taux enregistré pour {project}",
-  "한국인": "{project}의 요율을 저장했습니다",
+  "한국어": "{project}의 요율을 저장했습니다",
   "中文": "已保存 {project} 的费率",
   "العربية": "تم حفظ السعر لـ {project}",
   "Tiếng Việt": "Đã lưu mức giá cho {project}"
@@ -1145,7 +1145,7 @@
   "Español": "Tarifa borrada para {project}",
   "Deutsch": "Satz für {project} gelöscht",
   "Français": "Taux effacé pour {project}",
-  "한국인": "{project}의 요율을 지웠습니다",
+  "한국어": "{project}의 요율을 지웠습니다",
   "中文": "已清除 {project} 的费率",
   "العربية": "تم مسح السعر لـ {project}",
   "Tiếng Việt": "Đã xóa mức giá cho {project}"
@@ -1155,7 +1155,7 @@
   "Español": "Atajo global no disponible",
   "Deutsch": "Globales Tastenkürzel nicht verfügbar",
   "Français": "Raccourci global indisponible",
-  "한국인": "전역 단축키를 사용할 수 없음",
+  "한국어": "전역 단축키를 사용할 수 없음",
   "中文": "全局快捷键不可用",
   "العربية": "الاختصار العام غير متاح",
   "Tiếng Việt": "Phím tắt toàn cục không khả dụng"
@@ -1165,7 +1165,7 @@
   "Español": "Otra aplicación ya usa Ctrl+Alt+P: no se pudo registrar el atajo global de pausa/reanudación.",
   "Deutsch": "Strg+Alt+P wird bereits von einer anderen Anwendung verwendet – das globale Tastenkürzel für Pause/Fortsetzen konnte nicht registriert werden.",
   "Français": "Ctrl+Alt+P est déjà utilisé par une autre application – impossible d'enregistrer le raccourci global pause/reprise.",
-  "한국인": "Ctrl+Alt+P를 이미 다른 응용 프로그램에서 사용 중입니다 – 일시 정지/재개 전역 단축키를 등록할 수 없습니다.",
+  "한국어": "Ctrl+Alt+P를 이미 다른 응용 프로그램에서 사용 중입니다 – 일시 정지/재개 전역 단축키를 등록할 수 없습니다.",
   "中文": "Ctrl+Alt+P 已被其他应用程序占用——无法注册全局暂停/继续快捷键。",
   "العربية": "يستخدم تطبيق آخر Ctrl+Alt+P بالفعل – تعذر تسجيل اختصار الإيقاف المؤقت/الاستئناف العام.",
   "Tiếng Việt": "Ctrl+Alt+P đã được ứng dụng khác sử dụng – không thể đăng ký phím tắt tạm dừng/tiếp tục toàn cục."
@@ -1175,7 +1175,7 @@
   "Español": "Escribe un nombre de proyecto.",
   "Deutsch": "Geben Sie einen Projektnamen ein.",
   "Français": "Saisissez un nom de projet.",
-  "한국인": "프로젝트 이름을 입력하세요.",
+  "한국어": "프로젝트 이름을 입력하세요.",
   "中文": "请输入项目名称。",
   "العربية": "أدخل اسم مشروع.",
   "Tiếng Việt": "Hãy nhập tên dự án."
@@ -1185,7 +1185,7 @@
   "Español": "Escribe una fecha y hora de inicio.",
   "Deutsch": "Geben Sie Startdatum und -uhrzeit ein.",
   "Français": "Saisissez une date et une heure de début.",
-  "한국인": "시작 날짜와 시간을 입력하세요.",
+  "한국어": "시작 날짜와 시간을 입력하세요.",
   "中文": "请输入开始日期和时间。",
   "العربية": "أدخل تاريخ ووقت البداية.",
   "Tiếng Việt": "Hãy nhập ngày giờ bắt đầu."
@@ -1195,7 +1195,7 @@
   "Español": "Escribe una fecha y hora de fin.",
   "Deutsch": "Geben Sie Enddatum und -uhrzeit ein.",
   "Français": "Saisissez une date et une heure de fin.",
-  "한국인": "종료 날짜와 시간을 입력하세요.",
+  "한국어": "종료 날짜와 시간을 입력하세요.",
   "中文": "请输入结束日期和时间。",
   "العربية": "أدخل تاريخ ووقت النهاية.",
   "Tiếng Việt": "Hãy nhập ngày giờ kết thúc."
@@ -1205,7 +1205,7 @@
   "Español": "La hora de fin debe ser posterior a la de inicio.",
   "Deutsch": "Die Endzeit muss nach der Startzeit liegen.",
   "Français": "L'heure de fin doit être postérieure à l'heure de début.",
-  "한국인": "종료 시간은 시작 시간 이후여야 합니다.",
+  "한국어": "종료 시간은 시작 시간 이후여야 합니다.",
   "中文": "结束时间必须晚于开始时间。",
   "العربية": "يجب أن يكون وقت النهاية بعد وقت البداية.",
   "Tiếng Việt": "Giờ kết thúc phải sau giờ bắt đầu."
@@ -1215,7 +1215,7 @@
   "Español": "No se detecta ningún proyecto en Resolve",
   "Deutsch": "Kein Projekt in Resolve erkannt",
   "Français": "Aucun projet détecté dans Resolve",
-  "한국인": "Resolve에서 감지된 프로젝트 없음",
+  "한국어": "Resolve에서 감지된 프로젝트 없음",
   "中文": "Resolve 中未检测到项目",
   "العربية": "لم يتم اكتشاف مشروع في Resolve",
   "Tiếng Việt": "Không phát hiện dự án trong Resolve"
@@ -1225,7 +1225,7 @@
   "Español": "{time} registrados en todos los proyectos",
   "Deutsch": "{time} erfasst für alle Projekte",
   "Français": "{time} suivis sur tous les projets",
-  "한국인": "모든 프로젝트에서 {time} 추적",
+  "한국어": "모든 프로젝트에서 {time} 추적",
   "中文": "所有项目共计时 {time}",
   "العربية": "تم تتبع {time} في كل المشاريع",
   "Tiếng Việt": "Đã theo dõi {time} trên tất cả dự án"
@@ -1235,7 +1235,7 @@
   "Español": "{time} registrados en \"{project}\"",
   "Deutsch": "{time} erfasst für „{project}“",
   "Français": "{time} suivis sur « {project} »",
-  "한국인": "\"{project}\"에서 {time} 추적",
+  "한국어": "\"{project}\"에서 {time} 추적",
   "中文": "“{project}”已计时 {time}",
   "العربية": "تم تتبع {time} في \"{project}\"",
   "Tiếng Việt": "Đã theo dõi {time} trên \"{project}\""
@@ -1245,7 +1245,7 @@
   "Español": "Aún no hay tiempo registrado en ningún proyecto",
   "Deutsch": "Noch keine Zeit für alle Projekte erfasst",
   "Français": "Aucun temps suivi pour l'instant sur tous les projets",
-  "한국인": "아직 모든 프로젝트에 추적한 시간이 없음",
+  "한국어": "아직 모든 프로젝트에 추적한 시간이 없음",
   "中文": "所有项目尚无计时",
   "العربية": "لم يتم تتبع أي وقت بعد في كل المشاريع",
   "Tiếng Việt": "Chưa theo dõi thời gian trên dự án nào"
@@ -1255,7 +1255,7 @@
   "Español": "Aún no hay tiempo registrado en \"{project}\"",
   "Deutsch": "Noch keine Zeit für „{project}“ erfasst",
   "Français": "Aucun temps suivi pour l'instant sur « {project} »",
-  "한국인": "아직 \"{project}\"에 추적한 시간이 없음",
+  "한국어": "아직 \"{project}\"에 추적한 시간이 없음",
   "中文": "“{project}”尚无计时",
   "العربية": "لم يتم تتبع أي وقت بعد في \"{project}\"",
   "Tiếng Việt": "Chưa theo dõi thời gian trên \"{project}\""
@@ -1265,7 +1265,7 @@
   "Español": "Comprobar Resolve cada",
   "Deutsch": "Resolve prüfen alle",
   "Français": "Vérifier Resolve toutes les",
-  "한국인": "Resolve 확인 간격",
+  "한국어": "Resolve 확인 간격",
   "中文": "检查 Resolve 的间隔",
   "العربية": "التحقق من Resolve كل",
   "Tiếng Việt": "Kiểm tra Resolve mỗi"
@@ -1275,7 +1275,7 @@
   "Español": "{n} s",
   "Deutsch": "{n} Sek.",
   "Français": "{n} s",
-  "한국인": "{n}초",
+  "한국어": "{n}초",
   "中文": "{n} 秒",
   "العربية": "{n} ث",
   "Tiếng Việt": "{n} giây"
@@ -1285,7 +1285,7 @@
   "Español": "{n} min",
   "Deutsch": "{n} Min.",
   "Français": "{n} min",
-  "한국인": "{n}분",
+  "한국어": "{n}분",
   "中文": "{n} 分钟",
   "العربية": "{n} د",
   "Tiếng Việt": "{n} phút"
@@ -1295,7 +1295,7 @@
   "Español": "Pausar el registro en inactividad",
   "Deutsch": "Erfassung bei Inaktivität pausieren",
   "Français": "Mettre le suivi en pause en cas d'inactivité",
-  "한국인": "유휴 시 추적 일시 정지",
+  "한국어": "유휴 시 추적 일시 정지",
   "中文": "空闲时暂停计时",
   "العربية": "إيقاف التتبع مؤقتًا عند الخمول",
   "Tiếng Việt": "Tạm dừng theo dõi khi không hoạt động"
@@ -1305,7 +1305,7 @@
   "Español": "Detiene automáticamente la entrada en curso (recortando el tiempo inactivo) cuando no hay actividad de teclado o ratón en este equipo durante el tiempo elegido. En el modo de registro manual tendrás que pulsar Iniciar de nuevo; en el modo automático se reanuda solo en cuanto vuelvas.",
   "Deutsch": "Beendet den laufenden Eintrag automatisch (ohne die Leerlaufzeit), wenn auf diesem Computer für die gewählte Dauer keine Tastatur-/Mausaktivität stattfindet. Im manuellen Modus müssen Sie danach erneut auf „Start“ klicken; im automatischen Modus wird fortgesetzt, sobald Sie zurück sind.",
   "Français": "Arrête automatiquement l'entrée en cours (en retirant le temps d'inactivité) après aucune activité clavier/souris sur cet ordinateur pendant la durée choisie. En mode manuel, vous devrez appuyer de nouveau sur Démarrer ; en mode automatique, le suivi reprend tout seul dès votre retour.",
-  "한국인": "이 컴퓨터에서 선택한 시간 동안 키보드/마우스 활동이 없으면 실행 중인 항목을 자동으로 중지합니다(유휴 시간은 제외). 수동 추적 모드에서는 그 후 시작을 다시 눌러야 하고, 자동 모드에서는 돌아오면 바로 자동으로 재개됩니다.",
+  "한국어": "이 컴퓨터에서 선택한 시간 동안 키보드/마우스 활동이 없으면 실행 중인 항목을 자동으로 중지합니다(유휴 시간은 제외). 수동 추적 모드에서는 그 후 시작을 다시 눌러야 하고, 자동 모드에서는 돌아오면 바로 자동으로 재개됩니다.",
   "中文": "当本机在所选时长内没有任何键盘/鼠标活动时，自动停止正在运行的条目（并去除空闲时间）。在手动计时模式下，之后需要再次按“开始”；在自动跟随模式下，您一回来就会自动继续。",
   "العربية": "يوقف الإدخال الجاري تلقائيًا (مع اقتطاع وقت الخمول) بعد عدم وجود نشاط للوحة المفاتيح/الفأرة على هذا الجهاز للمدة المختارة. في وضع التتبع اليدوي ستحتاج إلى الضغط على بدء مرة أخرى بعد ذلك؛ وفي وضع المتابعة التلقائية يُستأنف من تلقاء نفسه فور عودتك.",
   "Tiếng Việt": "Tự động dừng mục đang chạy (cắt bỏ thời gian không hoạt động) khi không có hoạt động bàn phím/chuột trên máy này trong khoảng thời gian đã chọn. Ở chế độ theo dõi thủ công, bạn cần nhấn Bắt đầu lại sau đó; ở chế độ tự động, việc theo dõi tự tiếp tục ngay khi bạn quay lại."
@@ -1315,7 +1315,7 @@
   "Español": "Umbral de inactividad",
   "Deutsch": "Leerlaufschwelle",
   "Français": "Seuil d'inactivité",
-  "한국인": "유휴 기준 시간",
+  "한국어": "유휴 기준 시간",
   "中文": "空闲阈值",
   "العربية": "حد الخمول",
   "Tiếng Việt": "Ngưỡng không hoạt động"
@@ -1325,7 +1325,7 @@
   "Español": "Registro manual",
   "Deutsch": "Manuelle Erfassung",
   "Français": "Suivi manuel",
-  "한국인": "수동 추적",
+  "한국어": "수동 추적",
   "中文": "手动计时",
   "العربية": "التتبع اليدوي",
   "Tiếng Việt": "Theo dõi thủ công"
@@ -1335,7 +1335,7 @@
   "Español": "Registra el tiempo tú mismo con un botón Iniciar/Pausar/Detener en lugar de seguir automáticamente el proyecto abierto en DaVinci Resolve.",
   "Deutsch": "Erfassen Sie die Zeit selbst mit Start/Pause/Stopp, statt automatisch dem in DaVinci Resolve geöffneten Projekt zu folgen.",
   "Français": "Suivez le temps vous-même avec un bouton Démarrer/Pause/Arrêter au lieu de suivre automatiquement le projet ouvert dans DaVinci Resolve.",
-  "한국인": "DaVinci Resolve에서 열린 프로젝트를 자동으로 따라가는 대신 시작/일시 정지/중지 버튼으로 직접 시간을 기록합니다.",
+  "한국어": "DaVinci Resolve에서 열린 프로젝트를 자동으로 따라가는 대신 시작/일시 정지/중지 버튼으로 직접 시간을 기록합니다.",
   "中文": "使用“开始/暂停/停止”按钮自行计时，而不是自动跟随 DaVinci Resolve 中打开的项目。",
   "العربية": "تتبّع الوقت بنفسك باستخدام زر بدء/إيقاف مؤقت/إيقاف بدلًا من المتابعة التلقائية لأي مشروع مفتوح في DaVinci Resolve.",
   "Tiếng Việt": "Tự tính giờ bằng nút Bắt đầu/Tạm dừng/Dừng thay vì tự động theo dõi dự án đang mở trong DaVinci Resolve."
@@ -1345,7 +1345,7 @@
   "Español": "Atajo global de pausa/reanudación (Ctrl+Alt+P)",
   "Deutsch": "Globales Tastenkürzel für Pause/Fortsetzen (Strg+Alt+P)",
   "Français": "Raccourci global pause/reprise (Ctrl+Alt+P)",
-  "한국인": "일시 정지/재개 전역 단축키(Ctrl+Alt+P)",
+  "한국어": "일시 정지/재개 전역 단축키(Ctrl+Alt+P)",
   "中文": "全局暂停/继续快捷键 (Ctrl+Alt+P)",
   "العربية": "اختصار عام للإيقاف المؤقت/الاستئناف (Ctrl+Alt+P)",
   "Tiếng Việt": "Phím tắt tạm dừng/tiếp tục toàn cục (Ctrl+Alt+P)"
@@ -1355,7 +1355,7 @@
   "Español": "Funciona incluso mientras DaVinci Resolve (u otra aplicación) tiene el foco: alterna Iniciar (si el registro manual está parado) -> Pausar -> Reanudar. Desactivado por defecto porque un atajo de todo el sistema podría chocar con otra aplicación que ya use la misma combinación.",
   "Deutsch": "Funktioniert auch, wenn DaVinci Resolve (oder eine andere App) den Fokus hat – wechselt Start (wenn die manuelle Erfassung ruht) -> Pause -> Fortsetzen. Standardmäßig aus, da ein systemweites Tastenkürzel mit einer anderen App kollidieren könnte, die dieselbe Kombination nutzt.",
   "Français": "Fonctionne même lorsque DaVinci Resolve (ou une autre application) a le focus – alterne Démarrer (si le suivi manuel est à l'arrêt) -> Pause -> Reprendre. Désactivé par défaut, car un raccourci système pourrait entrer en conflit avec une autre application utilisant déjà la même combinaison.",
-  "한국인": "DaVinci Resolve(또는 다른 앱)에 포커스가 있을 때도 작동합니다 – 시작(수동 추적이 대기 중인 경우) -> 일시 정지 -> 재개 순으로 전환됩니다. 시스템 전체 단축키는 같은 조합을 쓰는 다른 앱과 충돌할 수 있어 기본적으로 꺼져 있습니다.",
+  "한국어": "DaVinci Resolve(또는 다른 앱)에 포커스가 있을 때도 작동합니다 – 시작(수동 추적이 대기 중인 경우) -> 일시 정지 -> 재개 순으로 전환됩니다. 시스템 전체 단축키는 같은 조합을 쓰는 다른 앱과 충돌할 수 있어 기본적으로 꺼져 있습니다.",
   "中文": "即使 DaVinci Resolve（或其他应用）处于焦点也能使用——依次切换“开始”（手动计时空闲时）-> 暂停 -> 继续。默认关闭，因为系统级快捷键可能与已使用相同组合的其他应用冲突。",
   "العربية": "يعمل حتى أثناء تركيز DaVinci Resolve (أو أي تطبيق آخر) – يتنقل بين بدء (إذا كان التتبع اليدوي خاملًا) -> إيقاف مؤقت -> استئناف. معطّل افتراضيًا لأن اختصارًا على مستوى النظام قد يتعارض مع تطبيق آخر يستخدم المجموعة نفسها.",
   "Tiếng Việt": "Hoạt động ngay cả khi DaVinci Resolve (hoặc ứng dụng khác) đang được chọn – chuyển lần lượt Bắt đầu (nếu theo dõi thủ công đang nghỉ) -> Tạm dừng -> Tiếp tục. Mặc định tắt vì phím tắt toàn hệ thống có thể xung đột với ứng dụng khác đang dùng cùng tổ hợp."
@@ -1365,7 +1365,7 @@
   "Español": "Objetivos y facturación",
   "Deutsch": "Ziele & Abrechnung",
   "Français": "Objectifs et facturation",
-  "한국인": "목표 및 청구",
+  "한국어": "목표 및 청구",
   "中文": "目标与计费",
   "العربية": "الأهداف والفوترة",
   "Tiếng Việt": "Mục tiêu & thanh toán"
@@ -1375,7 +1375,7 @@
   "Español": "Objetivo semanal",
   "Deutsch": "Wochenziel",
   "Français": "Objectif hebdomadaire",
-  "한국인": "주간 목표",
+  "한국어": "주간 목표",
   "中文": "每周目标",
   "العربية": "الهدف الأسبوعي",
   "Tiếng Việt": "Mục tiêu tuần"
@@ -1385,7 +1385,7 @@
   "Español": "Objetivo mensual",
   "Deutsch": "Monatsziel",
   "Français": "Objectif mensuel",
-  "한국인": "월간 목표",
+  "한국어": "월간 목표",
   "中文": "每月目标",
   "العربية": "الهدف الشهري",
   "Tiếng Việt": "Mục tiêu tháng"
@@ -1395,7 +1395,7 @@
   "Español": "horas (0 para desactivar)",
   "Deutsch": "Stunden (0 zum Deaktivieren)",
   "Français": "heures (0 pour désactiver)",
-  "한국인": "시간(0이면 사용 안 함)",
+  "한국어": "시간(0이면 사용 안 함)",
   "中文": "小时（0 表示禁用）",
   "العربية": "ساعات (0 للتعطيل)",
   "Tiếng Việt": "giờ (0 để tắt)"
@@ -1405,7 +1405,7 @@
   "Español": "Gestión de datos",
   "Deutsch": "Datenverwaltung",
   "Français": "Gestion des données",
-  "한국인": "데이터 관리",
+  "한국어": "데이터 관리",
   "中文": "数据管理",
   "العربية": "إدارة البيانات",
   "Tiếng Việt": "Quản lý dữ liệu"
@@ -1415,7 +1415,7 @@
   "Español": "Copias de seguridad semanales automáticas",
   "Deutsch": "Automatische wöchentliche Sicherungen",
   "Français": "Sauvegardes hebdomadaires automatiques",
-  "한국인": "주간 자동 백업",
+  "한국어": "주간 자동 백업",
   "中文": "每周自动备份",
   "العربية": "نسخ احتياطية أسبوعية تلقائية",
   "Tiếng Việt": "Sao lưu tự động hằng tuần"
@@ -1425,7 +1425,7 @@
   "Español": "Guarda en segundo plano una copia de seguridad completa (el mismo formato que Exportar todos los datos) una vez a la semana en ~/.davinci_time_tracker/auto_backups; conserva las 8 más recientes, solo como red de seguridad por si entries.json se pierde o se daña.",
   "Deutsch": "Speichert einmal pro Woche unbemerkt eine vollständige Sicherung (gleiches Format wie „Alle Daten exportieren“) in ~/.davinci_time_tracker/auto_backups – behält die letzten 8, als reines Sicherheitsnetz, falls entries.json einmal verloren geht oder beschädigt wird.",
   "Français": "Enregistre discrètement une sauvegarde complète (même format que Exporter toutes les données) une fois par semaine dans ~/.davinci_time_tracker/auto_backups – conserve les 8 plus récentes, simple filet de sécurité si entries.json est perdu ou corrompu.",
-  "한국인": "일주일에 한 번 전체 백업(모든 데이터 내보내기와 같은 형식)을 ~/.davinci_time_tracker/auto_backups에 자동 저장합니다 – 최근 8개를 보관하며, entries.json이 손실되거나 손상될 경우를 위한 안전장치입니다.",
+  "한국어": "일주일에 한 번 전체 백업(모든 데이터 내보내기와 같은 형식)을 ~/.davinci_time_tracker/auto_backups에 자동 저장합니다 – 최근 8개를 보관하며, entries.json이 손실되거나 손상될 경우를 위한 안전장치입니다.",
   "中文": "每周一次在后台将完整备份（与“导出所有数据”格式相同）保存到 ~/.davinci_time_tracker/auto_backups——保留最近 8 份，纯粹作为 entries.json 丢失或损坏时的安全保障。",
   "العربية": "يحفظ بصمت نسخة احتياطية كاملة (بتنسيق تصدير كل البيانات نفسه) مرة أسبوعيًا في ‎~/.davinci_time_tracker/auto_backups – ويحتفظ بآخر 8 نسخ، كشبكة أمان فقط في حال فُقد ملف entries.json أو تلف.",
   "Tiếng Việt": "Tự động lưu một bản sao lưu đầy đủ (cùng định dạng với Xuất tất cả dữ liệu) mỗi tuần một lần vào ~/.davinci_time_tracker/auto_backups – giữ 8 bản gần nhất, chỉ để phòng khi entries.json bị mất hoặc hỏng."
@@ -1435,7 +1435,7 @@
   "Español": "Recordar la última carpeta de exportación",
   "Deutsch": "Letzten Exportordner merken",
   "Français": "Mémoriser le dernier dossier d'exportation",
-  "한국인": "마지막 내보내기 폴더 기억",
+  "한국어": "마지막 내보내기 폴더 기억",
   "中文": "记住上次的导出文件夹",
   "العربية": "تذكّر آخر مجلد تصدير",
   "Tiếng Việt": "Ghi nhớ thư mục xuất gần nhất"
@@ -1445,7 +1445,7 @@
   "Español": "¿Cambias de equipo? Exporta o importa tus datos de Control de tiempo.",
   "Deutsch": "Wechseln Sie den Computer? Exportieren oder importieren Sie Ihre Zeiterfassungsdaten.",
   "Français": "Vous changez d'ordinateur ? Exportez ou importez vos données de Suivi du temps.",
-  "한국인": "새 컴퓨터로 옮기나요? 시간 추적기 데이터를 내보내거나 가져오세요.",
+  "한국어": "새 컴퓨터로 옮기나요? 시간 추적기 데이터를 내보내거나 가져오세요.",
   "中文": "要换到新电脑？请导出或导入您的时间追踪数据。",
   "العربية": "هل تنتقل إلى جهاز جديد؟ صدّر بيانات متتبع الوقت أو استوردها.",
   "Tiếng Việt": "Chuyển sang máy mới? Hãy xuất hoặc nhập dữ liệu Theo dõi thời gian."
@@ -1455,7 +1455,7 @@
   "Español": "Exportar todos los datos…",
   "Deutsch": "Alle Daten exportieren…",
   "Français": "Exporter toutes les données…",
-  "한국인": "모든 데이터 내보내기…",
+  "한국어": "모든 데이터 내보내기…",
   "中文": "导出所有数据…",
   "العربية": "تصدير كل البيانات…",
   "Tiếng Việt": "Xuất tất cả dữ liệu…"
@@ -1465,7 +1465,7 @@
   "Español": "Exportar todos los datos",
   "Deutsch": "Alle Daten exportieren",
   "Français": "Exporter toutes les données",
-  "한국인": "모든 데이터 내보내기",
+  "한국어": "모든 데이터 내보내기",
   "中文": "导出所有数据",
   "العربية": "تصدير كل البيانات",
   "Tiếng Việt": "Xuất tất cả dữ liệu"
@@ -1475,7 +1475,7 @@
   "Español": "Importar datos…",
   "Deutsch": "Daten importieren…",
   "Français": "Importer des données…",
-  "한국인": "데이터 가져오기…",
+  "한국어": "데이터 가져오기…",
   "中文": "导入数据…",
   "العربية": "استيراد البيانات…",
   "Tiếng Việt": "Nhập dữ liệu…"
@@ -1485,7 +1485,7 @@
   "Español": "Importar datos",
   "Deutsch": "Daten importieren",
   "Français": "Importer des données",
-  "한국인": "데이터 가져오기",
+  "한국어": "데이터 가져오기",
   "中文": "导入数据",
   "العربية": "استيراد البيانات",
   "Tiếng Việt": "Nhập dữ liệu"
@@ -1495,7 +1495,7 @@
   "Español": "Tarifa del proyecto",
   "Deutsch": "Projektsatz",
   "Français": "Taux du projet",
-  "한국인": "프로젝트 요율",
+  "한국어": "프로젝트 요율",
   "中文": "项目费率",
   "العربية": "سعر المشروع",
   "Tiếng Việt": "Mức giá dự án"
@@ -1505,7 +1505,7 @@
   "Español": "Ahora mismo no se detecta ningún proyecto en DaVinci Resolve. Abre allí un proyecto y vuelve aquí para fijar su tarifa.",
   "Deutsch": "Derzeit wird in DaVinci Resolve kein Projekt erkannt. Öffnen Sie dort ein Projekt und kehren Sie dann hierher zurück, um seinen Satz festzulegen.",
   "Français": "Aucun projet n'est actuellement détecté dans DaVinci Resolve. Ouvrez-y un projet, puis revenez ici pour définir son taux.",
-  "한국인": "현재 DaVinci Resolve에서 감지된 프로젝트가 없습니다. 그곳에서 프로젝트를 연 다음 여기로 돌아와 요율을 설정하세요.",
+  "한국어": "현재 DaVinci Resolve에서 감지된 프로젝트가 없습니다. 그곳에서 프로젝트를 연 다음 여기로 돌아와 요율을 설정하세요.",
   "中文": "当前未在 DaVinci Resolve 中检测到项目。请先在那里打开项目，再回到这里设置其费率。",
   "العربية": "لم يتم اكتشاف أي مشروع حاليًا في DaVinci Resolve. افتح مشروعًا هناك، ثم عد إلى هنا لتعيين سعره.",
   "Tiếng Việt": "Hiện không phát hiện dự án nào trong DaVinci Resolve. Hãy mở một dự án ở đó rồi quay lại đây để đặt mức giá."
@@ -1515,7 +1515,7 @@
   "Español": "Tarifa por hora",
   "Deutsch": "Satz pro Stunde",
   "Français": "Taux horaire",
-  "한국인": "시간당 요율",
+  "한국어": "시간당 요율",
   "中文": "每小时费率",
   "العربية": "السعر لكل ساعة",
   "Tiếng Việt": "Mức giá mỗi giờ"
@@ -1525,7 +1525,7 @@
   "Español": "Moneda",
   "Deutsch": "Währung",
   "Français": "Devise",
-  "한국인": "통화",
+  "한국어": "통화",
   "中文": "货币",
   "العربية": "العملة",
   "Tiếng Việt": "Tiền tệ"
@@ -1535,7 +1535,7 @@
   "Español": "Deja la tarifa en 0 para ocultar los ingresos de este proyecto en Informes.",
   "Deutsch": "Lassen Sie den Satz auf 0, um die Einnahmen für dieses Projekt in den Berichten auszublenden.",
   "Français": "Laissez le taux à 0 pour masquer les revenus de ce projet dans les Rapports.",
-  "한국인": "요율을 0으로 두면 보고서에서 이 프로젝트의 수입이 숨겨집니다.",
+  "한국어": "요율을 0으로 두면 보고서에서 이 프로젝트의 수입이 숨겨집니다.",
   "中文": "将费率保留为 0，可在报告中隐藏此项目的收入。",
   "العربية": "اترك السعر عند 0 لإخفاء أرباح هذا المشروع في التقارير.",
   "Tiếng Việt": "Để mức giá bằng 0 để ẩn thu nhập của dự án này trong Báo cáo."
@@ -1545,7 +1545,7 @@
   "Español": "No se pudieron exportar los datos:\n{error}",
   "Deutsch": "Die Daten konnten nicht exportiert werden:\n{error}",
   "Français": "Impossible d'exporter les données :\n{error}",
-  "한국인": "데이터를 내보낼 수 없습니다:\n{error}",
+  "한국어": "데이터를 내보낼 수 없습니다:\n{error}",
   "中文": "无法导出数据：\n{error}",
   "العربية": "تعذر تصدير البيانات:\n{error}",
   "Tiếng Việt": "Không thể xuất dữ liệu:\n{error}"
@@ -1555,7 +1555,7 @@
   "Español": "Exportación completada",
   "Deutsch": "Export abgeschlossen",
   "Français": "Exportation terminée",
-  "한국인": "내보내기 완료",
+  "한국어": "내보내기 완료",
   "中文": "导出完成",
   "العربية": "اكتمل التصدير",
   "Tiếng Việt": "Đã xuất xong"
@@ -1565,7 +1565,7 @@
   "Español": "Se exportaron {count} entradas y tu configuración a:\n{path}\n\nCopia este archivo al nuevo equipo y usa allí Importar datos.",
   "Deutsch": "{count} Einträge und Ihre Einstellungen wurden exportiert nach:\n{path}\n\nKopieren Sie diese Datei auf den neuen Computer und verwenden Sie dort „Daten importieren“.",
   "Français": "{count} entrées et vos paramètres ont été exportés vers :\n{path}\n\nCopiez ce fichier sur le nouvel ordinateur et utilisez-y Importer des données.",
-  "한국인": "항목 {count}개와 설정을 다음 위치로 내보냈습니다:\n{path}\n\n이 파일을 새 컴퓨터로 복사한 뒤 그곳에서 데이터 가져오기를 사용하세요.",
+  "한국어": "항목 {count}개와 설정을 다음 위치로 내보냈습니다:\n{path}\n\n이 파일을 새 컴퓨터로 복사한 뒤 그곳에서 데이터 가져오기를 사용하세요.",
   "中文": "已将 {count} 个条目和您的设置导出到：\n{path}\n\n请将此文件复制到新电脑，并在那里使用“导入数据”。",
   "العربية": "تم تصدير {count} إدخالات وإعداداتك إلى:\n{path}\n\nانسخ هذا الملف إلى الجهاز الجديد واستخدم استيراد البيانات هناك.",
   "Tiếng Việt": "Đã xuất {count} mục và cài đặt của bạn vào:\n{path}\n\nHãy sao chép tệp này sang máy mới và dùng Nhập dữ liệu ở đó."
@@ -1575,7 +1575,7 @@
   "Español": "Importar entradas de tiempo y configuración desde:\n{path}\n\nLas entradas que ya existen (según su id) no se tocan: nada de lo que ya hay se duplica ni se sobrescribe. Tu modo de registro, el intervalo de comprobación y los demás ajustes guardados de Control de tiempo se reemplazarán por los de este archivo. ¿Continuar?",
   "Deutsch": "Zeiteinträge und Einstellungen importieren aus:\n{path}\n\nBereits vorhandene Einträge (anhand der ID erkannt) bleiben unverändert – nichts wird dupliziert oder überschrieben. Ihr Erfassungsmodus, das Abfrageintervall und andere gespeicherte Einstellungen der Zeiterfassung werden durch die aus dieser Datei ersetzt. Fortfahren?",
   "Français": "Importer les entrées de temps et les paramètres depuis :\n{path}\n\nLes entrées déjà présentes (identifiées par id) ne sont pas modifiées – rien n'est dupliqué ni écrasé. Votre mode de suivi, l'intervalle de vérification et les autres paramètres enregistrés du Suivi du temps seront remplacés par ceux de ce fichier. Continuer ?",
-  "한국인": "다음 위치에서 시간 항목과 설정을 가져옵니다:\n{path}\n\n이미 있는 항목(ID로 대조)은 그대로 둡니다 – 여기 있는 것이 중복되거나 덮어쓰이지 않습니다. 추적 모드, 확인 간격 및 저장된 기타 시간 추적기 설정은 이 파일의 내용으로 바뀝니다. 계속할까요?",
+  "한국어": "다음 위치에서 시간 항목과 설정을 가져옵니다:\n{path}\n\n이미 있는 항목(ID로 대조)은 그대로 둡니다 – 여기 있는 것이 중복되거나 덮어쓰이지 않습니다. 추적 모드, 확인 간격 및 저장된 기타 시간 추적기 설정은 이 파일의 내용으로 바뀝니다. 계속할까요?",
   "中文": "从以下位置导入时间条目和设置：\n{path}\n\n已存在的条目（按 id 匹配）保持不变——不会重复或覆盖现有内容。您的计时模式、检查间隔和其他已保存的时间追踪设置将被此文件中的设置替换。要继续吗？",
   "العربية": "استيراد إدخالات الوقت والإعدادات من:\n{path}\n\nتُترك الإدخالات الموجودة بالفعل (المطابقة حسب المعرّف) كما هي – لا يتكرر أو يُستبدل أي شيء موجود هنا. سيتم استبدال وضع التتبع وفاصل التحقق وإعدادات متتبع الوقت المحفوظة الأخرى بتلك الموجودة في هذا الملف. هل تريد المتابعة؟",
   "Tiếng Việt": "Nhập các mục thời gian và cài đặt từ:\n{path}\n\nCác mục đã có (khớp theo id) được giữ nguyên – không có gì ở đây bị trùng lặp hay ghi đè. Chế độ theo dõi, khoảng kiểm tra và các cài đặt Theo dõi thời gian khác sẽ được thay bằng cài đặt trong tệp này. Tiếp tục?"
@@ -1585,7 +1585,7 @@
   "Español": "No se pudieron importar los datos:\n{error}",
   "Deutsch": "Die Daten konnten nicht importiert werden:\n{error}",
   "Français": "Impossible d'importer les données :\n{error}",
-  "한국인": "데이터를 가져올 수 없습니다:\n{error}",
+  "한국어": "데이터를 가져올 수 없습니다:\n{error}",
   "中文": "无法导入数据：\n{error}",
   "العربية": "تعذر استيراد البيانات:\n{error}",
   "Tiếng Việt": "Không thể nhập dữ liệu:\n{error}"
@@ -1595,7 +1595,7 @@
   "Español": "Importación completada",
   "Deutsch": "Import abgeschlossen",
   "Français": "Importation terminée",
-  "한국인": "가져오기 완료",
+  "한국어": "가져오기 완료",
   "中文": "导入完成",
   "العربية": "اكتمل الاستيراد",
   "Tiếng Việt": "Đã nhập xong"
@@ -1605,7 +1605,7 @@
   "Español": "Se importó 1 entrada nueva.",
   "Deutsch": "1 neuer Eintrag importiert.",
   "Français": "1 nouvelle entrée importée.",
-  "한국인": "새 항목 1개를 가져왔습니다.",
+  "한국어": "새 항목 1개를 가져왔습니다.",
   "中文": "已导入 1 个新条目。",
   "العربية": "تم استيراد إدخال جديد واحد.",
   "Tiếng Việt": "Đã nhập 1 mục mới."
@@ -1615,7 +1615,7 @@
   "Español": "Se importaron {count} entradas nuevas.",
   "Deutsch": "{count} neue Einträge importiert.",
   "Français": "{count} nouvelles entrées importées.",
-  "한국인": "새 항목 {count}개를 가져왔습니다.",
+  "한국어": "새 항목 {count}개를 가져왔습니다.",
   "中文": "已导入 {count} 个新条目。",
   "العربية": "تم استيراد {count} إدخالات جديدة.",
   "Tiếng Việt": "Đã nhập {count} mục mới."
@@ -1625,7 +1625,7 @@
   "Español": "Se importó 1 entrada nueva. ({skipped} ya existían y se omitieron.)",
   "Deutsch": "1 neuer Eintrag importiert. ({skipped} bereits vorhanden, übersprungen.)",
   "Français": "1 nouvelle entrée importée. ({skipped} déjà présente(s), ignorée(s).)",
-  "한국인": "새 항목 1개를 가져왔습니다. ({skipped}개는 이미 있어 건너뛰었습니다.)",
+  "한국어": "새 항목 1개를 가져왔습니다. ({skipped}개는 이미 있어 건너뛰었습니다.)",
   "中文": "已导入 1 个新条目。（{skipped} 个已存在，已跳过。）",
   "العربية": "تم استيراد إدخال جديد واحد. ({skipped} موجودة بالفعل، تم تخطيها.)",
   "Tiếng Việt": "Đã nhập 1 mục mới. ({skipped} mục đã có, bỏ qua.)"
@@ -1635,7 +1635,7 @@
   "Español": "Se importaron {count} entradas nuevas. ({skipped} ya existían y se omitieron.)",
   "Deutsch": "{count} neue Einträge importiert. ({skipped} bereits vorhanden, übersprungen.)",
   "Français": "{count} nouvelles entrées importées. ({skipped} déjà présente(s), ignorée(s).)",
-  "한국인": "새 항목 {count}개를 가져왔습니다. ({skipped}개는 이미 있어 건너뛰었습니다.)",
+  "한국어": "새 항목 {count}개를 가져왔습니다. ({skipped}개는 이미 있어 건너뛰었습니다.)",
   "中文": "已导入 {count} 个新条目。（{skipped} 个已存在，已跳过。）",
   "العربية": "تم استيراد {count} إدخالات جديدة. ({skipped} موجودة بالفعل، تم تخطيها.)",
   "Tiếng Việt": "Đã nhập {count} mục mới. ({skipped} mục đã có, bỏ qua.)"
@@ -1645,7 +1645,7 @@
   "Español": "No es un archivo de copia de seguridad válido de Control de tiempo.",
   "Deutsch": "Keine gültige Sicherungsdatei der Zeiterfassung.",
   "Français": "Ce n'est pas un fichier de sauvegarde valide du Suivi du temps.",
-  "한국인": "유효한 시간 추적기 백업 파일이 아닙니다.",
+  "한국어": "유효한 시간 추적기 백업 파일이 아닙니다.",
   "中文": "不是有效的时间追踪备份文件。",
   "العربية": "ليس ملف نسخة احتياطية صالحًا لمتتبع الوقت.",
   "Tiếng Việt": "Không phải tệp sao lưu Theo dõi thời gian hợp lệ."
@@ -1655,7 +1655,7 @@
   "Español": "{name} estaba dañado y no se pudo leer ({error}). Control de tiempo se inició sin él.",
   "Deutsch": "{name} war beschädigt und konnte nicht gelesen werden ({error}). Die Zeiterfassung wurde ohne sie gestartet.",
   "Français": "{name} était endommagé et n'a pas pu être lu ({error}). Le Suivi du temps a démarré sans lui.",
-  "한국인": "{name} 파일이 손상되어 읽을 수 없습니다({error}). 시간 추적기가 이 파일 없이 시작되었습니다.",
+  "한국어": "{name} 파일이 손상되어 읽을 수 없습니다({error}). 시간 추적기가 이 파일 없이 시작되었습니다.",
   "中文": "{name} 已损坏，无法读取（{error}）。时间追踪已在没有它的情况下启动。",
   "العربية": "كان {name} تالفًا وتعذرت قراءته ({error}). بدأ متتبع الوقت بدونه.",
   "Tiếng Việt": "{name} bị hỏng và không thể đọc được ({error}). Theo dõi thời gian đã khởi động mà không có tệp này."
@@ -1665,7 +1665,7 @@
   "Español": "{name} estaba dañado y se ha guardado como {kept}. Control de tiempo se inició sin él.",
   "Deutsch": "{name} war beschädigt und wurde als {kept} aufbewahrt. Die Zeiterfassung wurde ohne sie gestartet.",
   "Français": "{name} était endommagé et a été conservé sous le nom {kept}. Le Suivi du temps a démarré sans lui.",
-  "한국인": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. 시간 추적기가 이 파일 없이 시작되었습니다.",
+  "한국어": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. 시간 추적기가 이 파일 없이 시작되었습니다.",
   "中文": "{name} 已损坏，已保留为 {kept}。时间追踪已在没有它的情况下启动。",
   "العربية": "كان {name} تالفًا وتم الاحتفاظ به باسم {kept}. بدأ متتبع الوقت بدونه.",
   "Tiếng Việt": "{name} bị hỏng và đã được giữ lại dưới tên {kept}. Theo dõi thời gian đã khởi động mà không có tệp này."

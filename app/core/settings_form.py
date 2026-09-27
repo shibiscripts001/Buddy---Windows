@@ -36,7 +36,7 @@ that's only ever Buddy's own.
 
 import re
 
-from core.i18n import LANGUAGES, language_label
+from core.i18n import LANGUAGES, canonical_language, language_label
 from core.theme import (
     DEFAULT_SIDE_PANE_TINT,
     DEFAULT_THEME,
@@ -201,7 +201,7 @@ def shell_fields(shared, autostart):
 def language_fields(shared):
     """The Language dropdown - the last thing in Settings, whichever tool
     is open. Each language is shown in its own name."""
-    language = shared.get("language", LANGUAGES[0])
+    language = canonical_language(shared.get("language", LANGUAGES[0]))
     return [
         line(),
         heading("Language"),
@@ -242,6 +242,7 @@ def apply_shell(shared, key, value):
         shared["split_tint"] = value
         return "window"
     if key == "language":
+        value = canonical_language(value)
         if value not in LANGUAGES:
             return None
         shared["language"] = value

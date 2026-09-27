@@ -89,7 +89,7 @@ class StringTests(unittest.TestCase):
         wrong = []
         for key, entry in TRANSLATIONS.items():
             for lang, text in entry.items():
-                bad = ((lang == "한국인" and HAN.search(text))
+                bad = ((lang == "한국어" and HAN.search(text))
                        or (lang == "中文" and (HANGUL.search(text) or KANA.search(text)))
                        or (lang == "日本語" and HANGUL.search(text))
                        or (lang in ("Español", "Deutsch", "Français", "Tiếng Việt")
@@ -106,8 +106,23 @@ class SettingsTests(unittest.TestCase):
         self.assertEqual(box["value"], "Deutsch")
         self.assertTrue(box["raw"])                                  # never translated
         labels = {o["value"]: o["label"] for o in box["options"]}
-        self.assertEqual(labels["한국인"], "한국어")
+        self.assertEqual(labels["한국어"], "한국어")
         self.assertEqual([o["value"] for o in box["options"]], LANGUAGES)
+
+    def test_korean_saved_under_its_old_key_is_still_korean(self):
+        # Until 1.1.3 Korean was stored as "한국인" ("Korean person").
+        from core.i18n import I18nManager, canonical_language
+        self.assertEqual(canonical_language("한국인"), "한국어")
+        self.assertEqual(canonical_language("Deutsch"), "Deutsch")
+        self.assertEqual(I18nManager("한국인").language, "한국어")
+        manager = I18nManager()
+        manager.language = "한국인"
+        self.assertEqual(manager.language, "한국어")
+        box = {f["key"]: f for f in sf.language_fields({"language": "한국인"}) if f.get("key")}["language"]
+        self.assertEqual(box["value"], "한국어")                     # not English
+        shared = {}
+        sf.apply_shell(shared, "language", "한국인")
+        self.assertEqual(shared["language"], "한국어")
 
     def test_choosing_a_language(self):
         shared = {}

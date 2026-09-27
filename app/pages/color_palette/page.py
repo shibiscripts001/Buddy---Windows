@@ -61,7 +61,7 @@ from .color_engine import (
     extraction_image, import_palette_colors, relative_luminance, render_fixed_shape_visualization_image,
 )
 from .data_manager import DataManager
-from core.i18n import DEFAULT_LANGUAGE, LANGUAGES, TRANSLATIONS, get_i18n, tr, tr_filter
+from core.i18n import DEFAULT_LANGUAGE, LANGUAGES, TRANSLATIONS, canonical_language, get_i18n, tr, tr_filter
 from .settings_panel import ColorPaletteSettingsMixin
 
 TABS = ("palettes", "generators", "extract", "visualize", "tools")
@@ -276,7 +276,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
         shared = getattr(self.host, "shared_settings", None)
         if shared is None or not hasattr(shared, "save") or shared.get("_language_adopted"):
             return
-        old = self.data_mgr.settings.get("language")
+        old = canonical_language(self.data_mgr.settings.get("language"))
         if old in LANGUAGES and old != DEFAULT_LANGUAGE and shared.get("language", DEFAULT_LANGUAGE) == DEFAULT_LANGUAGE:
             shared["language"] = old
             self.i18n.language = old

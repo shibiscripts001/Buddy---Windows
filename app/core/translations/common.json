@@ -5,7 +5,7 @@
   "Español": "Actualizar",
   "Deutsch": "Aktualisieren",
   "Français": "Actualiser",
-  "한국인": "새로 고침",
+  "한국어": "새로 고침",
   "中文": "刷新",
   "العربية": "تحديث",
   "Tiếng Việt": "Làm mới"
@@ -15,7 +15,7 @@
   "Español": "Copiar",
   "Deutsch": "Kopieren",
   "Français": "Copier",
-  "한국인": "복사",
+  "한국어": "복사",
   "中文": "复制",
   "العربية": "نسخ",
   "Tiếng Việt": "Sao chép"
@@ -25,7 +25,7 @@
   "Español": "Copiado",
   "Deutsch": "Kopiert",
   "Français": "Copié",
-  "한국인": "복사됨",
+  "한국어": "복사됨",
   "中文": "已复制",
   "العربية": "تم النسخ",
   "Tiếng Việt": "Đã sao chép"
@@ -35,7 +35,7 @@
   "Español": "Restablecer",
   "Deutsch": "Zurücksetzen",
   "Français": "Réinitialiser",
-  "한국인": "재설정",
+  "한국어": "재설정",
   "中文": "重置",
   "العربية": "إعادة تعيين",
   "Tiếng Việt": "Đặt lại"
@@ -45,7 +45,7 @@
   "Español": "Examinar…",
   "Deutsch": "Durchsuchen…",
   "Français": "Parcourir…",
-  "한국인": "찾아보기…",
+  "한국어": "찾아보기…",
   "中文": "浏览…",
   "العربية": "استعراض…",
   "Tiếng Việt": "Duyệt…"
@@ -55,7 +55,7 @@
   "Español": "Abrir carpeta",
   "Deutsch": "Ordner öffnen",
   "Français": "Ouvrir le dossier",
-  "한국인": "폴더 열기",
+  "한국어": "폴더 열기",
   "中文": "打开文件夹",
   "العربية": "فتح المجلد",
   "Tiếng Việt": "Mở thư mục"
@@ -65,7 +65,7 @@
   "Español": "Actividad",
   "Deutsch": "Aktivität",
   "Français": "Activité",
-  "한국인": "활동",
+  "한국어": "활동",
   "中文": "活动",
   "العربية": "النشاط",
   "Tiếng Việt": "Hoạt động"
@@ -75,7 +75,7 @@
   "Español": "Reintentar",
   "Deutsch": "Erneut versuchen",
   "Français": "Réessayer",
-  "한국인": "다시 시도",
+  "한국어": "다시 시도",
   "中文": "重试",
   "العربية": "حاول مرة أخرى",
   "Tiếng Việt": "Thử lại"
@@ -85,7 +85,7 @@
   "Español": "Todos",
   "Deutsch": "Alle",
   "Français": "Tout",
-  "한국인": "전체",
+  "한국어": "전체",
   "中文": "全部",
   "العربية": "الكل",
   "Tiếng Việt": "Tất cả"
@@ -95,7 +95,7 @@
   "Español": "Carpeta",
   "Deutsch": "Ordner",
   "Français": "Dossier",
-  "한국인": "폴더",
+  "한국어": "폴더",
   "中文": "文件夹",
   "العربية": "المجلد",
   "Tiếng Việt": "Thư mục"
@@ -105,7 +105,7 @@
   "Español": "Nombre de archivo",
   "Deutsch": "Dateiname",
   "Français": "Nom du fichier",
-  "한국인": "파일 이름",
+  "한국어": "파일 이름",
   "中文": "文件名",
   "العربية": "اسم الملف",
   "Tiếng Việt": "Tên tệp"
@@ -115,7 +115,7 @@
   "Español": "Editado",
   "Deutsch": "Bearbeitet",
   "Français": "Modifié",
-  "한국인": "편집됨",
+  "한국어": "편집됨",
   "中文": "已编辑",
   "العربية": "معدّل",
   "Tiếng Việt": "Đã chỉnh sửa"
@@ -125,7 +125,7 @@
   "Español": "Elige una carpeta",
   "Deutsch": "Ordner wählen",
   "Français": "Choisir un dossier",
-  "한국인": "폴더 선택",
+  "한국어": "폴더 선택",
   "中文": "选择文件夹",
   "العربية": "اختر مجلدًا",
   "Tiếng Việt": "Chọn thư mục"
@@ -135,7 +135,7 @@
   "Español": "Elige o pega una carpeta",
   "Deutsch": "Ordner wählen oder einfügen",
   "Français": "Choisissez ou collez un dossier",
-  "한국인": "폴더를 선택하거나 붙여 넣기",
+  "한국어": "폴더를 선택하거나 붙여 넣기",
   "中文": "选择或粘贴文件夹",
   "العربية": "اختر مجلدًا أو الصقه",
   "Tiếng Việt": "Chọn hoặc dán thư mục"
@@ -145,7 +145,7 @@
   "Español": "No hay nada que guardar",
   "Deutsch": "Nichts zu speichern",
   "Français": "Rien à enregistrer",
-  "한국인": "저장할 내용이 없음",
+  "한국어": "저장할 내용이 없음",
   "中文": "没有可保存的内容",
   "العربية": "لا يوجد ما يُحفظ",
   "Tiếng Việt": "Không có gì để lưu"
@@ -155,7 +155,7 @@
   "Español": "No se pudo guardar",
   "Deutsch": "Speichern fehlgeschlagen",
   "Français": "Impossible d'enregistrer",
-  "한국인": "저장할 수 없음",
+  "한국어": "저장할 수 없음",
   "中文": "无法保存",
   "العربية": "تعذر الحفظ",
   "Tiếng Việt": "Không thể lưu"
@@ -165,7 +165,7 @@
   "Español": "{name} guardado",
   "Deutsch": "{name} gespeichert",
   "Français": "{name} enregistré",
-  "한국인": "{name} 저장됨",
+  "한국어": "{name} 저장됨",
   "中文": "已保存 {name}",
   "العربية": "تم حفظ {name}",
   "Tiếng Việt": "Đã lưu {name}"
@@ -175,7 +175,7 @@
   "Español": "No se pudo guardar {name}: {error}",
   "Deutsch": "{name} konnte nicht gespeichert werden: {error}",
   "Français": "Impossible d'enregistrer {name} : {error}",
-  "한국인": "{name}을(를) 저장할 수 없습니다: {error}",
+  "한국어": "{name}을(를) 저장할 수 없습니다: {error}",
   "中文": "无法保存 {name}：{error}",
   "العربية": "تعذر حفظ {name}: {error}",
   "Tiếng Việt": "Không thể lưu {name}: {error}"
@@ -185,7 +185,7 @@
   "Español": "Error",
   "Deutsch": "Fehler",
   "Français": "Erreur",
-  "한국인": "오류",
+  "한국어": "오류",
   "中文": "错误",
   "العربية": "خطأ",
   "Tiếng Việt": "Lỗi"
@@ -195,7 +195,7 @@
   "Español": "Listo",
   "Deutsch": "Fertig",
   "Français": "Terminé",
-  "한국인": "완료",
+  "한국어": "완료",
   "中文": "完成",
   "العربية": "تم",
   "Tiếng Việt": "Xong"
@@ -205,7 +205,7 @@
   "Español": "Borrar",
   "Deutsch": "Leeren",
   "Français": "Effacer",
-  "한국인": "지우기",
+  "한국어": "지우기",
   "中文": "清除",
   "العربية": "مسح",
   "Tiếng Việt": "Xóa"
@@ -215,7 +215,7 @@
   "Español": "Detener",
   "Deutsch": "Stopp",
   "Français": "Arrêter",
-  "한국인": "중지",
+  "한국어": "중지",
   "中文": "停止",
   "العربية": "إيقاف",
   "Tiếng Việt": "Dừng"
@@ -225,7 +225,7 @@
   "Español": "Importar",
   "Deutsch": "Importieren",
   "Français": "Importer",
-  "한국인": "가져오기",
+  "한국어": "가져오기",
   "中文": "导入",
   "العربية": "استيراد",
   "Tiếng Việt": "Nhập"
@@ -235,7 +235,7 @@
   "Español": "Exportar",
   "Deutsch": "Exportieren",
   "Français": "Exporter",
-  "한국인": "내보내기",
+  "한국어": "내보내기",
   "中文": "导出",
   "العربية": "تصدير",
   "Tiếng Việt": "Xuất"
@@ -245,7 +245,7 @@
   "Español": "Error al importar",
   "Deutsch": "Import fehlgeschlagen",
   "Français": "Échec de l'importation",
-  "한국인": "가져오기 실패",
+  "한국어": "가져오기 실패",
   "中文": "导入失败",
   "العربية": "فشل الاستيراد",
   "Tiếng Việt": "Nhập thất bại"
@@ -255,7 +255,7 @@
   "Español": "Error al exportar",
   "Deutsch": "Export fehlgeschlagen",
   "Français": "Échec de l'exportation",
-  "한국인": "내보내기 실패",
+  "한국어": "내보내기 실패",
   "中文": "导出失败",
   "العربية": "فشل التصدير",
   "Tiếng Việt": "Xuất thất bại"
@@ -265,7 +265,7 @@
   "Español": "Añadir archivos…",
   "Deutsch": "Dateien hinzufügen…",
   "Français": "Ajouter des fichiers…",
-  "한국인": "파일 추가…",
+  "한국어": "파일 추가…",
   "中文": "添加文件…",
   "العربية": "إضافة ملفات…",
   "Tiếng Việt": "Thêm tệp…"
@@ -275,7 +275,7 @@
   "Español": "Cambiar…",
   "Deutsch": "Ändern…",
   "Français": "Modifier…",
-  "한국인": "변경…",
+  "한국어": "변경…",
   "中文": "更改…",
   "العربية": "تغيير…",
   "Tiếng Việt": "Thay đổi…"
@@ -285,7 +285,7 @@
   "Español": "Suelta para añadir",
   "Deutsch": "Zum Hinzufügen ablegen",
   "Français": "Déposez pour ajouter",
-  "한국인": "놓아서 추가",
+  "한국어": "놓아서 추가",
   "中文": "拖放以添加",
   "العربية": "أفلت للإضافة",
   "Tiếng Việt": "Thả để thêm"
@@ -295,7 +295,7 @@
   "Español": "Nombre del clip",
   "Deutsch": "Clipname",
   "Français": "Nom du clip",
-  "한국인": "클립 이름",
+  "한국어": "클립 이름",
   "中文": "片段名称",
   "العربية": "اسم المقطع",
   "Tiếng Việt": "Tên clip"
@@ -305,7 +305,7 @@
   "Español": "Volver a leer la línea de tiempo",
   "Deutsch": "Timeline erneut lesen",
   "Français": "Relire la timeline",
-  "한국인": "타임라인 다시 읽기",
+  "한국어": "타임라인 다시 읽기",
   "中文": "重新读取时间线",
   "العربية": "إعادة قراءة الخط الزمني",
   "Tiếng Việt": "Đọc lại timeline"
@@ -315,7 +315,7 @@
   "Español": "Abre Resolve con un proyecto y pulsa Conectar.",
   "Deutsch": "Öffnen Sie Resolve mit einem Projekt und klicken Sie dann auf „Verbinden“.",
   "Français": "Ouvrez Resolve avec un projet, puis appuyez sur Connecter.",
-  "한국인": "프로젝트를 연 상태로 Resolve를 실행한 다음 연결을 누르세요.",
+  "한국어": "프로젝트를 연 상태로 Resolve를 실행한 다음 연결을 누르세요.",
   "中文": "用一个项目打开 Resolve，然后按“连接”。",
   "العربية": "افتح Resolve مع مشروع، ثم اضغط على اتصال.",
   "Tiếng Việt": "Mở Resolve cùng một dự án, rồi nhấn Kết nối."
@@ -325,7 +325,7 @@
   "Español": "No hay ninguna línea de tiempo abierta",
   "Deutsch": "Keine Timeline geöffnet",
   "Français": "Aucune timeline ouverte",
-  "한국인": "열린 타임라인 없음",
+  "한국어": "열린 타임라인 없음",
   "中文": "未打开时间线",
   "العربية": "لا يوجد خط زمني مفتوح",
   "Tiếng Việt": "Chưa mở timeline"
@@ -335,7 +335,7 @@
   "Español": "Abre una línea de tiempo en Resolve.",
   "Deutsch": "Öffnen Sie eine Timeline in Resolve.",
   "Français": "Ouvrez une timeline dans Resolve.",
-  "한국인": "Resolve에서 타임라인을 여세요.",
+  "한국어": "Resolve에서 타임라인을 여세요.",
   "中文": "请在 Resolve 中打开一个时间线。",
   "العربية": "افتح خطًا زمنيًا في Resolve.",
   "Tiếng Việt": "Hãy mở một timeline trong Resolve."
@@ -345,7 +345,7 @@
   "Español": "No hay ningún proyecto abierto en Resolve.",
   "Deutsch": "In Resolve ist kein Projekt geöffnet.",
   "Français": "Aucun projet n'est ouvert dans Resolve.",
-  "한국인": "Resolve에 열린 프로젝트가 없습니다.",
+  "한국어": "Resolve에 열린 프로젝트가 없습니다.",
   "中文": "Resolve 中没有打开的项目。",
   "العربية": "لا يوجد مشروع مفتوح في Resolve.",
   "Tiếng Việt": "Không có dự án nào đang mở trong Resolve."
@@ -355,7 +355,7 @@
   "Español": "¡No hay ningún proyecto abierto en Resolve!",
   "Deutsch": "In Resolve ist kein Projekt geöffnet!",
   "Français": "Aucun projet n'est ouvert dans Resolve !",
-  "한국인": "Resolve에 열린 프로젝트가 없습니다!",
+  "한국어": "Resolve에 열린 프로젝트가 없습니다!",
   "中文": "Resolve 中没有打开的项目！",
   "العربية": "لا يوجد مشروع مفتوح في Resolve!",
   "Tiếng Việt": "Không có dự án nào đang mở trong Resolve!"
@@ -365,7 +365,7 @@
   "Español": "Ahora mismo no hay ningún proyecto abierto en Resolve.",
   "Deutsch": "In Resolve ist derzeit kein Projekt geöffnet.",
   "Français": "Aucun projet n'est actuellement ouvert dans Resolve.",
-  "한국인": "현재 Resolve에 열린 프로젝트가 없습니다.",
+  "한국어": "현재 Resolve에 열린 프로젝트가 없습니다.",
   "中文": "Resolve 当前没有打开的项目。",
   "العربية": "لا يوجد مشروع مفتوح حاليًا في Resolve.",
   "Tiếng Việt": "Hiện không có dự án nào đang mở trong Resolve."
@@ -375,7 +375,7 @@
   "Español": "No hay ninguna línea de tiempo activa abierta en el proyecto actual.",
   "Deutsch": "Im aktuellen Projekt ist keine aktive Timeline geöffnet.",
   "Français": "Aucune timeline active n'est ouverte dans le projet actuel.",
-  "한국인": "현재 프로젝트에 열린 활성 타임라인이 없습니다.",
+  "한국어": "현재 프로젝트에 열린 활성 타임라인이 없습니다.",
   "中文": "当前项目中没有打开的活动时间线。",
   "العربية": "لا يوجد خط زمني نشط مفتوح في المشروع الحالي.",
   "Tiếng Việt": "Không có timeline nào đang hoạt động trong dự án hiện tại."
@@ -385,7 +385,7 @@
   "Español": "No se pudo acceder al Grupo de medios.",
   "Deutsch": "Auf den Media Pool konnte nicht zugegriffen werden.",
   "Français": "Impossible d'accéder au Pool de médias.",
-  "한국인": "미디어 풀에 접근할 수 없습니다.",
+  "한국어": "미디어 풀에 접근할 수 없습니다.",
   "中文": "无法访问媒体池。",
   "العربية": "تعذر الوصول إلى مجمع الوسائط.",
   "Tiếng Việt": "Không thể truy cập Media Pool."
@@ -395,7 +395,7 @@
   "Español": "Azul",
   "Deutsch": "Blau",
   "Français": "Bleu",
-  "한국인": "파랑",
+  "한국어": "파랑",
   "中文": "蓝色",
   "العربية": "أزرق",
   "Tiếng Việt": "Xanh dương"
@@ -405,7 +405,7 @@
   "Español": "Cian",
   "Deutsch": "Cyan",
   "Français": "Cyan",
-  "한국인": "청록",
+  "한국어": "청록",
   "中文": "青色",
   "العربية": "سماوي",
   "Tiếng Việt": "Xanh lơ"
@@ -415,7 +415,7 @@
   "Español": "Verde",
   "Deutsch": "Grün",
   "Français": "Vert",
-  "한국인": "초록",
+  "한국어": "초록",
   "中文": "绿色",
   "العربية": "أخضر",
   "Tiếng Việt": "Xanh lá"
@@ -425,7 +425,7 @@
   "Español": "Amarillo",
   "Deutsch": "Gelb",
   "Français": "Jaune",
-  "한국인": "노랑",
+  "한국어": "노랑",
   "中文": "黄色",
   "العربية": "أصفر",
   "Tiếng Việt": "Vàng"
@@ -435,7 +435,7 @@
   "Español": "Rojo",
   "Deutsch": "Rot",
   "Français": "Rouge",
-  "한국인": "빨강",
+  "한국어": "빨강",
   "中文": "红色",
   "العربية": "أحمر",
   "Tiếng Việt": "Đỏ"
@@ -445,7 +445,7 @@
   "Español": "Rosa",
   "Deutsch": "Pink",
   "Français": "Rose",
-  "한국인": "분홍",
+  "한국어": "분홍",
   "中文": "粉色",
   "العربية": "وردي",
   "Tiếng Việt": "Hồng"
@@ -455,7 +455,7 @@
   "Español": "Morado",
   "Deutsch": "Lila",
   "Français": "Violet",
-  "한국인": "보라",
+  "한국어": "보라",
   "中文": "紫色",
   "العربية": "بنفسجي",
   "Tiếng Việt": "Tím"
@@ -465,7 +465,7 @@
   "Español": "Fucsia",
   "Deutsch": "Fuchsia",
   "Français": "Fuchsia",
-  "한국인": "자홍",
+  "한국어": "자홍",
   "中文": "紫红色",
   "العربية": "فوشيا",
   "Tiếng Việt": "Hồng tím"
@@ -475,7 +475,7 @@
   "Español": "Rosado",
   "Deutsch": "Rosé",
   "Français": "Rose clair",
-  "한국인": "장미",
+  "한국어": "장미",
   "中文": "玫瑰色",
   "العربية": "وردي فاتح",
   "Tiếng Việt": "Hồng phấn"
@@ -485,7 +485,7 @@
   "Español": "Lavanda",
   "Deutsch": "Lavendel",
   "Français": "Lavande",
-  "한국인": "라벤더",
+  "한국어": "라벤더",
   "中文": "薰衣草色",
   "العربية": "لافندر",
   "Tiếng Việt": "Oải hương"
@@ -495,7 +495,7 @@
   "Español": "Celeste",
   "Deutsch": "Himmelblau",
   "Français": "Bleu ciel",
-  "한국인": "하늘",
+  "한국어": "하늘",
   "中文": "天蓝色",
   "العربية": "سماوي فاتح",
   "Tiếng Việt": "Xanh da trời"
@@ -505,7 +505,7 @@
   "Español": "Menta",
   "Deutsch": "Mint",
   "Français": "Menthe",
-  "한국인": "민트",
+  "한국어": "민트",
   "中文": "薄荷色",
   "العربية": "نعناعي",
   "Tiếng Việt": "Bạc hà"
@@ -515,7 +515,7 @@
   "Español": "Limón",
   "Deutsch": "Zitrone",
   "Français": "Citron",
-  "한국인": "레몬",
+  "한국어": "레몬",
   "中文": "柠檬色",
   "العربية": "ليموني",
   "Tiếng Việt": "Vàng chanh"
@@ -525,7 +525,7 @@
   "Español": "Arena",
   "Deutsch": "Sand",
   "Français": "Sable",
-  "한국인": "모래",
+  "한국어": "모래",
   "中文": "沙色",
   "العربية": "رملي",
   "Tiếng Việt": "Cát"
@@ -535,7 +535,7 @@
   "Español": "Cacao",
   "Deutsch": "Kakao",
   "Français": "Cacao",
-  "한국인": "코코아",
+  "한국어": "코코아",
   "中文": "可可色",
   "العربية": "كاكاو",
   "Tiếng Việt": "Ca cao"
@@ -545,7 +545,7 @@
   "Español": "Crema",
   "Deutsch": "Creme",
   "Français": "Crème",
-  "한국인": "크림",
+  "한국어": "크림",
   "中文": "奶油色",
   "العربية": "كريمي",
   "Tiếng Việt": "Kem"

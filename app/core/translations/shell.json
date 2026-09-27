@@ -5,7 +5,7 @@
   "Español": "Preguntar",
   "Deutsch": "Fragen",
   "Français": "Demander",
-  "한국인": "질문",
+  "한국어": "질문",
   "中文": "提问",
   "العربية": "اسأل",
   "Tiếng Việt": "Hỏi"
@@ -15,7 +15,7 @@
   "Español": "Configuración",
   "Deutsch": "Einrichtung",
   "Français": "Configuration",
-  "한국인": "설정",
+  "한국어": "설정",
   "中文": "设置",
   "العربية": "الإعداد",
   "Tiếng Việt": "Thiết lập"
@@ -25,7 +25,7 @@
   "Español": "Medios y recursos",
   "Deutsch": "Medien & Assets",
   "Français": "Médias et ressources",
-  "한국인": "미디어 및 에셋",
+  "한국어": "미디어 및 에셋",
   "中文": "媒体与素材",
   "العربية": "الوسائط والأصول",
   "Tiếng Việt": "Phương tiện & tài nguyên"
@@ -35,7 +35,7 @@
   "Español": "Herramientas de edición",
   "Deutsch": "Schnittwerkzeuge",
   "Français": "Outils de montage",
-  "한국인": "편집 도구",
+  "한국어": "편집 도구",
   "中文": "剪辑工具",
   "العربية": "أدوات التحرير",
   "Tiếng Việt": "Công cụ biên tập"
@@ -45,7 +45,7 @@
   "Español": "Exportación y entrega",
   "Deutsch": "Export & Auslieferung",
   "Français": "Export et livraison",
-  "한국인": "내보내기 및 전달",
+  "한국어": "내보내기 및 전달",
   "中文": "导出与交付",
   "العربية": "التصدير والتسليم",
   "Tiếng Việt": "Xuất & bàn giao"
@@ -55,7 +55,7 @@
   "Español": "Negocio",
   "Deutsch": "Geschäftliches",
   "Français": "Activité",
-  "한국인": "비즈니스",
+  "한국어": "비즈니스",
   "中文": "业务",
   "العربية": "الأعمال",
   "Tiếng Việt": "Kinh doanh"
@@ -65,7 +65,7 @@
   "Español": "Pregunta a Buddy",
   "Deutsch": "Buddy fragen",
   "Français": "Demander à Buddy",
-  "한국인": "Buddy에게 질문",
+  "한국어": "Buddy에게 질문",
   "中文": "询问 Buddy",
   "العربية": "اسأل Buddy",
   "Tiếng Việt": "Hỏi Buddy"
@@ -75,7 +75,7 @@
   "Español": "Configuración de proyecto",
   "Deutsch": "Projekteinrichtung",
   "Français": "Configuration du projet",
-  "한국인": "프로젝트 설정",
+  "한국어": "프로젝트 설정",
   "中文": "项目设置",
   "العربية": "إعداد المشروع",
   "Tiếng Việt": "Thiết lập dự án"
@@ -85,7 +85,7 @@
   "Español": "Gestor de recursos",
   "Deutsch": "Asset-Manager",
   "Français": "Gestionnaire de ressources",
-  "한국인": "에셋 매니저",
+  "한국어": "에셋 매니저",
   "中文": "素材管理器",
   "العربية": "مدير الأصول",
   "Tiếng Việt": "Trình quản lý tài nguyên"
@@ -95,7 +95,7 @@
   "Español": "Importador de imágenes",
   "Deutsch": "Bildimport",
   "Français": "Importateur d'images",
-  "한국인": "이미지 가져오기",
+  "한국어": "이미지 가져오기",
   "中文": "图像导入器",
   "العربية": "مستورد الصور",
   "Tiếng Việt": "Nhập hình ảnh"
@@ -105,7 +105,7 @@
   "Español": "Importador de SVG",
   "Deutsch": "SVG-Import",
   "Français": "Importateur SVG",
-  "한국인": "SVG 가져오기",
+  "한국어": "SVG 가져오기",
   "中文": "SVG 导入器",
   "العربية": "مستورد SVG",
   "Tiếng Việt": "Nhập SVG"
@@ -115,7 +115,7 @@
   "Español": "Revincular medios",
   "Deutsch": "Medien neu verknüpfen",
   "Français": "Reconnexion des médias",
-  "한국인": "미디어 다시 연결",
+  "한국어": "미디어 다시 연결",
   "中文": "媒体重新链接",
   "العربية": "إعادة ربط الوسائط",
   "Tiếng Việt": "Liên kết lại phương tiện"
@@ -125,7 +125,7 @@
   "Español": "Renombrado de clips por lotes",
   "Deutsch": "Clips stapelweise umbenennen",
   "Français": "Renommage de clips par lots",
-  "한국인": "클립 일괄 이름 변경",
+  "한국어": "클립 일괄 이름 변경",
   "中文": "批量重命名片段",
   "العربية": "إعادة تسمية المقاطع دفعةً واحدة",
   "Tiếng Việt": "Đổi tên clip hàng loạt"
@@ -135,7 +135,7 @@
   "Español": "Animador de texto",
   "Deutsch": "Textanimation",
   "Français": "Animateur de texte",
-  "한국인": "텍스트 애니메이터",
+  "한국어": "텍스트 애니메이터",
   "中文": "文字动画",
   "العربية": "محرك النصوص",
   "Tiếng Việt": "Tạo hiệu ứng chữ"
@@ -145,7 +145,7 @@
   "Español": "Transcribir",
   "Deutsch": "Transkribieren",
   "Français": "Transcrire",
-  "한국인": "받아쓰기",
+  "한국어": "받아쓰기",
   "中文": "转录",
   "العربية": "التفريغ النصي",
   "Tiếng Việt": "Phiên âm"
@@ -155,7 +155,7 @@
   "Español": "Exportador de fotogramas",
   "Deutsch": "Standbild-Export",
   "Français": "Exportateur d'images fixes",
-  "한국인": "스틸 내보내기",
+  "한국어": "스틸 내보내기",
   "中文": "静帧导出器",
   "العربية": "مصدّر اللقطات الثابتة",
   "Tiếng Việt": "Xuất ảnh tĩnh"
@@ -165,7 +165,7 @@
   "Español": "Capítulos de YouTube",
   "Deutsch": "YouTube-Kapitel",
   "Français": "Chapitres YouTube",
-  "한국인": "YouTube 챕터",
+  "한국어": "YouTube 챕터",
   "中文": "YouTube 章节",
   "العربية": "فصول YouTube",
   "Tiếng Việt": "Chương YouTube"
@@ -175,7 +175,7 @@
   "Español": "Control de tiempo",
   "Deutsch": "Zeiterfassung",
   "Français": "Suivi du temps",
-  "한국인": "시간 추적기",
+  "한국어": "시간 추적기",
   "中文": "时间追踪",
   "العربية": "متتبع الوقت",
   "Tiếng Việt": "Theo dõi thời gian"
@@ -185,7 +185,7 @@
   "Español": "Red de Buddy",
   "Deutsch": "Buddy-Netzwerk",
   "Français": "Réseau Buddy",
-  "한국인": "Buddy 네트워크",
+  "한국어": "Buddy 네트워크",
   "中文": "Buddy 网络",
   "العربية": "شبكة Buddy",
   "Tiếng Việt": "Mạng Buddy"
@@ -195,7 +195,7 @@
   "Español": "Conectado a Resolve",
   "Deutsch": "Mit Resolve verbunden",
   "Français": "Connecté à Resolve",
-  "한국인": "Resolve에 연결됨",
+  "한국어": "Resolve에 연결됨",
   "中文": "已连接到 Resolve",
   "العربية": "متصل بـ Resolve",
   "Tiếng Việt": "Đã kết nối với Resolve"
@@ -205,7 +205,7 @@
   "Español": "No conectado a Resolve",
   "Deutsch": "Nicht mit Resolve verbunden",
   "Français": "Non connecté à Resolve",
-  "한국인": "Resolve에 연결되지 않음",
+  "한국어": "Resolve에 연결되지 않음",
   "中文": "未连接到 Resolve",
   "العربية": "غير متصل بـ Resolve",
   "Tiếng Việt": "Chưa kết nối với Resolve"
@@ -215,7 +215,7 @@
   "Español": "No hay conexión con Resolve.",
   "Deutsch": "Nicht mit Resolve verbunden.",
   "Français": "Non connecté à Resolve.",
-  "한국인": "Resolve에 연결되어 있지 않습니다.",
+  "한국어": "Resolve에 연결되어 있지 않습니다.",
   "中文": "未连接到 Resolve。",
   "العربية": "غير متصل بـ Resolve.",
   "Tiếng Việt": "Chưa kết nối với Resolve."
@@ -225,7 +225,7 @@
   "Español": "Sin conexión",
   "Deutsch": "Nicht verbunden",
   "Français": "Non connecté",
-  "한국인": "연결 안 됨",
+  "한국어": "연결 안 됨",
   "中文": "未连接",
   "العربية": "غير متصل",
   "Tiếng Việt": "Chưa kết nối"
@@ -235,7 +235,7 @@
   "Español": "Conectar",
   "Deutsch": "Verbinden",
   "Français": "Connecter",
-  "한국인": "연결",
+  "한국어": "연결",
   "中文": "连接",
   "العربية": "اتصال",
   "Tiếng Việt": "Kết nối"
@@ -245,7 +245,7 @@
   "Español": "Reconectar",
   "Deutsch": "Neu verbinden",
   "Français": "Reconnecter",
-  "한국인": "다시 연결",
+  "한국어": "다시 연결",
   "中文": "重新连接",
   "العربية": "إعادة الاتصال",
   "Tiếng Việt": "Kết nối lại"
@@ -255,7 +255,7 @@
   "Español": "Conectar a DaVinci Resolve",
   "Deutsch": "Mit DaVinci Resolve verbinden",
   "Français": "Se connecter à DaVinci Resolve",
-  "한국인": "DaVinci Resolve에 연결",
+  "한국어": "DaVinci Resolve에 연결",
   "中文": "连接到 DaVinci Resolve",
   "العربية": "الاتصال بـ DaVinci Resolve",
   "Tiếng Việt": "Kết nối với DaVinci Resolve"
@@ -265,7 +265,7 @@
   "Español": "Vuelve a conectar con Resolve: después de reiniciarlo o de abrir otro proyecto",
   "Deutsch": "Erneut mit Resolve verbinden – nach einem Neustart oder wenn Sie ein anderes Projekt öffnen",
   "Français": "Se reconnecter à Resolve – après l'avoir redémarré ou avoir ouvert un autre projet",
-  "한국인": "Resolve에 다시 연결합니다 – 다시 시작했거나 다른 프로젝트를 연 경우",
+  "한국어": "Resolve에 다시 연결합니다 – 다시 시작했거나 다른 프로젝트를 연 경우",
   "中文": "重新连接 Resolve——在重启它或打开其他项目之后",
   "العربية": "الاتصال بـ Resolve مرة أخرى – بعد إعادة تشغيله أو فتح مشروع آخر",
   "Tiếng Việt": "Kết nối lại với Resolve – sau khi khởi động lại hoặc mở dự án khác"
@@ -275,7 +275,7 @@
   "Español": "Novedades de Buddy",
   "Deutsch": "Neuigkeiten von Buddy",
   "Français": "Actualités de Buddy",
-  "한국인": "Buddy 소식",
+  "한국어": "Buddy 소식",
   "中文": "Buddy 的消息",
   "العربية": "أخبار من Buddy",
   "Tiếng Việt": "Tin tức từ Buddy"
@@ -285,7 +285,7 @@
   "Español": "La herramienta que se muestra a la derecha",
   "Deutsch": "Das rechts angezeigte Werkzeug",
   "Français": "L'outil affiché à droite",
-  "한국인": "오른쪽에 표시되는 도구",
+  "한국어": "오른쪽에 표시되는 도구",
   "中文": "右侧显示的工具",
   "العربية": "الأداة المعروضة على اليمين",
   "Tiếng Việt": "Công cụ hiển thị bên phải"
@@ -295,7 +295,7 @@
   "Español": "Vista doble: ejecuta una segunda herramienta junto a esta",
   "Deutsch": "Doppelansicht: ein zweites Werkzeug neben diesem ausführen",
   "Français": "Double vue : exécuter un second outil à côté de celui-ci",
-  "한국인": "듀얼 뷰: 이 도구 옆에 두 번째 도구를 실행합니다",
+  "한국어": "듀얼 뷰: 이 도구 옆에 두 번째 도구를 실행합니다",
   "中文": "双视图：在此工具旁运行第二个工具",
   "العربية": "عرض مزدوج: تشغيل أداة ثانية بجانب هذه الأداة",
   "Tiếng Việt": "Chế độ xem kép: chạy công cụ thứ hai bên cạnh công cụ này"
@@ -305,7 +305,7 @@
   "Español": "Vista doble",
   "Deutsch": "Doppelansicht",
   "Français": "Double vue",
-  "한국인": "듀얼 뷰",
+  "한국어": "듀얼 뷰",
   "中文": "双视图",
   "العربية": "عرض مزدوج",
   "Tiếng Việt": "Chế độ xem kép"
@@ -315,7 +315,7 @@
   "Español": "Encabezado de Buddy",
   "Deutsch": "Buddy-Kopfzeile",
   "Français": "En-tête de Buddy",
-  "한국인": "Buddy 헤더",
+  "한국어": "Buddy 헤더",
   "中文": "Buddy 标题栏",
   "العربية": "ترويسة Buddy",
   "Tiếng Việt": "Tiêu đề Buddy"
@@ -325,7 +325,7 @@
   "Español": "Herramientas de Buddy",
   "Deutsch": "Buddy-Werkzeuge",
   "Français": "Outils Buddy",
-  "한국인": "Buddy 도구",
+  "한국어": "Buddy 도구",
   "中文": "Buddy 工具",
   "العربية": "أدوات Buddy",
   "Tiếng Việt": "Công cụ Buddy"
@@ -335,7 +335,7 @@
   "Español": "Programas",
   "Deutsch": "Programme",
   "Français": "Programmes",
-  "한국인": "프로그램",
+  "한국어": "프로그램",
   "中文": "程序",
   "العربية": "البرامج",
   "Tiếng Việt": "Chương trình"
@@ -345,7 +345,7 @@
   "Español": "Herramientas fijadas y abiertas",
   "Deutsch": "Angeheftete und geöffnete Werkzeuge",
   "Français": "Outils épinglés et ouverts",
-  "한국인": "고정된 도구 및 열린 도구",
+  "한국어": "고정된 도구 및 열린 도구",
   "中文": "已固定和已打开的工具",
   "العربية": "الأدوات المثبتة والمفتوحة",
   "Tiếng Việt": "Công cụ đã ghim và đang mở"
@@ -355,7 +355,7 @@
   "Español": "Ventanas en cascada",
   "Deutsch": "Fenster überlappend anordnen",
   "Français": "Fenêtres en cascade",
-  "한국인": "창 계단식 배열",
+  "한국어": "창 계단식 배열",
   "中文": "层叠窗口",
   "العربية": "ترتيب النوافذ متتالية",
   "Tiếng Việt": "Xếp tầng cửa sổ"
@@ -365,7 +365,7 @@
   "Español": "Ventanas en mosaico",
   "Deutsch": "Fenster nebeneinander anordnen",
   "Français": "Fenêtres en mosaïque",
-  "한국인": "창 바둑판식 배열",
+  "한국어": "창 바둑판식 배열",
   "中文": "平铺窗口",
   "العربية": "ترتيب النوافذ متجاورة",
   "Tiếng Việt": "Xếp cạnh cửa sổ"
@@ -375,7 +375,7 @@
   "Español": "Barra de tareas de Buddy",
   "Deutsch": "Buddy-Taskleiste",
   "Français": "Barre des tâches de Buddy",
-  "한국인": "Buddy 작업 표시줄",
+  "한국어": "Buddy 작업 표시줄",
   "中文": "Buddy 任务栏",
   "العربية": "شريط مهام Buddy",
   "Tiếng Việt": "Thanh tác vụ Buddy"
@@ -385,7 +385,7 @@
   "Español": "Menú de Buddy",
   "Deutsch": "Buddy-Menü",
   "Français": "Menu Buddy",
-  "한국인": "Buddy 메뉴",
+  "한국어": "Buddy 메뉴",
   "中文": "Buddy 菜单",
   "العربية": "قائمة Buddy",
   "Tiếng Việt": "Menu Buddy"
@@ -395,7 +395,7 @@
   "Español": "Conectado a DaVinci Resolve: haz clic para reconectar",
   "Deutsch": "Mit DaVinci Resolve verbunden – zum erneuten Verbinden klicken",
   "Français": "Connecté à DaVinci Resolve – cliquez pour vous reconnecter",
-  "한국인": "DaVinci Resolve에 연결됨 – 클릭하면 다시 연결합니다",
+  "한국어": "DaVinci Resolve에 연결됨 – 클릭하면 다시 연결합니다",
   "中文": "已连接到 DaVinci Resolve——点击重新连接",
   "العربية": "متصل بـ DaVinci Resolve – انقر لإعادة الاتصال",
   "Tiếng Việt": "Đã kết nối với DaVinci Resolve – bấm để kết nối lại"
@@ -405,7 +405,7 @@
   "Español": "No conectado a Resolve: haz clic para conectar",
   "Deutsch": "Nicht mit Resolve verbunden – zum Verbinden klicken",
   "Français": "Non connecté à Resolve – cliquez pour vous connecter",
-  "한국인": "Resolve에 연결되지 않음 – 클릭하면 연결합니다",
+  "한국어": "Resolve에 연결되지 않음 – 클릭하면 연결합니다",
   "中文": "未连接到 Resolve——点击连接",
   "العربية": "غير متصل بـ Resolve – انقر للاتصال",
   "Tiếng Việt": "Chưa kết nối với Resolve – bấm để kết nối"
@@ -415,7 +415,7 @@
   "Español": "Buscar herramientas",
   "Deutsch": "Werkzeuge suchen",
   "Français": "Rechercher des outils",
-  "한국인": "도구 검색",
+  "한국어": "도구 검색",
   "中文": "搜索工具",
   "العربية": "البحث في الأدوات",
   "Tiếng Việt": "Tìm công cụ"
@@ -425,7 +425,7 @@
   "Español": "Fijar en la barra de tareas",
   "Deutsch": "An die Taskleiste anheften",
   "Français": "Épingler à la barre des tâches",
-  "한국인": "작업 표시줄에 고정",
+  "한국어": "작업 표시줄에 고정",
   "中文": "固定到任务栏",
   "العربية": "تثبيت على شريط المهام",
   "Tiếng Việt": "Ghim vào thanh tác vụ"
@@ -435,7 +435,7 @@
   "Español": "Desfijar de la barra de tareas",
   "Deutsch": "Von der Taskleiste lösen",
   "Français": "Détacher de la barre des tâches",
-  "한국인": "작업 표시줄에서 고정 해제",
+  "한국어": "작업 표시줄에서 고정 해제",
   "中文": "从任务栏取消固定",
   "العربية": "إلغاء التثبيت من شريط المهام",
   "Tiếng Việt": "Bỏ ghim khỏi thanh tác vụ"
@@ -445,7 +445,7 @@
   "Español": "Fijar {name} en la barra de tareas",
   "Deutsch": "{name} an die Taskleiste anheften",
   "Français": "Épingler {name} à la barre des tâches",
-  "한국인": "{name}을(를) 작업 표시줄에 고정",
+  "한국어": "{name}을(를) 작업 표시줄에 고정",
   "中文": "将 {name} 固定到任务栏",
   "العربية": "تثبيت {name} على شريط المهام",
   "Tiếng Việt": "Ghim {name} vào thanh tác vụ"
@@ -455,7 +455,7 @@
   "Español": "Desfijar {name} de la barra de tareas",
   "Deutsch": "{name} von der Taskleiste lösen",
   "Français": "Détacher {name} de la barre des tâches",
-  "한국인": "{name}을(를) 작업 표시줄에서 고정 해제",
+  "한국어": "{name}을(를) 작업 표시줄에서 고정 해제",
   "中文": "将 {name} 从任务栏取消固定",
   "العربية": "إلغاء تثبيت {name} من شريط المهام",
   "Tiếng Việt": "Bỏ ghim {name} khỏi thanh tác vụ"
@@ -465,7 +465,7 @@
   "Español": "Fijar en la barra de tareas",
   "Deutsch": "An Taskleiste anheften",
   "Français": "Épingler à la barre des tâches",
-  "한국인": "작업 표시줄에 고정",
+  "한국어": "작업 표시줄에 고정",
   "中文": "固定到任务栏",
   "العربية": "تثبيت على شريط المهام",
   "Tiếng Việt": "Ghim vào thanh tác vụ"
@@ -475,7 +475,7 @@
   "Español": "Desfijar de la barra de tareas",
   "Deutsch": "Von Taskleiste lösen",
   "Français": "Détacher de la barre des tâches",
-  "한국인": "작업 표시줄에서 고정 해제",
+  "한국어": "작업 표시줄에서 고정 해제",
   "中文": "从任务栏取消固定",
   "العربية": "إلغاء التثبيت من شريط المهام",
   "Tiếng Việt": "Bỏ ghim khỏi thanh tác vụ"
@@ -485,7 +485,7 @@
   "Español": "Abrir",
   "Deutsch": "Öffnen",
   "Français": "Ouvrir",
-  "한국인": "열기",
+  "한국어": "열기",
   "中文": "打开",
   "العربية": "فتح",
   "Tiếng Việt": "Mở"
@@ -495,7 +495,7 @@
   "Español": "Restaurar",
   "Deutsch": "Wiederherstellen",
   "Français": "Restaurer",
-  "한국인": "복원",
+  "한국어": "복원",
   "中文": "还原",
   "العربية": "استعادة",
   "Tiếng Việt": "Khôi phục"
@@ -505,7 +505,7 @@
   "Español": "Minimizar",
   "Deutsch": "Minimieren",
   "Français": "Réduire",
-  "한국인": "최소화",
+  "한국어": "최소화",
   "中文": "最小化",
   "العربية": "تصغير",
   "Tiếng Việt": "Thu nhỏ"
@@ -515,7 +515,7 @@
   "Español": "Maximizar",
   "Deutsch": "Maximieren",
   "Français": "Agrandir",
-  "한국인": "최대화",
+  "한국어": "최대화",
   "中文": "最大化",
   "العربية": "تكبير",
   "Tiếng Việt": "Phóng to"
@@ -525,7 +525,7 @@
   "Español": "Restaurar tamaño",
   "Deutsch": "Größe wiederherstellen",
   "Français": "Restaurer la taille",
-  "한국인": "크기 복원",
+  "한국어": "크기 복원",
   "中文": "还原大小",
   "العربية": "استعادة الحجم",
   "Tiếng Việt": "Khôi phục kích thước"
@@ -535,7 +535,7 @@
   "Español": "Cerrar ventana",
   "Deutsch": "Fenster schließen",
   "Français": "Fermer la fenêtre",
-  "한국인": "창 닫기",
+  "한국어": "창 닫기",
   "中文": "关闭窗口",
   "العربية": "إغلاق النافذة",
   "Tiếng Việt": "Đóng cửa sổ"
@@ -545,7 +545,7 @@
   "Español": "Ocultar ventana",
   "Deutsch": "Fenster ausblenden",
   "Français": "Masquer la fenêtre",
-  "한국인": "창 숨기기",
+  "한국어": "창 숨기기",
   "中文": "隐藏窗口",
   "العربية": "إخفاء النافذة",
   "Tiếng Việt": "Ẩn cửa sổ"
@@ -555,7 +555,7 @@
   "Español": "Mostrar ventana",
   "Deutsch": "Fenster anzeigen",
   "Français": "Afficher la fenêtre",
-  "한국인": "창 표시",
+  "한국어": "창 표시",
   "中文": "显示窗口",
   "العربية": "إظهار النافذة",
   "Tiếng Việt": "Hiện cửa sổ"
@@ -565,7 +565,7 @@
   "Español": "Salir",
   "Deutsch": "Beenden",
   "Français": "Quitter",
-  "한국인": "종료",
+  "한국어": "종료",
   "中文": "退出",
   "العربية": "إنهاء",
   "Tiếng Việt": "Thoát"
@@ -575,7 +575,7 @@
   "Español": "Sigue en ejecución",
   "Deutsch": "Läuft weiter",
   "Français": "Toujours en cours d'exécution",
-  "한국인": "계속 실행 중",
+  "한국어": "계속 실행 중",
   "中文": "仍在运行",
   "العربية": "لا يزال قيد التشغيل",
   "Tiếng Việt": "Vẫn đang chạy"
@@ -585,7 +585,7 @@
   "Español": "Buddy sigue ejecutándose en segundo plano. Haz clic derecho en el icono de la bandeja para volver a abrirlo o salir.",
   "Deutsch": "Buddy läuft im Hintergrund weiter. Klicken Sie mit der rechten Maustaste auf das Taskleistensymbol, um es wieder zu öffnen oder zu beenden.",
   "Français": "Buddy continue de s'exécuter en arrière-plan. Faites un clic droit sur l'icône de la zone de notification pour le rouvrir ou le quitter.",
-  "한국인": "Buddy가 백그라운드에서 계속 실행 중입니다. 트레이 아이콘을 마우스 오른쪽 버튼으로 클릭하면 다시 열거나 종료할 수 있습니다.",
+  "한국어": "Buddy가 백그라운드에서 계속 실행 중입니다. 트레이 아이콘을 마우스 오른쪽 버튼으로 클릭하면 다시 열거나 종료할 수 있습니다.",
   "中文": "Buddy 仍在后台运行。右键点击托盘图标可重新打开或退出。",
   "العربية": "لا يزال Buddy يعمل في الخلفية. انقر بزر الماوس الأيمن على أيقونة شريط النظام لإعادة فتحه أو إنهائه.",
   "Tiếng Việt": "Buddy vẫn đang chạy ở chế độ nền. Bấm chuột phải vào biểu tượng khay hệ thống để mở lại hoặc thoát."
@@ -595,7 +595,7 @@
   "Español": "Ejecutándose en segundo plano: Control de tiempo empezará a registrar en cuanto abras un proyecto. Haz clic en el icono de la bandeja cuando quieras verlo.",
   "Deutsch": "Läuft im Hintergrund – die Zeiterfassung beginnt, sobald Sie ein Projekt öffnen. Klicken Sie jederzeit auf das Taskleistensymbol, um sie anzuzeigen.",
   "Français": "Exécution en arrière-plan – le Suivi du temps commencera dès que vous ouvrirez un projet. Cliquez sur l'icône de la zone de notification à tout moment pour l'afficher.",
-  "한국인": "백그라운드에서 실행 중입니다 – 프로젝트를 열면 시간 추적기가 기록을 시작합니다. 언제든지 트레이 아이콘을 클릭해 확인할 수 있습니다.",
+  "한국어": "백그라운드에서 실행 중입니다 – 프로젝트를 열면 시간 추적기가 기록을 시작합니다. 언제든지 트레이 아이콘을 클릭해 확인할 수 있습니다.",
   "中文": "正在后台运行——打开项目后，时间追踪将开始记录。随时点击托盘图标即可查看。",
   "العربية": "يعمل في الخلفية – سيبدأ متتبع الوقت بالتتبع بمجرد فتح مشروع. انقر على أيقونة شريط النظام في أي وقت لعرضه.",
   "Tiếng Việt": "Đang chạy ở chế độ nền – Theo dõi thời gian sẽ bắt đầu ghi khi bạn mở một dự án. Bấm vào biểu tượng khay bất cứ lúc nào để xem."
@@ -605,7 +605,7 @@
   "Español": "Error de conexión",
   "Deutsch": "Verbindung fehlgeschlagen",
   "Français": "Échec de la connexion",
-  "한국인": "연결 실패",
+  "한국어": "연결 실패",
   "中文": "连接失败",
   "العربية": "فشل الاتصال",
   "Tiếng Việt": "Kết nối thất bại"
@@ -615,7 +615,7 @@
   "Español": "No se pudo conectar con DaVinci Resolve.\nAsegúrate de que Resolve está abierto con un proyecto cargado.",
   "Deutsch": "DaVinci Resolve ist nicht erreichbar.\nStellen Sie sicher, dass Resolve mit einem geöffneten Projekt läuft.",
   "Français": "Impossible de joindre DaVinci Resolve.\nVérifiez que Resolve est lancé avec un projet ouvert.",
-  "한국인": "DaVinci Resolve에 연결할 수 없습니다.\nResolve가 프로젝트를 연 상태로 실행 중인지 확인하세요.",
+  "한국어": "DaVinci Resolve에 연결할 수 없습니다.\nResolve가 프로젝트를 연 상태로 실행 중인지 확인하세요.",
   "中文": "无法连接到 DaVinci Resolve。\n请确保 Resolve 正在运行并已打开项目。",
   "العربية": "تعذر الوصول إلى DaVinci Resolve.\nتأكد من تشغيل Resolve مع فتح مشروع.",
   "Tiếng Việt": "Không thể kết nối với DaVinci Resolve.\nHãy đảm bảo Resolve đang chạy và đã mở một dự án."
@@ -625,7 +625,7 @@
   "Español": "No se pudo conectar con DaVinci Resolve.\nAsegúrate de que Resolve está abierto con un proyecto cargado.",
   "Deutsch": "Verbindung zu DaVinci Resolve fehlgeschlagen.\nStellen Sie sicher, dass Resolve mit einem geöffneten Projekt läuft.",
   "Français": "Impossible de se connecter à DaVinci Resolve.\nVérifiez que Resolve est lancé avec un projet ouvert.",
-  "한국인": "DaVinci Resolve에 연결할 수 없습니다.\nResolve가 프로젝트를 연 상태로 실행 중인지 확인하세요.",
+  "한국어": "DaVinci Resolve에 연결할 수 없습니다.\nResolve가 프로젝트를 연 상태로 실행 중인지 확인하세요.",
   "中文": "无法连接到 DaVinci Resolve。\n请确保 Resolve 正在运行并已打开项目。",
   "العربية": "تعذر الاتصال بـ DaVinci Resolve.\nتأكد من تشغيل Resolve مع فتح مشروع.",
   "Tiếng Việt": "Không thể kết nối với DaVinci Resolve.\nHãy đảm bảo Resolve đang chạy và đã mở một dự án."
@@ -635,7 +635,7 @@
   "Español": "{name} estaba dañado y se ha guardado como {kept}. Buddy se ha iniciado con la configuración predeterminada.",
   "Deutsch": "{name} war beschädigt und wurde als {kept} aufbewahrt. Buddy wurde mit den Standardeinstellungen gestartet.",
   "Français": "{name} était endommagé et a été conservé sous le nom {kept}. Buddy a démarré avec les paramètres par défaut.",
-  "한국인": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. Buddy가 기본 설정으로 시작되었습니다.",
+  "한국어": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. Buddy가 기본 설정으로 시작되었습니다.",
   "中文": "{name} 已损坏，已保留为 {kept}。Buddy 已使用默认设置启动。",
   "العربية": "كان {name} تالفًا وتم الاحتفاظ به باسم {kept}. بدأ Buddy بالإعدادات الافتراضية.",
   "Tiếng Việt": "{name} bị hỏng và đã được giữ lại dưới tên {kept}. Buddy đã khởi động với cài đặt mặc định."
@@ -645,7 +645,7 @@
   "Español": "{name} estaba dañado y se ha guardado como {kept}. Se ha iniciado con la configuración predeterminada.",
   "Deutsch": "{name} war beschädigt und wurde als {kept} aufbewahrt. Mit den Standardeinstellungen gestartet.",
   "Français": "{name} était endommagé et a été conservé sous le nom {kept}. Démarrage avec les paramètres par défaut.",
-  "한국인": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. 기본 설정으로 시작했습니다.",
+  "한국어": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. 기본 설정으로 시작했습니다.",
   "中文": "{name} 已损坏，已保留为 {kept}。已使用默认设置启动。",
   "العربية": "كان {name} تالفًا وتم الاحتفاظ به باسم {kept}. تم البدء بالإعدادات الافتراضية.",
   "Tiếng Việt": "{name} bị hỏng và đã được giữ lại dưới tên {kept}. Đã bắt đầu với cài đặt mặc định."
@@ -655,7 +655,7 @@
   "Español": "{name} estaba dañado y no se pudo leer ({error}).",
   "Deutsch": "{name} war beschädigt und konnte nicht gelesen werden ({error}).",
   "Français": "{name} était endommagé et n'a pas pu être lu ({error}).",
-  "한국인": "{name} 파일이 손상되어 읽을 수 없습니다({error}).",
+  "한국어": "{name} 파일이 손상되어 읽을 수 없습니다({error}).",
   "中文": "{name} 已损坏，无法读取（{error}）。",
   "العربية": "كان {name} تالفًا وتعذرت قراءته ({error}).",
   "Tiếng Việt": "{name} bị hỏng và không thể đọc được ({error})."
@@ -665,7 +665,7 @@
   "Español": "{name} estaba dañado, así que se ha cargado la copia de seguridad del penúltimo guardado; puede que falte el cambio más reciente.",
   "Deutsch": "{name} war beschädigt, daher wurde stattdessen die Sicherungskopie der vorletzten Speicherung geladen – die letzte Änderung fehlt möglicherweise.",
   "Français": "{name} était endommagé : la copie de sauvegarde de l'avant-dernier enregistrement a été chargée à la place – la modification la plus récente peut manquer.",
-  "한국인": "{name} 파일이 손상되어 그 전에 저장한 백업 사본을 대신 불러왔습니다 – 가장 최근 변경 사항이 없을 수 있습니다.",
+  "한국어": "{name} 파일이 손상되어 그 전에 저장한 백업 사본을 대신 불러왔습니다 – 가장 최근 변경 사항이 없을 수 있습니다.",
   "中文": "{name} 已损坏，因此改为加载上上次保存的备份副本——最近的更改可能会丢失。",
   "العربية": "كان {name} تالفًا، لذا تم تحميل النسخة الاحتياطية من الحفظ قبل الأخير بدلًا منه – قد يكون أحدث تغيير مفقودًا.",
   "Tiếng Việt": "{name} bị hỏng nên bản sao lưu từ lần lưu trước đó đã được tải thay thế – thay đổi gần nhất có thể bị thiếu."
@@ -675,7 +675,7 @@
   "Español": "{name} estaba dañado, así que se ha cargado la copia de seguridad del penúltimo guardado; puede que falte el cambio más reciente. El archivo dañado se ha guardado como {kept}.",
   "Deutsch": "{name} war beschädigt, daher wurde stattdessen die Sicherungskopie der vorletzten Speicherung geladen – die letzte Änderung fehlt möglicherweise. Die beschädigte Datei wurde als {kept} aufbewahrt.",
   "Français": "{name} était endommagé : la copie de sauvegarde de l'avant-dernier enregistrement a été chargée à la place – la modification la plus récente peut manquer. Le fichier endommagé a été conservé sous le nom {kept}.",
-  "한국인": "{name} 파일이 손상되어 그 전에 저장한 백업 사본을 대신 불러왔습니다 – 가장 최근 변경 사항이 없을 수 있습니다. 손상된 파일은 {kept}(으)로 보관했습니다.",
+  "한국어": "{name} 파일이 손상되어 그 전에 저장한 백업 사본을 대신 불러왔습니다 – 가장 최근 변경 사항이 없을 수 있습니다. 손상된 파일은 {kept}(으)로 보관했습니다.",
   "中文": "{name} 已损坏，因此改为加载上上次保存的备份副本——最近的更改可能会丢失。已损坏的文件已保留为 {kept}。",
   "العربية": "كان {name} تالفًا، لذا تم تحميل النسخة الاحتياطية من الحفظ قبل الأخير بدلًا منه – قد يكون أحدث تغيير مفقودًا. تم الاحتفاظ بالملف التالف باسم {kept}.",
   "Tiếng Việt": "{name} bị hỏng nên bản sao lưu từ lần lưu trước đó đã được tải thay thế – thay đổi gần nhất có thể bị thiếu. Tệp bị hỏng đã được giữ lại dưới tên {kept}."
@@ -685,7 +685,7 @@
   "Español": "Error en la configuración de inicio",
   "Deutsch": "Starteinstellung fehlgeschlagen",
   "Français": "Échec du paramètre de démarrage",
-  "한국인": "시작 설정 실패",
+  "한국어": "시작 설정 실패",
   "中文": "启动设置失败",
   "العربية": "فشل إعداد بدء التشغيل",
   "Tiếng Việt": "Cài đặt khởi động thất bại"
@@ -695,7 +695,7 @@
   "Español": "No se pudo activar el inicio automático:\n{error}",
   "Deutsch": "Der automatische Start konnte nicht aktiviert werden:\n{error}",
   "Français": "Impossible d'activer le lancement au démarrage :\n{error}",
-  "한국인": "시작 시 자동 실행을 켤 수 없습니다:\n{error}",
+  "한국어": "시작 시 자동 실행을 켤 수 없습니다:\n{error}",
   "中文": "无法启用开机启动：\n{error}",
   "العربية": "تعذر تفعيل التشغيل عند بدء التشغيل:\n{error}",
   "Tiếng Việt": "Không thể bật khởi chạy khi khởi động:\n{error}"
@@ -705,7 +705,7 @@
   "Español": "No se pudo desactivar el inicio automático:\n{error}",
   "Deutsch": "Der automatische Start konnte nicht deaktiviert werden:\n{error}",
   "Français": "Impossible de désactiver le lancement au démarrage :\n{error}",
-  "한국인": "시작 시 자동 실행을 끌 수 없습니다:\n{error}",
+  "한국어": "시작 시 자동 실행을 끌 수 없습니다:\n{error}",
   "中文": "无法禁用开机启动：\n{error}",
   "العربية": "تعذر تعطيل التشغيل عند بدء التشغيل:\n{error}",
   "Tiếng Việt": "Không thể tắt khởi chạy khi khởi động:\n{error}"
@@ -715,7 +715,7 @@
   "Español": "El idioma de todo Buddy. Lo que escribes tú mismo no se modifica.",
   "Deutsch": "Die Sprache für ganz Buddy. Was Sie selbst eingeben, bleibt unverändert.",
   "Français": "La langue de tout Buddy. Ce que vous saisissez vous-même reste tel quel.",
-  "한국인": "Buddy 전체에 사용할 언어입니다. 직접 입력한 내용은 그대로 유지됩니다.",
+  "한국어": "Buddy 전체에 사용할 언어입니다. 직접 입력한 내용은 그대로 유지됩니다.",
   "中文": "Buddy 全局使用的语言。您自己输入的内容保持不变。",
   "العربية": "لغة Buddy بالكامل. ما تكتبه بنفسك يبقى كما هو.",
   "Tiếng Việt": "Ngôn ngữ cho toàn bộ Buddy. Nội dung bạn tự nhập sẽ được giữ nguyên."
@@ -725,7 +725,7 @@
   "Español": "Restablecer valores predeterminados",
   "Deutsch": "Auf Standard zurücksetzen",
   "Français": "Rétablir les valeurs par défaut",
-  "한국인": "기본값으로 재설정",
+  "한국어": "기본값으로 재설정",
   "中文": "恢复默认",
   "العربية": "إعادة التعيين إلى الافتراضي",
   "Tiếng Việt": "Đặt lại mặc định"
@@ -735,7 +735,7 @@
   "Español": "Haz doble clic en el control deslizante para restablecerlo",
   "Deutsch": "Doppelklicken Sie auf den Schieberegler, um ihn zurückzusetzen",
   "Français": "Double-cliquez sur le curseur pour le réinitialiser",
-  "한국인": "슬라이더를 두 번 클릭하면 재설정됩니다",
+  "한국어": "슬라이더를 두 번 클릭하면 재설정됩니다",
   "中文": "双击滑块可将其重置",
   "العربية": "انقر نقرًا مزدوجًا على شريط التمرير لإعادة تعيينه",
   "Tiếng Việt": "Bấm đúp vào thanh trượt để đặt lại"
@@ -745,7 +745,7 @@
   "Español": "Predeterminado",
   "Deutsch": "Standard",
   "Français": "Par défaut",
-  "한국인": "기본",
+  "한국어": "기본",
   "中文": "默认",
   "العربية": "افتراضي",
   "Tiếng Việt": "Mặc định"
@@ -755,7 +755,7 @@
   "Español": "Retro",
   "Deutsch": "Retro",
   "Français": "Rétro",
-  "한국인": "레트로",
+  "한국어": "레트로",
   "中文": "复古",
   "العربية": "كلاسيكي",
   "Tiếng Việt": "Cổ điển"
@@ -765,7 +765,7 @@
   "Español": "Moderno",
   "Deutsch": "Modern",
   "Français": "Moderne",
-  "한국인": "모던",
+  "한국어": "모던",
   "中文": "现代",
   "العربية": "عصري",
   "Tiếng Việt": "Hiện đại"
@@ -775,7 +775,7 @@
   "Español": "Fuera del mundo",
   "Deutsch": "Außerirdisch",
   "Français": "Hors du monde",
-  "한국인": "오프월드",
+  "한국어": "오프월드",
   "中文": "异星",
   "العربية": "خارج العالم",
   "Tiếng Việt": "Ngoài hành tinh"
@@ -785,7 +785,7 @@
   "Español": "Escritorio",
   "Deutsch": "Desktop",
   "Français": "Bureau",
-  "한국인": "데스크톱",
+  "한국어": "데스크톱",
   "中文": "桌面",
   "العربية": "سطح المكتب",
   "Tiếng Việt": "Màn hình nền"
@@ -795,7 +795,7 @@
   "Español": "Personalizado",
   "Deutsch": "Benutzerdefiniert",
   "Français": "Personnalisé",
-  "한국인": "사용자 지정",
+  "한국어": "사용자 지정",
   "中文": "自定义",
   "العربية": "مخصص",
   "Tiếng Việt": "Tùy chỉnh"
@@ -805,7 +805,7 @@
   "Español": "Desactivado",
   "Deutsch": "Aus",
   "Français": "Désactivé",
-  "한국인": "끄기",
+  "한국어": "끄기",
   "中文": "关闭",
   "العربية": "إيقاف",
   "Tiếng Việt": "Tắt"
@@ -815,7 +815,7 @@
   "Español": "Más claro",
   "Deutsch": "Heller",
   "Français": "Plus clair",
-  "한국인": "더 밝게",
+  "한국어": "더 밝게",
   "中文": "更亮",
   "العربية": "أفتح",
   "Tiếng Việt": "Sáng hơn"
@@ -825,7 +825,7 @@
   "Español": "Más oscuro",
   "Deutsch": "Dunkler",
   "Français": "Plus foncé",
-  "한국인": "더 어둡게",
+  "한국어": "더 어둡게",
   "中文": "更暗",
   "العربية": "أغمق",
   "Tiếng Việt": "Tối hơn"
@@ -835,7 +835,7 @@
   "Español": "Organizar barra lateral",
   "Deutsch": "Seitenleiste organisieren",
   "Français": "Organiser la barre latérale",
-  "한국인": "사이드바 정리",
+  "한국어": "사이드바 정리",
   "中文": "整理侧边栏",
   "العربية": "تنظيم الشريط الجانبي",
   "Tiếng Việt": "Sắp xếp thanh bên"
@@ -845,7 +845,7 @@
   "Español": "Arrastra para reordenar. Desmarca una herramienta para ocultar su pestaña; las herramientas ocultas siguen funcionando (Control de tiempo sigue registrando). Los separadores son los títulos entre grupos; deja el nombre en blanco para una línea simple.",
   "Deutsch": "Zum Neuordnen ziehen. Entfernen Sie das Häkchen bei einem Werkzeug, um seinen Tab auszublenden – ausgeblendete Werkzeuge laufen weiter (die Zeiterfassung erfasst weiter). Trennlinien sind die Überschriften zwischen Gruppen; lassen Sie den Namen leer für eine einfache Linie.",
   "Français": "Faites glisser pour réorganiser. Décochez un outil pour masquer son onglet – les outils masqués continuent de fonctionner (le Suivi du temps continue d'enregistrer). Les séparateurs sont les titres entre les groupes ; laissez le nom vide pour une simple ligne.",
-  "한국인": "드래그하여 순서를 바꿉니다. 도구의 체크를 해제하면 탭이 숨겨집니다 – 숨긴 도구도 계속 실행됩니다(시간 추적기는 계속 기록합니다). 구분선은 그룹 사이의 제목이며, 이름을 비워 두면 단순한 선이 됩니다.",
+  "한국어": "드래그하여 순서를 바꿉니다. 도구의 체크를 해제하면 탭이 숨겨집니다 – 숨긴 도구도 계속 실행됩니다(시간 추적기는 계속 기록합니다). 구분선은 그룹 사이의 제목이며, 이름을 비워 두면 단순한 선이 됩니다.",
   "中文": "拖动以重新排序。取消勾选某个工具可隐藏其标签——隐藏的工具仍会继续运行（时间追踪仍在记录）。分隔线是各组之间的标题；名称留空则显示为普通线条。",
   "العربية": "اسحب لإعادة الترتيب. ألغِ تحديد أداة لإخفاء تبويبها – تستمر الأدوات المخفية في العمل (يواصل متتبع الوقت التتبع). الفواصل هي العناوين بين المجموعات؛ اترك الاسم فارغًا للحصول على خط بسيط.",
   "Tiếng Việt": "Kéo để sắp xếp lại. Bỏ chọn một công cụ để ẩn thẻ của nó – công cụ bị ẩn vẫn tiếp tục chạy (Theo dõi thời gian vẫn ghi). Đường phân cách là tiêu đề giữa các nhóm; để trống tên để có một đường kẻ đơn giản."
@@ -855,7 +855,7 @@
   "Español": "Añadir separador",
   "Deutsch": "Trennlinie hinzufügen",
   "Français": "Ajouter un séparateur",
-  "한국인": "구분선 추가",
+  "한국어": "구분선 추가",
   "中文": "添加分隔线",
   "العربية": "إضافة فاصل",
   "Tiếng Việt": "Thêm đường phân cách"
@@ -865,7 +865,7 @@
   "Español": "Mostrar todas las herramientas",
   "Deutsch": "Alle Werkzeuge anzeigen",
   "Français": "Afficher tous les outils",
-  "한국인": "모든 도구 표시",
+  "한국어": "모든 도구 표시",
   "中文": "显示所有工具",
   "العربية": "إظهار كل الأدوات",
   "Tiếng Việt": "Hiện tất cả công cụ"
@@ -875,7 +875,7 @@
   "Español": "Guardar",
   "Deutsch": "Speichern",
   "Français": "Enregistrer",
-  "한국인": "저장",
+  "한국어": "저장",
   "中文": "保存",
   "العربية": "حفظ",
   "Tiếng Việt": "Lưu"
@@ -885,7 +885,7 @@
   "Español": "Déjalo en blanco para una línea simple",
   "Deutsch": "Leer lassen für eine einfache Linie",
   "Français": "Laissez vide pour une simple ligne",
-  "한국인": "비워 두면 단순한 선이 됩니다",
+  "한국어": "비워 두면 단순한 선이 됩니다",
   "中文": "留空则为普通线条",
   "العربية": "اتركه فارغًا لخط بسيط",
   "Tiếng Việt": "Để trống để có đường kẻ đơn giản"
@@ -895,7 +895,7 @@
   "Español": "Nombre del separador (déjalo en blanco para una línea simple):",
   "Deutsch": "Name der Trennlinie (leer lassen für eine einfache Linie):",
   "Français": "Nom du séparateur (laissez vide pour une simple ligne) :",
-  "한국인": "구분선 이름(비워 두면 단순한 선):",
+  "한국어": "구분선 이름(비워 두면 단순한 선):",
   "中文": "分隔线名称（留空则为普通线条）：",
   "العربية": "اسم الفاصل (اتركه فارغًا لخط بسيط):",
   "Tiếng Việt": "Tên đường phân cách (để trống để có đường kẻ đơn giản):"
@@ -905,7 +905,7 @@
   "Español": "Renombrar separador",
   "Deutsch": "Trennlinie umbenennen",
   "Français": "Renommer le séparateur",
-  "한국인": "구분선 이름 변경",
+  "한국어": "구분선 이름 변경",
   "中文": "重命名分隔线",
   "العربية": "إعادة تسمية الفاصل",
   "Tiếng Việt": "Đổi tên đường phân cách"
@@ -915,7 +915,7 @@
   "Español": "Línea simple",
   "Deutsch": "Einfache Linie",
   "Français": "Simple ligne",
-  "한국인": "단순한 선",
+  "한국어": "단순한 선",
   "中文": "普通线条",
   "العربية": "خط بسيط",
   "Tiếng Việt": "Đường kẻ đơn giản"
@@ -925,7 +925,7 @@
   "Español": "Arrastra para mover (o Alt + Arriba/Abajo)",
   "Deutsch": "Zum Verschieben ziehen (oder Alt + Pfeil nach oben/unten)",
   "Français": "Faites glisser pour déplacer (ou Alt + Haut/Bas)",
-  "한국인": "드래그하여 이동(또는 Alt + 위/아래)",
+  "한국어": "드래그하여 이동(또는 Alt + 위/아래)",
   "中文": "拖动以移动（或 Alt + 上/下）",
   "العربية": "اسحب للنقل (أو Alt + أعلى/أسفل)",
   "Tiếng Việt": "Kéo để di chuyển (hoặc Alt + Lên/Xuống)"
@@ -935,7 +935,7 @@
   "Español": "(aún no integrada)",
   "Deutsch": "(noch nicht integriert)",
   "Français": "(pas encore intégré)",
-  "한국인": "(아직 통합되지 않음)",
+  "한국어": "(아직 통합되지 않음)",
   "中文": "（尚未集成）",
   "العربية": "(لم يُدمج بعد)",
   "Tiếng Việt": "(chưa được tích hợp)"
@@ -945,7 +945,7 @@
   "Español": "Mostrar {name} en la barra lateral",
   "Deutsch": "{name} in der Seitenleiste anzeigen",
   "Français": "Afficher {name} dans la barre latérale",
-  "한국인": "사이드바에 {name} 표시",
+  "한국어": "사이드바에 {name} 표시",
   "中文": "在侧边栏中显示 {name}",
   "العربية": "إظهار {name} في الشريط الجانبي",
   "Tiếng Việt": "Hiện {name} trên thanh bên"
@@ -955,7 +955,7 @@
   "Español": "Se ha vuelto al diseño predeterminado: pulsa Guardar para conservarlo.",
   "Deutsch": "Zurück zum Standardlayout – klicken Sie auf „Speichern“, um es zu behalten.",
   "Français": "Retour à la disposition par défaut – appuyez sur Enregistrer pour la conserver.",
-  "한국인": "기본 레이아웃으로 되돌렸습니다 – 유지하려면 저장을 누르세요.",
+  "한국어": "기본 레이아웃으로 되돌렸습니다 – 유지하려면 저장을 누르세요.",
   "中文": "已恢复默认布局——按“保存”以保留。",
   "العربية": "تمت العودة إلى التخطيط الافتراضي – اضغط على حفظ للاحتفاظ به.",
   "Tiếng Việt": "Đã trở về bố cục mặc định – nhấn Lưu để giữ lại."
@@ -965,7 +965,7 @@
   "Español": "Al menos una herramienta debe seguir visible.",
   "Deutsch": "Mindestens ein Werkzeug muss sichtbar bleiben.",
   "Français": "Au moins un outil doit rester visible.",
-  "한국인": "도구가 하나 이상 표시되어 있어야 합니다.",
+  "한국어": "도구가 하나 이상 표시되어 있어야 합니다.",
   "中文": "至少要保留一个可见的工具。",
   "العربية": "يجب أن تبقى أداة واحدة على الأقل ظاهرة.",
   "Tiếng Việt": "Phải có ít nhất một công cụ được hiển thị."
@@ -975,7 +975,7 @@
   "Español": "Permitir que Buddy cambie tu proyecto",
   "Deutsch": "Buddy erlauben, Ihr Projekt zu ändern",
   "Français": "Autoriser Buddy à modifier votre projet",
-  "한국인": "Buddy가 프로젝트를 변경하도록 허용",
+  "한국어": "Buddy가 프로젝트를 변경하도록 허용",
   "中文": "允许 Buddy 更改您的项目",
   "العربية": "السماح لـ Buddy بتغيير مشروعك",
   "Tiếng Việt": "Cho phép Buddy thay đổi dự án của bạn"
@@ -985,7 +985,7 @@
   "Español": "Lee esto antes de activarlo",
   "Deutsch": "Lesen Sie dies, bevor Sie es aktivieren",
   "Français": "Lisez ceci avant de l'activer",
-  "한국인": "사용하기 전에 읽어 주세요",
+  "한국어": "사용하기 전에 읽어 주세요",
   "中文": "启用前请先阅读",
   "العربية": "اقرأ هذا قبل تفعيله",
   "Tiếng Việt": "Hãy đọc điều này trước khi bật"
@@ -995,7 +995,7 @@
   "Español": "El agente de chat de Buddy es una IA. Se equivoca con total seguridad con frecuencia, y no sabe cuándo lo hace.",
   "Deutsch": "Der Chat-Agent von Buddy ist eine KI. Er liegt regelmäßig selbstsicher falsch und kann nicht erkennen, wann.",
   "Français": "L'agent de discussion de Buddy est une IA. Il se trompe régulièrement avec assurance, et il ne sait pas quand.",
-  "한국인": "Buddy의 채팅 에이전트는 AI입니다. 자신 있게 틀리는 일이 자주 있으며, 언제 틀리는지 스스로 알지 못합니다.",
+  "한국어": "Buddy의 채팅 에이전트는 AI입니다. 자신 있게 틀리는 일이 자주 있으며, 언제 틀리는지 스스로 알지 못합니다.",
   "中文": "Buddy 的聊天助手是 AI。它经常自信满满地出错，而且无法察觉自己何时出错。",
   "العربية": "وكيل الدردشة في Buddy هو ذكاء اصطناعي. كثيرًا ما يخطئ بثقة، ولا يستطيع أن يعرف متى يخطئ.",
   "Tiếng Việt": "Trợ lý trò chuyện của Buddy là một AI. Nó thường xuyên sai một cách đầy tự tin và không thể biết khi nào mình sai."
@@ -1005,7 +1005,7 @@
   "Español": "Puede interpretar mal tu línea de tiempo, elegir el clip equivocado, actuar según una pregunta que no querías decir literalmente o seguir una instrucción oculta en un nombre de archivo que ha leído. Nada de eso parece un error mientras ocurre.",
   "Deutsch": "Er kann Ihre Timeline falsch lesen, den falschen Clip wählen, eine nicht wörtlich gemeinte Frage ausführen oder einer Anweisung folgen, die in einem gelesenen Dateinamen versteckt ist. Nichts davon sieht wie ein Fehler aus, während es passiert.",
   "Français": "Il peut mal lire votre timeline, choisir le mauvais clip, agir sur une question que vous ne pensiez pas au sens littéral, ou suivre une instruction cachée dans un nom de fichier qu'il a lu. Rien de tout cela ne ressemble à une erreur sur le moment.",
-  "한국인": "타임라인을 잘못 읽거나, 엉뚱한 클립을 고르거나, 문자 그대로의 뜻이 아닌 질문을 그대로 실행하거나, 읽은 파일 이름에 숨겨진 지시를 따를 수 있습니다. 그런 일이 일어나는 동안에는 어느 것도 오류처럼 보이지 않습니다.",
+  "한국어": "타임라인을 잘못 읽거나, 엉뚱한 클립을 고르거나, 문자 그대로의 뜻이 아닌 질문을 그대로 실행하거나, 읽은 파일 이름에 숨겨진 지시를 따를 수 있습니다. 그런 일이 일어나는 동안에는 어느 것도 오류처럼 보이지 않습니다.",
   "中文": "它可能会误读您的时间线、选错片段、把您并非字面意思的问题当真执行，或者遵循它读到的文件名中隐藏的指令。这些情况发生时都不会像是出错。",
   "العربية": "قد يسيء قراءة خطك الزمني، أو يختار المقطع الخطأ، أو يتصرف بناءً على سؤال لم تقصده حرفيًا، أو يتبع تعليمات مخفية في اسم ملف قرأه. لا يبدو أي من ذلك خطأً أثناء حدوثه.",
   "Tiếng Việt": "Nó có thể đọc sai timeline, chọn nhầm clip, thực hiện theo một câu hỏi mà bạn không có ý hiểu theo nghĩa đen, hoặc làm theo một chỉ dẫn ẩn trong tên tệp mà nó đọc được. Không điều nào trong số đó trông giống lỗi khi đang xảy ra."
@@ -1015,7 +1015,7 @@
   "Español": "Aquí los errores cuestan trabajo, no palabras. Los marcadores, los nombres de clips, las bandejas y las líneas de tiempo pueden cambiarse o destruirse, y un cambio erróneo aplicado a muchos clips a la vez no es algo que notarás de inmediato.",
   "Deutsch": "Fehler kosten hier Arbeit, nicht Worte. Marker, Clipnamen, Bins und Timelines können geändert oder zerstört werden, und eine fehlerhafte Änderung an vielen Clips auf einmal bemerken Sie nicht sofort.",
   "Français": "Ici, les erreurs coûtent du travail, pas des mots. Les marqueurs, les noms de clips, les chutiers et les timelines peuvent tous être modifiés ou détruits, et une mauvaise modification appliquée à de nombreux clips à la fois ne se remarque pas immédiatement.",
-  "한국인": "여기서의 실수는 말이 아니라 작업을 잃게 합니다. 마커, 클립 이름, 빈, 타임라인이 모두 변경되거나 삭제될 수 있으며, 여러 클립에 한꺼번에 적용된 잘못된 변경은 바로 알아차리기 어렵습니다.",
+  "한국어": "여기서의 실수는 말이 아니라 작업을 잃게 합니다. 마커, 클립 이름, 빈, 타임라인이 모두 변경되거나 삭제될 수 있으며, 여러 클립에 한꺼번에 적용된 잘못된 변경은 바로 알아차리기 어렵습니다.",
   "中文": "这里的错误损失的是工作成果，而不只是文字。标记、片段名称、媒体夹和时间线都可能被更改或破坏，而一次性应用到许多片段上的错误更改，您不会立即察觉。",
   "العربية": "الأخطاء هنا تكلّف عملًا لا كلمات. يمكن تغيير أو إتلاف العلامات وأسماء المقاطع والحاويات والخطوط الزمنية، والتغيير الخاطئ الذي يطال مقاطع كثيرة دفعة واحدة ليس شيئًا ستلاحظه فورًا.",
   "Tiếng Việt": "Sai sót ở đây làm mất công sức, không chỉ là lời nói. Marker, tên clip, bin và timeline đều có thể bị thay đổi hoặc phá hỏng, và một thay đổi sai áp dụng cho nhiều clip cùng lúc không phải là điều bạn sẽ nhận ra ngay."
@@ -1025,7 +1025,7 @@
   "Español": "El deshacer de Resolve no lo cubre todo, y Buddy no puede deshacer nada por ti.",
   "Deutsch": "Das Rückgängigmachen in Resolve deckt nicht alles ab, und Buddy kann nichts für Sie rückgängig machen.",
   "Français": "L'annulation de Resolve ne couvre pas tout, et Buddy ne peut rien annuler pour vous.",
-  "한국인": "Resolve의 실행 취소로 모든 것을 되돌릴 수는 없으며, Buddy는 대신 아무것도 되돌릴 수 없습니다.",
+  "한국어": "Resolve의 실행 취소로 모든 것을 되돌릴 수는 없으며, Buddy는 대신 아무것도 되돌릴 수 없습니다.",
   "中文": "Resolve 的撤销并不能覆盖所有操作，而 Buddy 也无法替您撤销任何操作。",
   "العربية": "التراجع في Resolve لا يشمل كل شيء، ولا يستطيع Buddy التراجع عن أي شيء نيابةً عنك.",
   "Tiếng Việt": "Chức năng hoàn tác của Resolve không bao quát mọi thứ, và Buddy không thể hoàn tác bất cứ điều gì cho bạn."
@@ -1035,7 +1035,7 @@
   "Español": "No lo actives en un proyecto que no puedas permitirte perder. Guarda antes una copia.",
   "Deutsch": "Aktivieren Sie dies nicht bei einem Projekt, dessen Verlust Sie sich nicht leisten können. Speichern Sie zuerst eine Kopie.",
   "Français": "N'activez pas ceci sur un projet que vous ne pouvez pas vous permettre de perdre. Enregistrez-en d'abord une copie.",
-  "한국인": "잃어서는 안 되는 프로젝트에서는 사용하지 마세요. 먼저 사본을 저장하세요.",
+  "한국어": "잃어서는 안 되는 프로젝트에서는 사용하지 마세요. 먼저 사본을 저장하세요.",
   "中文": "请勿在不能承受丢失的项目上启用此功能。请先保存一份副本。",
   "العربية": "لا تفعّل هذا على مشروع لا يمكنك تحمّل خسارته. احفظ نسخة منه أولًا.",
   "Tiếng Việt": "Đừng bật tính năng này trên dự án mà bạn không thể để mất. Hãy lưu một bản sao trước."
@@ -1045,7 +1045,7 @@
   "Español": "Para activarlo, escribe exactamente la frase siguiente:",
   "Deutsch": "Geben Sie zum Aktivieren den folgenden Satz genau ein:",
   "Français": "Pour l'activer, saisissez exactement la phrase ci-dessous :",
-  "한국인": "사용하려면 아래 문장을 정확히 입력하세요:",
+  "한국어": "사용하려면 아래 문장을 정확히 입력하세요:",
   "中文": "要启用此功能，请准确输入下面的句子：",
   "العربية": "لتفعيل ذلك، اكتب الجملة أدناه كما هي تمامًا:",
   "Tiếng Việt": "Để bật, hãy nhập chính xác câu dưới đây:"
@@ -1055,7 +1055,7 @@
   "Español": "Escribe la frase aquí",
   "Deutsch": "Satz hier eingeben",
   "Français": "Saisissez la phrase ici",
-  "한국인": "여기에 문장 입력",
+  "한국어": "여기에 문장 입력",
   "中文": "在此输入句子",
   "العربية": "اكتب الجملة هنا",
   "Tiếng Việt": "Nhập câu tại đây"
@@ -1065,7 +1065,7 @@
   "Español": "Activar cambios en el proyecto",
   "Deutsch": "Projektänderungen aktivieren",
   "Français": "Activer les modifications du projet",
-  "한국인": "프로젝트 변경 사용",
+  "한국어": "프로젝트 변경 사용",
   "中文": "启用项目更改",
   "العربية": "تفعيل تغييرات المشروع",
   "Tiếng Việt": "Bật thay đổi dự án"
@@ -1075,7 +1075,7 @@
   "Español": "La frase coincide.",
   "Deutsch": "Der Satz stimmt überein.",
   "Français": "La phrase correspond.",
-  "한국인": "문장이 일치합니다.",
+  "한국어": "문장이 일치합니다.",
   "中文": "句子匹配。",
   "العربية": "الجملة مطابقة.",
   "Tiếng Việt": "Câu đã khớp."
@@ -1085,7 +1085,7 @@
   "Español": "Casi: las mayúsculas y minúsculas deben coincidir exactamente.",
   "Deutsch": "Fast – die Groß- und Kleinschreibung muss genau übereinstimmen.",
   "Français": "Presque – les majuscules et minuscules doivent correspondre exactement.",
-  "한국인": "거의 다 됐습니다 – 대소문자도 정확히 일치해야 합니다.",
+  "한국어": "거의 다 됐습니다 – 대소문자도 정확히 일치해야 합니다.",
   "中文": "差一点——大小写必须完全一致。",
   "العربية": "اقتربت – يجب أن تتطابق الأحرف الكبيرة والصغيرة تمامًا.",
   "Tiếng Việt": "Gần đúng rồi – chữ hoa và chữ thường phải khớp chính xác."
@@ -1095,7 +1095,7 @@
   "Español": "Sigue así: faltan {count} caracteres.",
   "Deutsch": "Weiter so – noch {count} Zeichen.",
   "Français": "Continuez – encore {count} caractères.",
-  "한국인": "계속하세요 – {count}자 남았습니다.",
+  "한국어": "계속하세요 – {count}자 남았습니다.",
   "中文": "继续——还差 {count} 个字符。",
   "العربية": "استمر – تبقّى {count} حرفًا.",
   "Tiếng Việt": "Tiếp tục – còn {count} ký tự."
@@ -1105,7 +1105,7 @@
   "Español": "No coincide con la frase de arriba.",
   "Deutsch": "Das stimmt nicht mit dem Satz oben überein.",
   "Français": "Cela ne correspond pas à la phrase ci-dessus.",
-  "한국인": "위 문장과 일치하지 않습니다.",
+  "한국어": "위 문장과 일치하지 않습니다.",
   "中文": "与上面的句子不匹配。",
   "العربية": "هذا لا يطابق الجملة أعلاه.",
   "Tiếng Việt": "Không khớp với câu ở trên."
@@ -1115,7 +1115,7 @@
   "Español": "Anuncios",
   "Deutsch": "Ankündigungen",
   "Français": "Annonces",
-  "한국인": "공지 사항",
+  "한국어": "공지 사항",
   "中文": "公告",
   "العربية": "الإعلانات",
   "Tiếng Việt": "Thông báo"
@@ -1125,7 +1125,7 @@
   "Español": "• nuevo",
   "Deutsch": "• neu",
   "Français": "• nouveau",
-  "한국인": "• 새 소식",
+  "한국어": "• 새 소식",
   "中文": "• 新",
   "العربية": "• جديد",
   "Tiếng Việt": "• mới"
@@ -1135,7 +1135,7 @@
   "Español": "No hay anuncios por ahora.",
   "Deutsch": "Zurzeit keine Ankündigungen.",
   "Français": "Aucune annonce pour le moment.",
-  "한국인": "현재 공지 사항이 없습니다.",
+  "한국어": "현재 공지 사항이 없습니다.",
   "中文": "目前没有公告。",
   "العربية": "لا توجد إعلانات حاليًا.",
   "Tiếng Việt": "Hiện không có thông báo nào."
@@ -1145,7 +1145,7 @@
   "Español": "Buddy los comprueba una vez al día. Puedes desactivarlo en Ajustes («Mostrar anuncios de Buddy»).",
   "Deutsch": "Buddy sucht einmal am Tag danach. Sie können das in den Einstellungen ausschalten („Ankündigungen von Buddy anzeigen“).",
   "Français": "Buddy les vérifie une fois par jour. Vous pouvez désactiver cela dans les Paramètres (« Afficher les annonces de Buddy »).",
-  "한국인": "Buddy는 하루에 한 번 공지 사항을 확인합니다. 설정(\"Buddy 공지 사항 표시\")에서 끌 수 있습니다.",
+  "한국어": "Buddy는 하루에 한 번 공지 사항을 확인합니다. 설정(\"Buddy 공지 사항 표시\")에서 끌 수 있습니다.",
   "中文": "Buddy 每天检查一次公告。您可以在设置中关闭此功能（“显示来自 Buddy 的公告”）。",
   "العربية": "يتحقق Buddy من هذه الإعلانات مرة يوميًا. يمكنك إيقاف ذلك من الإعدادات (\"إظهار الإعلانات من Buddy\").",
   "Tiếng Việt": "Buddy kiểm tra các thông báo này mỗi ngày một lần. Bạn có thể tắt trong Cài đặt (\"Hiển thị thông báo từ Buddy\")."
@@ -1155,7 +1155,7 @@
   "Español": "Elige un color",
   "Deutsch": "Farbe wählen",
   "Français": "Choisir une couleur",
-  "한국인": "색상 선택",
+  "한국어": "색상 선택",
   "中文": "选择颜色",
   "العربية": "اختر لونًا",
   "Tiếng Việt": "Chọn màu"
@@ -1165,7 +1165,7 @@
   "Español": "Toma un color de cualquier parte de la pantalla",
   "Deutsch": "Eine Farbe von einer beliebigen Stelle auf dem Bildschirm aufnehmen",
   "Français": "Prélever une couleur n'importe où à l'écran",
-  "한국인": "화면 어디에서나 색상 추출",
+  "한국어": "화면 어디에서나 색상 추출",
   "中文": "从屏幕上任意位置拾取颜色",
   "العربية": "التقط لونًا من أي مكان على الشاشة",
   "Tiếng Việt": "Lấy màu từ bất kỳ đâu trên màn hình"
@@ -1175,7 +1175,7 @@
   "Español": "Saturación y brillo",
   "Deutsch": "Sättigung und Helligkeit",
   "Français": "Saturation et luminosité",
-  "한국인": "채도 및 밝기",
+  "한국어": "채도 및 밝기",
   "中文": "饱和度和亮度",
   "العربية": "التشبع والسطوع",
   "Tiếng Việt": "Độ bão hòa và độ sáng"
@@ -1185,7 +1185,7 @@
   "Español": "Tono",
   "Deutsch": "Farbton",
   "Français": "Teinte",
-  "한국인": "색조",
+  "한국어": "색조",
   "中文": "色相",
   "العربية": "تدرج اللون",
   "Tiếng Việt": "Sắc độ"
@@ -1195,7 +1195,7 @@
   "Español": "Antes",
   "Deutsch": "Vorher",
   "Français": "Avant",
-  "한국인": "이전",
+  "한국어": "이전",
   "中文": "之前",
   "العربية": "قبل",
   "Tiếng Việt": "Trước"
@@ -1205,7 +1205,7 @@
   "Español": "Después",
   "Deutsch": "Nachher",
   "Français": "Après",
-  "한국인": "이후",
+  "한국어": "이후",
   "中文": "之后",
   "العربية": "بعد",
   "Tiếng Việt": "Sau"
@@ -1215,7 +1215,7 @@
   "Español": "Color hexadecimal",
   "Deutsch": "Hex-Farbe",
   "Français": "Couleur hexadécimale",
-  "한국인": "16진수 색상",
+  "한국어": "16진수 색상",
   "中文": "十六进制颜色",
   "العربية": "اللون السداسي العشري",
   "Tiếng Việt": "Mã màu hex"
