@@ -42,8 +42,8 @@ def main(start_hidden=False):
     # no-op unless the setting is actually on.
     startup_manager.sync_if_enabled()
 
-    # Web pages draw through ANGLE's Direct3D 11 on 12: plain Direct3D 11
-    # crashes inside Buddy's process on some machines (core/web_flags.py).
+    # Web pages are drawn in software: Chromium's GPU path (ANGLE) crashes
+    # inside Buddy's process on some machines (core/web_flags.py).
     crash_log.trail("web", web_flags.apply(os.environ))
     # Web tool pages (core/web_page.py) share GPU contexts with each other;
     # QtWebEngine needs this set before the QApplication exists.
