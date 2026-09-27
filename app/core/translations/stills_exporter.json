@@ -5,7 +5,7 @@
   "Español": "Color del marcador",
   "Deutsch": "Markerfarbe",
   "Français": "Couleur du marqueur",
-  "한국인": "마커 색상",
+  "한국어": "마커 색상",
   "中文": "标记颜色",
   "العربية": "لون العلامة",
   "Tiếng Việt": "Màu marker"
@@ -15,7 +15,7 @@
   "Español": "Usa un mismo color para todos los fotogramas que quieras en un lote: los pasos 1 y 2 lo usan.",
   "Deutsch": "Verwenden Sie eine Farbe für alle Frames, die Sie in einem Durchgang möchten – Schritt 1 und 2 verwenden sie beide.",
   "Français": "Utilisez une même couleur pour toutes les images d'un lot – les étapes 1 et 2 l'utilisent toutes les deux.",
-  "한국인": "한 번에 내보낼 모든 프레임에 같은 색을 사용하세요 – 1단계와 2단계 모두 이 색을 사용합니다.",
+  "한국어": "한 번에 내보낼 모든 프레임에 같은 색을 사용하세요 – 1단계와 2단계 모두 이 색을 사용합니다.",
   "中文": "同一批次的所有帧请使用同一种颜色——步骤 1 和 2 都会用到它。",
   "العربية": "استخدم لونًا واحدًا لكل إطار تريده في دفعة واحدة – تستخدمه الخطوتان 1 و2.",
   "Tiếng Việt": "Dùng một màu cho mọi khung hình bạn muốn trong một đợt – cả bước 1 và 2 đều dùng màu này."
@@ -25,7 +25,7 @@
   "Español": "Marca los fotogramas",
   "Deutsch": "Frames markieren",
   "Français": "Marquer les images",
-  "한국인": "프레임 표시",
+  "한국어": "프레임 표시",
   "中文": "标记帧",
   "العربية": "حدّد الإطارات",
   "Tiếng Việt": "Đánh dấu khung hình"
@@ -35,7 +35,7 @@
   "Español": "Mueve el cabezal de reproducción de Resolve a un fotograma que valga la pena y añade allí un marcador.",
   "Deutsch": "Bewegen Sie den Abspielkopf von Resolve zu einem Frame, den Sie behalten möchten, und setzen Sie dort einen Marker.",
   "Français": "Placez la tête de lecture de Resolve sur une image à conserver, puis ajoutez-y un marqueur.",
-  "한국인": "Resolve의 재생 헤드를 남길 프레임으로 옮긴 다음 그곳에 마커를 추가하세요.",
+  "한국어": "Resolve의 재생 헤드를 남길 프레임으로 옮긴 다음 그곳에 마커를 추가하세요.",
   "中文": "将 Resolve 的播放头移到值得保留的帧上，然后在那里添加标记。",
   "العربية": "حرّك رأس التشغيل في Resolve إلى إطار يستحق الاحتفاظ به، ثم أضف علامة هناك.",
   "Tiếng Việt": "Di chuyển đầu phát của Resolve đến khung hình đáng giữ, rồi thêm marker tại đó."
@@ -45,7 +45,7 @@
   "Español": "Nombre del marcador (opcional)",
   "Deutsch": "Markername (optional)",
   "Français": "Nom du marqueur (facultatif)",
-  "한국인": "마커 이름(선택 사항)",
+  "한국어": "마커 이름(선택 사항)",
   "中文": "标记名称（可选）",
   "العربية": "اسم العلامة (اختياري)",
   "Tiếng Việt": "Tên marker (tùy chọn)"
@@ -55,7 +55,7 @@
   "Español": "p. ej., Plano principal",
   "Deutsch": "z. B. Hauptmotiv",
   "Français": "ex. : Plan principal",
-  "한국인": "예: 메인 샷",
+  "한국어": "예: 메인 샷",
   "中文": "例如：主镜头",
   "العربية": "مثال: اللقطة الرئيسية",
   "Tiếng Việt": "vd: Cảnh chính"
@@ -65,7 +65,7 @@
   "Español": "Añadir marcador en el cabezal",
   "Deutsch": "Marker am Abspielkopf setzen",
   "Français": "Ajouter un marqueur à la tête de lecture",
-  "한국인": "재생 헤드에 마커 추가",
+  "한국어": "재생 헤드에 마커 추가",
   "中文": "在播放头处添加标记",
   "العربية": "إضافة علامة عند رأس التشغيل",
   "Tiếng Việt": "Thêm marker tại đầu phát"
@@ -75,7 +75,7 @@
   "Español": "Capturar fotogramas",
   "Deutsch": "Standbilder aufnehmen",
   "Français": "Capturer des images fixes",
-  "한국인": "스틸 가져오기",
+  "한국어": "스틸 가져오기",
   "中文": "抓取静帧",
   "العربية": "التقاط لقطات ثابتة",
   "Tiếng Việt": "Chụp ảnh tĩnh"
@@ -85,7 +85,7 @@
   "Español": "Cambia Resolve a la página Color y captura un fotograma en cada marcador de ese color, por orden.",
   "Deutsch": "Wechselt Resolve auf die Color-Seite und nimmt an jedem Marker dieser Farbe der Reihe nach ein Standbild auf.",
   "Français": "Bascule Resolve sur la page Color et capture une image fixe à chaque marqueur de cette couleur, dans l'ordre.",
-  "한국인": "Resolve를 컬러 페이지로 전환하고 해당 색상의 각 마커에서 순서대로 스틸을 가져옵니다.",
+  "한국어": "Resolve를 컬러 페이지로 전환하고 해당 색상의 각 마커에서 순서대로 스틸을 가져옵니다.",
   "中文": "将 Resolve 切换到调色页面，并按顺序在该颜色的每个标记处抓取静帧。",
   "العربية": "يبدّل Resolve إلى صفحة Color ويلتقط لقطة ثابتة عند كل علامة بهذا اللون بالترتيب.",
   "Tiếng Việt": "Chuyển Resolve sang trang Color và chụp một ảnh tĩnh tại mỗi marker có màu này, theo thứ tự."
@@ -95,7 +95,7 @@
   "Español": "Vaciar lista",
   "Deutsch": "Liste leeren",
   "Français": "Vider la liste",
-  "한국인": "목록 지우기",
+  "한국어": "목록 지우기",
   "中文": "清空列表",
   "العربية": "مسح القائمة",
   "Tiếng Việt": "Xóa danh sách"
@@ -105,7 +105,7 @@
   "Español": "Vacía esta lista; los fotogramas de la galería de Resolve se conservan",
   "Deutsch": "Leert diese Liste – Standbilder in der Galerie von Resolve bleiben erhalten",
   "Français": "Vide cette liste – les images fixes de la galerie de Resolve restent",
-  "한국인": "이 목록을 비웁니다 – Resolve 갤러리의 스틸은 그대로 남습니다",
+  "한국어": "이 목록을 비웁니다 – Resolve 갤러리의 스틸은 그대로 남습니다",
   "中文": "清空此列表——Resolve 画廊中的静帧会保留",
   "العربية": "يفرغ هذه القائمة – تبقى اللقطات الثابتة في معرض Resolve",
   "Tiếng Việt": "Làm trống danh sách này – ảnh tĩnh trong thư viện của Resolve vẫn được giữ"
@@ -115,7 +115,7 @@
   "Español": "Formato",
   "Deutsch": "Format",
   "Français": "Format",
-  "한국인": "형식",
+  "한국어": "형식",
   "中文": "格式",
   "العربية": "التنسيق",
   "Tiếng Việt": "Định dạng"
@@ -125,7 +125,7 @@
   "Español": "Prefijo del nombre de archivo",
   "Deutsch": "Dateinamenpräfix",
   "Français": "Préfixe du nom de fichier",
-  "한국인": "파일 이름 접두사",
+  "한국어": "파일 이름 접두사",
   "中文": "文件名前缀",
   "العربية": "بادئة اسم الملف",
   "Tiếng Việt": "Tiền tố tên tệp"
@@ -135,7 +135,7 @@
   "Español": "Eliminar después los fotogramas de la galería de Resolve",
   "Deutsch": "Standbilder danach aus der Galerie von Resolve löschen",
   "Français": "Supprimer ensuite les images fixes de la galerie de Resolve",
-  "한국인": "내보낸 후 Resolve 갤러리에서 스틸 삭제",
+  "한국어": "내보낸 후 Resolve 갤러리에서 스틸 삭제",
   "中文": "导出后从 Resolve 画廊中删除静帧",
   "العربية": "حذف اللقطات الثابتة من معرض Resolve بعد ذلك",
   "Tiếng Việt": "Xóa ảnh tĩnh khỏi thư viện của Resolve sau đó"
@@ -145,7 +145,7 @@
   "Español": "{t_color}: 1 marcador",
   "Deutsch": "{t_color} – 1 Marker",
   "Français": "{t_color} – 1 marqueur",
-  "한국인": "{t_color} – 마커 1개",
+  "한국어": "{t_color} – 마커 1개",
   "中文": "{t_color} – 1 个标记",
   "العربية": "{t_color} – علامة واحدة",
   "Tiếng Việt": "{t_color} – 1 marker"
@@ -155,7 +155,7 @@
   "Español": "{t_color}: {count} marcadores",
   "Deutsch": "{t_color} – {count} Marker",
   "Français": "{t_color} – {count} marqueurs",
-  "한국인": "{t_color} – 마커 {count}개",
+  "한국어": "{t_color} – 마커 {count}개",
   "中文": "{t_color} – {count} 个标记",
   "العربية": "{t_color} – {count} علامات",
   "Tiếng Việt": "{t_color} – {count} marker"
@@ -165,7 +165,7 @@
   "Español": "1 marcador {t_color} en esta línea de tiempo",
   "Deutsch": "1 Marker ({t_color}) in dieser Timeline",
   "Français": "1 marqueur {t_color} sur cette timeline",
-  "한국인": "이 타임라인의 {t_color} 마커 1개",
+  "한국어": "이 타임라인의 {t_color} 마커 1개",
   "中文": "此时间线上有 1 个{t_color}标记",
   "العربية": "علامة واحدة باللون {t_color} في هذا الخط الزمني",
   "Tiếng Việt": "1 marker {t_color} trên timeline này"
@@ -175,7 +175,7 @@
   "Español": "{count} marcadores {t_color} en esta línea de tiempo",
   "Deutsch": "{count} Marker ({t_color}) in dieser Timeline",
   "Français": "{count} marqueurs {t_color} sur cette timeline",
-  "한국인": "이 타임라인의 {t_color} 마커 {count}개",
+  "한국어": "이 타임라인의 {t_color} 마커 {count}개",
   "中文": "此时间线上有 {count} 个{t_color}标记",
   "العربية": "{count} علامات باللون {t_color} في هذا الخط الزمني",
   "Tiếng Việt": "{count} marker {t_color} trên timeline này"
@@ -185,7 +185,7 @@
   "Español": "Capturar 1 fotograma en los marcadores {t_color}",
   "Deutsch": "1 Standbild an den Markern ({t_color}) aufnehmen",
   "Français": "Capturer 1 image fixe aux marqueurs {t_color}",
-  "한국인": "{t_color} 마커에서 스틸 1개 가져오기",
+  "한국어": "{t_color} 마커에서 스틸 1개 가져오기",
   "中文": "在{t_color}标记处抓取 1 个静帧",
   "العربية": "التقاط لقطة ثابتة واحدة عند العلامات باللون {t_color}",
   "Tiếng Việt": "Chụp 1 ảnh tĩnh tại các marker {t_color}"
@@ -195,7 +195,7 @@
   "Español": "Capturar {count} fotogramas en los marcadores {t_color}",
   "Deutsch": "{count} Standbilder an den Markern ({t_color}) aufnehmen",
   "Français": "Capturer {count} images fixes aux marqueurs {t_color}",
-  "한국인": "{t_color} 마커에서 스틸 {count}개 가져오기",
+  "한국어": "{t_color} 마커에서 스틸 {count}개 가져오기",
   "中文": "在{t_color}标记处抓取 {count} 个静帧",
   "العربية": "التقاط {count} لقطات ثابتة عند العلامات باللون {t_color}",
   "Tiếng Việt": "Chụp {count} ảnh tĩnh tại các marker {t_color}"
@@ -205,7 +205,7 @@
   "Español": "Aún no hay marcadores {t_color} en esta línea de tiempo: añádelos en el paso 1.",
   "Deutsch": "In dieser Timeline gibt es noch keine Marker ({t_color}) – fügen Sie sie in Schritt 1 hinzu.",
   "Français": "Aucun marqueur {t_color} sur cette timeline pour l'instant – ajoutez-en à l'étape 1.",
-  "한국인": "이 타임라인에 아직 {t_color} 마커가 없습니다 – 1단계에서 추가하세요.",
+  "한국어": "이 타임라인에 아직 {t_color} 마커가 없습니다 – 1단계에서 추가하세요.",
   "中文": "此时间线上还没有{t_color}标记——请在步骤 1 中添加。",
   "العربية": "لا توجد علامات باللون {t_color} في هذا الخط الزمني بعد – أضفها في الخطوة 1.",
   "Tiếng Việt": "Timeline này chưa có marker {t_color} – hãy thêm ở bước 1."
@@ -215,7 +215,7 @@
   "Español": "1 fotograma capturado en esta sesión",
   "Deutsch": "1 Standbild in dieser Sitzung aufgenommen",
   "Français": "1 image fixe capturée pendant cette session",
-  "한국인": "이번 세션에서 가져온 스틸 1개",
+  "한국어": "이번 세션에서 가져온 스틸 1개",
   "中文": "本次会话已抓取 1 个静帧",
   "العربية": "لقطة ثابتة واحدة التُقطت في هذه الجلسة",
   "Tiếng Việt": "Đã chụp 1 ảnh tĩnh trong phiên này"
@@ -225,7 +225,7 @@
   "Español": "{count} fotogramas capturados en esta sesión",
   "Deutsch": "{count} Standbilder in dieser Sitzung aufgenommen",
   "Français": "{count} images fixes capturées pendant cette session",
-  "한국인": "이번 세션에서 가져온 스틸 {count}개",
+  "한국어": "이번 세션에서 가져온 스틸 {count}개",
   "中文": "本次会话已抓取 {count} 个静帧",
   "العربية": "{count} لقطات ثابتة التُقطت في هذه الجلسة",
   "Tiếng Việt": "Đã chụp {count} ảnh tĩnh trong phiên này"
@@ -235,7 +235,7 @@
   "Español": "Aún no se ha capturado nada en esta sesión.",
   "Deutsch": "In dieser Sitzung wurde noch nichts aufgenommen.",
   "Français": "Rien n'a encore été capturé pendant cette session.",
-  "한국인": "이번 세션에서 아직 가져온 것이 없습니다.",
+  "한국어": "이번 세션에서 아직 가져온 것이 없습니다.",
   "中文": "本次会话尚未抓取任何内容。",
   "العربية": "لم يُلتقط شيء بعد في هذه الجلسة.",
   "Tiếng Việt": "Chưa chụp gì trong phiên này."
@@ -245,7 +245,7 @@
   "Español": "Quitarlo de esta lista (la galería lo conserva)",
   "Deutsch": "Von dieser Liste nehmen (die Galerie behält es)",
   "Français": "Le retirer de cette liste (la galerie le conserve)",
-  "한국인": "이 목록에서 제거(갤러리에는 남음)",
+  "한국어": "이 목록에서 제거(갤러리에는 남음)",
   "中文": "从此列表中移除（画廊中会保留）",
   "العربية": "إزالته من هذه القائمة (يحتفظ به المعرض)",
   "Tiếng Việt": "Bỏ khỏi danh sách này (thư viện vẫn giữ)"
@@ -255,7 +255,7 @@
   "Español": "No se ha elegido ninguna carpeta",
   "Deutsch": "Kein Ordner gewählt",
   "Français": "Aucun dossier choisi",
-  "한국인": "선택한 폴더 없음",
+  "한국어": "선택한 폴더 없음",
   "中文": "未选择文件夹",
   "العربية": "لم يتم اختيار مجلد",
   "Tiếng Việt": "Chưa chọn thư mục"
@@ -265,7 +265,7 @@
   "Español": "Exportar 1 fotograma",
   "Deutsch": "1 Standbild exportieren",
   "Français": "Exporter 1 image fixe",
-  "한국인": "스틸 1개 내보내기",
+  "한국어": "스틸 1개 내보내기",
   "中文": "导出 1 个静帧",
   "العربية": "تصدير لقطة ثابتة واحدة",
   "Tiếng Việt": "Xuất 1 ảnh tĩnh"
@@ -275,7 +275,7 @@
   "Español": "Exportar {count} fotogramas",
   "Deutsch": "{count} Standbilder exportieren",
   "Français": "Exporter {count} images fixes",
-  "한국인": "스틸 {count}개 내보내기",
+  "한국어": "스틸 {count}개 내보내기",
   "中文": "导出 {count} 个静帧",
   "العربية": "تصدير {count} لقطات ثابتة",
   "Tiếng Việt": "Xuất {count} ảnh tĩnh"
@@ -285,7 +285,7 @@
   "Español": "Exportar fotogramas",
   "Deutsch": "Standbilder exportieren",
   "Français": "Exporter les images fixes",
-  "한국인": "스틸 내보내기",
+  "한국어": "스틸 내보내기",
   "中文": "导出静帧",
   "العربية": "تصدير اللقطات الثابتة",
   "Tiếng Việt": "Xuất ảnh tĩnh"
@@ -295,7 +295,7 @@
   "Español": "Elige primero una carpeta",
   "Deutsch": "Wählen Sie zuerst einen Ordner",
   "Français": "Choisissez d'abord un dossier",
-  "한국인": "먼저 폴더를 선택하세요",
+  "한국어": "먼저 폴더를 선택하세요",
   "中文": "请先选择文件夹",
   "العربية": "اختر مجلدًا أولًا",
   "Tiếng Việt": "Hãy chọn thư mục trước"
@@ -305,7 +305,7 @@
   "Español": "Captura primero algunos fotogramas",
   "Deutsch": "Nehmen Sie zuerst Standbilder auf",
   "Français": "Capturez d'abord des images fixes",
-  "한국인": "먼저 스틸을 가져오세요",
+  "한국어": "먼저 스틸을 가져오세요",
   "中文": "请先抓取一些静帧",
   "العربية": "التقط بعض اللقطات الثابتة أولًا",
   "Tiếng Việt": "Hãy chụp vài ảnh tĩnh trước"
@@ -315,7 +315,7 @@
   "Español": "¿Eliminar de la galería?",
   "Deutsch": "Aus der Galerie löschen?",
   "Français": "Supprimer de la galerie ?",
-  "한국인": "갤러리에서 삭제할까요?",
+  "한국어": "갤러리에서 삭제할까요?",
   "中文": "要从画廊中删除吗？",
   "العربية": "حذف من المعرض؟",
   "Tiếng Việt": "Xóa khỏi thư viện?"
@@ -325,7 +325,7 @@
   "Español": "Exportar y eliminar",
   "Deutsch": "Exportieren und löschen",
   "Français": "Exporter et supprimer",
-  "한국인": "내보내고 삭제",
+  "한국어": "내보내고 삭제",
   "中文": "导出并删除",
   "العربية": "تصدير وحذف",
   "Tiếng Việt": "Xuất và xóa"
@@ -335,7 +335,7 @@
   "Español": "¿Exportar 1 fotograma y luego eliminarlo de la galería de Resolve?\n\nLos archivos de imagen exportados se conservan: solo se eliminan las copias de la galería, y eso no se puede deshacer desde aquí.",
   "Deutsch": "1 Standbild exportieren und dann aus der Galerie von Resolve löschen?\n\nDie exportierten Bilddateien bleiben erhalten – nur die Kopien in der Galerie werden entfernt, und das lässt sich hier nicht rückgängig machen.",
   "Français": "Exporter 1 image fixe, puis la supprimer de la galerie de Resolve ?\n\nLes fichiers image exportés sont conservés – seules les copies de la galerie sont supprimées, et cela ne peut pas être annulé ici.",
-  "한국인": "스틸 1개를 내보낸 다음 Resolve 갤러리에서 삭제할까요?\n\n내보낸 이미지 파일은 유지됩니다 – 갤러리의 사본만 삭제되며, 여기에서 되돌릴 수 없습니다.",
+  "한국어": "스틸 1개를 내보낸 다음 Resolve 갤러리에서 삭제할까요?\n\n내보낸 이미지 파일은 유지됩니다 – 갤러리의 사본만 삭제되며, 여기에서 되돌릴 수 없습니다.",
   "中文": "导出 1 个静帧，然后将其从 Resolve 画廊中删除？\n\n导出的图像文件会保留——只删除画廊中的副本，且无法在此处撤销。",
   "العربية": "هل تريد تصدير لقطة ثابتة واحدة ثم حذفها من معرض Resolve؟\n\nيتم الاحتفاظ بملفات الصور المُصدَّرة – تُحذف نسخ المعرض فقط، ولا يمكن التراجع عن ذلك من هنا.",
   "Tiếng Việt": "Xuất 1 ảnh tĩnh rồi xóa khỏi thư viện của Resolve?\n\nCác tệp ảnh đã xuất được giữ lại – chỉ bản sao trong thư viện bị xóa, và không thể hoàn tác từ đây."
@@ -345,7 +345,7 @@
   "Español": "¿Exportar {count} fotogramas y luego eliminarlos de la galería de Resolve?\n\nLos archivos de imagen exportados se conservan: solo se eliminan las copias de la galería, y eso no se puede deshacer desde aquí.",
   "Deutsch": "{count} Standbilder exportieren und dann aus der Galerie von Resolve löschen?\n\nDie exportierten Bilddateien bleiben erhalten – nur die Kopien in der Galerie werden entfernt, und das lässt sich hier nicht rückgängig machen.",
   "Français": "Exporter {count} images fixes, puis les supprimer de la galerie de Resolve ?\n\nLes fichiers image exportés sont conservés – seules les copies de la galerie sont supprimées, et cela ne peut pas être annulé ici.",
-  "한국인": "스틸 {count}개를 내보낸 다음 Resolve 갤러리에서 삭제할까요?\n\n내보낸 이미지 파일은 유지됩니다 – 갤러리의 사본만 삭제되며, 여기에서 되돌릴 수 없습니다.",
+  "한국어": "스틸 {count}개를 내보낸 다음 Resolve 갤러리에서 삭제할까요?\n\n내보낸 이미지 파일은 유지됩니다 – 갤러리의 사본만 삭제되며, 여기에서 되돌릴 수 없습니다.",
   "中文": "导出 {count} 个静帧，然后将其从 Resolve 画廊中删除？\n\n导出的图像文件会保留——只删除画廊中的副本，且无法在此处撤销。",
   "العربية": "هل تريد تصدير {count} لقطات ثابتة ثم حذفها من معرض Resolve؟\n\nيتم الاحتفاظ بملفات الصور المُصدَّرة – تُحذف نسخ المعرض فقط، ولا يمكن التراجع عن ذلك من هنا.",
   "Tiếng Việt": "Xuất {count} ảnh tĩnh rồi xóa khỏi thư viện của Resolve?\n\nCác tệp ảnh đã xuất được giữ lại – chỉ bản sao trong thư viện bị xóa, và không thể hoàn tác từ đây."
@@ -355,7 +355,7 @@
   "Español": "No se pudo conectar: {error}",
   "Deutsch": "Verbindung fehlgeschlagen: {error}",
   "Français": "Connexion impossible : {error}",
-  "한국인": "연결할 수 없습니다: {error}",
+  "한국어": "연결할 수 없습니다: {error}",
   "中文": "无法连接：{error}",
   "العربية": "تعذر الاتصال: {error}",
   "Tiếng Việt": "Không thể kết nối: {error}"
@@ -365,7 +365,7 @@
   "Español": "No se pudo añadir el marcador",
   "Deutsch": "Marker konnte nicht gesetzt werden",
   "Français": "Impossible d'ajouter le marqueur",
-  "한국인": "마커를 추가할 수 없음",
+  "한국어": "마커를 추가할 수 없음",
   "中文": "无法添加标记",
   "العربية": "تعذرت إضافة العلامة",
   "Tiếng Việt": "Không thể thêm marker"
@@ -375,7 +375,7 @@
   "Español": "No se pudo añadir el marcador: {error}",
   "Deutsch": "Marker konnte nicht gesetzt werden: {error}",
   "Français": "Impossible d'ajouter le marqueur : {error}",
-  "한국인": "마커를 추가할 수 없습니다: {error}",
+  "한국어": "마커를 추가할 수 없습니다: {error}",
   "中文": "无法添加标记：{error}",
   "العربية": "تعذرت إضافة العلامة: {error}",
   "Tiếng Việt": "Không thể thêm marker: {error}"
@@ -385,7 +385,7 @@
   "Español": "No se pudieron capturar los fotogramas",
   "Deutsch": "Standbilder konnten nicht aufgenommen werden",
   "Français": "Impossible de capturer les images fixes",
-  "한국인": "스틸을 가져올 수 없음",
+  "한국어": "스틸을 가져올 수 없음",
   "中文": "无法抓取静帧",
   "العربية": "تعذر التقاط اللقطات الثابتة",
   "Tiếng Việt": "Không thể chụp ảnh tĩnh"
@@ -395,7 +395,7 @@
   "Español": "No se pudieron capturar los fotogramas: {error}",
   "Deutsch": "Standbilder konnten nicht aufgenommen werden: {error}",
   "Français": "Impossible de capturer les images fixes : {error}",
-  "한국인": "스틸을 가져올 수 없습니다: {error}",
+  "한국어": "스틸을 가져올 수 없습니다: {error}",
   "中文": "无法抓取静帧：{error}",
   "العربية": "تعذر التقاط اللقطات الثابتة: {error}",
   "Tiếng Việt": "Không thể chụp ảnh tĩnh: {error}"
@@ -405,7 +405,7 @@
   "Español": "Error al exportar: {error}",
   "Deutsch": "Export fehlgeschlagen: {error}",
   "Français": "Échec de l'exportation : {error}",
-  "한국인": "내보내기 실패: {error}",
+  "한국어": "내보내기 실패: {error}",
   "中文": "导出失败：{error}",
   "العربية": "فشل التصدير: {error}",
   "Tiếng Việt": "Xuất thất bại: {error}"
@@ -415,7 +415,7 @@
   "Español": "Elegir carpeta de exportación",
   "Deutsch": "Exportordner wählen",
   "Français": "Choisir le dossier d'exportation",
-  "한국인": "내보낼 폴더 선택",
+  "한국어": "내보낼 폴더 선택",
   "中文": "选择导出文件夹",
   "العربية": "اختر مجلد التصدير",
   "Tiếng Việt": "Chọn thư mục xuất"
@@ -425,7 +425,7 @@
   "Español": "Se añadió un marcador {t_color} en {timecode}.",
   "Deutsch": "Marker ({t_color}) bei {timecode} gesetzt.",
   "Français": "Marqueur {t_color} ajouté à {timecode}.",
-  "한국인": "{timecode}에 {t_color} 마커를 추가했습니다.",
+  "한국어": "{timecode}에 {t_color} 마커를 추가했습니다.",
   "中文": "已在 {timecode} 处添加{t_color}标记。",
   "العربية": "تمت إضافة علامة باللون {t_color} عند {timecode}.",
   "Tiếng Việt": "Đã thêm marker {t_color} tại {timecode}."
@@ -435,7 +435,7 @@
   "Español": "Marcador {t_color} añadido en {timecode}",
   "Deutsch": "Marker ({t_color}) bei {timecode} gesetzt",
   "Français": "Marqueur {t_color} ajouté à {timecode}",
-  "한국인": "{timecode}에 {t_color} 마커 추가됨",
+  "한국어": "{timecode}에 {t_color} 마커 추가됨",
   "中文": "已在 {timecode} 处添加{t_color}标记",
   "العربية": "أُضيفت علامة باللون {t_color} عند {timecode}",
   "Tiếng Việt": "Đã thêm marker {t_color} tại {timecode}"
@@ -445,7 +445,7 @@
   "Español": "Capturando fotogramas en cada marcador {t_color}…",
   "Deutsch": "Standbilder an jedem Marker ({t_color}) werden aufgenommen…",
   "Français": "Capture des images fixes à chaque marqueur {t_color}…",
-  "한국인": "모든 {t_color} 마커에서 스틸을 가져오는 중…",
+  "한국어": "모든 {t_color} 마커에서 스틸을 가져오는 중…",
   "中文": "正在每个{t_color}标记处抓取静帧…",
   "العربية": "جارٍ التقاط اللقطات الثابتة عند كل علامة باللون {t_color}…",
   "Tiếng Việt": "Đang chụp ảnh tĩnh tại mỗi marker {t_color}…"
@@ -455,7 +455,7 @@
   "Español": "Capturando fotogramas en los marcadores {t_color}…",
   "Deutsch": "Standbilder an den Markern ({t_color}) werden aufgenommen…",
   "Français": "Capture des images fixes aux marqueurs {t_color}…",
-  "한국인": "{t_color} 마커에서 스틸을 가져오는 중…",
+  "한국어": "{t_color} 마커에서 스틸을 가져오는 중…",
   "中文": "正在{t_color}标记处抓取静帧…",
   "العربية": "جارٍ التقاط اللقطات الثابتة عند العلامات باللون {t_color}…",
   "Tiếng Việt": "Đang chụp ảnh tĩnh tại các marker {t_color}…"
@@ -465,7 +465,7 @@
   "Español": "Se capturó 1 fotograma en la página Color",
   "Deutsch": "1 Standbild auf der Color-Seite aufgenommen",
   "Français": "1 image fixe capturée sur la page Color",
-  "한국인": "컬러 페이지에서 스틸 1개를 가져왔습니다",
+  "한국어": "컬러 페이지에서 스틸 1개를 가져왔습니다",
   "中文": "已在调色页面抓取 1 个静帧",
   "العربية": "تم التقاط لقطة ثابتة واحدة في صفحة Color",
   "Tiếng Việt": "Đã chụp 1 ảnh tĩnh trên trang Color"
@@ -475,7 +475,7 @@
   "Español": "Se capturaron {count} fotogramas en la página Color",
   "Deutsch": "{count} Standbilder auf der Color-Seite aufgenommen",
   "Français": "{count} images fixes capturées sur la page Color",
-  "한국인": "컬러 페이지에서 스틸 {count}개를 가져왔습니다",
+  "한국어": "컬러 페이지에서 스틸 {count}개를 가져왔습니다",
   "中文": "已在调色页面抓取 {count} 个静帧",
   "العربية": "تم التقاط {count} لقطات ثابتة في صفحة Color",
   "Tiếng Việt": "Đã chụp {count} ảnh tĩnh trên trang Color"
@@ -485,7 +485,7 @@
   "Español": "Se quitaron {count} fotograma(s) de la lista; la galería no se ha tocado.",
   "Deutsch": "{count} Standbild(er) aus der Liste entfernt – die Galerie bleibt unverändert.",
   "Français": "{count} image(s) fixe(s) retirée(s) de la liste – la galerie n'est pas modifiée.",
-  "한국인": "목록에서 스틸 {count}개를 지웠습니다 – 갤러리는 그대로입니다.",
+  "한국어": "목록에서 스틸 {count}개를 지웠습니다 – 갤러리는 그대로입니다.",
   "中文": "已从列表中清除 {count} 个静帧——画廊未受影响。",
   "العربية": "تمت إزالة {count} لقطة ثابتة من القائمة – لم يُمس المعرض.",
   "Tiếng Việt": "Đã xóa {count} ảnh tĩnh khỏi danh sách – thư viện không bị ảnh hưởng."
@@ -495,7 +495,7 @@
   "Español": "No hay nada que exportar",
   "Deutsch": "Nichts zu exportieren",
   "Français": "Rien à exporter",
-  "한국인": "내보낼 내용 없음",
+  "한국어": "내보낼 내용 없음",
   "中文": "没有可导出的内容",
   "العربية": "لا يوجد ما يُصدَّر",
   "Tiếng Việt": "Không có gì để xuất"
@@ -505,7 +505,7 @@
   "Español": "Captura primero algunos fotogramas (paso 2).",
   "Deutsch": "Nehmen Sie zuerst Standbilder auf (Schritt 2).",
   "Français": "Capturez d'abord des images fixes (étape 2).",
-  "한국인": "먼저 스틸을 가져오세요(2단계).",
+  "한국어": "먼저 스틸을 가져오세요(2단계).",
   "中文": "请先抓取一些静帧（步骤 2）。",
   "العربية": "التقط بعض اللقطات الثابتة أولًا (الخطوة 2).",
   "Tiếng Việt": "Hãy chụp vài ảnh tĩnh trước (bước 2)."
@@ -515,7 +515,7 @@
   "Español": "Elige primero la carpeta a la que exportar los fotogramas.",
   "Deutsch": "Wählen Sie zuerst den Ordner, in den die Standbilder exportiert werden sollen.",
   "Français": "Choisissez d'abord le dossier où exporter les images fixes.",
-  "한국인": "먼저 스틸을 내보낼 폴더를 선택하세요.",
+  "한국어": "먼저 스틸을 내보낼 폴더를 선택하세요.",
   "中文": "请先选择导出静帧的文件夹。",
   "العربية": "اختر أولًا المجلد الذي ستُصدَّر إليه اللقطات الثابتة.",
   "Tiếng Việt": "Hãy chọn thư mục để xuất ảnh tĩnh trước."
@@ -525,7 +525,7 @@
   "Español": "Exportando {count} fotograma(s) como .{fmt}…",
   "Deutsch": "{count} Standbild(er) werden als .{fmt} exportiert…",
   "Français": "Exportation de {count} image(s) fixe(s) en .{fmt}…",
-  "한국인": "스틸 {count}개를 .{fmt}(으)로 내보내는 중…",
+  "한국어": "스틸 {count}개를 .{fmt}(으)로 내보내는 중…",
   "中文": "正在将 {count} 个静帧导出为 .{fmt}…",
   "العربية": "جارٍ تصدير {count} لقطة ثابتة بصيغة ‎.{fmt}…",
   "Tiếng Việt": "Đang xuất {count} ảnh tĩnh dạng .{fmt}…"
@@ -535,7 +535,7 @@
   "Español": "Exportando fotogramas…",
   "Deutsch": "Standbilder werden exportiert…",
   "Français": "Exportation des images fixes…",
-  "한국인": "스틸 내보내는 중…",
+  "한국어": "스틸 내보내는 중…",
   "中文": "正在导出静帧…",
   "العربية": "جارٍ تصدير اللقطات الثابتة…",
   "Tiếng Việt": "Đang xuất ảnh tĩnh…"
@@ -545,7 +545,7 @@
   "Español": "Se exportó 1 fotograma",
   "Deutsch": "1 Standbild exportiert",
   "Français": "1 image fixe exportée",
-  "한국인": "스틸 1개를 내보냈습니다",
+  "한국어": "스틸 1개를 내보냈습니다",
   "中文": "已导出 1 个静帧",
   "العربية": "تم تصدير لقطة ثابتة واحدة",
   "Tiếng Việt": "Đã xuất 1 ảnh tĩnh"
@@ -555,7 +555,7 @@
   "Español": "Se exportaron {count} fotogramas",
   "Deutsch": "{count} Standbilder exportiert",
   "Français": "{count} images fixes exportées",
-  "한국인": "스틸 {count}개를 내보냈습니다",
+  "한국어": "스틸 {count}개를 내보냈습니다",
   "中文": "已导出 {count} 个静帧",
   "العربية": "تم تصدير {count} لقطات ثابتة",
   "Tiếng Việt": "Đã xuất {count} ảnh tĩnh"
@@ -565,7 +565,7 @@
   "Español": "No hay ninguna línea de tiempo abierta o activa en el proyecto actual.",
   "Deutsch": "Im aktuellen Projekt ist keine Timeline geöffnet bzw. aktiv.",
   "Français": "Aucune timeline n'est ouverte ou active dans le projet actuel.",
-  "한국인": "현재 프로젝트에 열려 있는(활성) 타임라인이 없습니다.",
+  "한국어": "현재 프로젝트에 열려 있는(활성) 타임라인이 없습니다.",
   "中文": "当前项目中没有打开或活动的时间线。",
   "العربية": "لا يوجد خط زمني مفتوح أو نشط في المشروع الحالي.",
   "Tiếng Việt": "Không có timeline nào đang mở/hoạt động trong dự án hiện tại."
@@ -575,7 +575,7 @@
   "Español": "Resolve rechazó el marcador en {timecode} (puede que ya haya un marcador en ese fotograma).",
   "Deutsch": "Resolve hat den Marker bei {timecode} abgelehnt (auf diesem Frame gibt es möglicherweise schon einen Marker).",
   "Français": "Resolve a refusé le marqueur à {timecode} (il y a peut-être déjà un marqueur sur cette image).",
-  "한국인": "Resolve가 {timecode}의 마커를 거부했습니다(해당 프레임에 이미 마커가 있을 수 있습니다).",
+  "한국어": "Resolve가 {timecode}의 마커를 거부했습니다(해당 프레임에 이미 마커가 있을 수 있습니다).",
   "中文": "Resolve 拒绝了 {timecode} 处的标记（该帧上可能已有标记）。",
   "العربية": "رفض Resolve العلامة عند {timecode} (قد تكون هناك علامة بالفعل على هذا الإطار).",
   "Tiếng Việt": "Resolve đã từ chối marker tại {timecode} (có thể khung hình đó đã có marker)."
@@ -585,7 +585,7 @@
   "Español": "No se encontraron marcadores «{t_color}» en la línea de tiempo actual.",
   "Deutsch": "Keine Marker „{t_color}“ in der aktuellen Timeline gefunden.",
   "Français": "Aucun marqueur « {t_color} » trouvé sur la timeline actuelle.",
-  "한국인": "현재 타임라인에 '{t_color}' 마커가 없습니다.",
+  "한국어": "현재 타임라인에 '{t_color}' 마커가 없습니다.",
   "中文": "当前时间线上未找到“{t_color}”标记。",
   "العربية": "لم يتم العثور على علامات '{t_color}' في الخط الزمني الحالي.",
   "Tiếng Việt": "Không tìm thấy marker '{t_color}' trên timeline hiện tại."
@@ -595,7 +595,7 @@
   "Español": "Se encontraron {count} marcador(es) «{t_color}». Cambiando a la página Color…",
   "Deutsch": "{count} Marker „{t_color}“ gefunden. Wechsel zur Color-Seite…",
   "Français": "{count} marqueur(s) « {t_color} » trouvé(s). Passage à la page Color…",
-  "한국인": "'{t_color}' 마커 {count}개를 찾았습니다. 컬러 페이지로 전환하는 중…",
+  "한국어": "'{t_color}' 마커 {count}개를 찾았습니다. 컬러 페이지로 전환하는 중…",
   "中文": "找到 {count} 个“{t_color}”标记。正在切换到调色页面…",
   "العربية": "تم العثور على {count} علامة '{t_color}'. جارٍ التبديل إلى صفحة Color…",
   "Tiếng Việt": "Đã tìm thấy {count} marker '{t_color}'. Đang chuyển sang trang Color…"
@@ -605,7 +605,7 @@
   "Español": "Fotograma capturado en {timecode}",
   "Deutsch": "Standbild bei {timecode} aufgenommen",
   "Français": "Image fixe capturée à {timecode}",
-  "한국인": "{timecode}에서 스틸을 가져왔습니다",
+  "한국어": "{timecode}에서 스틸을 가져왔습니다",
   "中文": "已在 {timecode} 处抓取静帧",
   "العربية": "تم التقاط لقطة ثابتة عند {timecode}",
   "Tiếng Việt": "Đã chụp ảnh tĩnh tại {timecode}"
@@ -615,7 +615,7 @@
   "Español": "ADVERTENCIA: no se pudo capturar el fotograma en {timecode}",
   "Deutsch": "WARNUNG: Standbild bei {timecode} konnte nicht aufgenommen werden",
   "Français": "AVERTISSEMENT : échec de la capture de l'image fixe à {timecode}",
-  "한국인": "경고: {timecode}에서 스틸을 가져오지 못했습니다",
+  "한국어": "경고: {timecode}에서 스틸을 가져오지 못했습니다",
   "中文": "警告：无法在 {timecode} 处抓取静帧",
   "العربية": "تحذير: فشل التقاط لقطة ثابتة عند {timecode}",
   "Tiếng Việt": "CẢNH BÁO: không thể chụp ảnh tĩnh tại {timecode}"
@@ -625,7 +625,7 @@
   "Español": "Aún no se ha capturado ningún fotograma.",
   "Deutsch": "Es wurden noch keine Standbilder aufgenommen.",
   "Français": "Aucune image fixe n'a encore été capturée.",
-  "한국인": "아직 가져온 스틸이 없습니다.",
+  "한국어": "아직 가져온 스틸이 없습니다.",
   "中文": "尚未抓取任何静帧。",
   "العربية": "لم يتم التقاط أي لقطات ثابتة بعد.",
   "Tiếng Việt": "Chưa chụp ảnh tĩnh nào."
@@ -635,7 +635,7 @@
   "Español": "No se pudo acceder a la galería.",
   "Deutsch": "Auf die Galerie konnte nicht zugegriffen werden.",
   "Français": "Impossible d'accéder à la galerie.",
-  "한국인": "갤러리에 접근할 수 없습니다.",
+  "한국어": "갤러리에 접근할 수 없습니다.",
   "中文": "无法访问画廊。",
   "العربية": "تعذر الوصول إلى المعرض.",
   "Tiếng Việt": "Không thể truy cập thư viện."
@@ -645,7 +645,7 @@
   "Español": "No se pudo acceder al álbum de fotogramas actual.",
   "Deutsch": "Auf das aktuelle Standbildalbum konnte nicht zugegriffen werden.",
   "Français": "Impossible d'accéder à l'album d'images fixes actuel.",
-  "한국인": "현재 스틸 앨범에 접근할 수 없습니다.",
+  "한국어": "현재 스틸 앨범에 접근할 수 없습니다.",
   "中文": "无法访问当前静帧相册。",
   "العربية": "تعذر الوصول إلى ألبوم اللقطات الثابتة الحالي.",
   "Tiếng Việt": "Không thể truy cập album ảnh tĩnh hiện tại."
@@ -655,7 +655,7 @@
   "Español": "Resolve informó de que la exportación falló.",
   "Deutsch": "Resolve hat gemeldet, dass der Export fehlgeschlagen ist.",
   "Français": "Resolve a signalé l'échec de l'exportation.",
-  "한국인": "Resolve에서 내보내기에 실패했다고 보고했습니다.",
+  "한국어": "Resolve에서 내보내기에 실패했다고 보고했습니다.",
   "中文": "Resolve 报告导出失败。",
   "العربية": "أبلغ Resolve عن فشل التصدير.",
   "Tiếng Việt": "Resolve báo cáo xuất thất bại."
@@ -665,7 +665,7 @@
   "Español": "Se exportaron {count} fotograma(s) a {folder} como .{fmt}",
   "Deutsch": "{count} Standbild(er) als .{fmt} nach {folder} exportiert",
   "Français": "{count} image(s) fixe(s) exportée(s) vers {folder} en .{fmt}",
-  "한국인": "스틸 {count}개를 .{fmt}(으)로 {folder}에 내보냈습니다",
+  "한국어": "스틸 {count}개를 .{fmt}(으)로 {folder}에 내보냈습니다",
   "中文": "已将 {count} 个静帧以 .{fmt} 格式导出到 {folder}",
   "العربية": "تم تصدير {count} لقطة ثابتة إلى {folder} بصيغة ‎.{fmt}",
   "Tiếng Việt": "Đã xuất {count} ảnh tĩnh vào {folder} dạng .{fmt}"
@@ -675,7 +675,7 @@
   "Español": "Se eliminaron {count} fotograma(s) de la galería de Resolve.",
   "Deutsch": "{count} Standbild(er) aus der Galerie von Resolve gelöscht.",
   "Français": "{count} image(s) fixe(s) supprimée(s) de la galerie de Resolve.",
-  "한국인": "Resolve 갤러리에서 스틸 {count}개를 삭제했습니다.",
+  "한국어": "Resolve 갤러리에서 스틸 {count}개를 삭제했습니다.",
   "中文": "已从 Resolve 画廊中删除 {count} 个静帧。",
   "العربية": "تم حذف {count} لقطة ثابتة من معرض Resolve.",
   "Tiếng Việt": "Đã xóa {count} ảnh tĩnh khỏi thư viện của Resolve."
@@ -685,7 +685,7 @@
   "Español": "ADVERTENCIA: Resolve informó de que no se pudo eliminar de la galería.",
   "Deutsch": "WARNUNG: Resolve hat gemeldet, dass das Löschen aus der Galerie fehlgeschlagen ist.",
   "Français": "AVERTISSEMENT : Resolve a signalé l'échec de la suppression dans la galerie.",
-  "한국인": "경고: Resolve에서 갤러리 삭제에 실패했다고 보고했습니다.",
+  "한국어": "경고: Resolve에서 갤러리 삭제에 실패했다고 보고했습니다.",
   "中文": "警告：Resolve 报告从画廊删除失败。",
   "العربية": "تحذير: أبلغ Resolve عن فشل الحذف من المعرض.",
   "Tiếng Việt": "CẢNH BÁO: Resolve báo cáo xóa khỏi thư viện thất bại."

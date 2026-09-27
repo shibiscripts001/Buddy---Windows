@@ -5,7 +5,7 @@
   "Español": "Volver a leer los marcadores de la línea de tiempo",
   "Deutsch": "Marker der Timeline erneut lesen",
   "Français": "Relire les marqueurs de la timeline",
-  "한국인": "타임라인의 마커 다시 읽기",
+  "한국어": "타임라인의 마커 다시 읽기",
   "中文": "重新读取时间线上的标记",
   "العربية": "إعادة قراءة علامات الخط الزمني",
   "Tiếng Việt": "Đọc lại marker của timeline"
@@ -15,7 +15,7 @@
   "Español": "Marcadores",
   "Deutsch": "Marker",
   "Français": "Marqueurs",
-  "한국인": "마커",
+  "한국어": "마커",
   "中文": "标记",
   "العربية": "العلامات",
   "Tiếng Việt": "Marker"
@@ -25,7 +25,7 @@
   "Español": "Los capítulos salen de los marcadores de la línea de tiempo abierta: sus nombres se convierten en los títulos de los capítulos.",
   "Deutsch": "Die Kapitel stammen aus den Markern der geöffneten Timeline – ihre Namen werden zu den Kapiteltiteln.",
   "Français": "Les chapitres proviennent des marqueurs de la timeline ouverte – leurs noms deviennent les titres des chapitres.",
-  "한국인": "챕터는 열린 타임라인의 마커에서 만들어집니다 – 마커 이름이 챕터 제목이 됩니다.",
+  "한국어": "챕터는 열린 타임라인의 마커에서 만들어집니다 – 마커 이름이 챕터 제목이 됩니다.",
   "中文": "章节来自当前打开的时间线上的标记——标记名称即为章节标题。",
   "العربية": "تأتي الفصول من علامات الخط الزمني المفتوح – وتصبح أسماؤها عناوين الفصول.",
   "Tiếng Việt": "Các chương được lấy từ marker của timeline đang mở – tên marker sẽ trở thành tiêu đề chương."
@@ -35,7 +35,7 @@
   "Español": "Capítulos",
   "Deutsch": "Kapitel",
   "Français": "Chapitres",
-  "한국인": "챕터",
+  "한국어": "챕터",
   "中文": "章节",
   "العربية": "الفصول",
   "Tiếng Việt": "Chương"
@@ -45,7 +45,7 @@
   "Español": "Texto de la descripción",
   "Deutsch": "Beschreibungstext",
   "Français": "Texte de la description",
-  "한국인": "설명 텍스트",
+  "한국어": "설명 텍스트",
   "中文": "描述文本",
   "العربية": "نص الوصف",
   "Tiếng Việt": "Văn bản mô tả"
@@ -55,7 +55,7 @@
   "Español": "Los marcadores han cambiado desde que editaste esto.",
   "Deutsch": "Die Marker haben sich geändert, seit Sie dies bearbeitet haben.",
   "Français": "Les marqueurs ont changé depuis que vous avez modifié ceci.",
-  "한국인": "편집한 후 마커가 변경되었습니다.",
+  "한국어": "편집한 후 마커가 변경되었습니다.",
   "中文": "自您编辑以来，标记已发生变化。",
   "العربية": "تغيرت العلامات منذ أن عدّلت هذا.",
   "Tiếng Việt": "Marker đã thay đổi kể từ khi bạn chỉnh sửa phần này."
@@ -65,7 +65,7 @@
   "Español": "Usar los capítulos nuevos",
   "Deutsch": "Neue Kapitel verwenden",
   "Français": "Utiliser les nouveaux chapitres",
-  "한국인": "새 챕터 사용",
+  "한국어": "새 챕터 사용",
   "中文": "使用新章节",
   "العربية": "استخدام الفصول الجديدة",
   "Tiếng Việt": "Dùng các chương mới"
@@ -75,7 +75,7 @@
   "Español": "Los capítulos aparecen aquí a medida que añades marcadores.",
   "Deutsch": "Kapitel erscheinen hier, sobald Sie Marker hinzufügen.",
   "Français": "Les chapitres s'affichent ici à mesure que vous ajoutez des marqueurs.",
-  "한국인": "마커를 추가하면 여기에 챕터가 표시됩니다.",
+  "한국어": "마커를 추가하면 여기에 챕터가 표시됩니다.",
   "中文": "添加标记后，章节会显示在这里。",
   "العربية": "تظهر الفصول هنا عند إضافة العلامات.",
   "Tiếng Việt": "Các chương sẽ hiện ở đây khi bạn thêm marker."
@@ -85,7 +85,7 @@
   "Español": "Pega esto en la descripción del vídeo en YouTube. Puedes editarlo aquí antes.",
   "Deutsch": "Fügen Sie dies in die Videobeschreibung auf YouTube ein. Sie können es vorher hier bearbeiten.",
   "Français": "Collez ceci dans la description de la vidéo sur YouTube. Vous pouvez d'abord le modifier ici.",
-  "한국인": "이 내용을 YouTube 동영상 설명란에 붙여 넣으세요. 먼저 여기에서 편집할 수 있습니다.",
+  "한국어": "이 내용을 YouTube 동영상 설명란에 붙여 넣으세요. 먼저 여기에서 편집할 수 있습니다.",
   "中文": "将此内容粘贴到 YouTube 视频的描述中。您可以先在这里编辑。",
   "العربية": "الصق هذا في وصف الفيديو على YouTube. يمكنك تعديله هنا أولًا.",
   "Tiếng Việt": "Dán nội dung này vào phần mô tả video trên YouTube. Bạn có thể chỉnh sửa ở đây trước."
@@ -95,7 +95,7 @@
   "Español": "Guardar como .txt",
   "Deutsch": "Als .txt speichern",
   "Français": "Enregistrer en .txt",
-  "한국인": ".txt로 저장",
+  "한국어": ".txt로 저장",
   "中文": "另存为 .txt",
   "العربية": "حفظ كملف ‎.txt",
   "Tiếng Việt": "Lưu dạng .txt"
@@ -105,7 +105,7 @@
   "Español": "Guardar .txt",
   "Deutsch": ".txt speichern",
   "Français": "Enregistrer le .txt",
-  "한국인": ".txt 저장",
+  "한국어": ".txt 저장",
   "中文": "保存 .txt",
   "العربية": "حفظ ‎.txt",
   "Tiếng Việt": "Lưu .txt"
@@ -115,7 +115,7 @@
   "Español": "1 marcador",
   "Deutsch": "1 Marker",
   "Français": "1 marqueur",
-  "한국인": "마커 1개",
+  "한국어": "마커 1개",
   "中文": "1 个标记",
   "العربية": "علامة واحدة",
   "Tiếng Việt": "1 marker"
@@ -125,7 +125,7 @@
   "Español": "{count} marcadores",
   "Deutsch": "{count} Marker",
   "Français": "{count} marqueurs",
-  "한국인": "마커 {count}개",
+  "한국어": "마커 {count}개",
   "中文": "{count} 个标记",
   "العربية": "{count} علامات",
   "Tiếng Việt": "{count} marker"
@@ -135,7 +135,7 @@
   "Español": "1 capítulo",
   "Deutsch": "1 Kapitel",
   "Français": "1 chapitre",
-  "한국인": "챕터 1개",
+  "한국어": "챕터 1개",
   "中文": "1 个章节",
   "العربية": "فصل واحد",
   "Tiếng Việt": "1 chương"
@@ -145,7 +145,7 @@
   "Español": "{count} capítulos",
   "Deutsch": "{count} Kapitel",
   "Français": "{count} chapitres",
-  "한국인": "챕터 {count}개",
+  "한국어": "챕터 {count}개",
   "中文": "{count} 个章节",
   "العربية": "{count} فصول",
   "Tiếng Việt": "{count} chương"
@@ -155,7 +155,7 @@
   "Español": "Todos los marcadores",
   "Deutsch": "Alle Marker",
   "Français": "Tous les marqueurs",
-  "한국인": "모든 마커",
+  "한국어": "모든 마커",
   "中文": "所有标记",
   "العربية": "كل العلامات",
   "Tiếng Việt": "Tất cả marker"
@@ -165,7 +165,7 @@
   "Español": "Solo los marcadores de este color",
   "Deutsch": "Nur Marker dieser Farbe",
   "Français": "Uniquement les marqueurs de cette couleur",
-  "한국인": "이 색상의 마커만",
+  "한국어": "이 색상의 마커만",
   "中文": "仅此颜色的标记",
   "العربية": "علامات هذا اللون فقط",
   "Tiếng Việt": "Chỉ marker có màu này"
@@ -175,7 +175,7 @@
   "Español": "No hay marcadores de este color",
   "Deutsch": "Keine Marker dieser Farbe",
   "Français": "Aucun marqueur de cette couleur",
-  "한국인": "이 색상의 마커가 없음",
+  "한국어": "이 색상의 마커가 없음",
   "中文": "没有此颜色的标记",
   "العربية": "لا توجد علامات بهذا اللون",
   "Tiếng Việt": "Không có marker màu này"
@@ -185,7 +185,7 @@
   "Español": "Aún no hay marcadores",
   "Deutsch": "Noch keine Marker",
   "Français": "Aucun marqueur pour l'instant",
-  "한국인": "아직 마커가 없음",
+  "한국어": "아직 마커가 없음",
   "中文": "还没有标记",
   "العربية": "لا توجد علامات بعد",
   "Tiếng Việt": "Chưa có marker"
@@ -195,7 +195,7 @@
   "Español": "En Resolve, pulsa M para añadir un marcador en el cabezal de reproducción y haz doble clic en él para ponerle nombre.",
   "Deutsch": "Drücken Sie in Resolve M, um am Abspielkopf einen Marker zu setzen, und doppelklicken Sie ihn dann, um ihm einen Namen zu geben.",
   "Français": "Dans Resolve, appuyez sur M pour ajouter un marqueur à la tête de lecture, puis double-cliquez dessus pour lui donner un nom.",
-  "한국인": "Resolve에서 M을 누르면 재생 헤드 위치에 마커가 추가됩니다. 마커를 두 번 클릭해 이름을 지정하세요.",
+  "한국어": "Resolve에서 M을 누르면 재생 헤드 위치에 마커가 추가됩니다. 마커를 두 번 클릭해 이름을 지정하세요.",
   "中文": "在 Resolve 中按 M 可在播放头处添加标记，然后双击该标记为其命名。",
   "العربية": "في Resolve، اضغط M لإضافة علامة عند رأس التشغيل، ثم انقر عليها نقرًا مزدوجًا لتسميتها.",
   "Tiếng Việt": "Trong Resolve, nhấn M để thêm marker tại đầu phát, rồi bấm đúp vào marker để đặt tên."
@@ -205,7 +205,7 @@
   "Español": "No hay línea de tiempo que leer",
   "Deutsch": "Keine Timeline zum Lesen",
   "Français": "Aucune timeline à lire",
-  "한국인": "읽을 타임라인이 없음",
+  "한국어": "읽을 타임라인이 없음",
   "中文": "没有可读取的时间线",
   "العربية": "لا يوجد خط زمني للقراءة",
   "Tiếng Việt": "Không có timeline để đọc"
@@ -215,7 +215,7 @@
   "Español": "Excluidos ({count})",
   "Deutsch": "Ausgelassen ({count})",
   "Français": "Exclus ({count})",
-  "한국인": "제외됨({count})",
+  "한국어": "제외됨({count})",
   "中文": "已排除（{count}）",
   "العربية": "مستبعدة ({count})",
   "Tiếng Việt": "Bị bỏ qua ({count})"
@@ -225,7 +225,7 @@
   "Español": "Solo {gap} s después del capítulo anterior: YouTube necesita {min} s.",
   "Deutsch": "Nur {gap} s nach dem vorherigen Kapitel – YouTube benötigt {min} s.",
   "Français": "Seulement {gap} s après le chapitre précédent – YouTube exige {min} s.",
-  "한국인": "이전 챕터와 {gap}초밖에 차이 나지 않습니다 – YouTube에는 {min}초가 필요합니다.",
+  "한국어": "이전 챕터와 {gap}초밖에 차이 나지 않습니다 – YouTube에는 {min}초가 필요합니다.",
   "中文": "距上一章节仅 {gap} 秒——YouTube 要求至少 {min} 秒。",
   "العربية": "بعد {gap} ث فقط من الفصل السابق – يحتاج YouTube إلى {min} ث.",
   "Tiếng Việt": "Chỉ cách chương trước {gap} giây – YouTube cần {min} giây."
@@ -235,7 +235,7 @@
   "Español": "Movido desde {time}: el primer capítulo de YouTube está en 00:00.",
   "Deutsch": "Von {time} verschoben – das erste Kapitel auf YouTube beginnt bei 00:00.",
   "Français": "Déplacé depuis {time} – le premier chapitre YouTube est à 00:00.",
-  "한국인": "{time}에서 이동했습니다 – YouTube의 첫 챕터는 00:00입니다.",
+  "한국어": "{time}에서 이동했습니다 – YouTube의 첫 챕터는 00:00입니다.",
   "中文": "已从 {time} 移动——YouTube 的第一个章节位于 00:00。",
   "العربية": "نُقل من {time} – يبدأ أول فصل في YouTube عند 00:00.",
   "Tiếng Việt": "Đã chuyển từ {time} – chương đầu tiên của YouTube ở 00:00."
@@ -245,7 +245,7 @@
   "Español": "Añadido: el primer capítulo de YouTube está en 00:00.",
   "Deutsch": "Hinzugefügt – das erste Kapitel auf YouTube beginnt bei 00:00.",
   "Français": "Ajouté – le premier chapitre YouTube est à 00:00.",
-  "한국인": "추가했습니다 – YouTube의 첫 챕터는 00:00입니다.",
+  "한국어": "추가했습니다 – YouTube의 첫 챕터는 00:00입니다.",
   "中文": "已添加——YouTube 的第一个章节位于 00:00。",
   "العربية": "أُضيف – يبدأ أول فصل في YouTube عند 00:00.",
   "Tiếng Việt": "Đã thêm – chương đầu tiên của YouTube ở 00:00."
@@ -255,7 +255,7 @@
   "Español": "YouTube necesita al menos {min} capítulos para mostrarlos, y aquí hay {count}.",
   "Deutsch": "YouTube zeigt Kapitel erst ab {min} Kapiteln an – hier sind es {count}.",
   "Français": "YouTube a besoin d'au moins {min} chapitres pour les afficher – il y en a {count} ici.",
-  "한국인": "YouTube에서 챕터를 표시하려면 {min}개 이상이 필요합니다 – 현재 {count}개입니다.",
+  "한국어": "YouTube에서 챕터를 표시하려면 {min}개 이상이 필요합니다 – 현재 {count}개입니다.",
   "中文": "YouTube 至少需要 {min} 个章节才会显示——当前有 {count} 个。",
   "العربية": "يحتاج YouTube إلى {min} فصول على الأقل قبل عرضها – وهنا {count}.",
   "Tiếng Việt": "YouTube cần ít nhất {min} chương mới hiển thị – hiện có {count}."
@@ -265,7 +265,7 @@
   "Español": "No se pudo leer la línea de tiempo: {error}",
   "Deutsch": "Die Timeline konnte nicht gelesen werden: {error}",
   "Français": "Impossible de lire la timeline : {error}",
-  "한국인": "타임라인을 읽을 수 없습니다: {error}",
+  "한국어": "타임라인을 읽을 수 없습니다: {error}",
   "中文": "无法读取时间线：{error}",
   "العربية": "تعذرت قراءة الخط الزمني: {error}",
   "Tiếng Việt": "Không thể đọc timeline: {error}"
@@ -275,7 +275,7 @@
   "Español": "Todavía no hay nada que copiar: añade marcadores a la línea de tiempo.",
   "Deutsch": "Noch nichts zu kopieren – fügen Sie der Timeline Marker hinzu.",
   "Français": "Rien à copier pour l'instant – ajoutez des marqueurs à la timeline.",
-  "한국인": "아직 복사할 내용이 없습니다 – 타임라인에 마커를 추가하세요.",
+  "한국어": "아직 복사할 내용이 없습니다 – 타임라인에 마커를 추가하세요.",
   "中文": "还没有可复制的内容——请在时间线上添加标记。",
   "العربية": "لا يوجد ما يُنسخ بعد – أضف علامات إلى الخط الزمني.",
   "Tiếng Việt": "Chưa có gì để sao chép – hãy thêm marker vào timeline."
@@ -285,7 +285,7 @@
   "Español": "1 capítulo copiado: pégalo en la descripción del vídeo.",
   "Deutsch": "1 Kapitel kopiert – fügen Sie es in die Videobeschreibung ein.",
   "Français": "1 chapitre copié – collez-le dans la description de la vidéo.",
-  "한국인": "챕터 1개를 복사했습니다 – 동영상 설명란에 붙여 넣으세요.",
+  "한국어": "챕터 1개를 복사했습니다 – 동영상 설명란에 붙여 넣으세요.",
   "中文": "已复制 1 个章节——请粘贴到视频描述中。",
   "العربية": "تم نسخ فصل واحد – الصقه في وصف الفيديو.",
   "Tiếng Việt": "Đã sao chép 1 chương – hãy dán vào phần mô tả video."
@@ -295,7 +295,7 @@
   "Español": "{count} capítulos copiados: pégalos en la descripción del vídeo.",
   "Deutsch": "{count} Kapitel kopiert – fügen Sie sie in die Videobeschreibung ein.",
   "Français": "{count} chapitres copiés – collez-les dans la description de la vidéo.",
-  "한국인": "챕터 {count}개를 복사했습니다 – 동영상 설명란에 붙여 넣으세요.",
+  "한국어": "챕터 {count}개를 복사했습니다 – 동영상 설명란에 붙여 넣으세요.",
   "中文": "已复制 {count} 个章节——请粘贴到视频描述中。",
   "العربية": "تم نسخ {count} فصول – الصقها في وصف الفيديو.",
   "Tiếng Việt": "Đã sao chép {count} chương – hãy dán vào phần mô tả video."
@@ -305,7 +305,7 @@
   "Español": "{count} líneas de capítulos copiadas.",
   "Deutsch": "{count} Kapitelzeilen kopiert.",
   "Français": "{count} lignes de chapitres copiées.",
-  "한국인": "챕터 {count}줄을 복사했습니다.",
+  "한국어": "챕터 {count}줄을 복사했습니다.",
   "中文": "已复制 {count} 行章节。",
   "العربية": "تم نسخ {count} أسطر من الفصول.",
   "Tiếng Việt": "Đã sao chép {count} dòng chương."
@@ -315,7 +315,7 @@
   "Español": "Guardar capítulos en",
   "Deutsch": "Kapitel speichern in",
   "Français": "Enregistrer les chapitres dans",
-  "한국인": "챕터 저장 위치",
+  "한국어": "챕터 저장 위치",
   "中文": "章节保存位置",
   "العربية": "حفظ الفصول في",
   "Tiếng Việt": "Lưu chương vào"
@@ -325,7 +325,7 @@
   "Español": "Aún no hay capítulos: añade primero marcadores a la línea de tiempo.",
   "Deutsch": "Es gibt noch keine Kapitel – fügen Sie der Timeline zuerst Marker hinzu.",
   "Français": "Il n'y a pas encore de chapitres – ajoutez d'abord des marqueurs à la timeline.",
-  "한국인": "아직 챕터가 없습니다 – 먼저 타임라인에 마커를 추가하세요.",
+  "한국어": "아직 챕터가 없습니다 – 먼저 타임라인에 마커를 추가하세요.",
   "中文": "还没有章节——请先在时间线上添加标记。",
   "العربية": "لا توجد فصول بعد – أضف علامات إلى الخط الزمني أولًا.",
   "Tiếng Việt": "Chưa có chương nào – hãy thêm marker vào timeline trước."
@@ -335,7 +335,7 @@
   "Español": "Elige primero la carpeta donde guardar el .txt.",
   "Deutsch": "Wählen Sie zuerst den Ordner, in dem die .txt gespeichert werden soll.",
   "Français": "Choisissez d'abord le dossier où enregistrer le .txt.",
-  "한국인": "먼저 .txt를 저장할 폴더를 선택하세요.",
+  "한국어": "먼저 .txt를 저장할 폴더를 선택하세요.",
   "中文": "请先选择保存 .txt 的文件夹。",
   "العربية": "اختر أولًا المجلد الذي سيُحفظ فيه ملف ‎.txt.",
   "Tiếng Việt": "Hãy chọn thư mục để lưu tệp .txt trước."

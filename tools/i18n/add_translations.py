@@ -19,7 +19,7 @@ import sys
 
 sys.stdout.reconfigure(encoding="utf-8")
 REPO = os.environ.get("BUDDY_REPO", os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")))
-LANGS = ["日本語", "Español", "Deutsch", "Français", "한국인", "中文", "العربية", "Tiếng Việt"]
+LANGS = ["日本語", "Español", "Deutsch", "Français", "한국어", "中文", "العربية", "Tiếng Việt"]
 
 ap = argparse.ArgumentParser()
 ap.add_argument("name")

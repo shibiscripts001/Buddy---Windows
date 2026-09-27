@@ -5,7 +5,7 @@
   "Español": "Subtítulos",
   "Deutsch": "Untertitel",
   "Français": "Sous-titres",
-  "한국인": "자막",
+  "한국어": "자막",
   "中文": "字幕",
   "العربية": "الترجمة المرئية",
   "Tiếng Việt": "Phụ đề"
@@ -15,7 +15,7 @@
   "Español": "Traducir",
   "Deutsch": "Übersetzen",
   "Français": "Traduire",
-  "한국인": "번역",
+  "한국어": "번역",
   "中文": "翻译",
   "العربية": "ترجمة",
   "Tiếng Việt": "Dịch"
@@ -25,7 +25,7 @@
   "Español": "Configura primero la transcripción",
   "Deutsch": "Richten Sie zuerst die Transkription ein",
   "Français": "Configurez d'abord la transcription",
-  "한국인": "먼저 받아쓰기를 설정하세요",
+  "한국어": "먼저 받아쓰기를 설정하세요",
   "中文": "请先设置转录",
   "العربية": "أعدّ التفريغ النصي أولًا",
   "Tiếng Việt": "Hãy thiết lập phiên âm trước"
@@ -35,7 +35,7 @@
   "Español": "Abrir Configuración",
   "Deutsch": "Einrichtung öffnen",
   "Français": "Ouvrir la configuration",
-  "한국인": "설정 열기",
+  "한국어": "설정 열기",
   "中文": "打开设置",
   "العربية": "فتح الإعداد",
   "Tiếng Việt": "Mở Thiết lập"
@@ -45,7 +45,7 @@
   "Español": "Modelo",
   "Deutsch": "Modell",
   "Français": "Modèle",
-  "한국인": "모델",
+  "한국어": "모델",
   "中文": "模型",
   "العربية": "النموذج",
   "Tiếng Việt": "Mô hình"
@@ -55,7 +55,7 @@
   "Español": "Idioma hablado",
   "Deutsch": "Gesprochene Sprache",
   "Français": "Langue parlée",
-  "한국인": "말하는 언어",
+  "한국어": "말하는 언어",
   "中文": "所说语言",
   "العربية": "اللغة المنطوقة",
   "Tiếng Việt": "Ngôn ngữ nói"
@@ -65,7 +65,7 @@
   "Español": "Caracteres por línea",
   "Deutsch": "Zeichen pro Zeile",
   "Français": "Caractères par ligne",
-  "한국인": "줄당 글자 수",
+  "한국어": "줄당 글자 수",
   "中文": "每行字符数",
   "العربية": "عدد الأحرف في السطر",
   "Tiếng Việt": "Số ký tự mỗi dòng"
@@ -75,7 +75,7 @@
   "Español": "24–60. Lo habitual es 42.",
   "Deutsch": "24–60. Üblich sind 42.",
   "Français": "24–60. 42 est la valeur habituelle.",
-  "한국인": "24–60. 보통 42입니다.",
+  "한국어": "24–60. 보통 42입니다.",
   "中文": "24–60。通常为 42。",
   "العربية": "24–60. المعتاد 42.",
   "Tiếng Việt": "24–60. Thường là 42."
@@ -85,7 +85,7 @@
   "Español": "Por subtítulo",
   "Deutsch": "Pro Untertitel",
   "Français": "Par sous-titre",
-  "한국인": "자막당",
+  "한국어": "자막당",
   "中文": "每条字幕",
   "العربية": "لكل ترجمة",
   "Tiếng Việt": "Mỗi phụ đề"
@@ -95,7 +95,7 @@
   "Español": "1 línea",
   "Deutsch": "1 Zeile",
   "Français": "1 ligne",
-  "한국인": "1줄",
+  "한국어": "1줄",
   "中文": "1 行",
   "العربية": "سطر واحد",
   "Tiếng Việt": "1 dòng"
@@ -105,7 +105,7 @@
   "Español": "2 líneas",
   "Deutsch": "2 Zeilen",
   "Français": "2 lignes",
-  "한국인": "2줄",
+  "한국어": "2줄",
   "中文": "2 行",
   "العربية": "سطران",
   "Tiếng Việt": "2 dòng"
@@ -115,7 +115,7 @@
   "Español": "Nombres y términos que deben escribirse bien",
   "Deutsch": "Namen und Begriffe, die richtig geschrieben werden sollen",
   "Français": "Noms et termes à bien orthographier",
-  "한국인": "정확히 써야 할 이름과 용어",
+  "한국어": "정확히 써야 할 이름과 용어",
   "中文": "需要拼写正确的名称和术语",
   "العربية": "أسماء ومصطلحات يجب كتابتها بشكل صحيح",
   "Tiếng Việt": "Tên và thuật ngữ cần viết đúng"
@@ -125,7 +125,7 @@
   "Español": "p. ej., DaVinci Resolve, Buddy, los nombres de tus invitados",
   "Deutsch": "z. B. DaVinci Resolve, Buddy, die Namen Ihrer Gäste",
   "Français": "ex. : DaVinci Resolve, Buddy, les noms de vos invités",
-  "한국인": "예: DaVinci Resolve, Buddy, 게스트 이름",
+  "한국어": "예: DaVinci Resolve, Buddy, 게스트 이름",
   "中文": "例如 DaVinci Resolve、Buddy、嘉宾姓名",
   "العربية": "مثال: DaVinci Resolve، Buddy، أسماء ضيوفك",
   "Tiếng Việt": "vd: DaVinci Resolve, Buddy, tên khách mời"
@@ -135,7 +135,7 @@
   "Español": "Lo usan los modelos Whisper. Parakeet no admite sugerencias.",
   "Deutsch": "Wird von den Whisper-Modellen verwendet. Parakeet kann keine Hinweise aufnehmen.",
   "Français": "Utilisé par les modèles Whisper. Parakeet ne peut pas recevoir d'indications.",
-  "한국인": "Whisper 모델에서 사용합니다. Parakeet는 힌트를 받을 수 없습니다.",
+  "한국어": "Whisper 모델에서 사용합니다. Parakeet는 힌트를 받을 수 없습니다.",
   "中文": "由 Whisper 模型使用。Parakeet 无法接收提示。",
   "العربية": "تستخدمه نماذج Whisper. لا يمكن لـ Parakeet تلقي تلميحات.",
   "Tiếng Việt": "Được dùng bởi các mô hình Whisper. Parakeet không nhận được gợi ý."
@@ -145,7 +145,7 @@
   "Español": "Transcribir línea de tiempo",
   "Deutsch": "Timeline transkribieren",
   "Français": "Transcrire la timeline",
-  "한국인": "타임라인 받아쓰기",
+  "한국어": "타임라인 받아쓰기",
   "中文": "转录时间线",
   "العربية": "تفريغ الخط الزمني",
   "Tiếng Việt": "Phiên âm timeline"
@@ -155,7 +155,7 @@
   "Español": "Transcribiendo…",
   "Deutsch": "Wird transkribiert…",
   "Français": "Transcription…",
-  "한국인": "받아쓰는 중…",
+  "한국어": "받아쓰는 중…",
   "中文": "正在转录…",
   "العربية": "جارٍ التفريغ…",
   "Tiếng Việt": "Đang phiên âm…"
@@ -165,7 +165,7 @@
   "Español": "Renderiza el audio de la línea de tiempo, lo transcribe en este equipo y pone los subtítulos en la pista de subtítulos 1.",
   "Deutsch": "Rendert den Ton der Timeline, transkribiert ihn auf diesem Computer und legt die Untertitel auf Untertitelspur 1.",
   "Français": "Rend l'audio de la timeline, le transcrit sur cet ordinateur et place les sous-titres sur la piste de sous-titres 1.",
-  "한국인": "타임라인의 오디오를 렌더링하고 이 컴퓨터에서 받아쓴 뒤 자막을 자막 트랙 1에 넣습니다.",
+  "한국어": "타임라인의 오디오를 렌더링하고 이 컴퓨터에서 받아쓴 뒤 자막을 자막 트랙 1에 넣습니다.",
   "中文": "渲染时间线的音频，在本机上转录，并将字幕放到字幕轨道 1。",
   "العربية": "يصيّر صوت الخط الزمني، ويفرّغه على هذا الكمبيوتر، ويضع الترجمات على مسار الترجمة 1.",
   "Tiếng Việt": "Kết xuất âm thanh của timeline, phiên âm trên máy này và đặt phụ đề lên track phụ đề 1."
@@ -175,7 +175,7 @@
   "Español": "Guardar SRT…",
   "Deutsch": "SRT speichern…",
   "Français": "Enregistrer le SRT…",
-  "한국인": "SRT 저장…",
+  "한국어": "SRT 저장…",
   "中文": "保存 SRT…",
   "العربية": "حفظ SRT…",
   "Tiếng Việt": "Lưu SRT…"
@@ -185,7 +185,7 @@
   "Español": "Abrir en Animador de texto",
   "Deutsch": "In Textanimation öffnen",
   "Français": "Ouvrir dans l'Animateur de texte",
-  "한국인": "텍스트 애니메이터에서 열기",
+  "한국어": "텍스트 애니메이터에서 열기",
   "中文": "在文字动画中打开",
   "العربية": "فتح في محرك النصوص",
   "Tiếng Việt": "Mở trong Tạo hiệu ứng chữ"
@@ -195,7 +195,7 @@
   "Español": "La pestaña Conversión de subtítulos del Animador de texto convierte los clips de subtítulos en Text+ con estilo",
   "Deutsch": "Der Tab „Untertitelkonvertierung“ der Textanimation macht aus Untertitelclips gestaltete Text+",
   "Français": "L'onglet Conversion des sous-titres de l'Animateur de texte transforme les clips de sous-titres en Text+ stylisés",
-  "한국인": "텍스트 애니메이터의 자막 변환 탭에서 자막 트랙 클립을 스타일이 적용된 Text+로 바꿉니다",
+  "한국어": "텍스트 애니메이터의 자막 변환 탭에서 자막 트랙 클립을 스타일이 적용된 Text+로 바꿉니다",
   "中文": "文字动画的“字幕转换”标签页会将字幕轨道片段转为带样式的 Text+",
   "العربية": "يحوّل تبويب تحويل الترجمات في محرك النصوص مقاطع مسار الترجمة إلى Text+ منسّق",
   "Tiếng Việt": "Thẻ Chuyển đổi phụ đề của Tạo hiệu ứng chữ biến clip trên track phụ đề thành Text+ có định dạng"
@@ -205,7 +205,7 @@
   "Español": "Traducirlo…",
   "Deutsch": "Übersetzen…",
   "Français": "Le traduire…",
-  "한국인": "번역하기…",
+  "한국어": "번역하기…",
   "中文": "翻译…",
   "العربية": "ترجمته…",
   "Tiếng Việt": "Dịch…"
@@ -215,7 +215,7 @@
   "Español": "Traducir con",
   "Deutsch": "Übersetzen mit",
   "Français": "Traduire avec",
-  "한국인": "번역 방법",
+  "한국어": "번역 방법",
   "中文": "翻译方式",
   "العربية": "الترجمة باستخدام",
   "Tiếng Việt": "Dịch bằng"
@@ -225,7 +225,7 @@
   "Español": "A",
   "Deutsch": "In",
   "Français": "Vers",
-  "한국인": "대상 언어",
+  "한국어": "대상 언어",
   "中文": "译为",
   "العربية": "إلى",
   "Tiếng Việt": "Sang"
@@ -235,7 +235,7 @@
   "Español": "Elegir idiomas…",
   "Deutsch": "Sprachen wählen…",
   "Français": "Choisir les langues…",
-  "한국인": "언어 선택…",
+  "한국어": "언어 선택…",
   "中文": "选择语言…",
   "العربية": "اختيار اللغات…",
   "Tiếng Việt": "Chọn ngôn ngữ…"
@@ -245,7 +245,7 @@
   "Español": "Guardar en",
   "Deutsch": "Speichern in",
   "Français": "Enregistrer dans",
-  "한국인": "저장 위치",
+  "한국어": "저장 위치",
   "中文": "保存到",
   "العربية": "حفظ في",
   "Tiếng Việt": "Lưu vào"
@@ -255,7 +255,7 @@
   "Español": "Crear también una nueva línea de tiempo con una pista de subtítulos por idioma",
   "Deutsch": "Außerdem eine neue Timeline mit einer Untertitelspur pro Sprache erstellen",
   "Français": "Créer aussi une nouvelle timeline avec une piste de sous-titres par langue",
-  "한국인": "언어마다 자막 트랙이 있는 새 타임라인도 만들기",
+  "한국어": "언어마다 자막 트랙이 있는 새 타임라인도 만들기",
   "中文": "同时新建一个每种语言各有一条字幕轨道的时间线",
   "العربية": "إنشاء خط زمني جديد أيضًا بمسار ترجمة لكل لغة",
   "Tiếng Việt": "Tạo thêm timeline mới có một track phụ đề cho mỗi ngôn ngữ"
@@ -265,7 +265,7 @@
   "Español": "Traducir automáticamente después de cada transcripción",
   "Deutsch": "Nach jeder Transkription automatisch übersetzen",
   "Français": "Traduire automatiquement après chaque transcription",
-  "한국인": "받아쓰기가 끝날 때마다 자동으로 번역",
+  "한국어": "받아쓰기가 끝날 때마다 자동으로 번역",
   "中文": "每次转录后自动翻译",
   "العربية": "الترجمة تلقائيًا بعد كل تفريغ",
   "Tiếng Việt": "Tự động dịch sau mỗi lần phiên âm"
@@ -275,7 +275,7 @@
   "Español": "Traducir la última transcripción",
   "Deutsch": "Letzte Transkription übersetzen",
   "Français": "Traduire la dernière transcription",
-  "한국인": "마지막 받아쓰기 번역",
+  "한국어": "마지막 받아쓰기 번역",
   "中文": "翻译上次的转录",
   "العربية": "ترجمة آخر تفريغ",
   "Tiếng Việt": "Dịch bản phiên âm gần nhất"
@@ -285,7 +285,7 @@
   "Español": "Traducir un archivo SRT…",
   "Deutsch": "SRT-Datei übersetzen…",
   "Français": "Traduire un fichier SRT…",
-  "한국인": "SRT 파일 번역…",
+  "한국어": "SRT 파일 번역…",
   "中文": "翻译 SRT 文件…",
   "العربية": "ترجمة ملف SRT…",
   "Tiếng Việt": "Dịch tệp SRT…"
@@ -295,7 +295,7 @@
   "Español": "Mostrar archivos",
   "Deutsch": "Dateien anzeigen",
   "Français": "Afficher les fichiers",
-  "한국인": "파일 보기",
+  "한국어": "파일 보기",
   "中文": "显示文件",
   "العربية": "إظهار الملفات",
   "Tiếng Việt": "Hiện tệp"
@@ -305,7 +305,7 @@
   "Español": "Cada idioma se convierte en su propio archivo SRT. Con la nueva línea de tiempo activada, Buddy también copia la línea de tiempo actual como \"<name> (Subtitles)\" con cada idioma en su propia pista de subtítulos, listas para exportarlas todas desde Entrega. La línea de tiempo actual no cambia.",
   "Deutsch": "Jede Sprache wird eine eigene SRT-Datei. Mit aktivierter neuer Timeline kopiert Buddy außerdem die aktuelle Timeline als „<name> (Subtitles)“ mit jeder Sprache auf einer eigenen Untertitelspur – bereit, alle über Deliver zu exportieren. Die aktuelle Timeline bleibt unverändert.",
   "Français": "Chaque langue devient son propre fichier SRT. Avec la nouvelle timeline activée, Buddy copie aussi la timeline actuelle sous le nom « <name> (Subtitles) » avec chaque langue sur sa propre piste de sous-titres – prêtes à être toutes exportées depuis Deliver. La timeline actuelle n'est pas modifiée.",
-  "한국인": "언어마다 별도의 SRT 파일이 만들어집니다. 새 타임라인을 켜면 Buddy가 현재 타임라인을 \"<name> (Subtitles)\"로 복사하고 언어마다 별도의 자막 트랙에 넣습니다 – 딜리버 페이지에서 한꺼번에 내보낼 수 있습니다. 현재 타임라인은 바뀌지 않습니다.",
+  "한국어": "언어마다 별도의 SRT 파일이 만들어집니다. 새 타임라인을 켜면 Buddy가 현재 타임라인을 \"<name> (Subtitles)\"로 복사하고 언어마다 별도의 자막 트랙에 넣습니다 – 딜리버 페이지에서 한꺼번에 내보낼 수 있습니다. 현재 타임라인은 바뀌지 않습니다.",
   "中文": "每种语言各生成一个 SRT 文件。开启新时间线后，Buddy 还会将当前时间线复制为“<name> (Subtitles)”，每种语言位于各自的字幕轨道上——可直接从交付页面全部导出。当前时间线不会被更改。",
   "العربية": "تصبح كل لغة ملف SRT خاصًا بها. مع تفعيل الخط الزمني الجديد، ينسخ Buddy أيضًا الخط الزمني الحالي باسم \"<name> (Subtitles)\" مع كل لغة على مسار ترجمة خاص بها – جاهزة لتصديرها كلها من Deliver. لا يتغير الخط الزمني الحالي.",
   "Tiếng Việt": "Mỗi ngôn ngữ thành một tệp SRT riêng. Khi bật timeline mới, Buddy còn sao chép timeline hiện tại thành \"<name> (Subtitles)\" với mỗi ngôn ngữ trên một track phụ đề riêng – sẵn sàng xuất tất cả từ trang Deliver. Timeline bạn đang dùng không bị thay đổi."
@@ -315,7 +315,7 @@
   "Español": "Este equipo",
   "Deutsch": "Dieser Computer",
   "Français": "Cet ordinateur",
-  "한국인": "이 컴퓨터",
+  "한국어": "이 컴퓨터",
   "中文": "本机",
   "العربية": "هذا الكمبيوتر",
   "Tiếng Việt": "Máy này"
@@ -325,7 +325,7 @@
   "Español": "Volver a comprobar",
   "Deutsch": "Erneut prüfen",
   "Français": "Revérifier",
-  "한국인": "다시 확인",
+  "한국어": "다시 확인",
   "中文": "重新检查",
   "العربية": "تحقق مرة أخرى",
   "Tiếng Việt": "Kiểm tra lại"
@@ -335,7 +335,7 @@
   "Español": "Motor de transcripción",
   "Deutsch": "Transkriptions-Engine",
   "Français": "Moteur de transcription",
-  "한국인": "받아쓰기 엔진",
+  "한국어": "받아쓰기 엔진",
   "中文": "转录引擎",
   "العربية": "محرك التفريغ",
   "Tiếng Việt": "Công cụ phiên âm"
@@ -345,7 +345,7 @@
   "Español": "Instalar motor",
   "Deutsch": "Engine installieren",
   "Français": "Installer le moteur",
-  "한국인": "엔진 설치",
+  "한국어": "엔진 설치",
   "中文": "安装引擎",
   "العربية": "تثبيت المحرك",
   "Tiếng Việt": "Cài đặt công cụ"
@@ -355,7 +355,7 @@
   "Español": "Reparar motor",
   "Deutsch": "Engine reparieren",
   "Français": "Réparer le moteur",
-  "한국인": "엔진 복구",
+  "한국어": "엔진 복구",
   "中文": "修复引擎",
   "العربية": "إصلاح المحرك",
   "Tiếng Việt": "Sửa công cụ"
@@ -365,7 +365,7 @@
   "Español": "Modelos de voz",
   "Deutsch": "Sprachmodelle",
   "Français": "Modèles vocaux",
-  "한국인": "음성 모델",
+  "한국어": "음성 모델",
   "中文": "语音模型",
   "العربية": "نماذج الكلام",
   "Tiếng Việt": "Mô hình giọng nói"
@@ -375,7 +375,7 @@
   "Español": "Usar una carpeta de modelo…",
   "Deutsch": "Modellordner verwenden…",
   "Français": "Utiliser un dossier de modèle…",
-  "한국인": "모델 폴더 사용…",
+  "한국어": "모델 폴더 사용…",
   "中文": "使用模型文件夹…",
   "العربية": "استخدام مجلد نموذج…",
   "Tiếng Việt": "Dùng thư mục mô hình…"
@@ -385,7 +385,7 @@
   "Español": "Indica a Buddy un modelo faster-whisper que otra aplicación ya haya descargado",
   "Deutsch": "Buddy auf ein faster-whisper-Modell verweisen, das eine andere App bereits heruntergeladen hat",
   "Français": "Indiquer à Buddy un modèle faster-whisper déjà téléchargé par une autre application",
-  "한국인": "다른 앱이 이미 다운로드한 faster-whisper 모델을 Buddy에 지정",
+  "한국어": "다른 앱이 이미 다운로드한 faster-whisper 모델을 Buddy에 지정",
   "中文": "让 Buddy 使用其他应用已下载的 faster-whisper 模型",
   "العربية": "وجّه Buddy إلى نموذج faster-whisper نزّله تطبيق آخر بالفعل",
   "Tiếng Việt": "Trỏ Buddy đến mô hình faster-whisper mà ứng dụng khác đã tải"
@@ -395,7 +395,7 @@
   "Español": "Modelos de traducción",
   "Deutsch": "Übersetzungsmodelle",
   "Français": "Modèles de traduction",
-  "한국인": "번역 모델",
+  "한국어": "번역 모델",
   "中文": "翻译模型",
   "العربية": "نماذج الترجمة",
   "Tiếng Việt": "Mô hình dịch"
@@ -405,7 +405,7 @@
   "Español": "Opcional",
   "Deutsch": "Optional",
   "Français": "Facultatif",
-  "한국인": "선택 사항",
+  "한국어": "선택 사항",
   "中文": "可选",
   "العربية": "اختياري",
   "Tiếng Việt": "Tùy chọn"
@@ -415,7 +415,7 @@
   "Español": "Indica a Buddy un modelo CTranslate2 NLLB-200 o MADLAD-400 que ya esté en el disco",
   "Deutsch": "Buddy auf ein CTranslate2-Modell NLLB-200 oder MADLAD-400 verweisen, das bereits auf der Festplatte liegt",
   "Français": "Indiquer à Buddy un modèle CTranslate2 NLLB-200 ou MADLAD-400 déjà sur le disque",
-  "한국인": "디스크에 있는 CTranslate2 NLLB-200 또는 MADLAD-400 모델을 Buddy에 지정",
+  "한국어": "디스크에 있는 CTranslate2 NLLB-200 또는 MADLAD-400 모델을 Buddy에 지정",
   "中文": "让 Buddy 使用磁盘上已有的 CTranslate2 NLLB-200 或 MADLAD-400 模型",
   "العربية": "وجّه Buddy إلى نموذج CTranslate2 من NLLB-200 أو MADLAD-400 موجود بالفعل على القرص",
   "Tiếng Việt": "Trỏ Buddy đến mô hình CTranslate2 NLLB-200 hoặc MADLAD-400 đã có trên ổ đĩa"
@@ -425,7 +425,7 @@
   "Español": "¿Detener?",
   "Deutsch": "Anhalten?",
   "Français": "Arrêter ?",
-  "한국인": "중지할까요?",
+  "한국어": "중지할까요?",
   "中文": "要停止吗？",
   "العربية": "إيقاف؟",
   "Tiếng Việt": "Dừng?"
@@ -435,7 +435,7 @@
   "Español": "¿Detener esta descarga o instalación?",
   "Deutsch": "Diesen Download bzw. diese Installation anhalten?",
   "Français": "Arrêter ce téléchargement ou cette installation ?",
-  "한국인": "이 다운로드 또는 설치를 중지할까요?",
+  "한국어": "이 다운로드 또는 설치를 중지할까요?",
   "中文": "要停止此下载或安装吗？",
   "العربية": "إيقاف هذا التنزيل أو التثبيت؟",
   "Tiếng Việt": "Dừng lượt tải xuống hoặc cài đặt này?"
@@ -445,7 +445,7 @@
   "Español": "No hay modelos instalados",
   "Deutsch": "Keine Modelle installiert",
   "Français": "Aucun modèle installé",
-  "한국인": "설치된 모델 없음",
+  "한국어": "설치된 모델 없음",
   "中文": "未安装模型",
   "العربية": "لا توجد نماذج مثبتة",
   "Tiếng Việt": "Chưa cài mô hình nào"
@@ -455,7 +455,7 @@
   "Español": "Detección automática",
   "Deutsch": "Automatisch erkennen",
   "Français": "Détection automatique",
-  "한국인": "자동 감지",
+  "한국어": "자동 감지",
   "中文": "自动检测",
   "العربية": "اكتشاف تلقائي",
   "Tiếng Việt": "Tự động phát hiện"
@@ -465,7 +465,7 @@
   "Español": "Varios idiomas…",
   "Deutsch": "Gemischte Sprachen…",
   "Français": "Langues mélangées…",
-  "한국인": "여러 언어…",
+  "한국어": "여러 언어…",
   "中文": "多种语言…",
   "العربية": "لغات مختلطة…",
   "Tiếng Việt": "Nhiều ngôn ngữ…"
@@ -475,7 +475,7 @@
   "Español": "Varios: {langs}",
   "Deutsch": "Gemischt: {langs}",
   "Français": "Mélangées : {langs}",
-  "한국인": "여러 언어: {langs}",
+  "한국어": "여러 언어: {langs}",
   "中文": "多种：{langs}",
   "العربية": "مختلطة: {langs}",
   "Tiếng Việt": "Nhiều ngôn ngữ: {langs}"
@@ -485,7 +485,7 @@
   "Español": "Cada parte se transcribe en su propio idioma.",
   "Deutsch": "Jeder Teil wird in seiner eigenen Sprache transkribiert.",
   "Français": "Chaque partie est transcrite dans sa propre langue.",
-  "한국인": "각 부분은 해당 언어로 받아씁니다.",
+  "한국어": "각 부분은 해당 언어로 받아씁니다.",
   "中文": "每部分都用其自身的语言转录。",
   "العربية": "يُفرَّغ كل جزء بلغته.",
   "Tiếng Việt": "Mỗi phần được phiên âm bằng ngôn ngữ của nó."
@@ -495,7 +495,7 @@
   "Español": "Se detecta a partir del audio.",
   "Deutsch": "Wird aus dem Ton erkannt.",
   "Français": "Détectée à partir de l'audio.",
-  "한국인": "오디오에서 감지합니다.",
+  "한국어": "오디오에서 감지합니다.",
   "中文": "从音频中检测。",
   "العربية": "يُكتشف من الصوت.",
   "Tiếng Việt": "Được phát hiện từ âm thanh."
@@ -505,7 +505,7 @@
   "Español": "Idiomas hablados",
   "Deutsch": "Gesprochene Sprachen",
   "Français": "Langues parlées",
-  "한국인": "말하는 언어",
+  "한국어": "말하는 언어",
   "中文": "所说语言",
   "العربية": "اللغات المنطوقة",
   "Tiếng Việt": "Các ngôn ngữ nói"
@@ -515,7 +515,7 @@
   "Español": "Marca cada idioma que se hable en la línea de tiempo. Cada parte se transcribe en el suyo; elegir solo los que de verdad aparecen evita que las respuestas cortas se confundan.",
   "Deutsch": "Kreuzen Sie jede Sprache an, die in der Timeline gesprochen wird. Jeder Teil wird in seiner eigenen transkribiert – wer nur die tatsächlich vorkommenden wählt, verhindert, dass kurze Antworten falsch erkannt werden.",
   "Français": "Cochez chaque langue parlée dans la timeline. Chaque partie est transcrite dans la sienne – ne choisir que celles réellement présentes évite que les réponses courtes soient mal reconnues.",
-  "한국인": "타임라인에서 말하는 모든 언어를 선택하세요. 각 부분은 해당 언어로 받아씁니다 – 실제로 나오는 언어만 고르면 짧은 대답을 잘못 인식하지 않습니다.",
+  "한국어": "타임라인에서 말하는 모든 언어를 선택하세요. 각 부분은 해당 언어로 받아씁니다 – 실제로 나오는 언어만 고르면 짧은 대답을 잘못 인식하지 않습니다.",
   "中文": "勾选时间线中所说的每种语言。每部分都用其自身的语言转录——只选择确实出现的语言，可避免短回答被识别错误。",
   "العربية": "حدد كل لغة منطوقة في الخط الزمني. يُفرَّغ كل جزء بلغته – اختيار اللغات الموجودة فعلًا فقط يمنع الخطأ في الردود القصيرة.",
   "Tiếng Việt": "Đánh dấu mọi ngôn ngữ được nói trong timeline. Mỗi phần được phiên âm bằng ngôn ngữ riêng – chỉ chọn những ngôn ngữ thực sự có giúp tránh nhận nhầm các câu trả lời ngắn."
@@ -525,7 +525,7 @@
   "Español": "· 1 subtítulo",
   "Deutsch": "· 1 Untertitel",
   "Français": "· 1 sous-titre",
-  "한국인": "· 자막 1개",
+  "한국어": "· 자막 1개",
   "中文": "· 1 条字幕",
   "العربية": "· ترجمة واحدة",
   "Tiếng Việt": "· 1 phụ đề"
@@ -535,7 +535,7 @@
   "Español": "· {count} subtítulos",
   "Deutsch": "· {count} Untertitel",
   "Français": "· {count} sous-titres",
-  "한국인": "· 자막 {count}개",
+  "한국어": "· 자막 {count}개",
   "中文": "· {count} 条字幕",
   "العربية": "· {count} ترجمات",
   "Tiếng Việt": "· {count} phụ đề"
@@ -545,7 +545,7 @@
   "Español": "No terminó: {t_error}",
   "Deutsch": "Nicht abgeschlossen: {t_error}",
   "Français": "Non terminé : {t_error}",
-  "한국인": "완료하지 못했습니다: {t_error}",
+  "한국어": "완료하지 못했습니다: {t_error}",
   "中文": "未完成：{t_error}",
   "العربية": "لم يكتمل: {t_error}",
   "Tiếng Việt": "Chưa hoàn tất: {t_error}"
@@ -555,7 +555,7 @@
   "Español": "Aún no se ha elegido ningún idioma.",
   "Deutsch": "Noch keine Sprachen gewählt.",
   "Français": "Aucune langue choisie pour l'instant.",
-  "한국인": "아직 선택한 언어가 없습니다.",
+  "한국어": "아직 선택한 언어가 없습니다.",
   "中文": "尚未选择语言。",
   "العربية": "لم يتم اختيار لغات بعد.",
   "Tiếng Việt": "Chưa chọn ngôn ngữ nào."
@@ -565,7 +565,7 @@
   "Español": "Transcribe primero una línea de tiempo.",
   "Deutsch": "Transkribieren Sie zuerst eine Timeline.",
   "Français": "Transcrivez d'abord une timeline.",
-  "한국인": "먼저 타임라인을 받아쓰세요.",
+  "한국어": "먼저 타임라인을 받아쓰세요.",
   "中文": "请先转录一个时间线。",
   "العربية": "فرّغ خطًا زمنيًا أولًا.",
   "Tiếng Việt": "Hãy phiên âm một timeline trước."
@@ -575,7 +575,7 @@
   "Español": "Elige primero los idiomas.",
   "Deutsch": "Wählen Sie zuerst die Sprachen.",
   "Français": "Choisissez d'abord les langues.",
-  "한국인": "먼저 언어를 선택하세요.",
+  "한국어": "먼저 언어를 선택하세요.",
   "中文": "请先选择语言。",
   "العربية": "اختر اللغات أولًا.",
   "Tiếng Việt": "Hãy chọn ngôn ngữ trước."
@@ -585,7 +585,7 @@
   "Español": "Traducir '{name}'",
   "Deutsch": "„{name}“ übersetzen",
   "Français": "Traduire « {name} »",
-  "한국인": "'{name}' 번역",
+  "한국어": "'{name}' 번역",
   "中文": "翻译“{name}”",
   "العربية": "ترجمة '{name}'",
   "Tiếng Việt": "Dịch '{name}'"
@@ -595,7 +595,7 @@
   "Español": "Traducir \"{name}\"",
   "Deutsch": "„{name}“ übersetzen",
   "Français": "Traduire « {name} »",
-  "한국인": "\"{name}\" 번역",
+  "한국어": "\"{name}\" 번역",
   "中文": "翻译“{name}”",
   "العربية": "ترجمة \"{name}\"",
   "Tiếng Việt": "Dịch \"{name}\""
@@ -605,7 +605,7 @@
   "Español": "Traducir a",
   "Deutsch": "Übersetzen in",
   "Français": "Traduire vers",
-  "한국인": "번역할 언어",
+  "한국어": "번역할 언어",
   "中文": "翻译为",
   "العربية": "الترجمة إلى",
   "Tiếng Việt": "Dịch sang"
@@ -615,7 +615,7 @@
   "Español": "Cada idioma que marques tendrá su propio archivo SRT.",
   "Deutsch": "Jede angekreuzte Sprache erhält eine eigene SRT-Datei.",
   "Français": "Chaque langue cochée obtient son propre fichier SRT.",
-  "한국인": "선택한 언어마다 별도의 SRT 파일이 만들어집니다.",
+  "한국어": "선택한 언어마다 별도의 SRT 파일이 만들어집니다.",
   "中文": "每勾选一种语言，都会生成一个 SRT 文件。",
   "العربية": "تحصل كل لغة تحددها على ملف SRT خاص بها.",
   "Tiếng Việt": "Mỗi ngôn ngữ bạn chọn sẽ có tệp SRT riêng."
@@ -625,7 +625,7 @@
   "Español": "Comprobando…",
   "Deutsch": "Wird geprüft…",
   "Français": "Vérification…",
-  "한국인": "확인 중…",
+  "한국어": "확인 중…",
   "中文": "正在检查…",
   "العربية": "جارٍ التحقق…",
   "Tiếng Việt": "Đang kiểm tra…"
@@ -635,7 +635,7 @@
   "Español": "Comprobando el motor…",
   "Deutsch": "Engine wird geprüft…",
   "Français": "Vérification du moteur…",
-  "한국인": "엔진 확인 중…",
+  "한국어": "엔진 확인 중…",
   "中文": "正在检查引擎…",
   "العربية": "جارٍ التحقق من المحرك…",
   "Tiếng Việt": "Đang kiểm tra công cụ…"
@@ -645,7 +645,7 @@
   "Español": "Instalado ({versions}).",
   "Deutsch": "Installiert ({versions}).",
   "Français": "Installé ({versions}).",
-  "한국인": "설치됨({versions}).",
+  "한국어": "설치됨({versions}).",
   "中文": "已安装（{versions}）。",
   "العربية": "مثبت ({versions}).",
   "Tiếng Việt": "Đã cài đặt ({versions})."
@@ -655,7 +655,7 @@
   "Español": "Instalado.",
   "Deutsch": "Installiert.",
   "Français": "Installé.",
-  "한국인": "설치됨.",
+  "한국어": "설치됨.",
   "中文": "已安装。",
   "العربية": "مثبت.",
   "Tiếng Việt": "Đã cài đặt."
@@ -665,7 +665,7 @@
   "Español": "Instala faster-whisper en la carpeta propia de Buddy ({root}), a partir del Python con el que funciona Buddy. Descarga: {size}.",
   "Deutsch": "Installiert faster-whisper in Buddys eigenen Ordner ({root}), auf Basis des Python, mit dem Buddy läuft. Download: {size}.",
   "Français": "Installe faster-whisper dans le dossier propre à Buddy ({root}), à partir du Python sur lequel tourne Buddy. Téléchargement : {size}.",
-  "한국인": "faster-whisper를 Buddy 전용 폴더({root})에 Buddy가 실행되는 Python을 기반으로 설치합니다. 다운로드: {size}.",
+  "한국어": "faster-whisper를 Buddy 전용 폴더({root})에 Buddy가 실행되는 Python을 기반으로 설치합니다. 다운로드: {size}.",
   "中文": "将 faster-whisper 安装到 Buddy 自己的文件夹（{root}），基于 Buddy 运行所用的 Python 构建。下载大小：{size}。",
   "العربية": "يثبّت faster-whisper في مجلد Buddy الخاص ({root})، مبنيًا من Python الذي يعمل عليه Buddy. حجم التنزيل: {size}.",
   "Tiếng Việt": "Cài faster-whisper vào thư mục riêng của Buddy ({root}), dựng từ Python mà Buddy đang chạy. Dung lượng tải: {size}."
@@ -675,7 +675,7 @@
   "Español": "Los modelos más grandes son más precisos y más lentos.",
   "Deutsch": "Größere Modelle sind genauer und langsamer.",
   "Français": "Les modèles plus grands sont plus précis et plus lents.",
-  "한국인": "모델이 클수록 더 정확하지만 느립니다.",
+  "한국어": "모델이 클수록 더 정확하지만 느립니다.",
   "中文": "模型越大越准确，但速度越慢。",
   "العربية": "النماذج الأكبر أدق وأبطأ.",
   "Tiếng Việt": "Mô hình càng lớn càng chính xác và càng chậm."
@@ -685,7 +685,7 @@
   "Español": "Los modelos más grandes son más precisos y más lentos. Recomendado para este equipo: {model}, más Parakeet v3 si trabajas en idiomas europeos; con ambos, Auto usa cada uno para lo que mejor hace.",
   "Deutsch": "Größere Modelle sind genauer und langsamer. Empfohlen für diesen Computer: {model}, dazu Parakeet v3, wenn Sie mit europäischen Sprachen arbeiten – mit beiden nutzt „Auto“ jedes für das, was es am besten kann.",
   "Français": "Les modèles plus grands sont plus précis et plus lents. Recommandé pour cet ordinateur : {model}, plus Parakeet v3 si vous travaillez en langues européennes – avec les deux, Auto utilise chacun pour ce qu'il fait le mieux.",
-  "한국인": "모델이 클수록 더 정확하지만 느립니다. 이 컴퓨터 권장: {model}, 유럽 언어로 작업한다면 Parakeet v3도 – 둘 다 있으면 자동이 각각 잘하는 쪽에 사용합니다.",
+  "한국어": "모델이 클수록 더 정확하지만 느립니다. 이 컴퓨터 권장: {model}, 유럽 언어로 작업한다면 Parakeet v3도 – 둘 다 있으면 자동이 각각 잘하는 쪽에 사용합니다.",
   "中文": "模型越大越准确，但速度越慢。本机推荐：{model}，如果处理欧洲语言，再加上 Parakeet v3——两者都有时，“自动”会让它们各展所长。",
   "العربية": "النماذج الأكبر أدق وأبطأ. الموصى به لهذا الكمبيوتر: {model}، مع Parakeet v3 إذا كنت تعمل باللغات الأوروبية – مع كليهما، يستخدم الوضع التلقائي كلًا منهما فيما يجيده.",
   "Tiếng Việt": "Mô hình càng lớn càng chính xác và càng chậm. Khuyên dùng cho máy này: {model}, thêm Parakeet v3 nếu bạn làm việc với ngôn ngữ châu Âu – có cả hai, Tự động sẽ dùng mỗi cái cho việc nó giỏi nhất."
@@ -695,7 +695,7 @@
   "Español": "Traduce subtítulos en este equipo. NLLB-200 de Meta cubre 200 idiomas, gratis solo para uso no comercial (CC-BY-NC 4.0). MADLAD-400 de Google cubre unos 180 y también es gratis para uso comercial (Apache 2.0): elígelo para trabajos de clientes. Recomendado: {model}. La traducción con IA, con el modelo de Pregunta a Buddy, no necesita nada de aquí.",
   "Deutsch": "Übersetzt Untertitel auf diesem Computer. NLLB-200 von Meta deckt 200 Sprachen ab, nur für nichtkommerzielle Nutzung kostenlos (CC-BY-NC 4.0). MADLAD-400 von Google deckt etwa 180 ab und ist auch für kommerzielle Nutzung kostenlos (Apache 2.0) – wählen Sie es für Kundenaufträge. Empfohlen: {model}. KI-Übersetzung mit dem Modell von „Buddy fragen“ braucht hiervon nichts.",
   "Français": "Traduit les sous-titres sur cet ordinateur. NLLB-200 de Meta couvre 200 langues, gratuit pour un usage non commercial uniquement (CC-BY-NC 4.0). MADLAD-400 de Google en couvre environ 180 et est aussi gratuit pour un usage commercial (Apache 2.0) – choisissez-le pour le travail client. Recommandé : {model}. La traduction par IA, avec le modèle de Demander à Buddy, ne nécessite rien d'ici.",
-  "한국인": "이 컴퓨터에서 자막을 번역합니다. Meta의 NLLB-200은 200개 언어를 지원하며 비상업적 용도로만 무료입니다(CC-BY-NC 4.0). Google의 MADLAD-400은 약 180개 언어를 지원하며 상업적 용도로도 무료입니다(Apache 2.0) – 고객 작업에는 이것을 선택하세요. 권장: {model}. Buddy에게 질문의 모델을 쓰는 AI 번역은 여기서 준비할 것이 없습니다.",
+  "한국어": "이 컴퓨터에서 자막을 번역합니다. Meta의 NLLB-200은 200개 언어를 지원하며 비상업적 용도로만 무료입니다(CC-BY-NC 4.0). Google의 MADLAD-400은 약 180개 언어를 지원하며 상업적 용도로도 무료입니다(Apache 2.0) – 고객 작업에는 이것을 선택하세요. 권장: {model}. Buddy에게 질문의 모델을 쓰는 AI 번역은 여기서 준비할 것이 없습니다.",
   "中文": "在本机上翻译字幕。Meta 的 NLLB-200 支持 200 种语言，仅限非商业用途免费（CC-BY-NC 4.0）。Google 的 MADLAD-400 支持约 180 种语言，商业用途也免费（Apache 2.0）——客户项目请选它。推荐：{model}。使用“询问 Buddy”模型的 AI 翻译无需在此准备任何内容。",
   "العربية": "يترجم الترجمات على هذا الكمبيوتر. يغطي NLLB-200 من Meta مئتي لغة، مجانًا للاستخدام غير التجاري فقط (CC-BY-NC 4.0). ويغطي MADLAD-400 من Google نحو 180 لغة وهو مجاني للاستخدام التجاري أيضًا (Apache 2.0) – اختره لأعمال العملاء. الموصى به: {model}. لا تحتاج الترجمة بالذكاء الاصطناعي، بنموذج اسأل Buddy، إلى أي شيء من هنا.",
   "Tiếng Việt": "Dịch phụ đề trên máy này. NLLB-200 của Meta hỗ trợ 200 ngôn ngữ, chỉ miễn phí cho mục đích phi thương mại (CC-BY-NC 4.0). MADLAD-400 của Google hỗ trợ khoảng 180 ngôn ngữ và miễn phí cả cho mục đích thương mại (Apache 2.0) – hãy chọn nó cho công việc với khách hàng. Khuyên dùng: {model}. Dịch bằng AI, với mô hình của Hỏi Buddy, không cần gì ở đây."
@@ -705,7 +705,7 @@
   "Español": "Instalado: tu copia",
   "Deutsch": "Installiert – Ihre Kopie",
   "Français": "Installé – votre copie",
-  "한국인": "설치됨 – 내 사본",
+  "한국어": "설치됨 – 내 사본",
   "中文": "已安装——您的副本",
   "العربية": "مثبت – نسختك",
   "Tiếng Việt": "Đã cài đặt – bản của bạn"
@@ -715,7 +715,7 @@
   "Español": "Usar esta copia",
   "Deutsch": "Diese Kopie verwenden",
   "Français": "Utiliser cette copie",
-  "한국인": "이 사본 사용",
+  "한국어": "이 사본 사용",
   "中文": "使用此副本",
   "العربية": "استخدام هذه النسخة",
   "Tiếng Việt": "Dùng bản này"
@@ -725,7 +725,7 @@
   "Español": "Descargar ({size})",
   "Deutsch": "Herunterladen ({size})",
   "Français": "Télécharger ({size})",
-  "한국인": "다운로드({size})",
+  "한국어": "다운로드({size})",
   "中文": "下载（{size}）",
   "العربية": "تنزيل ({size})",
   "Tiếng Việt": "Tải xuống ({size})"
@@ -735,7 +735,7 @@
   "Español": "Instala primero el motor.",
   "Deutsch": "Installieren Sie zuerst die Engine.",
   "Français": "Installez d'abord le moteur.",
-  "한국인": "먼저 엔진을 설치하세요.",
+  "한국어": "먼저 엔진을 설치하세요.",
   "中文": "请先安装引擎。",
   "العربية": "ثبّت المحرك أولًا.",
   "Tiếng Việt": "Hãy cài đặt công cụ trước."
@@ -745,7 +745,7 @@
   "Español": "Recomendado",
   "Deutsch": "Empfohlen",
   "Français": "Recommandé",
-  "한국인": "권장",
+  "한국어": "권장",
   "中文": "推荐",
   "العربية": "موصى به",
   "Tiếng Việt": "Khuyên dùng"
@@ -755,7 +755,7 @@
   "Español": "Buscar idiomas…",
   "Deutsch": "Sprachen suchen…",
   "Français": "Rechercher des langues…",
-  "한국인": "언어 검색…",
+  "한국어": "언어 검색…",
   "中文": "搜索语言…",
   "العربية": "البحث في اللغات…",
   "Tiếng Việt": "Tìm ngôn ngữ…"
@@ -765,7 +765,7 @@
   "Español": "Ninguno seleccionado",
   "Deutsch": "Keine ausgewählt",
   "Français": "Aucune sélection",
-  "한국인": "선택 안 함",
+  "한국어": "선택 안 함",
   "中文": "未选择",
   "العربية": "لم يتم تحديد شيء",
   "Tiếng Việt": "Chưa chọn"
@@ -775,7 +775,7 @@
   "Español": "Marca al menos {count}.",
   "Deutsch": "Kreuzen Sie mindestens {count} an.",
   "Français": "Cochez-en au moins {count}.",
-  "한국인": "{count}개 이상 선택하세요.",
+  "한국어": "{count}개 이상 선택하세요.",
   "中文": "请至少勾选 {count} 个。",
   "العربية": "حدد {count} على الأقل.",
   "Tiếng Việt": "Hãy chọn ít nhất {count}."
@@ -785,7 +785,7 @@
   "Español": "Elige uno.",
   "Deutsch": "Wählen Sie eine aus.",
   "Français": "Choisissez-en une.",
-  "한국인": "하나를 선택하세요.",
+  "한국어": "하나를 선택하세요.",
   "中文": "请选择一个。",
   "العربية": "اختر واحدًا.",
   "Tiếng Việt": "Hãy chọn một."
@@ -795,7 +795,7 @@
   "Español": "La pista de subtítulos 1 no está vacía",
   "Deutsch": "Untertitelspur 1 ist nicht leer",
   "Français": "La piste de sous-titres 1 n'est pas vide",
-  "한국인": "자막 트랙 1이 비어 있지 않습니다",
+  "한국어": "자막 트랙 1이 비어 있지 않습니다",
   "中文": "字幕轨道 1 不为空",
   "العربية": "مسار الترجمة 1 ليس فارغًا",
   "Tiếng Việt": "Track phụ đề 1 không trống"
@@ -805,7 +805,7 @@
   "Español": "La pista de subtítulos 1 ya tiene {count} subtítulo(s).\n\nResolve solo permite a los scripts colocar subtítulos en la pista 1, así que añadir estos implica reemplazar lo que hay. Los nuevos subtítulos se guardan como SRT en cualquier caso.",
   "Deutsch": "Untertitelspur 1 enthält bereits {count} Untertitel.\n\nResolve lässt Skripte Untertitel nur auf Spur 1 platzieren, daher ersetzt das Hinzufügen den vorhandenen Inhalt. Die neuen Untertitel werden in jedem Fall als SRT gespeichert.",
   "Français": "La piste de sous-titres 1 contient déjà {count} sous-titre(s).\n\nResolve ne permet aux scripts de placer des sous-titres que sur la piste 1 : les ajouter remplace donc ce qui s'y trouve. Les nouveaux sous-titres sont enregistrés en SRT dans tous les cas.",
-  "한국인": "자막 트랙 1에 이미 자막이 {count}개 있습니다.\n\nResolve는 스크립트가 트랙 1에만 자막을 놓을 수 있게 하므로, 추가하면 기존 내용을 바꾸게 됩니다. 새 자막은 어느 경우든 SRT로 저장됩니다.",
+  "한국어": "자막 트랙 1에 이미 자막이 {count}개 있습니다.\n\nResolve는 스크립트가 트랙 1에만 자막을 놓을 수 있게 하므로, 추가하면 기존 내용을 바꾸게 됩니다. 새 자막은 어느 경우든 SRT로 저장됩니다.",
   "中文": "字幕轨道 1 已有 {count} 条字幕。\n\nResolve 只允许脚本在轨道 1 上放置字幕，因此添加这些字幕意味着替换现有内容。无论如何，新字幕都会保存为 SRT。",
   "العربية": "يحتوي مسار الترجمة 1 بالفعل على {count} ترجمة.\n\nلا يسمح Resolve للبرامج النصية بوضع الترجمات إلا على المسار 1، لذا فإن إضافة هذه يعني استبدال الموجود. تُحفظ الترجمات الجديدة كملف SRT في كل الأحوال.",
   "Tiếng Việt": "Track phụ đề 1 đã có {count} phụ đề.\n\nResolve chỉ cho phép script đặt phụ đề lên track 1, nên thêm phụ đề mới đồng nghĩa với thay thế phụ đề hiện có. Dù sao phụ đề mới cũng được lưu thành tệp SRT."
@@ -815,7 +815,7 @@
   "Español": "Conservar solo el archivo SRT",
   "Deutsch": "Nur die SRT-Datei behalten",
   "Français": "Garder uniquement le fichier SRT",
-  "한국인": "SRT 파일만 유지",
+  "한국어": "SRT 파일만 유지",
   "中文": "仅保留 SRT 文件",
   "العربية": "الاحتفاظ بملف SRT فقط",
   "Tiếng Việt": "Chỉ giữ tệp SRT"
@@ -825,7 +825,7 @@
   "Español": "Reemplazar {count} subtítulo(s)",
   "Deutsch": "{count} Untertitel ersetzen",
   "Français": "Remplacer {count} sous-titre(s)",
-  "한국인": "자막 {count}개 바꾸기",
+  "한국어": "자막 {count}개 바꾸기",
   "中文": "替换 {count} 条字幕",
   "العربية": "استبدال {count} ترجمة",
   "Tiếng Việt": "Thay {count} phụ đề"
@@ -835,7 +835,7 @@
   "Español": "Traducción con IA",
   "Deutsch": "KI-Übersetzung",
   "Français": "Traduction par IA",
-  "한국인": "AI 번역",
+  "한국어": "AI 번역",
   "中文": "AI 翻译",
   "العربية": "الترجمة بالذكاء الاصطناعي",
   "Tiếng Việt": "Dịch bằng AI"
@@ -845,7 +845,7 @@
   "Español": "Permitir",
   "Deutsch": "Erlauben",
   "Français": "Autoriser",
-  "한국인": "허용",
+  "한국어": "허용",
   "中文": "允许",
   "العربية": "السماح",
   "Tiếng Việt": "Cho phép"
@@ -855,7 +855,7 @@
   "Español": "La traducción con IA envía el texto de la transcripción a {name} por internet, con tu propia clave de API (el proveedor puede cobrarlo).\n\n¿Lo permites? Buddy recuerda la respuesta para este proveedor.",
   "Deutsch": "Die KI-Übersetzung sendet den Text der Transkription über das Internet an {name}, mit Ihrem eigenen API-Schlüssel (der Anbieter kann dafür Gebühren verlangen).\n\nErlauben? Buddy merkt sich die Antwort für diesen Anbieter.",
   "Français": "La traduction par IA envoie le texte de la transcription à {name} par Internet, avec votre propre clé API (le fournisseur peut la facturer).\n\nAutoriser ? Buddy retient la réponse pour ce fournisseur.",
-  "한국인": "AI 번역은 내 API 키로 받아쓴 텍스트를 인터넷을 통해 {name}에 보냅니다(제공업체가 요금을 청구할 수 있음).\n\n허용할까요? Buddy는 이 제공업체에 대한 답을 기억합니다.",
+  "한국어": "AI 번역은 내 API 키로 받아쓴 텍스트를 인터넷을 통해 {name}에 보냅니다(제공업체가 요금을 청구할 수 있음).\n\n허용할까요? Buddy는 이 제공업체에 대한 답을 기억합니다.",
   "中文": "AI 翻译会使用您自己的 API 密钥，通过互联网将转录文本发送给 {name}（服务商可能会收费）。\n\n允许吗？Buddy 会记住您对此服务商的选择。",
   "العربية": "ترسل الترجمة بالذكاء الاصطناعي نص التفريغ إلى {name} عبر الإنترنت، باستخدام مفتاح API الخاص بك (قد يفرض المزوّد رسومًا).\n\nهل تسمح بذلك؟ يتذكر Buddy الإجابة لهذا المزوّد.",
   "Tiếng Việt": "Dịch bằng AI sẽ gửi văn bản phiên âm đến {name} qua internet, bằng khóa API của bạn (nhà cung cấp có thể tính phí).\n\nCho phép? Buddy sẽ nhớ câu trả lời cho nhà cung cấp này."
@@ -865,7 +865,7 @@
   "Español": "Aún no se ha leído.",
   "Deutsch": "Noch nicht gelesen.",
   "Français": "Pas encore lu.",
-  "한국인": "아직 읽지 않았습니다.",
+  "한국어": "아직 읽지 않았습니다.",
   "中文": "尚未读取。",
   "العربية": "لم تتم القراءة بعد.",
   "Tiếng Việt": "Chưa đọc."
@@ -875,7 +875,7 @@
   "Español": "Comprobando el motor de transcripción…",
   "Deutsch": "Transkriptions-Engine wird geprüft…",
   "Français": "Vérification du moteur de transcription…",
-  "한국인": "받아쓰기 엔진 확인 중…",
+  "한국어": "받아쓰기 엔진 확인 중…",
   "中文": "正在检查转录引擎…",
   "العربية": "جارٍ التحقق من محرك التفريغ…",
   "Tiếng Việt": "Đang kiểm tra công cụ phiên âm…"
@@ -885,7 +885,7 @@
   "Español": "La transcripción aún no está configurada en este equipo: requiere instalar una vez el motor y un modelo.",
   "Deutsch": "Die Transkription ist auf diesem Computer noch nicht eingerichtet – dazu werden einmalig die Engine und ein Modell installiert.",
   "Français": "La transcription n'est pas encore configurée sur cet ordinateur – il faut installer une fois le moteur et un modèle.",
-  "한국인": "이 컴퓨터에는 아직 받아쓰기가 설정되지 않았습니다 – 엔진과 모델을 한 번 설치해야 합니다.",
+  "한국어": "이 컴퓨터에는 아직 받아쓰기가 설정되지 않았습니다 – 엔진과 모델을 한 번 설치해야 합니다.",
   "中文": "本机尚未设置转录——需要一次性安装引擎和一个模型。",
   "العربية": "لم يتم إعداد التفريغ على هذا الكمبيوتر بعد – يتطلب تثبيت المحرك ونموذج لمرة واحدة.",
   "Tiếng Việt": "Máy này chưa thiết lập phiên âm – cần cài công cụ và một mô hình một lần."
@@ -895,7 +895,7 @@
   "Español": "El motor está instalado. Consigue un modelo en la pestaña Configuración para empezar.",
   "Deutsch": "Die Engine ist installiert. Holen Sie sich auf dem Tab „Einrichtung“ ein Modell, um zu beginnen.",
   "Français": "Le moteur est installé. Obtenez un modèle dans l'onglet Configuration pour commencer.",
-  "한국인": "엔진이 설치되어 있습니다. 설정 탭에서 모델을 받아 시작하세요.",
+  "한국어": "엔진이 설치되어 있습니다. 설정 탭에서 모델을 받아 시작하세요.",
   "中文": "引擎已安装。在“设置”标签页获取一个模型即可开始。",
   "العربية": "المحرك مثبت. احصل على نموذج من تبويب الإعداد للبدء.",
   "Tiếng Việt": "Công cụ đã được cài. Hãy tải một mô hình ở thẻ Thiết lập để bắt đầu."
@@ -905,7 +905,7 @@
   "Español": "La traducción con IA usa el modelo de Pregunta a Buddy, que aún no está configurado: {problem}",
   "Deutsch": "Die KI-Übersetzung nutzt das Modell von „Buddy fragen“, das noch nicht eingerichtet ist: {problem}",
   "Français": "La traduction par IA utilise le modèle de Demander à Buddy, qui n'est pas encore configuré : {problem}",
-  "한국인": "AI 번역은 Buddy에게 질문의 모델을 사용하는데 아직 설정되지 않았습니다: {problem}",
+  "한국어": "AI 번역은 Buddy에게 질문의 모델을 사용하는데 아직 설정되지 않았습니다: {problem}",
   "中文": "AI 翻译使用“询问 Buddy”的模型，但尚未设置：{problem}",
   "العربية": "تستخدم الترجمة بالذكاء الاصطناعي نموذج اسأل Buddy، ولم يُعدّ بعد: {problem}",
   "Tiếng Việt": "Dịch bằng AI dùng mô hình của Hỏi Buddy, nhưng chưa được thiết lập: {problem}"
@@ -915,7 +915,7 @@
   "Español": "{ai} traduce pasajes completos de una vez, así que los nombres y el tono se mantienen coherentes. El texto de la transcripción se le envía.",
   "Deutsch": "{ai} übersetzt ganze Passagen auf einmal, sodass Namen und Ton einheitlich bleiben. Der Text der Transkription wird dorthin gesendet.",
   "Français": "{ai} traduit des passages entiers d'un coup, les noms et le ton restent donc cohérents. Le texte de la transcription lui est envoyé.",
-  "한국인": "{ai}은(는) 문단 전체를 한 번에 번역하므로 이름과 어조가 일관되게 유지됩니다. 받아쓴 텍스트가 그곳으로 전송됩니다.",
+  "한국어": "{ai}은(는) 문단 전체를 한 번에 번역하므로 이름과 어조가 일관되게 유지됩니다. 받아쓴 텍스트가 그곳으로 전송됩니다.",
   "中文": "{ai} 会一次翻译整段内容，因此名称和语气保持一致。转录文本会发送给它。",
   "العربية": "يترجم {ai} مقاطع كاملة دفعة واحدة، لذا تبقى الأسماء والنبرة متسقة. يُرسل نص التفريغ إليه.",
   "Tiếng Việt": "{ai} dịch cả đoạn cùng lúc nên tên và giọng điệu được giữ nhất quán. Văn bản phiên âm được gửi đến nó."
@@ -925,7 +925,7 @@
   "Español": "{ai} traduce pasajes completos de una vez, así que los nombres y el tono se mantienen coherentes. El texto de la transcripción se le envía, en local, así que se queda en tu equipo (o en tu propia red).",
   "Deutsch": "{ai} übersetzt ganze Passagen auf einmal, sodass Namen und Ton einheitlich bleiben. Der Text der Transkription wird dorthin gesendet – lokal, er bleibt also auf Ihrem Computer (oder in Ihrem eigenen Netzwerk).",
   "Français": "{ai} traduit des passages entiers d'un coup, les noms et le ton restent donc cohérents. Le texte de la transcription lui est envoyé – en local, il reste donc sur votre ordinateur (ou votre propre réseau).",
-  "한국인": "{ai}은(는) 문단 전체를 한 번에 번역하므로 이름과 어조가 일관되게 유지됩니다. 받아쓴 텍스트가 그곳으로 전송됩니다 – 로컬이므로 내 컴퓨터(또는 내 네트워크)에 머뭅니다.",
+  "한국어": "{ai}은(는) 문단 전체를 한 번에 번역하므로 이름과 어조가 일관되게 유지됩니다. 받아쓴 텍스트가 그곳으로 전송됩니다 – 로컬이므로 내 컴퓨터(또는 내 네트워크)에 머뭅니다.",
   "中文": "{ai} 会一次翻译整段内容，因此名称和语气保持一致。转录文本会发送给它——在本地进行，因此会留在您的电脑（或您自己的网络）中。",
   "العربية": "يترجم {ai} مقاطع كاملة دفعة واحدة، لذا تبقى الأسماء والنبرة متسقة. يُرسل نص التفريغ إليه – محليًا، لذا يبقى على كمبيوترك (أو شبكتك الخاصة).",
   "Tiếng Việt": "{ai} dịch cả đoạn cùng lúc nên tên và giọng điệu được giữ nhất quán. Văn bản phiên âm được gửi đến nó – cục bộ, nên vẫn ở trên máy của bạn (hoặc mạng riêng của bạn)."
@@ -935,7 +935,7 @@
   "Español": "Configura primero el motor de transcripción para traducir en este equipo, o elige la traducción con IA.",
   "Deutsch": "Richten Sie zuerst die Transkriptions-Engine ein, um auf diesem Computer zu übersetzen – oder wählen Sie die KI-Übersetzung.",
   "Français": "Configurez d'abord le moteur de transcription pour traduire sur cet ordinateur – ou choisissez la traduction par IA.",
-  "한국인": "이 컴퓨터에서 번역하려면 먼저 받아쓰기 엔진을 설정하세요 – 또는 AI 번역을 선택하세요.",
+  "한국어": "이 컴퓨터에서 번역하려면 먼저 받아쓰기 엔진을 설정하세요 – 또는 AI 번역을 선택하세요.",
   "中文": "要在本机翻译，请先设置转录引擎——或选择 AI 翻译。",
   "العربية": "أعدّ محرك التفريغ أولًا للترجمة على هذا الكمبيوتر – أو اختر الترجمة بالذكاء الاصطناعي.",
   "Tiếng Việt": "Hãy thiết lập công cụ phiên âm trước để dịch trên máy này – hoặc chọn dịch bằng AI."
@@ -945,7 +945,7 @@
   "Español": "Traducir en este equipo necesita un modelo (NLLB-200 o MADLAD-400): consíguelo en la pestaña Configuración. O elige la traducción con IA.",
   "Deutsch": "Für die Übersetzung auf diesem Computer wird ein Modell benötigt (NLLB-200 oder MADLAD-400) – holen Sie es auf dem Tab „Einrichtung“. Oder wählen Sie die KI-Übersetzung.",
   "Français": "Traduire sur cet ordinateur nécessite un modèle (NLLB-200 ou MADLAD-400) – obtenez-en un dans l'onglet Configuration. Ou choisissez la traduction par IA.",
-  "한국인": "이 컴퓨터에서 번역하려면 모델(NLLB-200 또는 MADLAD-400)이 필요합니다 – 설정 탭에서 받으세요. 또는 AI 번역을 선택하세요.",
+  "한국어": "이 컴퓨터에서 번역하려면 모델(NLLB-200 또는 MADLAD-400)이 필요합니다 – 설정 탭에서 받으세요. 또는 AI 번역을 선택하세요.",
   "中文": "在本机翻译需要一个模型（NLLB-200 或 MADLAD-400）——请在“设置”标签页获取。或选择 AI 翻译。",
   "العربية": "تحتاج الترجمة على هذا الكمبيوتر إلى نموذج (NLLB-200 أو MADLAD-400) – احصل عليه من تبويب الإعداد. أو اختر الترجمة بالذكاء الاصطناعي.",
   "Tiếng Việt": "Dịch trên máy này cần một mô hình (NLLB-200 hoặc MADLAD-400) – hãy tải ở thẻ Thiết lập. Hoặc chọn dịch bằng AI."
@@ -955,7 +955,7 @@
   "Español": "MADLAD-400 traduce a unos 180 idiomas, en este equipo. Gratis para uso comercial.",
   "Deutsch": "MADLAD-400 übersetzt auf diesem Computer in etwa 180 Sprachen. Kostenlos für kommerzielle Nutzung.",
   "Français": "MADLAD-400 traduit vers environ 180 langues, sur cet ordinateur. Gratuit pour un usage commercial.",
-  "한국인": "MADLAD-400은 이 컴퓨터에서 약 180개 언어로 번역합니다. 상업적 용도로도 무료입니다.",
+  "한국어": "MADLAD-400은 이 컴퓨터에서 약 180개 언어로 번역합니다. 상업적 용도로도 무료입니다.",
   "中文": "MADLAD-400 在本机上可翻译为约 180 种语言。商业用途免费。",
   "العربية": "يترجم MADLAD-400 إلى نحو 180 لغة، على هذا الكمبيوتر. مجاني للاستخدام التجاري.",
   "Tiếng Việt": "MADLAD-400 dịch sang khoảng 180 ngôn ngữ, trên máy này. Miễn phí cho mục đích thương mại."
@@ -965,7 +965,7 @@
   "Español": "NLLB-200 traduce a cualquiera de 200 idiomas, en este equipo. Gratis para uso no comercial.",
   "Deutsch": "NLLB-200 übersetzt auf diesem Computer in jede von 200 Sprachen. Kostenlos für nichtkommerzielle Nutzung.",
   "Français": "NLLB-200 traduit vers n'importe laquelle de 200 langues, sur cet ordinateur. Gratuit pour un usage non commercial.",
-  "한국인": "NLLB-200은 이 컴퓨터에서 200개 언어 중 어느 것으로든 번역합니다. 비상업적 용도로 무료입니다.",
+  "한국어": "NLLB-200은 이 컴퓨터에서 200개 언어 중 어느 것으로든 번역합니다. 비상업적 용도로 무료입니다.",
   "中文": "NLLB-200 在本机上可翻译为 200 种语言中的任意一种。非商业用途免费。",
   "العربية": "يترجم NLLB-200 إلى أي من 200 لغة، على هذا الكمبيوتر. مجاني للاستخدام غير التجاري.",
   "Tiếng Việt": "NLLB-200 dịch sang bất kỳ ngôn ngữ nào trong 200 ngôn ngữ, trên máy này. Miễn phí cho mục đích phi thương mại."
@@ -975,7 +975,7 @@
   "Español": "{name} · {min} min · empieza en {tc}",
   "Deutsch": "{name} · {min} Min. · beginnt bei {tc}",
   "Français": "{name} · {min} min · début {tc}",
-  "한국인": "{name} · {min}분 · 시작 {tc}",
+  "한국어": "{name} · {min}분 · 시작 {tc}",
   "中文": "{name} · {min} 分钟 · 起始 {tc}",
   "العربية": "{name} · {min} د · يبدأ عند {tc}",
   "Tiếng Việt": "{name} · {min} phút · bắt đầu {tc}"
@@ -985,7 +985,7 @@
   "Español": "{name} · {min} min · empieza en {tc} · la pista de subtítulos 1 ya tiene {count} subtítulo(s)",
   "Deutsch": "{name} · {min} Min. · beginnt bei {tc} · Untertitelspur 1 enthält bereits {count} Untertitel",
   "Français": "{name} · {min} min · début {tc} · la piste de sous-titres 1 contient déjà {count} sous-titre(s)",
-  "한국인": "{name} · {min}분 · 시작 {tc} · 자막 트랙 1에 이미 자막 {count}개 있음",
+  "한국어": "{name} · {min}분 · 시작 {tc} · 자막 트랙 1에 이미 자막 {count}개 있음",
   "中文": "{name} · {min} 分钟 · 起始 {tc} · 字幕轨道 1 已有 {count} 条字幕",
   "العربية": "{name} · {min} د · يبدأ عند {tc} · يحتوي مسار الترجمة 1 بالفعل على {count} ترجمة",
   "Tiếng Việt": "{name} · {min} phút · bắt đầu {tc} · track phụ đề 1 đã có {count} phụ đề"
@@ -995,7 +995,7 @@
   "Español": "Marca al menos dos idiomas para audio mixto; para uno solo, elígelo en el menú.",
   "Deutsch": "Kreuzen Sie für gemischten Ton mindestens zwei Sprachen an – für eine wählen Sie sie im Menü.",
   "Français": "Cochez au moins deux langues pour un audio mixte – pour une seule, choisissez-la dans le menu.",
-  "한국인": "여러 언어가 섞인 오디오라면 두 개 이상 선택하세요 – 하나라면 메뉴에서 고르세요.",
+  "한국어": "여러 언어가 섞인 오디오라면 두 개 이상 선택하세요 – 하나라면 메뉴에서 고르세요.",
   "中文": "混合语言音频请至少勾选两种语言——若只有一种，请从菜单中选择。",
   "العربية": "حدد لغتين على الأقل للصوت المختلط – ولغة واحدة، اخترها من القائمة.",
   "Tiếng Việt": "Chọn ít nhất hai ngôn ngữ cho âm thanh hỗn hợp – nếu chỉ một, hãy chọn trong menu."
@@ -1005,7 +1005,7 @@
   "Español": "Iniciando…",
   "Deutsch": "Wird gestartet…",
   "Français": "Démarrage…",
-  "한국인": "시작하는 중…",
+  "한국어": "시작하는 중…",
   "中文": "正在开始…",
   "العربية": "جارٍ البدء…",
   "Tiếng Việt": "Đang bắt đầu…"
@@ -1015,7 +1015,7 @@
   "Español": "Trabajando…",
   "Deutsch": "Wird bearbeitet…",
   "Français": "Traitement…",
-  "한국인": "작업 중…",
+  "한국어": "작업 중…",
   "中文": "正在处理…",
   "العربية": "جارٍ العمل…",
   "Tiếng Việt": "Đang xử lý…"
@@ -1025,7 +1025,7 @@
   "Español": "Sin línea de tiempo",
   "Deutsch": "Keine Timeline",
   "Français": "Aucune timeline",
-  "한국인": "타임라인 없음",
+  "한국어": "타임라인 없음",
   "中文": "没有时间线",
   "العربية": "لا يوجد خط زمني",
   "Tiếng Việt": "Không có timeline"
@@ -1035,7 +1035,7 @@
   "Español": "Transcribiendo '{name}' ({min} min) con {model}…",
   "Deutsch": "„{name}“ ({min} Min.) wird mit {model} transkribiert…",
   "Français": "Transcription de « {name} » ({min} min) avec {model}…",
-  "한국인": "'{name}'({min}분)을(를) {model}(으)로 받아쓰는 중…",
+  "한국어": "'{name}'({min}분)을(를) {model}(으)로 받아쓰는 중…",
   "中文": "正在用 {model} 转录“{name}”（{min} 分钟）…",
   "العربية": "جارٍ تفريغ '{name}' ({min} د) باستخدام {model}…",
   "Tiếng Việt": "Đang phiên âm '{name}' ({min} phút) bằng {model}…"
@@ -1045,7 +1045,7 @@
   "Español": "{count} subtítulos ({spoken}): {audio} min de audio en {took} min con {engine} en la {where}.",
   "Deutsch": "{count} Untertitel ({spoken}) – {audio} Min. Ton in {took} Min. mit {engine} auf der {where}.",
   "Français": "{count} sous-titres ({spoken}) – {audio} min d'audio en {took} min avec {engine} sur le {where}.",
-  "한국인": "자막 {count}개({spoken}) – {audio}분 분량의 오디오를 {engine}(으)로 {where}에서 {took}분 만에 처리했습니다.",
+  "한국어": "자막 {count}개({spoken}) – {audio}분 분량의 오디오를 {engine}(으)로 {where}에서 {took}분 만에 처리했습니다.",
   "中文": "{count} 条字幕（{spoken}）——{audio} 分钟音频，用 {engine} 在 {where} 上耗时 {took} 分钟。",
   "العربية": "{count} ترجمة ({spoken}) – {audio} د من الصوت في {took} د باستخدام {engine} على {where}.",
   "Tiếng Việt": "{count} phụ đề ({spoken}) – {audio} phút âm thanh trong {took} phút với {engine} trên {where}."
@@ -1055,7 +1055,7 @@
   "Español": "{count} subtítulos ({spoken}): {audio} min de audio en {took} min con {engine} en la {where}. Guardado: {path}",
   "Deutsch": "{count} Untertitel ({spoken}) – {audio} Min. Ton in {took} Min. mit {engine} auf der {where}. Gespeichert: {path}",
   "Français": "{count} sous-titres ({spoken}) – {audio} min d'audio en {took} min avec {engine} sur le {where}. Enregistré : {path}",
-  "한국인": "자막 {count}개({spoken}) – {audio}분 분량의 오디오를 {engine}(으)로 {where}에서 {took}분 만에 처리했습니다. 저장됨: {path}",
+  "한국어": "자막 {count}개({spoken}) – {audio}분 분량의 오디오를 {engine}(으)로 {where}에서 {took}분 만에 처리했습니다. 저장됨: {path}",
   "中文": "{count} 条字幕（{spoken}）——{audio} 分钟音频，用 {engine} 在 {where} 上耗时 {took} 分钟。已保存：{path}",
   "العربية": "{count} ترجمة ({spoken}) – {audio} د من الصوت في {took} د باستخدام {engine} على {where}. تم الحفظ: {path}",
   "Tiếng Việt": "{count} phụ đề ({spoken}) – {audio} phút âm thanh trong {took} phút với {engine} trên {where}. Đã lưu: {path}"
@@ -1065,7 +1065,7 @@
   "Español": "idioma no detectado",
   "Deutsch": "Sprache nicht erkannt",
   "Français": "langue non détectée",
-  "한국인": "언어가 감지되지 않음",
+  "한국어": "언어가 감지되지 않음",
   "中文": "未检测到语言",
   "العربية": "لم يتم اكتشاف اللغة",
   "Tiếng Việt": "không phát hiện được ngôn ngữ"
@@ -1075,7 +1075,7 @@
   "Español": "Añadiendo los subtítulos a la línea de tiempo…",
   "Deutsch": "Untertitel werden zur Timeline hinzugefügt…",
   "Français": "Ajout des sous-titres à la timeline…",
-  "한국인": "자막을 타임라인에 추가하는 중…",
+  "한국어": "자막을 타임라인에 추가하는 중…",
   "中文": "正在将字幕添加到时间线…",
   "العربية": "جارٍ إضافة الترجمات إلى الخط الزمني…",
   "Tiếng Việt": "Đang thêm phụ đề vào timeline…"
@@ -1085,7 +1085,7 @@
   "Español": "Añadiendo subtítulos a la línea de tiempo…",
   "Deutsch": "Untertitel werden zur Timeline hinzugefügt…",
   "Français": "Ajout des sous-titres à la timeline…",
-  "한국인": "자막을 타임라인에 추가하는 중…",
+  "한국어": "자막을 타임라인에 추가하는 중…",
   "中文": "正在将字幕添加到时间线…",
   "العربية": "جارٍ إضافة الترجمات إلى الخط الزمني…",
   "Tiếng Việt": "Đang thêm phụ đề vào timeline…"
@@ -1095,7 +1095,7 @@
   "Español": "No se pudo añadir a la línea de tiempo: {error}",
   "Deutsch": "Konnte nicht zur Timeline hinzugefügt werden: {error}",
   "Français": "Impossible d'ajouter à la timeline : {error}",
-  "한국인": "타임라인에 추가할 수 없습니다: {error}",
+  "한국어": "타임라인에 추가할 수 없습니다: {error}",
   "中文": "无法添加到时间线：{error}",
   "العربية": "تعذرت الإضافة إلى الخط الزمني: {error}",
   "Tiếng Việt": "Không thể thêm vào timeline: {error}"
@@ -1105,7 +1105,7 @@
   "Español": "Listo: {count} subtítulos en la pista de subtítulos 1.",
   "Deutsch": "Fertig – {count} Untertitel auf Untertitelspur 1.",
   "Français": "Terminé – {count} sous-titres sur la piste de sous-titres 1.",
-  "한국인": "완료 – 자막 트랙 1에 자막 {count}개.",
+  "한국어": "완료 – 자막 트랙 1에 자막 {count}개.",
   "中文": "完成——字幕轨道 1 上有 {count} 条字幕。",
   "العربية": "تم – {count} ترجمة على مسار الترجمة 1.",
   "Tiếng Việt": "Xong – {count} phụ đề trên track phụ đề 1."
@@ -1115,7 +1115,7 @@
   "Español": "Listo: guardado como archivo SRT (no se añadió a la línea de tiempo).",
   "Deutsch": "Fertig – als SRT-Datei gespeichert (nicht zur Timeline hinzugefügt).",
   "Français": "Terminé – enregistré en fichier SRT (non ajouté à la timeline).",
-  "한국인": "완료 – SRT 파일로 저장했습니다(타임라인에는 추가하지 않음).",
+  "한국어": "완료 – SRT 파일로 저장했습니다(타임라인에는 추가하지 않음).",
   "中文": "完成——已保存为 SRT 文件（未添加到时间线）。",
   "العربية": "تم – حُفظ كملف SRT (لم يُضف إلى الخط الزمني).",
   "Tiếng Việt": "Xong – đã lưu thành tệp SRT (không thêm vào timeline)."
@@ -1125,7 +1125,7 @@
   "Español": "Guardar subtítulos",
   "Deutsch": "Untertitel speichern",
   "Français": "Enregistrer les sous-titres",
-  "한국인": "자막 저장",
+  "한국어": "자막 저장",
   "中文": "保存字幕",
   "العربية": "حفظ الترجمات",
   "Tiếng Việt": "Lưu phụ đề"
@@ -1135,7 +1135,7 @@
   "Español": "Subtítulos SubRip",
   "Deutsch": "SubRip-Untertitel",
   "Français": "Sous-titres SubRip",
-  "한국인": "SubRip 자막",
+  "한국어": "SubRip 자막",
   "中文": "SubRip 字幕",
   "العربية": "ترجمات SubRip",
   "Tiếng Việt": "Phụ đề SubRip"
@@ -1145,7 +1145,7 @@
   "Español": "Copia guardada en {path}",
   "Deutsch": "Kopie gespeichert unter {path}",
   "Français": "Copie enregistrée dans {path}",
-  "한국인": "{path}에 사본을 저장했습니다",
+  "한국어": "{path}에 사본을 저장했습니다",
   "中文": "已将副本保存到 {path}",
   "العربية": "تم حفظ نسخة في {path}",
   "Tiếng Việt": "Đã lưu bản sao vào {path}"
@@ -1155,7 +1155,7 @@
   "Español": "Guardar los subtítulos traducidos en",
   "Deutsch": "Übersetzte Untertitel speichern in",
   "Français": "Enregistrer les sous-titres traduits dans",
-  "한국인": "번역한 자막 저장 위치",
+  "한국어": "번역한 자막 저장 위치",
   "中文": "译文字幕保存位置",
   "العربية": "حفظ الترجمات المترجمة في",
   "Tiếng Việt": "Lưu phụ đề đã dịch vào"
@@ -1165,7 +1165,7 @@
   "Español": "Traducción con IA (se configura en Pregunta a Buddy)",
   "Deutsch": "KI-Übersetzung (in „Buddy fragen“ einrichten)",
   "Français": "Traduction par IA (à configurer dans Demander à Buddy)",
-  "한국인": "AI 번역(Buddy에게 질문에서 설정)",
+  "한국어": "AI 번역(Buddy에게 질문에서 설정)",
   "中文": "AI 翻译（在“询问 Buddy”中设置）",
   "العربية": "الترجمة بالذكاء الاصطناعي (تُعدّ في اسأل Buddy)",
   "Tiếng Việt": "Dịch bằng AI (thiết lập trong Hỏi Buddy)"
@@ -1175,7 +1175,7 @@
   "Español": "Traducción con IA · {name}",
   "Deutsch": "KI-Übersetzung · {name}",
   "Français": "Traduction par IA · {name}",
-  "한국인": "AI 번역 · {name}",
+  "한국어": "AI 번역 · {name}",
   "中文": "AI 翻译 · {name}",
   "العربية": "الترجمة بالذكاء الاصطناعي · {name}",
   "Tiếng Việt": "Dịch bằng AI · {name}"
@@ -1185,7 +1185,7 @@
   "Español": "Elige primero los idiomas a los que traducir.",
   "Deutsch": "Wählen Sie zuerst die Zielsprachen.",
   "Français": "Choisissez d'abord les langues cibles.",
-  "한국인": "먼저 번역할 언어를 선택하세요.",
+  "한국어": "먼저 번역할 언어를 선택하세요.",
   "中文": "请先选择要翻译成的语言。",
   "العربية": "اختر اللغات المراد الترجمة إليها أولًا.",
   "Tiếng Việt": "Hãy chọn ngôn ngữ cần dịch sang trước."
@@ -1195,7 +1195,7 @@
   "Español": "La traducción con IA usa el modelo de Pregunta a Buddy, que no está configurado: {problem}",
   "Deutsch": "Die KI-Übersetzung nutzt das Modell von „Buddy fragen“, das nicht eingerichtet ist: {problem}",
   "Français": "La traduction par IA utilise le modèle de Demander à Buddy, qui n'est pas configuré : {problem}",
-  "한국인": "AI 번역은 Buddy에게 질문의 모델을 사용하는데 설정되어 있지 않습니다: {problem}",
+  "한국어": "AI 번역은 Buddy에게 질문의 모델을 사용하는데 설정되어 있지 않습니다: {problem}",
   "中文": "AI 翻译使用“询问 Buddy”的模型，但尚未设置：{problem}",
   "العربية": "تستخدم الترجمة بالذكاء الاصطناعي نموذج اسأل Buddy، وهو غير مُعدّ: {problem}",
   "Tiếng Việt": "Dịch bằng AI dùng mô hình của Hỏi Buddy, nhưng chưa được thiết lập: {problem}"
@@ -1205,7 +1205,7 @@
   "Español": "Consigue primero un modelo de traducción (en la pestaña Configuración) o elige la traducción con IA.",
   "Deutsch": "Holen Sie zuerst ein Übersetzungsmodell (auf dem Tab „Einrichtung“) oder wählen Sie die KI-Übersetzung.",
   "Français": "Obtenez d'abord un modèle de traduction (dans l'onglet Configuration), ou choisissez la traduction par IA.",
-  "한국인": "먼저 번역 모델을 받거나(설정 탭) AI 번역을 선택하세요.",
+  "한국어": "먼저 번역 모델을 받거나(설정 탭) AI 번역을 선택하세요.",
   "中文": "请先获取翻译模型（在“设置”标签页），或选择 AI 翻译。",
   "العربية": "احصل على نموذج ترجمة أولًا (من تبويب الإعداد)، أو اختر الترجمة بالذكاء الاصطناعي.",
   "Tiếng Việt": "Hãy tải mô hình dịch trước (ở thẻ Thiết lập), hoặc chọn dịch bằng AI."
@@ -1215,7 +1215,7 @@
   "Español": "No se tradujo: {t_problem}",
   "Deutsch": "Nicht übersetzt: {t_problem}",
   "Français": "Non traduit : {t_problem}",
-  "한국인": "번역하지 않았습니다: {t_problem}",
+  "한국어": "번역하지 않았습니다: {t_problem}",
   "中文": "未翻译：{t_problem}",
   "العربية": "لم تتم الترجمة: {t_problem}",
   "Tiếng Việt": "Chưa dịch: {t_problem}"
@@ -1225,7 +1225,7 @@
   "Español": "¿En qué idioma está la transcripción?",
   "Deutsch": "In welcher Sprache ist die Transkription?",
   "Français": "Dans quelle langue est la transcription ?",
-  "한국인": "받아쓴 내용은 어떤 언어인가요?",
+  "한국어": "받아쓴 내용은 어떤 언어인가요?",
   "中文": "转录内容是什么语言？",
   "العربية": "بأي لغة التفريغ؟",
   "Tiếng Việt": "Bản phiên âm bằng ngôn ngữ nào?"
@@ -1235,7 +1235,7 @@
   "Español": "Traducir subtítulos",
   "Deutsch": "Untertitel übersetzen",
   "Français": "Traduire des sous-titres",
-  "한국인": "자막 번역",
+  "한국어": "자막 번역",
   "中文": "翻译字幕",
   "العربية": "ترجمة الترجمات",
   "Tiếng Việt": "Dịch phụ đề"
@@ -1245,7 +1245,7 @@
   "Español": "No se pudo leer {path}:\n{error}",
   "Deutsch": "{path} konnte nicht gelesen werden:\n{error}",
   "Français": "Impossible de lire {path} :\n{error}",
-  "한국인": "{path}을(를) 읽을 수 없습니다:\n{error}",
+  "한국어": "{path}을(를) 읽을 수 없습니다:\n{error}",
   "中文": "无法读取 {path}：\n{error}",
   "العربية": "تعذرت قراءة {path}:\n{error}",
   "Tiếng Việt": "Không thể đọc {path}:\n{error}"
@@ -1255,7 +1255,7 @@
   "Español": "Ese archivo no contiene subtítulos.",
   "Deutsch": "Diese Datei enthält keine Untertitel.",
   "Français": "Ce fichier ne contient aucun sous-titre.",
-  "한국인": "해당 파일에 자막이 없습니다.",
+  "한국어": "해당 파일에 자막이 없습니다.",
   "中文": "该文件中没有字幕。",
   "العربية": "لا يحتوي ذلك الملف على ترجمات.",
   "Tiếng Việt": "Tệp đó không có phụ đề nào."
@@ -1265,7 +1265,7 @@
   "Español": "Los subtítulos de {file} están en:",
   "Deutsch": "Die Untertitel in {file} sind auf:",
   "Français": "Les sous-titres de {file} sont en :",
-  "한국인": "{file}의 자막 언어:",
+  "한국어": "{file}의 자막 언어:",
   "中文": "{file} 中的字幕使用的语言：",
   "العربية": "الترجمات في {file} بلغة:",
   "Tiếng Việt": "Phụ đề trong {file} bằng:"
@@ -1275,7 +1275,7 @@
   "Español": "No hay idiomas a los que traducir.",
   "Deutsch": "Keine Zielsprache.",
   "Français": "Aucune langue cible.",
-  "한국인": "번역할 언어가 없습니다.",
+  "한국어": "번역할 언어가 없습니다.",
   "中文": "没有要翻译成的语言。",
   "العربية": "لا توجد لغة للترجمة إليها.",
   "Tiếng Việt": "Không có ngôn ngữ để dịch sang."
@@ -1285,7 +1285,7 @@
   "Español": "No hay nada que traducir: la transcripción está vacía.",
   "Deutsch": "Nichts zu übersetzen – die Transkription ist leer.",
   "Français": "Rien à traduire – la transcription est vide.",
-  "한국인": "번역할 내용이 없습니다 – 받아쓴 내용이 비어 있습니다.",
+  "한국어": "번역할 내용이 없습니다 – 받아쓴 내용이 비어 있습니다.",
   "中文": "没有可翻译的内容——转录为空。",
   "العربية": "لا يوجد ما يُترجم – التفريغ فارغ.",
   "Tiếng Việt": "Không có gì để dịch – bản phiên âm trống."
@@ -1295,7 +1295,7 @@
   "Español": "No se pudo leer la transcripción: {error}",
   "Deutsch": "Die Transkription konnte nicht gelesen werden: {error}",
   "Français": "Impossible de lire la transcription : {error}",
-  "한국인": "받아쓴 내용을 읽을 수 없습니다: {error}",
+  "한국어": "받아쓴 내용을 읽을 수 없습니다: {error}",
   "中文": "无法读取转录：{error}",
   "العربية": "تعذرت قراءة التفريغ: {error}",
   "Tiếng Việt": "Không thể đọc bản phiên âm: {error}"
@@ -1305,7 +1305,7 @@
   "Español": "Traducido a {count} idioma(s) en {secs} s en la {device}.",
   "Deutsch": "In {count} Sprache(n) übersetzt, in {secs} s auf der {device}.",
   "Français": "Traduit en {count} langue(s) en {secs} s sur le {device}.",
-  "한국인": "{device}에서 {secs}초 만에 {count}개 언어로 번역했습니다.",
+  "한국어": "{device}에서 {secs}초 만에 {count}개 언어로 번역했습니다.",
   "中文": "已在 {device} 上用 {secs} 秒翻译为 {count} 种语言。",
   "العربية": "تمت الترجمة إلى {count} لغة في {secs} ث على {device}.",
   "Tiếng Việt": "Đã dịch sang {count} ngôn ngữ trong {secs} giây trên {device}."
@@ -1315,7 +1315,7 @@
   "Español": "Traducido a {count} idioma(s) en {secs} s con {provider}.",
   "Deutsch": "In {count} Sprache(n) übersetzt, in {secs} s mit {provider}.",
   "Français": "Traduit en {count} langue(s) en {secs} s avec {provider}.",
-  "한국인": "{provider}(으)로 {secs}초 만에 {count}개 언어로 번역했습니다.",
+  "한국어": "{provider}(으)로 {secs}초 만에 {count}개 언어로 번역했습니다.",
   "中文": "已用 {provider} 在 {secs} 秒内翻译为 {count} 种语言。",
   "العربية": "تمت الترجمة إلى {count} لغة في {secs} ث باستخدام {provider}.",
   "Tiếng Việt": "Đã dịch sang {count} ngôn ngữ trong {secs} giây bằng {provider}."
@@ -1325,7 +1325,7 @@
   "Español": "Traducido a {count} idioma(s) en {secs} s en la {device}. '{name}' tiene una pista de subtítulos por idioma.",
   "Deutsch": "In {count} Sprache(n) übersetzt, in {secs} s auf der {device}. „{name}“ hat eine Untertitelspur pro Sprache.",
   "Français": "Traduit en {count} langue(s) en {secs} s sur le {device}. « {name} » a une piste de sous-titres par langue.",
-  "한국인": "{device}에서 {secs}초 만에 {count}개 언어로 번역했습니다. '{name}'에 언어마다 자막 트랙이 있습니다.",
+  "한국어": "{device}에서 {secs}초 만에 {count}개 언어로 번역했습니다. '{name}'에 언어마다 자막 트랙이 있습니다.",
   "中文": "已在 {device} 上用 {secs} 秒翻译为 {count} 种语言。“{name}”中每种语言各有一条字幕轨道。",
   "العربية": "تمت الترجمة إلى {count} لغة في {secs} ث على {device}. يحتوي '{name}' على مسار ترجمة لكل لغة.",
   "Tiếng Việt": "Đã dịch sang {count} ngôn ngữ trong {secs} giây trên {device}. '{name}' có một track phụ đề cho mỗi ngôn ngữ."
@@ -1335,7 +1335,7 @@
   "Español": "Traducido a {count} idioma(s) en {secs} s con {provider}. '{name}' tiene una pista de subtítulos por idioma.",
   "Deutsch": "In {count} Sprache(n) übersetzt, in {secs} s mit {provider}. „{name}“ hat eine Untertitelspur pro Sprache.",
   "Français": "Traduit en {count} langue(s) en {secs} s avec {provider}. « {name} » a une piste de sous-titres par langue.",
-  "한국인": "{provider}(으)로 {secs}초 만에 {count}개 언어로 번역했습니다. '{name}'에 언어마다 자막 트랙이 있습니다.",
+  "한국어": "{provider}(으)로 {secs}초 만에 {count}개 언어로 번역했습니다. '{name}'에 언어마다 자막 트랙이 있습니다.",
   "中文": "已用 {provider} 在 {secs} 秒内翻译为 {count} 种语言。“{name}”中每种语言各有一条字幕轨道。",
   "العربية": "تمت الترجمة إلى {count} لغة في {secs} ث باستخدام {provider}. يحتوي '{name}' على مسار ترجمة لكل لغة.",
   "Tiếng Việt": "Đã dịch sang {count} ngôn ngữ trong {secs} giây bằng {provider}. '{name}' có một track phụ đề cho mỗi ngôn ngữ."
@@ -1345,7 +1345,7 @@
   "Español": "Creando una línea de tiempo con una pista de subtítulos por idioma…",
   "Deutsch": "Timeline mit einer Untertitelspur pro Sprache wird erstellt…",
   "Français": "Création d'une timeline avec une piste de sous-titres par langue…",
-  "한국인": "언어마다 자막 트랙이 있는 타임라인을 만드는 중…",
+  "한국어": "언어마다 자막 트랙이 있는 타임라인을 만드는 중…",
   "中文": "正在创建每种语言各有一条字幕轨道的时间线…",
   "العربية": "جارٍ إنشاء خط زمني بمسار ترجمة لكل لغة…",
   "Tiếng Việt": "Đang tạo timeline có một track phụ đề cho mỗi ngôn ngữ…"
@@ -1355,7 +1355,7 @@
   "Español": "Motor instalado.",
   "Deutsch": "Engine installiert.",
   "Français": "Moteur installé.",
-  "한국인": "엔진을 설치했습니다.",
+  "한국어": "엔진을 설치했습니다.",
   "中文": "引擎已安装。",
   "العربية": "تم تثبيت المحرك.",
   "Tiếng Việt": "Đã cài đặt công cụ."
@@ -1365,7 +1365,7 @@
   "Español": "{model} descargado.",
   "Deutsch": "{model} heruntergeladen.",
   "Français": "{model} téléchargé.",
-  "한국인": "{model}을(를) 다운로드했습니다.",
+  "한국어": "{model}을(를) 다운로드했습니다.",
   "中文": "已下载 {model}。",
   "العربية": "تم تنزيل {model}.",
   "Tiếng Việt": "Đã tải xuống {model}."
@@ -1375,7 +1375,7 @@
   "Español": "Usando el {model} existente en {path}.",
   "Deutsch": "Das vorhandene {model} unter {path} wird verwendet.",
   "Français": "Utilisation du {model} existant dans {path}.",
-  "한국인": "{path}에 있는 기존 {model}을(를) 사용합니다.",
+  "한국어": "{path}에 있는 기존 {model}을(를) 사용합니다.",
   "中文": "正在使用 {path} 中现有的 {model}。",
   "العربية": "استخدام {model} الموجود في {path}.",
   "Tiếng Việt": "Đang dùng {model} có sẵn tại {path}."
@@ -1385,7 +1385,7 @@
   "Español": "Elige una carpeta de modelo NLLB-200 o MADLAD-400 (contiene model.bin y tokenizer.json)",
   "Deutsch": "Einen NLLB-200- oder MADLAD-400-Modellordner wählen (er enthält model.bin und tokenizer.json)",
   "Français": "Choisir un dossier de modèle NLLB-200 ou MADLAD-400 (il contient model.bin et tokenizer.json)",
-  "한국인": "NLLB-200 또는 MADLAD-400 모델 폴더 선택(model.bin과 tokenizer.json이 있는 폴더)",
+  "한국어": "NLLB-200 또는 MADLAD-400 모델 폴더 선택(model.bin과 tokenizer.json이 있는 폴더)",
   "中文": "选择 NLLB-200 或 MADLAD-400 模型文件夹（其中包含 model.bin 和 tokenizer.json）",
   "العربية": "اختر مجلد نموذج NLLB-200 أو MADLAD-400 (يحتوي على model.bin وtokenizer.json)",
   "Tiếng Việt": "Chọn thư mục mô hình NLLB-200 hoặc MADLAD-400 (chứa model.bin và tokenizer.json)"
@@ -1395,7 +1395,7 @@
   "Español": "Elige una carpeta de modelo faster-whisper (contiene model.bin)",
   "Deutsch": "Einen faster-whisper-Modellordner wählen (er enthält model.bin)",
   "Français": "Choisir un dossier de modèle faster-whisper (il contient model.bin)",
-  "한국인": "faster-whisper 모델 폴더 선택(model.bin이 있는 폴더)",
+  "한국어": "faster-whisper 모델 폴더 선택(model.bin이 있는 폴더)",
   "中文": "选择 faster-whisper 模型文件夹（其中包含 model.bin）",
   "العربية": "اختر مجلد نموذج faster-whisper (يحتوي على model.bin)",
   "Tiếng Việt": "Chọn thư mục mô hình faster-whisper (chứa model.bin)"
@@ -1405,7 +1405,7 @@
   "Español": "Esa carpeta no parece un modelo CTranslate2 NLLB-200 o MADLAD-400 3B: debería contener model.bin, tokenizer.json y shared_vocabulary.json.",
   "Deutsch": "Dieser Ordner sieht nicht wie ein CTranslate2-Modell NLLB-200 oder MADLAD-400 3B aus – er sollte model.bin, tokenizer.json und shared_vocabulary.json enthalten.",
   "Français": "Ce dossier ne ressemble pas à un modèle CTranslate2 NLLB-200 ou MADLAD-400 3B – il devrait contenir model.bin, tokenizer.json et shared_vocabulary.json.",
-  "한국인": "해당 폴더는 CTranslate2 NLLB-200 또는 MADLAD-400 3B 모델이 아닌 것 같습니다 – model.bin, tokenizer.json, shared_vocabulary.json이 있어야 합니다.",
+  "한국어": "해당 폴더는 CTranslate2 NLLB-200 또는 MADLAD-400 3B 모델이 아닌 것 같습니다 – model.bin, tokenizer.json, shared_vocabulary.json이 있어야 합니다.",
   "中文": "该文件夹看起来不像 CTranslate2 NLLB-200 或 MADLAD-400 3B 模型——它应包含 model.bin、tokenizer.json 和 shared_vocabulary.json。",
   "العربية": "لا يبدو ذلك المجلد نموذج CTranslate2 من NLLB-200 أو MADLAD-400 3B – يجب أن يحتوي على model.bin وtokenizer.json وshared_vocabulary.json.",
   "Tiếng Việt": "Thư mục đó không giống mô hình CTranslate2 NLLB-200 hoặc MADLAD-400 3B – nó phải chứa model.bin, tokenizer.json và shared_vocabulary.json."
@@ -1415,7 +1415,7 @@
   "Español": "Esa carpeta no parece un modelo faster-whisper (CTranslate2): debería contener model.bin y config.json.",
   "Deutsch": "Dieser Ordner sieht nicht wie ein faster-whisper-Modell (CTranslate2) aus – er sollte model.bin und config.json enthalten.",
   "Français": "Ce dossier ne ressemble pas à un modèle faster-whisper (CTranslate2) – il devrait contenir model.bin et config.json.",
-  "한국인": "해당 폴더는 faster-whisper(CTranslate2) 모델이 아닌 것 같습니다 – model.bin과 config.json이 있어야 합니다.",
+  "한국어": "해당 폴더는 faster-whisper(CTranslate2) 모델이 아닌 것 같습니다 – model.bin과 config.json이 있어야 합니다.",
   "中文": "该文件夹看起来不像 faster-whisper (CTranslate2) 模型——它应包含 model.bin 和 config.json。",
   "العربية": "لا يبدو ذلك المجلد نموذج faster-whisper (CTranslate2) – يجب أن يحتوي على model.bin وconfig.json.",
   "Tiếng Việt": "Thư mục đó không giống mô hình faster-whisper (CTranslate2) – nó phải chứa model.bin và config.json."
@@ -1425,7 +1425,7 @@
   "Español": "No es una carpeta de modelo",
   "Deutsch": "Kein Modellordner",
   "Français": "Pas un dossier de modèle",
-  "한국인": "모델 폴더가 아님",
+  "한국어": "모델 폴더가 아님",
   "中文": "不是模型文件夹",
   "العربية": "ليس مجلد نموذج",
   "Tiếng Việt": "Không phải thư mục mô hình"
@@ -1435,7 +1435,7 @@
   "Español": "Auto (Parakeet + Whisper)",
   "Deutsch": "Automatisch (Parakeet + Whisper)",
   "Français": "Auto (Parakeet + Whisper)",
-  "한국인": "자동(Parakeet + Whisper)",
+  "한국어": "자동(Parakeet + Whisper)",
   "中文": "自动 (Parakeet + Whisper)",
   "العربية": "تلقائي (Parakeet + Whisper)",
   "Tiếng Việt": "Tự động (Parakeet + Whisper)"
@@ -1445,7 +1445,7 @@
   "Español": "Parakeet para los 25 idiomas europeos que cubre (rápido, incluso sin GPU) y el mejor modelo Whisper instalado para todo lo demás. Primero se detecta el idioma, salvo que elijas uno.",
   "Deutsch": "Parakeet für die 25 europäischen Sprachen, die es abdeckt (schnell, auch ohne GPU), das beste installierte Whisper-Modell für alles andere. Die Sprache wird zuerst erkannt, sofern Sie keine wählen.",
   "Français": "Parakeet pour les 25 langues européennes qu'il couvre (rapide, même sans GPU), le meilleur modèle Whisper installé pour tout le reste. La langue est d'abord détectée, sauf si vous en choisissez une.",
-  "한국인": "지원하는 25개 유럽 언어에는 Parakeet(GPU 없이도 빠름), 그 밖의 언어에는 설치된 최적의 Whisper 모델을 사용합니다. 언어를 선택하지 않으면 먼저 언어를 감지합니다.",
+  "한국어": "지원하는 25개 유럽 언어에는 Parakeet(GPU 없이도 빠름), 그 밖의 언어에는 설치된 최적의 Whisper 모델을 사용합니다. 언어를 선택하지 않으면 먼저 언어를 감지합니다.",
   "中文": "对其支持的 25 种欧洲语言使用 Parakeet（即使没有 GPU 也很快），其他语言使用已安装的最佳 Whisper 模型。除非您选择语言，否则会先检测语言。",
   "العربية": "Parakeet للغات الأوروبية الخمس والعشرين التي يغطيها (سريع حتى دون GPU)، وأفضل نموذج Whisper مثبت لكل ما عدا ذلك. تُكتشف اللغة أولًا، ما لم تختر واحدة.",
   "Tiếng Việt": "Parakeet cho 25 ngôn ngữ châu Âu mà nó hỗ trợ (nhanh, kể cả khi không có GPU), mô hình Whisper tốt nhất đã cài cho mọi thứ khác. Ngôn ngữ được phát hiện trước, trừ khi bạn chọn."
@@ -1455,7 +1455,7 @@
   "Español": "Usa el modelo con el que está configurado Pregunta a Buddy (Claude, Gemini, Ollama…). La mejor calidad, porque traduce pasajes completos con su contexto, pero un modelo en la nube recibe el texto de la transcripción y puede cobrar por ello.",
   "Deutsch": "Verwendet das Modell, mit dem „Buddy fragen“ eingerichtet ist (Claude, Gemini, Ollama…). Beste Qualität – es übersetzt ganze Passagen mit Kontext –, aber ein Cloud-Modell erhält den Text der Transkription und kann dafür Gebühren verlangen.",
   "Français": "Utilise le modèle configuré dans Demander à Buddy (Claude, Gemini, Ollama…). Meilleure qualité – il traduit des passages entiers avec leur contexte – mais un modèle cloud reçoit le texte de la transcription et peut le facturer.",
-  "한국인": "Buddy에게 질문에 설정된 모델(Claude, Gemini, Ollama 등)을 사용합니다. 문맥과 함께 문단 전체를 번역해 품질이 가장 좋지만, 클라우드 모델은 받아쓴 텍스트를 받으며 요금을 청구할 수 있습니다.",
+  "한국어": "Buddy에게 질문에 설정된 모델(Claude, Gemini, Ollama 등)을 사용합니다. 문맥과 함께 문단 전체를 번역해 품질이 가장 좋지만, 클라우드 모델은 받아쓴 텍스트를 받으며 요금을 청구할 수 있습니다.",
   "中文": "使用“询问 Buddy”所设置的模型（Claude、Gemini、Ollama 等）。质量最佳——会结合上下文翻译整段内容——但云端模型会收到转录文本，并可能收费。",
   "العربية": "يستخدم النموذج المُعدّ في اسأل Buddy (Claude أو Gemini أو Ollama…). أفضل جودة – يترجم مقاطع كاملة مع سياقها – لكن النموذج السحابي يتلقى نص التفريغ، وقد يفرض رسومًا عليه.",
   "Tiếng Việt": "Dùng mô hình mà Hỏi Buddy đã thiết lập (Claude, Gemini, Ollama…). Chất lượng tốt nhất – dịch cả đoạn cùng ngữ cảnh – nhưng mô hình đám mây sẽ nhận văn bản phiên âm và có thể tính phí."
@@ -1465,7 +1465,7 @@
   "Español": "Ese modelo no está instalado: consíguelo en la pestaña Configuración.",
   "Deutsch": "Dieses Modell ist nicht installiert – holen Sie es auf dem Tab „Einrichtung“.",
   "Français": "Ce modèle n'est pas installé – obtenez-le dans l'onglet Configuration.",
-  "한국인": "해당 모델이 설치되어 있지 않습니다 – 설정 탭에서 받으세요.",
+  "한국어": "해당 모델이 설치되어 있지 않습니다 – 설정 탭에서 받으세요.",
   "中文": "该模型未安装——请在“设置”标签页获取。",
   "العربية": "هذا النموذج غير مثبت – احصل عليه من تبويب الإعداد.",
   "Tiếng Việt": "Mô hình đó chưa được cài – hãy tải ở thẻ Thiết lập."
@@ -1475,7 +1475,7 @@
   "Español": "Elige al menos dos idiomas para audio mixto; para uno solo, elígelo en el menú.",
   "Deutsch": "Wählen Sie für gemischten Ton mindestens zwei Sprachen – für eine wählen Sie sie im Menü.",
   "Français": "Choisissez au moins deux langues pour un audio mixte – pour une seule, choisissez-la dans le menu.",
-  "한국인": "여러 언어가 섞인 오디오라면 두 개 이상 고르세요 – 하나라면 메뉴에서 고르세요.",
+  "한국어": "여러 언어가 섞인 오디오라면 두 개 이상 고르세요 – 하나라면 메뉴에서 고르세요.",
   "中文": "混合语言音频请至少选择两种语言——若只有一种，请从菜单中选择。",
   "العربية": "اختر لغتين على الأقل للصوت المختلط – ولغة واحدة، اخترها من القائمة.",
   "Tiếng Việt": "Chọn ít nhất hai ngôn ngữ cho âm thanh hỗn hợp – nếu chỉ một, hãy chọn trong menu."
@@ -1485,7 +1485,7 @@
   "Español": "La más precisa, todos los idiomas. Mejor con una GPU NVIDIA.",
   "Deutsch": "Am genauesten, alle Sprachen. Am besten mit einer NVIDIA-GPU.",
   "Français": "Le plus précis, toutes les langues. Idéal avec un GPU NVIDIA.",
-  "한국인": "가장 정확하며 모든 언어를 지원합니다. NVIDIA GPU에서 가장 좋습니다.",
+  "한국어": "가장 정확하며 모든 언어를 지원합니다. NVIDIA GPU에서 가장 좋습니다.",
   "中文": "最准确，支持所有语言。最好配合 NVIDIA GPU 使用。",
   "العربية": "الأدق، كل اللغات. الأفضل مع GPU من NVIDIA.",
   "Tiếng Việt": "Chính xác nhất, mọi ngôn ngữ. Tốt nhất với GPU NVIDIA."
@@ -1495,7 +1495,7 @@
   "Español": "Casi igual de precisa y varias veces más rápida. Buena opción por defecto.",
   "Deutsch": "Fast so genau, mehrfach schneller. Gute Standardwahl.",
   "Français": "Presque aussi précis, plusieurs fois plus rapide. Bon choix par défaut.",
-  "한국인": "거의 비슷하게 정확하고 몇 배 빠릅니다. 기본으로 좋습니다.",
+  "한국어": "거의 비슷하게 정확하고 몇 배 빠릅니다. 기본으로 좋습니다.",
   "中文": "几乎同样准确，速度快数倍。适合作为默认选择。",
   "العربية": "دقيق تقريبًا بالقدر نفسه، وأسرع بعدة مرات. خيار افتراضي جيد.",
   "Tiếng Việt": "Gần như chính xác bằng, nhanh gấp nhiều lần. Lựa chọn mặc định tốt."
@@ -1505,7 +1505,7 @@
   "Español": "Solo 25 idiomas europeos. Muy rápida incluso sin GPU; pone la puntuación sola.",
   "Deutsch": "Nur 25 europäische Sprachen. Sehr schnell, auch ohne GPU; setzt Satzzeichen selbst.",
   "Français": "25 langues européennes uniquement. Très rapide même sans GPU ; ponctue tout seul.",
-  "한국인": "유럽 25개 언어만 지원합니다. GPU 없이도 매우 빠르며 문장 부호를 스스로 넣습니다.",
+  "한국어": "유럽 25개 언어만 지원합니다. GPU 없이도 매우 빠르며 문장 부호를 스스로 넣습니다.",
   "中文": "仅支持 25 种欧洲语言。即使没有 GPU 也非常快；会自动添加标点。",
   "العربية": "خمس وعشرون لغة أوروبية فقط. سريع جدًا حتى دون GPU؛ يضع علامات الترقيم بنفسه.",
   "Tiếng Việt": "Chỉ 25 ngôn ngữ châu Âu. Rất nhanh kể cả không có GPU; tự thêm dấu câu."
@@ -1515,7 +1515,7 @@
   "Español": "Solo inglés. Aproximadamente el doble de rápida que Large v3 y casi igual de precisa.",
   "Deutsch": "Nur Englisch. Etwa doppelt so schnell wie Large v3, fast so genau.",
   "Français": "Anglais uniquement. Environ deux fois plus rapide que Large v3, presque aussi précis.",
-  "한국인": "영어만 지원합니다. Large v3보다 약 두 배 빠르며 정확도는 거의 비슷합니다.",
+  "한국어": "영어만 지원합니다. Large v3보다 약 두 배 빠르며 정확도는 거의 비슷합니다.",
   "中文": "仅支持英语。速度约为 Large v3 的两倍，准确度相近。",
   "العربية": "الإنجليزية فقط. أسرع بمرتين تقريبًا من Large v3، ودقيق تقريبًا بالقدر نفسه.",
   "Tiếng Việt": "Chỉ tiếng Anh. Nhanh gấp khoảng hai lần Large v3, gần như chính xác bằng."
@@ -1525,7 +1525,7 @@
   "Español": "Rápida en cualquier equipo. Menos precisa.",
   "Deutsch": "Schnell auf jedem Computer. Weniger genau.",
   "Français": "Rapide sur tout ordinateur. Moins précis.",
-  "한국인": "어떤 컴퓨터에서도 빠릅니다. 정확도는 낮습니다.",
+  "한국어": "어떤 컴퓨터에서도 빠릅니다. 정확도는 낮습니다.",
   "中文": "在任何电脑上都很快。准确度较低。",
   "العربية": "سريع على أي كمبيوتر. أقل دقة.",
   "Tiếng Việt": "Nhanh trên mọi máy. Kém chính xác hơn."
@@ -1535,7 +1535,7 @@
   "Español": "El mejor equilibrio entre calidad y velocidad. Buena opción por defecto. Solo uso no comercial.",
   "Deutsch": "Bestes Verhältnis von Qualität und Geschwindigkeit. Gute Standardwahl. Nur nichtkommerzielle Nutzung.",
   "Français": "Meilleur équilibre qualité/vitesse. Bon choix par défaut. Usage non commercial uniquement.",
-  "한국인": "품질과 속도의 균형이 가장 좋습니다. 기본으로 좋습니다. 비상업적 용도만 가능.",
+  "한국어": "품질과 속도의 균형이 가장 좋습니다. 기본으로 좋습니다. 비상업적 용도만 가능.",
   "中文": "质量与速度的最佳平衡。适合作为默认选择。仅限非商业用途。",
   "العربية": "أفضل توازن بين الجودة والسرعة. خيار افتراضي جيد. للاستخدام غير التجاري فقط.",
   "Tiếng Việt": "Cân bằng tốt nhất giữa chất lượng và tốc độ. Lựa chọn mặc định tốt. Chỉ dùng phi thương mại."
@@ -1545,7 +1545,7 @@
   "Español": "El NLLB más preciso. Mejor con una GPU NVIDIA. Solo uso no comercial.",
   "Deutsch": "Genauestes NLLB. Am besten mit einer NVIDIA-GPU. Nur nichtkommerzielle Nutzung.",
   "Français": "Le NLLB le plus précis. Idéal avec un GPU NVIDIA. Usage non commercial uniquement.",
-  "한국인": "가장 정확한 NLLB입니다. NVIDIA GPU에서 가장 좋습니다. 비상업적 용도만 가능.",
+  "한국어": "가장 정확한 NLLB입니다. NVIDIA GPU에서 가장 좋습니다. 비상업적 용도만 가능.",
   "中文": "最准确的 NLLB。最好配合 NVIDIA GPU 使用。仅限非商业用途。",
   "العربية": "أدق نموذج NLLB. الأفضل مع GPU من NVIDIA. للاستخدام غير التجاري فقط.",
   "Tiếng Việt": "NLLB chính xác nhất. Tốt nhất với GPU NVIDIA. Chỉ dùng phi thương mại."
@@ -1555,7 +1555,7 @@
   "Español": "Rápida en cualquier equipo. Menos precisa. Solo uso no comercial.",
   "Deutsch": "Schnell auf jedem Computer. Weniger genau. Nur nichtkommerzielle Nutzung.",
   "Français": "Rapide sur tout ordinateur. Moins précis. Usage non commercial uniquement.",
-  "한국인": "어떤 컴퓨터에서도 빠릅니다. 정확도는 낮습니다. 비상업적 용도만 가능.",
+  "한국어": "어떤 컴퓨터에서도 빠릅니다. 정확도는 낮습니다. 비상업적 용도만 가능.",
   "中文": "在任何电脑上都很快。准确度较低。仅限非商业用途。",
   "العربية": "سريع على أي كمبيوتر. أقل دقة. للاستخدام غير التجاري فقط.",
   "Tiếng Việt": "Nhanh trên mọi máy. Kém chính xác hơn. Chỉ dùng phi thương mại."
@@ -1565,7 +1565,7 @@
   "Español": "Unos 180 idiomas. Gratis para uso comercial (Apache 2.0). Mejor con una GPU NVIDIA.",
   "Deutsch": "Etwa 180 Sprachen. Kostenlos für kommerzielle Nutzung (Apache 2.0). Am besten mit einer NVIDIA-GPU.",
   "Français": "Environ 180 langues. Gratuit pour un usage commercial (Apache 2.0). Idéal avec un GPU NVIDIA.",
-  "한국인": "약 180개 언어를 지원합니다. 상업적 용도로도 무료(Apache 2.0). NVIDIA GPU에서 가장 좋습니다.",
+  "한국어": "약 180개 언어를 지원합니다. 상업적 용도로도 무료(Apache 2.0). NVIDIA GPU에서 가장 좋습니다.",
   "中文": "约 180 种语言。商业用途免费（Apache 2.0）。最好配合 NVIDIA GPU 使用。",
   "العربية": "نحو 180 لغة. مجاني للاستخدام التجاري (Apache 2.0). الأفضل مع GPU من NVIDIA.",
   "Tiếng Việt": "Khoảng 180 ngôn ngữ. Miễn phí cho mục đích thương mại (Apache 2.0). Tốt nhất với GPU NVIDIA."
@@ -1575,7 +1575,7 @@
   "Español": "GPU NVIDIA ({gpu}): la transcripción se ejecuta en la GPU.",
   "Deutsch": "NVIDIA-GPU ({gpu}) – die Transkription läuft auf der GPU.",
   "Français": "GPU NVIDIA ({gpu}) – la transcription s'exécute sur le GPU.",
-  "한국인": "NVIDIA GPU({gpu}) – 받아쓰기가 GPU에서 실행됩니다.",
+  "한국어": "NVIDIA GPU({gpu}) – 받아쓰기가 GPU에서 실행됩니다.",
   "中文": "NVIDIA GPU（{gpu}）——转录在 GPU 上运行。",
   "العربية": "GPU من NVIDIA ({gpu}) – يعمل التفريغ على GPU.",
   "Tiếng Việt": "GPU NVIDIA ({gpu}) – phiên âm chạy trên GPU."
@@ -1585,7 +1585,7 @@
   "Español": "Mac ({chip}): la transcripción se ejecuta en la CPU.",
   "Deutsch": "Mac ({chip}) – die Transkription läuft auf der CPU.",
   "Français": "Mac ({chip}) – la transcription s'exécute sur le CPU.",
-  "한국인": "Mac({chip}) – 받아쓰기가 CPU에서 실행됩니다.",
+  "한국어": "Mac({chip}) – 받아쓰기가 CPU에서 실행됩니다.",
   "中文": "Mac（{chip}）——转录在 CPU 上运行。",
   "العربية": "Mac ({chip}) – يعمل التفريغ على CPU.",
   "Tiếng Việt": "Mac ({chip}) – phiên âm chạy trên CPU."
@@ -1595,7 +1595,7 @@
   "Español": "No se encontró ninguna GPU NVIDIA: la transcripción se ejecuta en la CPU.",
   "Deutsch": "Keine NVIDIA-GPU gefunden – die Transkription läuft auf der CPU.",
   "Français": "Aucun GPU NVIDIA trouvé – la transcription s'exécute sur le CPU.",
-  "한국인": "NVIDIA GPU를 찾을 수 없습니다 – 받아쓰기가 CPU에서 실행됩니다.",
+  "한국어": "NVIDIA GPU를 찾을 수 없습니다 – 받아쓰기가 CPU에서 실행됩니다.",
   "中文": "未找到 NVIDIA GPU——转录在 CPU 上运行。",
   "العربية": "لم يتم العثور على GPU من NVIDIA – يعمل التفريغ على CPU.",
   "Tiếng Việt": "Không tìm thấy GPU NVIDIA – phiên âm chạy trên CPU."
@@ -1605,7 +1605,7 @@
   "Español": "Aún no está configurado.",
   "Deutsch": "Noch nicht eingerichtet.",
   "Français": "Pas encore configuré.",
-  "한국인": "아직 설정되지 않았습니다.",
+  "한국어": "아직 설정되지 않았습니다.",
   "中文": "尚未设置。",
   "العربية": "لم يُعدّ بعد.",
   "Tiếng Việt": "Chưa được thiết lập."
@@ -1615,7 +1615,7 @@
   "Español": "El entorno no puede iniciarse: {error}",
   "Deutsch": "Die Umgebung kann nicht starten: {error}",
   "Français": "L'environnement ne peut pas démarrer : {error}",
-  "한국인": "환경을 시작할 수 없습니다: {error}",
+  "한국어": "환경을 시작할 수 없습니다: {error}",
   "中文": "环境无法启动：{error}",
   "العربية": "لا يمكن بدء البيئة: {error}",
   "Tiếng Việt": "Không thể khởi động môi trường: {error}"
@@ -1625,7 +1625,7 @@
   "Español": "El entorno está incompleto: {error}",
   "Deutsch": "Die Umgebung ist unvollständig: {error}",
   "Français": "L'environnement est incomplet : {error}",
-  "한국인": "환경이 완전하지 않습니다: {error}",
+  "한국어": "환경이 완전하지 않습니다: {error}",
   "中文": "环境不完整：{error}",
   "العربية": "البيئة غير مكتملة: {error}",
   "Tiếng Việt": "Môi trường chưa đầy đủ: {error}"
@@ -1635,7 +1635,7 @@
   "Español": "Configura primero el entorno de transcripción.",
   "Deutsch": "Richten Sie zuerst die Transkriptionsumgebung ein.",
   "Français": "Configurez d'abord l'environnement de transcription.",
-  "한국인": "먼저 받아쓰기 환경을 설정하세요.",
+  "한국어": "먼저 받아쓰기 환경을 설정하세요.",
   "中文": "请先设置转录环境。",
   "العربية": "أعدّ بيئة التفريغ أولًا.",
   "Tiếng Việt": "Hãy thiết lập môi trường phiên âm trước."
@@ -1645,7 +1645,7 @@
   "Español": "Renderizando el audio de la línea de tiempo…",
   "Deutsch": "Ton der Timeline wird gerendert…",
   "Français": "Rendu de l'audio de la timeline…",
-  "한국인": "타임라인 오디오 렌더링 중…",
+  "한국어": "타임라인 오디오 렌더링 중…",
   "中文": "正在渲染时间线音频…",
   "العربية": "جارٍ تصيير صوت الخط الزمني…",
   "Tiếng Việt": "Đang kết xuất âm thanh của timeline…"
@@ -1655,7 +1655,7 @@
   "Español": "Cargando el modelo…",
   "Deutsch": "Modell wird geladen…",
   "Français": "Chargement du modèle…",
-  "한국인": "모델 불러오는 중…",
+  "한국어": "모델 불러오는 중…",
   "中文": "正在加载模型…",
   "العربية": "جارٍ تحميل النموذج…",
   "Tiếng Việt": "Đang tải mô hình…"
@@ -1665,7 +1665,7 @@
   "Español": "Creando subtítulos…",
   "Deutsch": "Untertitel werden erstellt…",
   "Français": "Création des sous-titres…",
-  "한국인": "자막 만드는 중…",
+  "한국어": "자막 만드는 중…",
   "中文": "正在生成字幕…",
   "العربية": "جارٍ بناء الترجمات…",
   "Tiếng Việt": "Đang dựng phụ đề…"
@@ -1675,7 +1675,7 @@
   "Español": "Transcribiendo… {done} de {total}",
   "Deutsch": "Wird transkribiert… {done} von {total}",
   "Français": "Transcription… {done} sur {total}",
-  "한국인": "받아쓰는 중… {done}/{total}",
+  "한국어": "받아쓰는 중… {done}/{total}",
   "中文": "正在转录… {done} / {total}",
   "العربية": "جارٍ التفريغ… {done} من {total}",
   "Tiếng Việt": "Đang phiên âm… {done}/{total}"
@@ -1685,7 +1685,7 @@
   "Español": "Cargando el modelo de traducción…",
   "Deutsch": "Übersetzungsmodell wird geladen…",
   "Français": "Chargement du modèle de traduction…",
-  "한국인": "번역 모델 불러오는 중…",
+  "한국어": "번역 모델 불러오는 중…",
   "中文": "正在加载翻译模型…",
   "العربية": "جارٍ تحميل نموذج الترجمة…",
   "Tiếng Việt": "Đang tải mô hình dịch…"
@@ -1695,7 +1695,7 @@
   "Español": "Traduciendo a {name}… {pct} %",
   "Deutsch": "Übersetzung ins {name}… {pct} %",
   "Français": "Traduction en {name}… {pct} %",
-  "한국인": "{name}(으)로 번역 중… {pct}%",
+  "한국어": "{name}(으)로 번역 중… {pct}%",
   "中文": "正在翻译为{name}… {pct}%",
   "العربية": "جارٍ الترجمة إلى {name}… {pct}%",
   "Tiếng Việt": "Đang dịch sang {name}… {pct}%"
@@ -1705,7 +1705,7 @@
   "Español": "Traduciendo a {name} con {provider}…",
   "Deutsch": "Übersetzung ins {name} mit {provider}…",
   "Français": "Traduction en {name} avec {provider}…",
-  "한국인": "{provider}(으)로 {name} 번역 중…",
+  "한국어": "{provider}(으)로 {name} 번역 중…",
   "中文": "正在用 {provider} 翻译为{name}…",
   "العربية": "جارٍ الترجمة إلى {name} باستخدام {provider}…",
   "Tiếng Việt": "Đang dịch sang {name} bằng {provider}…"
@@ -1715,7 +1715,7 @@
   "Español": "Averiguando en qué idioma está cada parte…",
   "Deutsch": "Es wird ermittelt, in welcher Sprache jeder Teil ist…",
   "Français": "Détermination de la langue de chaque partie…",
-  "한국인": "각 부분의 언어를 파악하는 중…",
+  "한국어": "각 부분의 언어를 파악하는 중…",
   "中文": "正在判断每部分使用的语言…",
   "العربية": "جارٍ تحديد لغة كل جزء…",
   "Tiếng Việt": "Đang xác định ngôn ngữ của từng phần…"
@@ -1725,7 +1725,7 @@
   "Español": "Transcribiendo en la GPU…",
   "Deutsch": "Transkription auf der GPU…",
   "Français": "Transcription sur le GPU…",
-  "한국인": "GPU에서 받아쓰는 중…",
+  "한국어": "GPU에서 받아쓰는 중…",
   "中文": "正在 GPU 上转录…",
   "العربية": "جارٍ التفريغ على GPU…",
   "Tiếng Việt": "Đang phiên âm trên GPU…"
@@ -1735,7 +1735,7 @@
   "Español": "Transcribiendo en la CPU…",
   "Deutsch": "Transkription auf der CPU…",
   "Français": "Transcription sur le CPU…",
-  "한국인": "CPU에서 받아쓰는 중…",
+  "한국어": "CPU에서 받아쓰는 중…",
   "中文": "正在 CPU 上转录…",
   "العربية": "جارٍ التفريغ على CPU…",
   "Tiếng Việt": "Đang phiên âm trên CPU…"
@@ -1745,7 +1745,7 @@
   "Español": "Transcribiendo con Parakeet en la CPU…",
   "Deutsch": "Transkription mit Parakeet auf der CPU…",
   "Français": "Transcription avec Parakeet sur le CPU…",
-  "한국인": "CPU에서 Parakeet로 받아쓰는 중…",
+  "한국어": "CPU에서 Parakeet로 받아쓰는 중…",
   "中文": "正在 CPU 上用 Parakeet 转录…",
   "العربية": "جارٍ التفريغ باستخدام Parakeet على CPU…",
   "Tiếng Việt": "Đang phiên âm bằng Parakeet trên CPU…"
@@ -1755,7 +1755,7 @@
   "Español": "Leyendo el audio…",
   "Deutsch": "Ton wird gelesen…",
   "Français": "Lecture de l'audio…",
-  "한국인": "오디오 읽는 중…",
+  "한국어": "오디오 읽는 중…",
   "中文": "正在读取音频…",
   "العربية": "جارٍ قراءة الصوت…",
   "Tiếng Việt": "Đang đọc âm thanh…"
@@ -1765,7 +1765,7 @@
   "Español": "Traduciendo en la GPU…",
   "Deutsch": "Übersetzung auf der GPU…",
   "Français": "Traduction sur le GPU…",
-  "한국인": "GPU에서 번역 중…",
+  "한국어": "GPU에서 번역 중…",
   "中文": "正在 GPU 上翻译…",
   "العربية": "جارٍ الترجمة على GPU…",
   "Tiếng Việt": "Đang dịch trên GPU…"
@@ -1775,7 +1775,7 @@
   "Español": "Traduciendo en la CPU…",
   "Deutsch": "Übersetzung auf der CPU…",
   "Français": "Traduction sur le CPU…",
-  "한국인": "CPU에서 번역 중…",
+  "한국어": "CPU에서 번역 중…",
   "中文": "正在 CPU 上翻译…",
   "العربية": "جارٍ الترجمة على CPU…",
   "Tiếng Việt": "Đang dịch trên CPU…"
@@ -1785,7 +1785,7 @@
   "Español": "Idioma detectado: {language} ({pct}).",
   "Deutsch": "Erkannte Sprache: {language} ({pct}).",
   "Français": "Langue détectée : {language} ({pct}).",
-  "한국인": "감지된 언어: {language}({pct}).",
+  "한국어": "감지된 언어: {language}({pct}).",
   "中文": "检测到的语言：{language}（{pct}）。",
   "العربية": "اللغة المكتشفة: {language} ({pct}).",
   "Tiếng Việt": "Ngôn ngữ phát hiện: {language} ({pct})."
@@ -1795,7 +1795,7 @@
   "Español": "Idiomas oídos: {languages}",
   "Deutsch": "Erkannte Sprachen: {languages}",
   "Français": "Langues entendues : {languages}",
-  "한국인": "들린 언어: {languages}",
+  "한국어": "들린 언어: {languages}",
   "中文": "听到的语言：{languages}",
   "العربية": "اللغات المسموعة: {languages}",
   "Tiếng Việt": "Các ngôn ngữ nghe được: {languages}"
@@ -1805,7 +1805,7 @@
   "Español": "El motor falló en la GPU; se vuelve a intentar en la CPU…",
   "Deutsch": "Die Engine ist auf der GPU abgestürzt; neuer Versuch auf der CPU…",
   "Français": "Le moteur a planté sur le GPU ; nouvel essai sur le CPU…",
-  "한국인": "엔진이 GPU에서 멈췄습니다. CPU에서 다시 시도하는 중…",
+  "한국어": "엔진이 GPU에서 멈췄습니다. CPU에서 다시 시도하는 중…",
   "中文": "引擎在 GPU 上崩溃；正在 CPU 上重试…",
   "العربية": "تعطل المحرك على GPU؛ جارٍ المحاولة مرة أخرى على CPU…",
   "Tiếng Việt": "Công cụ bị lỗi trên GPU; đang thử lại trên CPU…"
@@ -1815,7 +1815,7 @@
   "Español": "El motor informó de un error.",
   "Deutsch": "Die Engine hat einen Fehler gemeldet.",
   "Français": "Le moteur a signalé une erreur.",
-  "한국인": "엔진에서 오류를 보고했습니다.",
+  "한국어": "엔진에서 오류를 보고했습니다.",
   "中文": "引擎报告了错误。",
   "العربية": "أبلغ المحرك عن خطأ.",
   "Tiếng Việt": "Công cụ báo lỗi."
@@ -1825,7 +1825,7 @@
   "Español": "El motor se detuvo inesperadamente.",
   "Deutsch": "Die Engine wurde unerwartet beendet.",
   "Français": "Le moteur s'est arrêté de manière inattendue.",
-  "한국인": "엔진이 예기치 않게 중지되었습니다.",
+  "한국어": "엔진이 예기치 않게 중지되었습니다.",
   "中文": "引擎意外停止。",
   "العربية": "توقف المحرك بشكل غير متوقع.",
   "Tiếng Việt": "Công cụ dừng đột ngột."
@@ -1835,7 +1835,7 @@
   "Español": "El motor de transcripción se detuvo inesperadamente.",
   "Deutsch": "Die Transkriptions-Engine wurde unerwartet beendet.",
   "Français": "Le moteur de transcription s'est arrêté de manière inattendue.",
-  "한국인": "받아쓰기 엔진이 예기치 않게 중지되었습니다.",
+  "한국어": "받아쓰기 엔진이 예기치 않게 중지되었습니다.",
   "中文": "转录引擎意外停止。",
   "العربية": "توقف محرك التفريغ بشكل غير متوقع.",
   "Tiếng Việt": "Công cụ phiên âm dừng đột ngột."
@@ -1845,7 +1845,7 @@
   "Español": "El motor de traducción se detuvo inesperadamente.",
   "Deutsch": "Die Übersetzungs-Engine wurde unerwartet beendet.",
   "Français": "Le moteur de traduction s'est arrêté de manière inattendue.",
-  "한국인": "번역 엔진이 예기치 않게 중지되었습니다.",
+  "한국어": "번역 엔진이 예기치 않게 중지되었습니다.",
   "中文": "翻译引擎意外停止。",
   "العربية": "توقف محرك الترجمة بشكل غير متوقع.",
   "Tiếng Việt": "Công cụ dịch dừng đột ngột."
@@ -1855,7 +1855,7 @@
   "Español": "No se encontró voz en el audio de la línea de tiempo.",
   "Deutsch": "Im Ton der Timeline wurde keine Sprache gefunden.",
   "Français": "Aucune parole trouvée dans l'audio de la timeline.",
-  "한국인": "타임라인 오디오에서 음성을 찾지 못했습니다.",
+  "한국어": "타임라인 오디오에서 음성을 찾지 못했습니다.",
   "中文": "时间线音频中未找到语音。",
   "العربية": "لم يتم العثور على كلام في صوت الخط الزمني.",
   "Tiếng Việt": "Không tìm thấy giọng nói trong âm thanh của timeline."
@@ -1865,7 +1865,7 @@
   "Español": "Los idiomas mixtos necesitan un modelo Whisper: consíguelo en la pestaña Configuración.",
   "Deutsch": "Gemischte Sprachen benötigen ein Whisper-Modell – holen Sie eines auf dem Tab „Einrichtung“.",
   "Français": "Les langues mélangées nécessitent un modèle Whisper – obtenez-en un dans l'onglet Configuration.",
-  "한국인": "여러 언어에는 Whisper 모델이 필요합니다 – 설정 탭에서 받으세요.",
+  "한국어": "여러 언어에는 Whisper 모델이 필요합니다 – 설정 탭에서 받으세요.",
   "中文": "混合语言需要 Whisper 模型——请在“设置”标签页获取。",
   "العربية": "تحتاج اللغات المختلطة إلى نموذج Whisper – احصل عليه من تبويب الإعداد.",
   "Tiếng Việt": "Nhiều ngôn ngữ cần mô hình Whisper – hãy tải ở thẻ Thiết lập."
@@ -1875,7 +1875,7 @@
   "Español": "Abre primero una línea de tiempo en Resolve.",
   "Deutsch": "Öffnen Sie zuerst eine Timeline in Resolve.",
   "Français": "Ouvrez d'abord une timeline dans Resolve.",
-  "한국인": "먼저 Resolve에서 타임라인을 여세요.",
+  "한국어": "먼저 Resolve에서 타임라인을 여세요.",
   "中文": "请先在 Resolve 中打开时间线。",
   "العربية": "افتح خطًا زمنيًا في Resolve أولًا.",
   "Tiếng Việt": "Hãy mở một timeline trong Resolve trước."
@@ -1885,7 +1885,7 @@
   "Español": "Resolve ya está renderizando. Espera a que termine y vuelve a intentarlo.",
   "Deutsch": "Resolve rendert bereits. Warten Sie, bis es fertig ist, und versuchen Sie es erneut.",
   "Français": "Resolve effectue déjà un rendu. Attendez qu'il se termine, puis réessayez.",
-  "한국인": "Resolve가 이미 렌더링 중입니다. 끝날 때까지 기다린 후 다시 시도하세요.",
+  "한국어": "Resolve가 이미 렌더링 중입니다. 끝날 때까지 기다린 후 다시 시도하세요.",
   "中文": "Resolve 正在渲染。请等待完成后重试。",
   "العربية": "يقوم Resolve بالتصيير بالفعل. انتظر حتى ينتهي، ثم حاول مرة أخرى.",
   "Tiếng Việt": "Resolve đang kết xuất. Hãy chờ xong rồi thử lại."
@@ -1895,7 +1895,7 @@
   "Español": "Resolve rechazó el formato de renderizado de audio.",
   "Deutsch": "Resolve hat das Audio-Renderformat abgelehnt.",
   "Français": "Resolve a refusé le format de rendu audio.",
-  "한국인": "Resolve가 오디오 렌더 형식을 거부했습니다.",
+  "한국어": "Resolve가 오디오 렌더 형식을 거부했습니다.",
   "中文": "Resolve 拒绝了音频渲染格式。",
   "العربية": "رفض Resolve تنسيق تصيير الصوت.",
   "Tiếng Việt": "Resolve đã từ chối định dạng kết xuất âm thanh."
@@ -1905,7 +1905,7 @@
   "Español": "Resolve rechazó los ajustes de renderizado de audio.",
   "Deutsch": "Resolve hat die Audio-Rendereinstellungen abgelehnt.",
   "Français": "Resolve a refusé les paramètres de rendu audio.",
-  "한국인": "Resolve가 오디오 렌더 설정을 거부했습니다.",
+  "한국어": "Resolve가 오디오 렌더 설정을 거부했습니다.",
   "中文": "Resolve 拒绝了音频渲染设置。",
   "العربية": "رفض Resolve إعدادات تصيير الصوت.",
   "Tiếng Việt": "Resolve đã từ chối cài đặt kết xuất âm thanh."
@@ -1915,7 +1915,7 @@
   "Español": "Resolve no pudo añadir el trabajo de renderizado de audio.",
   "Deutsch": "Resolve konnte den Audio-Renderauftrag nicht hinzufügen.",
   "Français": "Resolve n'a pas pu ajouter la tâche de rendu audio.",
-  "한국인": "Resolve가 오디오 렌더 작업을 추가하지 못했습니다.",
+  "한국어": "Resolve가 오디오 렌더 작업을 추가하지 못했습니다.",
   "中文": "Resolve 无法添加音频渲染任务。",
   "العربية": "تعذر على Resolve إضافة مهمة تصيير الصوت.",
   "Tiếng Việt": "Resolve không thể thêm tác vụ kết xuất âm thanh."
@@ -1925,7 +1925,7 @@
   "Español": "Resolve no empezó a renderizar el audio de la línea de tiempo.",
   "Deutsch": "Resolve hat nicht mit dem Rendern des Timeline-Tons begonnen.",
   "Français": "Resolve n'a pas lancé le rendu de l'audio de la timeline.",
-  "한국인": "Resolve가 타임라인 오디오 렌더링을 시작하지 않았습니다.",
+  "한국어": "Resolve가 타임라인 오디오 렌더링을 시작하지 않았습니다.",
   "中文": "Resolve 未开始渲染时间线音频。",
   "العربية": "لم يبدأ Resolve تصيير صوت الخط الزمني.",
   "Tiếng Việt": "Resolve không bắt đầu kết xuất âm thanh timeline."
@@ -1935,7 +1935,7 @@
   "Español": "Resolve no pudo importar el archivo de subtítulos.",
   "Deutsch": "Resolve konnte die Untertiteldatei nicht importieren.",
   "Français": "Resolve n'a pas pu importer le fichier de sous-titres.",
-  "한국인": "Resolve가 자막 파일을 가져오지 못했습니다.",
+  "한국어": "Resolve가 자막 파일을 가져오지 못했습니다.",
   "中文": "Resolve 无法导入字幕文件。",
   "العربية": "تعذر على Resolve استيراد ملف الترجمة.",
   "Tiếng Việt": "Resolve không thể nhập tệp phụ đề."
@@ -1945,7 +1945,7 @@
   "Español": "Resolve no pudo añadir una pista de subtítulos.",
   "Deutsch": "Resolve konnte keine Untertitelspur hinzufügen.",
   "Français": "Resolve n'a pas pu ajouter de piste de sous-titres.",
-  "한국인": "Resolve가 자막 트랙을 추가하지 못했습니다.",
+  "한국어": "Resolve가 자막 트랙을 추가하지 못했습니다.",
   "中文": "Resolve 无法添加字幕轨道。",
   "العربية": "تعذر على Resolve إضافة مسار ترجمة.",
   "Tiếng Việt": "Resolve không thể thêm track phụ đề."
@@ -1955,7 +1955,7 @@
   "Español": "Resolve importó los subtítulos, pero no los colocó.",
   "Deutsch": "Resolve hat die Untertitel importiert, aber nicht platziert.",
   "Français": "Resolve a importé les sous-titres mais ne les a pas placés.",
-  "한국인": "Resolve가 자막을 가져왔지만 배치하지 않았습니다.",
+  "한국어": "Resolve가 자막을 가져왔지만 배치하지 않았습니다.",
   "中文": "Resolve 已导入字幕，但未放置。",
   "العربية": "استورد Resolve الترجمات لكنه لم يضعها.",
   "Tiếng Việt": "Resolve đã nhập phụ đề nhưng không đặt chúng."
@@ -1965,7 +1965,7 @@
   "Español": "Resolve no pudo exportar la línea de tiempo.",
   "Deutsch": "Resolve konnte die Timeline nicht exportieren.",
   "Français": "Resolve n'a pas pu exporter la timeline.",
-  "한국인": "Resolve가 타임라인을 내보내지 못했습니다.",
+  "한국어": "Resolve가 타임라인을 내보내지 못했습니다.",
   "中文": "Resolve 无法导出时间线。",
   "العربية": "تعذر على Resolve تصدير الخط الزمني.",
   "Tiếng Việt": "Resolve không thể xuất timeline."
@@ -1975,7 +1975,7 @@
   "Español": "Resolve no importó la nueva línea de tiempo.",
   "Deutsch": "Resolve hat die neue Timeline nicht importiert.",
   "Français": "Resolve n'a pas importé la nouvelle timeline.",
-  "한국인": "Resolve가 새 타임라인을 가져오지 않았습니다.",
+  "한국어": "Resolve가 새 타임라인을 가져오지 않았습니다.",
   "中文": "Resolve 未导入新时间线。",
   "العربية": "لم يستورد Resolve الخط الزمني الجديد.",
   "Tiếng Việt": "Resolve không nhập timeline mới."
@@ -1985,7 +1985,7 @@
   "Español": "Inglés",
   "Deutsch": "Englisch",
   "Français": "Anglais",
-  "한국인": "영어",
+  "한국어": "영어",
   "中文": "英语",
   "العربية": "الإنجليزية",
   "Tiếng Việt": "Tiếng Anh"
@@ -1995,7 +1995,7 @@
   "Español": "Español",
   "Deutsch": "Spanisch",
   "Français": "Espagnol",
-  "한국인": "스페인어",
+  "한국어": "스페인어",
   "中文": "西班牙语",
   "العربية": "الإسبانية",
   "Tiếng Việt": "Tiếng Tây Ban Nha"
@@ -2005,7 +2005,7 @@
   "Español": "Francés",
   "Deutsch": "Französisch",
   "Français": "Français",
-  "한국인": "프랑스어",
+  "한국어": "프랑스어",
   "中文": "法语",
   "العربية": "الفرنسية",
   "Tiếng Việt": "Tiếng Pháp"
@@ -2015,7 +2015,7 @@
   "Español": "Alemán",
   "Deutsch": "Deutsch",
   "Français": "Allemand",
-  "한국인": "독일어",
+  "한국어": "독일어",
   "中文": "德语",
   "العربية": "الألمانية",
   "Tiếng Việt": "Tiếng Đức"
@@ -2025,7 +2025,7 @@
   "Español": "Italiano",
   "Deutsch": "Italienisch",
   "Français": "Italien",
-  "한국인": "이탈리아어",
+  "한국어": "이탈리아어",
   "中文": "意大利语",
   "العربية": "الإيطالية",
   "Tiếng Việt": "Tiếng Ý"
@@ -2035,7 +2035,7 @@
   "Español": "Portugués",
   "Deutsch": "Portugiesisch",
   "Français": "Portugais",
-  "한국인": "포르투갈어",
+  "한국어": "포르투갈어",
   "中文": "葡萄牙语",
   "العربية": "البرتغالية",
   "Tiếng Việt": "Tiếng Bồ Đào Nha"
@@ -2045,7 +2045,7 @@
   "Español": "Neerlandés",
   "Deutsch": "Niederländisch",
   "Français": "Néerlandais",
-  "한국인": "네덜란드어",
+  "한국어": "네덜란드어",
   "中文": "荷兰语",
   "العربية": "الهولندية",
   "Tiếng Việt": "Tiếng Hà Lan"
@@ -2055,7 +2055,7 @@
   "Español": "Sueco",
   "Deutsch": "Schwedisch",
   "Français": "Suédois",
-  "한국인": "스웨덴어",
+  "한국어": "스웨덴어",
   "中文": "瑞典语",
   "العربية": "السويدية",
   "Tiếng Việt": "Tiếng Thụy Điển"
@@ -2065,7 +2065,7 @@
   "Español": "Polaco",
   "Deutsch": "Polnisch",
   "Français": "Polonais",
-  "한국인": "폴란드어",
+  "한국어": "폴란드어",
   "中文": "波兰语",
   "العربية": "البولندية",
   "Tiếng Việt": "Tiếng Ba Lan"
@@ -2075,7 +2075,7 @@
   "Español": "Ruso",
   "Deutsch": "Russisch",
   "Français": "Russe",
-  "한국인": "러시아어",
+  "한국어": "러시아어",
   "中文": "俄语",
   "العربية": "الروسية",
   "Tiếng Việt": "Tiếng Nga"
@@ -2085,7 +2085,7 @@
   "Español": "Ucraniano",
   "Deutsch": "Ukrainisch",
   "Français": "Ukrainien",
-  "한국인": "우크라이나어",
+  "한국어": "우크라이나어",
   "中文": "乌克兰语",
   "العربية": "الأوكرانية",
   "Tiếng Việt": "Tiếng Ukraina"
@@ -2095,7 +2095,7 @@
   "Español": "Turco",
   "Deutsch": "Türkisch",
   "Français": "Turc",
-  "한국인": "튀르키예어",
+  "한국어": "튀르키예어",
   "中文": "土耳其语",
   "العربية": "التركية",
   "Tiếng Việt": "Tiếng Thổ Nhĩ Kỳ"
@@ -2105,7 +2105,7 @@
   "Español": "Árabe",
   "Deutsch": "Arabisch",
   "Français": "Arabe",
-  "한국인": "아랍어",
+  "한국어": "아랍어",
   "中文": "阿拉伯语",
   "العربية": "العربية",
   "Tiếng Việt": "Tiếng Ả Rập"
@@ -2115,7 +2115,7 @@
   "Español": "Hindi",
   "Deutsch": "Hindi",
   "Français": "Hindi",
-  "한국인": "힌디어",
+  "한국어": "힌디어",
   "中文": "印地语",
   "العربية": "الهندية",
   "Tiếng Việt": "Tiếng Hindi"
@@ -2125,7 +2125,7 @@
   "Español": "Japonés",
   "Deutsch": "Japanisch",
   "Français": "Japonais",
-  "한국인": "일본어",
+  "한국어": "일본어",
   "中文": "日语",
   "العربية": "اليابانية",
   "Tiếng Việt": "Tiếng Nhật"
@@ -2135,7 +2135,7 @@
   "Español": "Coreano",
   "Deutsch": "Koreanisch",
   "Français": "Coréen",
-  "한국인": "한국어",
+  "한국어": "한국어",
   "中文": "韩语",
   "العربية": "الكورية",
   "Tiếng Việt": "Tiếng Hàn"
@@ -2145,7 +2145,7 @@
   "Español": "Chino",
   "Deutsch": "Chinesisch",
   "Français": "Chinois",
-  "한국인": "중국어",
+  "한국어": "중국어",
   "中文": "中文",
   "العربية": "الصينية",
   "Tiếng Việt": "Tiếng Trung"
@@ -2155,7 +2155,7 @@
   "Español": "Indonesio",
   "Deutsch": "Indonesisch",
   "Français": "Indonésien",
-  "한국인": "인도네시아어",
+  "한국어": "인도네시아어",
   "中文": "印尼语",
   "العربية": "الإندونيسية",
   "Tiếng Việt": "Tiếng Indonesia"
@@ -2165,7 +2165,7 @@
   "Español": "Vietnamita",
   "Deutsch": "Vietnamesisch",
   "Français": "Vietnamien",
-  "한국인": "베트남어",
+  "한국어": "베트남어",
   "中文": "越南语",
   "العربية": "الفيتنامية",
   "Tiếng Việt": "Tiếng Việt"

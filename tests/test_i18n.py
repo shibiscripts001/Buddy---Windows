@@ -89,7 +89,7 @@ class StringTests(unittest.TestCase):
         wrong = []
         for key, entry in TRANSLATIONS.items():
             for lang, text in entry.items():
-                bad = ((lang == "한국인" and HAN.search(text))
+                bad = ((lang == "한국어" and HAN.search(text))
                        or (lang == "中文" and (HANGUL.search(text) or KANA.search(text)))
                        or (lang == "日本語" and HANGUL.search(text))
                        or (lang in ("Español", "Deutsch", "Français", "Tiếng Việt")
@@ -106,7 +106,7 @@ class SettingsTests(unittest.TestCase):
         self.assertEqual(box["value"], "Deutsch")
         self.assertTrue(box["raw"])                                  # never translated
         labels = {o["value"]: o["label"] for o in box["options"]}
-        self.assertEqual(labels["한국인"], "한국어")
+        self.assertEqual(labels["한국어"], "한국어")
         self.assertEqual([o["value"] for o in box["options"]], LANGUAGES)
 
     def test_choosing_a_language(self):

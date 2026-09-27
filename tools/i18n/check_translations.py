@@ -54,7 +54,7 @@ for key, entry in data.items():
             problems.append(f"{key!r} [{lang}]: placeholders {sorted(PH.findall(text))} != {names}")
         if key.count("\n") != text.count("\n"):
             problems.append(f"{key!r} [{lang}]: {key.count(chr(10))} line breaks in English, {text.count(chr(10))} here")
-        if lang == "한국인" and (HAN.search(text) or KANA.search(text)):
+        if lang == "한국어" and (HAN.search(text) or KANA.search(text)):
             problems.append(f"{key!r} [{lang}]: Han/Kana in Korean: {text}")
         if lang == "中文" and (HANGUL.search(text) or KANA.search(text)):
             problems.append(f"{key!r} [{lang}]: Hangul/Kana in Chinese: {text}")
@@ -62,7 +62,7 @@ for key, entry in data.items():
             problems.append(f"{key!r} [{lang}]: Hangul in Japanese: {text}")
         if lang in ("Español", "Deutsch", "Français", "Tiếng Việt") and (CJK_ANY.search(text) or ARABIC.search(text)):
             problems.append(f"{key!r} [{lang}]: wrong script: {text}")
-        if lang in ("日本語", "中文", "한국인", "العربية") and text == key and re.search(r"[a-z]{3}", key):
+        if lang in ("日本語", "中文", "한국어", "العربية") and text == key and re.search(r"[a-z]{3}", key):
             problems.append(f"{key!r} [{lang}]: left in English")
 
 print(f"{count} keys")

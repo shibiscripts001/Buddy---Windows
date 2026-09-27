@@ -5,7 +5,7 @@
   "Español": "Qué hacer",
   "Deutsch": "Was tun",
   "Français": "Que faire",
-  "한국인": "작업",
+  "한국어": "작업",
   "中文": "要执行的操作",
   "العربية": "ما الذي تريد فعله",
   "Tiếng Việt": "Việc cần làm"
@@ -15,7 +15,7 @@
   "Español": "Reparar medios sin conexión",
   "Deutsch": "Offline-Medien reparieren",
   "Français": "Réparer les médias hors ligne",
-  "한국인": "오프라인 미디어 복구",
+  "한국어": "오프라인 미디어 복구",
   "中文": "修复离线媒体",
   "العربية": "إصلاح الوسائط غير المتصلة",
   "Tiếng Việt": "Sửa phương tiện ngoại tuyến"
@@ -25,7 +25,7 @@
   "Español": "Mover a una nueva ubicación",
   "Deutsch": "An einen neuen Ort verschieben",
   "Français": "Déplacer vers un nouvel emplacement",
-  "한국인": "새 위치로 이동",
+  "한국어": "새 위치로 이동",
   "中文": "移动到新位置",
   "العربية": "النقل إلى موقع جديد",
   "Tiếng Việt": "Chuyển đến vị trí mới"
@@ -35,7 +35,7 @@
   "Español": "Busca en el proyecto los clips cuyos archivos han desaparecido y luego busca en una carpeta para encontrarlos. Los clips que ya funcionan nunca se tocan, aunque aparezca un archivo con el mismo nombre.",
   "Deutsch": "Durchsuchen Sie das Projekt nach Clips, deren Dateien fehlen, und suchen Sie sie dann in einem Ordner. Funktionierende Clips werden nie verändert, selbst wenn eine Datei mit demselben Namen auftaucht.",
   "Français": "Analysez le projet pour trouver les clips dont les fichiers ont disparu, puis recherchez-les dans un dossier. Les clips qui fonctionnent déjà ne sont jamais modifiés, même si un fichier du même nom apparaît.",
-  "한국인": "프로젝트에서 파일이 사라진 클립을 검사한 다음 폴더를 검색해 찾습니다. 이미 정상인 클립은 같은 이름의 파일이 나타나더라도 절대 건드리지 않습니다.",
+  "한국어": "프로젝트에서 파일이 사라진 클립을 검사한 다음 폴더를 검색해 찾습니다. 이미 정상인 클립은 같은 이름의 파일이 나타나더라도 절대 건드리지 않습니다.",
   "中文": "扫描项目中文件丢失的片段，然后搜索文件夹找到它们。已经正常的片段绝不会被改动，即使出现了同名文件。",
   "العربية": "افحص المشروع بحثًا عن المقاطع التي فُقدت ملفاتها، ثم ابحث في مجلد للعثور عليها. لا يتم المساس بالمقاطع التي تعمل بالفعل أبدًا، حتى لو ظهر ملف بالاسم نفسه.",
   "Tiếng Việt": "Quét dự án để tìm các clip bị mất tệp, rồi tìm trong một thư mục để tìm lại chúng. Các clip đang hoạt động sẽ không bao giờ bị động đến, kể cả khi xuất hiện tệp trùng tên."
@@ -45,7 +45,7 @@
   "Español": "Apunta los clips a una copia de sus medios en otro lugar (un disco nuevo, o de un servidor a un SSD local), incluso los que ya funcionan. Escanea, busca en la nueva ubicación, marca los clips que quieres mover y revincula.",
   "Deutsch": "Verweisen Sie Clips auf eine Kopie ihrer Medien an einem anderen Ort – ein neues Laufwerk oder von einem Server auf eine lokale SSD – auch Clips, die jetzt funktionieren. Scannen, den neuen Ort durchsuchen, die zu verschiebenden Clips ankreuzen und neu verknüpfen.",
   "Français": "Faites pointer les clips vers une copie de leurs médias ailleurs – un nouveau disque, ou d'un serveur vers un SSD local – même les clips qui fonctionnent. Analysez, recherchez dans le nouvel emplacement, cochez les clips à déplacer, puis reconnectez.",
-  "한국인": "클립이 다른 곳에 있는 미디어 사본을 가리키도록 합니다 – 새 드라이브나 서버에서 로컬 SSD로 옮긴 경우 등 – 지금 정상인 클립도 포함됩니다. 검사하고, 새 위치를 검색하고, 옮길 클립을 선택한 다음 다시 연결하세요.",
+  "한국어": "클립이 다른 곳에 있는 미디어 사본을 가리키도록 합니다 – 새 드라이브나 서버에서 로컬 SSD로 옮긴 경우 등 – 지금 정상인 클립도 포함됩니다. 검사하고, 새 위치를 검색하고, 옮길 클립을 선택한 다음 다시 연결하세요.",
   "中文": "让片段指向其他位置的媒体副本——新硬盘，或从服务器转到本地 SSD——即使是当前正常的片段也可以。先扫描，再搜索新位置，勾选要移动的片段，然后重新链接。",
   "العربية": "وجّه المقاطع إلى نسخة من وسائطها في مكان آخر – محرك أقراص جديد، أو من خادم إلى SSD محلي – حتى المقاطع التي تعمل الآن. افحص، وابحث في الموقع الجديد، وحدد المقاطع المراد نقلها، ثم أعد الربط.",
   "Tiếng Việt": "Trỏ clip đến bản sao phương tiện ở nơi khác – ổ đĩa mới, hoặc từ máy chủ sang SSD cục bộ – kể cả các clip đang hoạt động. Quét, tìm ở vị trí mới, đánh dấu các clip cần chuyển, rồi liên kết lại."
@@ -55,7 +55,7 @@
   "Español": "Escanear proyecto",
   "Deutsch": "Projekt scannen",
   "Français": "Analyser le projet",
-  "한국인": "프로젝트 검사",
+  "한국어": "프로젝트 검사",
   "中文": "扫描项目",
   "العربية": "فحص المشروع",
   "Tiếng Việt": "Quét dự án"
@@ -65,7 +65,7 @@
   "Español": "Volver a escanear",
   "Deutsch": "Erneut scannen",
   "Français": "Analyser à nouveau",
-  "한국인": "다시 검사",
+  "한국어": "다시 검사",
   "中文": "重新扫描",
   "العربية": "إعادة الفحص",
   "Tiếng Việt": "Quét lại"
@@ -75,7 +75,7 @@
   "Español": "Buscar en una carpeta…",
   "Deutsch": "Ordner durchsuchen…",
   "Français": "Rechercher dans un dossier…",
-  "한국인": "폴더 검색…",
+  "한국어": "폴더 검색…",
   "中文": "搜索文件夹…",
   "العربية": "البحث في مجلد…",
   "Tiếng Việt": "Tìm trong thư mục…"
@@ -85,7 +85,7 @@
   "Español": "Solo clips que requieren atención",
   "Deutsch": "Nur Clips, die Aufmerksamkeit brauchen",
   "Français": "Uniquement les clips à traiter",
-  "한국인": "조치가 필요한 클립만",
+  "한국어": "조치가 필요한 클립만",
   "中文": "仅显示需要处理的片段",
   "العربية": "المقاطع التي تحتاج إلى انتباه فقط",
   "Tiếng Việt": "Chỉ clip cần xử lý"
@@ -95,7 +95,7 @@
   "Español": "Seleccionar todo",
   "Deutsch": "Alle auswählen",
   "Français": "Tout sélectionner",
-  "한국인": "모두 선택",
+  "한국어": "모두 선택",
   "中文": "全选",
   "العربية": "تحديد الكل",
   "Tiếng Việt": "Chọn tất cả"
@@ -105,7 +105,7 @@
   "Español": "No seleccionar nada",
   "Deutsch": "Auswahl aufheben",
   "Français": "Tout désélectionner",
-  "한국인": "선택 해제",
+  "한국어": "선택 해제",
   "中文": "全不选",
   "العربية": "إلغاء تحديد الكل",
   "Tiếng Việt": "Bỏ chọn tất cả"
@@ -115,7 +115,7 @@
   "Español": "Revincular selección",
   "Deutsch": "Auswahl neu verknüpfen",
   "Français": "Reconnecter la sélection",
-  "한국인": "선택 항목 다시 연결",
+  "한국어": "선택 항목 다시 연결",
   "中文": "重新链接所选项",
   "العربية": "إعادة ربط المحدد",
   "Tiếng Việt": "Liên kết lại mục đã chọn"
@@ -125,7 +125,7 @@
   "Español": "Revincular todas las coincidencias",
   "Deutsch": "Alle Treffer neu verknüpfen",
   "Français": "Reconnecter toutes les correspondances",
-  "한국인": "일치 항목 모두 다시 연결",
+  "한국어": "일치 항목 모두 다시 연결",
   "中文": "重新链接所有匹配项",
   "العربية": "إعادة ربط كل المطابقات",
   "Tiếng Việt": "Liên kết lại mọi kết quả khớp"
@@ -135,7 +135,7 @@
   "Español": "Ruta registrada: {path}",
   "Deutsch": "Gespeicherter Pfad: {path}",
   "Français": "Chemin enregistré : {path}",
-  "한국인": "기록된 경로: {path}",
+  "한국어": "기록된 경로: {path}",
   "中文": "记录的路径：{path}",
   "العربية": "المسار المسجل: {path}",
   "Tiếng Việt": "Đường dẫn đã ghi: {path}"
@@ -145,7 +145,7 @@
   "Español": "Elegir…",
   "Deutsch": "Auswählen…",
   "Français": "Choisir…",
-  "한국인": "선택…",
+  "한국어": "선택…",
   "中文": "选择…",
   "العربية": "اختيار…",
   "Tiếng Việt": "Chọn…"
@@ -155,7 +155,7 @@
   "Español": "Elige tú mismo el archivo de este clip",
   "Deutsch": "Datei für diesen Clip selbst wählen",
   "Français": "Choisir vous-même le fichier de ce clip",
-  "한국인": "이 클립의 파일을 직접 선택",
+  "한국어": "이 클립의 파일을 직접 선택",
   "中文": "自行为此片段选择文件",
   "العربية": "اختر ملف هذا المقطع بنفسك",
   "Tiếng Việt": "Tự chọn tệp cho clip này"
@@ -165,7 +165,7 @@
   "Español": "Escanea el proyecto para listar sus clips",
   "Deutsch": "Scannen Sie das Projekt, um seine Clips aufzulisten",
   "Français": "Analysez le projet pour lister ses clips",
-  "한국인": "프로젝트를 검사해 클립 목록 보기",
+  "한국어": "프로젝트를 검사해 클립 목록 보기",
   "中文": "扫描项目以列出其片段",
   "العربية": "افحص المشروع لسرد مقاطعه",
   "Tiếng Việt": "Quét dự án để liệt kê các clip"
@@ -175,7 +175,7 @@
   "Español": "Buddy comprueba el archivo de cada clip y lista los que faltan.",
   "Deutsch": "Buddy prüft die Datei jedes Clips und listet die fehlenden auf.",
   "Français": "Buddy vérifie le fichier de chaque clip et liste ceux qui manquent.",
-  "한국인": "Buddy가 모든 클립의 파일을 확인하고 없는 파일을 나열합니다.",
+  "한국어": "Buddy가 모든 클립의 파일을 확인하고 없는 파일을 나열합니다.",
   "中文": "Buddy 会检查每个片段的文件，并列出丢失的文件。",
   "العربية": "يتحقق Buddy من ملف كل مقطع ويسرد المفقودة منها.",
   "Tiếng Việt": "Buddy kiểm tra tệp của từng clip và liệt kê các tệp bị thiếu."
@@ -185,7 +185,7 @@
   "Español": "Buddy lista todos los clips del Grupo de medios con el archivo al que apuntan.",
   "Deutsch": "Buddy listet jeden Clip im Media Pool mit der Datei auf, auf die er verweist.",
   "Français": "Buddy liste chaque clip du Pool de médias avec le fichier vers lequel il pointe.",
-  "한국인": "Buddy가 미디어 풀의 모든 클립과 각 클립이 가리키는 파일을 나열합니다.",
+  "한국어": "Buddy가 미디어 풀의 모든 클립과 각 클립이 가리키는 파일을 나열합니다.",
   "中文": "Buddy 会列出媒体池中的每个片段及其指向的文件。",
   "العربية": "يسرد Buddy كل مقطع في مجمع الوسائط مع الملف الذي يشير إليه.",
   "Tiếng Việt": "Buddy liệt kê mọi clip trong Media Pool cùng tệp mà clip trỏ đến."
@@ -195,7 +195,7 @@
   "Español": "No hay clips con archivos",
   "Deutsch": "Keine Clips mit Dateien",
   "Français": "Aucun clip avec fichier",
-  "한국인": "파일이 있는 클립 없음",
+  "한국어": "파일이 있는 클립 없음",
   "中文": "没有带文件的片段",
   "العربية": "لا توجد مقاطع مرتبطة بملفات",
   "Tiếng Việt": "Không có clip nào có tệp"
@@ -205,7 +205,7 @@
   "Español": "El Grupo de medios no tiene clips vinculados a un archivo.",
   "Deutsch": "Der Media Pool hat keine Clips, die mit einer Datei verknüpft sind.",
   "Français": "Le Pool de médias ne contient aucun clip lié à un fichier.",
-  "한국인": "미디어 풀에 파일에 연결된 클립이 없습니다.",
+  "한국어": "미디어 풀에 파일에 연결된 클립이 없습니다.",
   "中文": "媒体池中没有链接到文件的片段。",
   "العربية": "لا يحتوي مجمع الوسائط على مقاطع مرتبطة بملف.",
   "Tiếng Việt": "Media Pool không có clip nào liên kết đến tệp."
@@ -215,7 +215,7 @@
   "Español": "No hay nada sin conexión",
   "Deutsch": "Nichts ist offline",
   "Français": "Rien n'est hors ligne",
-  "한국인": "오프라인 항목 없음",
+  "한국어": "오프라인 항목 없음",
   "中文": "没有离线项",
   "العربية": "لا يوجد شيء غير متصل",
   "Tiếng Việt": "Không có gì ngoại tuyến"
@@ -225,7 +225,7 @@
   "Español": "El único clip está vinculado a un archivo que existe.",
   "Deutsch": "Der eine Clip ist mit einer vorhandenen Datei verknüpft.",
   "Français": "L'unique clip est lié à un fichier qui existe.",
-  "한국인": "클립 1개가 존재하는 파일에 연결되어 있습니다.",
+  "한국어": "클립 1개가 존재하는 파일에 연결되어 있습니다.",
   "中文": "这个片段链接到的文件存在。",
   "العربية": "المقطع الوحيد مرتبط بملف موجود.",
   "Tiếng Việt": "Clip duy nhất liên kết đến tệp đang tồn tại."
@@ -235,7 +235,7 @@
   "Español": "Los {count} clips están vinculados a archivos que existen.",
   "Deutsch": "Alle {count} Clips sind mit vorhandenen Dateien verknüpft.",
   "Français": "Les {count} clips sont tous liés à des fichiers qui existent.",
-  "한국인": "클립 {count}개 모두 존재하는 파일에 연결되어 있습니다.",
+  "한국어": "클립 {count}개 모두 존재하는 파일에 연결되어 있습니다.",
   "中文": "全部 {count} 个片段都链接到存在的文件。",
   "العربية": "كل المقاطع الـ {count} مرتبطة بملفات موجودة.",
   "Tiếng Việt": "Tất cả {count} clip đều liên kết đến tệp đang tồn tại."
@@ -245,7 +245,7 @@
   "Español": "Mostrar todos los clips",
   "Deutsch": "Alle Clips anzeigen",
   "Français": "Afficher tous les clips",
-  "한국인": "모든 클립 표시",
+  "한국어": "모든 클립 표시",
   "中文": "显示所有片段",
   "العربية": "إظهار كل المقاطع",
   "Tiếng Việt": "Hiện tất cả clip"
@@ -255,7 +255,7 @@
   "Español": "Seleccionar todos los mostrados",
   "Deutsch": "Alle angezeigten auswählen",
   "Français": "Sélectionner tous les éléments affichés",
-  "한국인": "표시된 항목 모두 선택",
+  "한국어": "표시된 항목 모두 선택",
   "中文": "全选显示的项",
   "العربية": "تحديد كل المعروض",
   "Tiếng Việt": "Chọn tất cả mục đang hiện"
@@ -265,7 +265,7 @@
   "Español": "Clip",
   "Deutsch": "Clip",
   "Français": "Clip",
-  "한국인": "클립",
+  "한국어": "클립",
   "中文": "片段",
   "العربية": "المقطع",
   "Tiếng Việt": "Clip"
@@ -275,7 +275,7 @@
   "Español": "Bandeja",
   "Deutsch": "Bin",
   "Français": "Chutier",
-  "한국인": "빈",
+  "한국어": "빈",
   "中文": "媒体夹",
   "العربية": "الحاوية",
   "Tiếng Việt": "Bin"
@@ -285,7 +285,7 @@
   "Español": "Estado",
   "Deutsch": "Status",
   "Français": "État",
-  "한국인": "상태",
+  "한국어": "상태",
   "中文": "状态",
   "العربية": "الحالة",
   "Tiếng Việt": "Trạng thái"
@@ -295,7 +295,7 @@
   "Español": "Archivo",
   "Deutsch": "Datei",
   "Français": "Fichier",
-  "한국인": "파일",
+  "한국어": "파일",
   "中文": "文件",
   "العربية": "الملف",
   "Tiếng Việt": "Tệp"
@@ -305,7 +305,7 @@
   "Español": "clip",
   "Deutsch": "Clip",
   "Français": "clip",
-  "한국인": "클립",
+  "한국어": "클립",
   "中文": "个片段",
   "العربية": "مقطع",
   "Tiếng Việt": "clip"
@@ -315,7 +315,7 @@
   "Español": "clips",
   "Deutsch": "Clips",
   "Français": "clips",
-  "한국인": "클립",
+  "한국어": "클립",
   "中文": "个片段",
   "العربية": "مقاطع",
   "Tiếng Việt": "clip"
@@ -325,7 +325,7 @@
   "Español": "sin conexión",
   "Deutsch": "offline",
   "Français": "hors ligne",
-  "한국인": "오프라인",
+  "한국어": "오프라인",
   "中文": "离线",
   "العربية": "غير متصل",
   "Tiếng Việt": "ngoại tuyến"
@@ -335,7 +335,7 @@
   "Español": "coincidencia",
   "Deutsch": "Treffer",
   "Français": "correspondance",
-  "한국인": "일치",
+  "한국어": "일치",
   "中文": "个匹配",
   "العربية": "مطابقة",
   "Tiếng Việt": "kết quả khớp"
@@ -345,7 +345,7 @@
   "Español": "coincidencias",
   "Deutsch": "Treffer",
   "Français": "correspondances",
-  "한국인": "일치",
+  "한국어": "일치",
   "中文": "个匹配",
   "العربية": "مطابقات",
   "Tiếng Việt": "kết quả khớp"
@@ -355,7 +355,7 @@
   "Español": "por elegir",
   "Deutsch": "zur Auswahl",
   "Français": "à choisir",
-  "한국인": "선택 필요",
+  "한국어": "선택 필요",
   "中文": "待选择",
   "العربية": "للاختيار",
   "Tiếng Việt": "cần chọn"
@@ -365,7 +365,7 @@
   "Español": "Conectado",
   "Deutsch": "Online",
   "Français": "En ligne",
-  "한국인": "온라인",
+  "한국어": "온라인",
   "中文": "在线",
   "العربية": "متصل",
   "Tiếng Việt": "Trực tuyến"
@@ -375,7 +375,7 @@
   "Español": "Coincidencia encontrada",
   "Deutsch": "Treffer gefunden",
   "Français": "Correspondance trouvée",
-  "한국인": "일치 항목 찾음",
+  "한국어": "일치 항목 찾음",
   "中文": "找到匹配",
   "العربية": "تم العثور على مطابقة",
   "Tiếng Việt": "Đã tìm thấy"
@@ -385,7 +385,7 @@
   "Español": "Elige uno",
   "Deutsch": "Einen auswählen",
   "Français": "Choisissez-en un",
-  "한국인": "하나 선택",
+  "한국어": "하나 선택",
   "中文": "选择一个",
   "العربية": "اختر واحدًا",
   "Tiếng Việt": "Chọn một"
@@ -395,7 +395,7 @@
   "Español": "Elige uno ({count})",
   "Deutsch": "Einen auswählen ({count})",
   "Français": "Choisissez-en un ({count})",
-  "한국인": "하나 선택({count})",
+  "한국어": "하나 선택({count})",
   "中文": "选择一个（{count}）",
   "العربية": "اختر واحدًا ({count})",
   "Tiếng Việt": "Chọn một ({count})"
@@ -405,7 +405,7 @@
   "Español": "Sin conexión",
   "Deutsch": "Offline",
   "Français": "Hors ligne",
-  "한국인": "오프라인",
+  "한국어": "오프라인",
   "中文": "离线",
   "العربية": "غير متصل",
   "Tiếng Việt": "Ngoại tuyến"
@@ -415,7 +415,7 @@
   "Español": "{count} seleccionados",
   "Deutsch": "{count} ausgewählt",
   "Français": "{count} sélectionné(s)",
-  "한국인": "{count}개 선택됨",
+  "한국어": "{count}개 선택됨",
   "中文": "已选择 {count} 个",
   "العربية": "تم تحديد {count}",
   "Tiếng Việt": "Đã chọn {count}"
@@ -425,7 +425,7 @@
   "Español": "{count} con un archivo de destino",
   "Deutsch": "{count} mit Zieldatei",
   "Français": "{count} avec un fichier cible",
-  "한국인": "{count}개는 연결할 파일 있음",
+  "한국어": "{count}개는 연결할 파일 있음",
   "中文": "{count} 个有目标文件",
   "العربية": "{count} لديها ملف للانتقال إليه",
   "Tiếng Việt": "{count} có tệp để chuyển đến"
@@ -435,7 +435,7 @@
   "Español": "Marca los clips que quieres mover",
   "Deutsch": "Kreuzen Sie die zu verschiebenden Clips an",
   "Français": "Cochez les clips à déplacer",
-  "한국인": "옮길 클립을 선택하세요",
+  "한국어": "옮길 클립을 선택하세요",
   "中文": "勾选要移动的片段",
   "العربية": "حدد المقاطع المراد نقلها",
   "Tiếng Việt": "Đánh dấu các clip cần chuyển"
@@ -445,7 +445,7 @@
   "Español": "Revincular 1 clip seleccionado",
   "Deutsch": "1 ausgewählten Clip neu verknüpfen",
   "Français": "Reconnecter 1 clip sélectionné",
-  "한국인": "선택한 클립 1개 다시 연결",
+  "한국어": "선택한 클립 1개 다시 연결",
   "中文": "重新链接 1 个所选片段",
   "العربية": "إعادة ربط مقطع محدد واحد",
   "Tiếng Việt": "Liên kết lại 1 clip đã chọn"
@@ -455,7 +455,7 @@
   "Español": "Revincular {count} clips seleccionados",
   "Deutsch": "{count} ausgewählte Clips neu verknüpfen",
   "Français": "Reconnecter {count} clips sélectionnés",
-  "한국인": "선택한 클립 {count}개 다시 연결",
+  "한국어": "선택한 클립 {count}개 다시 연결",
   "中文": "重新链接 {count} 个所选片段",
   "العربية": "إعادة ربط {count} مقاطع محددة",
   "Tiếng Việt": "Liên kết lại {count} clip đã chọn"
@@ -465,7 +465,7 @@
   "Español": "Revincular la coincidencia",
   "Deutsch": "Den 1 Treffer neu verknüpfen",
   "Français": "Reconnecter la correspondance",
-  "한국인": "일치 항목 1개 다시 연결",
+  "한국어": "일치 항목 1개 다시 연결",
   "中文": "重新链接 1 个匹配项",
   "العربية": "إعادة ربط المطابقة الوحيدة",
   "Tiếng Việt": "Liên kết lại 1 kết quả khớp"
@@ -475,7 +475,7 @@
   "Español": "Revincular las {count} coincidencias",
   "Deutsch": "Alle {count} Treffer neu verknüpfen",
   "Français": "Reconnecter les {count} correspondances",
-  "한국인": "일치 항목 {count}개 모두 다시 연결",
+  "한국어": "일치 항목 {count}개 모두 다시 연결",
   "中文": "重新链接全部 {count} 个匹配项",
   "العربية": "إعادة ربط كل المطابقات الـ {count}",
   "Tiếng Việt": "Liên kết lại tất cả {count} kết quả khớp"
@@ -485,7 +485,7 @@
   "Español": "¿Qué archivo es \"{name}\"?",
   "Deutsch": "Welche Datei ist „{name}“?",
   "Français": "Quel fichier est « {name} » ?",
-  "한국인": "\"{name}\"은(는) 어느 파일인가요?",
+  "한국어": "\"{name}\"은(는) 어느 파일인가요?",
   "中文": "“{name}”是哪个文件？",
   "العربية": "أي ملف هو \"{name}\"؟",
   "Tiếng Việt": "Tệp nào là \"{name}\"?"
@@ -495,7 +495,7 @@
   "Español": "{count} archivos de esa carpeta comparten su nombre.",
   "Deutsch": "{count} Dateien in diesem Ordner haben denselben Namen.",
   "Français": "{count} fichiers de ce dossier portent le même nom.",
-  "한국인": "해당 폴더에 같은 이름의 파일이 {count}개 있습니다.",
+  "한국어": "해당 폴더에 같은 이름의 파일이 {count}개 있습니다.",
   "中文": "该文件夹中有 {count} 个文件同名。",
   "العربية": "يشترك {count} ملفات في ذلك المجلد في اسمه.",
   "Tiếng Việt": "Có {count} tệp trong thư mục đó trùng tên."
@@ -505,7 +505,7 @@
   "Español": "Buscar otro…",
   "Deutsch": "Andere Datei suchen…",
   "Français": "Rechercher un autre fichier…",
-  "한국인": "다른 파일 찾아보기…",
+  "한국어": "다른 파일 찾아보기…",
   "中文": "浏览其他文件…",
   "العربية": "استعراض ملف آخر…",
   "Tiếng Việt": "Duyệt tệp khác…"
@@ -515,7 +515,7 @@
   "Español": "Usar este archivo",
   "Deutsch": "Diese Datei verwenden",
   "Français": "Utiliser ce fichier",
-  "한국인": "이 파일 사용",
+  "한국어": "이 파일 사용",
   "中文": "使用此文件",
   "العربية": "استخدام هذا الملف",
   "Tiếng Việt": "Dùng tệp này"
@@ -525,7 +525,7 @@
   "Español": "Deteniendo…",
   "Deutsch": "Wird angehalten…",
   "Français": "Arrêt…",
-  "한국인": "중지하는 중…",
+  "한국어": "중지하는 중…",
   "中文": "正在停止…",
   "العربية": "جارٍ الإيقاف…",
   "Tiếng Việt": "Đang dừng…"
@@ -535,7 +535,7 @@
   "Español": "Buscando en {folder}",
   "Deutsch": "{folder} wird durchsucht",
   "Français": "Recherche dans {folder}",
-  "한국인": "{folder} 검색 중",
+  "한국어": "{folder} 검색 중",
   "中文": "正在搜索 {folder}",
   "العربية": "جارٍ البحث في {folder}",
   "Tiếng Việt": "Đang tìm trong {folder}"
@@ -545,7 +545,7 @@
   "Español": "{count} archivos revisados hasta ahora",
   "Deutsch": "Bisher {count} Dateien geprüft",
   "Français": "{count} fichiers examinés jusqu'à présent",
-  "한국인": "지금까지 파일 {count}개를 확인했습니다",
+  "한국어": "지금까지 파일 {count}개를 확인했습니다",
   "中文": "目前已查看 {count} 个文件",
   "العربية": "تم فحص {count} ملف حتى الآن",
   "Tiếng Việt": "Đã xem {count} tệp"
@@ -555,7 +555,7 @@
   "Español": "Iniciando…",
   "Deutsch": "Wird gestartet…",
   "Français": "Démarrage…",
-  "한국인": "시작하는 중…",
+  "한국어": "시작하는 중…",
   "中文": "正在开始…",
   "العربية": "جارٍ البدء…",
   "Tiếng Việt": "Đang bắt đầu…"
@@ -565,7 +565,7 @@
   "Español": "Escaneando el Grupo de medios…",
   "Deutsch": "Media Pool wird gescannt…",
   "Français": "Analyse du Pool de médias…",
-  "한국인": "미디어 풀 검사 중…",
+  "한국어": "미디어 풀 검사 중…",
   "中文": "正在扫描媒体池…",
   "العربية": "جارٍ فحص مجمع الوسائط…",
   "Tiếng Việt": "Đang quét Media Pool…"
@@ -575,7 +575,7 @@
   "Español": "No se pudo escanear el Grupo de medios: {error}",
   "Deutsch": "Der Media Pool konnte nicht gescannt werden: {error}",
   "Français": "Impossible d'analyser le Pool de médias : {error}",
-  "한국인": "미디어 풀을 검사할 수 없습니다: {error}",
+  "한국어": "미디어 풀을 검사할 수 없습니다: {error}",
   "中文": "无法扫描媒体池：{error}",
   "العربية": "تعذر فحص مجمع الوسائط: {error}",
   "Tiếng Việt": "Không thể quét Media Pool: {error}"
@@ -585,7 +585,7 @@
   "Español": "Se escaneó 1 clip: {offline} sin conexión.",
   "Deutsch": "1 Clip gescannt – {offline} offline.",
   "Français": "1 clip analysé – {offline} hors ligne.",
-  "한국인": "클립 1개를 검사했습니다 – 오프라인 {offline}개.",
+  "한국어": "클립 1개를 검사했습니다 – 오프라인 {offline}개.",
   "中文": "已扫描 1 个片段——{offline} 个离线。",
   "العربية": "تم فحص مقطع واحد – {offline} غير متصل.",
   "Tiếng Việt": "Đã quét 1 clip – {offline} ngoại tuyến."
@@ -595,7 +595,7 @@
   "Español": "Se escanearon {count} clips: {offline} sin conexión.",
   "Deutsch": "{count} Clips gescannt – {offline} offline.",
   "Français": "{count} clips analysés – {offline} hors ligne.",
-  "한국인": "클립 {count}개를 검사했습니다 – 오프라인 {offline}개.",
+  "한국어": "클립 {count}개를 검사했습니다 – 오프라인 {offline}개.",
   "中文": "已扫描 {count} 个片段——{offline} 个离线。",
   "العربية": "تم فحص {count} مقاطع – {offline} غير متصل.",
   "Tiếng Việt": "Đã quét {count} clip – {offline} ngoại tuyến."
@@ -605,7 +605,7 @@
   "Español": "{count} no tenían un único archivo que comprobar (medios generados) y se omitieron.",
   "Deutsch": "{count} hatten keine einzelne Datei zum Prüfen (generierte Medien) und wurden ausgelassen.",
   "Français": "{count} n'avaient pas de fichier unique à vérifier (médias générés) et ont été exclus.",
-  "한국인": "{count}개는 확인할 단일 파일이 없어(생성된 미디어) 제외했습니다.",
+  "한국어": "{count}개는 확인할 단일 파일이 없어(생성된 미디어) 제외했습니다.",
   "中文": "{count} 个没有可检查的单一文件（生成的媒体），已排除。",
   "العربية": "{count} لم يكن لها ملف واحد للتحقق منه (وسائط مُولَّدة) فاستُبعدت.",
   "Tiếng Việt": "{count} không có tệp đơn để kiểm tra (phương tiện được tạo) nên đã bị bỏ qua."
@@ -615,7 +615,7 @@
   "Español": "Escanea primero",
   "Deutsch": "Zuerst scannen",
   "Français": "Analysez d'abord",
-  "한국인": "먼저 검사하세요",
+  "한국어": "먼저 검사하세요",
   "中文": "请先扫描",
   "العربية": "افحص أولًا",
   "Tiếng Việt": "Hãy quét trước"
@@ -625,7 +625,7 @@
   "Español": "Escanea primero el proyecto para que haya clips de los que buscar archivos.",
   "Deutsch": "Scannen Sie zuerst das Projekt, damit es Clips gibt, für die Dateien gesucht werden können.",
   "Français": "Analysez d'abord le projet, pour qu'il y ait des clips dont chercher les fichiers.",
-  "한국인": "파일을 찾을 클립이 있도록 먼저 프로젝트를 검사하세요.",
+  "한국어": "파일을 찾을 클립이 있도록 먼저 프로젝트를 검사하세요.",
   "中文": "请先扫描项目，这样才有需要查找文件的片段。",
   "العربية": "افحص المشروع أولًا، حتى تكون هناك مقاطع للبحث عن ملفاتها.",
   "Tiếng Việt": "Hãy quét dự án trước để có clip cần tìm tệp."
@@ -635,7 +635,7 @@
   "Español": "Elige la carpeta en la que buscar",
   "Deutsch": "Zu durchsuchenden Ordner wählen",
   "Français": "Choisissez le dossier à parcourir",
-  "한국인": "검색할 폴더 선택",
+  "한국어": "검색할 폴더 선택",
   "中文": "选择要搜索的文件夹",
   "العربية": "اختر المجلد المراد البحث فيه",
   "Tiếng Việt": "Chọn thư mục để tìm"
@@ -645,7 +645,7 @@
   "Español": "Búsqueda en {folder}: 1 coincidencia encontrada.",
   "Deutsch": "{folder} durchsucht: 1 Treffer gefunden.",
   "Français": "Recherche dans {folder} : 1 correspondance trouvée.",
-  "한국인": "{folder} 검색: 일치 항목 1개를 찾았습니다.",
+  "한국어": "{folder} 검색: 일치 항목 1개를 찾았습니다.",
   "中文": "已搜索 {folder}：找到 1 个匹配项。",
   "العربية": "تم البحث في {folder}: تم العثور على مطابقة واحدة.",
   "Tiếng Việt": "Đã tìm trong {folder}: tìm thấy 1 kết quả khớp."
@@ -655,7 +655,7 @@
   "Español": "Búsqueda en {folder}: {count} coincidencias encontradas.",
   "Deutsch": "{folder} durchsucht: {count} Treffer gefunden.",
   "Français": "Recherche dans {folder} : {count} correspondances trouvées.",
-  "한국인": "{folder} 검색: 일치 항목 {count}개를 찾았습니다.",
+  "한국어": "{folder} 검색: 일치 항목 {count}개를 찾았습니다.",
   "中文": "已搜索 {folder}：找到 {count} 个匹配项。",
   "العربية": "تم البحث في {folder}: تم العثور على {count} مطابقات.",
   "Tiếng Việt": "Đã tìm trong {folder}: tìm thấy {count} kết quả khớp."
@@ -665,7 +665,7 @@
   "Español": "{count} con más de un archivo con ese nombre (elige cuál).",
   "Deutsch": "{count} mit mehr als einer Datei dieses Namens (bitte auswählen).",
   "Français": "{count} avec plusieurs fichiers de ce nom (choisissez lequel).",
-  "한국인": "{count}개는 같은 이름의 파일이 여러 개 있습니다(하나를 선택하세요).",
+  "한국어": "{count}개는 같은 이름의 파일이 여러 개 있습니다(하나를 선택하세요).",
   "中文": "{count} 个有多个同名文件（请选择）。",
   "العربية": "{count} لديها أكثر من ملف بهذا الاسم (اختر أيها).",
   "Tiếng Việt": "{count} có nhiều tệp trùng tên (hãy chọn một)."
@@ -675,7 +675,7 @@
   "Español": "No se pudo buscar en esa carpeta: {error}",
   "Deutsch": "Dieser Ordner konnte nicht durchsucht werden: {error}",
   "Français": "Impossible de parcourir ce dossier : {error}",
-  "한국인": "해당 폴더를 검색할 수 없습니다: {error}",
+  "한국어": "해당 폴더를 검색할 수 없습니다: {error}",
   "中文": "无法搜索该文件夹：{error}",
   "العربية": "تعذر البحث في ذلك المجلد: {error}",
   "Tiếng Việt": "Không thể tìm trong thư mục đó: {error}"
@@ -685,7 +685,7 @@
   "Español": "Búsqueda cancelada: no se ha cambiado nada.",
   "Deutsch": "Suche abgebrochen – nichts wurde geändert.",
   "Français": "Recherche annulée – rien n'a été modifié.",
-  "한국인": "검색을 취소했습니다 – 변경된 것은 없습니다.",
+  "한국어": "검색을 취소했습니다 – 변경된 것은 없습니다.",
   "中文": "已取消搜索——未做任何更改。",
   "العربية": "تم إلغاء البحث – لم يتغير شيء.",
   "Tiếng Việt": "Đã hủy tìm kiếm – không có gì thay đổi."
@@ -695,7 +695,7 @@
   "Español": "Elige el archivo para {name}",
   "Deutsch": "Datei für {name} wählen",
   "Français": "Choisir le fichier pour {name}",
-  "한국인": "{name}의 파일 선택",
+  "한국어": "{name}의 파일 선택",
   "中文": "为 {name} 选择文件",
   "العربية": "اختر ملف {name}",
   "Tiếng Việt": "Chọn tệp cho {name}"
@@ -705,7 +705,7 @@
   "Español": "Selecciona primero los clips",
   "Deutsch": "Wählen Sie zuerst Clips aus",
   "Français": "Sélectionnez d'abord des clips",
-  "한국인": "먼저 클립을 선택하세요",
+  "한국어": "먼저 클립을 선택하세요",
   "中文": "请先选择片段",
   "العربية": "حدد المقاطع أولًا",
   "Tiếng Việt": "Hãy chọn clip trước"
@@ -715,7 +715,7 @@
   "Español": "Marca los clips que quieres revincular, o usa Seleccionar todo.",
   "Deutsch": "Kreuzen Sie die Clips an, die Sie neu verknüpfen möchten – oder verwenden Sie „Alle auswählen“.",
   "Français": "Cochez les clips à reconnecter – ou utilisez Tout sélectionner.",
-  "한국인": "다시 연결할 클립을 선택하거나 모두 선택을 사용하세요.",
+  "한국어": "다시 연결할 클립을 선택하거나 모두 선택을 사용하세요.",
   "中文": "勾选要重新链接的片段——或使用“全选”。",
   "العربية": "حدد المقاطع التي تريد إعادة ربطها – أو استخدم تحديد الكل.",
   "Tiếng Việt": "Đánh dấu các clip bạn muốn liên kết lại – hoặc dùng Chọn tất cả."
@@ -725,7 +725,7 @@
   "Español": "Aún no hay nada que revincular: busca primero coincidencias en una carpeta.",
   "Deutsch": "Noch nichts neu zu verknüpfen – durchsuchen Sie zuerst einen Ordner nach Treffern.",
   "Français": "Rien à reconnecter pour l'instant – recherchez d'abord des correspondances dans un dossier.",
-  "한국인": "아직 다시 연결할 항목이 없습니다 – 먼저 폴더에서 일치 항목을 검색하세요.",
+  "한국어": "아직 다시 연결할 항목이 없습니다 – 먼저 폴더에서 일치 항목을 검색하세요.",
   "中文": "还没有可重新链接的内容——请先在文件夹中搜索匹配项。",
   "العربية": "لا يوجد ما يُعاد ربطه بعد – ابحث في مجلد عن مطابقات أولًا.",
   "Tiếng Việt": "Chưa có gì để liên kết lại – hãy tìm kết quả khớp trong một thư mục trước."
@@ -735,7 +735,7 @@
   "Español": "Revinculando 1 clip…",
   "Deutsch": "1 Clip wird neu verknüpft…",
   "Français": "Reconnexion d'1 clip…",
-  "한국인": "클립 1개 다시 연결 중…",
+  "한국어": "클립 1개 다시 연결 중…",
   "中文": "正在重新链接 1 个片段…",
   "العربية": "جارٍ إعادة ربط مقطع واحد…",
   "Tiếng Việt": "Đang liên kết lại 1 clip…"
@@ -745,7 +745,7 @@
   "Español": "Revinculando {count} clips…",
   "Deutsch": "{count} Clips werden neu verknüpft…",
   "Français": "Reconnexion de {count} clips…",
-  "한국인": "클립 {count}개 다시 연결 중…",
+  "한국어": "클립 {count}개 다시 연결 중…",
   "中文": "正在重新链接 {count} 个片段…",
   "العربية": "جارٍ إعادة ربط {count} مقاطع…",
   "Tiếng Việt": "Đang liên kết lại {count} clip…"
@@ -755,7 +755,7 @@
   "Español": "Se revinculó 1 clip.",
   "Deutsch": "1 Clip neu verknüpft.",
   "Français": "1 clip reconnecté.",
-  "한국인": "클립 1개를 다시 연결했습니다.",
+  "한국어": "클립 1개를 다시 연결했습니다.",
   "中文": "已重新链接 1 个片段。",
   "العربية": "تمت إعادة ربط مقطع واحد.",
   "Tiếng Việt": "Đã liên kết lại 1 clip."
@@ -765,7 +765,7 @@
   "Español": "Se revincularon {count} clips.",
   "Deutsch": "{count} Clips neu verknüpft.",
   "Français": "{count} clips reconnectés.",
-  "한국인": "클립 {count}개를 다시 연결했습니다.",
+  "한국어": "클립 {count}개를 다시 연결했습니다.",
   "中文": "已重新链接 {count} 个片段。",
   "العربية": "تمت إعادة ربط {count} مقاطع.",
   "Tiếng Việt": "Đã liên kết lại {count} clip."
@@ -775,7 +775,7 @@
   "Español": "Se revinculó 1 clip",
   "Deutsch": "1 Clip neu verknüpft",
   "Français": "1 clip reconnecté",
-  "한국인": "클립 1개를 다시 연결했습니다",
+  "한국어": "클립 1개를 다시 연결했습니다",
   "中文": "已重新链接 1 个片段",
   "العربية": "تمت إعادة ربط مقطع واحد",
   "Tiếng Việt": "Đã liên kết lại 1 clip"
@@ -785,7 +785,7 @@
   "Español": "Se revincularon {count} clips",
   "Deutsch": "{count} Clips neu verknüpft",
   "Français": "{count} clips reconnectés",
-  "한국인": "클립 {count}개를 다시 연결했습니다",
+  "한국어": "클립 {count}개를 다시 연결했습니다",
   "中文": "已重新链接 {count} 个片段",
   "العربية": "تمت إعادة ربط {count} مقاطع",
   "Tiếng Việt": "Đã liên kết lại {count} clip"
@@ -795,7 +795,7 @@
   "Español": "{count} aún no tenían archivo elegido y se omitieron.",
   "Deutsch": "Für {count} war noch keine Datei gewählt; sie wurden übersprungen.",
   "Français": "{count} n'avaient pas encore de fichier choisi et ont été ignorés.",
-  "한국인": "{count}개는 아직 파일을 선택하지 않아 건너뛰었습니다.",
+  "한국어": "{count}개는 아직 파일을 선택하지 않아 건너뛰었습니다.",
   "中文": "{count} 个尚未选择文件，已跳过。",
   "العربية": "{count} لم يُختر لها ملف بعد فتم تخطيها.",
   "Tiếng Việt": "{count} chưa được chọn tệp nên đã bị bỏ qua."
@@ -805,7 +805,7 @@
   "Español": "Resolve rechazó {count} (otro tipo de medio o sin acceso al archivo).",
   "Deutsch": "Resolve hat {count} abgelehnt (andere Medienart oder kein Zugriff auf die Datei).",
   "Français": "Resolve en a refusé {count} (un autre type de média, ou pas d'accès au fichier).",
-  "한국인": "Resolve가 {count}개를 거부했습니다(다른 종류의 미디어이거나 파일에 접근할 수 없음).",
+  "한국어": "Resolve가 {count}개를 거부했습니다(다른 종류의 미디어이거나 파일에 접근할 수 없음).",
   "中文": "Resolve 拒绝了 {count} 个（媒体类型不同，或无法访问文件）。",
   "العربية": "رفض Resolve عدد {count} (نوع مختلف من الوسائط، أو لا يمكن الوصول إلى الملف).",
   "Tiếng Việt": "Resolve đã từ chối {count} (loại phương tiện khác, hoặc không truy cập được tệp)."

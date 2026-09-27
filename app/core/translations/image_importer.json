@@ -5,7 +5,7 @@
   "Español": "Importar en la bandeja",
   "Deutsch": "In Bin importieren",
   "Français": "Importer dans le chutier",
-  "한국인": "가져올 빈",
+  "한국어": "가져올 빈",
   "中文": "导入到媒体夹",
   "العربية": "استيراد إلى الحاوية",
   "Tiếng Việt": "Nhập vào bin"
@@ -15,7 +15,7 @@
   "Español": "p. ej., Descargas",
   "Deutsch": "z. B. Downloads",
   "Français": "ex. : Téléchargements",
-  "한국인": "예: Downloads",
+  "한국어": "예: Downloads",
   "中文": "例如 Downloads",
   "العربية": "مثال: التنزيلات",
   "Tiếng Việt": "vd: Downloads"
@@ -25,7 +25,7 @@
   "Español": "Guardar imágenes en",
   "Deutsch": "Bilder speichern in",
   "Français": "Enregistrer les images dans",
-  "한국인": "이미지 저장 위치",
+  "한국어": "이미지 저장 위치",
   "中文": "图像保存位置",
   "العربية": "حفظ الصور في",
   "Tiếng Việt": "Lưu ảnh vào"
@@ -35,7 +35,7 @@
   "Español": "Quitar seleccionadas",
   "Deutsch": "Auswahl entfernen",
   "Français": "Retirer la sélection",
-  "한국인": "선택 항목 제거",
+  "한국어": "선택 항목 제거",
   "中文": "移除所选项",
   "العربية": "إزالة المحدد",
   "Tiếng Việt": "Xóa mục đã chọn"
@@ -45,7 +45,7 @@
   "Español": "Pegar",
   "Deutsch": "Einfügen",
   "Français": "Coller",
-  "한국인": "붙여넣기",
+  "한국어": "붙여넣기",
   "中文": "粘贴",
   "العربية": "لصق",
   "Tiếng Việt": "Dán"
@@ -55,7 +55,7 @@
   "Español": "Pega una imagen con",
   "Deutsch": "Bild einfügen mit",
   "Français": "Collez une image avec",
-  "한국인": "이미지 붙여넣기:",
+  "한국어": "이미지 붙여넣기:",
   "中文": "粘贴图像：",
   "العربية": "الصق صورة باستخدام",
   "Tiếng Việt": "Dán ảnh bằng"
@@ -65,7 +65,7 @@
   "Español": "Una imagen copiada, archivos de imagen copiados o un enlace a una imagen; o arrastra aquí archivos de imagen.",
   "Deutsch": "Ein kopiertes Bild, kopierte Bilddateien oder ein Link zu einem Bild – oder ziehen Sie Bilddateien hierher.",
   "Français": "Une image copiée, des fichiers image copiés ou un lien vers une image – ou faites glisser des fichiers image ici.",
-  "한국인": "복사한 이미지, 복사한 이미지 파일 또는 이미지 링크 – 또는 이미지 파일을 여기로 끌어 오세요.",
+  "한국어": "복사한 이미지, 복사한 이미지 파일 또는 이미지 링크 – 또는 이미지 파일을 여기로 끌어 오세요.",
   "中文": "复制的图像、复制的图像文件或图像链接——也可以将图像文件拖到这里。",
   "العربية": "صورة منسوخة، أو ملفات صور منسوخة، أو رابط لصورة – أو اسحب ملفات الصور إلى هنا.",
   "Tiếng Việt": "Ảnh đã sao chép, tệp ảnh đã sao chép hoặc liên kết đến ảnh – hoặc kéo tệp ảnh vào đây."
@@ -75,7 +75,7 @@
   "Español": "Las imágenes pegadas y soltadas se guardan en la carpeta de arriba y luego se importan.",
   "Deutsch": "Eingefügte und abgelegte Bilder werden im obigen Ordner gespeichert und dann importiert.",
   "Français": "Les images collées et déposées sont enregistrées dans le dossier ci-dessus, puis importées.",
-  "한국인": "붙여 넣거나 끌어다 놓은 이미지는 위 폴더에 저장된 후 가져옵니다.",
+  "한국어": "붙여 넣거나 끌어다 놓은 이미지는 위 폴더에 저장된 후 가져옵니다.",
   "中文": "粘贴和拖放的图像会先保存到上方的文件夹，然后再导入。",
   "العربية": "تُحفظ الصور الملصقة والمُفلتة في المجلد أعلاه، ثم تُستورد.",
   "Tiếng Việt": "Ảnh được dán và thả vào sẽ được lưu trong thư mục ở trên, rồi được nhập."
@@ -85,7 +85,7 @@
   "Español": "¿Vaciar la lista?",
   "Deutsch": "Liste leeren?",
   "Français": "Vider la liste ?",
-  "한국인": "목록을 지울까요?",
+  "한국어": "목록을 지울까요?",
   "中文": "要清空列表吗？",
   "العربية": "مسح القائمة؟",
   "Tiếng Việt": "Xóa danh sách?"
@@ -95,7 +95,7 @@
   "Español": "Las imágenes se quitan de la lista. Sus archivos se quedan en la carpeta de guardado.",
   "Deutsch": "Die Bilder werden von der Liste entfernt. Ihre Dateien bleiben im Speicherordner.",
   "Français": "Les images sont retirées de la liste. Leurs fichiers restent dans le dossier d'enregistrement.",
-  "한국인": "이미지가 목록에서 제거됩니다. 파일은 저장 폴더에 남아 있습니다.",
+  "한국어": "이미지가 목록에서 제거됩니다. 파일은 저장 폴더에 남아 있습니다.",
   "中文": "这些图像会从列表中移除，其文件仍保留在保存文件夹中。",
   "العربية": "تُزال الصور من القائمة. تبقى ملفاتها في مجلد الحفظ.",
   "Tiếng Việt": "Các ảnh sẽ bị bỏ khỏi danh sách. Tệp của chúng vẫn nằm trong thư mục lưu."
@@ -105,7 +105,7 @@
   "Español": "Archivo no encontrado",
   "Deutsch": "Datei nicht gefunden",
   "Français": "Fichier introuvable",
-  "한국인": "파일을 찾을 수 없음",
+  "한국어": "파일을 찾을 수 없음",
   "中文": "找不到文件",
   "العربية": "الملف غير موجود",
   "Tiếng Việt": "Không tìm thấy tệp"
@@ -115,7 +115,7 @@
   "Español": "Quitar de la lista",
   "Deutsch": "Von der Liste nehmen",
   "Français": "Retirer de la liste",
-  "한국인": "목록에서 제거",
+  "한국어": "목록에서 제거",
   "中文": "从列表中移除",
   "العربية": "إزالة من القائمة",
   "Tiếng Việt": "Bỏ khỏi danh sách"
@@ -125,7 +125,7 @@
   "Español": "Quitar {name} de la lista",
   "Deutsch": "{name} von der Liste nehmen",
   "Français": "Retirer {name} de la liste",
-  "한국인": "{name}을(를) 목록에서 제거",
+  "한국어": "{name}을(를) 목록에서 제거",
   "中文": "从列表中移除 {name}",
   "العربية": "إزالة {name} من القائمة",
   "Tiếng Việt": "Bỏ {name} khỏi danh sách"
@@ -135,7 +135,7 @@
   "Español": "Descargando…",
   "Deutsch": "Wird heruntergeladen…",
   "Français": "Téléchargement…",
-  "한국인": "다운로드 중…",
+  "한국어": "다운로드 중…",
   "中文": "正在下载…",
   "العربية": "جارٍ التنزيل…",
   "Tiếng Việt": "Đang tải xuống…"
@@ -145,7 +145,7 @@
   "Español": "Descargando",
   "Deutsch": "Wird heruntergeladen",
   "Français": "Téléchargement",
-  "한국인": "다운로드 중",
+  "한국어": "다운로드 중",
   "中文": "正在下载",
   "العربية": "جارٍ التنزيل",
   "Tiếng Việt": "Đang tải xuống"
@@ -155,7 +155,7 @@
   "Español": "1 imagen",
   "Deutsch": "1 Bild",
   "Français": "1 image",
-  "한국인": "이미지 1개",
+  "한국어": "이미지 1개",
   "中文": "1 张图像",
   "العربية": "صورة واحدة",
   "Tiếng Việt": "1 ảnh"
@@ -165,7 +165,7 @@
   "Español": "{count} imágenes",
   "Deutsch": "{count} Bilder",
   "Français": "{count} images",
-  "한국인": "이미지 {count}개",
+  "한국어": "이미지 {count}개",
   "中文": "{count} 张图像",
   "العربية": "{count} صور",
   "Tiếng Việt": "{count} ảnh"
@@ -175,7 +175,7 @@
   "Español": "Importar 1 imagen",
   "Deutsch": "1 Bild importieren",
   "Français": "Importer 1 image",
-  "한국인": "이미지 1개 가져오기",
+  "한국어": "이미지 1개 가져오기",
   "中文": "导入 1 张图像",
   "العربية": "استيراد صورة واحدة",
   "Tiếng Việt": "Nhập 1 ảnh"
@@ -185,7 +185,7 @@
   "Español": "Importar {count} imágenes",
   "Deutsch": "{count} Bilder importieren",
   "Français": "Importer {count} images",
-  "한국인": "이미지 {count}개 가져오기",
+  "한국어": "이미지 {count}개 가져오기",
   "中文": "导入 {count} 张图像",
   "العربية": "استيراد {count} صور",
   "Tiếng Việt": "Nhập {count} ảnh"
@@ -195,7 +195,7 @@
   "Español": "Importar 1 imagen en \"{bin}\"",
   "Deutsch": "1 Bild in „{bin}“ importieren",
   "Français": "Importer 1 image dans « {bin} »",
-  "한국인": "이미지 1개를 \"{bin}\"에 가져오기",
+  "한국어": "이미지 1개를 \"{bin}\"에 가져오기",
   "中文": "将 1 张图像导入“{bin}”",
   "العربية": "استيراد صورة واحدة إلى \"{bin}\"",
   "Tiếng Việt": "Nhập 1 ảnh vào \"{bin}\""
@@ -205,7 +205,7 @@
   "Español": "Importar {count} imágenes en \"{bin}\"",
   "Deutsch": "{count} Bilder in „{bin}“ importieren",
   "Français": "Importer {count} images dans « {bin} »",
-  "한국인": "이미지 {count}개를 \"{bin}\"에 가져오기",
+  "한국어": "이미지 {count}개를 \"{bin}\"에 가져오기",
   "中文": "将 {count} 张图像导入“{bin}”",
   "العربية": "استيراد {count} صور إلى \"{bin}\"",
   "Tiếng Việt": "Nhập {count} ảnh vào \"{bin}\""
@@ -215,7 +215,7 @@
   "Español": "Escribe primero un nombre de bandeja",
   "Deutsch": "Geben Sie zuerst einen Bin-Namen ein",
   "Français": "Saisissez d'abord un nom de chutier",
-  "한국인": "먼저 빈 이름을 입력하세요",
+  "한국어": "먼저 빈 이름을 입력하세요",
   "中文": "请先输入媒体夹名称",
   "العربية": "اكتب اسم الحاوية أولًا",
   "Tiếng Việt": "Hãy nhập tên bin trước"
@@ -225,7 +225,7 @@
   "Español": "{count} seleccionadas: Supr las quita",
   "Deutsch": "{count} ausgewählt – Entf entfernt sie",
   "Français": "{count} sélectionnée(s) – Suppr pour retirer",
-  "한국인": "{count}개 선택됨 – Delete 키로 제거",
+  "한국어": "{count}개 선택됨 – Delete 키로 제거",
   "中文": "已选择 {count} 个——按 Delete 移除",
   "العربية": "تم تحديد {count} – يزيلها مفتاح Delete",
   "Tiếng Việt": "Đã chọn {count} – nhấn Delete để xóa"
@@ -235,7 +235,7 @@
   "Español": "Archivo copiado",
   "Deutsch": "Kopierte Datei",
   "Français": "Fichier copié",
-  "한국인": "복사한 파일",
+  "한국어": "복사한 파일",
   "中文": "复制的文件",
   "العربية": "ملف منسوخ",
   "Tiếng Việt": "Tệp đã sao chép"
@@ -245,7 +245,7 @@
   "Español": "Imagen pegada",
   "Deutsch": "Eingefügtes Bild",
   "Français": "Image collée",
-  "한국인": "붙여 넣은 이미지",
+  "한국어": "붙여 넣은 이미지",
   "中文": "粘贴的图像",
   "العربية": "صورة ملصقة",
   "Tiếng Việt": "Ảnh đã dán"
@@ -255,7 +255,7 @@
   "Español": "Archivo soltado",
   "Deutsch": "Abgelegte Datei",
   "Français": "Fichier déposé",
-  "한국인": "끌어다 놓은 파일",
+  "한국어": "끌어다 놓은 파일",
   "中文": "拖放的文件",
   "العربية": "ملف مُفلت",
   "Tiếng Việt": "Tệp đã thả"
@@ -265,7 +265,7 @@
   "Español": "Archivo añadido",
   "Deutsch": "Hinzugefügte Datei",
   "Français": "Fichier ajouté",
-  "한국인": "추가한 파일",
+  "한국어": "추가한 파일",
   "中文": "添加的文件",
   "العربية": "ملف مضاف",
   "Tiếng Việt": "Tệp đã thêm"
@@ -275,7 +275,7 @@
   "Español": "Descargado",
   "Deutsch": "Heruntergeladen",
   "Français": "Téléchargé",
-  "한국인": "다운로드됨",
+  "한국어": "다운로드됨",
   "中文": "已下载",
   "العربية": "تم التنزيل",
   "Tiếng Việt": "Đã tải xuống"
@@ -285,7 +285,7 @@
   "Español": "Se añadió {name} (archivo copiado).",
   "Deutsch": "{name} hinzugefügt (kopierte Datei).",
   "Français": "{name} ajouté (fichier copié).",
-  "한국인": "{name}을(를) 추가했습니다(복사한 파일).",
+  "한국어": "{name}을(를) 추가했습니다(복사한 파일).",
   "中文": "已添加 {name}（复制的文件）。",
   "العربية": "تمت إضافة {name} (ملف منسوخ).",
   "Tiếng Việt": "Đã thêm {name} (tệp đã sao chép)."
@@ -295,7 +295,7 @@
   "Español": "Se añadió {name} (imagen pegada).",
   "Deutsch": "{name} hinzugefügt (eingefügtes Bild).",
   "Français": "{name} ajouté (image collée).",
-  "한국인": "{name}을(를) 추가했습니다(붙여 넣은 이미지).",
+  "한국어": "{name}을(를) 추가했습니다(붙여 넣은 이미지).",
   "中文": "已添加 {name}（粘贴的图像）。",
   "العربية": "تمت إضافة {name} (صورة ملصقة).",
   "Tiếng Việt": "Đã thêm {name} (ảnh đã dán)."
@@ -305,7 +305,7 @@
   "Español": "Se añadió {name} (archivo soltado).",
   "Deutsch": "{name} hinzugefügt (abgelegte Datei).",
   "Français": "{name} ajouté (fichier déposé).",
-  "한국인": "{name}을(를) 추가했습니다(끌어다 놓은 파일).",
+  "한국어": "{name}을(를) 추가했습니다(끌어다 놓은 파일).",
   "中文": "已添加 {name}（拖放的文件）。",
   "العربية": "تمت إضافة {name} (ملف مُفلت).",
   "Tiếng Việt": "Đã thêm {name} (tệp đã thả)."
@@ -315,7 +315,7 @@
   "Español": "Se añadió {name} (archivo añadido).",
   "Deutsch": "{name} hinzugefügt (hinzugefügte Datei).",
   "Français": "{name} ajouté (fichier ajouté).",
-  "한국인": "{name}을(를) 추가했습니다(추가한 파일).",
+  "한국어": "{name}을(를) 추가했습니다(추가한 파일).",
   "中文": "已添加 {name}（添加的文件）。",
   "العربية": "تمت إضافة {name} (ملف مضاف).",
   "Tiếng Việt": "Đã thêm {name} (tệp đã thêm)."
@@ -325,7 +325,7 @@
   "Español": "Se añadió {name} (descargado).",
   "Deutsch": "{name} hinzugefügt (heruntergeladen).",
   "Français": "{name} ajouté (téléchargé).",
-  "한국인": "{name}을(를) 추가했습니다(다운로드됨).",
+  "한국어": "{name}을(를) 추가했습니다(다운로드됨).",
   "中文": "已添加 {name}（已下载）。",
   "العربية": "تمت إضافة {name} (تم التنزيل).",
   "Tiếng Việt": "Đã thêm {name} (đã tải xuống)."
@@ -335,7 +335,7 @@
   "Español": "No se pudo leer el portapapeles: {error}",
   "Deutsch": "Die Zwischenablage konnte nicht gelesen werden: {error}",
   "Français": "Impossible de lire le presse-papiers : {error}",
-  "한국인": "클립보드를 읽을 수 없습니다: {error}",
+  "한국어": "클립보드를 읽을 수 없습니다: {error}",
   "中文": "无法读取剪贴板：{error}",
   "العربية": "تعذرت قراءة الحافظة: {error}",
   "Tiếng Việt": "Không thể đọc bộ nhớ tạm: {error}"
@@ -345,7 +345,7 @@
   "Español": "El portapapeles tiene texto, pero no un enlace a una imagen",
   "Deutsch": "Die Zwischenablage enthält Text, aber keinen Bildlink",
   "Français": "Le presse-papiers contient du texte, mais pas un lien vers une image",
-  "한국인": "클립보드에 텍스트가 있지만 이미지 링크가 아닙니다",
+  "한국어": "클립보드에 텍스트가 있지만 이미지 링크가 아닙니다",
   "中文": "剪贴板中有文本，但不是图像链接",
   "العربية": "تحتوي الحافظة على نص، لكن ليس رابط صورة",
   "Tiếng Việt": "Bộ nhớ tạm có văn bản, nhưng không phải liên kết ảnh"
@@ -355,7 +355,7 @@
   "Español": "No hay nada que pegar: copia primero una imagen, archivos de imagen o un enlace a una imagen",
   "Deutsch": "Nichts zum Einfügen – kopieren Sie zuerst ein Bild, Bilddateien oder einen Bildlink",
   "Français": "Rien à coller – copiez d'abord une image, des fichiers image ou un lien vers une image",
-  "한국인": "붙여 넣을 내용이 없습니다 – 먼저 이미지, 이미지 파일 또는 이미지 링크를 복사하세요",
+  "한국어": "붙여 넣을 내용이 없습니다 – 먼저 이미지, 이미지 파일 또는 이미지 링크를 복사하세요",
   "中文": "没有可粘贴的内容——请先复制图像、图像文件或图像链接",
   "العربية": "لا يوجد ما يُلصق – انسخ صورة أو ملفات صور أو رابط صورة أولًا",
   "Tiếng Việt": "Không có gì để dán – hãy sao chép ảnh, tệp ảnh hoặc liên kết ảnh trước"
@@ -365,7 +365,7 @@
   "Español": "No se pudo guardar la imagen pegada: {error}",
   "Deutsch": "Das eingefügte Bild konnte nicht gespeichert werden: {error}",
   "Français": "Impossible d'enregistrer l'image collée : {error}",
-  "한국인": "붙여 넣은 이미지를 저장할 수 없습니다: {error}",
+  "한국어": "붙여 넣은 이미지를 저장할 수 없습니다: {error}",
   "中文": "无法保存粘贴的图像：{error}",
   "العربية": "تعذر حفظ الصورة الملصقة: {error}",
   "Tiếng Việt": "Không thể lưu ảnh đã dán: {error}"
@@ -375,7 +375,7 @@
   "Español": "No se pudo usar la carpeta de guardado: {error}",
   "Deutsch": "Der Speicherordner konnte nicht verwendet werden: {error}",
   "Français": "Impossible d'utiliser le dossier d'enregistrement : {error}",
-  "한국인": "저장 폴더를 사용할 수 없습니다: {error}",
+  "한국어": "저장 폴더를 사용할 수 없습니다: {error}",
   "中文": "无法使用保存文件夹：{error}",
   "العربية": "تعذر استخدام مجلد الحفظ: {error}",
   "Tiếng Việt": "Không thể dùng thư mục lưu: {error}"
@@ -385,7 +385,7 @@
   "Español": "Se omitió 1 archivo que no es una imagen: {names}",
   "Deutsch": "1 Datei übersprungen, die kein Bild ist: {names}",
   "Français": "1 fichier ignoré car ce n'est pas une image : {names}",
-  "한국인": "이미지가 아닌 파일 1개를 건너뛰었습니다: {names}",
+  "한국어": "이미지가 아닌 파일 1개를 건너뛰었습니다: {names}",
   "中文": "已跳过 1 个非图像文件：{names}",
   "العربية": "تم تخطي ملف واحد ليس صورة: {names}",
   "Tiếng Việt": "Đã bỏ qua 1 tệp không phải ảnh: {names}"
@@ -395,7 +395,7 @@
   "Español": "Se omitieron {count} archivos que no son imágenes: {names}",
   "Deutsch": "{count} Dateien übersprungen, die keine Bilder sind: {names}",
   "Français": "{count} fichiers ignorés car ce ne sont pas des images : {names}",
-  "한국인": "이미지가 아닌 파일 {count}개를 건너뛰었습니다: {names}",
+  "한국어": "이미지가 아닌 파일 {count}개를 건너뛰었습니다: {names}",
   "中文": "已跳过 {count} 个非图像文件：{names}",
   "العربية": "تم تخطي {count} ملفات ليست صورًا: {names}",
   "Tiếng Việt": "Đã bỏ qua {count} tệp không phải ảnh: {names}"
@@ -405,7 +405,7 @@
   "Español": "No se pudo copiar {error}",
   "Deutsch": "Konnte nicht kopiert werden: {error}",
   "Français": "Impossible de copier {error}",
-  "한국인": "복사할 수 없습니다: {error}",
+  "한국어": "복사할 수 없습니다: {error}",
   "中文": "无法复制 {error}",
   "العربية": "تعذر نسخ {error}",
   "Tiếng Việt": "Không thể sao chép {error}"
@@ -415,7 +415,7 @@
   "Español": "No hay archivos de imagen",
   "Deutsch": "Dort sind keine Bilddateien",
   "Français": "Aucun fichier image",
-  "한국인": "이미지 파일이 없습니다",
+  "한국어": "이미지 파일이 없습니다",
   "中文": "那里没有图像文件",
   "العربية": "لا توجد ملفات صور هناك",
   "Tiếng Việt": "Không có tệp ảnh nào"
@@ -425,7 +425,7 @@
   "Español": "Añadir imágenes",
   "Deutsch": "Bilder hinzufügen",
   "Français": "Ajouter des images",
-  "한국인": "이미지 추가",
+  "한국어": "이미지 추가",
   "中文": "添加图像",
   "العربية": "إضافة صور",
   "Tiếng Việt": "Thêm ảnh"
@@ -435,7 +435,7 @@
   "Español": "Imágenes",
   "Deutsch": "Bilder",
   "Français": "Images",
-  "한국인": "이미지",
+  "한국어": "이미지",
   "中文": "图像",
   "العربية": "الصور",
   "Tiếng Việt": "Ảnh"
@@ -445,7 +445,7 @@
   "Español": "No se pudo descargar {url}: {error}",
   "Deutsch": "{url} konnte nicht heruntergeladen werden: {error}",
   "Français": "Impossible de télécharger {url} : {error}",
-  "한국인": "{url}을(를) 다운로드할 수 없습니다: {error}",
+  "한국어": "{url}을(를) 다운로드할 수 없습니다: {error}",
   "中文": "无法下载 {url}：{error}",
   "العربية": "تعذر تنزيل {url}: {error}",
   "Tiếng Việt": "Không thể tải xuống {url}: {error}"
@@ -455,7 +455,7 @@
   "Español": "Error en la descarga",
   "Deutsch": "Download fehlgeschlagen",
   "Français": "Échec du téléchargement",
-  "한국인": "다운로드 실패",
+  "한국어": "다운로드 실패",
   "中文": "下载失败",
   "العربية": "فشل التنزيل",
   "Tiếng Việt": "Tải xuống thất bại"
@@ -465,7 +465,7 @@
   "Español": "No se pudo descargar la imagen desde\n{url}\n\n{error}",
   "Deutsch": "Das Bild konnte nicht heruntergeladen werden von\n{url}\n\n{error}",
   "Français": "Impossible de télécharger l'image depuis\n{url}\n\n{error}",
-  "한국인": "다음 위치에서 이미지를 다운로드할 수 없습니다.\n{url}\n\n{error}",
+  "한국어": "다음 위치에서 이미지를 다운로드할 수 없습니다.\n{url}\n\n{error}",
   "中文": "无法从以下位置下载图像：\n{url}\n\n{error}",
   "العربية": "تعذر تنزيل الصورة من\n{url}\n\n{error}",
   "Tiếng Việt": "Không thể tải ảnh xuống từ\n{url}\n\n{error}"
@@ -475,7 +475,7 @@
   "Español": "A partir de ahora, las imágenes se guardan en {folder}.",
   "Deutsch": "Bilder werden ab jetzt in {folder} gespeichert.",
   "Français": "Les images sont désormais enregistrées dans {folder}.",
-  "한국인": "이제부터 이미지는 {folder}에 저장됩니다.",
+  "한국어": "이제부터 이미지는 {folder}에 저장됩니다.",
   "中文": "今后图像将保存到 {folder}。",
   "العربية": "من الآن فصاعدًا تُحفظ الصور في {folder}.",
   "Tiếng Việt": "Từ giờ ảnh sẽ được lưu vào {folder}."
@@ -485,7 +485,7 @@
   "Español": "Lista vaciada (los archivos siguen en la carpeta de guardado).",
   "Deutsch": "Liste geleert (die Dateien befinden sich weiterhin im Speicherordner).",
   "Français": "Liste vidée (les fichiers sont toujours dans le dossier d'enregistrement).",
-  "한국인": "목록을 지웠습니다(파일은 저장 폴더에 그대로 있습니다).",
+  "한국어": "목록을 지웠습니다(파일은 저장 폴더에 그대로 있습니다).",
   "中文": "已清空列表（文件仍在保存文件夹中）。",
   "العربية": "تم مسح القائمة (لا تزال الملفات في مجلد الحفظ).",
   "Tiếng Việt": "Đã xóa danh sách (các tệp vẫn nằm trong thư mục lưu)."
@@ -495,7 +495,7 @@
   "Español": "Pon nombre a la bandeja",
   "Deutsch": "Bin benennen",
   "Français": "Nommez le chutier",
-  "한국인": "빈 이름 지정",
+  "한국어": "빈 이름 지정",
   "中文": "为媒体夹命名",
   "العربية": "سمِّ الحاوية",
   "Tiếng Việt": "Đặt tên bin"
@@ -505,7 +505,7 @@
   "Español": "Escribe el nombre de la bandeja en la que importar.",
   "Deutsch": "Geben Sie den Namen des Bins ein, in den importiert werden soll.",
   "Français": "Saisissez le nom du chutier dans lequel importer.",
-  "한국인": "가져올 빈의 이름을 입력하세요.",
+  "한국어": "가져올 빈의 이름을 입력하세요.",
   "中文": "请输入要导入到的媒体夹名称。",
   "العربية": "اكتب اسم الحاوية التي سيتم الاستيراد إليها.",
   "Tiếng Việt": "Nhập tên bin để nhập vào."
@@ -515,7 +515,7 @@
   "Español": "No hay nada que importar",
   "Deutsch": "Nichts zu importieren",
   "Français": "Rien à importer",
-  "한국인": "가져올 항목 없음",
+  "한국어": "가져올 항목 없음",
   "中文": "没有可导入的内容",
   "العربية": "لا يوجد ما يُستورد",
   "Tiếng Việt": "Không có gì để nhập"
@@ -525,7 +525,7 @@
   "Español": "Ninguna de las imágenes de la lista sigue en el disco.",
   "Deutsch": "Keines der Bilder in der Liste befindet sich noch auf der Festplatte.",
   "Français": "Aucune des images de la liste n'est plus sur le disque.",
-  "한국인": "목록의 이미지가 더 이상 디스크에 없습니다.",
+  "한국어": "목록의 이미지가 더 이상 디스크에 없습니다.",
   "中文": "列表中的图像都已不在磁盘上。",
   "العربية": "لم تعد أي من الصور في القائمة موجودة على القرص.",
   "Tiếng Việt": "Không ảnh nào trong danh sách còn trên ổ đĩa."
@@ -535,7 +535,7 @@
   "Español": "Pega o suelta primero algunas imágenes.",
   "Deutsch": "Fügen Sie zuerst Bilder ein oder legen Sie sie ab.",
   "Français": "Collez ou déposez d'abord des images.",
-  "한국인": "먼저 이미지를 붙여 넣거나 끌어다 놓으세요.",
+  "한국어": "먼저 이미지를 붙여 넣거나 끌어다 놓으세요.",
   "中文": "请先粘贴或拖放一些图像。",
   "العربية": "الصق بعض الصور أو أفلتها أولًا.",
   "Tiếng Việt": "Hãy dán hoặc thả vài ảnh vào trước."
@@ -545,7 +545,7 @@
   "Español": "Importando 1 imagen…",
   "Deutsch": "1 Bild wird importiert…",
   "Français": "Importation d'1 image…",
-  "한국인": "이미지 1개 가져오는 중…",
+  "한국어": "이미지 1개 가져오는 중…",
   "中文": "正在导入 1 张图像…",
   "العربية": "جارٍ استيراد صورة واحدة…",
   "Tiếng Việt": "Đang nhập 1 ảnh…"
@@ -555,7 +555,7 @@
   "Español": "Importando {count} imágenes…",
   "Deutsch": "{count} Bilder werden importiert…",
   "Français": "Importation de {count} images…",
-  "한국인": "이미지 {count}개 가져오는 중…",
+  "한국어": "이미지 {count}개 가져오는 중…",
   "中文": "正在导入 {count} 张图像…",
   "العربية": "جارٍ استيراد {count} صور…",
   "Tiếng Việt": "Đang nhập {count} ảnh…"
@@ -565,7 +565,7 @@
   "Español": "Error al importar: {error}",
   "Deutsch": "Import fehlgeschlagen: {error}",
   "Français": "Échec de l'importation : {error}",
-  "한국인": "가져오기 실패: {error}",
+  "한국어": "가져오기 실패: {error}",
   "中文": "导入失败：{error}",
   "العربية": "فشل الاستيراد: {error}",
   "Tiếng Việt": "Nhập thất bại: {error}"
@@ -575,7 +575,7 @@
   "Español": "Se importó 1 imagen en la bandeja '{bin}'.",
   "Deutsch": "1 Bild in den Bin „{bin}“ importiert.",
   "Français": "1 image importée dans le chutier « {bin} ».",
-  "한국인": "이미지 1개를 '{bin}' 빈에 가져왔습니다.",
+  "한국어": "이미지 1개를 '{bin}' 빈에 가져왔습니다.",
   "中文": "已将 1 张图像导入“{bin}”媒体夹。",
   "العربية": "تم استيراد صورة واحدة إلى الحاوية '{bin}'.",
   "Tiếng Việt": "Đã nhập 1 ảnh vào bin '{bin}'."
@@ -585,7 +585,7 @@
   "Español": "Se importaron {count} imágenes en la bandeja '{bin}'.",
   "Deutsch": "{count} Bilder in den Bin „{bin}“ importiert.",
   "Français": "{count} images importées dans le chutier « {bin} ».",
-  "한국인": "이미지 {count}개를 '{bin}' 빈에 가져왔습니다.",
+  "한국어": "이미지 {count}개를 '{bin}' 빈에 가져왔습니다.",
   "中文": "已将 {count} 张图像导入“{bin}”媒体夹。",
   "العربية": "تم استيراد {count} صور إلى الحاوية '{bin}'.",
   "Tiếng Việt": "Đã nhập {count} ảnh vào bin '{bin}'."
@@ -595,7 +595,7 @@
   "Español": "Se omitieron {count} que ya no estaban en el disco: {names}",
   "Deutsch": "{count} ausgelassen, die nicht mehr auf der Festplatte waren: {names}",
   "Français": "{count} ignorée(s) car absente(s) du disque : {names}",
-  "한국인": "더 이상 디스크에 없는 {count}개를 제외했습니다: {names}",
+  "한국어": "더 이상 디스크에 없는 {count}개를 제외했습니다: {names}",
   "中文": "已排除 {count} 个不再位于磁盘上的文件：{names}",
   "العربية": "تم استبعاد {count} لم تعد موجودة على القرص: {names}",
   "Tiếng Việt": "Đã bỏ qua {count} ảnh không còn trên ổ đĩa: {names}"
@@ -605,7 +605,7 @@
   "Español": "Se importó 1 imagen en '{bin}'",
   "Deutsch": "1 Bild in „{bin}“ importiert",
   "Français": "1 image importée dans « {bin} »",
-  "한국인": "이미지 1개를 '{bin}'에 가져왔습니다",
+  "한국어": "이미지 1개를 '{bin}'에 가져왔습니다",
   "中文": "已将 1 张图像导入“{bin}”",
   "العربية": "تم استيراد صورة واحدة إلى '{bin}'",
   "Tiếng Việt": "Đã nhập 1 ảnh vào '{bin}'"
@@ -615,7 +615,7 @@
   "Español": "Se importaron {count} imágenes en '{bin}'",
   "Deutsch": "{count} Bilder in „{bin}“ importiert",
   "Français": "{count} images importées dans « {bin} »",
-  "한국인": "이미지 {count}개를 '{bin}'에 가져왔습니다",
+  "한국어": "이미지 {count}개를 '{bin}'에 가져왔습니다",
   "中文": "已将 {count} 张图像导入“{bin}”",
   "العربية": "تم استيراد {count} صور إلى '{bin}'",
   "Tiếng Việt": "Đã nhập {count} ảnh vào '{bin}'"
@@ -625,7 +625,7 @@
   "Español": "Usando el proyecto '{name}'.",
   "Deutsch": "Projekt „{name}“ wird verwendet.",
   "Français": "Utilisation du projet « {name} ».",
-  "한국인": "'{name}' 프로젝트를 사용합니다.",
+  "한국어": "'{name}' 프로젝트를 사용합니다.",
   "中文": "正在使用项目“{name}”。",
   "العربية": "استخدام المشروع '{name}'.",
   "Tiếng Việt": "Đang dùng dự án '{name}'."
@@ -635,7 +635,7 @@
   "Español": "No se pudo acceder a la carpeta raíz del Grupo de medios.",
   "Deutsch": "Auf den Stammordner des Media Pools konnte nicht zugegriffen werden.",
   "Français": "Impossible d'accéder au dossier racine du Pool de médias.",
-  "한국인": "미디어 풀의 루트 폴더에 접근할 수 없습니다.",
+  "한국어": "미디어 풀의 루트 폴더에 접근할 수 없습니다.",
   "中文": "无法访问媒体池的根文件夹。",
   "العربية": "تعذر الوصول إلى المجلد الجذر لمجمع الوسائط.",
   "Tiếng Việt": "Không thể truy cập thư mục gốc của Media Pool."
@@ -645,7 +645,7 @@
   "Español": "No existe ninguna bandeja llamada '{bin}' (encontradas: {names}); se creará.",
   "Deutsch": "Kein Bin namens „{bin}“ vorhanden (gefunden: {names}) – er wird erstellt.",
   "Français": "Aucun chutier nommé « {bin} » (trouvés : {names}) – création en cours.",
-  "한국인": "'{bin}' 이름의 빈이 없습니다(찾은 빈: {names}) – 새로 만듭니다.",
+  "한국어": "'{bin}' 이름의 빈이 없습니다(찾은 빈: {names}) – 새로 만듭니다.",
   "中文": "不存在名为“{bin}”的媒体夹（找到：{names}）——正在创建。",
   "العربية": "لا توجد حاوية باسم '{bin}' (تم العثور على: {names}) – جارٍ إنشاؤها.",
   "Tiếng Việt": "Không có bin nào tên '{bin}' (tìm thấy: {names}) – đang tạo."
@@ -655,7 +655,7 @@
   "Español": "La API de Resolve se negó a crear una bandeja llamada '{bin}'.",
   "Deutsch": "Die API von Resolve hat das Erstellen eines Bins namens „{bin}“ abgelehnt.",
   "Français": "L'API de Resolve a refusé de créer un chutier nommé « {bin} ».",
-  "한국인": "Resolve API가 '{bin}' 이름의 빈 생성을 거부했습니다.",
+  "한국어": "Resolve API가 '{bin}' 이름의 빈 생성을 거부했습니다.",
   "中文": "Resolve 的 API 拒绝创建名为“{bin}”的媒体夹。",
   "العربية": "رفضت واجهة Resolve البرمجية إنشاء حاوية باسم '{bin}'.",
   "Tiếng Việt": "API của Resolve đã từ chối tạo bin tên '{bin}'."
@@ -665,7 +665,7 @@
   "Español": "Se encontró la bandeja '{bin}'; se reutilizará.",
   "Deutsch": "Vorhandener Bin „{bin}“ gefunden – er wird wiederverwendet.",
   "Français": "Chutier existant « {bin} » trouvé – il est réutilisé.",
-  "한국인": "기존 빈 '{bin}'을(를) 찾았습니다 – 다시 사용합니다.",
+  "한국어": "기존 빈 '{bin}'을(를) 찾았습니다 – 다시 사용합니다.",
   "中文": "找到现有媒体夹“{bin}”——将重复使用。",
   "العربية": "تم العثور على الحاوية الموجودة '{bin}' – ستُعاد استخدامها.",
   "Tiếng Việt": "Đã tìm thấy bin '{bin}' – dùng lại bin này."
@@ -675,7 +675,7 @@
   "Español": "Carpeta actual establecida en '{bin}': {result}",
   "Deutsch": "Aktueller Ordner auf „{bin}“ gesetzt: {result}",
   "Français": "Dossier actuel défini sur « {bin} » : {result}",
-  "한국인": "현재 폴더를 '{bin}'(으)로 설정: {result}",
+  "한국어": "현재 폴더를 '{bin}'(으)로 설정: {result}",
   "中文": "将当前文件夹设为“{bin}”：{result}",
   "العربية": "تعيين المجلد الحالي إلى '{bin}': {result}",
   "Tiếng Việt": "Đặt thư mục hiện tại thành '{bin}': {result}"
@@ -685,7 +685,7 @@
   "Español": "Llamando a ImportMedia con {count} ruta(s)…",
   "Deutsch": "ImportMedia wird mit {count} Pfad(en) aufgerufen…",
   "Français": "Appel d'ImportMedia avec {count} chemin(s)…",
-  "한국인": "경로 {count}개로 ImportMedia 호출 중…",
+  "한국어": "경로 {count}개로 ImportMedia 호출 중…",
   "中文": "正在使用 {count} 个路径调用 ImportMedia…",
   "العربية": "جارٍ استدعاء ImportMedia مع {count} مسار…",
   "Tiếng Việt": "Đang gọi ImportMedia với {count} đường dẫn…"
@@ -695,7 +695,7 @@
   "Español": "ImportMedia() de Resolve no devolvió nada. Normalmente significa que las rutas de archivo no se reconocieron como medios válidos o que la bandeja no se estableció realmente como actual.",
   "Deutsch": "ImportMedia() von Resolve hat nichts zurückgegeben. Das bedeutet meist, dass die Dateipfade nicht als gültige Medien erkannt wurden oder der Bin nicht wirklich als aktuell gesetzt war.",
   "Français": "ImportMedia() de Resolve n'a rien renvoyé. Cela signifie généralement que les chemins de fichier n'ont pas été reconnus comme des médias valides, ou que le chutier n'a pas vraiment été défini comme actuel.",
-  "한국인": "Resolve의 ImportMedia()가 아무것도 반환하지 않았습니다. 보통 파일 경로가 유효한 미디어로 인식되지 않았거나 빈이 실제로 현재 폴더로 설정되지 않았다는 뜻입니다.",
+  "한국어": "Resolve의 ImportMedia()가 아무것도 반환하지 않았습니다. 보통 파일 경로가 유효한 미디어로 인식되지 않았거나 빈이 실제로 현재 폴더로 설정되지 않았다는 뜻입니다.",
   "中文": "Resolve 的 ImportMedia() 没有返回任何内容。这通常意味着文件路径未被识别为有效媒体，或者媒体夹实际上并未设为当前文件夹。",
   "العربية": "لم تُرجع الدالة ImportMedia()‎ في Resolve أي شيء. يعني هذا عادةً أن مسارات الملفات لم يُتعرف عليها كوسائط صالحة، أو أن الحاوية لم تُعيَّن فعلًا كحالية.",
   "Tiếng Việt": "ImportMedia() của Resolve không trả về gì. Điều này thường có nghĩa là đường dẫn tệp không được nhận diện là phương tiện hợp lệ, hoặc bin chưa thực sự được đặt làm hiện tại."
@@ -705,7 +705,7 @@
   "Español": "ImportMedia devolvió {count} elemento(s).",
   "Deutsch": "ImportMedia hat {count} Element(e) zurückgegeben.",
   "Français": "ImportMedia a renvoyé {count} élément(s).",
-  "한국인": "ImportMedia가 항목 {count}개를 반환했습니다.",
+  "한국어": "ImportMedia가 항목 {count}개를 반환했습니다.",
   "中文": "ImportMedia 返回了 {count} 个项目。",
   "العربية": "أرجعت ImportMedia عدد {count} عنصر.",
   "Tiếng Việt": "ImportMedia đã trả về {count} mục."
@@ -715,7 +715,7 @@
   "Español": "Solo se admiten URL http/https.",
   "Deutsch": "Nur http/https-URLs werden unterstützt.",
   "Français": "Seules les URL http/https sont prises en charge.",
-  "한국인": "http/https URL만 지원됩니다.",
+  "한국어": "http/https URL만 지원됩니다.",
   "中文": "仅支持 http/https URL。",
   "العربية": "عناوين URL من نوع http/https فقط مدعومة.",
   "Tiếng Việt": "Chỉ hỗ trợ URL http/https."
@@ -725,7 +725,7 @@
   "Español": "Esa URL no devolvió una imagen (se obtuvo '{type}').",
   "Deutsch": "Diese URL hat kein Bild zurückgegeben (erhalten: „{type}“).",
   "Français": "Cette URL n'a pas renvoyé d'image (reçu : « {type} »).",
-  "한국인": "해당 URL이 이미지를 반환하지 않았습니다('{type}' 수신).",
+  "한국어": "해당 URL이 이미지를 반환하지 않았습니다('{type}' 수신).",
   "中文": "该 URL 未返回图像（收到“{type}”）。",
   "العربية": "لم يُرجع عنوان URL هذا صورة (تم استلام '{type}').",
   "Tiếng Việt": "URL đó không trả về ảnh (nhận được '{type}')."
@@ -735,7 +735,7 @@
   "Español": "La imagen supera el límite de seguridad de 25 MB.",
   "Deutsch": "Das Bild überschreitet das Sicherheitslimit von 25 MB.",
   "Français": "L'image dépasse la limite de sécurité de 25 Mo.",
-  "한국인": "이미지가 안전 한도인 25MB를 초과합니다.",
+  "한국어": "이미지가 안전 한도인 25MB를 초과합니다.",
   "中文": "图像超过 25 MB 的安全上限。",
   "العربية": "تتجاوز الصورة حد الأمان البالغ 25 ميغابايت.",
   "Tiếng Việt": "Ảnh vượt quá giới hạn an toàn 25 MB."
@@ -745,7 +745,7 @@
   "Español": "Cancelado.",
   "Deutsch": "Abgebrochen.",
   "Français": "Annulé.",
-  "한국인": "취소되었습니다.",
+  "한국어": "취소되었습니다.",
   "中文": "已取消。",
   "العربية": "تم الإلغاء.",
   "Tiếng Việt": "Đã hủy."
