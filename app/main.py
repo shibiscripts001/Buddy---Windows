@@ -22,7 +22,7 @@ import sys
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication
 
-from core import crash_log, gui_gc, startup_manager, web_flags
+from core import crash_log, gpu_adapter, gui_gc, startup_manager, web_flags
 from core.i18n import tr
 from core.settings_store import BUDDY_DIR
 from core.shell_window import ShellWindow
@@ -43,8 +43,9 @@ def main(start_hidden=False):
     startup_manager.sync_if_enabled()
 
     # Web pages draw through ANGLE's Direct3D 11 on 12: plain Direct3D 11
-    # crashes inside Buddy's process on some machines (core/web_flags.py).
-    crash_log.trail("web", web_flags.apply(os.environ))
+    # crashes inside Buddy's process (core/web_flags.py) - and with two
+    # GPUs, on the low-power one, away from Resolve's card (core/gpu_adapter.py).
+    crash_log.trail("web", f"{web_flags.apply(os.environ)}; {gpu_adapter.apply(os.environ)}")
     # Web tool pages (core/web_page.py) share GPU contexts with each other;
     # QtWebEngine needs this set before the QApplication exists.
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)

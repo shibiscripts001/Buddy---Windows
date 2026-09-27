@@ -3,15 +3,23 @@
 The Chromium switches Buddy's web views start with.
 
 Chromium draws through ANGLE on a GPU thread inside Buddy's own process.
-ANGLE's default backend, Direct3D 11, can fault inside its input-layout
-cache on some machines - two GPUs (an integrated one and the card Resolve
-is busy with) is the usual story - and take Buddy down with it: an access
-violation in Qt6WebEngineCore.dll at a quiet moment, with nothing in the
-crash trail before it. So ANGLE is pointed at Direct3D 11 on 12 instead,
-which keeps the GPU without going through that path.
+ANGLE's default backend, Direct3D 11, crashes Buddy within a minute or two
+of ordinary use, on any card: on Chromium's GPU thread, a write through a
+freed pointer while relinking a list in ANGLE's cache of Direct3D state
+objects (Qt6WebEngineCore.dll+0xd020d0 in Qt 6.11.2). The more varied the
+pages' drawing, the sooner - Buddy's themed pages brought it in ~35 s of
+switching tools. Direct3D 11 on 12 never does: 550+ switches without a
+fault where Direct3D 11 managed ~75. ANGLE's OpenGL and Vulkan backends
+lost their context over and over.
 
-Drawing in software (--disable-gpu) avoided the crash too, but with a
-dozen-odd views open inside Resolve every page was slow to draw and load.
+11 on 12 has one weakness of its own: on the card's driver. Dragging Buddy
+onto a monitor plugged into another GPU, or quitting Resolve, reset the
+NVIDIA driver (nvlddmkm event 153) and took Buddy with it - so on a PC with
+two GPUs, Buddy draws on the low-power one (core/gpu_adapter.py), where it
+survived all of that.
+
+Drawing in software (--disable-gpu) never crashed, but managed 7 frames a
+second on a busy page where the GPU does 60.
 
 BUDDY_WEB_SOFTWARE=1 draws in software again (a machine where the GPU
 still crashes); BUDDY_WEB_GPU=1 adds nothing, leaving Chromium's own
