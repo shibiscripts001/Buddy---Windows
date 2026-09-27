@@ -23,6 +23,10 @@ frame is bigger than any other request, and the send that follows names
 it. Everyone else fetches it with get_image when they show the message.
 Images are kept IMAGE_DAYS; the message stays after, saying so.
 
+GIFs: an image can be animated (an animated WebP - Buddy turns any GIF into
+one). GIF search goes through this server to GIPHY (gifs.py), and the GIF
+picked comes back to the sender's Buddy to be sent like any other image.
+
 The client's IP address arrives on the session only for the per-IP limit
 on new accounts. It's held in memory and never stored, logged or sent to
 anyone.
@@ -44,6 +48,7 @@ import unicodedata
 from .common import (STAFF_PREFIX, TAG_CHARS, RequestError, device_id, key_bytes, network_of,  # noqa: F401
                      new_user_id, public_message, public_room, public_user, tag_of)
 from .admin import STAFF_ROLES, AdminMixin, one_line
+from .gifs import GifMixin
 from .social import DEVICE_IDLE_DAYS, MAX_DEVICES, SocialMixin, dm_room
 from .store import Store, dm_people
 
@@ -159,6 +164,9 @@ class Session:
         self.close_requested = False
         self.upload: dict | None = None           # an image arriving in parts: {"id", "parts", "size"}
         self.uploaded: tuple | None = None        # (id, bytes) of the one that arrived, until it's sent
+        self.gif_search: tuple | None = None      # (key, nonce) of the GIF search it's waiting for (gifs.py)
+        self.gif_wanted: set[str] = set()         # the GIFs whose previews it still wants
+        self.gif_fetched = collections.OrderedDict()   # GIPHY id -> its creator: GIFs it may send
 
     def send(self, payload: dict):
         raise NotImplementedError
@@ -357,11 +365,15 @@ APP_ANNOUNCEMENTS_SHOWN = 10
 APP_TITLE_MAX, APP_TEXT_MAX = 80, 1000
 
 
-class NetworkCore(SocialMixin, AdminMixin):
-    def __init__(self, store: Store, clock=time.time, limit_new_accounts=True):
+class NetworkCore(SocialMixin, AdminMixin, GifMixin):
+    def __init__(self, store: Store, clock=time.time, limit_new_accounts=True, giphy=None, fetch=None):
         """limit_new_accounts=False (python -m server --dev) is for testing on
-        one PC, where every test identity comes from the same address."""
+        one PC, where every test identity comes from the same address.
+        giphy: a gifs.GiphySettings for GIF search (None: none offered);
+        fetch(url, max_bytes, done): downloads for it - net.py sets it."""
         self.store = store
+        self.giphy, self.fetch = giphy, fetch
+        self._init_gifs()
         self.clock = clock
         self.limit_new_accounts = limit_new_accounts
         self.limits = RateLimiter(clock)
@@ -516,7 +528,8 @@ class NetworkCore(SocialMixin, AdminMixin):
                        "max_devices": MAX_DEVICES,
                        # A Buddy offers images only where the server says it takes them.
                        "max_image_bytes": MAX_IMAGE_BYTES, "max_image_side": MAX_IMAGE_SIDE,
-                       "image_part_chars": IMAGE_PART_CHARS, "image_days": IMAGE_DAYS},
+                       "image_part_chars": IMAGE_PART_CHARS, "image_days": IMAGE_DAYS,
+                       "gifs": self.gifs_offered()},
         }
         if new_token:
             welcome["token"] = new_token
@@ -714,14 +727,17 @@ class NetworkCore(SocialMixin, AdminMixin):
         if not all(is_id(v) and 1 <= v <= MAX_IMAGE_SIDE for v in (w, h)):
             raise bad
         image_id, data = session.uploaded
-        image = {"id": image_id, "w": w, "h": h, "enc": None, "data": data}
+        # "gif": a GIF from the picker, so the message says it's from GIPHY.
+        image = {"id": image_id, "w": w, "h": h, "enc": None, "data": data,
+                 "credit": self.gif_credit(session, raw.get("gif"))}
+        fields = set(raw) - {"gif"}
         if room["kind"] == "dm":
-            if set(raw) != {"id", "w", "h", "enc"}:
+            if fields != {"id", "w", "h", "enc"}:
                 raise RequestError("update_required", "Update Buddy to send images in direct messages.")
             image["enc"] = clean_image_enc(raw["enc"], devices)
             if len(data) <= 16:
                 raise bad
-        elif set(raw) != {"id", "w", "h"} or not is_image_file(data):
+        elif fields != {"id", "w", "h"} or not is_image_file(data):
             raise RequestError("bad_image", "Only pictures can be sent (WebP, JPEG or PNG).")
         if self.store.image_taken(image_id):
             raise bad
@@ -1074,6 +1090,7 @@ class NetworkCore(SocialMixin, AdminMixin):
         "ping": _ping,
         **SocialMixin._SOCIAL_HANDLERS,
         **AdminMixin._ADMIN_HANDLERS,
+        **GifMixin._GIF_HANDLERS,
     }
 
 

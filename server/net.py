@@ -13,6 +13,10 @@ isn't reading (it's dropped).
 It also answers one plain HTTP request, GET /announcements.json - what
 every Buddy checks once a day for the orb next to "Buddy" (chat users or
 not). That request carries nothing about who's asking.
+
+And it's the one place the server itself goes out to the web: GIF search's
+downloads from GIPHY (make_fetch, for gifs.py), each on a thread so the
+chat never waits for them.
 """
 
 from __future__ import annotations
@@ -22,6 +26,8 @@ import collections
 import json
 import logging
 import time
+import urllib.error
+import urllib.request
 
 from websockets.asyncio.server import serve
 from websockets.exceptions import ConnectionClosed
@@ -43,6 +49,8 @@ HELLO_TIMEOUT = 15.0                 # seconds a new connection has to say hello
 FRAME_BURST, FRAME_RATE = 60, 10.0
 FRAMES_REFUSED_MAX = 200
 _LOOPBACK = {"127.0.0.1", "::1"}
+FETCHES_AT_ONCE = 8                  # downloads from GIPHY at the same time
+FETCH_TIMEOUT = 10.0
 
 
 class WsSession(Session):
@@ -184,6 +192,59 @@ def make_handler(core: NetworkCore, behind_proxy: bool, connections: set):
     return handler
 
 
+class _NoRedirects(urllib.request.HTTPRedirectHandler):
+    """gifs.py checked the address is GIPHY's: a redirect isn't followed anywhere else."""
+
+    def redirect_request(self, *args, **kwargs):
+        return None
+
+
+_opener = urllib.request.build_opener(_NoRedirects)
+
+
+def download(url: str, max_bytes: int) -> bytes | None:
+    """The file, or None if it isn't there or is bigger than max_bytes.
+    Nothing about it is logged: a search's address holds the API key."""
+    request = urllib.request.Request(url, headers={"User-Agent": "BuddyNetwork", "Accept": "*/*"})
+    try:
+        with _opener.open(request, timeout=FETCH_TIMEOUT) as response:
+            if response.status != 200:
+                return None
+            data = response.read(max_bytes + 1)
+    except urllib.error.HTTPError as exc:
+        log.warning("GIPHY answered %d", exc.code)
+        return None
+    except (OSError, ValueError) as exc:
+        log.warning("GIPHY download failed: %s", type(exc).__name__)
+        return None
+    return data if len(data) <= max_bytes else None
+
+
+def make_fetch():
+    """fetch(url, max_bytes, done) for NetworkCore: done(bytes or None) is
+    called on the event loop once the download is over."""
+    limit = asyncio.Semaphore(FETCHES_AT_ONCE)
+    running = set()
+
+    async def go(url, max_bytes, done):
+        async with limit:
+            try:
+                data = await asyncio.to_thread(download, url, max_bytes)
+            except Exception as exc:   # whatever went wrong, done() is still called - or the search waits for ever
+                log.warning("GIPHY download failed: %s", type(exc).__name__)
+                data = None
+        try:
+            done(data)
+        except Exception as exc:   # one answer handled badly mustn't stop the rest
+            log.warning("handling a GIPHY download failed: %s", type(exc).__name__)
+
+    def fetch(url, max_bytes, done):
+        task = asyncio.ensure_future(go(url, max_bytes, done))
+        running.add(task)
+        task.add_done_callback(running.discard)
+    return fetch
+
+
 async def _purge_loop(core: NetworkCore, connections: set):
     while True:
         removed = core.purge()
@@ -193,6 +254,8 @@ async def _purge_loop(core: NetworkCore, connections: set):
 
 async def run(core: NetworkCore, host: str, port: int, behind_proxy: bool = False):
     connections: set = set()
+    core.fetch = make_fetch()
+    log.info("GIF search: %s", "on" if core.giphy else "off (no GIPHY_API_KEY)")
     async with serve(make_handler(core, behind_proxy, connections), host, port,
                      max_size=MAX_FRAME_BYTES, server_header=None,
                      process_request=make_process_request(core)) as server:

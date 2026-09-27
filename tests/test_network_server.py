@@ -9,7 +9,7 @@ import os
 import unittest
 
 import _paths  # noqa: F401
-from server import core
+from server import core, gifs
 from server.store import SCHEMA_VERSION, Store
 
 
@@ -1339,6 +1339,241 @@ class ImageTests(DirectMessageTests):
                             "last": False})
         self.assertLess(len(frame), limit)
 
+
+
+GIF = b"GIF89a" + os.urandom(2000)
+
+
+def giphy_answer(ids, total=1000, **rendition) -> bytes:
+    """What GIPHY's search and trending send, cut down to what gifs.py reads."""
+    def media(name, size):
+        return {"url": f"https://media1.giphy.com/media/{name}.gif", "width": "200", "height": "150",
+                "size": str(size), "webp": f"https://media1.giphy.com/media/{name}.webp", "webp_size": str(size)}
+    data = [{"id": i, "title": f"{i} GIF", "user": {"display_name": f"maker of {i}"},
+             "images": {"original": rendition.get("original", media(f"{i}/giphy", 300_000)),
+                        "fixed_width_small": media(f"{i}/100w", 20_000)}} for i in ids]
+    return json.dumps({"data": data, "pagination": {"total_count": total, "count": len(data)}}).encode()
+
+
+class FakeGiphy:
+    """Stands in for net.py's fetch: the tests answer each download."""
+
+    def __init__(self):
+        self.asked = []   # [url, max_bytes, done]
+
+    def __call__(self, url, max_bytes, done):
+        self.asked.append([url, max_bytes, done])
+
+    def api_calls(self):
+        return [a for a in self.asked if a[0].startswith(gifs.API)]
+
+    def answer(self, match, data):
+        """Answers every download waiting whose address has `match` in it."""
+        waiting = [a for a in self.asked if match in a[0]]
+        self.asked = [a for a in self.asked if match not in a[0]]
+        for _url, _most, done in waiting:
+            done(data)
+        return len(waiting)
+
+
+class GifTests(ImageTests):
+    def setUp(self):
+        super().setUp()
+        self.giphy = FakeGiphy()
+        self.core = core.NetworkCore(self.store, clock=self.clock, giphy=gifs.GiphySettings("KEY123"),
+                                     fetch=self.giphy)
+
+    def search(self, session, q="", offset=0, answer=None):
+        self.request(session, type="gif_search", q=q, offset=offset, nonce=7)
+        if answer is not None:
+            self.giphy.answer("api.giphy.com", answer)
+        return session.inbox[-1]
+
+    def test_without_a_key_theres_no_gif_search(self):
+        plain = core.NetworkCore(self.store, clock=self.clock)
+        s = FakeSession()
+        plain.handle(s, json.dumps({"type": "hello", "v": core.PROTOCOL_VERSION}))
+        self.assertFalse(s.last("welcome")["limits"]["gifs"])
+        plain.handle(s, json.dumps({"type": "gif_search", "q": "cat"}))
+        self.assertEqual(s.last("error")["code"], "no_gifs")
+        self.assertTrue(self.user("Alice").last("welcome")["limits"]["gifs"])
+
+    def test_a_search_goes_to_giphy_with_the_servers_key_and_comes_back_with_previews(self):
+        a = self.user("Alice")
+        self.search(a, "  happy \n cat ")
+        (url, _most, _done), = self.giphy.api_calls()
+        self.assertTrue(url.startswith(gifs.API + "search?"))
+        self.assertIn("api_key=KEY123", url)
+        self.assertIn("q=happy+cat", url)
+        self.assertIn("rating=pg-13", url)
+        self.assertNotIn("Alice", url)   # nothing about who's asking
+        self.giphy.answer("api.giphy.com", giphy_answer(["abc", "def"]))
+        results = a.last("gif_results")
+        self.assertEqual((results["nonce"], results["more"], results["next"]), (7, True, gifs.PAGE))
+        self.assertEqual(results["results"][0], {"id": "abc", "w": 200, "h": 150, "title": "abc GIF",
+                                                  "user": "maker of abc"})
+        self.assertNotIn("giphy.com", json.dumps(results))   # the Buddy never gets GIPHY's addresses
+        # The previews: the small WebP, downloaded here and passed on.
+        self.assertEqual(self.giphy.answer("abc/100w.webp", GIF), 1)
+        self.assertEqual(base64.b64decode(a.last("gif_thumb")["data"]), GIF)
+        # Trending, for an empty search.
+        self.search(a, "")
+        self.assertTrue(self.giphy.api_calls()[0][0].startswith(gifs.API + "trending?"))
+
+    def test_searches_are_kept_and_shared_so_giphy_is_asked_once(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        self.search(a, "cat")
+        self.search(b, "CAT")                      # asked while the first is on its way
+        self.assertEqual(len(self.giphy.api_calls()), 1)
+        self.giphy.answer("api.giphy.com", giphy_answer(["abc"]))
+        self.assertEqual(a.last("gif_results")["results"][0]["id"], "abc")
+        self.assertEqual(b.last("gif_results")["results"][0]["id"], "abc")
+        self.assertEqual(len(self.giphy.asked), 1)   # one preview download for both
+        self.giphy.answer("abc/100w", GIF)
+        self.assertEqual(a.last("gif_thumb")["id"], b.last("gif_thumb")["id"])
+        # Later, the same search comes from what's kept - previews too.
+        c = self.user("Carol")
+        self.search(c, "cat")
+        self.assertEqual((self.giphy.asked, c.last("gif_thumb")["id"]), ([], "abc"))
+        self.clock.now += gifs.SEARCH_KEEP + 1     # until it's old
+        self.search(c, "cat")
+        self.assertEqual(len(self.giphy.api_calls()), 1)
+
+    def test_a_new_search_replaces_the_one_waiting(self):
+        a = self.user("Alice")
+        self.search(a, "cat")
+        self.search(a, "dog")
+        self.giphy.answer("q=cat", giphy_answer(["abc"]))
+        self.assertEqual([p for p in a.inbox if p["type"] == "gif_results"], [])
+        self.giphy.answer("q=dog", giphy_answer(["dog1"]))
+        self.assertEqual(a.last("gif_results")["results"][0]["id"], "dog1")
+
+    def test_the_hours_giphy_calls_are_shared_out_and_then_wait(self):
+        self.core.giphy.calls_per_hour = 3
+        people = [self.user(f"Person {n}", ip=f"10.0.{n}.1") for n in range(4)]
+        for n, person in enumerate(people[:3]):
+            self.search(person, f"search {n}", answer=giphy_answer(["abc"]))
+        busy = self.search(people[3], "one more")
+        self.assertEqual(busy["code"], "gif_busy")
+        self.assertIn("minute", busy["message"])
+        self.assertEqual(self.search(people[3], "search 0")["type"], "gif_results")   # kept ones still work
+        self.clock.now += 3601
+        self.search(people[3], "one more", answer=giphy_answer(["abc"]))
+        self.assertEqual(people[3].last("gif_results")["results"][0]["id"], "abc")
+
+    def test_each_person_has_a_limit(self):
+        a = self.user("Alice")
+        self.search(a, "cat", answer=giphy_answer(["abc"]))
+        for _ in range(gifs.GIF_SEARCH_LIMIT[0] - 1):
+            self.search(a, "cat")
+        self.assertEqual(self.search(a, "cat")["code"], "rate_limited")
+
+    def test_bad_searches_and_giphy_failing(self):
+        a = self.user("Alice")
+        for bad in ({"q": 5}, {"q": "x" * (gifs.QUERY_MAX + 1)}, {"q": "cat", "offset": -1},
+                    {"q": "cat", "offset": gifs.MAX_OFFSET + 1}, {"q": "cat", "offset": True}):
+            self.assertEqual(self.request(a, type="gif_search", **bad)["code"], "bad_request", bad)
+        self.search(a, "cat")
+        self.giphy.answer("api.giphy.com", None)     # GIPHY didn't answer
+        self.assertEqual((a.last("error")["code"], a.last("error")["nonce"]), ("gif_failed", 7))
+        self.search(a, "cat", answer=b"<html>not json</html>")
+        self.assertEqual(a.last("error")["code"], "gif_failed")
+
+    def test_only_giphys_own_media_is_ever_downloaded(self):
+        a = self.user("Alice")
+        elsewhere = {"url": "https://evil.example/x.gif", "width": "10", "height": "10", "size": "100"}
+        plain_http = {"url": "http://media1.giphy.com/x.gif", "width": "10", "height": "10", "size": "100"}
+        self.search(a, "cat", answer=giphy_answer(["abc"], original=elsewhere))
+        self.assertEqual(a.last("gif_results")["results"], [])   # nothing it could send
+        self.search(a, "dog", answer=giphy_answer(["abc"], original=plain_http))
+        self.assertEqual(a.last("gif_results")["results"], [])
+        self.assertTrue(all(gifs.media_url(url) for url, _m, _d in self.giphy.asked))
+        for url in ("https://media1.giphy.com.evil.example/x", "https://media1.giphy.com:8443/x",
+                    "https://evil.example/?https://media1.giphy.com/"):
+            self.assertIsNone(gifs.media_url(url), url)
+        self.assertTrue(gifs.media_url("https://i.giphy.com/media/abc/giphy.webp"))
+
+    def test_the_gif_picked_comes_back_to_send_and_the_message_credits_giphy(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        self.search(a, "cat", answer=giphy_answer(["abc"]))
+        self.request(a, type="gif_get", id="abc")
+        url, most, _done = self.giphy.asked[-1]
+        self.assertTrue(url.endswith("abc/giphy.webp"))
+        self.assertEqual(most, gifs.SEND_MAX_BYTES)
+        self.giphy.answer("abc/giphy", GIF)
+        got = a.last("gif_data")
+        self.assertEqual((got["id"], got["user"], base64.b64decode(got["data"])), ("abc", "maker of abc", GIF))
+        # Buddy shrinks it to a WebP and sends it up like any picture, saying which GIF it was.
+        image_id, _ = self.upload(a)
+        sent = self.request(a, type="send", room="global", text="",
+                            image={"id": image_id, "w": 200, "h": 150, "gif": "abc"})
+        credit = {"source": "giphy", "user": "maker of abc"}
+        self.assertEqual(sent["message"]["image"]["credit"], credit)
+        self.request(b, type="join", room="global")
+        self.assertEqual(b.last("history")["messages"][-1]["image"]["credit"], credit)
+        # Only a GIF this connection was handed can be credited.
+        image_id, _ = self.upload(b)
+        self.assertEqual(self.request(b, type="send", room="global", text="mine",
+                                      image={"id": image_id, "w": 5, "h": 5, "gif": "abc"})["code"], "bad_image")
+
+    def test_a_gif_to_send_must_have_been_found_and_download(self):
+        a = self.user("Alice")
+        self.assertEqual(self.request(a, type="gif_get", id="nothere")["code"], "no_gif")
+        self.assertEqual(self.request(a, type="gif_get", id="../x")["code"], "bad_request")
+        self.search(a, "cat", answer=giphy_answer(["abc"]))
+        self.request(a, type="gif_get", id="abc")
+        self.giphy.answer("abc/giphy", b"<html>an error page</html>")
+        self.assertEqual((a.last("error")["code"], a.last("error")["id"]), ("gif_failed", "abc"))
+
+    def test_a_gif_in_a_dm_is_credited_too(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        self.buddies(a, b)
+        room = self.open_dm(a, b)["id"]
+        device = self.register(a)
+        self.search(a, "cat", answer=giphy_answer(["abc"]))
+        self.request(a, type="gif_get", id="abc")
+        self.giphy.answer("abc/giphy", GIF)
+        image_id, _ = self.upload(a, os.urandom(3000))
+        sent = self.request(a, type="send", room=room, enc=dict(enc(device), body=b64(16)),
+                            image={"id": image_id, "w": 200, "h": 150, "enc": image_enc(device), "gif": "abc"})
+        self.assertEqual(sent["message"]["image"]["credit"]["source"], "giphy")
+
+    def test_the_gif_and_a_page_of_previews_fit_in_a_clients_queue(self):
+        import re
+        import pathlib
+        source = (pathlib.Path(core.__file__).parent / "net.py").read_text(encoding="utf-8")
+        queued = eval(re.search(r"^MAX_QUEUED_BYTES = ([0-9 *]+)", source, re.M).group(1))
+
+        def as_base64(n):
+            return n * 4 // 3 + 200
+        self.assertLess(as_base64(gifs.SEND_MAX_BYTES) + gifs.PAGE * as_base64(gifs.THUMB_MAX_BYTES), queued)
+
+    def test_an_old_database_gets_the_credit_column(self):
+        import sqlite3
+        import tempfile
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "old.db")
+            db = sqlite3.connect(path)
+            db.execute("CREATE TABLE images (id TEXT PRIMARY KEY, room TEXT NOT NULL, author TEXT NOT NULL, "
+                       "ts REAL NOT NULL, w INTEGER NOT NULL, h INTEGER NOT NULL, enc TEXT, "
+                       "size INTEGER NOT NULL, data BLOB NOT NULL)")
+            db.commit()
+            db.close()
+            store = Store(path)
+            try:
+                columns = {row[1] for row in store.db.execute("PRAGMA table_info(images)")}
+                self.assertIn("credit", columns)
+            finally:
+                store.close()
+
+    def test_settings_from_the_environment(self):
+        self.assertIsNone(gifs.GiphySettings.from_environment({}))
+        settings = gifs.GiphySettings.from_environment({"GIPHY_API_KEY": " k ", "GIPHY_RATING": "G",
+                                                         "GIPHY_CALLS_PER_HOUR": "40"})
+        self.assertEqual((settings.key, settings.rating, settings.calls_per_hour), ("k", "g", 40))
+        odd = gifs.GiphySettings.from_environment({"GIPHY_API_KEY": "k", "GIPHY_RATING": "nc-17",
+                                                    "GIPHY_CALLS_PER_HOUR": "lots"})
+        self.assertEqual((odd.rating, odd.calls_per_hour), (gifs.DEFAULT_RATING, gifs.DEFAULT_CALLS_PER_HOUR))
 
 if __name__ == "__main__":
     unittest.main()

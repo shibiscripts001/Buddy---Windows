@@ -5,6 +5,7 @@ from server/core.py, so the two can't drift apart."""
 import io
 import os
 import unittest
+import unittest.mock
 
 import _paths  # noqa: F401
 from pages.buddy_network import e2e, export, images, render
@@ -23,6 +24,20 @@ def picture(w=800, h=600, fmt="PNG", mode="RGB", noise=False, **save) -> bytes:
     image = Image.frombytes(mode, (w, h), os.urandom(w * h * len(mode))) if noise else Image.new(mode, (w, h), (0, 128, 128, 100)[:len(mode)])
     out = io.BytesIO()
     image.save(out, fmt, **save)
+    return out.getvalue()
+
+
+def animation(w=320, h=240, frames=12, fmt="GIF", noise=0, duration=50, **save) -> bytes:
+    """A moving square (and, with noise, grain that doesn't compress)."""
+    shown = []
+    for i in range(frames):
+        frame = Image.new("RGB", (w, h), (20, 30, 60))
+        frame.paste((200, 90, 40), (i * 7 % w, i * 5 % h, i * 7 % w + w // 4, i * 5 % h + h // 4))
+        if noise:
+            frame = Image.blend(frame, Image.frombytes("RGB", (w, h), os.urandom(w * h * 3)), noise)
+        shown.append(frame)
+    out = io.BytesIO()
+    shown[0].save(out, fmt, save_all=True, append_images=shown[1:], duration=duration, loop=0, **save)
     return out.getvalue()
 
 
@@ -71,6 +86,84 @@ class ShrinkTests(unittest.TestCase):
         huge = header[:16] + (20000).to_bytes(4, "big") + (20000).to_bytes(4, "big") + header[24:]
         with self.assertRaises(images.ImageError):
             images.shrink(huge)
+
+
+class AnimationTests(unittest.TestCase):
+    def test_a_gif_stays_animated_as_a_webp(self):
+        shrunk = images.shrink(animation(frames=12, duration=70))
+        self.assertTrue(shrunk.animated)
+        self.assertEqual((shrunk.w, shrunk.h), (320, 240))
+        out = Image.open(io.BytesIO(shrunk.data))
+        self.assertEqual((out.format, out.n_frames), ("WEBP", 12))
+        out.seek(3)
+        out.load()
+        self.assertEqual(out.info["duration"], 70)
+        self.assertTrue(server_core.is_image_file(shrunk.data))
+        self.assertEqual(images.check(shrunk.data), "image/webp")
+        self.assertTrue(images.is_animated(animation()))
+        self.assertFalse(images.is_animated(picture(fmt="GIF")))
+
+    def test_a_big_animation_is_scaled_and_thinned_to_fit(self):
+        shrunk = images.shrink(animation(500, 500, frames=60, noise=0.3, duration=40))
+        self.assertLessEqual(len(shrunk.data), images.TARGET_BYTES)
+        self.assertLessEqual(max(shrunk.w, shrunk.h), images.ANIM_SIDE)
+        out = Image.open(io.BytesIO(shrunk.data))
+        self.assertTrue(out.is_animated)
+        # However many frames went, it lasts as long as it did.
+        total = 0
+        for i in range(out.n_frames):
+            out.seek(i)
+            out.load()
+            total += out.info["duration"]
+        self.assertAlmostEqual(total, 60 * 40, delta=out.n_frames)
+
+    def test_a_long_one_keeps_at_most_so_many_frames(self):
+        shrunk = images.shrink(animation(60, 40, frames=images.ANIM_MAX_FRAMES * 2 + 10, duration=30))
+        self.assertLessEqual(Image.open(io.BytesIO(shrunk.data)).n_frames, images.ANIM_MAX_FRAMES)
+
+    def test_an_animated_webp_or_png_stays_animated_too(self):
+        for fmt in ("WEBP", "PNG"):
+            shrunk = images.shrink(animation(fmt=fmt, duration=70))
+            self.assertTrue(shrunk.animated, fmt)
+            out = Image.open(io.BytesIO(shrunk.data))
+            out.seek(2)
+            out.load()
+            self.assertEqual(out.info["duration"], 70, fmt)   # GIPHY's are WebPs: their timing is kept
+
+    def test_an_animation_leaves_its_metadata_behind_too(self):
+        frames = [Image.new("RGB", (64, 64), (i * 40, 0, 0)) for i in range(4)]
+        exif = Image.Exif()
+        exif[0x010F] = "SecretCam"
+        out = io.BytesIO()
+        frames[0].save(out, "WEBP", save_all=True, append_images=frames[1:], duration=100, exif=exif.tobytes(),
+                       xmp=b"<x:xmpmeta>SecretXMP</x:xmpmeta>")
+        shrunk = images.shrink(out.getvalue())
+        self.assertTrue(shrunk.animated)
+        for secret in (b"SecretCam", b"SecretXMP", b"EXIF", b"XMP "):
+            self.assertNotIn(secret, shrunk.data)
+
+    def test_transparency_survives_in_an_animation(self):
+        frames = [Image.new("RGBA", (50, 50), (255, 0, 0, a)) for a in (0, 128, 255)]
+        out = io.BytesIO()
+        frames[0].save(out, "PNG", save_all=True, append_images=frames[1:], duration=100)
+        self.assertEqual(Image.open(io.BytesIO(images.shrink(out.getvalue()).data)).mode, "RGBA")
+
+    def test_the_composer_preview_of_an_animation_moves(self):
+        shrunk = images.shrink(animation())
+        url = images.preview_url(shrunk.data)
+        self.assertEqual(url, images.data_url(shrunk.data, "image/webp"))
+
+    def test_too_many_frames_is_refused_before_they_are_decoded(self):
+        with self.assertRaises(images.ImageError):
+            with unittest.mock.patch.object(images, "MAX_ANIM_PIXELS", 1000):
+                images.shrink(animation(frames=3))
+
+    def test_previews_from_gif_search_may_be_gifs_but_are_still_checked(self):
+        self.assertEqual(images.thumb_check(animation(100, 80)), "image/gif")
+        self.assertEqual(images.thumb_check(picture(100, 80, fmt="WEBP")), "image/webp")
+        self.assertIsNone(images.thumb_check(picture(images.THUMB_MAX_SIDE + 1, 10, fmt="GIF")))
+        self.assertIsNone(images.thumb_check(b"GIF89a<script>"))
+        self.assertIsNone(images.thumb_check(os.urandom(images.THUMB_MAX_BYTES + 1)))
 
 
 class CheckTests(unittest.TestCase):
@@ -155,6 +248,14 @@ class RenderTests(unittest.TestCase):
         self.assertNotIn("data-image", self.html(image={"id": '"><script>', "w": 1, "h": 1}))
         self.assertNotIn("data-image", self.html(image={"id": IMAGE_ID, "w": 1, "h": 1}, unreadable=True))
         self.assertNotIn("data-image", self.html(image={"id": IMAGE_ID, "w": 1, "h": 1}, deleted=True))
+
+    def test_a_gif_from_gif_search_credits_giphy_and_its_maker_escaped(self):
+        out = self.html(image={"id": IMAGE_ID, "w": 200, "h": 150,
+                               "credit": {"source": "giphy", "user": "<b>Maker</b>"}})
+        self.assertIn("GIF via GIPHY", out)
+        self.assertIn("&lt;b&gt;Maker&lt;/b&gt;", out)
+        self.assertNotIn("<b>Maker", out)
+        self.assertNotIn("GIPHY", self.html(image={"id": IMAGE_ID, "w": 200, "h": 150}))
 
     def test_quotes_and_exports_mention_the_image(self):
         self.assertEqual(render.quote_text({"id": 5, "text": "", "image": True}, {}), "an image")

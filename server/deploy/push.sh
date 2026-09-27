@@ -10,7 +10,8 @@ HOST="${1:?usage: push.sh root@<server address>}"
 cd "$(dirname "$0")/../.."
 
 # Never local-only files (*.local.*), databases or caches.
-tar --exclude='__pycache__' --exclude='*.db' --exclude='*.db-*' --exclude='*.local.*' \n    -czf - server | ssh "$HOST" '
+tar --exclude='__pycache__' --exclude='*.db' --exclude='*.db-*' --exclude='*.local.*' \
+    -czf - server | ssh "$HOST" '
     set -e
     mkdir -p /opt/buddy-network/incoming
     rm -rf /opt/buddy-network/incoming/*
@@ -25,6 +26,7 @@ tar --exclude='__pycache__' --exclude='*.db' --exclude='*.db-*' --exclude='*.loc
         DROPIN=/etc/systemd/system/buddy-network.service.d
         mkdir -p "$DROPIN"
         cp /opt/buddy-network/server/deploy/hardening.conf "$DROPIN/hardening.conf"
+        cp /opt/buddy-network/server/deploy/giphy.conf "$DROPIN/giphy.conf"
         systemctl daemon-reload
         systemctl restart buddy-network
         sleep 2

@@ -121,7 +121,8 @@ def _reply(row: dict) -> dict | None:
 def _image(row: dict) -> dict | None:
     """A message's image as the client needs it to fetch and lay it out -
     never the bytes (get_image sends those). "gone": expired or deleted.
-    A DM's carries its wrapped keys ("enc") - the image is encrypted."""
+    A DM's carries its wrapped keys ("enc") - the image is encrypted. A GIF
+    from GIF search says where it's from ("credit": {"source", "user"})."""
     if not row.get("image") or row.get("deleted"):
         return None
     if not row.get("image_found"):
@@ -129,6 +130,9 @@ def _image(row: dict) -> dict | None:
     image = {"id": row["image"], "w": row["image_w"], "h": row["image_h"]}
     if row.get("image_enc"):
         image["enc"] = json.loads(row["image_enc"])
+    if row.get("image_credit"):
+        credit = json.loads(row["image_credit"])
+        image["credit"] = {"source": credit.get("source", ""), "user": credit.get("user", "")}
     return image
 
 

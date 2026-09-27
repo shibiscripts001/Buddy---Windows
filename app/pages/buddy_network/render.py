@@ -40,7 +40,9 @@ stand out, and a message that mentions you gets a tinted background.
 
 A message's image is a placeholder sized to it ("shot", data-image=<id>):
 the page fills it in once attachments.py has fetched, checked and (in a DM)
-decrypted it. One that has expired says so.
+decrypted it. One that has expired says so. A GIF from GIF search says
+it's from GIPHY, and whose it is (the server's "credit"; GIPHY's terms ask
+for it) - the name escaped like anything else a person typed.
 """
 
 from __future__ import annotations
@@ -152,8 +154,14 @@ def _image_html(m: dict, c: dict, image_days: int) -> str:
         w, h = images.shown_size(int(image.get("w") or 1), int(image.get("h") or 1))
     except (TypeError, ValueError):
         w, h = images.shown_size(1, 1)
-    return (f'<div class="shot" data-image="{image["id"]}" style="width:{w}px; height:{h}px" '
+    shot = (f'<div class="shot" data-image="{image["id"]}" style="width:{w}px; height:{h}px" '
             f'title="Click to see it larger"><img alt="Image" hidden></div>')
+    credit = image.get("credit")
+    if isinstance(credit, dict) and credit.get("source") == "giphy":
+        user = str(credit.get("user") or "")[:40]
+        by = f' · <span translate="no">{html.escape(user)}</span>' if user else ""
+        shot += f'<div class="shot-credit" style="color:{c["muted"]}"><span>GIF via GIPHY</span>{by}</div>'
+    return shot
 
 
 def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, links: list[str],

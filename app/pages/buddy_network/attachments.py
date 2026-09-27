@@ -2,7 +2,11 @@
 waiting in the composer, sending it up in parts, and fetching the images
 of the messages on screen - one at a time, newest first, since a whole
 page of them at once would bury the connection. Shrinking and checking
-are images.py's; a DM image's encryption is e2e.py's.
+are images.py's; a DM image's encryption is e2e.py's. Shrinking runs on a
+thread (_ShrinkWorker) - an animation takes a few seconds - and the
+composer says it's being prepared meanwhile. A GIF from GIF search
+(gif_search.py) comes through here too, remembering which GIF it was so
+the message can say it's from GIPHY.
 
 Offered only where the server says it takes images (its welcome's
 limits) and Pillow is there. Every image shown has been decoded and
@@ -18,7 +22,7 @@ from __future__ import annotations
 import collections
 import os
 
-from PySide6.QtCore import QBuffer, QIODevice, QTimer
+from PySide6.QtCore import QBuffer, QIODevice, QThread, QTimer, Signal
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QFileDialog
 
@@ -31,6 +35,26 @@ PICK_FILTER = "Pictures (*.png *.jpg *.jpeg *.webp *.gif *.bmp *.tif *.tiff);;Al
 PICTURE_ENDINGS = (".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".tiff")
 EXTENSIONS = {"image/webp": ".webp", "image/jpeg": ".jpg", "image/png": ".png"}
 CANT_SHOW = "This image can't be shown – it didn't arrive intact, or can't be opened on this PC."
+CANT_READ = "That file isn't a picture Buddy can read – try a PNG, JPEG, WebP or GIF."
+
+
+class _ShrinkWorker(QThread):
+    """images.shrink off the main thread: an animation can take seconds."""
+
+    shrunk = Signal(int, object, str)   # generation, (Shrunk, preview URL) or None, why not
+
+    def __init__(self, generation: int, data: bytes):
+        super().__init__()
+        self.generation, self.data = generation, data
+
+    def run(self):
+        try:
+            shrunk = images.shrink(self.data)
+            self.shrunk.emit(self.generation, (shrunk, images.preview_url(shrunk.data)), "")
+        except images.ImageError as exc:
+            self.shrunk.emit(self.generation, None, str(exc))
+        except Exception:   # noqa: BLE001 - anything Pillow raises for a file it can't read
+            self.shrunk.emit(self.generation, None, CANT_READ)
 
 
 class ImageMixin:
@@ -39,7 +63,11 @@ class ImageMixin:
     # _in, _recipients.
 
     def _init_images(self):
-        self.attachment = None            # {"data", "w", "h", "preview"} waiting in the composer
+        self.attachment = None            # {"data", "w", "h", "preview", "animated", "gif"} waiting in the composer
+        self._preparing = ""              # what the composer says while a picture is being shrunk
+        self._shrink_generation = 0       # the newest; an older one's result is dropped
+        self._shrinking_gif = None        # the newest's {"id", "user"}, if it's from GIF search
+        self._shrink_workers = []
         self.image_limits = None          # the server's (welcome); None: it takes no images
         self._image_cache = collections.OrderedDict()   # id -> data URL, ready to show
         self._image_mime = {}             # id -> its type, for saving
@@ -80,6 +108,9 @@ class ImageMixin:
         if files:
             self._attach_file(files[0])
             return
+        if mime is not None and mime.hasFormat("image/gif"):   # a GIF copied from a web page: keep it moving
+            self._attach(bytes(mime.data("image/gif")))
+            return
         image = clipboard.image()
         if image.isNull():
             return
@@ -112,31 +143,73 @@ class ImageMixin:
             return
         self._attach(data)
 
-    def _attach(self, data: bytes):
+    def _attach(self, data: bytes, gif: dict | None = None):
+        """Shrinks the picture (on a thread) and puts it in the composer.
+        gif: {"id", "user"} for a GIF from GIF search."""
         if self.editing is not None:
             self._notify("Finish editing first – a picture goes with a new message.")
             return
-        try:
-            shrunk = images.shrink(data)
-            preview = images.preview_url(shrunk.data)
-        except images.ImageError as exc:
-            self._notify(str(exc))
+        if len(data) > images.MAX_INPUT_BYTES:
+            self._notify(f"That file is over {images.MAX_INPUT_BYTES // (1024 * 1024)} MB – pick a smaller picture.")
             return
-        self.attachment = {"data": shrunk.data, "w": shrunk.w, "h": shrunk.h, "preview": preview}
+        self._shrink_generation += 1
+        self._shrinking_gif = gif
+        self._preparing = ("Getting the GIF ready…" if gif or images.is_animated(data) else "Getting the picture ready…")
         self._notify("")
+        self._push_attachment()
+        worker = _ShrinkWorker(self._shrink_generation, data)
+        worker.shrunk.connect(self._on_shrunk)
+        worker.finished.connect(self._reap_shrink_workers)
+        self._shrink_workers.append(worker)
+        worker.start()
+
+    def _on_shrunk(self, generation: int, result, problem: str):
+        if generation != self._shrink_generation:
+            return   # removed, or another picture since
+        self._preparing = ""
+        if result is None:
+            self._notify(problem)
+            self._push_attachment()
+            return
+        shrunk, preview = result
+        if self.editing is not None:
+            self._notify("Finish editing first – a picture goes with a new message.")
+            self._push_attachment()
+            return
+        self.attachment = {"data": shrunk.data, "w": shrunk.w, "h": shrunk.h, "preview": preview,
+                           "animated": shrunk.animated, "gif": self._shrinking_gif}
         self._push_attachment(focus=True)
 
+    def _reap_shrink_workers(self):
+        self._shrink_workers = [w for w in self._shrink_workers if w.isRunning()]
+
+    def _stop_shrinking(self):
+        """For quitting: a QThread destroyed while running crashes the exit."""
+        self._shrink_generation += 1
+        for worker in self._shrink_workers:
+            worker.wait(15000)
+
     def on_remove_attachment(self, _payload=None):
-        self.attachment = None
+        self._drop_attachment()
         self._push_attachment(focus=True)
+
+    def _drop_attachment(self):
+        """No picture in the composer - nor one on its way there."""
+        self.attachment = None
+        self._shrink_generation += 1
+        self._preparing = ""
 
     def _push_attachment(self, focus=False):
         a = self.attachment
         days = (self.image_limits or {}).get("image_days", 7)
+        label = ""
+        if a:
+            kind = "GIPHY GIF, " if a.get("gif") else "GIF, " if a.get("animated") else ""
+            label = f"{kind}{a['w']} x {a['h']}, {images.size_label(len(a['data']))}"
         self.emit("attachment", {
             "allowed": self.images_allowed(), "focus": focus,
-            "preview": a["preview"] if a else None,
-            "label": f"{a['w']} x {a['h']}, {images.size_label(len(a['data']))}" if a else "",
+            "preview": a["preview"] if a else None, "busy": self._preparing if not a else "",
+            "label": label,
             "note": f"Images stay on the server for {days} days.",
         })
 
@@ -148,6 +221,8 @@ class ImageMixin:
         image_id = os.urandom(16).hex()
         data = attachment["data"]
         image = {"id": image_id, "w": attachment["w"], "h": attachment["h"]}
+        if attachment.get("gif"):
+            image["gif"] = attachment["gif"]["id"]   # so the message says it's from GIPHY
         if room["kind"] == "dm":
             recipients = self._recipients(room)
             if recipients is None:

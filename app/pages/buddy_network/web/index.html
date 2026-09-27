@@ -85,6 +85,22 @@
                     <span class="compose-label" id="compose-label"></span>
                     <button type="button" class="btn ghost" data-action="cancel_compose" title="Esc">Cancel</button>
                 </div>
+                <!-- GIF search (gif_search.py): the server asks GIPHY; every preview comes
+                     from Python as a checked data: URL. -->
+                <div class="gif-picker" id="gif-picker" hidden>
+                    <div class="gif-head">
+                        <input class="field" id="gif-search" type="search" placeholder="Search GIPHY" autocomplete="off" maxlength="50">
+                        <button type="button" class="btn ghost" id="gif-close" title="Esc">Close</button>
+                    </div>
+                    <div class="gif-grid" id="gif-grid"></div>
+                    <div class="gif-foot">
+                        <span class="gif-status small" id="gif-status"></span>
+                        <button type="button" class="btn ghost" id="gif-more" hidden>More GIFs</button>
+                        <span class="spacer"></span>
+                        <span class="gif-powered">Powered by GIPHY</span>
+                    </div>
+                    <div class="muted small">Searches go through the Buddy Network server, so GIPHY never sees who's searching.</div>
+                </div>
                 <div class="attachment" id="attachment" hidden>
                     <img class="attachment-preview" id="attachment-preview" alt="The picture to send">
                     <div class="attachment-text">
@@ -95,7 +111,9 @@
                 </div>
                 <div class="compose-row">
                     <button type="button" class="btn ghost icon attach" data-action="attach_image" id="attach" hidden
-                            title="Send a picture – or paste or drag one in"></button>
+                            title="Send a picture or GIF – or paste or drag one in"></button>
+                    <button type="button" class="btn ghost attach gif-btn" id="gif-btn" hidden
+                            title="Find a GIF on GIPHY">GIF</button>
                     <div class="compose-box">
                         <textarea class="field" id="composer" rows="1" spellcheck="true"></textarea>
                         <ul class="mentions" id="mentions" hidden></ul>
@@ -112,7 +130,7 @@
     </section>
 
     <div class="popup-menu" id="popup" hidden role="menu"></div>
-    <div class="drop-hint" id="drop-hint" hidden>Drop a picture to send it</div>
+    <div class="drop-hint" id="drop-hint" hidden>Drop a picture or GIF to send it</div>
 </main>
 <script src="network.js"></script>
 </body>

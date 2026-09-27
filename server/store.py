@@ -21,7 +21,8 @@ Buddy sent, already shrunk on the sender's PC - for IMAGE_DAYS (core.py),
 then deleted by purge_images() while the message stays, saying its image
 has expired. A DM's image is encrypted like its text (`enc` holds its
 wrapped keys); a room's is a plain WebP, JPEG or PNG. Deleting a message
-deletes its image straight away.
+deletes its image straight away. `credit` says where a GIF from the GIF
+picker came from (GIPHY, and whose it is - server/gifs.py).
 
 Plain sqlite3 calls from the event loop: every query here is an indexed
 lookup on a small database, far quicker than a network round-trip.
@@ -34,7 +35,7 @@ import json
 import secrets
 import sqlite3
 
-SCHEMA_VERSION = 10
+SCHEMA_VERSION = 11
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -115,9 +116,10 @@ CREATE TABLE IF NOT EXISTS app_announcements (id INTEGER PRIMARY KEY AUTOINCREME
                                               title TEXT NOT NULL, text TEXT NOT NULL, by TEXT NOT NULL);
 -- A message's image, deleted after IMAGE_DAYS (core.py) or with its message.
 -- enc: a DM's, whose data is encrypted - its wrapped keys (JSON).
+-- credit: a GIF from GIF search - where it's from (JSON, gifs.gif_credit).
 CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, room TEXT NOT NULL, author TEXT NOT NULL,
                                    ts REAL NOT NULL, w INTEGER NOT NULL, h INTEGER NOT NULL, enc TEXT,
-                                   size INTEGER NOT NULL, data BLOB NOT NULL);
+                                   size INTEGER NOT NULL, data BLOB NOT NULL, credit TEXT);
 CREATE INDEX IF NOT EXISTS images_by_time ON images (ts);
 CREATE INDEX IF NOT EXISTS images_by_room ON images (room);
 CREATE INDEX IF NOT EXISTS images_by_size ON images (size);
@@ -187,6 +189,9 @@ class Store:
             self.db.execute("ALTER TABLE reports ADD COLUMN claimed INTEGER NOT NULL DEFAULT 0")
         if "image" not in columns:            # older databases
             self.db.execute("ALTER TABLE reports ADD COLUMN image TEXT")
+        columns = {row[1] for row in self.db.execute("PRAGMA table_info(images)")}
+        if "credit" not in columns:           # older databases
+            self.db.execute("ALTER TABLE images ADD COLUMN credit TEXT")
         # The key for ip_hash: random per server, so the hashes mean nothing
         # anywhere else (and a list of every IPv4 address hashed without
         # it would undo a plain hash in minutes).
@@ -499,7 +504,8 @@ class Store:
                r.id AS reply_found, r.text AS reply_text, r.deleted AS reply_deleted, r.image AS reply_image,
                ru.id AS reply_author_id, ru.name AS reply_author_name, ru.role AS reply_author_role,
                ru.avatar AS reply_author_avatar,
-               i.id AS image_found, i.w AS image_w, i.h AS image_h, i.enc AS image_enc
+               i.id AS image_found, i.w AS image_w, i.h AS image_h, i.enc AS image_enc,
+               i.credit AS image_credit
         FROM messages m LEFT JOIN users u ON u.id = m.author
              LEFT JOIN messages r ON r.id = m.reply_to LEFT JOIN users ru ON ru.id = r.author
              LEFT JOIN images i ON i.id = m.image
@@ -507,13 +513,13 @@ class Store:
 
     def add_message(self, room: str, author: str, text: str, now: float, enc: str | None = None,
                     reply_to: int | None = None, image: dict | None = None) -> dict:
-        """image: {"id", "w", "h", "enc", "data"}, stored along with the message."""
+        """image: {"id", "w", "h", "enc", "data", "credit"}, stored along with the message."""
         with self.db:
             if image is not None:
-                self.db.execute("INSERT INTO images (id, room, author, ts, w, h, enc, size, data) "
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                self.db.execute("INSERT INTO images (id, room, author, ts, w, h, enc, size, data, credit) "
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                 (image["id"], room, author, now, image["w"], image["h"], image.get("enc"),
-                                 len(image["data"]), image["data"]))
+                                 len(image["data"]), image["data"], image.get("credit")))
             cur = self.db.execute("INSERT INTO messages (room, author, text, ts, enc, reply_to, image) "
                                   "VALUES (?, ?, ?, ?, ?, ?, ?)",
                                   (room, author, text, now, enc, reply_to, image["id"] if image else None))

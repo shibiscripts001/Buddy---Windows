@@ -73,6 +73,8 @@ Buddy.on("state", s => {
     composer.title = s.can_send ? "Enter to send, Shift+Enter for a new line" : "";
     $("send").disabled = !s.can_send;
     $("attach").hidden = !s.images;
+    $("gif-btn").hidden = !s.gifs;
+    if (!s.gifs) closeGifs(false);
     $("chat-menu").disabled = $("safety-btn").disabled = !s.online;
     updateCounter();
 });
@@ -112,6 +114,7 @@ Buddy.on("sidebar", sections => {
 // ------------------------------------------------------------------- room
 
 Buddy.on("room", r => {
+    if (!room || !r || r.id !== room.id) closeGifs(false);
     room = r;
     $("chat-menu").hidden = !r;
     $("safety-btn").hidden = !r || r.kind !== "dm";
@@ -280,10 +283,12 @@ $("send").onclick = sendMessage;
 let editingPicture = false;
 Buddy.on("attachment", a => {
     attached = !!a.preview;
-    $("attachment").hidden = !a.preview;
+    $("attachment").hidden = !a.preview && !a.busy;
+    $("attachment").classList.toggle("busy", !!a.busy);   // being shrunk (or fetched from GIPHY)
+    $("attachment-preview").hidden = !a.preview;
     if (a.preview) $("attachment-preview").src = a.preview;
-    $("attachment-label").textContent = a.label || "";
-    $("attachment-note").textContent = a.note || "";
+    $("attachment-label").textContent = a.busy || a.label || "";
+    $("attachment-note").textContent = a.busy ? "" : (a.note || "");
     if (a.focus) composer.focus();
 });
 // A picture pasted into the box goes through Python, which reads the clipboard itself.
@@ -295,6 +300,89 @@ composer.addEventListener("paste", e => {
     }
 });
 Buddy.on("drop_hover", on => { $("drop-hint").hidden = !(on && state.images && state.mode === "chat"); });
+
+// ------------------------------------------------------------------- GIFs
+// GIF search (gif_search.py). Typing searches after a pause (or on Enter):
+// the server asks GIPHY, and keeps what it's asked, since the whole network
+// shares GIPHY's hourly limit. Every preview arrives from Python as a data:
+// URL it has checked - nothing here loads anything from GIPHY. Picking one
+// puts it in the composer, like a picture.
+const gifPicker = $("gif-picker"), gifGrid = $("gif-grid"), gifSearch = $("gif-search");
+const gifThumbs = new Map();   // id -> data URL, for the results showing
+let gifTimer = 0, gifAsked = null;   // the search last sent (null: none yet, or ask again)
+
+function openGifs() {
+    if (!state.gifs) return;
+    gifPicker.hidden = false;
+    $("gif-btn").classList.add("on");
+    gifSearch.focus();
+    gifSearch.select();
+    if (gifAsked === null) searchGifs();
+}
+function closeGifs(focus = true) {
+    if (gifPicker.hidden) return;
+    gifPicker.hidden = true;
+    $("gif-btn").classList.remove("on");
+    clearTimeout(gifTimer);
+    if (focus) composer.focus();
+}
+function searchGifs(more = false) {
+    clearTimeout(gifTimer);
+    const q = gifSearch.value.trim();
+    if (!more && q === gifAsked) return;
+    gifAsked = q;
+    send("gif_search", {q, more});
+}
+function gifTile(r) {
+    const tile = el("button.gif-tile", {
+        type: "button", translate: "no", title: [r.title, r.user].filter(Boolean).join(" · "),
+        onclick: () => { closeGifs(); send("gif_pick", {id: r.id}); },
+    });
+    tile.dataset.gif = r.id;
+    const url = gifThumbs.get(r.id);
+    tile.append(url ? el("img", {src: url, alt: r.title || "GIF"}) : el("span", {text: r.title || "GIF"}));
+    return tile;
+}
+$("gif-btn").onclick = () => (gifPicker.hidden ? openGifs() : closeGifs());
+$("gif-close").onclick = () => closeGifs();
+$("gif-more").onclick = () => searchGifs(true);
+gifSearch.addEventListener("input", () => { clearTimeout(gifTimer); gifTimer = setTimeout(() => searchGifs(), 700); });
+gifSearch.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); searchGifs(); }
+    else if (e.key === "Escape") { e.preventDefault(); closeGifs(); }
+});
+document.addEventListener("mousedown", e => {
+    if (!gifPicker.hidden && !gifPicker.contains(e.target) && !$("gif-btn").contains(e.target)) closeGifs(false);
+});
+
+Buddy.on("gif_results", g => {
+    const status = $("gif-status");
+    if (g.reset) {   // a new connection: what's showing can't be picked any more
+        gifAsked = null;
+        gifThumbs.clear();
+        gifGrid.replaceChildren();
+        status.textContent = "";
+        closeGifs(false);
+        return;
+    }
+    status.dataset.tone = g.error ? "danger" : "";
+    status.textContent = g.loading ? "Searching…" : (g.error || g.empty || "");
+    $("gif-more").hidden = !!(g.loading || g.error) || !g.more;
+    if (g.error) gifAsked = null;   // Enter asks again
+    if (g.loading || g.error) return;
+    if (!g.append) {
+        gifThumbs.clear();
+        gifGrid.replaceChildren();
+        gifGrid.scrollTop = 0;
+    }
+    gifGrid.append(...g.results.map(gifTile));
+});
+Buddy.on("gif_thumb", t => {
+    gifThumbs.set(t.id, t.url);
+    for (const tile of gifGrid.querySelectorAll(".gif-tile")) {
+        if (tile.dataset.gif === t.id) tile.replaceChildren(el("img", {src: t.url, alt: tile.title || "GIF"}));
+    }
+});
 
 // @mentions: after "@", offer names (buddies and whoever's talking here).
 const popup = $("mentions");

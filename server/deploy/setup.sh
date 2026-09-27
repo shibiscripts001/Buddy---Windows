@@ -69,6 +69,8 @@ WantedBy=multi-user.target
 EOF
 mkdir -p /etc/systemd/system/buddy-network.service.d
 cp "$APP/server/deploy/hardening.conf" /etc/systemd/system/buddy-network.service.d/hardening.conf
+# GIF search's key, once set-giphy-key.sh has saved one.
+cp "$APP/server/deploy/giphy.conf" /etc/systemd/system/buddy-network.service.d/giphy.conf
 systemctl daemon-reload
 systemctl enable buddy-network
 systemctl restart buddy-network

@@ -210,15 +210,15 @@
   "العربية": "الصورة المراد إرسالها",
   "Tiếng Việt": "Ảnh sẽ gửi"
  },
- "Send a picture – or paste or drag one in": {
-  "日本語": "画像を送信 – 貼り付けやドラッグでも追加できます",
-  "Español": "Envía una imagen, o pégala o arrástrala",
-  "Deutsch": "Bild senden – oder eines einfügen bzw. hineinziehen",
-  "Français": "Envoyer une image – ou en coller ou en faire glisser une",
-  "한국어": "그림 보내기 – 붙여 넣거나 끌어 올 수도 있습니다",
-  "中文": "发送图片——也可以粘贴或拖入",
-  "العربية": "أرسل صورة – أو الصقها أو اسحبها إلى هنا",
-  "Tiếng Việt": "Gửi ảnh – hoặc dán hay kéo ảnh vào"
+ "Send a picture or GIF – or paste or drag one in": {
+  "日本語": "画像や GIF を送信 – 貼り付けやドラッグでも追加できます",
+  "Español": "Envía una imagen o un GIF, o pégalo o arrástralo",
+  "Deutsch": "Bild oder GIF senden – oder eines einfügen bzw. hineinziehen",
+  "Français": "Envoyer une image ou un GIF – ou en coller ou en faire glisser un",
+  "한국어": "그림이나 GIF 보내기 – 붙여 넣거나 끌어 올 수도 있습니다",
+  "中文": "发送图片或 GIF——也可以粘贴或拖入",
+  "العربية": "أرسل صورة أو GIF – أو الصقها أو اسحبها إلى هنا",
+  "Tiếng Việt": "Gửi ảnh hoặc GIF – hoặc dán hay kéo vào"
  },
  "Never share passwords, keys or personal details. Links can be dangerous.": {
   "日本語": "パスワード、キー、個人情報は絶対に共有しないでください。リンクは危険な場合があります。",
@@ -230,15 +230,15 @@
   "العربية": "لا تشارك كلمات المرور أو المفاتيح أو البيانات الشخصية أبدًا. قد تكون الروابط خطيرة.",
   "Tiếng Việt": "Không bao giờ chia sẻ mật khẩu, khóa hay thông tin cá nhân. Liên kết có thể nguy hiểm."
  },
- "Drop a picture to send it": {
-  "日本語": "ドロップして画像を送信",
-  "Español": "Suelta una imagen para enviarla",
-  "Deutsch": "Bild ablegen, um es zu senden",
-  "Français": "Déposez une image pour l'envoyer",
-  "한국어": "그림을 놓으면 보냅니다",
-  "中文": "拖放图片即可发送",
-  "العربية": "أفلت صورة لإرسالها",
-  "Tiếng Việt": "Thả ảnh để gửi"
+ "Drop a picture or GIF to send it": {
+  "日本語": "ドロップして画像や GIF を送信",
+  "Español": "Suelta una imagen o un GIF para enviarlo",
+  "Deutsch": "Bild oder GIF ablegen, um es zu senden",
+  "Français": "Déposez une image ou un GIF pour l'envoyer",
+  "한국어": "그림이나 GIF를 놓으면 보냅니다",
+  "中文": "拖放图片或 GIF 即可发送",
+  "العربية": "أفلت صورة أو GIF لإرسالها",
+  "Tiếng Việt": "Thả ảnh hoặc GIF để gửi"
  },
  "Turn off Buddy Network?": {
   "日本語": "Buddy ネットワークをオフにしますか?",
@@ -4419,5 +4419,175 @@
   "中文": "{count} 条消息，最后一条 {date}",
   "العربية": "{count} رسائل، آخرها {date}",
   "Tiếng Việt": "{count} tin nhắn, gần nhất {date}"
+ },
+ "Find a GIF on GIPHY": {
+  "日本語": "GIPHY で GIF を探す",
+  "Español": "Busca un GIF en GIPHY",
+  "Deutsch": "Ein GIF auf GIPHY suchen",
+  "Français": "Trouver un GIF sur GIPHY",
+  "한국어": "GIPHY에서 GIF 찾기",
+  "中文": "在 GIPHY 上找 GIF",
+  "العربية": "ابحث عن GIF في GIPHY",
+  "Tiếng Việt": "Tìm GIF trên GIPHY"
+ },
+ "Search GIPHY": {
+  "日本語": "GIPHY を検索",
+  "Español": "Buscar en GIPHY",
+  "Deutsch": "GIPHY durchsuchen",
+  "Français": "Rechercher sur GIPHY",
+  "한국어": "GIPHY 검색",
+  "中文": "搜索 GIPHY",
+  "العربية": "ابحث في GIPHY",
+  "Tiếng Việt": "Tìm trên GIPHY"
+ },
+ "More GIFs": {
+  "日本語": "さらに GIF を表示",
+  "Español": "Más GIF",
+  "Deutsch": "Weitere GIFs",
+  "Français": "Plus de GIF",
+  "한국어": "GIF 더 보기",
+  "中文": "更多 GIF",
+  "العربية": "المزيد من صور GIF",
+  "Tiếng Việt": "Thêm GIF"
+ },
+ "Powered by GIPHY": {
+  "日本語": "Powered by GIPHY",
+  "Español": "Con la tecnología de GIPHY",
+  "Deutsch": "Bereitgestellt von GIPHY",
+  "Français": "Fourni par GIPHY",
+  "한국어": "Powered by GIPHY",
+  "中文": "由 GIPHY 提供支持",
+  "العربية": "بدعم من GIPHY",
+  "Tiếng Việt": "Cung cấp bởi GIPHY"
+ },
+ "Searches go through the Buddy Network server, so GIPHY never sees who's searching.": {
+  "日本語": "検索は Buddy Network のサーバーを経由するため、誰が検索しているかが GIPHY に知られることはありません。",
+  "Español": "Las búsquedas pasan por el servidor de Buddy Network, así que GIPHY nunca ve quién busca.",
+  "Deutsch": "Suchen laufen über den Buddy-Network-Server, daher sieht GIPHY nie, wer sucht.",
+  "Français": "Les recherches passent par le serveur de Buddy Network : GIPHY ne voit jamais qui cherche.",
+  "한국어": "검색은 Buddy Network 서버를 거치므로 누가 검색하는지 GIPHY는 알 수 없습니다.",
+  "中文": "搜索会经过 Buddy Network 服务器，因此 GIPHY 永远不会知道是谁在搜索。",
+  "العربية": "تمر عمليات البحث عبر خادم Buddy Network، لذا لا يعرف GIPHY أبدًا من يبحث.",
+  "Tiếng Việt": "Việc tìm kiếm đi qua máy chủ Buddy Network, nên GIPHY không bao giờ biết ai đang tìm."
+ },
+ "No GIFs found – try other words.": {
+  "日本語": "GIF が見つかりません – 別の言葉で試してください。",
+  "Español": "No se encontraron GIF: prueba con otras palabras.",
+  "Deutsch": "Keine GIFs gefunden – versuchen Sie andere Wörter.",
+  "Français": "Aucun GIF trouvé – essayez d'autres mots.",
+  "한국어": "GIF를 찾지 못했습니다 – 다른 단어로 해 보세요.",
+  "中文": "没有找到 GIF——换个词试试。",
+  "العربية": "لم يُعثر على صور GIF – جرّب كلمات أخرى.",
+  "Tiếng Việt": "Không tìm thấy GIF – hãy thử từ khác."
+ },
+ "GIF search isn't working right now.": {
+  "日本語": "GIF 検索は現在利用できません。",
+  "Español": "La búsqueda de GIF no funciona ahora mismo.",
+  "Deutsch": "Die GIF-Suche funktioniert gerade nicht.",
+  "Français": "La recherche de GIF ne fonctionne pas pour le moment.",
+  "한국어": "지금은 GIF 검색을 사용할 수 없습니다.",
+  "中文": "GIF 搜索暂时无法使用。",
+  "العربية": "البحث عن صور GIF لا يعمل الآن.",
+  "Tiếng Việt": "Tìm GIF hiện không hoạt động."
+ },
+ "Getting the GIF from GIPHY…": {
+  "日本語": "GIPHY から GIF を取得しています…",
+  "Español": "Obteniendo el GIF de GIPHY…",
+  "Deutsch": "GIF wird von GIPHY geholt…",
+  "Français": "Récupération du GIF sur GIPHY…",
+  "한국어": "GIPHY에서 GIF를 가져오는 중…",
+  "中文": "正在从 GIPHY 获取 GIF…",
+  "العربية": "جارٍ جلب صورة GIF من GIPHY…",
+  "Tiếng Việt": "Đang lấy GIF từ GIPHY…"
+ },
+ "Getting the GIF ready…": {
+  "日本語": "GIF を準備しています…",
+  "Español": "Preparando el GIF…",
+  "Deutsch": "GIF wird vorbereitet…",
+  "Français": "Préparation du GIF…",
+  "한국어": "GIF를 준비하는 중…",
+  "中文": "正在准备 GIF…",
+  "العربية": "جارٍ تجهيز صورة GIF…",
+  "Tiếng Việt": "Đang chuẩn bị GIF…"
+ },
+ "Getting the picture ready…": {
+  "日本語": "画像を準備しています…",
+  "Español": "Preparando la imagen…",
+  "Deutsch": "Bild wird vorbereitet…",
+  "Français": "Préparation de l'image…",
+  "한국어": "그림을 준비하는 중…",
+  "中文": "正在准备图片…",
+  "العربية": "جارٍ تجهيز الصورة…",
+  "Tiếng Việt": "Đang chuẩn bị ảnh…"
+ },
+ "Wait a moment – the picture isn't ready yet.": {
+  "日本語": "少しお待ちください – 画像の準備がまだ終わっていません。",
+  "Español": "Espera un momento: la imagen aún no está lista.",
+  "Deutsch": "Einen Moment – das Bild ist noch nicht fertig.",
+  "Français": "Un instant – l'image n'est pas encore prête.",
+  "한국어": "잠시만요 – 그림이 아직 준비되지 않았습니다.",
+  "中文": "请稍候——图片还没准备好。",
+  "العربية": "انتظر لحظة – الصورة ليست جاهزة بعد.",
+  "Tiếng Việt": "Chờ một chút – ảnh chưa sẵn sàng."
+ },
+ "That GIF couldn't be downloaded – try another one.": {
+  "日本語": "その GIF をダウンロードできませんでした – 別のものを試してください。",
+  "Español": "No se pudo descargar ese GIF: prueba con otro.",
+  "Deutsch": "Dieses GIF konnte nicht heruntergeladen werden – versuchen Sie ein anderes.",
+  "Français": "Impossible de télécharger ce GIF – essayez-en un autre.",
+  "한국어": "그 GIF를 내려받지 못했습니다 – 다른 것을 골라 보세요.",
+  "中文": "无法下载这个 GIF——换一个试试。",
+  "العربية": "تعذّر تنزيل صورة GIF هذه – جرّب صورة أخرى.",
+  "Tiếng Việt": "Không tải được GIF đó – hãy thử cái khác."
+ },
+ "That file isn't a picture Buddy can read – try a PNG, JPEG, WebP or GIF.": {
+  "日本語": "そのファイルは Buddy が読み込める画像ではありません – PNG、JPEG、WebP、GIF を試してください。",
+  "Español": "Ese archivo no es una imagen que Buddy pueda leer: prueba con PNG, JPEG, WebP o GIF.",
+  "Deutsch": "Diese Datei ist kein Bild, das Buddy lesen kann – versuchen Sie PNG, JPEG, WebP oder GIF.",
+  "Français": "Ce fichier n'est pas une image que Buddy peut lire – essayez PNG, JPEG, WebP ou GIF.",
+  "한국어": "그 파일은 Buddy가 읽을 수 있는 그림이 아닙니다 – PNG, JPEG, WebP, GIF를 사용해 보세요.",
+  "中文": "Buddy 无法读取这个文件——请试试 PNG、JPEG、WebP 或 GIF。",
+  "العربية": "هذا الملف ليس صورة يستطيع Buddy قراءتها – جرّب PNG أو JPEG أو WebP أو GIF.",
+  "Tiếng Việt": "Tệp đó không phải ảnh mà Buddy đọc được – hãy thử PNG, JPEG, WebP hoặc GIF."
+ },
+ "That animation couldn't be made small enough to send – try a shorter one.": {
+  "日本語": "そのアニメーションは送信できるサイズまで小さくできませんでした – もっと短いものを試してください。",
+  "Español": "No se pudo reducir esa animación lo suficiente para enviarla: prueba con una más corta.",
+  "Deutsch": "Diese Animation ließ sich nicht klein genug zum Senden machen – versuchen Sie eine kürzere.",
+  "Français": "Impossible de rendre cette animation assez petite pour l'envoyer – essayez-en une plus courte.",
+  "한국어": "그 애니메이션은 보낼 수 있을 만큼 작게 만들 수 없었습니다 – 더 짧은 것을 사용해 보세요.",
+  "中文": "这个动画无法压缩到可发送的大小——试试短一点的。",
+  "العربية": "تعذّر تصغير هذه الرسوم المتحركة بما يكفي لإرسالها – جرّب واحدة أقصر.",
+  "Tiếng Việt": "Không thể thu nhỏ ảnh động đó đủ để gửi – hãy thử cái ngắn hơn."
+ },
+ "That animation couldn't be read – try another file.": {
+  "日本語": "そのアニメーションを読み込めませんでした – 別のファイルを試してください。",
+  "Español": "No se pudo leer esa animación: prueba con otro archivo.",
+  "Deutsch": "Diese Animation konnte nicht gelesen werden – versuchen Sie eine andere Datei.",
+  "Français": "Impossible de lire cette animation – essayez un autre fichier.",
+  "한국어": "그 애니메이션을 읽지 못했습니다 – 다른 파일을 사용해 보세요.",
+  "中文": "无法读取这个动画——换个文件试试。",
+  "العربية": "تعذّرت قراءة هذه الرسوم المتحركة – جرّب ملفًا آخر.",
+  "Tiếng Việt": "Không đọc được ảnh động đó – hãy thử tệp khác."
+ },
+ "That animation is too long or too big to send – trim it first.": {
+  "日本語": "そのアニメーションは長すぎるか大きすぎて送信できません – 先に短くしてください。",
+  "Español": "Esa animación es demasiado larga o grande para enviarla: recórtala primero.",
+  "Deutsch": "Diese Animation ist zu lang oder zu groß zum Senden – kürzen Sie sie zuerst.",
+  "Français": "Cette animation est trop longue ou trop grande pour être envoyée – raccourcissez-la d'abord.",
+  "한국어": "그 애니메이션은 너무 길거나 커서 보낼 수 없습니다 – 먼저 줄여 주세요.",
+  "中文": "这个动画太长或太大，无法发送——请先剪短。",
+  "العربية": "هذه الرسوم المتحركة طويلة أو كبيرة جدًا لإرسالها – قصّرها أولًا.",
+  "Tiếng Việt": "Ảnh động đó quá dài hoặc quá lớn để gửi – hãy cắt bớt trước."
+ },
+ "GIF via GIPHY": {
+  "日本語": "GIF（GIPHY より）",
+  "Español": "GIF de GIPHY",
+  "Deutsch": "GIF über GIPHY",
+  "Français": "GIF via GIPHY",
+  "한국어": "GIPHY의 GIF",
+  "中文": "GIF 来自 GIPHY",
+  "العربية": "GIF عبر GIPHY",
+  "Tiếng Việt": "GIF qua GIPHY"
  }
 }

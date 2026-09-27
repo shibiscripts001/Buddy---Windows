@@ -440,6 +440,92 @@ class PageTests(unittest.TestCase):
             self.answer("ok", kind="choice")
             deleted.assert_called_once_with(self.page._server_url(), ME["id"], "dm-x")
 
+    def gifs_on(self):
+        self.welcome()
+        self.page._on_received({"type": "welcome", "user": dict(ME), "rooms": [
+            {"id": "global", "name": "Global", "kind": "system"}],
+            "limits": {"max_image_bytes": 400 * 1024, "image_part_chars": 24000, "image_days": 7, "gifs": True}})
+        self.assertTrue(self.last("state")["gifs"])
+
+    def wait_for(self, done, seconds=20):
+        """Lets the page's threads (shrinking a picture) finish."""
+        import time
+        end = time.monotonic() + seconds
+        while not done() and time.monotonic() < end:
+            self.app.processEvents()
+            time.sleep(0.01)
+        self.assertTrue(done())
+
+    def test_gif_search_goes_through_the_server_and_the_gif_picked_is_sent_like_a_picture(self):
+        try:
+            from test_network_images import animation
+        except unittest.SkipTest:
+            self.skipTest("Pillow not installed")
+        self.gifs_on()
+        self.page.on_gif_search({"q": "  happy   cat "})
+        asked = self.client.sent[-1]
+        self.assertEqual((asked["type"], asked["q"], asked["offset"], asked["lang"]), ("gif_search", "happy cat", 0, "en"))
+        self.page._on_received({"type": "gif_results", "nonce": asked["nonce"] - 1, "results": [{"id": "old"}]})
+        self.assertTrue(self.last("gif_results")["loading"])   # an older search's answer is dropped
+        self.page._on_received({"type": "gif_results", "nonce": asked["nonce"], "more": True, "next": 24,
+                                "results": [{"id": "abc", "w": 100, "h": 75, "title": "Cat", "user": "Maker"}]})
+        shown = self.last("gif_results")
+        self.assertEqual((shown["results"][0]["id"], shown["more"], shown["append"]), ("abc", True, False))
+        # Previews are checked here; the page gets data: URLs only.
+        gif = animation(100, 75)
+        self.page._on_received({"type": "gif_thumb", "id": "abc", "data": base64.b64encode(gif).decode()})
+        self.assertTrue(self.last("gif_thumb")["url"].startswith("data:image/gif;base64,"))
+        self.page._on_received({"type": "gif_thumb", "id": "abc", "data": base64.b64encode(b"<svg/>").decode()})
+        self.page._on_received({"type": "gif_thumb", "id": "nope", "data": base64.b64encode(gif).decode()})
+        self.assertEqual(len([n for n, _p in self.events if n == "gif_thumb"]), 1)
+        # More of the same search.
+        self.page.on_gif_search({"q": "happy cat", "more": True})
+        self.assertEqual(self.client.sent[-1]["offset"], 24)
+        # Picking one: the server downloads it, Buddy shrinks it and it waits in the composer.
+        self.page.on_gif_pick({"id": "not-shown"})
+        self.assertEqual(self.client.sent[-1]["type"], "gif_search")
+        self.page.on_gif_pick({"id": "abc"})
+        self.assertEqual(self.client.sent[-1], {"type": "gif_get", "id": "abc"})
+        self.assertEqual(self.last("attachment")["busy"], "Getting the GIF from GIPHY…")
+        self.page.on_send({"text": "too soon"})
+        self.assertEqual(self.client.sent[-1]["type"], "gif_get")   # not sent without its GIF
+        self.page._on_received({"type": "gif_data", "id": "abc", "user": "Maker",
+                                "data": base64.b64encode(animation(320, 240)).decode()})
+        self.wait_for(lambda: self.page.attachment is not None)
+        self.assertTrue(self.last("attachment")["label"].startswith("GIPHY GIF, 320 x 240"))
+        self.page.on_send({"text": "ha"})
+        send = self.client.sent[-1]
+        self.assertEqual((send["type"], send["image"]["gif"]), ("send", "abc"))
+
+    def test_a_gif_file_stays_animated_and_can_be_removed_while_its_being_prepared(self):
+        try:
+            from test_network_images import animation
+        except unittest.SkipTest:
+            self.skipTest("Pillow not installed")
+        self.gifs_on()
+        path = os.path.join(self._tmp.name, "wave.gif")
+        with open(path, "wb") as f:
+            f.write(animation())
+        self.page._attach_file(path)
+        self.assertEqual(self.last("attachment")["busy"], "Getting the GIF ready…")
+        self.page.on_remove_attachment()
+        self.page._attach_file(path)
+        self.wait_for(lambda: self.page.attachment is not None)
+        self.wait_for(lambda: not self.page._shrink_workers or not any(w.isRunning() for w in self.page._shrink_workers))
+        self.app.processEvents()
+        self.assertTrue(self.page.attachment["animated"])
+        self.assertIsNone(self.page.attachment["gif"])
+        self.page.on_send({"text": ""})
+        self.assertNotIn("gif", self.client.sent[-1]["image"])
+
+    def test_gif_errors_show_in_the_picker(self):
+        self.gifs_on()
+        self.page.on_gif_search({"q": "cat"})
+        nonce = self.client.sent[-1]["nonce"]
+        self.page._on_received({"type": "error", "code": "gif_busy", "re": "gif_search", "nonce": nonce,
+                                "message": "GIF search is busy - try again in 5 minutes."})
+        self.assertEqual(self.last("gif_results")["error"], "GIF search is busy - try again in 5 minutes.")
+
     def test_off_clears_everything(self):
         self.welcome()
         self.page.on_turn_off()

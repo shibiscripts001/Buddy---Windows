@@ -25,7 +25,8 @@ keys change; any chat can be exported (export.py), and DMs kept on this PC
 (archive.py). Replies, editing, @mentions, unread counts and muting,
 search, slow mode (staff) and generated avatars (avatars.py). Images -
 picked, pasted or dropped, shrunk on this PC, kept on the server for a
-week, encrypted in DMs (attachments.py, images.py).
+week, encrypted in DMs (attachments.py, images.py). GIFs stay animated,
+and GIF search finds them on GIPHY through the server (gif_search.py).
 
 How the web page stays safe: the messages are drawn by render.room_html,
 which escapes everything anyone typed; its links are "bn-link:<n>" into a
@@ -47,7 +48,7 @@ and leave the address at DEFAULT_SERVER_URL.
 Protocol:
     to the view    state, sidebar, room, messages, compose, notice, people,
                    search, buddies, found_rooms, ask, menu, alert, toast,
-                   panels (and attachments.py's)
+                   panels (and attachments.py's and gif_search.py's)
     from the view  turn_on, turn_off, import_transfer, open, anchor, send,
                    cancel_compose, answer, menu_pick, chat_menu, sidebar_menu,
                    new_room, browse, find_rooms, open_found, buddies, social,
@@ -70,6 +71,7 @@ from core.web_page import WebToolPage
 from . import (archive, avatars, dialogs, e2e, export, mentions, panels, render, safety, transfer,
                web_view)
 from .attachments import ImageMixin
+from .gif_search import GifSearchMixin
 from .client import (CONNECTING, MAX_MESSAGE_CHARS, OFF, ONLINE, PROTOCOL_VERSION, WAITING, NetworkClient,
                      missing_support)
 from .identity import IdentityStore
@@ -108,7 +110,7 @@ def dm_room_id(me: str, other: str) -> str:
     return f"dm-{a}-{b}"
 
 
-class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
+class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebToolPage):
     tool_id = "buddy_network"
     display_name = "Buddy Network"
     category = ""   # its own group at the bottom of the rail, under a plain line
@@ -182,6 +184,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
         self._ask_id = 0
         self._menu = {}                # item id -> what it does, for the menu on screen
         self._init_images()
+        self._init_gifs()
 
         if self._unsupported:
             self._status = (self._unsupported, "danger")
@@ -220,6 +223,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
     def on_app_quitting(self):
         if self.client is not None:
             self.client.stop()
+        self._stop_shrinking()
         self.settings.save()   # the last messages seen, if not saved yet
 
     # ----------------------------------------------------- asking the view
@@ -308,7 +312,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
         self.buddy_state, self.unread, self._seen_incoming = dict(EMPTY_BUDDIES), {}, None
         self._trying_code = None
         self.device, self._readers, self._export = None, [], None
-        self.attachment, self.image_limits = None, None
+        self._drop_attachment()
+        self.image_limits = None
         self._reset_images()
         self._push_attachment()
         self.reply_to = self.editing = self._watched = None
@@ -363,6 +368,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
     def _on_state_changed(self, state: str, detail: str):
         if state != ONLINE:
             self._reset_images()
+            self._reset_gifs()
         if state == ONLINE:
             self._set_status("Online", "success")
         elif state == CONNECTING:
@@ -405,7 +411,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             "buddies_waiting": len(self.buddy_state.get("incoming", [])),
             "staff": self._am_staff(), "reports": self.reports_waiting,
             "max_chars": MAX_MESSAGE_CHARS, "counter_from": COUNTER_FROM,
-            "images": self.images_allowed(),
+            "images": self.images_allowed(), "gifs": self.gifs_allowed(),
         })
 
     def _notify(self, text: str, tone: str = "danger"):
@@ -513,10 +519,10 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self.settings.save()
             self._notify("")
             self.on_cancel_compose()
-            if self.attachment is not None:
+            if self.attachment is not None or self._preparing:
                 # Never carried into another chat: a picture meant for one
                 # person mustn't end up in a public room.
-                self.attachment = None
+                self._drop_attachment()
                 self._push_attachment()
             self._close_search()
             self._join_current()
@@ -1669,6 +1675,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             has_picture = self.attachment is not None and self.images_allowed()
         if not (text or has_picture) or not self._online():
             return
+        if self._preparing and self.editing is None:
+            self._notify("Wait a moment – the picture isn't ready yet.", "warning")
+            return
         if len(text) > MAX_MESSAGE_CHARS:
             self._notify(f"Messages are at most {MAX_MESSAGE_CHARS:,} characters.")
             return
@@ -1853,6 +1862,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             # A server from before images says nothing about them: none offered.
             self.image_limits = limits if isinstance(limits.get("max_image_bytes"), int) else None
             self._reset_images()
+            self._reset_gifs()
             url = self._server_url()
             if msg.get("token"):
                 self.identity.save(url, self.me["id"], msg["token"])
@@ -2040,13 +2050,19 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self._notify("Reported – thanks. The admins will take a look.", "success")
         elif kind == "image":
             self._image_arrived(msg)
+        elif kind == "gif_results":
+            self._gif_results(msg)
+        elif kind == "gif_thumb":
+            self._gif_thumb(msg)
+        elif kind == "gif_data":
+            self._gif_data(msg)
         elif kind == "error":
             self._on_error(msg)
         self._push_state()
 
     def _on_error(self, msg: dict):
         code, text = msg.get("code"), msg.get("message", "Something went wrong.")
-        if self._image_error(msg):
+        if self._image_error(msg) or self._gif_error(msg):
             pass
         elif self._export is not None and msg.get("nonce") == self._export["nonce"]:
             self._export = None

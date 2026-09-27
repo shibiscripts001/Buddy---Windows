@@ -11,12 +11,17 @@ Roles are otherwise managed in Buddy (the owner makes admins, admins make
 mods). Run the role commands with the server stopped, or restart it after - nothing is
 cached, but it's the simple rule. Your user id is under Account in Buddy.
 
+GIF search needs a GIPHY API key in the environment (see server/README.md):
+GIPHY_API_KEY, and optionally GIPHY_RATING (g, pg, pg-13 - the default - or r)
+and GIPHY_CALLS_PER_HOUR (default 90, under the free key's 100).
+
 Needs Python 3.11+ and `pip install -r server/requirements.txt`.
 """
 
 import argparse
 import asyncio
 import logging
+import os
 import sys
 
 from .store import Store
@@ -88,6 +93,7 @@ def run_command(argv) -> int:
     args = ap.parse_args(argv)
 
     from .core import NetworkCore
+    from .gifs import GiphySettings
     from .net import run
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
@@ -97,8 +103,8 @@ def run_command(argv) -> int:
 
     store = Store(args.db)
     try:
-        asyncio.run(run(NetworkCore(store, limit_new_accounts=not args.dev), args.host, args.port,
-                        args.behind_proxy))
+        core = NetworkCore(store, limit_new_accounts=not args.dev, giphy=GiphySettings.from_environment(os.environ))
+        asyncio.run(run(core, args.host, args.port, args.behind_proxy))
     except KeyboardInterrupt:
         pass
     finally:
