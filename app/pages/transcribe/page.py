@@ -69,6 +69,7 @@ from PySide6.QtCore import QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -512,8 +513,8 @@ class TranscribePage(WebToolPage):
     def on_save_srt(self, _payload=None):
         if not self.last_srt or not Path(self.last_srt).is_file():
             return
-        path, _ = QFileDialog.getSaveFileName(self, "Save subtitles", Path(self.last_srt).name,
-                                              "SubRip subtitles (*.srt)")
+        path, _ = QFileDialog.getSaveFileName(self, tr("Save subtitles"), Path(self.last_srt).name,
+                                              tr_filter("SubRip subtitles (*.srt)"))
         if path:
             Path(path).write_text(Path(self.last_srt).read_text(encoding="utf-8"), encoding="utf-8")
             self._add_log(f"Saved a copy to {path}", "ok")
@@ -552,7 +553,7 @@ class TranscribePage(WebToolPage):
         self._push_translate()
 
     def on_choose_folder(self, _payload=None):
-        folder = QFileDialog.getExistingDirectory(self, "Save translated subtitles to", self._output_dir())
+        folder = QFileDialog.getExistingDirectory(self, tr("Save translated subtitles to"), self._output_dir())
         if folder:
             self.settings["translate_dir"] = folder
             self.settings.save()
@@ -719,8 +720,8 @@ class TranscribePage(WebToolPage):
             return
 
         def with_engine(engine):
-            path, _ = QFileDialog.getOpenFileName(self, "Translate subtitles", self._output_dir(),
-                                                  "SubRip subtitles (*.srt)")
+            path, _ = QFileDialog.getOpenFileName(self, tr("Translate subtitles"), self._output_dir(),
+                                                  tr_filter("SubRip subtitles (*.srt)"))
             if not path:
                 return
             try:
@@ -872,9 +873,9 @@ class TranscribePage(WebToolPage):
         translation = (payload or {}).get("kind") == "translation"
         if translation:
             folder = QFileDialog.getExistingDirectory(
-                self, "Choose an NLLB-200 or MADLAD-400 model folder (it contains model.bin and tokenizer.json)")
+                self, tr("Choose an NLLB-200 or MADLAD-400 model folder (it contains model.bin and tokenizer.json)"))
         else:
-            folder = QFileDialog.getExistingDirectory(self, "Choose a faster-whisper model folder (it contains model.bin)")
+            folder = QFileDialog.getExistingDirectory(self, tr("Choose a faster-whisper model folder (it contains model.bin)"))
         if not folder:
             return
         if translation:

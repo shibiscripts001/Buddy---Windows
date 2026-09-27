@@ -92,7 +92,7 @@ Buddy.on("sidebar", sections => {
             const lead = item.kind === "buddy"
                 ? el("span.face", {}, [el("img", {src: item.avatar, alt: ""}), el(`i${item.online ? ".on" : ""}`)])
                 : el("span.glyph", {text: "#"});
-            const label = el("span.label", {}, [item.label, item.tag ? el("span.tag", {text: `#${item.tag}`}) : null]);
+            const label = el("span.label", {translate: "no"}, [item.label, item.tag ? el("span.tag", {text: `#${item.tag}`}) : null]);
             const button = el(`button.${classes.join(".")}`, {
                 type: "button", title: [item.sub, item.muted ? "Muted" : ""].filter(Boolean).join(" · "),
                 onclick: () => send("open", {key: item.key}),
@@ -130,7 +130,7 @@ Buddy.on("room", r => {
     title.replaceChildren(...(r.kind === "dm" ? [r.title] : [el("span.hash", {text: "#"}), r.title]));
     const bits = [];
     if (r.kind === "dm") bits.push(el("span.topic", {}, [el("span.lock", {text: "🔒 "}), r.topic]));
-    else if (r.topic) bits.push(el("span.topic", {text: r.topic}));
+    else if (r.topic) bits.push(el("span.topic", {text: r.topic, translate: "no"}));   // the room owner's words
     for (const f of r.facts) bits.push(el("span.fact", {text: f}));
     topic.replaceChildren(...bits);
     topic.title = topic.textContent;
@@ -138,6 +138,7 @@ Buddy.on("room", r => {
     const banner = $("banner");
     banner.hidden = !r.banner;
     banner.className = `banner${r.tone === "warn" ? " warn" : ""}`;
+    banner.translate = r.tone === "warn";   // a pinned announcement is the room owner's words
     banner.textContent = r.banner ? (r.tone === "warn" ? `⚠ ${r.banner}` : `📌 ${r.banner}`) : "";
 });
 
@@ -311,7 +312,7 @@ function drawMentions() {
     popup.hidden = !matches.length;
     popup.replaceChildren(...matches.map((p, i) => el(`li${i === chosen ? ".on" : ""}`, {
         onmousedown: e => { e.preventDefault(); choose(i); },
-    }, [el("img", {src: p.avatar, alt: ""}), el("span", {text: p.label})])));
+    }, [el("img", {src: p.avatar, alt: ""}), el("span", {text: p.label, translate: "no"})])));
 }
 
 function updateMentions() {
@@ -390,7 +391,12 @@ addEventListener("blur", closeMenu);
 
 function answer(id, ok, value) { send("answer", {id, ok, value}); }
 
-function textBlock(text) { return el("p.modal-text", {text}); }
+/* A paragraph per blank-line-separated block, each line its own text
+   node - so every sentence Python sends is translated on its own. */
+function textBlock(text) {
+    return String(text || "").split(/\n\s*\n/).map(para => el("p.modal-text", {},
+        para.split("\n").flatMap((line, i) => i ? [el("br"), line] : [line])));
+}
 
 Buddy.on("ask", q => {
     const done = {value: false};
@@ -410,7 +416,7 @@ Buddy.on("ask", q => {
                                  placeholder: q.placeholder || "", autocomplete: "off"});
         input.value = q.value || "";
         const dlg = Buddy.modal({
-            title: q.title, body: [textBlock(q.text), input], onClose,
+            title: q.title, body: [...textBlock(q.text), input], onClose,
             buttons: [{label: "Cancel"}, {label: q.ok || "Save", kind: q.danger ? "danger" : "accent",
                                           onClick: close => { reply(true, input.value); close(); }}],
         });
@@ -454,8 +460,8 @@ Buddy.on("ask", q => {
                          "Don't download or run files from links in chat."];
         const dlg = Buddy.modal({
             title: "Open this link?", wide: true, onClose,
-            body: [el("div.muted", {text: "This link goes to:"}), el("div.link-host", {text: q.host}),
-                   el("div.link-url", {text: q.url}),
+            body: [el("div.muted", {text: "This link goes to:"}), el("div.link-host", {text: q.host, translate: "no"}),
+                   el("div.link-url", {text: q.url, translate: "no"}),
                    el("ul.link-warn", {}, [...q.warnings.map(w => el("li.bad", {text: w})), ...general.map(g => el("li", {text: g}))])],
             buttons: [
                 {label: "Copy link", onClick: close => { reply(true, "copy"); close(); }},
@@ -487,7 +493,7 @@ Buddy.on("ask", q => {
             el("input", {type: "radio", name: `sel${q.id}`, checked: o.id === q.value, onchange: () => { value = o.id; }}),
             o.label,
         ])));
-        Buddy.modal({title: q.title, body: [textBlock(q.text), opts], onClose,
+        Buddy.modal({title: q.title, body: [...textBlock(q.text), opts], onClose,
             buttons: [{label: "Cancel"}, {label: "Save", kind: "accent", onClick: close => { reply(true, value); close(); }}]});
     }
 });
@@ -500,7 +506,7 @@ Buddy.on("toast", t => Buddy.toast(t.text, 2500));
 function personRow(p, actions) {
     return el("div.person", {title: p.id}, [
         el("img", {src: p.avatar, alt: ""}),
-        el("span.pname", {}, [p.name, el("small", {text: `#${p.tag}`})]),
+        el("span.pname", {translate: "no"}, [p.name, el("small", {text: `#${p.tag}`})]),
         ...actions.map(([label, kind, cls]) => el(`button.btn${cls ? "." + cls : ""}`, {
             type: "button", text: label,
             onclick: () => kind === "message" ? send("open", {key: `user:${p.id}`}) : send("social", {kind, user: p.id}),
@@ -579,11 +585,13 @@ Buddy.on("found_rooms", f => {
     b.results.replaceChildren(...f.rooms.map(r => el("button", {
         type: "button", ondblclick: () => open(r), onclick: () => open(r),
     }, [
-        el("span.fname", {text: `${r.permanent ? "📌 " : ""}# ${r.name}`}),
-        r.topic ? el("span.ftopic", {text: r.topic}) : null,
-        el("span.fmeta", {text: `${r.here ? `${r.here} here now` : "Nobody here right now"} · made by ${r.owner}`}),
+        el("span.fname", {text: `${r.permanent ? "📌 " : ""}# ${r.name}`, translate: "no"}),
+        r.topic ? el("span.ftopic", {text: r.topic, translate: "no"}) : null,
+        el("span.fmeta", {}, [el("span", {text: r.here ? `${r.here} here now` : "Nobody here right now"}), " · ",
+                              el("span", {text: `made by ${r.owner}`})]),
     ])));
-    b.status.textContent = f.rooms.length ? `${plural(f.rooms.length, "room")}, most active first.`
+    b.status.textContent = f.rooms.length === 1 ? "1 room, most active first."
+        : f.rooms.length ? `${f.rooms.length.toLocaleString()} rooms, most active first.`
         : (f.query.trim() || f.permanent_only) ? "No rooms match – try another word, or make the room yourself."
         : "Nobody has made a room yet – be the first with New room.";
     function open(r) { send("open_found", {id: r.id}); const d = browseDialog; browseDialog = null; d.close(); }
@@ -616,7 +624,7 @@ const PANELS = {
     account(d) {
         const act = action => () => panelAct("account", action);
         const avatar = el("img.acct-avatar", {alt: ""});
-        const name = el("div.acct-name");
+        const name = el("div.acct-name", {translate: "no"});
         const id = el("input.field.mono", {readonly: true, "aria-label": "Your ID"});
         const code = el("input.field.mono", {readonly: true, "aria-label": "Recovery code"});
         const show = button("Show", act("show_code"));
@@ -741,7 +749,7 @@ const PANELS = {
             buttons: [{label: "Close"}],
             update(d) {
                 list.replaceChildren(...listOrNote(d.chats, "Nothing saved on this PC.", c => el("div.prow.pitem", {}, [
-                    el("div.grow", {}, [el("div.strong", {text: c.name}), el("div.note", {text: c.detail})]),
+                    el("div.grow", {}, [el("div.strong", {text: c.name, translate: "no"}), el("div.note", {text: c.detail})]),
                     button("Export…", () => panelAct("saved", "export", {index: c.index})),
                     button("Delete", () => panelAct("saved", "delete", {index: c.index}), "ghost"),
                 ])));
@@ -757,7 +765,7 @@ const PANELS = {
         const network = el("input", {type: "checkbox"});
         return {
             title: "Ban",
-            body: [el("div.strong", {text: d.who}), el("label.lbl", {}, ["For", length]), reason,
+            body: [el("div.strong", {text: d.who, translate: "no"}), el("label.lbl", {}, ["For", length]), reason,
                    el("label.check", {}, [network, " Also stop new identities from their network"]),
                    el("p.note", {text: "They're signed out at once and can't sign back in until the ban ends. The network option only works while they're online: the server never stores addresses, so it keeps a scrambled (hashed) copy of theirs, only for the length of the ban. It can also stop other people on the same network."})],
             buttons: [{label: "Cancel"}, {label: "Ban", kind: "danger", onClick: () => panelAct("ban", "ban", {
@@ -813,8 +821,8 @@ const PANELS = {
                 showTab(d.tabs.some(t => t.id === tab) ? tab : d.tab);
                 staffHint.textContent = d.staff_hint;
                 lists.reports.replaceChildren(...listOrNote(d.reports, "No reports waiting.", r => el("div.pitem.report", {}, [
-                    el("div.strong", {text: r.head}),
-                    el("blockquote", {text: r.text}),
+                    el("div.strong", {text: r.head, translate: "no"}),
+                    el("blockquote", {text: r.text, translate: "no"}),
                     r.claimed ? el("div.note", {text: "An encrypted direct message: this text came from the reporter's Buddy – it can't be checked against what was really sent."}) : null,
                     el("div.note", {text: r.by}),
                     el("div.prow", {}, [
@@ -825,18 +833,18 @@ const PANELS = {
                     ]),
                 ])));
                 lists.bans.replaceChildren(...listOrNote(d.bans, "Nobody is banned.", b => el("div.prow.pitem", {}, [
-                    el("div.grow", {}, [el("div.strong", {text: b.head}), b.reason ? el("div.note", {text: b.reason}) : null]),
+                    el("div.grow", {}, [el("div.strong", {}, [el("span", {text: b.head, translate: "no"}), " – ", el("span", {text: b.lasts})]), b.reason ? el("div.note", {text: b.reason, translate: "no"}) : null]),
                     button("Unban", () => act("unban", {id: b.id})),
                 ])));
                 lists.admins.replaceChildren(...listOrNote(d.staff, "No staff yet.", a => el("div.prow.pitem", {}, [
-                    el("div.grow.strong", {text: a.head}), el("span.chip", {text: a.role}),
+                    el("div.grow.strong", {text: a.head, translate: "no"}), el("span.chip", {text: a.role}),
                     a.can_remove ? button("Make an ordinary user", () => act("remove_role", {id: a.id}), "ghost") : null,
                 ])));
                 lists.log.replaceChildren(...listOrNote(d.log, "Nothing yet.", e => el("div.pitem", {}, [
-                    el("div.mono.small", {text: e.head}), e.detail ? el("div.note", {text: e.detail}) : null,
+                    el("div.mono.small", {text: e.head, translate: "no"}), e.detail ? el("div.note", {text: e.detail, translate: "no"}) : null,
                 ])));
                 lists.app.replaceChildren(...listOrNote(d.app, "None posted.", a => el("div.prow.pitem", {}, [
-                    el("div.grow", {}, [el("div.strong", {text: a.head}), el("div.note.pre", {text: a.text})]),
+                    el("div.grow", {translate: "no"}, [el("div.strong", {text: a.head}), el("div.note.pre", {text: a.text})]),
                     button("Remove", () => act("delete_announcement", {id: a.id}), "ghost"),
                 ])));
                 error.textContent = d.error;

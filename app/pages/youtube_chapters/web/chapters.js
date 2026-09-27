@@ -20,14 +20,15 @@ Buddy.on("state", s => {
     const t = $("timeline");
     t.classList.toggle("bad", !s.timeline);
     t.replaceChildren(s.timeline
-        ? el("span", {}, [el("b", {text: s.timeline}),
-            ` · ${Math.round(s.fps * 1000) / 1000} fps · ${s.total} marker${s.total === 1 ? "" : "s"}`])
+        ? el("span", {}, [el("b", {text: s.timeline, translate: "no"}),
+            ` · ${Math.round(s.fps * 1000) / 1000} fps · `,
+            el("span", {text: s.total === 1 ? "1 marker" : `${s.total} markers`})])
         : el("span", {text: s.problem || "No timeline open"}));
     t.hidden = !s.connected;   // offline is said once, in Buddy's header
 
     const chip = (name, count, hex) => el(`button.filter${s.filter === name ? ".on" : ""}${count ? "" : ".zero"}`, {
         type: "button", "aria-pressed": String(s.filter === name),
-        title: name === "All" ? "Every marker" : `Only ${name} markers`,
+        title: name === "All" ? "Every marker" : "Only markers of this colour",
         onclick: () => send("filter", {color: name}),
     }, [hex ? el("i.dot", {style: `background:${hex}`}) : null, el("span", {text: name}), el("b", {text: String(count)})]);
     const used = s.colors.filter(c => c.count || c.name === s.filter);
@@ -43,7 +44,7 @@ Buddy.on("chapters", c => {
     const row = (ch, skipped) => el(`div.ch${skipped ? ".skipped" : ""}`, {}, [
         el("span.time", {text: ch.time}),
         el("i.dot", {style: ch.color && hex[ch.color] ? `background:${hex[ch.color]}` : "visibility:hidden", title: ch.color || ""}),
-        el("span.name", {text: ch.name}),
+        el("span.name", {text: ch.name, translate: "no"}),
         ch.note ? el("span.note", {text: ch.note}) : null,
     ]);
     const nodes = c.chapters.map(ch => row(ch, false));
@@ -59,11 +60,11 @@ Buddy.on("chapters", c => {
             : noTimeline
             ? [el("div.strong", {text: "No timeline to read"}), el("div", {text: STATE.problem || "Open a timeline in Resolve."}),
                el("button.btn", {type: "button", text: "Try again", onclick: () => send("refresh")})]
-            : [el("div.strong", {text: STATE && STATE.filter !== "All" ? `No ${STATE.filter} markers` : "No markers yet"}),
+            : [el("div.strong", {text: STATE && STATE.filter !== "All" ? "No markers of this colour" : "No markers yet"}),
                el("div", {text: "In Resolve, press M to add a marker at the playhead, then double-click it to give it a name."})]));
     }
     $("list").replaceChildren(...nodes);
-    $("count").textContent = c.chapters.length ? `${c.chapters.length} chapter${c.chapters.length === 1 ? "" : "s"}` : "";
+    $("count").textContent = c.chapters.length ? (c.chapters.length === 1 ? "1 chapter" : `${c.chapters.length} chapters`) : "";
 
     $("warnings").replaceChildren(...c.warnings.map(w => el("div.warn-line", {}, [icon("warning"), el("span", {text: w})])));
     const text = $("text");

@@ -57,8 +57,12 @@ function trackOptions(select, count, value, extra = 0) {
 Buddy.on("state", s => {
     STATE = s;
     if (s.tab !== TAB) showTab(s.tab);
-    const t = $("timeline");
-    t.textContent = s.timeline ? `${s.timeline} · ${s.resolution[0]}×${s.resolution[1]} · ${s.tracks.video} video track${s.tracks.video === 1 ? "" : "s"}` : "";
+    // The timeline's name is the user's; the rest is translated piece by piece.
+    const n = s.tracks.video;
+    $("timeline").replaceChildren(...(s.timeline ? [
+        el("span", {text: s.timeline, translate: "no"}), ` · ${s.resolution[0]}×${s.resolution[1]} · `,
+        el("span", {text: n === 1 ? "1 video track" : `${n} video tracks`}),
+    ] : []));
     trackOptions($("sub-track"), s.tracks.subtitle, s.sub_track);
     trackOptions($("target-track"), s.tracks.video, s.target_track, 1);
     if (OPT) {
@@ -209,7 +213,10 @@ function drawPreview() {
     // Size is a fraction of frame width; this box stands in for a 16:9 frame.
     const fs = Math.max(8, val("font_size") * w * 0.62);
     const t = OPT.toggles;
-    sample.textContent = (STATE && STATE.sample) || "Sample Text";
+    // A clip's own text is the user's; only the stand-in is translated.
+    const userSample = (STATE && STATE.sample) || "";
+    sample.translate = !userSample;
+    sample.textContent = userSample || "Sample Text";
     sample.style.fontFamily = `"${OPT.font_css.family}", sans-serif`;
     sample.style.fontWeight = OPT.font_css.weight;
     sample.style.fontStyle = OPT.font_css.italic ? "italic" : "normal";
@@ -256,7 +263,7 @@ Buddy.on("overlay", o => {
 $("apply-layout").onclick = () => send("apply_layout", {preset: OPT.layout_preset, selected: canvases.words.selected()});
 
 Buddy.on("history", h => {
-    for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = h.undo ? `Undo (Ctrl+Z) - ${h.undo} step${h.undo === 1 ? "" : "s"}` : "Nothing to undo"; }
+    for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = !h.undo ? "Nothing to undo" : h.undo === 1 ? "Undo (Ctrl+Z) - 1 step" : `Undo (Ctrl+Z) - ${h.undo} steps`; }
     for (const b of $$("[data-redo]")) { b.disabled = !h.redo; b.title = h.redo ? "Redo (Ctrl+Shift+Z)" : "Nothing to redo"; }
 });
 

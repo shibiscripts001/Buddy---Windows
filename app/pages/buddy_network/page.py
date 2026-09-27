@@ -64,6 +64,7 @@ from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
 from core.buddy_server import DEFAULT_SERVER_URL, OLD_TEST_DEFAULT
+from core.i18n import tr, tr_filter
 from core.web_page import WebToolPage
 
 from . import (archive, avatars, dialogs, e2e, export, mentions, panels, render, safety, transfer,
@@ -89,7 +90,10 @@ EMPTY_BUDDIES = {"buddies": [], "incoming": [], "outgoing": [], "blocked": [], "
 EXPORT_MAX = 20000   # messages in one export
 # The server's roles, lowest first (server/admin.py ROLES).
 ROLE_RANK = {"user": 0, "mod": 1, "admin": 2, "owner": 3}
-ROLE_WORDS = {"user": "an ordinary user", "mod": "a mod", "admin": "an admin", "owner": "the owner"}
+ROLE_NOTICES = {"user": "You're now an ordinary user on Buddy Network.",
+                "mod": "You're now a mod on Buddy Network.",
+                "admin": "You're now an admin on Buddy Network.",
+                "owner": "You're now the owner on Buddy Network."}
 ROLE_ACTIONS = {"user": "Make an ordinary user", "mod": "Make mod", "admin": "Make admin"}
 EXPORT_DM_WARNING = (
     "The file will hold these direct messages as plain, readable text – they're only end-to-end "
@@ -535,17 +539,20 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self._set_saved([i for i in self._saved_ids() if i != room_id])
         self.unread.pop(room_id, None)
         if room_id == self.room_id:
+            # Whole sentences, so each is translated as one.
             if room and room["kind"] == "dm":
-                name, why = render.display_name(room["other"]), "no longer on Buddy Network"
+                gone = f"{render.display_name(room['other'])} was no longer on Buddy Network."
+            elif room:
+                gone = (f"#{room['name']} was deleted by the person who made it." if reason == "deleted"
+                        else f"#{room['name']} was closed after 30 days without messages.")
             else:
-                name = f"#{room['name']}" if room else "That room"
-                why = ("deleted by the person who made it" if reason == "deleted"
-                       else "closed after 30 days without messages")
+                gone = ("That room was deleted by the person who made it." if reason == "deleted"
+                        else "That room was closed after 30 days without messages.")
             self.room_id = self.system_ids[0] if self.system_ids else "global"
             self.settings["room"] = self.room_id
             self.settings.save()
             self._join_current()
-            self._notify(f"{name} was {why}.", "warning")
+            self._notify(gone, "warning")
         self._push_sidebar()
 
     def on_new_room(self, _payload=None):
@@ -1080,8 +1087,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
 
     def _ask_export_path(self, title: str) -> str:
         start = os.path.join(os.path.expanduser("~"), "Documents", export.default_filename(title, time.time()))
-        path, chosen = QFileDialog.getSaveFileName(self, "Export chat", start,
-                                                   "Text file (*.txt);;Web page (*.html)")
+        path, chosen = QFileDialog.getSaveFileName(self, tr("Export chat"), start,
+                                                   tr_filter("Text file (*.txt);;Web page (*.html)"))
         if path and not os.path.splitext(path)[1]:
             path += ".html" if "html" in chosen else ".txt"
         return path
@@ -1145,8 +1152,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
         name = self.me.get("name") or "Buddy"
         start = os.path.join(os.path.expanduser("~"), "Documents",
                              export.default_filename(name, time.time(), transfer.EXTENSION))
-        path, _ = QFileDialog.getSaveFileName(self, "Save transfer file", start,
-                                              f"Buddy Network transfer (*{transfer.EXTENSION})")
+        path, _ = QFileDialog.getSaveFileName(self, tr("Save transfer file"), start,
+                                              tr_filter(f"Buddy Network transfer (*{transfer.EXTENSION})"))
         if not path:
             return
         if not path.lower().endswith(transfer.EXTENSION):
@@ -1161,20 +1168,20 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
         except (OSError, e2e.CryptoError) as exc:
             self._alert(self.display_name, f"The transfer file couldn't be saved: {exc}")
             return
-        self._alert(
-            self.display_name,
-            f"Saved {os.path.basename(path)}.\n\nOn the other PC, open Buddy Network and choose \"I have a "
-            "transfer file\" (or Account > Import a transfer file)" + (", then type the password" if password
-                                                                        else "") + ".\n\nDelete the file "
-            "once you've moved: it's enough to be you and read your messages.")
+        how = ("On the other PC, open Buddy Network and choose \"I have a transfer file\" (or Account > "
+               "Import a transfer file), then type the password." if password else
+               "On the other PC, open Buddy Network and choose \"I have a transfer file\" (or Account > "
+               "Import a transfer file).")
+        self._alert(self.display_name, f"Saved {os.path.basename(path)}.\n\n{how}\n\nDelete the file once "
+                    "you've moved: it's enough to be you and read your messages.")
 
     def on_import_transfer(self, _payload=None):
         self.import_transfer()
 
     def import_transfer(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "Import transfer file", os.path.join(os.path.expanduser("~"), "Documents"),
-            f"Buddy Network transfer (*{transfer.EXTENSION});;All files (*)")
+            self, tr("Import transfer file"), os.path.join(os.path.expanduser("~"), "Documents"),
+            tr_filter(f"Buddy Network transfer (*{transfer.EXTENSION});;All files (*)"))
         if path:
             self._read_transfer(path)   # first without a password: a file saved without one opens straight away
 
@@ -1220,7 +1227,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
         if chats:
             self.settings["keep_dms"] = True   # they kept a copy there: keep one here too
             self.settings.save()
-        done = f"Imported {shown}" + (f", with {new:,} saved direct messages" if chats else "") + "."
+        done = f"Imported {shown}, with {new:,} saved direct messages." if chats else f"Imported {shown}."
         if url != self._server_url():
             done += (f"\n\nIt's for the server {url}, but Buddy Network is set to {self._server_url()} – "
                      "change the server address in Settings to use it.")
@@ -1518,16 +1525,16 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self.client.send(report)
 
         self._prompt("Report message", f"Report this message from {render.display_name(m['author'])} to the "
-                     f"admins? {sees}\n\nWhy? (optional)", send, maxlength=300, ok="Report")
+                     f"admins?\n\n{sees}\n\nWhy? (optional)", send, maxlength=300, ok="Report")
 
     def _banned(self, msg: dict):
         self.client.stop()
         until = msg.get("until")
-        how_long = "permanently" if until is None else f"until {panels.when(until)}"
         lasts = "It's permanent." if until is None else f"It ends {panels.when(until)}."
-        reason = f" Reason: {msg['reason']}" if msg.get("reason") else ""
-        self._set_status(f"Banned {how_long}", "danger")
-        self._alert(self.display_name, f"{msg.get('message', 'You have been banned.')} {lasts}{reason}")
+        reason = f"\n\nReason: {msg['reason']}" if msg.get("reason") else ""
+        self._set_status("Banned permanently" if until is None else f"Banned until {panels.when(until)}",
+                         "danger")
+        self._alert(self.display_name, f"{msg.get('message', 'You have been banned.')}\n\n{lasts}{reason}")
 
     def _on_buddy_list(self, state: dict):
         incoming = {p["id"] for p in state.get("incoming", [])}
@@ -1673,12 +1680,12 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self._alert("Not sent", check.blocked)
             return
         if check.warnings:
-            found = ", ".join(check.warnings[:-1]) + (" and " if len(check.warnings) > 1 else "") + check.warnings[-1]
+            found = "\n".join(f"• {w}" for w in check.warnings)   # a line each, so each is translated
             where = ("Direct messages are end-to-end encrypted, but the person you're talking to can still copy "
                      "or share it – and anyone can claim to be anyone." if dm else
                      "Buddy Network rooms are public: anyone in the room can read it, and it stays on the "
                      "server for 30 days unless you delete it.")
-            self._choice("Send this message?", f"This message contains {found}.\n\n{where}",
+            self._choice("Send this message?", f"This message contains:\n{found}\n\n{where}",
                          [("send", "Send anyway", "danger")], lambda _v: self._send_checked(text, target),
                          cancel="Edit message")
             return
@@ -2026,8 +2033,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, WebToolPage):
             self.me = msg["user"]
             self._push_room()
             self._render()
-            self._notify(f"You're now {ROLE_WORDS.get(self.my_role(), 'an ordinary user')} "
-                         "on Buddy Network.", "success")
+            self._notify(ROLE_NOTICES.get(self.my_role(), ROLE_NOTICES["user"]), "success")
         elif kind == "ban_done":
             self._notify("Banned, along with their network." if msg.get("networks") else "Banned.", "success")
         elif kind == "reported":

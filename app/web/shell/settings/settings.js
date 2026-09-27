@@ -34,7 +34,7 @@ function labelled(f, control, extra) {
 const FIELDS = {
     heading: f => el("h2.set-heading", {text: f.text}),
     line: () => el("hr.set-line"),
-    info: f => el("div.set-row", {}, [el("div.set-label", {}, [el("span", {text: f.label}), el("div.set-info", {text: f.text})])]),
+    info: f => el("div.set-row", {}, [el("div.set-label", {}, [el("span", {text: f.label}), el("div.set-info", {text: f.text, translate: f.raw ? "no" : null})])]),
     hint: f => {
         const node = el(`div.set-hint${f.indent ? ".indent" : ""}${f.tone ? "." + f.tone : ""}`);
         if (f.html) node.innerHTML = f.html;   // Buddy's own fixed HTML (links), never user text
@@ -52,7 +52,7 @@ const FIELDS = {
     },
     select: (f, s) => {
         const box = el("select.field", {"data-key": f.key, title: f.tooltip || "", onchange: e => set(s, f.key, decode(f, e.target.value))},
-                       f.options.map(o => el("option", {value: String(o.value), text: o.label})));
+                       f.options.map(o => el("option", {value: String(o.value), text: o.label, translate: f.raw ? "no" : null})));
         box.value = String(f.value);
         return labelled(f, box);
     },

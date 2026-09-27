@@ -36,6 +36,7 @@ from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
 from core import marker_colors
+from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -175,7 +176,7 @@ class StillsExporterPage(WebToolPage):
         self._push_options()
 
     def on_choose_folder(self, _payload=None):
-        folder = QFileDialog.getExistingDirectory(self, "Choose export folder", self.settings.get("folder") or "")
+        folder = QFileDialog.getExistingDirectory(self, tr("Choose export folder"), self.settings.get("folder") or "")
         if folder:
             self.settings["folder"] = os.path.normpath(folder)
             self.settings.save()
@@ -214,7 +215,8 @@ class StillsExporterPage(WebToolPage):
             self.grabbed.append({"id": uuid.uuid4().hex, "timecode": timecode, "color": color,
                                  "name": names.get(timecode, ""), "still": still})
         self._push_grabbed()
-        self.emit("toast", {"text": f"Grabbed {len(grabbed)} still{'s' if len(grabbed) != 1 else ''} on the Color page"})
+        self.emit("toast", {"text": "Grabbed 1 still on the Color page" if len(grabbed) == 1
+                            else f"Grabbed {len(grabbed)} stills on the Color page"})
 
     def on_remove_grabbed(self, payload):
         """Off this session's list only - the gallery still has it."""
@@ -259,7 +261,7 @@ class StillsExporterPage(WebToolPage):
         if delete_after:
             self.grabbed = []
             self._push_grabbed()
-        self.emit("toast", {"text": f"Exported {count} still{'s' if count != 1 else ''}", "open_folder": True})
+        self.emit("toast", {"text": "Exported 1 still" if count == 1 else f"Exported {count} stills", "open_folder": True})
 
     def on_open_folder(self, _payload=None):
         folder = self.settings.get("folder") or ""

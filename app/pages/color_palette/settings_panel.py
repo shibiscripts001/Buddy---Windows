@@ -5,7 +5,7 @@ core/settings_form.py), plus the backup export/import it offers. The page
 supplies data_mgr, i18n, refresh_all(), update_focus_overlay() and
 apply_mini_palette_transparency().
 
-Theme, window transparency and stay-on-top were the standalone's own
+Theme, window transparency, stay-on-top and language were the standalone's own
 Settings rows; they're shell settings in Buddy.
 """
 
@@ -16,7 +16,7 @@ from PySide6.QtWidgets import QFileDialog
 
 from core import settings_form as sf
 
-from .i18n import LANGUAGES, tr
+from core.i18n import tr, tr_filter
 
 TRANSPARENCY_STEPS = ["100%", "95%", "90%", "85%", "80%", "75%"]
 TOGGLES = ("hide_on_dropper", "remember_export_folder", "focus_mode_enabled")
@@ -42,8 +42,6 @@ class ColorPaletteSettingsMixin:
                       int(s.get("focus_mode_color_val", 128)), 0, 255, 128, {}),
             sf.buttons((tr("Export settings / backup…"), "export_backup"),
                        (tr("Import settings / backup…"), "import_backup")),
-            sf.select("language", tr("Language:"), s.get("language", "English"), LANGUAGES),
-            sf.hint("Language applies to this tool only."),
         ]
 
     def on_setting(self, key, value, ui):
@@ -65,10 +63,6 @@ class ColorPaletteSettingsMixin:
             s[key] = value
             self.data_mgr.save_settings()
             self.update_focus_overlay()
-        elif key == "language" and value in LANGUAGES:
-            s[key] = value
-            self.data_mgr.save_settings()
-            self.i18n.language = value
 
     def on_settings_action(self, action, ui):
         if action == "export_backup":
@@ -81,7 +75,7 @@ class ColorPaletteSettingsMixin:
     def _export_data_backup(self, ui):
         default_path = self.data_mgr.default_export_path("ColorPaletteManager_Backup.json")
         out_path, _ = QFileDialog.getSaveFileName(ui.parent, tr("Export settings & data"), default_path,
-                                                  "JSON Files (*.json)")
+                                                  tr_filter("JSON Files (*.json)"))
         if not out_path:
             return
         self.data_mgr.remember_export_folder(out_path)
@@ -104,7 +98,7 @@ class ColorPaletteSettingsMixin:
             filename=os.path.basename(out_path)), "success")
 
     def _import_data_backup(self, ui):
-        in_path, _ = QFileDialog.getOpenFileName(ui.parent, tr("Import settings & data"), "", "JSON Files (*.json)")
+        in_path, _ = QFileDialog.getOpenFileName(ui.parent, tr("Import settings & data"), "", tr_filter("JSON Files (*.json)"))
         if not in_path:
             return
         try:

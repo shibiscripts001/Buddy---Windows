@@ -58,7 +58,7 @@ function rowEl(r, i) {
     });
     const grip = el("span.org-grip", {text: "⋮⋮", title: "Drag to move (or Alt + Up/Down)"});
     if (r.type === "divider") {
-        li.append(grip, el("span.org-divider", {text: r.label ? r.label.toUpperCase() : "Plain line"}),
+        li.append(grip, el(`span.org-divider${r.label ? ".named" : ""}`, {text: r.label || "Plain line"}),
             el("button.btn.ghost.small", {type: "button", text: "Rename…", onclick: async e => {
                 e.stopPropagation();
                 const label = await askLabel("Rename divider", r.label);
@@ -70,7 +70,7 @@ function rowEl(r, i) {
             if (label !== null) edit("rename", {index: i, label});
         });
     } else {
-        const box = el("input", {type: "checkbox", checked: r.visible, "aria-label": `Show ${r.label}`,
+        const box = el("input", {type: "checkbox", checked: r.visible, "aria-label": `Show ${r.label} in the sidebar`,
                                  onclick: e => e.stopPropagation(), onchange: e => edit("visible", {index: i, visible: e.target.checked})});
         li.append(grip, el("label.check.org-tool", {}, [box, el("span", {text: r.label}),
             r.placeholder ? el("span.muted.small", {text: "(not yet integrated)"}) : null]));

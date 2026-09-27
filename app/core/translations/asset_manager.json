@@ -1,0 +1,1343 @@
+{
+ "_comment": "Asset Manager. English -> each language; see core/i18n.py.",
+ "All media": {
+  "日本語": "すべてのメディア",
+  "Español": "Todos los medios",
+  "Deutsch": "Alle Medien",
+  "Français": "Tous les médias",
+  "한국인": "모든 미디어",
+  "中文": "全部媒体",
+  "العربية": "كل الوسائط",
+  "Tiếng Việt": "Tất cả phương tiện"
+ },
+ "By folder": {
+  "日本語": "フォルダー別",
+  "Español": "Por carpeta",
+  "Deutsch": "Nach Ordner",
+  "Français": "Par dossier",
+  "한국인": "폴더별",
+  "中文": "按文件夹",
+  "العربية": "حسب المجلد",
+  "Tiếng Việt": "Theo thư mục"
+ },
+ "Projects": {
+  "日本語": "プロジェクト",
+  "Español": "Proyectos",
+  "Deutsch": "Projekte",
+  "Français": "Projets",
+  "한국인": "프로젝트",
+  "中文": "项目",
+  "العربية": "المشاريع",
+  "Tiếng Việt": "Dự án"
+ },
+ "Type": {
+  "日本語": "種類",
+  "Español": "Tipo",
+  "Deutsch": "Typ",
+  "Français": "Type",
+  "한국인": "유형",
+  "中文": "类型",
+  "العربية": "النوع",
+  "Tiếng Việt": "Loại"
+ },
+ "Search names": {
+  "日本語": "名前を検索",
+  "Español": "Buscar nombres",
+  "Deutsch": "Namen suchen",
+  "Français": "Rechercher des noms",
+  "한국인": "이름 검색",
+  "中文": "搜索名称",
+  "العربية": "البحث في الأسماء",
+  "Tiếng Việt": "Tìm theo tên"
+ },
+ "Add folder…": {
+  "日本語": "フォルダーを追加…",
+  "Español": "Añadir carpeta…",
+  "Deutsch": "Ordner hinzufügen…",
+  "Français": "Ajouter un dossier…",
+  "한국인": "폴더 추가…",
+  "中文": "添加文件夹…",
+  "العربية": "إضافة مجلد…",
+  "Tiếng Việt": "Thêm thư mục…"
+ },
+ "Every asset, grouped by the folder it's in.": {
+  "日本語": "すべてのアセットを、含まれているフォルダーごとにまとめて表示します。",
+  "Español": "Todos los recursos, agrupados por la carpeta en la que están.",
+  "Deutsch": "Alle Assets, gruppiert nach dem Ordner, in dem sie liegen.",
+  "Français": "Toutes les ressources, regroupées par dossier.",
+  "한국인": "모든 에셋을 들어 있는 폴더별로 묶어 표시합니다.",
+  "中文": "所有素材，按所在文件夹分组。",
+  "العربية": "كل الأصول، مجمّعة حسب المجلد الذي توجد فيه.",
+  "Tiếng Việt": "Mọi tài nguyên, nhóm theo thư mục chứa chúng."
+ },
+ "Expand all": {
+  "日本語": "すべて展開",
+  "Español": "Expandir todo",
+  "Deutsch": "Alle aufklappen",
+  "Français": "Tout développer",
+  "한국인": "모두 펼치기",
+  "中文": "全部展开",
+  "العربية": "توسيع الكل",
+  "Tiếng Việt": "Mở rộng tất cả"
+ },
+ "Collapse all": {
+  "日本語": "すべて折りたたむ",
+  "Español": "Contraer todo",
+  "Deutsch": "Alle zuklappen",
+  "Français": "Tout réduire",
+  "한국인": "모두 접기",
+  "中文": "全部折叠",
+  "العربية": "طي الكل",
+  "Tiếng Việt": "Thu gọn tất cả"
+ },
+ "Project": {
+  "日本語": "プロジェクト",
+  "Español": "Proyecto",
+  "Deutsch": "Projekt",
+  "Français": "Projet",
+  "한국인": "프로젝트",
+  "中文": "项目",
+  "العربية": "المشروع",
+  "Tiếng Việt": "Dự án"
+ },
+ "New project": {
+  "日本語": "新規プロジェクト",
+  "Español": "Nuevo proyecto",
+  "Deutsch": "Neues Projekt",
+  "Français": "Nouveau projet",
+  "한국인": "새 프로젝트",
+  "中文": "新建项目",
+  "العربية": "مشروع جديد",
+  "Tiếng Việt": "Dự án mới"
+ },
+ "Add from library…": {
+  "日本語": "ライブラリから追加…",
+  "Español": "Añadir desde la biblioteca…",
+  "Deutsch": "Aus der Bibliothek hinzufügen…",
+  "Français": "Ajouter depuis la bibliothèque…",
+  "한국인": "라이브러리에서 추가…",
+  "中文": "从素材库添加…",
+  "العربية": "إضافة من المكتبة…",
+  "Tiếng Việt": "Thêm từ thư viện…"
+ },
+ "Check every file again": {
+  "日本語": "すべてのファイルを再確認",
+  "Español": "Volver a comprobar todos los archivos",
+  "Deutsch": "Alle Dateien erneut prüfen",
+  "Français": "Revérifier tous les fichiers",
+  "한국인": "모든 파일 다시 확인",
+  "中文": "重新检查所有文件",
+  "العربية": "التحقق من كل الملفات مرة أخرى",
+  "Tiếng Việt": "Kiểm tra lại mọi tệp"
+ },
+ "Play / pause (Space)": {
+  "日本語": "再生 / 一時停止 (Space)",
+  "Español": "Reproducir / pausar (Espacio)",
+  "Deutsch": "Wiedergabe / Pause (Leertaste)",
+  "Français": "Lecture / pause (Espace)",
+  "한국인": "재생 / 일시 정지(Space)",
+  "中文": "播放 / 暂停（空格键）",
+  "العربية": "تشغيل / إيقاف مؤقت (مسافة)",
+  "Tiếng Việt": "Phát / tạm dừng (Space)"
+ },
+ "Position": {
+  "日本語": "位置",
+  "Español": "Posición",
+  "Deutsch": "Position",
+  "Français": "Position",
+  "한국인": "위치",
+  "中文": "位置",
+  "العربية": "الموضع",
+  "Tiếng Việt": "Vị trí"
+ },
+ "Volume": {
+  "日本語": "音量",
+  "Español": "Volumen",
+  "Deutsch": "Lautstärke",
+  "Français": "Volume",
+  "한국인": "볼륨",
+  "中文": "音量",
+  "العربية": "مستوى الصوت",
+  "Tiếng Việt": "Âm lượng"
+ },
+ "Click an asset to preview it. Ctrl or Shift for several.": {
+  "日本語": "アセットをクリックするとプレビューします。複数選択は Ctrl または Shift。",
+  "Español": "Haz clic en un recurso para previsualizarlo. Ctrl o Mayús para varios.",
+  "Deutsch": "Klicken Sie auf ein Asset, um es in der Vorschau zu sehen. Strg oder Umschalt für mehrere.",
+  "Français": "Cliquez sur une ressource pour la prévisualiser. Ctrl ou Maj pour en choisir plusieurs.",
+  "한국인": "에셋을 클릭하면 미리 봅니다. 여러 개는 Ctrl 또는 Shift.",
+  "中文": "点击素材即可预览。按住 Ctrl 或 Shift 可多选。",
+  "العربية": "انقر على أصل لمعاينته. Ctrl أو Shift لتحديد عدة أصول.",
+  "Tiếng Việt": "Bấm vào tài nguyên để xem trước. Giữ Ctrl hoặc Shift để chọn nhiều."
+ },
+ "Remove": {
+  "日本語": "削除",
+  "Español": "Quitar",
+  "Deutsch": "Entfernen",
+  "Français": "Retirer",
+  "한국인": "제거",
+  "中文": "移除",
+  "العربية": "إزالة",
+  "Tiếng Việt": "Xóa"
+ },
+ "Remove from project": {
+  "日本語": "プロジェクトから外す",
+  "Español": "Quitar del proyecto",
+  "Deutsch": "Aus dem Projekt entfernen",
+  "Français": "Retirer du projet",
+  "한국인": "프로젝트에서 제거",
+  "中文": "从项目中移除",
+  "العربية": "إزالة من المشروع",
+  "Tiếng Việt": "Xóa khỏi dự án"
+ },
+ "Import to Media Pool": {
+  "日本語": "メディアプールに読み込む",
+  "Español": "Importar al Grupo de medios",
+  "Deutsch": "In den Media Pool importieren",
+  "Français": "Importer dans le Pool de médias",
+  "한국인": "미디어 풀로 가져오기",
+  "中文": "导入到媒体池",
+  "العربية": "استيراد إلى مجمع الوسائط",
+  "Tiếng Việt": "Nhập vào Media Pool"
+ },
+ "Import 1 asset to Media Pool": {
+  "日本語": "1 個のアセットをメディアプールに読み込む",
+  "Español": "Importar 1 recurso al Grupo de medios",
+  "Deutsch": "1 Asset in den Media Pool importieren",
+  "Français": "Importer 1 ressource dans le Pool de médias",
+  "한국인": "에셋 1개를 미디어 풀로 가져오기",
+  "中文": "将 1 个素材导入到媒体池",
+  "العربية": "استيراد أصل واحد إلى مجمع الوسائط",
+  "Tiếng Việt": "Nhập 1 tài nguyên vào Media Pool"
+ },
+ "Import {count} assets to Media Pool": {
+  "日本語": "{count} 個のアセットをメディアプールに読み込む",
+  "Español": "Importar {count} recursos al Grupo de medios",
+  "Deutsch": "{count} Assets in den Media Pool importieren",
+  "Français": "Importer {count} ressources dans le Pool de médias",
+  "한국인": "에셋 {count}개를 미디어 풀로 가져오기",
+  "中文": "将 {count} 个素材导入到媒体池",
+  "العربية": "استيراد {count} أصول إلى مجمع الوسائط",
+  "Tiếng Việt": "Nhập {count} tài nguyên vào Media Pool"
+ },
+ "Project name": {
+  "日本語": "プロジェクト名",
+  "Español": "Nombre del proyecto",
+  "Deutsch": "Projektname",
+  "Français": "Nom du projet",
+  "한국인": "프로젝트 이름",
+  "中文": "项目名称",
+  "العربية": "اسم المشروع",
+  "Tiếng Việt": "Tên dự án"
+ },
+ "Create": {
+  "日本語": "作成",
+  "Español": "Crear",
+  "Deutsch": "Erstellen",
+  "Français": "Créer",
+  "한국인": "만들기",
+  "中文": "创建",
+  "العربية": "إنشاء",
+  "Tiếng Việt": "Tạo"
+ },
+ "Rename project": {
+  "日本語": "プロジェクト名を変更",
+  "Español": "Renombrar proyecto",
+  "Deutsch": "Projekt umbenennen",
+  "Français": "Renommer le projet",
+  "한국인": "프로젝트 이름 변경",
+  "中文": "重命名项目",
+  "العربية": "إعادة تسمية المشروع",
+  "Tiếng Việt": "Đổi tên dự án"
+ },
+ "Delete \"{name}\"?": {
+  "日本語": "「{name}」を削除しますか?",
+  "Español": "¿Eliminar \"{name}\"?",
+  "Deutsch": "„{name}“ löschen?",
+  "Français": "Supprimer « {name} » ?",
+  "한국인": "\"{name}\"을(를) 삭제할까요?",
+  "中文": "要删除“{name}”吗？",
+  "العربية": "حذف \"{name}\"؟",
+  "Tiếng Việt": "Xóa \"{name}\"?"
+ },
+ "The project goes. Its assets stay in your library.": {
+  "日本語": "プロジェクトは削除されます。アセットはライブラリに残ります。",
+  "Español": "El proyecto se elimina. Sus recursos se quedan en tu biblioteca.",
+  "Deutsch": "Das Projekt wird gelöscht. Seine Assets bleiben in Ihrer Bibliothek.",
+  "Français": "Le projet est supprimé. Ses ressources restent dans votre bibliothèque.",
+  "한국인": "프로젝트가 삭제됩니다. 에셋은 라이브러리에 남아 있습니다.",
+  "中文": "项目将被删除，其素材仍保留在素材库中。",
+  "العربية": "يُحذف المشروع. تبقى أصوله في مكتبتك.",
+  "Tiếng Việt": "Dự án sẽ bị xóa. Tài nguyên của nó vẫn ở trong thư viện."
+ },
+ "No projects yet": {
+  "日本語": "プロジェクトはまだありません",
+  "Español": "Aún no hay proyectos",
+  "Deutsch": "Noch keine Projekte",
+  "Français": "Aucun projet pour l'instant",
+  "한국인": "아직 프로젝트가 없음",
+  "中文": "还没有项目",
+  "العربية": "لا توجد مشاريع بعد",
+  "Tiếng Việt": "Chưa có dự án"
+ },
+ "Sort by name": {
+  "日本語": "名前で並べ替え",
+  "Español": "Ordenar por nombre",
+  "Deutsch": "Nach Name sortieren",
+  "Français": "Trier par nom",
+  "한국인": "이름으로 정렬",
+  "中文": "按名称排序",
+  "العربية": "الفرز حسب الاسم",
+  "Tiếng Việt": "Sắp xếp theo tên"
+ },
+ "Sort by added": {
+  "日本語": "追加日で並べ替え",
+  "Español": "Ordenar por fecha de adición",
+  "Deutsch": "Nach Hinzufügedatum sortieren",
+  "Français": "Trier par date d'ajout",
+  "한국인": "추가한 날짜로 정렬",
+  "中文": "按添加时间排序",
+  "العربية": "الفرز حسب تاريخ الإضافة",
+  "Tiếng Việt": "Sắp xếp theo ngày thêm"
+ },
+ "A project is a named set of assets from your library – one per client or job.": {
+  "日本語": "プロジェクトとは、ライブラリのアセットに名前を付けてまとめたものです – クライアントや案件ごとに 1 つ作ります。",
+  "Español": "Un proyecto es un conjunto con nombre de recursos de tu biblioteca: uno por cliente o trabajo.",
+  "Deutsch": "Ein Projekt ist eine benannte Auswahl von Assets aus Ihrer Bibliothek – eines pro Kunde oder Auftrag.",
+  "Français": "Un projet est un ensemble nommé de ressources de votre bibliothèque – un par client ou par mission.",
+  "한국인": "프로젝트는 라이브러리의 에셋을 이름을 붙여 묶은 것입니다 – 고객이나 작업마다 하나씩 만드세요.",
+  "中文": "项目是素材库中一组命名的素材——每个客户或每项工作一个。",
+  "العربية": "المشروع مجموعة مسمّاة من الأصول من مكتبتك – مشروع لكل عميل أو عمل.",
+  "Tiếng Việt": "Dự án là một nhóm tài nguyên có tên lấy từ thư viện – mỗi khách hàng hoặc công việc một dự án."
+ },
+ "Nothing in this project yet": {
+  "日本語": "このプロジェクトにはまだ何もありません",
+  "Español": "Aún no hay nada en este proyecto",
+  "Deutsch": "Noch nichts in diesem Projekt",
+  "Français": "Rien dans ce projet pour l'instant",
+  "한국인": "이 프로젝트에 아직 아무것도 없음",
+  "中文": "此项目中还没有内容",
+  "العربية": "لا يوجد شيء في هذا المشروع بعد",
+  "Tiếng Việt": "Dự án này chưa có gì"
+ },
+ "Add from your library, add files, or drag them here.": {
+  "日本語": "ライブラリから追加するか、ファイルを追加するか、ここにドラッグしてください。",
+  "Español": "Añade desde tu biblioteca, añade archivos o arrástralos aquí.",
+  "Deutsch": "Fügen Sie Assets aus Ihrer Bibliothek oder Dateien hinzu, oder ziehen Sie sie hierher.",
+  "Français": "Ajoutez depuis votre bibliothèque, ajoutez des fichiers ou faites-les glisser ici.",
+  "한국인": "라이브러리에서 추가하거나 파일을 추가하거나 여기로 끌어 오세요.",
+  "中文": "从素材库添加、添加文件，或将文件拖到这里。",
+  "العربية": "أضف من مكتبتك، أو أضف ملفات، أو اسحبها إلى هنا.",
+  "Tiếng Việt": "Thêm từ thư viện, thêm tệp hoặc kéo tệp vào đây."
+ },
+ "Your library is empty": {
+  "日本語": "ライブラリは空です",
+  "Español": "Tu biblioteca está vacía",
+  "Deutsch": "Ihre Bibliothek ist leer",
+  "Français": "Votre bibliothèque est vide",
+  "한국인": "라이브러리가 비어 있음",
+  "中文": "您的素材库为空",
+  "العربية": "مكتبتك فارغة",
+  "Tiếng Việt": "Thư viện của bạn đang trống"
+ },
+ "Drag in the music, sound effects, logos and footage you reuse – or add them.": {
+  "日本語": "繰り返し使う音楽、効果音、ロゴ、映像素材をドラッグするか、追加してください。",
+  "Español": "Arrastra la música, los efectos de sonido, los logotipos y el material que reutilizas, o añádelos.",
+  "Deutsch": "Ziehen Sie Musik, Soundeffekte, Logos und Footage hinein, die Sie wiederverwenden – oder fügen Sie sie hinzu.",
+  "Français": "Faites glisser la musique, les effets sonores, les logos et les rushes que vous réutilisez – ou ajoutez-les.",
+  "한국인": "자주 쓰는 음악, 효과음, 로고, 푸티지를 끌어 오거나 추가하세요.",
+  "中文": "将您反复使用的音乐、音效、标志和素材拖进来——或添加它们。",
+  "العربية": "اسحب الموسيقى والمؤثرات الصوتية والشعارات واللقطات التي تعيد استخدامها – أو أضفها.",
+  "Tiếng Việt": "Kéo vào nhạc, hiệu ứng âm thanh, logo và cảnh quay bạn hay dùng lại – hoặc thêm chúng."
+ },
+ "Nothing matches": {
+  "日本語": "一致するものがありません",
+  "Español": "No hay coincidencias",
+  "Deutsch": "Keine Treffer",
+  "Français": "Aucun résultat",
+  "한국인": "일치하는 항목 없음",
+  "中文": "没有匹配项",
+  "العربية": "لا توجد نتائج مطابقة",
+  "Tiếng Việt": "Không có kết quả phù hợp"
+ },
+ "Try another type, or a different search.": {
+  "日本語": "別の種類や検索語をお試しください。",
+  "Español": "Prueba otro tipo u otra búsqueda.",
+  "Deutsch": "Versuchen Sie einen anderen Typ oder eine andere Suche.",
+  "Français": "Essayez un autre type ou une autre recherche.",
+  "한국인": "다른 유형이나 검색어를 사용해 보세요.",
+  "中文": "请尝试其他类型或其他搜索词。",
+  "العربية": "جرّب نوعًا آخر أو بحثًا مختلفًا.",
+  "Tiếng Việt": "Hãy thử loại khác hoặc tìm kiếm khác."
+ },
+ "Collapse": {
+  "日本語": "折りたたむ",
+  "Español": "Contraer",
+  "Deutsch": "Zuklappen",
+  "Français": "Réduire",
+  "한국인": "접기",
+  "中文": "折叠",
+  "العربية": "طي",
+  "Tiếng Việt": "Thu gọn"
+ },
+ "Expand": {
+  "日本語": "展開",
+  "Español": "Expandir",
+  "Deutsch": "Aufklappen",
+  "Français": "Développer",
+  "한국인": "펼치기",
+  "中文": "展开",
+  "العربية": "توسيع",
+  "Tiếng Việt": "Mở rộng"
+ },
+ "1 file": {
+  "日本語": "ファイル 1 個",
+  "Español": "1 archivo",
+  "Deutsch": "1 Datei",
+  "Français": "1 fichier",
+  "한국인": "파일 1개",
+  "中文": "1 个文件",
+  "العربية": "ملف واحد",
+  "Tiếng Việt": "1 tệp"
+ },
+ "{count} files": {
+  "日本語": "ファイル {count} 個",
+  "Español": "{count} archivos",
+  "Deutsch": "{count} Dateien",
+  "Français": "{count} fichiers",
+  "한국인": "파일 {count}개",
+  "中文": "{count} 个文件",
+  "العربية": "{count} ملفات",
+  "Tiếng Việt": "{count} tệp"
+ },
+ "Name": {
+  "日本語": "名前",
+  "Español": "Nombre",
+  "Deutsch": "Name",
+  "Français": "Nom",
+  "한국인": "이름",
+  "中文": "名称",
+  "العربية": "الاسم",
+  "Tiếng Việt": "Tên"
+ },
+ "Added": {
+  "日本語": "追加日",
+  "Español": "Añadido",
+  "Deutsch": "Hinzugefügt",
+  "Français": "Ajouté",
+  "한국인": "추가한 날짜",
+  "中文": "添加时间",
+  "العربية": "تاريخ الإضافة",
+  "Tiếng Việt": "Ngày thêm"
+ },
+ "Image": {
+  "日本語": "画像",
+  "Español": "Imagen",
+  "Deutsch": "Bild",
+  "Français": "Image",
+  "한국인": "이미지",
+  "中文": "图像",
+  "العربية": "صورة",
+  "Tiếng Việt": "Hình ảnh"
+ },
+ "Audio": {
+  "日本語": "オーディオ",
+  "Español": "Audio",
+  "Deutsch": "Audio",
+  "Français": "Audio",
+  "한국인": "오디오",
+  "中文": "音频",
+  "العربية": "صوت",
+  "Tiếng Việt": "Âm thanh"
+ },
+ "Video": {
+  "日本語": "ビデオ",
+  "Español": "Vídeo",
+  "Deutsch": "Video",
+  "Français": "Vidéo",
+  "한국인": "비디오",
+  "中文": "视频",
+  "العربية": "فيديو",
+  "Tiếng Việt": "Video"
+ },
+ "Other": {
+  "日本語": "その他",
+  "Español": "Otro",
+  "Deutsch": "Sonstige",
+  "Français": "Autre",
+  "한국인": "기타",
+  "中文": "其他",
+  "العربية": "أخرى",
+  "Tiếng Việt": "Khác"
+ },
+ "1 asset selected": {
+  "日本語": "1 個のアセットを選択中",
+  "Español": "1 recurso seleccionado",
+  "Deutsch": "1 Asset ausgewählt",
+  "Français": "1 ressource sélectionnée",
+  "한국인": "에셋 1개 선택됨",
+  "中文": "已选择 1 个素材",
+  "العربية": "تم تحديد أصل واحد",
+  "Tiếng Việt": "Đã chọn 1 tài nguyên"
+ },
+ "{count} assets selected": {
+  "日本語": "{count} 個のアセットを選択中",
+  "Español": "{count} recursos seleccionados",
+  "Deutsch": "{count} Assets ausgewählt",
+  "Français": "{count} ressources sélectionnées",
+  "한국인": "에셋 {count}개 선택됨",
+  "中文": "已选择 {count} 个素材",
+  "العربية": "تم تحديد {count} أصول",
+  "Tiếng Việt": "Đã chọn {count} tài nguyên"
+ },
+ "1 asset": {
+  "日本語": "アセット 1 個",
+  "Español": "1 recurso",
+  "Deutsch": "1 Asset",
+  "Français": "1 ressource",
+  "한국인": "에셋 1개",
+  "中文": "1 个素材",
+  "العربية": "أصل واحد",
+  "Tiếng Việt": "1 tài nguyên"
+ },
+ "{count} assets": {
+  "日本語": "アセット {count} 個",
+  "Español": "{count} recursos",
+  "Deutsch": "{count} Assets",
+  "Français": "{count} ressources",
+  "한국인": "에셋 {count}개",
+  "中文": "{count} 个素材",
+  "العربية": "{count} أصول",
+  "Tiếng Việt": "{count} tài nguyên"
+ },
+ "{count} missing": {
+  "日本語": "{count} 個が見つかりません",
+  "Español": "{count} no encontrados",
+  "Deutsch": "{count} fehlen",
+  "Français": "{count} manquante(s)",
+  "한국인": "{count}개 없음",
+  "中文": "{count} 个缺失",
+  "العربية": "{count} مفقودة",
+  "Tiếng Việt": "{count} bị thiếu"
+ },
+ "Take 1 asset out of this project?": {
+  "日本語": "このプロジェクトから 1 個のアセットを外しますか?",
+  "Español": "¿Quitar 1 recurso de este proyecto?",
+  "Deutsch": "1 Asset aus diesem Projekt nehmen?",
+  "Français": "Retirer 1 ressource de ce projet ?",
+  "한국인": "이 프로젝트에서 에셋 1개를 제거할까요?",
+  "中文": "要从此项目中移除 1 个素材吗？",
+  "العربية": "هل تريد إخراج أصل واحد من هذا المشروع؟",
+  "Tiếng Việt": "Bỏ 1 tài nguyên khỏi dự án này?"
+ },
+ "Take {count} assets out of this project?": {
+  "日本語": "このプロジェクトから {count} 個のアセットを外しますか?",
+  "Español": "¿Quitar {count} recursos de este proyecto?",
+  "Deutsch": "{count} Assets aus diesem Projekt nehmen?",
+  "Français": "Retirer {count} ressources de ce projet ?",
+  "한국인": "이 프로젝트에서 에셋 {count}개를 제거할까요?",
+  "中文": "要从此项目中移除 {count} 个素材吗？",
+  "العربية": "هل تريد إخراج {count} أصول من هذا المشروع؟",
+  "Tiếng Việt": "Bỏ {count} tài nguyên khỏi dự án này?"
+ },
+ "They stay in your library, and in any other project.": {
+  "日本語": "ライブラリと他のプロジェクトには残ります。",
+  "Español": "Se quedan en tu biblioteca y en cualquier otro proyecto.",
+  "Deutsch": "Sie bleiben in Ihrer Bibliothek und in allen anderen Projekten.",
+  "Français": "Elles restent dans votre bibliothèque et dans tout autre projet.",
+  "한국인": "라이브러리와 다른 프로젝트에는 그대로 남아 있습니다.",
+  "中文": "它们仍保留在素材库和其他项目中。",
+  "العربية": "تبقى في مكتبتك وفي أي مشروع آخر.",
+  "Tiếng Việt": "Chúng vẫn ở trong thư viện và trong các dự án khác."
+ },
+ "Remove 1 asset from the library?": {
+  "日本語": "ライブラリから 1 個のアセットを削除しますか?",
+  "Español": "¿Quitar 1 recurso de la biblioteca?",
+  "Deutsch": "1 Asset aus der Bibliothek entfernen?",
+  "Français": "Retirer 1 ressource de la bibliothèque ?",
+  "한국인": "라이브러리에서 에셋 1개를 제거할까요?",
+  "中文": "要从素材库中移除 1 个素材吗？",
+  "العربية": "هل تريد إزالة أصل واحد من المكتبة؟",
+  "Tiếng Việt": "Xóa 1 tài nguyên khỏi thư viện?"
+ },
+ "Remove {count} assets from the library?": {
+  "日本語": "ライブラリから {count} 個のアセットを削除しますか?",
+  "Español": "¿Quitar {count} recursos de la biblioteca?",
+  "Deutsch": "{count} Assets aus der Bibliothek entfernen?",
+  "Français": "Retirer {count} ressources de la bibliothèque ?",
+  "한국인": "라이브러리에서 에셋 {count}개를 제거할까요?",
+  "中文": "要从素材库中移除 {count} 个素材吗？",
+  "العربية": "هل تريد إزالة {count} أصول من المكتبة؟",
+  "Tiếng Việt": "Xóa {count} tài nguyên khỏi thư viện?"
+ },
+ "They also leave every project. The files on disk aren't touched.": {
+  "日本語": "すべてのプロジェクトからも外れます。ディスク上のファイルには触れません。",
+  "Español": "También salen de todos los proyectos. Los archivos del disco no se tocan.",
+  "Deutsch": "Sie werden auch aus allen Projekten entfernt. Die Dateien auf der Festplatte bleiben unberührt.",
+  "Français": "Elles quittent aussi tous les projets. Les fichiers sur le disque ne sont pas modifiés.",
+  "한국인": "모든 프로젝트에서도 제거됩니다. 디스크의 파일은 건드리지 않습니다.",
+  "中文": "它们也会从所有项目中移除。磁盘上的文件不受影响。",
+  "العربية": "تُزال أيضًا من كل المشاريع. لا يتم المساس بالملفات على القرص.",
+  "Tiếng Việt": "Chúng cũng bị bỏ khỏi mọi dự án. Tệp trên ổ đĩa không bị động đến."
+ },
+ "Nothing selected": {
+  "日本語": "何も選択されていません",
+  "Español": "No hay nada seleccionado",
+  "Deutsch": "Nichts ausgewählt",
+  "Français": "Aucune sélection",
+  "한국인": "선택한 항목 없음",
+  "中文": "未选择任何内容",
+  "العربية": "لم يتم تحديد شيء",
+  "Tiếng Việt": "Chưa chọn gì"
+ },
+ "assets selected": {
+  "日本語": "個のアセットを選択中",
+  "Español": "recursos seleccionados",
+  "Deutsch": "Assets ausgewählt",
+  "Français": "ressources sélectionnées",
+  "한국인": "개 에셋 선택됨",
+  "中文": "个素材已选择",
+  "العربية": "أصول محددة",
+  "Tiếng Việt": "tài nguyên đã chọn"
+ },
+ "The file isn't where it was": {
+  "日本語": "ファイルが元の場所にありません",
+  "Español": "El archivo no está donde estaba",
+  "Deutsch": "Die Datei ist nicht mehr dort, wo sie war",
+  "Français": "Le fichier n'est plus à son emplacement",
+  "한국인": "파일이 원래 위치에 없습니다",
+  "中文": "文件不在原来的位置",
+  "العربية": "الملف ليس في مكانه السابق",
+  "Tiếng Việt": "Tệp không còn ở vị trí cũ"
+ },
+ "No preview for this format": {
+  "日本語": "この形式はプレビューできません",
+  "Español": "No hay vista previa para este formato",
+  "Deutsch": "Keine Vorschau für dieses Format",
+  "Français": "Pas d'aperçu pour ce format",
+  "한국인": "이 형식은 미리 볼 수 없습니다",
+  "中文": "此格式无法预览",
+  "العربية": "لا توجد معاينة لهذا التنسيق",
+  "Tiếng Việt": "Không có bản xem trước cho định dạng này"
+ },
+ "No waveform for this file": {
+  "日本語": "このファイルの波形はありません",
+  "Español": "No hay forma de onda para este archivo",
+  "Deutsch": "Keine Wellenform für diese Datei",
+  "Français": "Pas de forme d'onde pour ce fichier",
+  "한국인": "이 파일의 파형이 없습니다",
+  "中文": "此文件没有波形",
+  "العربية": "لا يوجد شكل موجي لهذا الملف",
+  "Tiếng Việt": "Không có dạng sóng cho tệp này"
+ },
+ "Import or remove them together, or pick one to preview.": {
+  "日本語": "まとめて読み込むか削除するか、1 つ選んでプレビューしてください。",
+  "Español": "Impórtalos o quítalos juntos, o elige uno para previsualizarlo.",
+  "Deutsch": "Importieren oder entfernen Sie sie gemeinsam, oder wählen Sie eines für die Vorschau.",
+  "Français": "Importez-les ou retirez-les ensemble, ou choisissez-en une pour la prévisualiser.",
+  "한국인": "한꺼번에 가져오거나 제거하거나, 하나를 골라 미리 보세요.",
+  "中文": "可以一起导入或移除，或选择其中一个进行预览。",
+  "العربية": "استوردها أو أزلها معًا، أو اختر واحدًا لمعاينته.",
+  "Tiếng Việt": "Nhập hoặc xóa chúng cùng lúc, hoặc chọn một để xem trước."
+ },
+ "no extension": {
+  "日本語": "拡張子なし",
+  "Español": "sin extensión",
+  "Deutsch": "keine Erweiterung",
+  "Français": "aucune extension",
+  "한국인": "확장자 없음",
+  "中文": "无扩展名",
+  "العربية": "بلا امتداد",
+  "Tiếng Việt": "không có phần mở rộng"
+ },
+ "added {date}": {
+  "日本語": "{date} に追加",
+  "Español": "añadido el {date}",
+  "Deutsch": "hinzugefügt am {date}",
+  "Français": "ajouté le {date}",
+  "한국인": "{date}에 추가됨",
+  "中文": "添加于 {date}",
+  "العربية": "أُضيف في {date}",
+  "Tiếng Việt": "thêm ngày {date}"
+ },
+ "Missing – the file has moved or been deleted": {
+  "日本語": "見つかりません – ファイルが移動または削除されました",
+  "Español": "No encontrado: el archivo se ha movido o eliminado",
+  "Deutsch": "Fehlt – die Datei wurde verschoben oder gelöscht",
+  "Français": "Manquant – le fichier a été déplacé ou supprimé",
+  "한국인": "없음 – 파일이 이동되었거나 삭제되었습니다",
+  "中文": "缺失——文件已被移动或删除",
+  "العربية": "مفقود – تم نقل الملف أو حذفه",
+  "Tiếng Việt": "Bị thiếu – tệp đã bị di chuyển hoặc xóa"
+ },
+ "File found": {
+  "日本語": "ファイルが見つかりました",
+  "Español": "Archivo encontrado",
+  "Deutsch": "Datei gefunden",
+  "Français": "Fichier trouvé",
+  "한국인": "파일 찾음",
+  "中文": "已找到文件",
+  "العربية": "تم العثور على الملف",
+  "Tiếng Việt": "Đã tìm thấy tệp"
+ },
+ "Find it…": {
+  "日本語": "探す…",
+  "Español": "Buscarlo…",
+  "Deutsch": "Suchen…",
+  "Français": "Le retrouver…",
+  "한국인": "찾기…",
+  "中文": "查找…",
+  "العربية": "البحث عنه…",
+  "Tiếng Việt": "Tìm tệp…"
+ },
+ "Moved it?": {
+  "日本語": "移動しましたか?",
+  "Español": "¿Lo has movido?",
+  "Deutsch": "Verschoben?",
+  "Français": "Déplacé ?",
+  "한국인": "옮기셨나요?",
+  "中文": "移动过了？",
+  "العربية": "هل نقلته؟",
+  "Tiếng Việt": "Đã di chuyển?"
+ },
+ "Point this asset at a different file": {
+  "日本語": "このアセットの参照先を別のファイルにする",
+  "Español": "Apuntar este recurso a otro archivo",
+  "Deutsch": "Dieses Asset auf eine andere Datei verweisen lassen",
+  "Français": "Faire pointer cette ressource vers un autre fichier",
+  "한국인": "이 에셋이 다른 파일을 가리키도록 설정",
+  "中文": "将此素材指向其他文件",
+  "العربية": "توجيه هذا الأصل إلى ملف مختلف",
+  "Tiếng Việt": "Trỏ tài nguyên này đến tệp khác"
+ },
+ "Search the library": {
+  "日本語": "ライブラリを検索",
+  "Español": "Buscar en la biblioteca",
+  "Deutsch": "Bibliothek durchsuchen",
+  "Français": "Rechercher dans la bibliothèque",
+  "한국인": "라이브러리 검색",
+  "中文": "搜索素材库",
+  "العربية": "البحث في المكتبة",
+  "Tiếng Việt": "Tìm trong thư viện"
+ },
+ "Everything in your library is in this project already.": {
+  "日本語": "ライブラリのすべてのアセットは既にこのプロジェクトにあります。",
+  "Español": "Todo lo de tu biblioteca ya está en este proyecto.",
+  "Deutsch": "Alles aus Ihrer Bibliothek ist bereits in diesem Projekt.",
+  "Français": "Tout le contenu de votre bibliothèque est déjà dans ce projet.",
+  "한국인": "라이브러리의 모든 항목이 이미 이 프로젝트에 있습니다.",
+  "中文": "素材库中的所有内容都已在此项目中。",
+  "العربية": "كل ما في مكتبتك موجود في هذا المشروع بالفعل.",
+  "Tiếng Việt": "Mọi thứ trong thư viện đã có trong dự án này."
+ },
+ "Add to \"{project}\" from your library": {
+  "日本語": "ライブラリから「{project}」に追加",
+  "Español": "Añadir a \"{project}\" desde tu biblioteca",
+  "Deutsch": "Aus Ihrer Bibliothek zu „{project}“ hinzufügen",
+  "Français": "Ajouter à « {project} » depuis votre bibliothèque",
+  "한국인": "라이브러리에서 \"{project}\"에 추가",
+  "中文": "从素材库添加到“{project}”",
+  "العربية": "إضافة إلى \"{project}\" من مكتبتك",
+  "Tiếng Việt": "Thêm vào \"{project}\" từ thư viện"
+ },
+ "Add selected": {
+  "日本語": "選択項目を追加",
+  "Español": "Añadir seleccionados",
+  "Deutsch": "Auswahl hinzufügen",
+  "Français": "Ajouter la sélection",
+  "한국인": "선택 항목 추가",
+  "中文": "添加所选项",
+  "العربية": "إضافة المحدد",
+  "Tiếng Việt": "Thêm mục đã chọn"
+ },
+ "Checked every file again.": {
+  "日本語": "すべてのファイルを再確認しました。",
+  "Español": "Se han vuelto a comprobar todos los archivos.",
+  "Deutsch": "Alle Dateien wurden erneut geprüft.",
+  "Français": "Tous les fichiers ont été revérifiés.",
+  "한국인": "모든 파일을 다시 확인했습니다.",
+  "中文": "已重新检查所有文件。",
+  "العربية": "تم التحقق من كل الملفات مرة أخرى.",
+  "Tiếng Việt": "Đã kiểm tra lại mọi tệp."
+ },
+ "Added 1 asset.": {
+  "日本語": "1 個のアセットを追加しました。",
+  "Español": "Se añadió 1 recurso.",
+  "Deutsch": "1 Asset hinzugefügt.",
+  "Français": "1 ressource ajoutée.",
+  "한국인": "에셋 1개를 추가했습니다.",
+  "中文": "已添加 1 个素材。",
+  "العربية": "تمت إضافة أصل واحد.",
+  "Tiếng Việt": "Đã thêm 1 tài nguyên."
+ },
+ "Added {count} assets.": {
+  "日本語": "{count} 個のアセットを追加しました。",
+  "Español": "Se añadieron {count} recursos.",
+  "Deutsch": "{count} Assets hinzugefügt.",
+  "Français": "{count} ressources ajoutées.",
+  "한국인": "에셋 {count}개를 추가했습니다.",
+  "中文": "已添加 {count} 个素材。",
+  "العربية": "تمت إضافة {count} أصول.",
+  "Tiếng Việt": "Đã thêm {count} tài nguyên."
+ },
+ "Added 1 asset from {folder}.": {
+  "日本語": "{folder} から 1 個のアセットを追加しました。",
+  "Español": "Se añadió 1 recurso de {folder}.",
+  "Deutsch": "1 Asset aus {folder} hinzugefügt.",
+  "Français": "1 ressource ajoutée depuis {folder}.",
+  "한국인": "{folder}에서 에셋 1개를 추가했습니다.",
+  "中文": "已从 {folder} 添加 1 个素材。",
+  "العربية": "تمت إضافة أصل واحد من {folder}.",
+  "Tiếng Việt": "Đã thêm 1 tài nguyên từ {folder}."
+ },
+ "Added {count} assets from {folder}.": {
+  "日本語": "{folder} から {count} 個のアセットを追加しました。",
+  "Español": "Se añadieron {count} recursos de {folder}.",
+  "Deutsch": "{count} Assets aus {folder} hinzugefügt.",
+  "Français": "{count} ressources ajoutées depuis {folder}.",
+  "한국인": "{folder}에서 에셋 {count}개를 추가했습니다.",
+  "中文": "已从 {folder} 添加 {count} 个素材。",
+  "العربية": "تمت إضافة {count} أصول من {folder}.",
+  "Tiếng Việt": "Đã thêm {count} tài nguyên từ {folder}."
+ },
+ "1 was in the library already.": {
+  "日本語": "1 個は既にライブラリにありました。",
+  "Español": "1 ya estaba en la biblioteca.",
+  "Deutsch": "1 war bereits in der Bibliothek.",
+  "Français": "1 était déjà dans la bibliothèque.",
+  "한국인": "1개는 이미 라이브러리에 있었습니다.",
+  "中文": "有 1 个已在素材库中。",
+  "العربية": "كان واحد منها في المكتبة بالفعل.",
+  "Tiếng Việt": "1 tài nguyên đã có trong thư viện."
+ },
+ "{count} were in the library already.": {
+  "日本語": "{count} 個は既にライブラリにありました。",
+  "Español": "{count} ya estaban en la biblioteca.",
+  "Deutsch": "{count} waren bereits in der Bibliothek.",
+  "Français": "{count} étaient déjà dans la bibliothèque.",
+  "한국인": "{count}개는 이미 라이브러리에 있었습니다.",
+  "中文": "有 {count} 个已在素材库中。",
+  "العربية": "كانت {count} منها في المكتبة بالفعل.",
+  "Tiếng Việt": "{count} tài nguyên đã có trong thư viện."
+ },
+ "{count} linked into '{project}'.": {
+  "日本語": "{count} 個を「{project}」にリンクしました。",
+  "Español": "{count} vinculados a '{project}'.",
+  "Deutsch": "{count} mit „{project}“ verknüpft.",
+  "Français": "{count} liée(s) à « {project} ».",
+  "한국인": "{count}개를 '{project}'에 연결했습니다.",
+  "中文": "已将 {count} 个链接到“{project}”。",
+  "العربية": "تم ربط {count} بـ '{project}'.",
+  "Tiếng Việt": "Đã liên kết {count} vào '{project}'."
+ },
+ "Make a project first": {
+  "日本語": "先にプロジェクトを作成してください",
+  "Español": "Crea primero un proyecto",
+  "Deutsch": "Erstellen Sie zuerst ein Projekt",
+  "Français": "Créez d'abord un projet",
+  "한국인": "먼저 프로젝트를 만드세요",
+  "中文": "请先创建项目",
+  "العربية": "أنشئ مشروعًا أولًا",
+  "Tiếng Việt": "Hãy tạo dự án trước"
+ },
+ "Create a project to add assets to it.": {
+  "日本語": "アセットを追加するプロジェクトを作成してください。",
+  "Español": "Crea un proyecto para añadirle recursos.",
+  "Deutsch": "Erstellen Sie ein Projekt, um ihm Assets hinzuzufügen.",
+  "Français": "Créez un projet pour y ajouter des ressources.",
+  "한국인": "에셋을 추가할 프로젝트를 만드세요.",
+  "中文": "创建一个项目以向其添加素材。",
+  "العربية": "أنشئ مشروعًا لإضافة أصول إليه.",
+  "Tiếng Việt": "Tạo một dự án để thêm tài nguyên vào."
+ },
+ "Supported media": {
+  "日本語": "対応メディア",
+  "Español": "Medios compatibles",
+  "Deutsch": "Unterstützte Medien",
+  "Français": "Médias pris en charge",
+  "한국인": "지원되는 미디어",
+  "中文": "支持的媒体",
+  "العربية": "الوسائط المدعومة",
+  "Tiếng Việt": "Phương tiện được hỗ trợ"
+ },
+ "All files": {
+  "日本語": "すべてのファイル",
+  "Español": "Todos los archivos",
+  "Deutsch": "Alle Dateien",
+  "Français": "Tous les fichiers",
+  "한국인": "모든 파일",
+  "中文": "所有文件",
+  "العربية": "كل الملفات",
+  "Tiếng Việt": "Tất cả tệp"
+ },
+ "Add assets": {
+  "日本語": "アセットを追加",
+  "Español": "Añadir recursos",
+  "Deutsch": "Assets hinzufügen",
+  "Français": "Ajouter des ressources",
+  "한국인": "에셋 추가",
+  "中文": "添加素材",
+  "العربية": "إضافة أصول",
+  "Tiếng Việt": "Thêm tài nguyên"
+ },
+ "Add every supported file in a folder": {
+  "日本語": "フォルダー内の対応ファイルをすべて追加",
+  "Español": "Añadir todos los archivos compatibles de una carpeta",
+  "Deutsch": "Alle unterstützten Dateien eines Ordners hinzufügen",
+  "Français": "Ajouter tous les fichiers pris en charge d'un dossier",
+  "한국인": "폴더 안의 지원되는 파일 모두 추가",
+  "中文": "添加文件夹中所有支持的文件",
+  "العربية": "إضافة كل الملفات المدعومة في مجلد",
+  "Tiếng Việt": "Thêm mọi tệp được hỗ trợ trong một thư mục"
+ },
+ "None of those are media Asset Manager takes": {
+  "日本語": "アセットマネージャーで扱えるメディアはありません",
+  "Español": "Ninguno de ellos es un medio que admita el Gestor de recursos",
+  "Deutsch": "Keine davon sind Medien, die der Asset-Manager annimmt",
+  "Français": "Aucun de ces fichiers n'est un média pris en charge par le Gestionnaire de ressources",
+  "한국인": "에셋 매니저에서 받을 수 있는 미디어가 없습니다",
+  "中文": "其中没有素材管理器支持的媒体",
+  "العربية": "لا يوجد بينها وسائط يقبلها مدير الأصول",
+  "Tiếng Việt": "Không có tệp nào là phương tiện mà Trình quản lý tài nguyên nhận"
+ },
+ "Select something first": {
+  "日本語": "先に何か選択してください",
+  "Español": "Selecciona algo primero",
+  "Deutsch": "Wählen Sie zuerst etwas aus",
+  "Français": "Sélectionnez d'abord quelque chose",
+  "한국인": "먼저 항목을 선택하세요",
+  "中文": "请先选择内容",
+  "العربية": "حدد شيئًا أولًا",
+  "Tiếng Việt": "Hãy chọn thứ gì đó trước"
+ },
+ "Select assets or a folder to import.": {
+  "日本語": "読み込むアセットまたはフォルダーを選択してください。",
+  "Español": "Selecciona recursos o una carpeta para importar.",
+  "Deutsch": "Wählen Sie Assets oder einen Ordner zum Importieren aus.",
+  "Français": "Sélectionnez des ressources ou un dossier à importer.",
+  "한국인": "가져올 에셋이나 폴더를 선택하세요.",
+  "中文": "请选择要导入的素材或文件夹。",
+  "العربية": "حدد أصولًا أو مجلدًا للاستيراد.",
+  "Tiếng Việt": "Chọn tài nguyên hoặc thư mục để nhập."
+ },
+ "Importing into the Media Pool…": {
+  "日本語": "メディアプールに読み込み中…",
+  "Español": "Importando al Grupo de medios…",
+  "Deutsch": "Import in den Media Pool…",
+  "Français": "Importation dans le Pool de médias…",
+  "한국인": "미디어 풀로 가져오는 중…",
+  "中文": "正在导入到媒体池…",
+  "العربية": "جارٍ الاستيراد إلى مجمع الوسائط…",
+  "Tiếng Việt": "Đang nhập vào Media Pool…"
+ },
+ "Nothing imported": {
+  "日本語": "何も読み込まれませんでした",
+  "Español": "No se importó nada",
+  "Deutsch": "Nichts importiert",
+  "Français": "Rien n'a été importé",
+  "한국인": "가져온 항목 없음",
+  "中文": "未导入任何内容",
+  "العربية": "لم يُستورد شيء",
+  "Tiếng Việt": "Chưa nhập gì"
+ },
+ "None of the selected files are on disk any more.": {
+  "日本語": "選択したファイルはどれもディスク上にありません。",
+  "Español": "Ninguno de los archivos seleccionados sigue en el disco.",
+  "Deutsch": "Keine der ausgewählten Dateien befindet sich noch auf der Festplatte.",
+  "Français": "Aucun des fichiers sélectionnés n'est plus sur le disque.",
+  "한국인": "선택한 파일이 더 이상 디스크에 없습니다.",
+  "中文": "所选文件都已不在磁盘上。",
+  "العربية": "لم يعد أي من الملفات المحددة موجودًا على القرص.",
+  "Tiếng Việt": "Không tệp nào đã chọn còn trên ổ đĩa."
+ },
+ "Imported 1 item into the Media Pool": {
+  "日本語": "メディアプールに 1 個の項目を読み込みました",
+  "Español": "Se importó 1 elemento al Grupo de medios",
+  "Deutsch": "1 Element in den Media Pool importiert",
+  "Français": "1 élément importé dans le Pool de médias",
+  "한국인": "미디어 풀로 항목 1개를 가져왔습니다",
+  "中文": "已将 1 个项目导入到媒体池",
+  "العربية": "تم استيراد عنصر واحد إلى مجمع الوسائط",
+  "Tiếng Việt": "Đã nhập 1 mục vào Media Pool"
+ },
+ "Imported {count} items into the Media Pool": {
+  "日本語": "メディアプールに {count} 個の項目を読み込みました",
+  "Español": "Se importaron {count} elementos al Grupo de medios",
+  "Deutsch": "{count} Elemente in den Media Pool importiert",
+  "Français": "{count} éléments importés dans le Pool de médias",
+  "한국인": "미디어 풀로 항목 {count}개를 가져왔습니다",
+  "中文": "已将 {count} 个项目导入到媒体池",
+  "العربية": "تم استيراد {count} عناصر إلى مجمع الوسائط",
+  "Tiếng Việt": "Đã nhập {count} mục vào Media Pool"
+ },
+ "Imported 1 item into the Media Pool.": {
+  "日本語": "メディアプールに 1 個の項目を読み込みました。",
+  "Español": "Se importó 1 elemento al Grupo de medios.",
+  "Deutsch": "1 Element in den Media Pool importiert.",
+  "Français": "1 élément importé dans le Pool de médias.",
+  "한국인": "미디어 풀로 항목 1개를 가져왔습니다.",
+  "中文": "已将 1 个项目导入到媒体池。",
+  "العربية": "تم استيراد عنصر واحد إلى مجمع الوسائط.",
+  "Tiếng Việt": "Đã nhập 1 mục vào Media Pool."
+ },
+ "Imported {count} items into the Media Pool.": {
+  "日本語": "メディアプールに {count} 個の項目を読み込みました。",
+  "Español": "Se importaron {count} elementos al Grupo de medios.",
+  "Deutsch": "{count} Elemente in den Media Pool importiert.",
+  "Français": "{count} éléments importés dans le Pool de médias.",
+  "한국인": "미디어 풀로 항목 {count}개를 가져왔습니다.",
+  "中文": "已将 {count} 个项目导入到媒体池。",
+  "العربية": "تم استيراد {count} عناصر إلى مجمع الوسائط.",
+  "Tiếng Việt": "Đã nhập {count} mục vào Media Pool."
+ },
+ "Imported 1 item into the Media Pool (folders as new bins: {bins}).": {
+  "日本語": "メディアプールに 1 個の項目を読み込みました (フォルダーは新しいビンとして: {bins})。",
+  "Español": "Se importó 1 elemento al Grupo de medios (carpetas como nuevas bandejas: {bins}).",
+  "Deutsch": "1 Element in den Media Pool importiert (Ordner als neue Bins: {bins}).",
+  "Français": "1 élément importé dans le Pool de médias (dossiers en nouveaux chutiers : {bins}).",
+  "한국인": "미디어 풀로 항목 1개를 가져왔습니다(폴더를 새 빈으로: {bins}).",
+  "中文": "已将 1 个项目导入到媒体池（文件夹作为新媒体夹：{bins}）。",
+  "العربية": "تم استيراد عنصر واحد إلى مجمع الوسائط (المجلدات كحاويات جديدة: {bins}).",
+  "Tiếng Việt": "Đã nhập 1 mục vào Media Pool (thư mục thành bin mới: {bins})."
+ },
+ "Imported {count} items into the Media Pool (folders as new bins: {bins}).": {
+  "日本語": "メディアプールに {count} 個の項目を読み込みました (フォルダーは新しいビンとして: {bins})。",
+  "Español": "Se importaron {count} elementos al Grupo de medios (carpetas como nuevas bandejas: {bins}).",
+  "Deutsch": "{count} Elemente in den Media Pool importiert (Ordner als neue Bins: {bins}).",
+  "Français": "{count} éléments importés dans le Pool de médias (dossiers en nouveaux chutiers : {bins}).",
+  "한국인": "미디어 풀로 항목 {count}개를 가져왔습니다(폴더를 새 빈으로: {bins}).",
+  "中文": "已将 {count} 个项目导入到媒体池（文件夹作为新媒体夹：{bins}）。",
+  "العربية": "تم استيراد {count} عناصر إلى مجمع الوسائط (المجلدات كحاويات جديدة: {bins}).",
+  "Tiếng Việt": "Đã nhập {count} mục vào Media Pool (thư mục thành bin mới: {bins})."
+ },
+ "Find {name}": {
+  "日本語": "{name} を探す",
+  "Español": "Buscar {name}",
+  "Deutsch": "{name} suchen",
+  "Français": "Rechercher {name}",
+  "한국인": "{name} 찾기",
+  "中文": "查找 {name}",
+  "العربية": "البحث عن {name}",
+  "Tiếng Việt": "Tìm {name}"
+ },
+ "Pointed '{name}' at its new location.": {
+  "日本語": "「{name}」の参照先を新しい場所に変更しました。",
+  "Español": "'{name}' apunta ahora a su nueva ubicación.",
+  "Deutsch": "„{name}“ verweist jetzt auf den neuen Ort.",
+  "Français": "« {name} » pointe désormais vers son nouvel emplacement.",
+  "한국인": "'{name}'이(가) 새 위치를 가리키도록 했습니다.",
+  "中文": "已将“{name}”指向其新位置。",
+  "العربية": "تم توجيه '{name}' إلى موقعه الجديد.",
+  "Tiếng Việt": "Đã trỏ '{name}' đến vị trí mới."
+ },
+ "Folder not found": {
+  "日本語": "フォルダーが見つかりません",
+  "Español": "Carpeta no encontrada",
+  "Deutsch": "Ordner nicht gefunden",
+  "Français": "Dossier introuvable",
+  "한국인": "폴더를 찾을 수 없음",
+  "中文": "找不到文件夹",
+  "العربية": "المجلد غير موجود",
+  "Tiếng Việt": "Không tìm thấy thư mục"
+ },
+ "{folder}\n\nisn't there any more.": {
+  "日本語": "{folder}\n\nはもう存在しません。",
+  "Español": "{folder}\n\nya no existe.",
+  "Deutsch": "{folder}\n\nexistiert nicht mehr.",
+  "Français": "{folder}\n\nn'existe plus.",
+  "한국인": "{folder}\n\n이(가) 더 이상 없습니다.",
+  "中文": "{folder}\n\n已不存在。",
+  "العربية": "{folder}\n\nلم يعد موجودًا.",
+  "Tiếng Việt": "{folder}\n\nkhông còn tồn tại."
+ },
+ "Took 1 asset out of '{project}' (still in your library).": {
+  "日本語": "「{project}」から 1 個のアセットを外しました (ライブラリには残っています)。",
+  "Español": "Se quitó 1 recurso de '{project}' (sigue en tu biblioteca).",
+  "Deutsch": "1 Asset aus „{project}“ entfernt (weiterhin in Ihrer Bibliothek).",
+  "Français": "1 ressource retirée de « {project} » (toujours dans votre bibliothèque).",
+  "한국인": "'{project}'에서 에셋 1개를 제거했습니다(라이브러리에는 남아 있음).",
+  "中文": "已从“{project}”中移除 1 个素材（仍在素材库中）。",
+  "العربية": "تم إخراج أصل واحد من '{project}' (لا يزال في مكتبتك).",
+  "Tiếng Việt": "Đã bỏ 1 tài nguyên khỏi '{project}' (vẫn còn trong thư viện)."
+ },
+ "Took {count} assets out of '{project}' (still in your library).": {
+  "日本語": "「{project}」から {count} 個のアセットを外しました (ライブラリには残っています)。",
+  "Español": "Se quitaron {count} recursos de '{project}' (siguen en tu biblioteca).",
+  "Deutsch": "{count} Assets aus „{project}“ entfernt (weiterhin in Ihrer Bibliothek).",
+  "Français": "{count} ressources retirées de « {project} » (toujours dans votre bibliothèque).",
+  "한국인": "'{project}'에서 에셋 {count}개를 제거했습니다(라이브러리에는 남아 있음).",
+  "中文": "已从“{project}”中移除 {count} 个素材（仍在素材库中）。",
+  "العربية": "تم إخراج {count} أصول من '{project}' (لا تزال في مكتبتك).",
+  "Tiếng Việt": "Đã bỏ {count} tài nguyên khỏi '{project}' (vẫn còn trong thư viện)."
+ },
+ "Removed 1 asset from the library.": {
+  "日本語": "ライブラリから 1 個のアセットを削除しました。",
+  "Español": "Se quitó 1 recurso de la biblioteca.",
+  "Deutsch": "1 Asset aus der Bibliothek entfernt.",
+  "Français": "1 ressource retirée de la bibliothèque.",
+  "한국인": "라이브러리에서 에셋 1개를 제거했습니다.",
+  "中文": "已从素材库中移除 1 个素材。",
+  "العربية": "تمت إزالة أصل واحد من المكتبة.",
+  "Tiếng Việt": "Đã xóa 1 tài nguyên khỏi thư viện."
+ },
+ "Removed {count} assets from the library.": {
+  "日本語": "ライブラリから {count} 個のアセットを削除しました。",
+  "Español": "Se quitaron {count} recursos de la biblioteca.",
+  "Deutsch": "{count} Assets aus der Bibliothek entfernt.",
+  "Français": "{count} ressources retirées de la bibliothèque.",
+  "한국인": "라이브러리에서 에셋 {count}개를 제거했습니다.",
+  "中文": "已从素材库中移除 {count} 个素材。",
+  "العربية": "تمت إزالة {count} أصول من المكتبة.",
+  "Tiếng Việt": "Đã xóa {count} tài nguyên khỏi thư viện."
+ },
+ "Give the project a name.": {
+  "日本語": "プロジェクトに名前を付けてください。",
+  "Español": "Ponle un nombre al proyecto.",
+  "Deutsch": "Geben Sie dem Projekt einen Namen.",
+  "Français": "Donnez un nom au projet.",
+  "한국인": "프로젝트 이름을 입력하세요.",
+  "中文": "请为项目命名。",
+  "العربية": "أعطِ المشروع اسمًا.",
+  "Tiếng Việt": "Hãy đặt tên cho dự án."
+ },
+ "There's already a project with that name.": {
+  "日本語": "その名前のプロジェクトは既にあります。",
+  "Español": "Ya hay un proyecto con ese nombre.",
+  "Deutsch": "Es gibt bereits ein Projekt mit diesem Namen.",
+  "Français": "Un projet porte déjà ce nom.",
+  "한국인": "같은 이름의 프로젝트가 이미 있습니다.",
+  "中文": "已存在同名项目。",
+  "العربية": "يوجد بالفعل مشروع بهذا الاسم.",
+  "Tiếng Việt": "Đã có dự án trùng tên."
+ },
+ "Can't make that project": {
+  "日本語": "そのプロジェクトは作成できません",
+  "Español": "No se puede crear ese proyecto",
+  "Deutsch": "Dieses Projekt kann nicht erstellt werden",
+  "Français": "Impossible de créer ce projet",
+  "한국인": "해당 프로젝트를 만들 수 없음",
+  "中文": "无法创建该项目",
+  "العربية": "لا يمكن إنشاء هذا المشروع",
+  "Tiếng Việt": "Không thể tạo dự án đó"
+ },
+ "Created the project '{name}'.": {
+  "日本語": "プロジェクト「{name}」を作成しました。",
+  "Español": "Se creó el proyecto '{name}'.",
+  "Deutsch": "Projekt „{name}“ erstellt.",
+  "Français": "Projet « {name} » créé.",
+  "한국인": "'{name}' 프로젝트를 만들었습니다.",
+  "中文": "已创建项目“{name}”。",
+  "العربية": "تم إنشاء المشروع '{name}'.",
+  "Tiếng Việt": "Đã tạo dự án '{name}'."
+ },
+ "Can't rename it": {
+  "日本語": "名前を変更できません",
+  "Español": "No se puede renombrar",
+  "Deutsch": "Umbenennen nicht möglich",
+  "Français": "Impossible de le renommer",
+  "한국인": "이름을 변경할 수 없음",
+  "中文": "无法重命名",
+  "العربية": "لا يمكن إعادة تسميته",
+  "Tiếng Việt": "Không thể đổi tên"
+ },
+ "Renamed the project to '{name}'.": {
+  "日本語": "プロジェクト名を「{name}」に変更しました。",
+  "Español": "Se renombró el proyecto a '{name}'.",
+  "Deutsch": "Projekt in „{name}“ umbenannt.",
+  "Français": "Projet renommé en « {name} ».",
+  "한국인": "프로젝트 이름을 '{name}'(으)로 변경했습니다.",
+  "中文": "已将项目重命名为“{name}”。",
+  "العربية": "تمت إعادة تسمية المشروع إلى '{name}'.",
+  "Tiếng Việt": "Đã đổi tên dự án thành '{name}'."
+ },
+ "Deleted the project '{name}' (its assets are still in your library).": {
+  "日本語": "プロジェクト「{name}」を削除しました (アセットはライブラリに残っています)。",
+  "Español": "Se eliminó el proyecto '{name}' (sus recursos siguen en tu biblioteca).",
+  "Deutsch": "Projekt „{name}“ gelöscht (seine Assets sind weiterhin in Ihrer Bibliothek).",
+  "Français": "Projet « {name} » supprimé (ses ressources sont toujours dans votre bibliothèque).",
+  "한국인": "'{name}' 프로젝트를 삭제했습니다(에셋은 라이브러리에 남아 있음).",
+  "中文": "已删除项目“{name}”（其素材仍在素材库中）。",
+  "العربية": "تم حذف المشروع '{name}' (لا تزال أصوله في مكتبتك).",
+  "Tiếng Việt": "Đã xóa dự án '{name}' (tài nguyên vẫn còn trong thư viện)."
+ },
+ "Linked 1 asset from your library into '{project}'.": {
+  "日本語": "ライブラリから 1 個のアセットを「{project}」にリンクしました。",
+  "Español": "Se vinculó 1 recurso de tu biblioteca a '{project}'.",
+  "Deutsch": "1 Asset aus Ihrer Bibliothek mit „{project}“ verknüpft.",
+  "Français": "1 ressource de votre bibliothèque liée à « {project} ».",
+  "한국인": "라이브러리의 에셋 1개를 '{project}'에 연결했습니다.",
+  "中文": "已将素材库中的 1 个素材链接到“{project}”。",
+  "العربية": "تم ربط أصل واحد من مكتبتك بـ '{project}'.",
+  "Tiếng Việt": "Đã liên kết 1 tài nguyên từ thư viện vào '{project}'."
+ },
+ "Linked {count} assets from your library into '{project}'.": {
+  "日本語": "ライブラリから {count} 個のアセットを「{project}」にリンクしました。",
+  "Español": "Se vincularon {count} recursos de tu biblioteca a '{project}'.",
+  "Deutsch": "{count} Assets aus Ihrer Bibliothek mit „{project}“ verknüpft.",
+  "Français": "{count} ressources de votre bibliothèque liées à « {project} ».",
+  "한국인": "라이브러리의 에셋 {count}개를 '{project}'에 연결했습니다.",
+  "中文": "已将素材库中的 {count} 个素材链接到“{project}”。",
+  "العربية": "تم ربط {count} أصول من مكتبتك بـ '{project}'.",
+  "Tiếng Việt": "Đã liên kết {count} tài nguyên từ thư viện vào '{project}'."
+ },
+ "assets": {
+  "日本語": "アセット",
+  "Español": "recursos",
+  "Deutsch": "Assets",
+  "Français": "ressources",
+  "한국인": "에셋",
+  "中文": "素材",
+  "العربية": "الأصول",
+  "Tiếng Việt": "tài nguyên"
+ },
+ "projects": {
+  "日本語": "プロジェクト",
+  "Español": "proyectos",
+  "Deutsch": "Projekte",
+  "Français": "projets",
+  "한국인": "프로젝트",
+  "中文": "项目",
+  "العربية": "المشاريع",
+  "Tiếng Việt": "dự án"
+ },
+ "{name} was damaged and could not be read ({error}). Asset Manager started without its {t_what}.": {
+  "日本語": "{name} が破損していて読み込めませんでした ({error})。アセットマネージャーは{t_what}なしで起動しました。",
+  "Español": "{name} estaba dañado y no se pudo leer ({error}). El Gestor de recursos se inició sin sus {t_what}.",
+  "Deutsch": "{name} war beschädigt und konnte nicht gelesen werden ({error}). Der Asset-Manager wurde ohne seine {t_what} gestartet.",
+  "Français": "{name} était endommagé et n'a pas pu être lu ({error}). Le Gestionnaire de ressources a démarré sans ses {t_what}.",
+  "한국인": "{name} 파일이 손상되어 읽을 수 없습니다({error}). 에셋 매니저가 {t_what} 없이 시작되었습니다.",
+  "中文": "{name} 已损坏，无法读取（{error}）。素材管理器已在没有{t_what}的情况下启动。",
+  "العربية": "كان {name} تالفًا وتعذرت قراءته ({error}). بدأ مدير الأصول بدون {t_what}.",
+  "Tiếng Việt": "{name} bị hỏng và không thể đọc được ({error}). Trình quản lý tài nguyên đã khởi động mà không có {t_what}."
+ },
+ "{name} was damaged and has been kept as {kept}. Asset Manager started without its {t_what}.": {
+  "日本語": "{name} が破損していたため、{kept} として保存しました。アセットマネージャーは{t_what}なしで起動しました。",
+  "Español": "{name} estaba dañado y se ha guardado como {kept}. El Gestor de recursos se inició sin sus {t_what}.",
+  "Deutsch": "{name} war beschädigt und wurde als {kept} aufbewahrt. Der Asset-Manager wurde ohne seine {t_what} gestartet.",
+  "Français": "{name} était endommagé et a été conservé sous le nom {kept}. Le Gestionnaire de ressources a démarré sans ses {t_what}.",
+  "한국인": "{name} 파일이 손상되어 {kept}(으)로 보관했습니다. 에셋 매니저가 {t_what} 없이 시작되었습니다.",
+  "中文": "{name} 已损坏，已保留为 {kept}。素材管理器已在没有{t_what}的情况下启动。",
+  "العربية": "كان {name} تالفًا وتم الاحتفاظ به باسم {kept}. بدأ مدير الأصول بدون {t_what}.",
+  "Tiếng Việt": "{name} bị hỏng và đã được giữ lại dưới tên {kept}. Trình quản lý tài nguyên đã khởi động mà không có {t_what}."
+ },
+ "{name}: skipped 1 unreadable entry.": {
+  "日本語": "{name}: 読み取れない項目を 1 個スキップしました。",
+  "Español": "{name}: se omitió 1 entrada ilegible.",
+  "Deutsch": "{name}: 1 unlesbarer Eintrag übersprungen.",
+  "Français": "{name} : 1 entrée illisible ignorée.",
+  "한국인": "{name}: 읽을 수 없는 항목 1개를 건너뛰었습니다.",
+  "中文": "{name}：已跳过 1 个无法读取的条目。",
+  "العربية": "{name}: تم تخطي إدخال واحد غير قابل للقراءة.",
+  "Tiếng Việt": "{name}: đã bỏ qua 1 mục không đọc được."
+ },
+ "{name}: skipped {count} unreadable entries.": {
+  "日本語": "{name}: 読み取れない項目を {count} 個スキップしました。",
+  "Español": "{name}: se omitieron {count} entradas ilegibles.",
+  "Deutsch": "{name}: {count} unlesbare Einträge übersprungen.",
+  "Français": "{name} : {count} entrées illisibles ignorées.",
+  "한국인": "{name}: 읽을 수 없는 항목 {count}개를 건너뛰었습니다.",
+  "中文": "{name}：已跳过 {count} 个无法读取的条目。",
+  "العربية": "{name}: تم تخطي {count} إدخالات غير قابلة للقراءة.",
+  "Tiếng Việt": "{name}: đã bỏ qua {count} mục không đọc được."
+ },
+ "Couldn't read this file's audio.": {
+  "日本語": "このファイルのオーディオを読み込めませんでした。",
+  "Español": "No se pudo leer el audio de este archivo.",
+  "Deutsch": "Der Ton dieser Datei konnte nicht gelesen werden.",
+  "Français": "Impossible de lire l'audio de ce fichier.",
+  "한국인": "이 파일의 오디오를 읽을 수 없습니다.",
+  "中文": "无法读取此文件的音频。",
+  "العربية": "تعذرت قراءة صوت هذا الملف.",
+  "Tiếng Việt": "Không thể đọc âm thanh của tệp này."
+ },
+ "Couldn't play this file.": {
+  "日本語": "このファイルを再生できませんでした。",
+  "Español": "No se pudo reproducir este archivo.",
+  "Deutsch": "Diese Datei konnte nicht abgespielt werden.",
+  "Français": "Impossible de lire ce fichier.",
+  "한국인": "이 파일을 재생할 수 없습니다.",
+  "中文": "无法播放此文件。",
+  "العربية": "تعذر تشغيل هذا الملف.",
+  "Tiếng Việt": "Không thể phát tệp này."
+ },
+ "Resolve reported the import failed (check the files are valid media).": {
+  "日本語": "Resolve が読み込みの失敗を報告しました (ファイルが有効なメディアか確認してください)。",
+  "Español": "Resolve informó de que la importación falló (comprueba que los archivos sean medios válidos).",
+  "Deutsch": "Resolve hat gemeldet, dass der Import fehlgeschlagen ist (prüfen Sie, ob die Dateien gültige Medien sind).",
+  "Français": "Resolve a signalé l'échec de l'importation (vérifiez que les fichiers sont des médias valides).",
+  "한국인": "Resolve에서 가져오기에 실패했다고 보고했습니다(파일이 유효한 미디어인지 확인하세요).",
+  "中文": "Resolve 报告导入失败（请检查文件是否为有效媒体）。",
+  "العربية": "أبلغ Resolve عن فشل الاستيراد (تحقق من أن الملفات وسائط صالحة).",
+  "Tiếng Việt": "Resolve báo cáo nhập thất bại (hãy kiểm tra các tệp có phải phương tiện hợp lệ không)."
+ },
+ "Could not create bin '{name}' in the Media Pool.": {
+  "日本語": "メディアプールにビン「{name}」を作成できませんでした。",
+  "Español": "No se pudo crear la bandeja '{name}' en el Grupo de medios.",
+  "Deutsch": "Bin „{name}“ konnte im Media Pool nicht erstellt werden.",
+  "Français": "Impossible de créer le chutier « {name} » dans le Pool de médias.",
+  "한국인": "미디어 풀에 '{name}' 빈을 만들 수 없습니다.",
+  "中文": "无法在媒体池中创建媒体夹“{name}”。",
+  "العربية": "تعذر إنشاء الحاوية '{name}' في مجمع الوسائط.",
+  "Tiếng Việt": "Không thể tạo bin '{name}' trong Media Pool."
+ },
+ "Include folders when sorting by name or date added": {
+  "日本語": "名前や追加日で並べ替えるときにフォルダーも含める",
+  "Español": "Incluir carpetas al ordenar por nombre o fecha de adición",
+  "Deutsch": "Ordner beim Sortieren nach Name oder Hinzufügedatum einbeziehen",
+  "Français": "Inclure les dossiers lors du tri par nom ou date d'ajout",
+  "한국인": "이름이나 추가한 날짜로 정렬할 때 폴더 포함",
+  "中文": "按名称或添加时间排序时包括文件夹",
+  "العربية": "تضمين المجلدات عند الفرز حسب الاسم أو تاريخ الإضافة",
+  "Tiếng Việt": "Bao gồm thư mục khi sắp xếp theo tên hoặc ngày thêm"
+ },
+ "On mixes folders in with individual items by the active sort column. Off always lists folders first, sorted alphabetically, with only the individual items following the active sort.": {
+  "日本語": "オンにすると、フォルダーを個々の項目と混ぜて現在の並べ替え列で並べます。オフにすると、常にフォルダーをアルファベット順で先頭に表示し、個々の項目だけが現在の並べ替えに従います。",
+  "Español": "Activado, mezcla las carpetas con los elementos individuales según la columna de orden activa. Desactivado, siempre muestra primero las carpetas, en orden alfabético, y solo los elementos individuales siguen el orden activo.",
+  "Deutsch": "Ein: Ordner werden nach der aktiven Sortierspalte zwischen die einzelnen Elemente gemischt. Aus: Ordner stehen immer zuerst, alphabetisch sortiert, und nur die einzelnen Elemente folgen der aktiven Sortierung.",
+  "Français": "Activé : les dossiers sont mêlés aux éléments individuels selon la colonne de tri active. Désactivé : les dossiers sont toujours listés en premier, par ordre alphabétique, et seuls les éléments individuels suivent le tri actif.",
+  "한국인": "켜면 폴더를 개별 항목과 섞어 현재 정렬 열에 따라 정렬합니다. 끄면 항상 폴더를 알파벳순으로 먼저 표시하고 개별 항목만 현재 정렬을 따릅니다.",
+  "中文": "开启时，文件夹会与单个项目混合，按当前排序列排序。关闭时，文件夹总是按字母顺序排在最前，只有单个项目按当前排序。",
+  "العربية": "عند التشغيل، تُدمج المجلدات مع العناصر الفردية حسب عمود الفرز النشط. عند الإيقاف، تُعرض المجلدات أولًا دائمًا مرتبة أبجديًا، ولا تتبع الفرز النشط إلا العناصر الفردية.",
+  "Tiếng Việt": "Bật: thư mục được trộn với các mục riêng lẻ theo cột sắp xếp hiện tại. Tắt: thư mục luôn được liệt kê trước theo thứ tự chữ cái, chỉ các mục riêng lẻ theo cách sắp xếp hiện tại."
+ },
+ "Group All media by shared folder": {
+  "日本語": "「すべてのメディア」を共通のフォルダーでまとめる",
+  "Español": "Agrupar Todos los medios por carpeta compartida",
+  "Deutsch": "Alle Medien nach gemeinsamem Ordner gruppieren",
+  "Français": "Regrouper Tous les médias par dossier commun",
+  "한국인": "모든 미디어를 공통 폴더별로 묶기",
+  "中文": "按共同文件夹对“全部媒体”分组",
+  "العربية": "تجميع كل الوسائط حسب المجلد المشترك",
+  "Tiếng Việt": "Nhóm Tất cả phương tiện theo thư mục chung"
+ },
+ "On collapses 2+ assets from the same folder into an expandable row on the All media tab. Off always lists every asset flat, never merging files by folder. By folder and Projects are unaffected.": {
+  "日本語": "オンにすると、「すべてのメディア」タブで同じフォルダーの 2 個以上のアセットを展開可能な 1 行にまとめます。オフにすると、常にすべてのアセットを平らに一覧表示し、フォルダーでまとめません。「フォルダー別」と「プロジェクト」には影響しません。",
+  "Español": "Activado, agrupa 2 o más recursos de la misma carpeta en una fila expandible en la pestaña Todos los medios. Desactivado, siempre lista todos los recursos sin agrupar archivos por carpeta. Por carpeta y Proyectos no se ven afectados.",
+  "Deutsch": "Ein: 2+ Assets aus demselben Ordner werden auf dem Tab „Alle Medien“ zu einer aufklappbaren Zeile zusammengefasst. Aus: Alle Assets werden immer einzeln aufgelistet, ohne Dateien nach Ordner zusammenzufassen. „Nach Ordner“ und „Projekte“ sind nicht betroffen.",
+  "Français": "Activé : 2 ressources ou plus du même dossier sont regroupées en une ligne dépliable dans l'onglet Tous les médias. Désactivé : toutes les ressources sont toujours listées à plat, sans regroupement par dossier. Par dossier et Projets ne sont pas concernés.",
+  "한국인": "켜면 모든 미디어 탭에서 같은 폴더의 에셋 2개 이상을 펼칠 수 있는 한 행으로 묶습니다. 끄면 항상 모든 에셋을 폴더로 묶지 않고 나열합니다. 폴더별과 프로젝트에는 영향이 없습니다.",
+  "中文": "开启时，“全部媒体”标签页会将同一文件夹中的 2 个以上素材折叠为一个可展开的行。关闭时，总是平铺列出所有素材，从不按文件夹合并。“按文件夹”和“项目”不受影响。",
+  "العربية": "عند التشغيل، تُطوى أصلان أو أكثر من المجلد نفسه في صف قابل للتوسيع في تبويب كل الوسائط. عند الإيقاف، تُعرض كل الأصول بشكل مسطح دائمًا دون دمج الملفات حسب المجلد. لا يتأثر تبويبا حسب المجلد والمشاريع.",
+  "Tiếng Việt": "Bật: gộp từ 2 tài nguyên trở lên cùng thư mục thành một hàng có thể mở rộng trong thẻ Tất cả phương tiện. Tắt: luôn liệt kê phẳng mọi tài nguyên, không gộp tệp theo thư mục. Theo thư mục và Dự án không bị ảnh hưởng."
+ },
+ "Waveform unavailable for '{name}': {error}": {
+  "日本語": "「{name}」の波形を表示できません: {error}",
+  "Español": "Forma de onda no disponible para '{name}': {error}",
+  "Deutsch": "Wellenform für „{name}“ nicht verfügbar: {error}",
+  "Français": "Forme d'onde indisponible pour « {name} » : {error}",
+  "한국인": "'{name}'의 파형을 사용할 수 없습니다: {error}",
+  "中文": "“{name}”的波形不可用：{error}",
+  "العربية": "الشكل الموجي غير متاح لـ '{name}': {error}",
+  "Tiếng Việt": "Không có dạng sóng cho '{name}': {error}"
+ },
+ "Decode timed out": {
+  "日本語": "デコードがタイムアウトしました",
+  "Español": "Se agotó el tiempo de decodificación",
+  "Deutsch": "Zeitüberschreitung beim Dekodieren",
+  "Français": "Délai de décodage dépassé",
+  "한국인": "디코딩 시간 초과",
+  "中文": "解码超时",
+  "العربية": "انتهت مهلة فك الترميز",
+  "Tiếng Việt": "Hết thời gian giải mã"
+ }
+}

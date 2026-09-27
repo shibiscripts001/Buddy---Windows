@@ -34,8 +34,8 @@ function drawFiles() {
     $("files-title").textContent = list.length ? `${plural(list.length, LABEL[state.kind] + " file")}` : "Files";
     $("file-list").replaceChildren(...list.map(f => el("li", {title: f.path}, [
         icon(state.kind === "svg" ? "image" : "play"),
-        el("span.name", {text: f.name}),
-        el("span.where", {}, el("bdi", {text: f.path.slice(0, f.path.length - f.name.length)})),
+        el("span.name", {text: f.name, translate: "no"}),
+        el("span.where", {translate: "no"}, el("bdi", {text: f.path.slice(0, f.path.length - f.name.length)})),
         el("button.x", {type: "button", text: "×", title: "Take off the list", disabled: !!state.busy,
             onclick: () => send("remove_file", {path: f.path})}),
     ])));
@@ -72,7 +72,8 @@ function drawDetails() {
     if (atBottom) log.scrollTop = log.scrollHeight;
     const notes = details.filter(d => d.kind === "note").length;
     const errors = details.filter(d => d.kind === "error").length;
-    $("details-note").textContent = [errors ? plural(errors, "error") : "", notes ? plural(notes, "note") : ""].filter(Boolean).join(" · ");
+    const counts = [errors ? plural(errors, "error") : "", notes ? plural(notes, "note") : ""].filter(Boolean);
+    $("details-note").replaceChildren(...counts.flatMap((c, i) => i ? [" · ", el("span", {text: c})] : [el("span", {text: c})]));
 }
 
 function draw() {

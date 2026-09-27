@@ -39,6 +39,7 @@ import uuid
 from PySide6.QtCore import QObject, Qt, Signal, Slot
 from PySide6.QtWidgets import QApplication, QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -263,14 +264,14 @@ class SVGImporterPage(WebToolPage):
 
     def on_add_files(self, _payload):
         info = KINDS[self.kind]
-        paths, _ = QFileDialog.getOpenFileNames(self, f"Choose {info['label']} files", "",
-                                                f"{info['filter']};;All files (*.*)")
+        paths, _ = QFileDialog.getOpenFileNames(self, tr("Choose {kind} files").format(kind=info["label"]), "",
+                                                tr_filter(f"{info['filter']};;All files (*.*)"))
         if paths:
             self._add(self.kind, paths)
 
     def on_add_folder(self, _payload):
         info = KINDS[self.kind]
-        folder = QFileDialog.getExistingDirectory(self, f"Choose a folder of {info['label']} files")
+        folder = QFileDialog.getExistingDirectory(self, tr("Choose a folder of {kind} files").format(kind=info["label"]))
         if not folder:
             return
         paths = sorted(os.path.join(folder, n) for n in os.listdir(folder) if n.lower().endswith(info["ext"]))

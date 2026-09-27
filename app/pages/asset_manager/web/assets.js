@@ -76,7 +76,7 @@ function drawToolbar() {
     if (document.activeElement !== $("search")) $("search").value = state.filter.search;
     const sel = $("project-select");
     sel.replaceChildren(...(projects.items.length
-        ? projects.items.map(p => el("option", {value: p.id, text: `${p.name}  (${p.count})`, selected: p.id === projects.current}))
+        ? projects.items.map(p => el("option", {value: p.id, text: `${p.name}  (${p.count})`, translate: "no", selected: p.id === projects.current}))
         : [el("option", {value: "", text: "No projects yet"})]));
     sel.disabled = !projects.items.length;
     $("rename-project").disabled = $("delete-project").disabled = $("add-existing").disabled = !projects.current;
@@ -182,17 +182,17 @@ function drawList() {
                     el(`button.chev${open ? ".open" : ""}`, {type: "button", "aria-label": open ? "Collapse" : "Expand",
                         onclick: e => { e.stopPropagation(); open ? expanded.delete(node.path) : expanded.add(node.path); drawList(); }}),
                     icon("folder"),
-                    el("span", {}, [node.name, el("span.count", {text: plural(node.count, "file")})]),
+                    el("span", {}, [el("span", {text: node.name, translate: "no"}), el("span.count", {text: plural(node.count, "file")})]),
                 ])),
-                el("td.folder", {}, el("bdi", {text: node.path})),
+                el("td.folder", {}, el("bdi", {text: node.path, translate: "no"})),
             ]);
         }
         return el(`tr${child ? ".child" : ""}${node.missing ? ".missing" : ""}${selected.has(key) ? ".selected" : ""}`,
             {title: node.path, onclick: e => clickRow(e, key)}, [
-            el("td.name", {}, el("div.name-cell", {}, [el(`span.kind-dot.${node.category}`), el("span", {text: node.name})])),
+            el("td.name", {}, el("div.name-cell", {}, [el(`span.kind-dot.${node.category}`), el("span", {text: node.name, translate: "no"})])),
             el("td.type", {text: node.category}),
             el("td.added", {text: node.date_added}),
-            el("td.folder", {}, el("bdi", {text: node.folder})),
+            el("td.folder", {}, el("bdi", {text: node.folder, translate: "no"})),
         ]);
     });
     box.replaceChildren(el("table.table", {}, [
@@ -211,7 +211,8 @@ function drawFooter() {
     $("remove").disabled = !n;
     $("remove").textContent = state.view === "projects" ? "Remove from project" : "Remove";
     const s = list;
-    $("list-summary").textContent = s.total ? `${plural(s.total, "asset")}${s.missing ? ` · ${s.missing} missing` : ""}` : "";
+    $("list-summary").replaceChildren(...(s.total ? [el("span", {text: plural(s.total, "asset")}),
+        ...(s.missing ? [" · ", el("span", {text: `${s.missing} missing`})] : [])] : []));
 }
 
 $("import").onclick = () => send("import_selected", selection());
@@ -355,10 +356,11 @@ function drawInfo() {
         return;
     }
     info.replaceChildren(
-        el("div.title", {text: p.name}),
-        el("div.muted.small", {text: `${p.category} · ${p.ext || "no extension"} · added ${p.date_added}`}),
+        el("div.title", {text: p.name, translate: "no"}),
+        el("div.muted.small", {}, [el("span", {text: p.category}), " · ",
+            el("span", {text: p.ext || "no extension", translate: p.ext ? "no" : undefined}), " · ", el("span", {text: `added ${p.date_added}`})]),
         el(`div.status.${p.missing ? "bad" : "ok"}`, {text: p.missing ? "Missing – the file has moved or been deleted" : "File found"}),
-        el("div.path", {text: p.path}),
+        el("div.path", {text: p.path, translate: "no"}),
     );
     actions.replaceChildren(...[
         p.missing ? el("button.btn.accent", {type: "button", text: "Find it…", onclick: () => send("locate", {id: p.id})}) : null,
@@ -381,7 +383,7 @@ function availableDialog(d) {
         const rows = d.rows.filter(r => !q || r.name.toLowerCase().includes(q));
         box.replaceChildren(...(rows.length ? rows.map(r => el(`label${r.missing ? ".missing" : ""}`, {title: r.path}, [
             el("input", {type: "checkbox", checked: chosen.has(r.id), onchange: e => { e.target.checked ? chosen.add(r.id) : chosen.delete(r.id); }}),
-            el("span.pname", {text: r.name}),
+            el("span.pname", {text: r.name, translate: "no"}),
             el("span.ptype", {text: r.category}),
         ])) : [el("div.empty", {}, el("div.small", {text: d.rows.length ? "Nothing matches" : "Everything in your library is in this project already."}))]));
     };
@@ -434,7 +436,8 @@ Buddy.on("drop_hover", on => { $("drop-veil").hidden = !on; });
 Buddy.on("log", entries => {
     $("activity").hidden = !entries.length;
     $("log").replaceChildren(...entries.slice().reverse().map(e =>
-        el(`li.k-${e.kind}`, {}, [el("span.time", {text: e.time}), e.text])));
+        el(`li.k-${e.kind}`, {}, [el("span.time", {text: e.time}),
+            ...(e.parts ? e.parts.flatMap((p, i) => i ? [" ", el("span", {text: p})] : [el("span", {text: p})]) : [e.text])])));
 });
 Buddy.on("alert", a => Buddy.modal({title: a.title, body: el("p.modal-text", {text: a.text}), buttons: [{label: "OK", kind: "accent"}]}));
 Buddy.on("toast", t => Buddy.toast(t.text, 3000));

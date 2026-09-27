@@ -28,6 +28,7 @@ from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QApplication, QFileDialog
 
 from core import marker_colors
+from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -186,11 +187,12 @@ class YouTubeChaptersPage(WebToolPage):
             return self.emit("toast", {"text": "Nothing to copy yet – add markers to the timeline."})
         QApplication.clipboard().setText(self.text.strip() + "\n")
         count = len([line for line in self.text.splitlines() if line.strip()])
-        self.emit("toast", {"text": f"Copied {count} chapter{'s' if count != 1 else ''} – paste them into the video's description."})
+        self.emit("toast", {"text": "Copied 1 chapter – paste it into the video's description." if count == 1
+                            else f"Copied {count} chapters – paste them into the video's description."})
         self._add_log(f"Copied {count} chapter lines.")
 
     def on_browse(self, _payload=None):
-        folder = QFileDialog.getExistingDirectory(self, "Save chapters to", self.settings.get("folder") or "")
+        folder = QFileDialog.getExistingDirectory(self, tr("Save chapters to"), self.settings.get("folder") or "")
         if folder:
             self._set_folder(folder)
 

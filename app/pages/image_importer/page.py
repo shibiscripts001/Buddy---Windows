@@ -33,6 +33,7 @@ import uuid
 from PySide6.QtCore import QThread, QUrl
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -152,9 +153,9 @@ class ImageImporterPage(WebToolPage):
         for path in copied:
             self._stage(path, source)
         if skipped:
-            self._add_log(f"Skipped {len(skipped)} file{'s' if len(skipped) != 1 else ''} that "
-                          f"{'isn' if len(skipped) == 1 else 'aren'}'t images: {', '.join(skipped[:5])}"
-                          f"{' …' if len(skipped) > 5 else ''}", "warn")
+            names = ", ".join(skipped[:5]) + (" …" if len(skipped) > 5 else "")
+            self._add_log(f"Skipped 1 file that isn't an image: {names}" if len(skipped) == 1
+                          else f"Skipped {len(skipped)} files that aren't images: {names}", "warn")
         for error in errors:
             self._add_log(f"Couldn't copy {error}", "error")
         if not copied and not errors:
@@ -166,7 +167,7 @@ class ImageImporterPage(WebToolPage):
 
     def on_add_files(self, _payload):
         exts = " ".join(f"*{e}" for e in sorted(staging.IMAGE_EXTS))
-        paths, _filter = QFileDialog.getOpenFileNames(self, "Add images", "", f"Images ({exts})")
+        paths, _filter = QFileDialog.getOpenFileNames(self, tr("Add images"), "", tr_filter(f"Images ({exts})"))
         if paths:
             self._add_paths(paths, "Added file")
 
@@ -232,7 +233,7 @@ class ImageImporterPage(WebToolPage):
     # ----------------------------------------------------------- the list --
 
     def on_choose_folder(self, _payload):
-        folder = QFileDialog.getExistingDirectory(self, "Save images to", self.save_folder)
+        folder = QFileDialog.getExistingDirectory(self, tr("Save images to"), self.save_folder)
         if folder:
             self.settings["save_folder"] = os.path.normpath(folder)
             self.settings.save()
@@ -269,7 +270,7 @@ class ImageImporterPage(WebToolPage):
         except ResolveConnectionError:
             return
         n = len(present)
-        self.host.set_busy(True, f"Importing {n} image{'s' if n != 1 else ''}…")
+        self.host.set_busy(True, "Importing 1 image…" if n == 1 else f"Importing {n} images…")
         error = None
         try:
             imported = resolve_ext.import_to_bin(controller, [i["path"] for i in present], bin_name,
@@ -283,9 +284,11 @@ class ImageImporterPage(WebToolPage):
             self.emit("alert", {"title": "Import failed", "text": str(error)})
             return
         count = len(imported)
-        self._add_log(f"Imported {count} image{'s' if count != 1 else ''} into the '{bin_name}' bin.", "success")
+        self._add_log(f"Imported 1 image into the '{bin_name}' bin." if count == 1
+                      else f"Imported {count} images into the '{bin_name}' bin.", "success")
         if missing:
             self._add_log(f"Left out {len(missing)} that were no longer on disk: {', '.join(missing)}", "warn")
-        self.emit("toast", {"text": f"Imported {count} image{'s' if count != 1 else ''} into '{bin_name}'"})
+        self.emit("toast", {"text": f"Imported 1 image into '{bin_name}'" if count == 1
+                            else f"Imported {count} images into '{bin_name}'"})
         self.staging.clear()
         self._push_items()

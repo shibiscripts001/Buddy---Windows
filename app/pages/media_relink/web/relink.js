@@ -23,6 +23,8 @@ const generation = {fix: -1, relocate: -1};
 const onlyOffline = $("only-offline");
 
 const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}`;
+// Whole sentences, one text node each, so each is translated on its own.
+const sentences = parts => parts.flatMap((p, i) => i ? [" ", el("span", {text: p})] : [el("span", {text: p})]);
 const needsAttention = r => r.status !== "online" || r.new_path;
 
 for (const b of document.querySelectorAll("#mode [data-mode]")) {
@@ -55,7 +57,7 @@ function statusChip(r) {
 const folderOf = path => path.replace(/[\\/][^\\/]*$/, "") || path;
 
 function pathLine(cls, path, arrow) {
-    return el(`div.path${cls}`, {title: path}, el("bdi", {}, [arrow ? el("span.path-arrow", {text: "→"}) : null, folderOf(path)]));
+    return el(`div.path${cls}`, {title: path, translate: "no"}, el("bdi", {}, [arrow ? el("span.path-arrow", {text: "→"}) : null, folderOf(path)]));
 }
 
 function pathCell(r) {
@@ -101,7 +103,7 @@ function drawTable(list) {
     }
     if (!rows.length) {
         box.replaceChildren(emptyState("Nothing is offline",
-            `All ${plural(list.rows.length, "clip")} link to files that exist.`,
+            list.rows.length === 1 ? "The one clip links to a file that exists." : `All ${list.rows.length} clips link to files that exist.`,
             el("button.btn", {text: "Show all clips", onclick: () => { onlyOffline.checked = false; draw(); }})));
         return;
     }
@@ -118,8 +120,8 @@ function drawTable(list) {
     }, [
         el("td.sel", {}, el("input", {type: "checkbox", checked: set.has(r.id),
             onchange: e => { e.target.checked ? set.add(r.id) : set.delete(r.id); draw(); }})),
-        el("td.name", {text: r.name, title: r.name}),
-        el("td.bin", {text: r.bin, title: r.bin}),
+        el("td.name", {text: r.name, title: r.name, translate: "no"}),
+        el("td.bin", {text: r.bin, title: r.bin, translate: "no"}),
         el("td.status", {}, statusChip(r)),
         pathCell(r),
         actionCell(r),
@@ -152,7 +154,7 @@ function draw() {
     const list = lists[mode] || {rows: [], counts: {total: 0}, scanned: false, summary: ""};
     drawCounts(list);
     drawTable(list);
-    $("summary").textContent = list.summary || "";
+    $("summary").replaceChildren(...sentences(list.summary_parts || []));
 
     const scan = $("scan");
     scan.classList.toggle("accent", !list.scanned);
@@ -166,9 +168,10 @@ function draw() {
     const matches = list.rows.filter(r => r.status === "match_found" && r.new_path).length;
     $("select-all").hidden = !list.rows.length;
     $("select-all").textContent = list.rows.length && list.rows.every(r => set.has(r.id)) ? "Select none" : "Select all";
-    $("selection").textContent = picked.length
-        ? `${picked.length} selected${ready.length !== picked.length ? ` · ${ready.length} with a file to go to` : ""}`
-        : (mode === "relocate" && matches ? "Tick the clips to move" : "");
+    $("selection").replaceChildren(...(picked.length
+        ? [el("span", {text: `${picked.length} selected`}),
+           ...(ready.length !== picked.length ? [" · ", el("span", {text: `${ready.length} with a file to go to`})] : [])]
+        : [mode === "relocate" && matches ? "Tick the clips to move" : ""]));
     const rs = $("relink-selected");
     rs.textContent = ready.length ? `Relink ${plural(ready.length, "selected clip")}` : "Relink selected";
     rs.classList.toggle("accent", mode === "relocate");
@@ -187,7 +190,7 @@ function draw() {
 
 function pickDialog(r) {
     let choice = r.new_path || r.candidates[0];
-    const list = el("div.pick-list", {}, r.candidates.map(path => el("label", {}, [
+    const list = el("div.pick-list", {translate: "no"}, r.candidates.map(path => el("label", {}, [
         el("input", {type: "radio", name: "pick", checked: path === choice, onchange: () => { choice = path; }}),
         el("span", {text: path}),
     ])));
@@ -229,7 +232,7 @@ Buddy.on("search", s => {
 Buddy.on("log", entries => {
     $("activity").hidden = !entries.length;
     $("log").replaceChildren(...entries.slice().reverse().map(e =>
-        el(`li.k-${e.kind}`, {}, [el("span.time", {text: e.time}), e.text])));
+        el(`li.k-${e.kind}`, {}, [el("span.time", {text: e.time}), ...(e.parts ? sentences(e.parts) : [e.text])])));
 });
 
 Buddy.on("alert", a => Buddy.modal({title: a.title, body: el("p.modal-text", {text: a.text}), buttons: [{label: "OK", kind: "accent"}]}));

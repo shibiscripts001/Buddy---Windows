@@ -1,0 +1,36 @@
+use strict
+OK
+Activity
+Enter
+Browse…
+No project is open in Resolve.
+Media & Assets
+Editing Tools
+Save
+Not connected to Resolve
+Not connected
+Escape
+Copy
+Connect
+Clear
+Tab
+Stop
+Segoe UI
+Refresh
+Read the timeline again
+Open folder
+Open Resolve with a project, then press Connect.
+Not connected to Resolve.
+No timeline open
+No project is open in Resolve!
+Import failed
+Import
+Export failed
+Export & Delivery
+Export
+Drop to add
+Ctrl
+Could not access the Media Pool.
+Clip Name
+Change…
+Add files…

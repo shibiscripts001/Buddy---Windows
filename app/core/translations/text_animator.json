@@ -1,0 +1,1443 @@
+{
+ "_comment": "Text Animator. English -> each language; see core/i18n.py.",
+ "Subtitle conversion": {
+  "日本語": "字幕変換",
+  "Español": "Conversión de subtítulos",
+  "Deutsch": "Untertitelkonvertierung",
+  "Français": "Conversion des sous-titres",
+  "한국인": "자막 변환",
+  "中文": "字幕转换",
+  "العربية": "تحويل الترجمات",
+  "Tiếng Việt": "Chuyển đổi phụ đề"
+ },
+ "Font styling": {
+  "日本語": "フォントスタイル",
+  "Español": "Estilo de fuente",
+  "Deutsch": "Schriftgestaltung",
+  "Français": "Style de police",
+  "한국인": "글꼴 스타일",
+  "中文": "字体样式",
+  "العربية": "تنسيق الخط",
+  "Tiếng Việt": "Kiểu chữ"
+ },
+ "Timeline layout": {
+  "日本語": "タイムラインのレイアウト",
+  "Español": "Disposición en la línea de tiempo",
+  "Deutsch": "Timeline-Layout",
+  "Français": "Disposition de la timeline",
+  "한국인": "타임라인 레이아웃",
+  "中文": "时间线布局",
+  "العربية": "تخطيط الخط الزمني",
+  "Tiếng Việt": "Bố cục timeline"
+ },
+ "Timeline animation": {
+  "日本語": "タイムラインのアニメーション",
+  "Español": "Animación en la línea de tiempo",
+  "Deutsch": "Timeline-Animation",
+  "Français": "Animation de la timeline",
+  "한국인": "타임라인 애니메이션",
+  "中文": "时间线动画",
+  "العربية": "حركة الخط الزمني",
+  "Tiếng Việt": "Hoạt ảnh timeline"
+ },
+ "Custom animation": {
+  "日本語": "カスタムアニメーション",
+  "Español": "Animación personalizada",
+  "Deutsch": "Eigene Animation",
+  "Français": "Animation personnalisée",
+  "한국인": "사용자 지정 애니메이션",
+  "中文": "自定义动画",
+  "العربية": "حركة مخصصة",
+  "Tiếng Việt": "Hoạt ảnh tùy chỉnh"
+ },
+ "Subtitles to Text+": {
+  "日本語": "字幕を Text+ に",
+  "Español": "Subtítulos a Text+",
+  "Deutsch": "Untertitel zu Text+",
+  "Français": "Sous-titres vers Text+",
+  "한국인": "자막을 Text+로",
+  "中文": "字幕转为 Text+",
+  "العربية": "الترجمات إلى Text+",
+  "Tiếng Việt": "Phụ đề sang Text+"
+ },
+ "Turns each subtitle on a subtitle track into its own Text+ clip on a video track, at the same time – ready to style, place and animate on the other tabs.": {
+  "日本語": "字幕トラックの各字幕を、同じタイミングでビデオトラック上の個別の Text+ クリップに変換します – 他のタブでスタイル設定、配置、アニメーションができます。",
+  "Español": "Convierte cada subtítulo de una pista de subtítulos en su propio clip Text+ en una pista de vídeo, al mismo tiempo, listo para darle estilo, colocarlo y animarlo en las demás pestañas.",
+  "Deutsch": "Macht aus jedem Untertitel einer Untertitelspur einen eigenen Text+-Clip auf einer Videospur, zur selben Zeit – bereit zum Gestalten, Platzieren und Animieren auf den anderen Tabs.",
+  "Français": "Transforme chaque sous-titre d'une piste de sous-titres en son propre clip Text+ sur une piste vidéo, au même moment – prêt à être stylisé, placé et animé dans les autres onglets.",
+  "한국인": "자막 트랙의 각 자막을 같은 시점에 비디오 트랙의 개별 Text+ 클립으로 바꿉니다 – 다른 탭에서 스타일, 배치, 애니메이션을 적용할 수 있습니다.",
+  "中文": "将字幕轨道上的每条字幕在相同时间转为视频轨道上的独立 Text+ 片段——可在其他标签页中设置样式、放置和添加动画。",
+  "العربية": "يحوّل كل ترجمة على مسار الترجمة إلى مقطع Text+ خاص بها على مسار فيديو، في الوقت نفسه – جاهزة للتنسيق والوضع والتحريك في التبويبات الأخرى.",
+  "Tiếng Việt": "Biến mỗi phụ đề trên track phụ đề thành một clip Text+ riêng trên track video, cùng thời điểm – sẵn sàng để định dạng, đặt vị trí và tạo hoạt ảnh ở các thẻ khác."
+ },
+ "From subtitle track": {
+  "日本語": "元の字幕トラック",
+  "Español": "Desde la pista de subtítulos",
+  "Deutsch": "Aus Untertitelspur",
+  "Français": "Depuis la piste de sous-titres",
+  "한국인": "원본 자막 트랙",
+  "中文": "来源字幕轨道",
+  "العربية": "من مسار الترجمة",
+  "Tiếng Việt": "Từ track phụ đề"
+ },
+ "To video track": {
+  "日本語": "配置先のビデオトラック",
+  "Español": "A la pista de vídeo",
+  "Deutsch": "In Videospur",
+  "Français": "Vers la piste vidéo",
+  "한국인": "대상 비디오 트랙",
+  "中文": "目标视频轨道",
+  "العربية": "إلى مسار الفيديو",
+  "Tiếng Việt": "Sang track video"
+ },
+ "Convert subtitles to Text+": {
+  "日本語": "字幕を Text+ に変換",
+  "Español": "Convertir subtítulos a Text+",
+  "Deutsch": "Untertitel in Text+ umwandeln",
+  "Français": "Convertir les sous-titres en Text+",
+  "한국인": "자막을 Text+로 변환",
+  "中文": "将字幕转为 Text+",
+  "العربية": "تحويل الترجمات إلى Text+",
+  "Tiếng Việt": "Chuyển phụ đề sang Text+"
+ },
+ "Titles are placed from a Text+ in your Media Pool, for exact timing. If the project has none, Buddy adds one the first time (a \"Buddy Text+\" bin) – nothing to set up. The video track suggested is the topmost empty one.": {
+  "日本語": "タイミングを正確にするため、タイトルはメディアプール内の Text+ から配置されます。プロジェクトにない場合は、初回に Buddy が追加します (「Buddy Text+」ビン) – 準備は不要です。提案されるビデオトラックは、空いている一番上のトラックです。",
+  "Español": "Los títulos se colocan desde un Text+ de tu Grupo de medios, para una sincronización exacta. Si el proyecto no tiene ninguno, Buddy añade uno la primera vez (una bandeja \"Buddy Text+\"): no hay nada que configurar. La pista de vídeo sugerida es la vacía más alta.",
+  "Deutsch": "Titel werden aus einem Text+ in Ihrem Media Pool platziert, für exaktes Timing. Hat das Projekt keinen, fügt Buddy beim ersten Mal einen hinzu (ein Bin „Buddy Text+“) – nichts einzurichten. Vorgeschlagen wird die oberste leere Videospur.",
+  "Français": "Les titres sont placés à partir d'un Text+ de votre Pool de médias, pour un timing exact. Si le projet n'en a pas, Buddy en ajoute un la première fois (un chutier « Buddy Text+ ») – rien à configurer. La piste vidéo suggérée est la plus haute piste vide.",
+  "한국인": "정확한 타이밍을 위해 미디어 풀의 Text+에서 타이틀을 배치합니다. 프로젝트에 없으면 처음에 Buddy가 하나 추가합니다(\"Buddy Text+\" 빈) – 설정할 것이 없습니다. 제안되는 비디오 트랙은 가장 위의 빈 트랙입니다.",
+  "中文": "为保证时间精确，标题从媒体池中的 Text+ 放置。如果项目中没有，Buddy 会在第一次时添加一个（“Buddy Text+”媒体夹）——无需任何设置。建议的视频轨道是最上方的空轨道。",
+  "العربية": "تُوضع العناوين من Text+ في مجمع الوسائط، لتوقيت دقيق. إذا لم يكن في المشروع واحد، يضيف Buddy واحدًا في المرة الأولى (حاوية \"Buddy Text+\") – لا شيء لإعداده. مسار الفيديو المقترح هو أعلى مسار فارغ.",
+  "Tiếng Việt": "Tiêu đề được đặt từ một Text+ trong Media Pool để chính xác thời gian. Nếu dự án chưa có, Buddy sẽ thêm một cái ở lần đầu (bin \"Buddy Text+\") – không cần thiết lập gì. Track video được gợi ý là track trống cao nhất."
+ },
+ "{n} (new)": {
+  "日本語": "{n} (新規)",
+  "Español": "{n} (nueva)",
+  "Deutsch": "{n} (neu)",
+  "Français": "{n} (nouvelle)",
+  "한국인": "{n}(새 트랙)",
+  "中文": "{n}（新建）",
+  "العربية": "{n} (جديد)",
+  "Tiếng Việt": "{n} (mới)"
+ },
+ "1 video track": {
+  "日本語": "ビデオトラック 1 本",
+  "Español": "1 pista de vídeo",
+  "Deutsch": "1 Videospur",
+  "Français": "1 piste vidéo",
+  "한국인": "비디오 트랙 1개",
+  "中文": "1 条视频轨道",
+  "العربية": "مسار فيديو واحد",
+  "Tiếng Việt": "1 track video"
+ },
+ "{count} video tracks": {
+  "日本語": "ビデオトラック {count} 本",
+  "Español": "{count} pistas de vídeo",
+  "Deutsch": "{count} Videospuren",
+  "Français": "{count} pistes vidéo",
+  "한국인": "비디오 트랙 {count}개",
+  "中文": "{count} 条视频轨道",
+  "العربية": "{count} مسارات فيديو",
+  "Tiếng Việt": "{count} track video"
+ },
+ "Font": {
+  "日本語": "フォント",
+  "Español": "Fuente",
+  "Deutsch": "Schrift",
+  "Français": "Police",
+  "한국인": "글꼴",
+  "中文": "字体",
+  "العربية": "الخط",
+  "Tiếng Việt": "Phông chữ"
+ },
+ "Untick to leave font, size and colour as they are.": {
+  "日本語": "チェックを外すと、フォント、サイズ、色はそのままになります。",
+  "Español": "Desmarca para dejar fuente, tamaño y color como están.",
+  "Deutsch": "Häkchen entfernen, um Schrift, Größe und Farbe unverändert zu lassen.",
+  "Français": "Décochez pour laisser la police, la taille et la couleur telles quelles.",
+  "한국인": "선택을 해제하면 글꼴, 크기, 색상이 그대로 유지됩니다.",
+  "中文": "取消勾选则保留字体、大小和颜色不变。",
+  "العربية": "ألغِ التحديد لترك الخط والحجم واللون كما هي.",
+  "Tiếng Việt": "Bỏ chọn để giữ nguyên phông chữ, cỡ chữ và màu."
+ },
+ "Applies Arial Regular, size 0.08, to every Text+ clip straight away": {
+  "日本語": "すべての Text+ クリップにすぐに Arial Regular、サイズ 0.08 を適用します",
+  "Español": "Aplica Arial Regular, tamaño 0.08, a todos los clips Text+ de inmediato",
+  "Deutsch": "Wendet sofort Arial Regular, Größe 0.08, auf jeden Text+-Clip an",
+  "Français": "Applique immédiatement Arial Regular, taille 0.08, à chaque clip Text+",
+  "한국인": "모든 Text+ 클립에 Arial Regular, 크기 0.08을 즉시 적용합니다",
+  "中文": "立即对每个 Text+ 片段应用 Arial Regular、大小 0.08",
+  "العربية": "يطبّق Arial Regular بحجم 0.08 على كل مقاطع Text+ فورًا",
+  "Tiếng Việt": "Áp dụng ngay Arial Regular, cỡ 0.08 cho mọi clip Text+"
+ },
+ "Colour": {
+  "日本語": "色",
+  "Español": "Color",
+  "Deutsch": "Farbe",
+  "Français": "Couleur",
+  "한국인": "색상",
+  "中文": "颜色",
+  "العربية": "اللون",
+  "Tiếng Việt": "Màu"
+ },
+ "Fonts with a real .ttf/.otf file on this computer – what Resolve's own list draws from. Resolve must also see the font (installed before it started, for the right user) or the clip shows \"Font Not Found\".": {
+  "日本語": "このコンピューターに実際の .ttf/.otf ファイルがあるフォントです – Resolve 自身の一覧の元になっています。Resolve からもフォントが見える必要があり (Resolve の起動前に、正しいユーザーにインストール)、そうでないとクリップに「Font Not Found」と表示されます。",
+  "Español": "Fuentes con un archivo .ttf/.otf real en este equipo, de donde sale la propia lista de Resolve. Resolve también debe ver la fuente (instalada antes de iniciarlo, para el usuario correcto) o el clip mostrará \"Font Not Found\".",
+  "Deutsch": "Schriften mit einer echten .ttf-/.otf-Datei auf diesem Computer – daraus speist sich auch die Liste von Resolve. Resolve muss die Schrift ebenfalls sehen (vor dem Start installiert, für den richtigen Benutzer), sonst zeigt der Clip „Font Not Found“.",
+  "Français": "Polices disposant d'un vrai fichier .ttf/.otf sur cet ordinateur – là où puise la liste de Resolve. Resolve doit aussi voir la police (installée avant son lancement, pour le bon utilisateur), sinon le clip affiche « Font Not Found ».",
+  "한국인": "이 컴퓨터에 실제 .ttf/.otf 파일이 있는 글꼴입니다 – Resolve의 목록도 여기서 가져옵니다. Resolve도 글꼴을 볼 수 있어야 하며(Resolve 시작 전에 올바른 사용자에게 설치), 그렇지 않으면 클립에 \"Font Not Found\"가 표시됩니다.",
+  "中文": "本机上有真实 .ttf/.otf 文件的字体——Resolve 自己的列表也来源于此。Resolve 也必须能看到该字体（在 Resolve 启动前为正确的用户安装），否则片段会显示“Font Not Found”。",
+  "العربية": "خطوط لها ملف ‎.ttf/.otf حقيقي على هذا الكمبيوتر – وهو ما تستمد منه قائمة Resolve. يجب أن يرى Resolve الخط أيضًا (مثبتًا قبل بدء تشغيله، للمستخدم الصحيح) وإلا سيظهر المقطع \"Font Not Found\".",
+  "Tiếng Việt": "Các phông chữ có tệp .ttf/.otf thực trên máy này – danh sách của Resolve cũng lấy từ đây. Resolve cũng phải thấy phông chữ (cài trước khi mở Resolve, cho đúng người dùng), nếu không clip sẽ hiện \"Font Not Found\"."
+ },
+ "Outline": {
+  "日本語": "アウトライン",
+  "Español": "Contorno",
+  "Deutsch": "Kontur",
+  "Français": "Contour",
+  "한국인": "윤곽선",
+  "中文": "描边",
+  "العربية": "الحد الخارجي",
+  "Tiếng Việt": "Viền"
+ },
+ "Drop shadow": {
+  "日本語": "ドロップシャドウ",
+  "Español": "Sombra paralela",
+  "Deutsch": "Schlagschatten",
+  "Français": "Ombre portée",
+  "한국인": "그림자",
+  "中文": "投影",
+  "العربية": "ظل مُسقط",
+  "Tiếng Việt": "Đổ bóng"
+ },
+ "Not applied to Resolve yet": {
+  "日本語": "まだ Resolve に適用されていません",
+  "Español": "Aún no se aplica a Resolve",
+  "Deutsch": "Noch nicht auf Resolve angewendet",
+  "Français": "Pas encore appliqué à Resolve",
+  "한국인": "아직 Resolve에 적용되지 않음",
+  "中文": "尚未应用到 Resolve",
+  "العربية": "لم يُطبَّق على Resolve بعد",
+  "Tiếng Việt": "Chưa áp dụng cho Resolve"
+ },
+ "Outline colour": {
+  "日本語": "アウトラインの色",
+  "Español": "Color del contorno",
+  "Deutsch": "Konturfarbe",
+  "Français": "Couleur du contour",
+  "한국인": "윤곽선 색상",
+  "中文": "描边颜色",
+  "العربية": "لون الحد الخارجي",
+  "Tiếng Việt": "Màu viền"
+ },
+ "Override sizing": {
+  "日本語": "サイズを上書き",
+  "Español": "Anular el tamaño",
+  "Deutsch": "Größe überschreiben",
+  "Français": "Forcer le dimensionnement",
+  "한국인": "크기 재정의",
+  "中文": "覆盖尺寸",
+  "العربية": "تجاوز الحجم",
+  "Tiếng Việt": "Ghi đè kích thước"
+ },
+ "These are kept but not sent to Resolve until their Text+ inputs are confirmed.": {
+  "日本語": "これらは保持されますが、Text+ の入力項目が確認されるまで Resolve には送られません。",
+  "Español": "Se conservan, pero no se envían a Resolve hasta que se confirmen sus entradas de Text+.",
+  "Deutsch": "Diese werden gespeichert, aber erst an Resolve gesendet, wenn ihre Text+-Eingänge bestätigt sind.",
+  "Français": "Ces réglages sont conservés mais non envoyés à Resolve tant que leurs entrées Text+ ne sont pas confirmées.",
+  "한국인": "이 값은 보관되지만 Text+ 입력이 확인될 때까지 Resolve로 보내지 않습니다.",
+  "中文": "这些设置会保留，但在确认其 Text+ 输入之前不会发送到 Resolve。",
+  "العربية": "يتم الاحتفاظ بها لكن لا تُرسل إلى Resolve حتى يتم تأكيد مدخلات Text+ الخاصة بها.",
+  "Tiếng Việt": "Các giá trị này được giữ lại nhưng chưa gửi tới Resolve cho đến khi các đầu vào Text+ được xác nhận."
+ },
+ "Approximate – Resolve draws the real thing.": {
+  "日本語": "おおよその表示です – 実際の描画は Resolve が行います。",
+  "Español": "Aproximado: Resolve dibuja el resultado real.",
+  "Deutsch": "Ungefähr – Resolve zeichnet das echte Ergebnis.",
+  "Français": "Approximatif – Resolve dessine le vrai rendu.",
+  "한국인": "대략적인 모습입니다 – 실제 모습은 Resolve가 그립니다.",
+  "中文": "仅为近似效果——实际效果由 Resolve 绘制。",
+  "العربية": "تقريبي – يرسم Resolve الشكل الحقيقي.",
+  "Tiếng Việt": "Chỉ gần đúng – Resolve mới vẽ kết quả thật."
+ },
+ "Sample Text": {
+  "日本語": "サンプルテキスト",
+  "Español": "Texto de ejemplo",
+  "Deutsch": "Beispieltext",
+  "Français": "Exemple de texte",
+  "한국인": "샘플 텍스트",
+  "中文": "示例文本",
+  "العربية": "نص نموذجي",
+  "Tiếng Việt": "Văn bản mẫu"
+ },
+ "Apply to": {
+  "日本語": "適用先",
+  "Español": "Aplicar a",
+  "Deutsch": "Anwenden auf",
+  "Français": "Appliquer à",
+  "한국인": "적용 대상",
+  "中文": "应用于",
+  "العربية": "تطبيق على",
+  "Tiếng Việt": "Áp dụng cho"
+ },
+ "Entire timeline": {
+  "日本語": "タイムライン全体",
+  "Español": "Toda la línea de tiempo",
+  "Deutsch": "Gesamte Timeline",
+  "Français": "Toute la timeline",
+  "한국인": "타임라인 전체",
+  "中文": "整个时间线",
+  "العربية": "الخط الزمني بأكمله",
+  "Tiếng Việt": "Toàn bộ timeline"
+ },
+ "Under the playhead": {
+  "日本語": "再生ヘッドの位置",
+  "Español": "Bajo el cabezal",
+  "Deutsch": "Unter dem Abspielkopf",
+  "Français": "Sous la tête de lecture",
+  "한국인": "재생 헤드 아래",
+  "中文": "播放头下方",
+  "العربية": "أسفل رأس التشغيل",
+  "Tiếng Việt": "Dưới đầu phát"
+ },
+ "One track": {
+  "日本語": "1 つのトラック",
+  "Español": "Una pista",
+  "Deutsch": "Eine Spur",
+  "Français": "Une piste",
+  "한국인": "트랙 하나",
+  "中文": "单条轨道",
+  "العربية": "مسار واحد",
+  "Tiếng Việt": "Một track"
+ },
+ "Video track": {
+  "日本語": "ビデオトラック",
+  "Español": "Pista de vídeo",
+  "Deutsch": "Videospur",
+  "Français": "Piste vidéo",
+  "한국인": "비디오 트랙",
+  "中文": "视频轨道",
+  "العربية": "مسار الفيديو",
+  "Tiếng Việt": "Track video"
+ },
+ "Apply font style": {
+  "日本語": "フォントスタイルを適用",
+  "Español": "Aplicar estilo de fuente",
+  "Deutsch": "Schriftstil anwenden",
+  "Français": "Appliquer le style de police",
+  "한국인": "글꼴 스타일 적용",
+  "中文": "应用字体样式",
+  "العربية": "تطبيق نمط الخط",
+  "Tiếng Việt": "Áp dụng kiểu chữ"
+ },
+ "Outline, shadow and background that are unticked are turned off on the clips.": {
+  "日本語": "チェックを外したアウトライン、シャドウ、背景はクリップ上でオフになります。",
+  "Español": "El contorno, la sombra y el fondo que estén desmarcados se desactivan en los clips.",
+  "Deutsch": "Nicht angekreuzte Kontur, Schatten und Hintergrund werden auf den Clips ausgeschaltet.",
+  "Français": "Le contour, l'ombre et l'arrière-plan décochés sont désactivés sur les clips.",
+  "한국인": "선택하지 않은 윤곽선, 그림자, 배경은 클립에서 꺼집니다.",
+  "中文": "未勾选的描边、阴影和背景会在片段上关闭。",
+  "العربية": "يتم إيقاف الحد الخارجي والظل والخلفية غير المحددة في المقاطع.",
+  "Tiếng Việt": "Viền, bóng và nền không được chọn sẽ bị tắt trên các clip."
+ },
+ "Live placement": {
+  "日本語": "ライブ配置",
+  "Español": "Colocación en directo",
+  "Deutsch": "Live-Platzierung",
+  "Français": "Placement en direct",
+  "한국인": "실시간 배치",
+  "中文": "实时放置",
+  "العربية": "الوضع المباشر",
+  "Tiếng Việt": "Đặt vị trí trực tiếp"
+ },
+ "Drag to move, drag a corner to resize, arrow keys to nudge. Changes go to Resolve when you let go.": {
+  "日本語": "ドラッグで移動、角をドラッグでサイズ変更、矢印キーで微調整。指を離すと変更が Resolve に送られます。",
+  "Español": "Arrastra para mover, arrastra una esquina para cambiar el tamaño, usa las flechas para ajustar. Los cambios van a Resolve al soltar.",
+  "Deutsch": "Ziehen zum Verschieben, an einer Ecke ziehen zum Skalieren, Pfeiltasten zum Feinjustieren. Änderungen gehen beim Loslassen an Resolve.",
+  "Français": "Faites glisser pour déplacer, un coin pour redimensionner, les flèches pour ajuster. Les modifications partent vers Resolve quand vous relâchez.",
+  "한국인": "드래그하여 이동, 모서리를 드래그하여 크기 조정, 화살표 키로 미세 조정. 놓으면 변경 사항이 Resolve로 전송됩니다.",
+  "中文": "拖动以移动，拖动角以调整大小，方向键微调。松开后更改会发送到 Resolve。",
+  "العربية": "اسحب للنقل، واسحب زاوية لتغيير الحجم، ومفاتيح الأسهم للتحريك الدقيق. تذهب التغييرات إلى Resolve عند الإفلات.",
+  "Tiếng Việt": "Kéo để di chuyển, kéo góc để đổi kích thước, phím mũi tên để nhích. Thay đổi được gửi tới Resolve khi bạn thả chuột."
+ },
+ "Undo (Ctrl+Z)": {
+  "日本語": "元に戻す (Ctrl+Z)",
+  "Español": "Deshacer (Ctrl+Z)",
+  "Deutsch": "Rückgängig (Strg+Z)",
+  "Français": "Annuler (Ctrl+Z)",
+  "한국인": "실행 취소(Ctrl+Z)",
+  "中文": "撤销 (Ctrl+Z)",
+  "العربية": "تراجع (Ctrl+Z)",
+  "Tiếng Việt": "Hoàn tác (Ctrl+Z)"
+ },
+ "Redo (Ctrl+Shift+Z)": {
+  "日本語": "やり直し (Ctrl+Shift+Z)",
+  "Español": "Rehacer (Ctrl+Mayús+Z)",
+  "Deutsch": "Wiederholen (Strg+Umschalt+Z)",
+  "Français": "Rétablir (Ctrl+Maj+Z)",
+  "한국인": "다시 실행(Ctrl+Shift+Z)",
+  "中文": "重做 (Ctrl+Shift+Z)",
+  "العربية": "إعادة (Ctrl+Shift+Z)",
+  "Tiếng Việt": "Làm lại (Ctrl+Shift+Z)"
+ },
+ "Undo (Ctrl+Z) - 1 step": {
+  "日本語": "元に戻す (Ctrl+Z) - 1 ステップ",
+  "Español": "Deshacer (Ctrl+Z): 1 paso",
+  "Deutsch": "Rückgängig (Strg+Z) – 1 Schritt",
+  "Français": "Annuler (Ctrl+Z) - 1 étape",
+  "한국인": "실행 취소(Ctrl+Z) - 1단계",
+  "中文": "撤销 (Ctrl+Z) - 1 步",
+  "العربية": "تراجع (Ctrl+Z) - خطوة واحدة",
+  "Tiếng Việt": "Hoàn tác (Ctrl+Z) - 1 bước"
+ },
+ "Undo (Ctrl+Z) - {count} steps": {
+  "日本語": "元に戻す (Ctrl+Z) - {count} ステップ",
+  "Español": "Deshacer (Ctrl+Z): {count} pasos",
+  "Deutsch": "Rückgängig (Strg+Z) – {count} Schritte",
+  "Français": "Annuler (Ctrl+Z) - {count} étapes",
+  "한국인": "실행 취소(Ctrl+Z) - {count}단계",
+  "中文": "撤销 (Ctrl+Z) - {count} 步",
+  "العربية": "تراجع (Ctrl+Z) - {count} خطوات",
+  "Tiếng Việt": "Hoàn tác (Ctrl+Z) - {count} bước"
+ },
+ "Nothing to undo": {
+  "日本語": "元に戻す操作はありません",
+  "Español": "No hay nada que deshacer",
+  "Deutsch": "Nichts rückgängig zu machen",
+  "Français": "Rien à annuler",
+  "한국인": "실행 취소할 항목 없음",
+  "中文": "没有可撤销的操作",
+  "العربية": "لا يوجد ما يُتراجع عنه",
+  "Tiếng Việt": "Không có gì để hoàn tác"
+ },
+ "Nothing to redo": {
+  "日本語": "やり直す操作はありません",
+  "Español": "No hay nada que rehacer",
+  "Deutsch": "Nichts zu wiederholen",
+  "Français": "Rien à rétablir",
+  "한국인": "다시 실행할 항목 없음",
+  "中文": "没有可重做的操作",
+  "العربية": "لا يوجد ما يُعاد",
+  "Tiếng Việt": "Không có gì để làm lại"
+ },
+ "Guides & snapping": {
+  "日本語": "ガイドとスナップ",
+  "Español": "Guías y ajuste",
+  "Deutsch": "Hilfslinien & Einrasten",
+  "Français": "Repères et magnétisme",
+  "한국인": "가이드 및 스냅",
+  "中文": "参考线与吸附",
+  "العربية": "الأدلة والمحاذاة",
+  "Tiếng Việt": "Đường dẫn & bắt dính"
+ },
+ "Apply position": {
+  "日本語": "位置を適用",
+  "Español": "Aplicar posición",
+  "Deutsch": "Position anwenden",
+  "Français": "Appliquer la position",
+  "한국인": "위치 적용",
+  "中文": "应用位置",
+  "العربية": "تطبيق الموضع",
+  "Tiếng Việt": "Áp dụng vị trí"
+ },
+ "Copies the position of each clip under the playhead onto every other Text+ clip on its video track, across the whole timeline. A track with nothing under the playhead is left alone.": {
+  "日本語": "再生ヘッド下の各クリップの位置を、タイムライン全体でそのビデオトラック上の他のすべての Text+ クリップにコピーします。再生ヘッドの下に何もないトラックはそのままです。",
+  "Español": "Copia la posición de cada clip bajo el cabezal a todos los demás clips Text+ de su pista de vídeo, en toda la línea de tiempo. Una pista sin nada bajo el cabezal no se toca.",
+  "Deutsch": "Kopiert die Position jedes Clips unter dem Abspielkopf auf alle anderen Text+-Clips derselben Videospur, über die gesamte Timeline. Eine Spur ohne Clip unter dem Abspielkopf bleibt unverändert.",
+  "Français": "Copie la position de chaque clip sous la tête de lecture sur tous les autres clips Text+ de sa piste vidéo, sur toute la timeline. Une piste sans rien sous la tête de lecture n'est pas modifiée.",
+  "한국인": "재생 헤드 아래 각 클립의 위치를 타임라인 전체에서 같은 비디오 트랙의 다른 모든 Text+ 클립에 복사합니다. 재생 헤드 아래에 아무것도 없는 트랙은 그대로 둡니다.",
+  "中文": "将播放头下每个片段的位置复制到整个时间线上同一视频轨道的其他所有 Text+ 片段。播放头下方没有内容的轨道保持不变。",
+  "العربية": "ينسخ موضع كل مقطع أسفل رأس التشغيل إلى كل مقاطع Text+ الأخرى على مسار الفيديو نفسه، عبر الخط الزمني بأكمله. يُترك المسار الذي لا شيء أسفل رأس التشغيل فيه كما هو.",
+  "Tiếng Việt": "Sao chép vị trí của từng clip dưới đầu phát sang mọi clip Text+ khác trên cùng track video, trên toàn bộ timeline. Track không có gì dưới đầu phát sẽ được giữ nguyên."
+ },
+ "Apply position to entire timeline": {
+  "日本語": "位置をタイムライン全体に適用",
+  "Español": "Aplicar la posición a toda la línea de tiempo",
+  "Deutsch": "Position auf gesamte Timeline anwenden",
+  "Français": "Appliquer la position à toute la timeline",
+  "한국인": "위치를 타임라인 전체에 적용",
+  "中文": "将位置应用到整个时间线",
+  "العربية": "تطبيق الموضع على الخط الزمني بأكمله",
+  "Tiếng Việt": "Áp dụng vị trí cho toàn bộ timeline"
+ },
+ "Bounding": {
+  "日本語": "範囲指定",
+  "Español": "Delimitación",
+  "Deutsch": "Begrenzung",
+  "Français": "Délimitation",
+  "한국인": "경계",
+  "中文": "边界",
+  "العربية": "التحديد",
+  "Tiếng Việt": "Giới hạn"
+ },
+ "Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying resizes every clip's text to fill the space between them and centres it there. Turning them on also stacks clips under the playhead together vertically.": {
+  "日本語": "プレビュー内でドラッグする 2 本の線です (例: セーフゾーンの端に合わせる)。適用すると、各クリップのテキストが線の間を埋める大きさに変わり、その中央に配置されます。オンにすると、再生ヘッド下のクリップも縦にまとめて並びます。",
+  "Español": "Dos líneas que arrastrar en la vista previa (p. ej., a los bordes de una zona segura). Al aplicar, el texto de cada clip se redimensiona para llenar el espacio entre ellas y se centra ahí. Activarlas también apila verticalmente los clips bajo el cabezal.",
+  "Deutsch": "Zwei Linien, die Sie in der Vorschau ziehen (z. B. an die Ränder einer sicheren Zone). Beim Anwenden wird der Text jedes Clips so skaliert, dass er den Raum dazwischen füllt, und dort zentriert. Das Einschalten stapelt außerdem die Clips unter dem Abspielkopf vertikal.",
+  "Français": "Deux lignes à faire glisser dans l'aperçu (par ex. sur les bords d'une zone de sécurité). Appliquer redimensionne le texte de chaque clip pour remplir l'espace entre elles et l'y centre. Les activer empile aussi verticalement les clips sous la tête de lecture.",
+  "한국인": "미리 보기에서 드래그하는 두 개의 선입니다(예: 안전 영역의 가장자리에 맞춤). 적용하면 각 클립의 텍스트가 두 선 사이를 채우도록 크기가 바뀌고 그 가운데에 놓입니다. 켜면 재생 헤드 아래의 클립도 세로로 함께 쌓입니다.",
+  "中文": "在预览中拖动的两条线（例如拖到安全区边缘）。应用后，每个片段的文字会调整大小以填满两线之间的空间并居中。开启后还会将播放头下的片段垂直堆叠在一起。",
+  "العربية": "خطان تسحبهما في المعاينة (مثلًا إلى حواف منطقة آمنة). يؤدي التطبيق إلى تغيير حجم نص كل مقطع ليملأ المسافة بينهما ويوسّطه هناك. وتشغيلهما يرصّ أيضًا المقاطع أسفل رأس التشغيل عموديًا معًا.",
+  "Tiếng Việt": "Hai đường để kéo trong bản xem trước (vd: vào các cạnh của vùng an toàn). Áp dụng sẽ đổi kích thước chữ của mỗi clip để lấp đầy khoảng giữa hai đường và căn giữa ở đó. Bật chúng cũng xếp chồng các clip dưới đầu phát theo chiều dọc."
+ },
+ "Show bounding lines": {
+  "日本語": "範囲線を表示",
+  "Español": "Mostrar líneas de delimitación",
+  "Deutsch": "Begrenzungslinien anzeigen",
+  "Français": "Afficher les lignes de délimitation",
+  "한국인": "경계선 표시",
+  "中文": "显示边界线",
+  "العربية": "إظهار خطوط التحديد",
+  "Tiếng Việt": "Hiện đường giới hạn"
+ },
+ "Apply bounding to entire timeline": {
+  "日本語": "範囲指定をタイムライン全体に適用",
+  "Español": "Aplicar la delimitación a toda la línea de tiempo",
+  "Deutsch": "Begrenzung auf gesamte Timeline anwenden",
+  "Français": "Appliquer la délimitation à toute la timeline",
+  "한국인": "경계를 타임라인 전체에 적용",
+  "中文": "将边界应用到整个时间线",
+  "العربية": "تطبيق التحديد على الخط الزمني بأكمله",
+  "Tiếng Việt": "Áp dụng giới hạn cho toàn bộ timeline"
+ },
+ "Word preview": {
+  "日本語": "単語のプレビュー",
+  "Español": "Vista previa de palabras",
+  "Deutsch": "Wortvorschau",
+  "Français": "Aperçu des mots",
+  "한국인": "단어 미리 보기",
+  "中文": "单词预览",
+  "العربية": "معاينة الكلمات",
+  "Tiếng Việt": "Xem trước từ"
+ },
+ "For subtitles split one word per Text+ clip. Drag across empty space to select several words; Shift-click adds one.": {
+  "日本語": "1 単語ごとに Text+ クリップに分けた字幕用です。空いている場所をドラッグすると複数の単語を選択でき、Shift キーを押しながらクリックすると 1 つ追加されます。",
+  "Español": "Para subtítulos divididos en una palabra por clip Text+. Arrastra por un espacio vacío para seleccionar varias palabras; Mayús+clic añade una.",
+  "Deutsch": "Für Untertitel mit einem Wort pro Text+-Clip. Ziehen Sie über eine leere Fläche, um mehrere Wörter auszuwählen; Umschalt-Klick fügt eines hinzu.",
+  "Français": "Pour les sous-titres découpés en un mot par clip Text+. Faites glisser sur un espace vide pour sélectionner plusieurs mots ; Maj-clic en ajoute un.",
+  "한국인": "한 단어씩 Text+ 클립으로 나눈 자막용입니다. 빈 공간을 드래그하면 여러 단어를 선택하고, Shift를 누른 채 클릭하면 하나를 추가합니다.",
+  "中文": "适用于按一个词一个 Text+ 片段拆分的字幕。在空白处拖动可选择多个词；按住 Shift 点击可添加一个。",
+  "العربية": "للترجمات المقسمة كلمةً لكل مقطع Text+. اسحب عبر مساحة فارغة لتحديد عدة كلمات؛ والنقر مع Shift يضيف كلمة.",
+  "Tiếng Việt": "Dành cho phụ đề tách mỗi từ một clip Text+. Kéo qua vùng trống để chọn nhiều từ; Shift-bấm để thêm một từ."
+ },
+ "Layout presets": {
+  "日本語": "レイアウトのプリセット",
+  "Español": "Disposiciones predefinidas",
+  "Deutsch": "Layout-Vorlagen",
+  "Français": "Dispositions prédéfinies",
+  "한국인": "레이아웃 프리셋",
+  "中文": "布局预设",
+  "العربية": "التخطيطات الجاهزة",
+  "Tiếng Việt": "Bố cục có sẵn"
+ },
+ "Apply layout": {
+  "日本語": "レイアウトを適用",
+  "Español": "Aplicar disposición",
+  "Deutsch": "Layout anwenden",
+  "Français": "Appliquer la disposition",
+  "한국인": "레이아웃 적용",
+  "中文": "应用布局",
+  "العربية": "تطبيق التخطيط",
+  "Tiếng Việt": "Áp dụng bố cục"
+ },
+ "Animation": {
+  "日本語": "アニメーション",
+  "Español": "Animación",
+  "Deutsch": "Animation",
+  "Français": "Animation",
+  "한국인": "애니메이션",
+  "中文": "动画",
+  "العربية": "الحركة",
+  "Tiếng Việt": "Hoạt ảnh"
+ },
+ "Slide from": {
+  "日本語": "スライド方向",
+  "Español": "Deslizar desde",
+  "Deutsch": "Einschieben von",
+  "Français": "Glisser depuis",
+  "한국인": "슬라이드 방향",
+  "中文": "滑入方向",
+  "العربية": "الانزلاق من",
+  "Tiếng Việt": "Trượt từ"
+ },
+ "Speed": {
+  "日本語": "速度",
+  "Español": "Velocidad",
+  "Deutsch": "Geschwindigkeit",
+  "Français": "Vitesse",
+  "한국인": "속도",
+  "中文": "速度",
+  "العربية": "السرعة",
+  "Tiếng Việt": "Tốc độ"
+ },
+ "Apply": {
+  "日本語": "適用",
+  "Español": "Aplicar",
+  "Deutsch": "Anwenden",
+  "Français": "Appliquer",
+  "한국인": "적용",
+  "中文": "应用",
+  "العربية": "تطبيق",
+  "Tiếng Việt": "Áp dụng"
+ },
+ "Every Text+ on the timeline": {
+  "日本語": "タイムライン上のすべての Text+",
+  "Español": "Todos los Text+ de la línea de tiempo",
+  "Deutsch": "Jeder Text+ auf der Timeline",
+  "Français": "Tous les Text+ de la timeline",
+  "한국인": "타임라인의 모든 Text+",
+  "中文": "时间线上的所有 Text+",
+  "العربية": "كل Text+ على الخط الزمني",
+  "Tiếng Việt": "Mọi Text+ trên timeline"
+ },
+ "Tracks under the playhead": {
+  "日本語": "再生ヘッド下のトラック",
+  "Español": "Pistas bajo el cabezal",
+  "Deutsch": "Spuren unter dem Abspielkopf",
+  "Français": "Pistes sous la tête de lecture",
+  "한국인": "재생 헤드 아래 트랙",
+  "中文": "播放头下方的轨道",
+  "العربية": "المسارات أسفل رأس التشغيل",
+  "Tiếng Việt": "Các track dưới đầu phát"
+ },
+ "Remove animations…": {
+  "日本語": "アニメーションを削除…",
+  "Español": "Quitar animaciones…",
+  "Deutsch": "Animationen entfernen…",
+  "Français": "Supprimer les animations…",
+  "한국인": "애니메이션 제거…",
+  "中文": "移除动画…",
+  "العربية": "إزالة الحركات…",
+  "Tiếng Việt": "Xóa hoạt ảnh…"
+ },
+ "To help debug an animation: click the clip on the timeline, switch Resolve to the Fusion page, select the TextPlus node (or a modifier) in the Flow view, then dump it. Its full settings are saved to your Desktop as a JSON file you can share.": {
+  "日本語": "アニメーションのデバッグに役立てるには: タイムライン上のクリップをクリックし、Resolve を Fusion ページに切り替え、フロービューで TextPlus ノード (またはモディファイア) を選択してから書き出します。すべての設定が、共有できる JSON ファイルとしてデスクトップに保存されます。",
+  "Español": "Para ayudar a depurar una animación: haz clic en el clip de la línea de tiempo, cambia Resolve a la página Fusion, selecciona el nodo TextPlus (o un modificador) en la vista Flow y vuélcalo. Toda su configuración se guarda en tu escritorio como un archivo JSON que puedes compartir.",
+  "Deutsch": "Zur Fehlersuche bei einer Animation: Klicken Sie auf den Clip in der Timeline, wechseln Sie in Resolve auf die Fusion-Seite, wählen Sie den TextPlus-Knoten (oder einen Modifikator) in der Flow-Ansicht und speichern Sie ihn. Alle Einstellungen werden als JSON-Datei auf Ihrem Desktop gespeichert, die Sie teilen können.",
+  "Français": "Pour aider à déboguer une animation : cliquez sur le clip dans la timeline, passez Resolve sur la page Fusion, sélectionnez le nœud TextPlus (ou un modificateur) dans la vue Flow, puis exportez-le. Tous ses paramètres sont enregistrés sur votre Bureau dans un fichier JSON à partager.",
+  "한국인": "애니메이션 디버그를 돕기 위해: 타임라인에서 클립을 클릭하고 Resolve를 Fusion 페이지로 전환한 뒤 플로 뷰에서 TextPlus 노드(또는 모디파이어)를 선택하고 덤프하세요. 전체 설정이 공유할 수 있는 JSON 파일로 바탕 화면에 저장됩니다.",
+  "中文": "协助调试动画：在时间线上点击该片段，将 Resolve 切换到 Fusion 页面，在节点视图中选择 TextPlus 节点（或修改器），然后导出。其完整设置会以可分享的 JSON 文件保存到桌面。",
+  "العربية": "للمساعدة في تصحيح حركة: انقر على المقطع في الخط الزمني، وبدّل Resolve إلى صفحة Fusion، وحدد عقدة TextPlus (أو مُعدِّلًا) في عرض Flow، ثم فرّغها. تُحفظ كل إعداداتها على سطح المكتب كملف JSON يمكنك مشاركته.",
+  "Tiếng Việt": "Để hỗ trợ gỡ lỗi hoạt ảnh: bấm vào clip trên timeline, chuyển Resolve sang trang Fusion, chọn node TextPlus (hoặc modifier) trong Flow view, rồi xuất nó. Toàn bộ cài đặt được lưu vào Desktop thành tệp JSON để bạn chia sẻ."
+ },
+ "Dump selected node settings": {
+  "日本語": "選択したノードの設定を書き出す",
+  "Español": "Volcar la configuración del nodo seleccionado",
+  "Deutsch": "Einstellungen des ausgewählten Knotens speichern",
+  "Français": "Exporter les paramètres du nœud sélectionné",
+  "한국인": "선택한 노드 설정 덤프",
+  "中文": "导出所选节点的设置",
+  "العربية": "تفريغ إعدادات العقدة المحددة",
+  "Tiếng Việt": "Xuất cài đặt node đã chọn"
+ },
+ "Double-click to reset to {value}": {
+  "日本語": "ダブルクリックで {value} にリセット",
+  "Español": "Doble clic para restablecer a {value}",
+  "Deutsch": "Doppelklicken zum Zurücksetzen auf {value}",
+  "Français": "Double-cliquez pour revenir à {value}",
+  "한국인": "두 번 클릭하면 {value}(으)로 재설정",
+  "中文": "双击重置为 {value}",
+  "العربية": "انقر نقرًا مزدوجًا لإعادة التعيين إلى {value}",
+  "Tiếng Việt": "Bấm đúp để đặt lại về {value}"
+ },
+ "Thickness": {
+  "日本語": "太さ",
+  "Español": "Grosor",
+  "Deutsch": "Stärke",
+  "Français": "Épaisseur",
+  "한국인": "두께",
+  "中文": "粗细",
+  "العربية": "السُمك",
+  "Tiếng Việt": "Độ dày"
+ },
+ "Opacity": {
+  "日本語": "不透明度",
+  "Español": "Opacidad",
+  "Deutsch": "Deckkraft",
+  "Français": "Opacité",
+  "한국인": "불투명도",
+  "中文": "不透明度",
+  "العربية": "العتامة",
+  "Tiếng Việt": "Độ mờ đục"
+ },
+ "Offset X": {
+  "日本語": "オフセット X",
+  "Español": "Desplazamiento X",
+  "Deutsch": "Versatz X",
+  "Français": "Décalage X",
+  "한국인": "오프셋 X",
+  "中文": "偏移 X",
+  "العربية": "الإزاحة X",
+  "Tiếng Việt": "Độ lệch X"
+ },
+ "Offset Y": {
+  "日本語": "オフセット Y",
+  "Español": "Desplazamiento Y",
+  "Deutsch": "Versatz Y",
+  "Français": "Décalage Y",
+  "한국인": "오프셋 Y",
+  "中文": "偏移 Y",
+  "العربية": "الإزاحة Y",
+  "Tiếng Việt": "Độ lệch Y"
+ },
+ "Blur": {
+  "日本語": "ぼかし",
+  "Español": "Desenfoque",
+  "Deutsch": "Weichzeichnung",
+  "Français": "Flou",
+  "한국인": "흐림",
+  "中文": "模糊",
+  "العربية": "التمويه",
+  "Tiếng Việt": "Làm mờ"
+ },
+ "Outline width": {
+  "日本語": "アウトラインの幅",
+  "Español": "Ancho del contorno",
+  "Deutsch": "Konturbreite",
+  "Français": "Largeur du contour",
+  "한국인": "윤곽선 너비",
+  "中文": "描边宽度",
+  "العربية": "عرض الحد الخارجي",
+  "Tiếng Việt": "Độ rộng viền"
+ },
+ "Corner radius": {
+  "日本語": "角の丸み",
+  "Español": "Radio de esquina",
+  "Deutsch": "Eckenradius",
+  "Français": "Rayon des coins",
+  "한국인": "모서리 반경",
+  "中文": "圆角半径",
+  "العربية": "نصف قطر الزاوية",
+  "Tiếng Việt": "Bán kính góc"
+ },
+ "Extend H": {
+  "日本語": "横に拡張",
+  "Español": "Extender H",
+  "Deutsch": "Erweitern H",
+  "Français": "Étendre H",
+  "한국인": "가로 확장",
+  "中文": "水平扩展",
+  "العربية": "التمديد الأفقي",
+  "Tiếng Việt": "Mở rộng ngang"
+ },
+ "Extend V": {
+  "日本語": "縦に拡張",
+  "Español": "Extender V",
+  "Deutsch": "Erweitern V",
+  "Français": "Étendre V",
+  "한국인": "세로 확장",
+  "中文": "垂直扩展",
+  "العربية": "التمديد الرأسي",
+  "Tiếng Việt": "Mở rộng dọc"
+ },
+ "Left": {
+  "日本語": "左",
+  "Español": "Izquierda",
+  "Deutsch": "Links",
+  "Français": "Gauche",
+  "한국인": "왼쪽",
+  "中文": "左侧",
+  "العربية": "اليسار",
+  "Tiếng Việt": "Trái"
+ },
+ "Right": {
+  "日本語": "右",
+  "Español": "Derecha",
+  "Deutsch": "Rechts",
+  "Français": "Droite",
+  "한국인": "오른쪽",
+  "中文": "右侧",
+  "العربية": "اليمين",
+  "Tiếng Việt": "Phải"
+ },
+ "Top": {
+  "日本語": "上",
+  "Español": "Arriba",
+  "Deutsch": "Oben",
+  "Français": "Haut",
+  "한국인": "위",
+  "中文": "顶部",
+  "العربية": "الأعلى",
+  "Tiếng Việt": "Trên"
+ },
+ "Bottom": {
+  "日本語": "下",
+  "Español": "Abajo",
+  "Deutsch": "Unten",
+  "Français": "Bas",
+  "한국인": "아래",
+  "中文": "底部",
+  "العربية": "الأسفل",
+  "Tiếng Việt": "Dưới"
+ },
+ "Fast": {
+  "日本語": "速い",
+  "Español": "Rápida",
+  "Deutsch": "Schnell",
+  "Français": "Rapide",
+  "한국인": "빠르게",
+  "中文": "快",
+  "العربية": "سريع",
+  "Tiếng Việt": "Nhanh"
+ },
+ "Medium": {
+  "日本語": "普通",
+  "Español": "Media",
+  "Deutsch": "Mittel",
+  "Français": "Moyenne",
+  "한국인": "보통",
+  "中文": "中",
+  "العربية": "متوسط",
+  "Tiếng Việt": "Vừa"
+ },
+ "Slow": {
+  "日本語": "遅い",
+  "Español": "Lenta",
+  "Deutsch": "Langsam",
+  "Français": "Lente",
+  "한국인": "느리게",
+  "中文": "慢",
+  "العربية": "بطيء",
+  "Tiếng Việt": "Chậm"
+ },
+ "Pop": {
+  "日本語": "ポップ",
+  "Español": "Pop",
+  "Deutsch": "Pop",
+  "Français": "Pop",
+  "한국인": "팝",
+  "中文": "弹出",
+  "العربية": "انبثاق",
+  "Tiếng Việt": "Bật"
+ },
+ "Scales up from nothing with a little overshoot.": {
+  "日本語": "何もない状態から少し行き過ぎながら拡大します。",
+  "Español": "Crece desde cero con un pequeño rebote.",
+  "Deutsch": "Wächst aus dem Nichts mit leichtem Überschwingen.",
+  "Français": "Grandit à partir de rien avec un léger dépassement.",
+  "한국인": "아무것도 없는 상태에서 살짝 넘치며 커집니다.",
+  "中文": "从无到有放大，略带回弹。",
+  "العربية": "يكبر من العدم مع تجاوز طفيف.",
+  "Tiếng Việt": "Phóng to từ con số không, hơi vượt quá một chút."
+ },
+ "Bounce": {
+  "日本語": "バウンス",
+  "Español": "Rebote",
+  "Deutsch": "Hüpfen",
+  "Français": "Rebond",
+  "한국인": "바운스",
+  "中文": "弹跳",
+  "العربية": "ارتداد",
+  "Tiếng Việt": "Nảy"
+ },
+ "Like Pop, with an extra rebound.": {
+  "日本語": "ポップにもう 1 回跳ね返りを加えたものです。",
+  "Español": "Como Pop, con un rebote extra.",
+  "Deutsch": "Wie Pop, mit einem zusätzlichen Abprallen.",
+  "Français": "Comme Pop, avec un rebond supplémentaire.",
+  "한국인": "팝과 같지만 한 번 더 튕깁니다.",
+  "中文": "类似弹出，额外多一次回弹。",
+  "العربية": "مثل الانبثاق، مع ارتداد إضافي.",
+  "Tiếng Việt": "Giống Bật, thêm một lần nảy lại."
+ },
+ "Fade": {
+  "日本語": "フェード",
+  "Español": "Fundido",
+  "Deutsch": "Einblenden",
+  "Français": "Fondu",
+  "한국인": "페이드",
+  "中文": "淡入淡出",
+  "العربية": "تلاشٍ",
+  "Tiếng Việt": "Mờ dần"
+ },
+ "Fades in and out.": {
+  "日本語": "フェードイン・フェードアウトします。",
+  "Español": "Aparece y desaparece con fundido.",
+  "Deutsch": "Blendet ein und aus.",
+  "Français": "Apparaît et disparaît en fondu.",
+  "한국인": "서서히 나타났다 사라집니다.",
+  "中文": "淡入并淡出。",
+  "العربية": "يظهر ويختفي تدريجيًا.",
+  "Tiếng Việt": "Hiện dần và mờ dần."
+ },
+ "Slide": {
+  "日本語": "スライド",
+  "Español": "Deslizar",
+  "Deutsch": "Schieben",
+  "Français": "Glissement",
+  "한국인": "슬라이드",
+  "中文": "滑动",
+  "العربية": "انزلاق",
+  "Tiếng Việt": "Trượt"
+ },
+ "Slides in from a side while fading.": {
+  "日本語": "フェードしながら横からスライドインします。",
+  "Español": "Entra deslizándose desde un lado mientras aparece.",
+  "Deutsch": "Schiebt sich beim Einblenden von einer Seite herein.",
+  "Français": "Glisse depuis un côté en apparaissant en fondu.",
+  "한국인": "페이드되면서 한쪽에서 밀려 들어옵니다.",
+  "中文": "从一侧滑入并同时淡入。",
+  "العربية": "ينزلق من جانب أثناء التلاشي.",
+  "Tiếng Việt": "Trượt vào từ một bên trong khi hiện dần."
+ },
+ "Hero + Stack": {
+  "日本語": "ヒーロー + スタック",
+  "Español": "Principal + pila",
+  "Deutsch": "Hero + Stapel",
+  "Français": "Héros + pile",
+  "한국인": "히어로 + 스택",
+  "中文": "主角 + 堆叠",
+  "العربية": "بطل + تكديس",
+  "Tiếng Việt": "Nổi bật + Xếp chồng"
+ },
+ "One big word, the rest above and below it.": {
+  "日本語": "大きな単語を 1 つ置き、残りをその上下に配置します。",
+  "Español": "Una palabra grande y el resto encima y debajo.",
+  "Deutsch": "Ein großes Wort, die übrigen darüber und darunter.",
+  "Français": "Un grand mot, les autres au-dessus et en dessous.",
+  "한국인": "큰 단어 하나, 나머지는 그 위아래에.",
+  "中文": "一个大词，其余在其上下。",
+  "العربية": "كلمة كبيرة واحدة، والبقية فوقها وتحتها.",
+  "Tiếng Việt": "Một từ lớn, các từ còn lại ở trên và dưới."
+ },
+ "Click a word in the preview to make it the hero – otherwise it's the middle word by timing.": {
+  "日本語": "プレビューで単語をクリックするとヒーローになります – そうでなければ、タイミングで中央の単語がヒーローになります。",
+  "Español": "Haz clic en una palabra de la vista previa para que sea la principal; si no, será la palabra central por tiempo.",
+  "Deutsch": "Klicken Sie in der Vorschau auf ein Wort, um es zum Hero zu machen – sonst ist es das zeitlich mittlere Wort.",
+  "Français": "Cliquez sur un mot dans l'aperçu pour en faire le héros – sinon c'est le mot du milieu selon le timing.",
+  "한국인": "미리 보기에서 단어를 클릭하면 히어로가 됩니다 – 그렇지 않으면 타이밍상 가운데 단어가 히어로가 됩니다.",
+  "中文": "在预览中点击某个词即可将其设为主角——否则按时间顺序取中间的词。",
+  "العربية": "انقر على كلمة في المعاينة لتجعلها البطل – وإلا فهي الكلمة الوسطى حسب التوقيت.",
+  "Tiếng Việt": "Bấm vào một từ trong bản xem trước để làm từ nổi bật – nếu không sẽ là từ ở giữa theo thời gian."
+ },
+ "Side-by-Side": {
+  "日本語": "横並び",
+  "Español": "Lado a lado",
+  "Deutsch": "Nebeneinander",
+  "Français": "Côte à côte",
+  "한국인": "나란히",
+  "中文": "并排",
+  "العربية": "جنبًا إلى جنب",
+  "Tiếng Việt": "Cạnh nhau"
+ },
+ "Every word in one row, evenly spaced.": {
+  "日本語": "すべての単語を 1 行に等間隔で並べます。",
+  "Español": "Todas las palabras en una fila, con el mismo espacio.",
+  "Deutsch": "Alle Wörter in einer Reihe, gleichmäßig verteilt.",
+  "Français": "Tous les mots sur une ligne, régulièrement espacés.",
+  "한국인": "모든 단어를 한 줄에 같은 간격으로.",
+  "中文": "所有词排成一行，间距均匀。",
+  "العربية": "كل الكلمات في صف واحد، بمسافات متساوية.",
+  "Tiếng Việt": "Mọi từ trên một hàng, cách đều nhau."
+ },
+ "Shrinks the row to fit the frame if it has to.": {
+  "日本語": "必要なら、フレームに収まるよう行を縮小します。",
+  "Español": "Encoge la fila para que quepa en el encuadre si hace falta.",
+  "Deutsch": "Verkleinert die Reihe bei Bedarf, damit sie ins Bild passt.",
+  "Français": "Réduit la ligne pour qu'elle tienne dans l'image si nécessaire.",
+  "한국인": "필요하면 프레임에 맞게 줄을 줄입니다.",
+  "中文": "必要时缩小该行以适应画面。",
+  "العربية": "يصغّر الصف ليناسب الإطار إذا لزم الأمر.",
+  "Tiếng Việt": "Thu nhỏ hàng cho vừa khung hình nếu cần."
+ },
+ "Grid": {
+  "日本語": "グリッド",
+  "Español": "Cuadrícula",
+  "Deutsch": "Raster",
+  "Français": "Grille",
+  "한국인": "그리드",
+  "中文": "网格",
+  "العربية": "شبكة",
+  "Tiếng Việt": "Lưới"
+ },
+ "The words in a tidy grid.": {
+  "日本語": "単語を整ったグリッドに並べます。",
+  "Español": "Las palabras en una cuadrícula ordenada.",
+  "Deutsch": "Die Wörter in einem ordentlichen Raster.",
+  "Français": "Les mots dans une grille bien rangée.",
+  "한국인": "단어를 깔끔한 그리드로.",
+  "中文": "将词语整齐排列成网格。",
+  "العربية": "الكلمات في شبكة مرتبة.",
+  "Tiếng Việt": "Các từ trong một lưới gọn gàng."
+ },
+ "Type": {
+  "日本語": "種類",
+  "Español": "Tipo",
+  "Deutsch": "Typ",
+  "Français": "Type",
+  "한국인": "유형",
+  "中文": "类型",
+  "العربية": "النوع",
+  "Tiếng Việt": "Loại"
+ },
+ "Spacing": {
+  "日本語": "間隔",
+  "Español": "Espaciado",
+  "Deutsch": "Abstand",
+  "Français": "Espacement",
+  "한국인": "간격",
+  "中文": "间距",
+  "العربية": "التباعد",
+  "Tiếng Việt": "Khoảng cách"
+ },
+ "Double-click for the standard spacing for this resolution": {
+  "日本語": "ダブルクリックでこの解像度の標準間隔に戻す",
+  "Español": "Doble clic para el espaciado estándar de esta resolución",
+  "Deutsch": "Doppelklicken für den Standardabstand dieser Auflösung",
+  "Français": "Double-cliquez pour l'espacement standard de cette résolution",
+  "한국인": "두 번 클릭하면 이 해상도의 표준 간격",
+  "中文": "双击恢复此分辨率的标准间距",
+  "العربية": "انقر نقرًا مزدوجًا للتباعد القياسي لهذه الدقة",
+  "Tiếng Việt": "Bấm đúp để dùng khoảng cách chuẩn cho độ phân giải này"
+ },
+ "Safe zone": {
+  "日本語": "セーフゾーン",
+  "Español": "Zona segura",
+  "Deutsch": "Sichere Zone",
+  "Français": "Zone de sécurité",
+  "한국인": "안전 영역",
+  "中文": "安全区",
+  "العربية": "المنطقة الآمنة",
+  "Tiếng Việt": "Vùng an toàn"
+ },
+ "Platform": {
+  "日本語": "プラットフォーム",
+  "Español": "Plataforma",
+  "Deutsch": "Plattform",
+  "Français": "Plateforme",
+  "한국인": "플랫폼",
+  "中文": "平台",
+  "العربية": "المنصة",
+  "Tiếng Việt": "Nền tảng"
+ },
+ "Snapping": {
+  "日本語": "スナップ",
+  "Español": "Ajuste",
+  "Deutsch": "Einrasten",
+  "Français": "Magnétisme",
+  "한국인": "스냅",
+  "中文": "吸附",
+  "العربية": "المحاذاة التلقائية",
+  "Tiếng Việt": "Bắt dính"
+ },
+ "Snap to the frame centre": {
+  "日本語": "フレームの中央にスナップ",
+  "Español": "Ajustar al centro del encuadre",
+  "Deutsch": "Am Bildmittelpunkt einrasten",
+  "Français": "Aimanter au centre de l'image",
+  "한국인": "프레임 중앙에 스냅",
+  "中文": "吸附到画面中心",
+  "العربية": "المحاذاة إلى مركز الإطار",
+  "Tiếng Việt": "Bắt dính vào tâm khung hình"
+ },
+ "Snap to other text": {
+  "日本語": "他のテキストにスナップ",
+  "Español": "Ajustar a otro texto",
+  "Deutsch": "An anderem Text einrasten",
+  "Français": "Aimanter aux autres textes",
+  "한국인": "다른 텍스트에 스냅",
+  "中文": "吸附到其他文字",
+  "العربية": "المحاذاة إلى النصوص الأخرى",
+  "Tiếng Việt": "Bắt dính vào chữ khác"
+ },
+ "Snap to safe-zone edges": {
+  "日本語": "セーフゾーンの端にスナップ",
+  "Español": "Ajustar a los bordes de la zona segura",
+  "Deutsch": "An Rändern der sicheren Zone einrasten",
+  "Français": "Aimanter aux bords de la zone de sécurité",
+  "한국인": "안전 영역 가장자리에 스냅",
+  "中文": "吸附到安全区边缘",
+  "العربية": "المحاذاة إلى حواف المنطقة الآمنة",
+  "Tiếng Việt": "Bắt dính vào cạnh vùng an toàn"
+ },
+ "Standard": {
+  "日本語": "標準",
+  "Español": "Estándar",
+  "Deutsch": "Standard",
+  "Français": "Standard",
+  "한국인": "표준",
+  "中文": "标准",
+  "العربية": "قياسي",
+  "Tiếng Việt": "Tiêu chuẩn"
+ },
+ "Rule of Thirds": {
+  "日本語": "三分割法",
+  "Español": "Regla de los tercios",
+  "Deutsch": "Drittelregel",
+  "Français": "Règle des tiers",
+  "한국인": "삼등분 법칙",
+  "中文": "三分法",
+  "العربية": "قاعدة الأثلاث",
+  "Tiếng Việt": "Quy tắc một phần ba"
+ },
+ "Center": {
+  "日本語": "中央",
+  "Español": "Centro",
+  "Deutsch": "Mitte",
+  "Français": "Centre",
+  "한국인": "중앙",
+  "中文": "中心",
+  "العربية": "المركز",
+  "Tiếng Việt": "Chính giữa"
+ },
+ "Phi": {
+  "日本語": "ファイ",
+  "Español": "Phi",
+  "Deutsch": "Phi",
+  "Français": "Phi",
+  "한국인": "파이",
+  "中文": "黄金分割",
+  "العربية": "فاي",
+  "Tiếng Việt": "Phi"
+ },
+ "General": {
+  "日本語": "汎用",
+  "Español": "General",
+  "Deutsch": "Allgemein",
+  "Français": "Général",
+  "한국인": "일반",
+  "中文": "通用",
+  "العربية": "عام",
+  "Tiếng Việt": "Chung"
+ },
+ "Remove animations?": {
+  "日本語": "アニメーションを削除しますか?",
+  "Español": "¿Quitar las animaciones?",
+  "Deutsch": "Animationen entfernen?",
+  "Français": "Supprimer les animations ?",
+  "한국인": "애니메이션을 제거할까요?",
+  "中文": "要移除动画吗？",
+  "العربية": "إزالة الحركات؟",
+  "Tiếng Việt": "Xóa hoạt ảnh?"
+ },
+ "Removes the animations from every Text+ clip on the timeline. Undo can put them back.": {
+  "日本語": "タイムライン上のすべての Text+ クリップからアニメーションを削除します。元に戻すで復元できます。",
+  "Español": "Quita las animaciones de todos los clips Text+ de la línea de tiempo. Deshacer puede recuperarlas.",
+  "Deutsch": "Entfernt die Animationen von allen Text+-Clips auf der Timeline. „Rückgängig“ kann sie zurückholen.",
+  "Français": "Supprime les animations de tous les clips Text+ de la timeline. Annuler peut les rétablir.",
+  "한국인": "타임라인의 모든 Text+ 클립에서 애니메이션을 제거합니다. 실행 취소로 되돌릴 수 있습니다.",
+  "中文": "从时间线上的所有 Text+ 片段中移除动画。可以用“撤销”恢复。",
+  "العربية": "يزيل الحركات من كل مقاطع Text+ على الخط الزمني. يمكن للتراجع إعادتها.",
+  "Tiếng Việt": "Xóa hoạt ảnh khỏi mọi clip Text+ trên timeline. Hoàn tác có thể khôi phục."
+ },
+ "Placement preview": {
+  "日本語": "配置のプレビュー",
+  "Español": "Vista previa de la colocación",
+  "Deutsch": "Platzierungsvorschau",
+  "Français": "Aperçu du placement",
+  "한국인": "배치 미리 보기",
+  "中文": "放置预览",
+  "العربية": "معاينة الوضع",
+  "Tiếng Việt": "Xem trước vị trí"
+ },
+ "No Text+ clips under the playhead. Move Resolve's playhead over a Text+ clip.": {
+  "日本語": "再生ヘッドの下に Text+ クリップがありません。Resolve の再生ヘッドを Text+ クリップの上に移動してください。",
+  "Español": "No hay clips Text+ bajo el cabezal. Mueve el cabezal de Resolve sobre un clip Text+.",
+  "Deutsch": "Keine Text+-Clips unter dem Abspielkopf. Bewegen Sie den Abspielkopf von Resolve über einen Text+-Clip.",
+  "Français": "Aucun clip Text+ sous la tête de lecture. Placez la tête de lecture de Resolve sur un clip Text+.",
+  "한국인": "재생 헤드 아래에 Text+ 클립이 없습니다. Resolve의 재생 헤드를 Text+ 클립 위로 옮기세요.",
+  "中文": "播放头下方没有 Text+ 片段。请将 Resolve 的播放头移到 Text+ 片段上。",
+  "العربية": "لا توجد مقاطع Text+ أسفل رأس التشغيل. حرّك رأس تشغيل Resolve فوق مقطع Text+.",
+  "Tiếng Việt": "Không có clip Text+ nào dưới đầu phát. Hãy di chuyển đầu phát của Resolve lên một clip Text+."
+ },
+ "Needs at least 2 words under the playhead.": {
+  "日本語": "再生ヘッドの下に 2 語以上必要です。",
+  "Español": "Se necesitan al menos 2 palabras bajo el cabezal.",
+  "Deutsch": "Mindestens 2 Wörter unter dem Abspielkopf nötig.",
+  "Français": "Il faut au moins 2 mots sous la tête de lecture.",
+  "한국인": "재생 헤드 아래에 단어가 2개 이상 필요합니다.",
+  "中文": "播放头下方至少需要 2 个词。",
+  "العربية": "يلزم وجود كلمتين على الأقل أسفل رأس التشغيل.",
+  "Tiếng Việt": "Cần ít nhất 2 từ dưới đầu phát."
+ },
+ "Applying bounding to the timeline…": {
+  "日本語": "範囲指定をタイムラインに適用中…",
+  "Español": "Aplicando la delimitación a la línea de tiempo…",
+  "Deutsch": "Begrenzung wird auf die Timeline angewendet…",
+  "Français": "Application de la délimitation à la timeline…",
+  "한국인": "경계를 타임라인에 적용하는 중…",
+  "中文": "正在将边界应用到时间线…",
+  "العربية": "جارٍ تطبيق التحديد على الخط الزمني…",
+  "Tiếng Việt": "Đang áp dụng giới hạn cho timeline…"
+ },
+ "Bounding applied to {count} Text+ clip(s)": {
+  "日本語": "{count} 個の Text+ クリップに範囲指定を適用しました",
+  "Español": "Delimitación aplicada a {count} clip(s) Text+",
+  "Deutsch": "Begrenzung auf {count} Text+-Clip(s) angewendet",
+  "Français": "Délimitation appliquée à {count} clip(s) Text+",
+  "한국인": "Text+ 클립 {count}개에 경계를 적용했습니다",
+  "中文": "已将边界应用到 {count} 个 Text+ 片段",
+  "العربية": "تم تطبيق التحديد على {count} مقطع Text+",
+  "Tiếng Việt": "Đã áp dụng giới hạn cho {count} clip Text+"
+ },
+ "No Text+ clip under the playhead to copy the position from.": {
+  "日本語": "再生ヘッドの下に、位置をコピーできる Text+ クリップがありません。",
+  "Español": "No hay ningún clip Text+ bajo el cabezal del que copiar la posición.",
+  "Deutsch": "Kein Text+-Clip unter dem Abspielkopf, von dem die Position kopiert werden kann.",
+  "Français": "Aucun clip Text+ sous la tête de lecture dont copier la position.",
+  "한국인": "재생 헤드 아래에 위치를 복사할 Text+ 클립이 없습니다.",
+  "中文": "播放头下方没有可复制位置的 Text+ 片段。",
+  "العربية": "لا يوجد مقطع Text+ أسفل رأس التشغيل لنسخ الموضع منه.",
+  "Tiếng Việt": "Không có clip Text+ nào dưới đầu phát để sao chép vị trí."
+ },
+ "Applying position to the timeline…": {
+  "日本語": "位置をタイムラインに適用中…",
+  "Español": "Aplicando la posición a la línea de tiempo…",
+  "Deutsch": "Position wird auf die Timeline angewendet…",
+  "Français": "Application de la position à la timeline…",
+  "한국인": "위치를 타임라인에 적용하는 중…",
+  "中文": "正在将位置应用到时间线…",
+  "العربية": "جارٍ تطبيق الموضع على الخط الزمني…",
+  "Tiếng Việt": "Đang áp dụng vị trí cho timeline…"
+ },
+ "Position copied to {count} Text+ clip(s)": {
+  "日本語": "{count} 個の Text+ クリップに位置をコピーしました",
+  "Español": "Posición copiada a {count} clip(s) Text+",
+  "Deutsch": "Position auf {count} Text+-Clip(s) kopiert",
+  "Français": "Position copiée sur {count} clip(s) Text+",
+  "한국인": "Text+ 클립 {count}개에 위치를 복사했습니다",
+  "中文": "已将位置复制到 {count} 个 Text+ 片段",
+  "العربية": "تم نسخ الموضع إلى {count} مقطع Text+",
+  "Tiếng Việt": "Đã sao chép vị trí sang {count} clip Text+"
+ },
+ "Undid layout change": {
+  "日本語": "レイアウトの変更を元に戻しました",
+  "Español": "Se deshizo el cambio de disposición",
+  "Deutsch": "Layout-Änderung rückgängig gemacht",
+  "Français": "Modification de disposition annulée",
+  "한국인": "레이아웃 변경을 실행 취소했습니다",
+  "中文": "已撤销布局更改",
+  "العربية": "تم التراجع عن تغيير التخطيط",
+  "Tiếng Việt": "Đã hoàn tác thay đổi bố cục"
+ },
+ "Undid position change": {
+  "日本語": "位置の変更を元に戻しました",
+  "Español": "Se deshizo el cambio de posición",
+  "Deutsch": "Positionsänderung rückgängig gemacht",
+  "Français": "Modification de position annulée",
+  "한국인": "위치 변경을 실행 취소했습니다",
+  "中文": "已撤销位置更改",
+  "العربية": "تم التراجع عن تغيير الموضع",
+  "Tiếng Việt": "Đã hoàn tác thay đổi vị trí"
+ },
+ "Undid size change": {
+  "日本語": "サイズの変更を元に戻しました",
+  "Español": "Se deshizo el cambio de tamaño",
+  "Deutsch": "Größenänderung rückgängig gemacht",
+  "Français": "Modification de taille annulée",
+  "한국인": "크기 변경을 실행 취소했습니다",
+  "中文": "已撤销大小更改",
+  "العربية": "تم التراجع عن تغيير الحجم",
+  "Tiếng Việt": "Đã hoàn tác thay đổi kích thước"
+ },
+ "Redid layout change": {
+  "日本語": "レイアウトの変更をやり直しました",
+  "Español": "Se rehízo el cambio de disposición",
+  "Deutsch": "Layout-Änderung wiederholt",
+  "Français": "Modification de disposition rétablie",
+  "한국인": "레이아웃 변경을 다시 실행했습니다",
+  "中文": "已重做布局更改",
+  "العربية": "تمت إعادة تغيير التخطيط",
+  "Tiếng Việt": "Đã làm lại thay đổi bố cục"
+ },
+ "Redid position change": {
+  "日本語": "位置の変更をやり直しました",
+  "Español": "Se rehízo el cambio de posición",
+  "Deutsch": "Positionsänderung wiederholt",
+  "Français": "Modification de position rétablie",
+  "한국인": "위치 변경을 다시 실행했습니다",
+  "中文": "已重做位置更改",
+  "العربية": "تمت إعادة تغيير الموضع",
+  "Tiếng Việt": "Đã làm lại thay đổi vị trí"
+ },
+ "Redid size change": {
+  "日本語": "サイズの変更をやり直しました",
+  "Español": "Se rehízo el cambio de tamaño",
+  "Deutsch": "Größenänderung wiederholt",
+  "Français": "Modification de taille rétablie",
+  "한국인": "크기 변경을 다시 실행했습니다",
+  "中文": "已重做大小更改",
+  "العربية": "تمت إعادة تغيير الحجم",
+  "Tiếng Việt": "Đã làm lại thay đổi kích thước"
+ },
+ "No subtitles": {
+  "日本語": "字幕がありません",
+  "Español": "No hay subtítulos",
+  "Deutsch": "Keine Untertitel",
+  "Français": "Aucun sous-titre",
+  "한국인": "자막 없음",
+  "中文": "没有字幕",
+  "العربية": "لا توجد ترجمات",
+  "Tiếng Việt": "Không có phụ đề"
+ },
+ "Subtitle track {n} has no subtitles.": {
+  "日本語": "字幕トラック {n} に字幕がありません。",
+  "Español": "La pista de subtítulos {n} no tiene subtítulos.",
+  "Deutsch": "Untertitelspur {n} enthält keine Untertitel.",
+  "Français": "La piste de sous-titres {n} ne contient aucun sous-titre.",
+  "한국인": "자막 트랙 {n}에 자막이 없습니다.",
+  "中文": "字幕轨道 {n} 中没有字幕。",
+  "العربية": "لا يحتوي مسار الترجمة {n} على ترجمات.",
+  "Tiếng Việt": "Track phụ đề {n} không có phụ đề."
+ },
+ "Converting subtitles to Text+…": {
+  "日本語": "字幕を Text+ に変換中…",
+  "Español": "Convirtiendo subtítulos a Text+…",
+  "Deutsch": "Untertitel werden in Text+ umgewandelt…",
+  "Français": "Conversion des sous-titres en Text+…",
+  "한국인": "자막을 Text+로 변환하는 중…",
+  "中文": "正在将字幕转为 Text+…",
+  "العربية": "جارٍ تحويل الترجمات إلى Text+…",
+  "Tiếng Việt": "Đang chuyển phụ đề sang Text+…"
+ },
+ "1 Text+ clip on video track {n}": {
+  "日本語": "ビデオトラック {n} に Text+ クリップ 1 個",
+  "Español": "1 clip Text+ en la pista de vídeo {n}",
+  "Deutsch": "1 Text+-Clip auf Videospur {n}",
+  "Français": "1 clip Text+ sur la piste vidéo {n}",
+  "한국인": "비디오 트랙 {n}에 Text+ 클립 1개",
+  "中文": "视频轨道 {n} 上有 1 个 Text+ 片段",
+  "العربية": "مقطع Text+ واحد على مسار الفيديو {n}",
+  "Tiếng Việt": "1 clip Text+ trên track video {n}"
+ },
+ "{count} Text+ clips on video track {n}": {
+  "日本語": "ビデオトラック {n} に Text+ クリップ {count} 個",
+  "Español": "{count} clips Text+ en la pista de vídeo {n}",
+  "Deutsch": "{count} Text+-Clips auf Videospur {n}",
+  "Français": "{count} clips Text+ sur la piste vidéo {n}",
+  "한국인": "비디오 트랙 {n}에 Text+ 클립 {count}개",
+  "中文": "视频轨道 {n} 上有 {count} 个 Text+ 片段",
+  "العربية": "{count} مقاطع Text+ على مسار الفيديو {n}",
+  "Tiếng Việt": "{count} clip Text+ trên track video {n}"
+ },
+ "No clips on Text+ clip(s) under the playhead": {
+  "日本語": "再生ヘッドの下に Text+ クリップがありません",
+  "Español": "No hay clips Text+ bajo el cabezal",
+  "Deutsch": "Keine Text+-Clips unter dem Abspielkopf",
+  "Français": "Aucun clip Text+ sous la tête de lecture",
+  "한국인": "재생 헤드 아래에 Text+ 클립 없음",
+  "中文": "播放头下方没有 Text+ 片段",
+  "العربية": "لا توجد مقاطع Text+ أسفل رأس التشغيل",
+  "Tiếng Việt": "Không có clip Text+ nào dưới đầu phát"
+ },
+ "No clips on Video Track {n}": {
+  "日本語": "ビデオトラック {n} にクリップがありません",
+  "Español": "No hay clips en la pista de vídeo {n}",
+  "Deutsch": "Keine Clips auf Videospur {n}",
+  "Français": "Aucun clip sur la piste vidéo {n}",
+  "한국인": "비디오 트랙 {n}에 클립 없음",
+  "中文": "视频轨道 {n} 上没有片段",
+  "العربية": "لا توجد مقاطع على مسار الفيديو {n}",
+  "Tiếng Việt": "Không có clip nào trên track video {n}"
+ },
+ "No clips on every video track ({count} track(s))": {
+  "日本語": "どのビデオトラックにもクリップがありません ({count} トラック)",
+  "Español": "No hay clips en ninguna pista de vídeo ({count} pista(s))",
+  "Deutsch": "Keine Clips auf allen Videospuren ({count} Spur(en))",
+  "Français": "Aucun clip sur les pistes vidéo ({count} piste(s))",
+  "한국인": "모든 비디오 트랙({count}개)에 클립 없음",
+  "中文": "所有视频轨道（{count} 条）上都没有片段",
+  "العربية": "لا توجد مقاطع على أي مسار فيديو ({count} مسار)",
+  "Tiếng Việt": "Không có clip nào trên các track video ({count} track)"
+ },
+ "Applying animations…": {
+  "日本語": "アニメーションを適用中…",
+  "Español": "Aplicando animaciones…",
+  "Deutsch": "Animationen werden angewendet…",
+  "Français": "Application des animations…",
+  "한국인": "애니메이션 적용 중…",
+  "中文": "正在应用动画…",
+  "العربية": "جارٍ تطبيق الحركات…",
+  "Tiếng Việt": "Đang áp dụng hoạt ảnh…"
+ },
+ "Animated {count} Text+ clip(s)": {
+  "日本語": "{count} 個の Text+ クリップにアニメーションを付けました",
+  "Español": "Se animaron {count} clip(s) Text+",
+  "Deutsch": "{count} Text+-Clip(s) animiert",
+  "Français": "{count} clip(s) Text+ animé(s)",
+  "한국인": "Text+ 클립 {count}개에 애니메이션을 적용했습니다",
+  "中文": "已为 {count} 个 Text+ 片段添加动画",
+  "العربية": "تم تحريك {count} مقطع Text+",
+  "Tiếng Việt": "Đã tạo hoạt ảnh cho {count} clip Text+"
+ },
+ "Removing animations…": {
+  "日本語": "アニメーションを削除中…",
+  "Español": "Quitando animaciones…",
+  "Deutsch": "Animationen werden entfernt…",
+  "Français": "Suppression des animations…",
+  "한국인": "애니메이션 제거 중…",
+  "中文": "正在移除动画…",
+  "العربية": "جارٍ إزالة الحركات…",
+  "Tiếng Việt": "Đang xóa hoạt ảnh…"
+ },
+ "Removed animations from {count} Text+ clip(s)": {
+  "日本語": "{count} 個の Text+ クリップからアニメーションを削除しました",
+  "Español": "Se quitaron las animaciones de {count} clip(s) Text+",
+  "Deutsch": "Animationen von {count} Text+-Clip(s) entfernt",
+  "Français": "Animations supprimées de {count} clip(s) Text+",
+  "한국인": "Text+ 클립 {count}개에서 애니메이션을 제거했습니다",
+  "中文": "已从 {count} 个 Text+ 片段移除动画",
+  "العربية": "تمت إزالة الحركات من {count} مقطع Text+",
+  "Tiếng Việt": "Đã xóa hoạt ảnh khỏi {count} clip Text+"
+ },
+ "Saved the node's settings to your Desktop": {
+  "日本語": "ノードの設定をデスクトップに保存しました",
+  "Español": "Configuración del nodo guardada en el escritorio",
+  "Deutsch": "Knoteneinstellungen auf dem Desktop gespeichert",
+  "Français": "Paramètres du nœud enregistrés sur votre Bureau",
+  "한국인": "노드 설정을 바탕 화면에 저장했습니다",
+  "中文": "已将节点设置保存到桌面",
+  "العربية": "تم حفظ إعدادات العقدة على سطح المكتب",
+  "Tiếng Việt": "Đã lưu cài đặt node vào Desktop"
+ },
+ "Applying font style…": {
+  "日本語": "フォントスタイルを適用中…",
+  "Español": "Aplicando estilo de fuente…",
+  "Deutsch": "Schriftstil wird angewendet…",
+  "Français": "Application du style de police…",
+  "한국인": "글꼴 스타일 적용 중…",
+  "中文": "正在应用字体样式…",
+  "العربية": "جارٍ تطبيق نمط الخط…",
+  "Tiếng Việt": "Đang áp dụng kiểu chữ…"
+ },
+ "No Text+ clips under the playhead": {
+  "日本語": "再生ヘッドの下に Text+ クリップがありません",
+  "Español": "No hay clips Text+ bajo el cabezal",
+  "Deutsch": "Keine Text+-Clips unter dem Abspielkopf",
+  "Français": "Aucun clip Text+ sous la tête de lecture",
+  "한국인": "재생 헤드 아래에 Text+ 클립 없음",
+  "中文": "播放头下方没有 Text+ 片段",
+  "العربية": "لا توجد مقاطع Text+ أسفل رأس التشغيل",
+  "Tiếng Việt": "Không có clip Text+ nào dưới đầu phát"
+ },
+ "Styled {count} Text+ clip(s)": {
+  "日本語": "{count} 個の Text+ クリップにスタイルを適用しました",
+  "Español": "Se aplicó estilo a {count} clip(s) Text+",
+  "Deutsch": "{count} Text+-Clip(s) gestaltet",
+  "Français": "{count} clip(s) Text+ stylisé(s)",
+  "한국인": "Text+ 클립 {count}개에 스타일을 적용했습니다",
+  "中文": "已为 {count} 个 Text+ 片段设置样式",
+  "العربية": "تم تنسيق {count} مقطع Text+",
+  "Tiếng Việt": "Đã định dạng {count} clip Text+"
+ },
+ "Video track {n} is empty": {
+  "日本語": "ビデオトラック {n} は空です",
+  "Español": "La pista de vídeo {n} está vacía",
+  "Deutsch": "Videospur {n} ist leer",
+  "Français": "La piste vidéo {n} est vide",
+  "한국인": "비디오 트랙 {n}이(가) 비어 있습니다",
+  "中文": "视频轨道 {n} 为空",
+  "العربية": "مسار الفيديو {n} فارغ",
+  "Tiếng Việt": "Track video {n} trống"
+ },
+ "Text Animator initialized.": {
+  "日本語": "テキストアニメーターを初期化しました。",
+  "Español": "Animador de texto iniciado.",
+  "Deutsch": "Textanimation initialisiert.",
+  "Français": "Animateur de texte initialisé.",
+  "한국인": "텍스트 애니메이터를 초기화했습니다.",
+  "中文": "文字动画已初始化。",
+  "العربية": "تمت تهيئة محرك النصوص.",
+  "Tiếng Việt": "Đã khởi tạo Tạo hiệu ứng chữ."
+ }
+}

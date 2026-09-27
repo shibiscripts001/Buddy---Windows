@@ -20,8 +20,11 @@ What moved to the page, and what didn't:
     palettes' Screen Dropper, are screen_dropper.ScreenColorDropper.
   - The mini palette window floats over Resolve, so it's a window of its
     own - a web one (mini_palette_window.py, web/mini/).
-  - Settings (language, focus overlay, mini window transparency, backup)
-    are settings_panel.py, in the shell's Settings dialog.
+  - Settings (focus overlay, mini window transparency, backup) are
+    settings_panel.py, in the shell's Settings dialog. The language is
+    Buddy's own (core/i18n.py, Settings' Language); the standalone's
+    translations are there, and this page still sends them to its script
+    ("strings") for the text it builds itself.
 
 The focus overlay (a full-screen dimming window behind the app) only shows
 while this page is on screen - left on, it would dim the desktop behind
@@ -58,7 +61,7 @@ from .color_engine import (
     extraction_image, import_palette_colors, relative_luminance, render_fixed_shape_visualization_image,
 )
 from .data_manager import DataManager
-from .i18n import TRANSLATIONS, get_i18n, tr
+from core.i18n import DEFAULT_LANGUAGE, LANGUAGES, TRANSLATIONS, get_i18n, tr, tr_filter
 from .settings_panel import ColorPaletteSettingsMixin
 
 TABS = ("palettes", "generators", "extract", "visualize", "tools")
@@ -104,8 +107,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
 
         self.app = QApplication.instance()
         self.i18n = get_i18n()
-        self.i18n.language = self.data_mgr.settings.get("language", "English")
-        self.i18n.language_changed.connect(self._on_language_changed)
+        self._adopt_old_language()
 
         self.tab = "palettes"
         # Palettes: one open (expanded) palette at a time - the "active"
@@ -268,7 +270,20 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
             "ct_colors": view.swatches(self.data_mgr.palettes.get(tray, []), self.vision),
         })
 
-    def _on_language_changed(self, _lang):
+    def _adopt_old_language(self):
+        """This tool had a language setting of its own before Buddy had
+        one. Someone who picked a language here gets it app-wide, once."""
+        shared = getattr(self.host, "shared_settings", None)
+        if shared is None or not hasattr(shared, "save") or shared.get("_language_adopted"):
+            return
+        old = self.data_mgr.settings.get("language")
+        if old in LANGUAGES and old != DEFAULT_LANGUAGE and shared.get("language", DEFAULT_LANGUAGE) == DEFAULT_LANGUAGE:
+            shared["language"] = old
+            self.i18n.language = old
+        shared["_language_adopted"] = True
+        shared.save()
+
+    def on_language_changed(self):
         self._push_strings()
         self._push_all()
 
@@ -669,7 +684,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
 
     def _export_gradient(self, gen):
         path, _ = QFileDialog.getSaveFileName(self, tr("Export gradient PNG"),
-                                              self.data_mgr.default_export_path("gradient.png"), "PNG Files (*.png)")
+                                              self.data_mgr.default_export_path("gradient.png"), tr_filter("PNG Files (*.png)"))
         if not path:
             return
         self.data_mgr.remember_export_folder(path)
@@ -689,7 +704,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
     # ------------------------------------------------------------- extract --
 
     def on_browse_image(self, _payload=None):
-        path, _ = QFileDialog.getOpenFileName(self, tr("Choose image"), "", images.IMAGE_FILTER)
+        path, _ = QFileDialog.getOpenFileName(self, tr("Choose image"), "", tr_filter(images.IMAGE_FILTER))
         if path:
             self.load_image(path)
 
@@ -835,7 +850,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
 
     def _save_path(self, title, filename, file_filter):
         path, _ = QFileDialog.getSaveFileName(
-            self, title, os.path.join(self.data_mgr.get_export_start_dir(), filename), file_filter)
+            self, title, os.path.join(self.data_mgr.get_export_start_dir(), filename), tr_filter(file_filter))
         if path:
             self.data_mgr.remember_export_folder(path)
         return path
@@ -926,7 +941,7 @@ class ColorPalettePage(ColorPaletteSettingsMixin, WebToolPage):
     # --------------------------------------------------------------- tools --
 
     def on_import_file(self, _payload=None):
-        path, _ = QFileDialog.getOpenFileName(self, tr("Import palette file"), "", IMPORT_FILE_FILTER)
+        path, _ = QFileDialog.getOpenFileName(self, tr("Import palette file"), "", tr_filter(IMPORT_FILE_FILTER))
         if not path:
             return
         try:

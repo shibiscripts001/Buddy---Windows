@@ -86,11 +86,10 @@ def align(stats, anchor_name, anchor_frame, shifted, warnings):
 
 
 def external(stats, warnings):
-    across = (f" across {stats['sessions']} separate stretches of footage"
-              if stats.get("sessions", 1) > 1 else "")
-    lines = [(f"Placed {stats['matched']} of {stats['external']} clip(s) that timecode "
-              f"couldn't, against the audio of {stats['scratch_used']} clip(s) it could{across}.",
-              "info")]
+    placed = (f"Placed {stats['matched']} of {stats['external']} clip(s) that timecode "
+              f"couldn't, against the audio of {stats['scratch_used']} clip(s) it could")
+    lines = [(f"{placed} across {stats['sessions']} separate stretches of footage."
+              if stats.get("sessions", 1) > 1 else f"{placed}.", "info")]
     if stats.get("unmatched"):
         lines.append((f"{stats['unmatched']} couldn't be placed and were left where they were.", "warn"))
     lines.append(_created(stats["name"]))

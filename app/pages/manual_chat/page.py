@@ -40,6 +40,7 @@ from pathlib import Path
 from PySide6.QtCore import QBuffer, QIODevice, QStandardPaths, QThread, Signal
 from PySide6.QtWidgets import QApplication, QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.tools_kb import get_tool
 from core.web_page import WebToolPage
@@ -208,8 +209,8 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             "suggestions": SUGGESTIONS if self.chats.is_empty() else [],
         })
 
-    def _append(self, who, body, trace=None, error=False, copyable=False, images=None):
-        block = self.chats.add(who, body, trace=trace, error=error, copyable=copyable, images=images)
+    def _append(self, who, body, trace=None, error=False, copyable=False, images=None, raw=False):
+        block = self.chats.add(who, body, trace=trace, error=error, copyable=copyable, images=images, raw=raw)
         self.emit("append", block_view(len(self.chats.blocks) - 1, block))
 
     def _push_controls(self):
@@ -238,7 +239,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
     # ----------------------------------------------------------- pictures
 
     def on_attach_image(self, _payload=None):
-        paths, _chosen = QFileDialog.getOpenFileNames(self, "Add pictures", "", PICTURE_FILTER)
+        paths, _chosen = QFileDialog.getOpenFileNames(self, tr("Add pictures"), "", tr_filter(PICTURE_FILTER))
         self._add_picture_files(paths)
 
     def on_files_dropped(self, paths):
@@ -321,7 +322,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         # be instant and free, and it must describe what Buddy can actually
         # do rather than what a model guesses it can do.
         if is_help(question):
-            self._append(YOU, question)
+            self._append(YOU, question, raw=True)
             self._append(BUDDY, help_text(bool(self.settings.get("allow_project_writes", False))),
                          copyable=True)
             self._push_controls()
@@ -334,7 +335,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._pending_question = question
         sent, self.pictures = self.pictures, []
         self._pending_pictures = len(sent)
-        self._append(YOU, question, images=[p.preview for p in sent])
+        self._append(YOU, question, images=[p.preview for p in sent], raw=True)
         self._push_pictures()
         self._set_sending(True)
 
@@ -377,7 +378,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             return
 
         trace = [f"{e.name}: {e.summary}" for e in result.events]
-        self._append(BUDDY, result.answer, trace=trace, copyable=True)
+        self._append(BUDDY, result.answer, trace=trace, copyable=True, raw=True)
         self.chats.record_turn(self._pending_question, result.answer, history_limit(self.settings),
                                pictures=self._pending_pictures)
         self._push_controls()
@@ -469,7 +470,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         downloads = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation) or str(Path.home())
         default_name = f"Buddy Chat {datetime.now().strftime('%Y-%m-%d %H%M%S')}.txt"
         path, _filter = QFileDialog.getSaveFileName(
-            self, "Export conversation", str(Path(downloads) / default_name), "Text files (*.txt)"
+            self, tr("Export conversation"), str(Path(downloads) / default_name), tr_filter("Text files (*.txt)")
         )
         if not path:
             return

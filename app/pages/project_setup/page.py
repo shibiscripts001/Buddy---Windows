@@ -40,6 +40,7 @@ import traceback
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -305,8 +306,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             log(f"Couldn't create the bins: {error}", "error")
             return
         if created:
-            log(f"Created {created} bin{'s' if created != 1 else ''} in the Media Pool.", "success")
-            self.emit("toast", {"text": f"Created {created} bin{'s' if created != 1 else ''}"})
+            log("Created 1 bin in the Media Pool." if created == 1 else f"Created {created} bins in the Media Pool.", "success")
+            self.emit("toast", {"text": "Created 1 bin" if created == 1 else f"Created {created} bins"})
         if failed:
             self._alert("Some bins weren't created",
                         f"Created {created}, but {failed} failed. The log below has the details.")
@@ -340,7 +341,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
 
     def on_choose_folder(self, _payload):
         start = self.import_folder or os.path.expanduser("~")
-        folder = QFileDialog.getExistingDirectory(self, "Choose a folder to import", start)
+        folder = QFileDialog.getExistingDirectory(self, tr("Choose a folder to import"), start)
         if not folder:
             return
         self.import_folder = os.path.normpath(folder)
@@ -393,12 +394,14 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self._refresh_tab(connect=False)
             return
         n = result["imported"]
-        log(f"Imported {n} clip{'s' if n != 1 else ''} into '{result['bin']}', matching the folder's structure.",
+        log(f"Imported 1 clip into '{result['bin']}', matching the folder's structure." if n == 1
+            else f"Imported {n} clips into '{result['bin']}', matching the folder's structure.",
             "success" if n else "warn")
         if result["skipped_dirs"]:
             log(f"{result['skipped_dirs']} subfolder(s) were skipped because their bin couldn't be created.", "warn")
         if n:
-            self.emit("toast", {"text": f"Imported {n} clip{'s' if n != 1 else ''} into '{result['bin']}'"})
+            self.emit("toast", {"text": f"Imported 1 clip into '{result['bin']}'" if n == 1
+                                else f"Imported {n} clips into '{result['bin']}'"})
         else:
             self._alert("No media found", f"Nothing under '{folder}' was a media file Resolve could import.")
         self._refresh_tab(connect=False)
@@ -472,7 +475,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             log(f"Resolve couldn't add any of the {len(clips)} clip(s) from '{name}'.", "error")
             self._alert("Nothing was added", "Resolve didn't place any of the clips. The log below has the details.")
         if placed:
-            self.emit("toast", {"text": f"Added {placed} clip{'s' if placed != 1 else ''} to the timeline"})
+            self.emit("toast", {"text": "Added 1 clip to the timeline" if placed == 1
+                                else f"Added {placed} clips to the timeline"})
         self._refresh_tab(connect=False)
 
     # --------------------------------------------------------------- Sync --
@@ -553,7 +557,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         self.host.set_busy(True, busy_text)
 
         def progress(stage, done=0, total=1):
-            self.host.pump_busy(f"{stage}… ({done + 1}/{total})" if total and total > 1 else f"{stage}…")
+            self.host.pump_busy(f"{stage} ({done + 1} of {total})" if total and total > 1 else f"{stage}…")
 
         lines, error = [], None
         try:

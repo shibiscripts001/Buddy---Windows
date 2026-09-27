@@ -49,7 +49,7 @@ function traceNode(trace) {
     const label = trace.length === 1 ? "Used 1 tool" : `Used ${trace.length} tools`;
     return el("details.trace", {}, [
         el("summary", {text: label}),
-        el("div.chips", {}, trace.map(t => el("span.chip", {text: t}))),
+        el("div.chips", {translate: "no"}, trace.map(t => el("span.chip", {text: t}))),
     ]);
 }
 
@@ -74,7 +74,9 @@ function messageNode(block) {
         el("div.who", {text: block.who}),
         el("div.bubble", {}, [
             picturesNode(block.images),
-            el("div.body", {html: block.html}),
+            // What people asked and what the model answered stay as written;
+            // Buddy's own messages (the welcome, help) are translated.
+            el("div.body", {html: block.html, translate: block.raw ? "no" : undefined}),
             traceNode(block.trace),
         ]),
         copyButton(block),
@@ -145,7 +147,7 @@ Buddy.on("offer", offer => {
     box.replaceChildren(
         icon("tool"),
         el("div.reason", {}, [el("div.strong", {text: "Buddy suggests a tool"}),
-                              el("div.muted.small", {text: offer.reason || ""})]),
+                              el("div.muted.small", {text: offer.reason || "", translate: "no"})]),
         el("button.btn.accent", {text: offer.label, onclick: () => send("open_tool", {tool_id: offer.tool_id})}),
     );
 });
@@ -160,9 +162,9 @@ Buddy.on("proposal", p => {
     box.replaceChildren(
         el("div.title", {}, [p.destructive ? icon("warning") : icon("spark"), el("span", {text: p.title})]),
         el("div.items", {}, [
-            p.reason ? el("div.muted", {text: p.reason, style: "margin-bottom:6px"}) : null,
+            p.reason ? el("div.muted", {text: p.reason, style: "margin-bottom:6px", translate: "no"}) : null,
             ...p.warnings.map(w => el("div.warning", {text: w})),
-            ...p.details.map(d => el("div", {text: d})),
+            ...p.details.map(d => el("div", {text: d, translate: "no"})),
         ]),
         el("div.row", {}, [
             el("div.note.muted.small", {text: p.note}),

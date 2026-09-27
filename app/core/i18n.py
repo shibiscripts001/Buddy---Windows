@@ -1,20 +1,47 @@
 #!/usr/bin/env python3
 """
-Internationalization (i18n) Module for Color Palette Manager
-Supports:
-- English
-- 日本語 (Japanese)
-- Español (Spanish)
-- Deutsch (German)
-- Français (French)
-- 한국인 (Korean)
-- 中文 (Chinese)
-- العربية (Arabic)
-- Tiếng Việt (Vietnamese)
+Buddy's languages - one choice, in Settings (the Language dropdown at the
+foot of the window), for the whole app.
+
+How text gets translated:
+
+  Web pages (every screen)  Python and the page scripts write English, as
+                            they always have. buddy.js receives this
+                            language's strings (the "i18n" event, sent by
+                            core/web_page.py to every view) and translates
+                            the page's text, tooltips and placeholders as
+                            they're drawn - so a page needs no changes to
+                            be translated. What people type or name
+                            themselves (fields, palettes, clips, chat) is
+                            never touched: inputs are skipped, and a view
+                            marks any other user text translate="no".
+  Qt (window titles, tray,  tr(text), from here.
+  file pickers, the busy
+  overlay)
+
+The strings: TRANSLATIONS below, plus core/translations/*.json (the same
+shape, one file per part of the app), merged at import. An English string
+may hold {placeholders} for values that change - "Deleted '{name}'"
+matches "Deleted 'Sunset'" and keeps the name as it is; a translation
+uses the same names, in whatever order its language needs. A name that
+starts with t_ marks a value that is itself one of Buddy's words, not the
+user's - "Grab stills at the {t_color} markers" - and that value is
+translated too; never use it for anything a person named. Keys are
+matched with runs of whitespace as one space, so HTML's line breaks don't
+matter. A string with no translation stays English.
+
+No Qt needed to translate (translate(), web_strings()) - only the
+manager, whose language_changed signal tells open windows to redraw.
 """
+
+import json
+import os
+import re
+import sys
 
 from PySide6.QtCore import QObject, Signal
 
+# Keys: what settings files store - never rename one; change its label.
 LANGUAGES = [
     "English",
     "日本語",
@@ -26,6 +53,26 @@ LANGUAGES = [
     "العربية",
     "Tiếng Việt",
 ]
+DEFAULT_LANGUAGE = "English"
+
+# What the dropdown shows: each language in its own name. The Korean key
+# says "Korean person"; the language is 한국어.
+LANGUAGE_LABELS = {"한국인": "한국어"}
+
+# For the pages' <html lang>, which picks the right CJK glyphs.
+LANGUAGE_CODES = {
+    "English": "en",
+    "日本語": "ja",
+    "Español": "es",
+    "Deutsch": "de",
+    "Français": "fr",
+    "한국인": "ko",
+    "中文": "zh-Hans",
+    "العربية": "ar",
+    "Tiếng Việt": "vi",
+}
+
+TRANSLATIONS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "translations")
 
 TRANSLATIONS = {
     # Vision modes
@@ -44,7 +91,7 @@ TRANSLATIONS = {
         "Español": "Protanopía",
         "Deutsch": "Protanopie",
         "Français": "Protanopie",
-        "한국인": "제1색盲 (적색盲)",
+        "한국인": "제1색맹 (적색맹)",
         "中文": "红色盲",
         "العربية": "عمى اللون الأحمر",
         "Tiếng Việt": "Mù màu đỏ",
@@ -54,7 +101,7 @@ TRANSLATIONS = {
         "Español": "Deuteranopía",
         "Deutsch": "Deuteranopie",
         "Français": "Deutéranopie",
-        "한국인": "제2색盲 (녹색盲)",
+        "한국인": "제2색맹 (녹색맹)",
         "中文": "绿色盲",
         "العربية": "عمى اللون الأخضر",
         "Tiếng Việt": "Mù màu lục",
@@ -64,7 +111,7 @@ TRANSLATIONS = {
         "Español": "Tritanopía",
         "Deutsch": "Tritanopie",
         "Français": "Tritanopie",
-        "한국인": "제3색盲 (청색盲)",
+        "한국인": "제3색맹 (청색맹)",
         "中文": "蓝色盲",
         "العربية": "عمى اللون الأزرق",
         "Tiếng Việt": "Mù màu lam",
@@ -74,7 +121,7 @@ TRANSLATIONS = {
         "Español": "Acromatopsia",
         "Deutsch": "Achromatopsie",
         "Français": "Achromatopsie",
-        "한국인": "전색盲",
+        "한국인": "전색맹",
         "中文": "全色盲",
         "العربية": "عمى الألوان الكامل",
         "Tiếng Việt": "Mù màu toàn phần",
@@ -157,7 +204,7 @@ TRANSLATIONS = {
         "Deutsch": "Einstellungen",
         "Français": "Paramètres",
         "한국인": "설정",
-        "中文": "설정",
+        "中文": "设置",
         "العربية": "الإعدادات",
         "Tiếng Việt": "Cài đặt",
     },
@@ -894,7 +941,7 @@ TRANSLATIONS = {
         "Español": "Aleatorizar",
         "Deutsch": "Zufällig",
         "Français": "Randomiser",
-        "한국인": "무작위化",
+        "한국인": "무작위화",
         "中文": "随机",
         "العربية": "عشوائي",
         "Tiếng Việt": "Ngẫu nhiên hóa",
@@ -2660,15 +2707,380 @@ TRANSLATIONS = {
         "العربية": "لا يمكنك حذف آخر لوحة ألوان متبقية.",
         "Tiếng Việt": "Bạn không thể xóa bảng màu cuối cùng còn lại.",
     },
+
+    "Appearance": {
+        "日本語": "外観",
+        "Español": "Apariencia",
+        "Deutsch": "Erscheinungsbild",
+        "Français": "Apparence",
+        "한국인": "외관",
+        "中文": "外观",
+        "العربية": "المظهر",
+        "Tiếng Việt": "Giao diện",
+    },
+    "Theme": {
+        "日本語": "テーマ",
+        "Español": "Tema",
+        "Deutsch": "Thema",
+        "Français": "Thème",
+        "한국인": "테마",
+        "中文": "主题",
+        "العربية": "السمة",
+        "Tiếng Việt": "Chủ đề",
+    },
+    "Subtheme": {
+        "日本語": "サブテーマ",
+        "Español": "Subtema",
+        "Deutsch": "Unterthema",
+        "Français": "Sous-thème",
+        "한국인": "하위 테마",
+        "中文": "子主题",
+        "العربية": "السمة الفرعية",
+        "Tiếng Việt": "Chủ đề phụ",
+    },
+    "Accent": {
+        "日本語": "アクセント",
+        "Español": "Acento",
+        "Deutsch": "Akzent",
+        "Français": "Accent",
+        "한국인": "강조",
+        "中文": "强调色",
+        "العربية": "تمييز",
+        "Tiếng Việt": "Màu nhấn",
+    },
+    "Background": {
+        "日本語": "背景",
+        "Español": "Fondo",
+        "Deutsch": "Hintergrund",
+        "Français": "Arrière-plan",
+        "한국인": "배경",
+        "中文": "背景",
+        "العربية": "الخلفية",
+        "Tiếng Việt": "Nền",
+    },
+    "Panels": {
+        "日本語": "パネル",
+        "Español": "Paneles",
+        "Deutsch": "Panels",
+        "Français": "Panneaux",
+        "한국인": "패널",
+        "中文": "面板",
+        "العربية": "اللوحات",
+        "Tiếng Việt": "Bảng",
+    },
+    "Pick the Custom subtheme to choose your own colours.": {
+        "日本語": "独自の色を選ぶにはカスタムサブテーマを選択してください。",
+        "Español": "Elige el subtema Personalizado para escoger tus propios colores.",
+        "Deutsch": "Wählen Sie das Unterthema Benutzerdefiniert, um Ihre eigenen Farben auszuwählen.",
+        "Français": "Sélectionnez le sous-thème Personnalisé pour choisir vos propres couleurs.",
+        "한국인": "자신만의 색상을 선택하려면 사용자 지정 하위 테마를 선택하세요.",
+        "中文": "选择“自定义”子主题以挑选您自己的颜色。",
+        "العربية": "اختر السمة الفرعية المخصصة لاختيار الألوان الخاصة بك.",
+        "Tiếng Việt": "Chọn chủ đề phụ Tùy chỉnh để chọn màu của riêng bạn.",
+    },
+    "Window": {
+        "日本語": "ウィンドウ",
+        "Español": "Ventana",
+        "Deutsch": "Fenster",
+        "Français": "Fenêtre",
+        "한국인": "창",
+        "中文": "窗口",
+        "العربية": "نافذة",
+        "Tiếng Việt": "Cửa sổ",
+    },
+    "Keep Buddy on top of Resolve": {
+        "日本語": "BuddyをResolveの手前に保持する",
+        "Español": "Mantener Buddy sobre Resolve",
+        "Deutsch": "Buddy über Resolve halten",
+        "Français": "Garder Buddy au-dessus de Resolve",
+        "한국인": "Buddy를 Resolve 위에 유지",
+        "中文": "使 Buddy 保持在 Resolve 之上",
+        "العربية": "إبقاء Buddy فوق Resolve",
+        "Tiếng Việt": "Giữ Buddy trên Resolve",
+    },
+    "Second pane in dual view": {
+        "日本語": "デュアルビューの2つ目のペイン",
+        "Español": "Segundo panel en vista dual",
+        "Deutsch": "Zweiter Bereich in der Dual-Ansicht",
+        "Français": "Deuxième panneau en vue double",
+        "한국인": "듀얼 뷰의 두 번째 창",
+        "中文": "双视图中的第二个窗格",
+        "العربية": "الجزء الثاني في العرض المزدوج",
+        "Tiếng Việt": "Khung thứ hai trong chế độ xem kép",
+    },
+    "Tints the tool on the right while dual view is on, so it's easy to tell which side is which.": {
+        "日本語": "デュアルビューがオンのときに右側のツールに色を付け、左右を区別しやすくします。",
+        "Español": "Tinta la herramienta a la derecha mientras la vista dual está activa, para diferenciar fácilmente un lado del otro.",
+        "Deutsch": "Färbt das Werkzeug auf der rechten Seite ein, wenn die Dual-Ansicht aktiv ist, damit leicht erkennbar ist, welche Seite welche ist.",
+        "Français": "Teinte l'outil à droite lorsque la vue double est activée, pour distinguer facilement chaque côté.",
+        "한국인": "듀얼 뷰가 켜져 있을 때 오른쪽 도구에 색조를 입혀 어느 쪽인지 쉽게 구분할 수 있게 합니다.",
+        "中文": "在双视图开启时为右侧工具着色，以便轻松区分两侧。",
+        "العربية": "يلون الأداة الموجودة على اليمين أثناء تشغيل العرض المزدوج، ليسهل التمييز بين الجانبين.",
+        "Tiếng Việt": "Tạo màu cho công cụ bên phải khi chế độ xem kép được bật, giúp dễ dàng nhận biết các bên.",
+    },
+    "Keep running in tray when window is closed": {
+        "日本語": "ウィンドウを閉じてもトレイで実行を続ける",
+        "Español": "Seguir ejecutando en la bandeja cuando se cierre la ventana",
+        "Deutsch": "Im Tray weiter ausführen, wenn das Fenster geschlossen ist",
+        "Français": "Continuer à exécuter dans la barre d'état lorsque la fenêtre est fermée",
+        "한국인": "창을 닫아도 트레이에서 계속 실행",
+        "中文": "窗口关闭时在托盘中继续运行",
+        "العربية": "استمر في التشغيل في علبة النظام عند إغلاق النافذة",
+        "Tiếng Việt": "Tiếp tục chạy trên khay hệ thống khi cửa sổ đóng lại",
+    },
+    "When checked, closing the window (the [X] button) minimizes Buddy to the system tray instead of quitting – background tools like Time Tracker keep running. When unchecked, closing the window quits Buddy normally.": {
+        "日本語": "チェックを入れると、ウィンドウ（[X]ボタン）を閉じたときにBuddyが終了せずシステムトレイに最小化され、タイムトラッカーなどのバックグラウンドツールが引き続き実行されます。チェックを外すと、通常通り終了します。",
+        "Español": "Cuando está marcado, al cerrar la ventana (el botón [X]), Buddy se minimiza a la bandeja del sistema en lugar de cerrarse, por lo que las herramientas en segundo plano como el Rastreador de Tiempo siguen ejecutándose. Cuando está desmarcado, cerrar la ventana cierra Buddy normalmente.",
+        "Deutsch": "Wenn aktiviert, wird Buddy beim Schließen des Fensters (die Schaltfläche [X]) in den System-Tray minimiert anstatt beendet zu werden – Hintergrund-Tools wie der Time Tracker laufen weiter. Wenn deaktiviert, wird Buddy beim Schließen normal beendet.",
+        "Français": "Si cochée, fermer la fenêtre (le bouton [X]) minimise Buddy dans la barre d'état au lieu de quitter : les outils en arrière-plan comme le Suivi du Temps continuent de s'exécuter. Si décochée, fermer la fenêtre quitte Buddy normalement.",
+        "한국인": "선택하면 창([X] 버튼)을 닫을 때 Buddy가 종료되는 대신 시스템 트레이로 최소화되어 Time Tracker와 같은 백그라운드 도구가 계속 실행됩니다. 선택 해제 시 창을 닫으면 Buddy가 정상적으로 종료됩니다.",
+        "中文": "选中时，关闭窗口（[X] 按钮）会将 Buddy 最小化到系统托盘而不是退出，时间追踪等后台工具将继续运行。取消选中时，关闭窗口将正常退出 Buddy。",
+        "العربية": "عند تحديد هذا الخيار، سيتم تصغير Buddy إلى علبة النظام بدلاً من إنهائه عند إغلاق النافذة (الزر [X]) - فتستمر الأدوات التي تعمل في الخلفية مثل متتبع الوقت في العمل. وعند إلغاء التحديد، سيؤدي إغلاق النافذة إلى إنهاء Buddy بشكل طبيعي.",
+        "Tiếng Việt": "Khi được chọn, việc đóng cửa sổ (nút [X]) sẽ thu nhỏ Buddy xuống khay hệ thống thay vì thoát – các công cụ nền như Trình theo dõi thời gian sẽ tiếp tục chạy. Khi không chọn, đóng cửa sổ sẽ thoát Buddy bình thường.",
+    },
+    "Start Buddy automatically when Resolve starts": {
+        "日本語": "Resolve起動時にBuddyを自動的に開始する",
+        "Español": "Iniciar Buddy automáticamente al iniciar Resolve",
+        "Deutsch": "Buddy automatisch starten, wenn Resolve startet",
+        "Français": "Démarrer Buddy automatiquement au lancement de Resolve",
+        "한국인": "Resolve 시작 시 자동으로 Buddy 시작",
+        "中文": "在 Resolve 启动时自动启动 Buddy",
+        "العربية": "تشغيل Buddy تلقائيًا عند بدء Resolve",
+        "Tiếng Việt": "Tự động bắt đầu Buddy khi Resolve khởi động",
+    },
+    "Registers a small background helper that watches for DaVinci Resolve launching and starts Buddy itself the moment it does – so background tools like Time Tracker are already running once you're in Resolve, instead of needing a trip to Workspace > Scripts every time.": {
+        "日本語": "DaVinci Resolveの起動を監視する小さなバックグラウンドヘルパーを登録し、起動した瞬間にBuddyを開始します。これにより、Resolve内でタイムトラッカーなどのバックグラウンドツールがすでに実行されている状態になり、毎回 Workspace > Scripts を実行する手間が省けます。",
+        "Español": "Registra un pequeño asistente en segundo plano que vigila el inicio de DaVinci Resolve e inicia Buddy en ese mismo instante, de modo que las herramientas como el Rastreador de Tiempo ya estén ejecutándose al entrar a Resolve, sin necesidad de ir a Workspace > Scripts cada vez.",
+        "Deutsch": "Registriert einen kleinen Hintergrund-Helfer, der auf den Start von DaVinci Resolve achtet und Buddy sofort mitstartet. So laufen Hintergrund-Tools wie der Time Tracker bereits, sobald Sie in Resolve sind, anstatt jedes Mal den Umweg über Workspace > Scripts gehen zu müssen.",
+        "Français": "Enregistre un petit assistant en arrière-plan qui surveille le lancement de DaVinci Resolve et démarre Buddy en même temps – ainsi, des outils en arrière-plan comme le Suivi du Temps s'exécutent déjà lorsque vous êtes dans Resolve, au lieu de devoir aller dans Workspace > Scripts à chaque fois.",
+        "한국인": "DaVinci Resolve의 시작을 모니터링하여 시작되는 즉시 Buddy를 실행하는 작은 백그라운드 도우미를 등록합니다. 이를 통해 Resolve에 진입할 때마다 Workspace > Scripts로 이동할 필요 없이 Time Tracker와 같은 백그라운드 도구가 이미 실행 중인 상태가 됩니다.",
+        "中文": "注册一个监视 DaVinci Resolve 启动并在其启动时自动开启 Buddy 的后台助手。这样，当您进入 Resolve 时，时间追踪等后台工具已经在运行，无需每次都去点击 Workspace > Scripts。",
+        "العربية": "يسجل مساعد خلفية صغيراً يراقب تشغيل DaVinci Resolve ويقوم بتشغيل Buddy في نفس اللحظة – لذا فإن الأدوات التي تعمل في الخلفية مثل متتبع الوقت تعمل بالفعل بمجرد دخولك إلى Resolve، بدلاً من الاضطرار للانتقال إلى Workspace > Scripts في كل مرة.",
+        "Tiếng Việt": "Đăng ký một trình trợ giúp nền nhỏ nhằm giám sát khi DaVinci Resolve khởi chạy và lập tức bắt đầu Buddy – nhờ đó các công cụ nền như Trình theo dõi thời gian đã chạy khi bạn vào Resolve, thay vì phải đi đến Workspace > Scripts mỗi lần.",
+    },
+    "Could not read Windows startup settings.": {
+        "日本語": "Windowsのスタートアップ設定を読み込めませんでした。",
+        "Español": "No se pudo leer la configuración de inicio de Windows.",
+        "Deutsch": "Die Windows-Starteinstellungen konnten nicht gelesen werden.",
+        "Français": "Impossible de lire les paramètres de démarrage de Windows.",
+        "한국인": "Windows 시작 설정을 읽을 수 없습니다.",
+        "中文": "无法读取 Windows 启动设置。",
+        "العربية": "تعذر قراءة إعدادات بدء تشغيل Windows.",
+        "Tiếng Việt": "Không thể đọc cài đặt khởi động Windows.",
+    },
+    "Show announcements from Buddy": {
+        "日本語": "Buddyからのお知らせを表示する",
+        "Español": "Mostrar anuncios de Buddy",
+        "Deutsch": "Ankündigungen von Buddy anzeigen",
+        "Français": "Afficher les annonces de Buddy",
+        "한국인": "Buddy의 공지사항 표시",
+        "中文": "显示 Buddy 的公告",
+        "العربية": "إظهار إعلانات Buddy",
+        "Tiếng Việt": "Hiển thị thông báo từ Buddy",
+    },
+    "Once a day Buddy checks for news (updates, known issues) and shows a small glowing dot next to \"Buddy\" when there's something new. Nothing about you or your projects is sent. Untick to stop checking.": {
+        "日本語": "Buddyは1日に1回、ニュース（アップデート、既知の問題など）を確認し、新しい情報がある場合は「Buddy」の横に小さな光るドットを表示します。ユーザーやプロジェクトに関する情報は一切送信されません。チェックを外すと確認を停止します。",
+        "Español": "Una vez al día, Buddy comprueba si hay novedades (actualizaciones, problemas conocidos) y muestra un pequeño punto brillante junto a \"Buddy\" si hay algo nuevo. No se envía ninguna información sobre ti o tus proyectos. Desmarca para dejar de comprobar.",
+        "Deutsch": "Einmal am Tag sucht Buddy nach Neuigkeiten (Updates, bekannte Probleme) und zeigt einen kleinen leuchtenden Punkt neben „Buddy“, wenn es etwas Neues gibt. Es werden keine Daten über Sie oder Ihre Projekte gesendet. Deaktivieren Sie diese Option, um die Überprüfung zu stoppen.",
+        "Français": "Une fois par jour, Buddy recherche des actualités (mises à jour, problèmes connus) et affiche un petit point lumineux à côté de \"Buddy\" lorsqu'il y a du nouveau. Aucune information sur vous ou vos projets n'est envoyée. Décochez pour arrêter la vérification.",
+        "한국인": "Buddy는 하루에 한 번 뉴스(업데이트, 알려진 문제)를 확인하고 새로운 소식이 있을 때 \"Buddy\" 옆에 작고 빛나는 점을 표시합니다. 사용자나 프로젝트에 대한 어떤 정보도 전송되지 않습니다. 확인을 중지하려면 선택을 해제하세요.",
+        "中文": "Buddy 每天会检查一次新闻（更新、已知问题），当有新内容时会在“Buddy”旁显示一个小亮点。不会发送有关您或您的项目的任何信息。取消选中即可停止检查。",
+        "العربية": "يتحقق Buddy مرة يوميًا من الأخبار (التحديثات، المشكلات المعروفة) ويظهر نقطة مضيئة صغيرة بجوار \"Buddy\" عندما يكون هناك جديد. لا يتم إرسال أي شيء عنك أو عن مشاريعك. قم بإلغاء التحديد لإيقاف التحقق.",
+        "Tiếng Việt": "Mỗi ngày một lần, Buddy kiểm tra tin tức (cập nhật, các vấn đề đã biết) và hiển thị một chấm sáng nhỏ bên cạnh \"Buddy\" khi có điều gì đó mới. Không có bất kỳ thông tin nào về bạn hoặc dự án của bạn được gửi đi. Bỏ chọn để ngừng kiểm tra.",
+    },
+    "Organize sidebar…": {
+        "日本語": "サイドバーを整理...",
+        "Español": "Organizar barra lateral...",
+        "Deutsch": "Seitenleiste organisieren...",
+        "Français": "Organiser la barre latérale...",
+        "한국인": "사이드바 정리...",
+        "中文": "整理侧边栏…",
+        "العربية": "تنظيم الشريط الجانبي...",
+        "Tiếng Việt": "Sắp xếp thanh bên...",
+    },
+    "Reorder, show or hide the tools in the sidebar, and add or rename the dividers between them.": {
+        "日本語": "サイドバー内のツールを並べ替え、表示・非表示を切り替え、区切り線を追加または名前変更します。",
+        "Español": "Reordena, muestra u oculta las herramientas de la barra lateral, y añade o renombra los separadores entre ellas.",
+        "Deutsch": "Ordnen Sie die Werkzeuge in der Seitenleiste neu an, blenden Sie sie ein oder aus, und fügen Sie Trennlinien hinzu oder benennen Sie diese um.",
+        "Français": "Réorganisez, affichez ou masquez les outils de la barre latérale, et ajoutez ou renommez les séparateurs entre eux.",
+        "한국인": "사이드바의 도구를 재정렬, 표시 또는 숨기고 도구 사이의 구분선을 추가하거나 이름을 변경합니다.",
+        "中文": "对侧边栏中的工具进行重新排序、显示或隐藏，并添加或重命名它们之间的分隔线。",
+        "العربية": "إعادة ترتيب، أو إظهار أو إخفاء الأدوات في الشريط الجانبي، وإضافة أو إعادة تسمية الفواصل بينها.",
+        "Tiếng Việt": "Sắp xếp lại, hiển thị hoặc ẩn các công cụ trên thanh bên, đồng thời thêm hoặc đổi tên các đường phân cách giữa chúng.",
+    },
+
 }
 
 
+def _merge_translation_files():
+    """core/translations/*.json into TRANSLATIONS. An entry above wins over
+    one in a file, and a file's entry fills in only the languages missing.
+    A file that can't be read is skipped - its text stays English - rather
+    than stopping Buddy from starting (tests/test_i18n.py reads them all)."""
+    if not os.path.isdir(TRANSLATIONS_DIR):
+        return
+    for name in sorted(os.listdir(TRANSLATIONS_DIR)):
+        if not name.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(TRANSLATIONS_DIR, name), encoding="utf-8") as fh:
+                entries = json.load(fh)
+        except (OSError, ValueError) as exc:
+            print(f"[i18n] skipped {name}: {exc}", file=sys.stderr)
+            continue
+        for english, by_language in entries.items():
+            if english.startswith("_"):   # "_comment" and the like
+                continue
+            known = TRANSLATIONS.setdefault(english, {})
+            for language, text in by_language.items():
+                known.setdefault(language, text)
+
+
+_merge_translation_files()
+
+# ------------------------------------------------------------- matching --
+# buddy.js does the same matching for the pages (translateText there) -
+# change one, change both.
+
+_PLACEHOLDER = re.compile(r"\{(\w+)\}")
+_ELLIPSIS = "…"
+
+
+def normalize(text):
+    """A key as matched: runs of whitespace as one space, trimmed."""
+    return " ".join(str(text).split())
+
+
+def is_template(key):
+    """True for a key with {placeholders} and enough words of its own to
+    be recognised - "{count}%" alone would match any number."""
+    if not _PLACEHOLDER.search(key):
+        return False
+    return len(re.findall(r"[^\W\d_]", _PLACEHOLDER.sub("", key))) >= 2
+
+
+def _compile(key):
+    parts, names, pos = [], [], 0
+    for m in _PLACEHOLDER.finditer(key):
+        parts.append(re.escape(key[pos:m.start()]))
+        parts.append("(.+?)")
+        names.append(m.group(1))
+        pos = m.end()
+    parts.append(re.escape(key[pos:]))
+    return re.compile("".join(parts), re.S), names
+
+
+class _Catalog:
+    """One language's strings, ready to look up."""
+
+    def __init__(self, language):
+        self.exact = {}
+        templates = []
+        for english, by_language in TRANSLATIONS.items():
+            text = by_language.get(language)
+            if not text:
+                continue
+            key = normalize(english)
+            self.exact[key] = text
+            if is_template(key):
+                pattern, names = _compile(key)
+                templates.append((len(_PLACEHOLDER.sub("", key)), pattern, names, text))
+        # The most specific first: "Deleted folder '{name}'" before "Deleted {what}".
+        templates.sort(key=lambda t: -t[0])
+        self.templates = [t[1:] for t in templates]
+
+    def _exact(self, key):
+        hit = self.exact.get(key)
+        if hit is not None:
+            return hit
+        if "..." in key or _ELLIPSIS in key:
+            hit = self.exact.get(key.replace("...", _ELLIPSIS)) or self.exact.get(key.replace(_ELLIPSIS, "..."))
+            if hit is not None:
+                return hit
+        # "Name:" when only "Name" is known, and the other way round; the
+        # same for a trailing "…" (a menu item that opens a dialog).
+        for tail in (":", _ELLIPSIS):
+            if key.endswith(tail) and len(key) > len(tail):
+                hit = self.exact.get(key[:-len(tail)].rstrip())
+                if hit is not None:
+                    return hit + tail
+        if key + ":" in self.exact:
+            return self.exact[key + ":"].rstrip(":：").rstrip()
+        return None
+
+    def lookup(self, key):
+        hit = self._exact(key)
+        if hit is not None:
+            return hit
+        for pattern, names, text in self.templates:
+            m = pattern.fullmatch(key)
+            if m:
+                values = dict(zip(names, m.groups()))
+                for name in names:
+                    if name.startswith("t_"):
+                        values[name] = self._exact(normalize(values[name])) or values[name]
+                return _PLACEHOLDER.sub(lambda p: values.get(p.group(1), p.group(0)), text)
+        return None
+
+
+_catalogs = {}
+
+
+def _catalog(language):
+    if language not in _catalogs:
+        _catalogs[language] = _Catalog(language)
+    return _catalogs[language]
+
+
+def translate(text, language):
+    """`text` in `language`, or `text` itself when there's no translation.
+    Whitespace around it is kept."""
+    if not text or not isinstance(text, str) or language == DEFAULT_LANGUAGE or language not in LANGUAGES:
+        return text
+    key = normalize(text)
+    if not key:
+        return text
+    hit = _catalog(language).lookup(key)
+    if hit is None:
+        return text
+    lead = text[:len(text) - len(text.lstrip())]
+    trail = text[len(text.rstrip()):]
+    return lead + hit + trail
+
+
+def translate_filter(file_filter, language):
+    """A file picker's filter ("Images (*.png *.jpg);;All files (*)") with
+    each name translated and the patterns left alone."""
+    out = []
+    for part in file_filter.split(";;"):
+        name, sep, patterns = part.partition(" (")
+        out.append(translate(name, language) + sep + patterns)
+    return ";;".join(out)
+
+
+def web_strings(language):
+    """What buddy.js needs to translate a page: {english: translation}
+    (keys normalized), or None for English."""
+    if language == DEFAULT_LANGUAGE or language not in LANGUAGES:
+        return None
+    return _catalog(language).exact
+
+
+def language_label(language):
+    return LANGUAGE_LABELS.get(language, language)
+
+
+# ------------------------------------------------------------- manager --
+
 class I18nManager(QObject):
+    """The language in use. language_changed tells open windows to redraw
+    (core/web_page.py sends every view its new strings)."""
+
     language_changed = Signal(str)
 
-    def __init__(self, current_language="English"):
+    def __init__(self, current_language=DEFAULT_LANGUAGE):
         super().__init__()
-        self._language = current_language if current_language in LANGUAGES else "English"
+        self._language = current_language if current_language in LANGUAGES else DEFAULT_LANGUAGE
 
     @property
     def language(self):
@@ -2681,18 +3093,43 @@ class I18nManager(QObject):
             self.language_changed.emit(self._language)
 
     def tr(self, text):
-        if not text or self._language == "English":
-            return text
-        entry = TRANSLATIONS.get(text)
-        if entry and self._language in entry:
-            return entry[self._language]
-        return text
+        return translate(text, self._language)
 
 
-_global_i18n = I18nManager()
+_global_i18n = None
+
 
 def get_i18n():
+    global _global_i18n
+    if _global_i18n is None:
+        _global_i18n = I18nManager()
     return _global_i18n
 
+
+def current_language():
+    return get_i18n().language
+
+
 def tr(text):
-    return _global_i18n.tr(text)
+    """`text` in the language chosen in Settings."""
+    return get_i18n().tr(text)
+
+
+def tr_filter(file_filter):
+    return translate_filter(file_filter, get_i18n().language)
+
+
+def format_when(when, english_format, style="date"):
+    """A datetime written for the language chosen in Settings - month and
+    weekday names can't go through tr(). English keeps english_format (a
+    strftime pattern); other languages use their own convention: style
+    "long" (weekday, day, month, year), "date" or "datetime" (short)."""
+    language = get_i18n().language
+    if language == DEFAULT_LANGUAGE or language not in LANGUAGE_CODES:
+        return when.strftime(english_format)
+    from PySide6.QtCore import QDate, QDateTime, QLocale, QTime
+    locale = QLocale(LANGUAGE_CODES[language])
+    date = QDate(when.year, when.month, when.day)
+    if style == "datetime":
+        return locale.toString(QDateTime(date, QTime(when.hour, when.minute)), QLocale.FormatType.ShortFormat)
+    return locale.toString(date, QLocale.FormatType.LongFormat if style == "long" else QLocale.FormatType.ShortFormat)

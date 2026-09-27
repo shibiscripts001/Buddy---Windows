@@ -45,6 +45,9 @@ DEFAULT_SHARED_SETTINGS = {
     # The orb next to "Buddy": a once-a-day check for announcements (see
     # core/announcements.py). One checkbox in Settings turns it off.
     "announcements_enabled": True,
+    # The whole app's language (a core/i18n.py LANGUAGES key) - the
+    # dropdown at the foot of Settings.
+    "language": "English",
 }
 
 

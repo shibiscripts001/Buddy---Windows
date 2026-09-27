@@ -5,7 +5,8 @@ apply to every tool page at once, and the tool on screen adds its own
 section below (ToolPage.settings_fields(), pages/base.py). A web window
 (app/web/shell/settings/): the fields are data from core/settings_form.py,
 and every change comes back here to be checked, saved and applied at once -
-there's no Apply button.
+there's no Apply button. The Language dropdown is always last, below the
+tool's section.
 
 Protocol:
     to the view    settings, status
@@ -15,7 +16,8 @@ Protocol:
 import os
 
 from core import startup_manager
-from core.settings_form import apply_shell, reset_theme, shell_fields
+from core.i18n import get_i18n
+from core.settings_form import apply_shell, language_fields, reset_theme, shell_fields
 from core.message_dialog import alert, confirm
 from core.web_page import WEB_COMMON_DIR, WebDialog
 
@@ -79,6 +81,8 @@ class SettingsDialog(WebDialog):
         if fields:
             # Its own fields start with its heading.
             out.append({"id": "tool", "title": "", "fields": [f for f in fields if f]})
+        # Last, whichever tool is open - and a shell setting like the rest.
+        out.append({"id": "language", "title": "", "fields": language_fields(self.shared_settings)})
         return out
 
     def push(self):
@@ -108,13 +112,20 @@ class SettingsDialog(WebDialog):
                 self.shared_settings["announcements_enabled"] = bool(value)
                 self.shared_settings.save()
             return
+        if effect == "language":
+            self.shared_settings.save()
+            # Every open view (this window too) gets the new language's
+            # strings and redraws in it - see core/web_page.py.
+            get_i18n().language = value
+            return
         if effect == "autostart":
             # A real side effect straight away (a registry write).
             try:
                 startup_manager.set_enabled(bool(value))
             except Exception as exc:  # noqa: BLE001 - reported to the user
                 alert(self, "Startup setting failed",
-                      f"Could not {'enable' if value else 'disable'} launching at startup:\n{exc}")
+                      f"Could not enable launching at startup:\n{exc}" if value
+                      else f"Could not disable launching at startup:\n{exc}")
             return
         self.shared_settings.save()
         if effect in ("theme", "window"):

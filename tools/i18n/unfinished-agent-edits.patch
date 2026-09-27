@@ -1,0 +1,144 @@
+diff --git a/app/pages/image_importer/web/importer.js b/app/pages/image_importer/web/importer.js
+index 3a97ff3..5d04c70 100644
+--- a/app/pages/image_importer/web/importer.js
++++ b/app/pages/image_importer/web/importer.js
+@@ -47,7 +47,8 @@ $("clear").onclick = async () => {
+     }
+ };
+ 
+-const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
++// Whole phrases, not glued English plurals, so each can be translated.
++const images = n => n === 1 ? "1 image" : `${n} images`;
+ 
+ function thumb(item) {
+     const frame = el("div.frame");
+@@ -68,8 +69,9 @@ function thumb(item) {
+         },
+     }, [
+         frame,
+-        el("div.name", {text: item.name}),
+-        el("div.meta", {text: item.exists ? `${item.source} · ${item.added_at}` : "File not found"}),
++        el("div.name", {text: item.name, translate: "no"}),
++        // The source ("Pasted image") is its own text node, so it translates.
++        el("div.meta", {}, item.exists ? [item.source, ` · ${item.added_at}`] : ["File not found"]),
+         el("button.x", {type: "button", title: "Take off the list", "aria-label": `Remove ${item.name}`, text: "×",
+             onclick: () => { selected.delete(item.id); send("remove", {ids: [item.id]}); }}),
+     ]);
+@@ -80,7 +82,7 @@ function pending(d) {
+     return el("div.thumb.pending", {title: d.url}, [
+         el("div.frame", {}, el("span.dots", {}, [el("i"), el("i"), el("i")])),
+         el("div.name", {text: "Downloading…"}),
+-        el("div.meta", {text: d.url}),
++        el("div.meta", {text: d.url, translate: "no"}),
+     ]);
+ }
+ 
+@@ -89,7 +91,8 @@ function drawFooter() {
+     const bin = $("bin-name").value.trim();
+     const go = $("import");
+     go.disabled = !present || !bin;
+-    go.textContent = present ? `Import ${plural(present, "image")}${bin ? ` into "${bin}"` : ""}` : "Import";
++    const what = present === 1 ? "Import 1 image" : `Import ${present} images`;
++    go.textContent = present ? (bin ? `${what} into "${bin}"` : what) : "Import";
+     go.title = !bin && present ? "Type a bin name first" : "";
+ }
+ 
+@@ -99,7 +102,7 @@ function draw() {
+     $("dropzone").hidden = any;
+     $("gallery-head").hidden = !any;
+     $("grid").replaceChildren(...items.map(thumb), ...downloads.map(pending));
+-    $("count").textContent = items.length ? plural(items.length, "image") : "Downloading";
++    $("count").textContent = items.length ? images(items.length) : "Downloading";
+     $("selected-note").textContent = selected.size ? `${selected.size} selected – Delete removes` : "";
+     $("remove-selected").hidden = !selected.size;
+     $("clear").hidden = !items.length;
+@@ -108,7 +111,7 @@ function draw() {
+ 
+ Buddy.on("settings", s => {
+     const folder = $("save-folder");
+-    folder.replaceChildren(el("bdi", {text: s.save_folder}));
++    folder.replaceChildren(el("bdi", {text: s.save_folder, translate: "no"}));
+     folder.title = s.save_folder;
+     if (document.activeElement !== $("bin-name")) $("bin-name").value = s.bin_name;
+     drawFooter();
+diff --git a/app/pages/text_animator/page.py b/app/pages/text_animator/page.py
+index 1ba4f26..2df22a8 100644
+--- a/app/pages/text_animator/page.py
++++ b/app/pages/text_animator/page.py
+@@ -1022,7 +1022,9 @@ class TextAnimatorPage(WebToolPage):
+                 self.log(f"Successfully processed {len(created_clips)} subtitle items to Text+ on Video Track {target_track}.")
+             finally:
+                 self.host.set_busy(False)
+-            self.emit("toast", {"text": f"{len(created_clips)} Text+ clips on video track {target_track}"})
++            created = len(created_clips)
++            self.emit("toast", {"text": f"1 Text+ clip on video track {target_track}" if created == 1
++                                else f"{created} Text+ clips on video track {target_track}"})
+             self._set_default_target_video_track()
+         except Exception as err:
+             self.log(f"[Error in convert_subtitles]: {err}")
+diff --git a/app/pages/text_animator/web/animator.js b/app/pages/text_animator/web/animator.js
+index 01fd94f..a0c364c 100644
+--- a/app/pages/text_animator/web/animator.js
++++ b/app/pages/text_animator/web/animator.js
+@@ -57,8 +57,12 @@ function trackOptions(select, count, value, extra = 0) {
+ Buddy.on("state", s => {
+     STATE = s;
+     if (s.tab !== TAB) showTab(s.tab);
+-    const t = $("timeline");
+-    t.textContent = s.timeline ? `${s.timeline} · ${s.resolution[0]}×${s.resolution[1]} · ${s.tracks.video} video track${s.tracks.video === 1 ? "" : "s"}` : "";
++    // The timeline's name is the user's; the rest is translated piece by piece.
++    const n = s.tracks.video;
++    $("timeline").replaceChildren(...(s.timeline ? [
++        el("span", {text: s.timeline, translate: "no"}), ` · ${s.resolution[0]}×${s.resolution[1]} · `,
++        el("span", {text: n === 1 ? "1 video track" : `${n} video tracks`}),
++    ] : []));
+     trackOptions($("sub-track"), s.tracks.subtitle, s.sub_track);
+     trackOptions($("target-track"), s.tracks.video, s.target_track, 1);
+     if (OPT) {
+@@ -209,7 +213,10 @@ function drawPreview() {
+     // Size is a fraction of frame width; this box stands in for a 16:9 frame.
+     const fs = Math.max(8, val("font_size") * w * 0.62);
+     const t = OPT.toggles;
+-    sample.textContent = (STATE && STATE.sample) || "Sample Text";
++    // A clip's own text is the user's; only the stand-in is translated.
++    const userSample = (STATE && STATE.sample) || "";
++    sample.translate = !userSample;
++    sample.textContent = userSample || "Sample Text";
+     sample.style.fontFamily = `"${OPT.font_css.family}", sans-serif`;
+     sample.style.fontWeight = OPT.font_css.weight;
+     sample.style.fontStyle = OPT.font_css.italic ? "italic" : "normal";
+@@ -256,7 +263,7 @@ Buddy.on("overlay", o => {
+ $("apply-layout").onclick = () => send("apply_layout", {preset: OPT.layout_preset, selected: canvases.words.selected()});
+ 
+ Buddy.on("history", h => {
+-    for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = h.undo ? `Undo (Ctrl+Z) - ${h.undo} step${h.undo === 1 ? "" : "s"}` : "Nothing to undo"; }
++    for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = !h.undo ? "Nothing to undo" : h.undo === 1 ? "Undo (Ctrl+Z) - 1 step" : `Undo (Ctrl+Z) - ${h.undo} steps`; }
+     for (const b of $$("[data-redo]")) { b.disabled = !h.redo; b.title = h.redo ? "Redo (Ctrl+Shift+Z)" : "Nothing to redo"; }
+ });
+ 
+diff --git a/app/pages/text_animator/web/canvas.js b/app/pages/text_animator/web/canvas.js
+index f8e92c4..2d34bfe 100644
+--- a/app/pages/text_animator/web/canvas.js
++++ b/app/pages/text_animator/web/canvas.js
+@@ -77,7 +77,7 @@ function PlacementCanvas(root, {tab, multi}) {
+         let node = nodes.get(item.id);
+         if (!node) {
+             node = el("div.tbox", {dataset: {id: item.id}});
+-            node.append(svg("svg", {class: "tsvg"}));
++            node.append(svg("svg", {class: "tsvg", translate: "no"}));   // the clip's own text
+             for (const corner of ["tl", "tr", "bl", "br"]) node.append(el(`i.handle.${corner}`, {dataset: {corner}}));
+             boxes.append(node);
+             nodes.set(item.id, node);
+diff --git a/app/pages/text_animator/web/index.html b/app/pages/text_animator/web/index.html
+index 31be91f..bd0e10d 100644
+--- a/app/pages/text_animator/web/index.html
++++ b/app/pages/text_animator/web/index.html
+@@ -57,7 +57,7 @@
+                     </div>
+                     <div class="group-body">
+                         <div class="row">
+-                            <label class="lbl grow">Font <select class="field" id="font"></select></label>
++                            <label class="lbl grow">Font <select class="field" id="font" translate="no"></select></label>
+                             <button type="button" class="btn ghost" data-action="reset_font" id="reset-font"
+                                     title="Applies Arial Regular, size 0.08, to every Text+ clip straight away">Reset to default</button>
+                         </div>

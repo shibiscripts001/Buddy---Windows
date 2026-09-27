@@ -43,6 +43,7 @@ from datetime import datetime, timedelta
 from PySide6.QtCore import QAbstractNativeEventFilter, QTimer
 from PySide6.QtWidgets import QApplication, QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.message_dialog import alert
 from core.web_page import WebToolPage
 
@@ -332,11 +333,11 @@ class TimeTrackerPage(TrackerSettingsMixin, WebToolPage):
         if ids:
             self.data_mgr.delete_entries(ids)
             self._push_data()
-            self.emit("toast", {"text": f"Deleted {len(ids)} {'entry' if len(ids) == 1 else 'entries'}"})
+            self.emit("toast", {"text": "Deleted 1 entry" if len(ids) == 1 else f"Deleted {len(ids)} entries"})
 
     def _save_path(self, title, filename, file_filter):
         default_path = self.data_mgr.default_export_path(filename)
-        path, _ = QFileDialog.getSaveFileName(self, title, default_path, file_filter)
+        path, _ = QFileDialog.getSaveFileName(self, title, default_path, tr_filter(file_filter))
         if not path:
             return None
         # QFileDialog doesn't reliably auto-append the extension on every
@@ -345,7 +346,7 @@ class TimeTrackerPage(TrackerSettingsMixin, WebToolPage):
         return path if path.lower().endswith(ext) else path + ext
 
     def _export(self, format_name, spec, run):
-        path = self._save_path(f"Export {format_name}", spec["filename"], spec["filter"])
+        path = self._save_path(tr("Export {format}").format(format=format_name), spec["filename"], spec["filter"])
         if not path:
             return
         try:
@@ -397,7 +398,7 @@ class TimeTrackerPage(TrackerSettingsMixin, WebToolPage):
             self.emit("invoice_result", {"ok": False, "message": "The 'From' date must be on or before the 'To' date."})
             return
         safe = "".join(c if c.isalnum() or c in " -_" else "_" for c in project).strip() or "project"
-        path = self._save_path("Generate invoice", f"invoice_{safe}_{start}_to_{end}.pdf", "PDF files (*.pdf)")
+        path = self._save_path(tr("Generate invoice"), f"invoice_{safe}_{start}_to_{end}.pdf", "PDF files (*.pdf)")
         if not path:
             return
         try:

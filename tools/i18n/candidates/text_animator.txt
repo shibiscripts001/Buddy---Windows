@@ -1,0 +1,357 @@
+pages\text_animator\animation_engine.py	'From Left'
+pages\text_animator\animation_engine.py	'From Right'
+pages\text_animator\animation_engine.py	'From Top'
+pages\text_animator\animation_engine.py	'From Bottom'
+pages\text_animator\animation_engine.py	"- Connected '{x}' to a new BezierSpline."
+pages\text_animator\animation_engine.py	"- [Spline H3] {x}/{x} bracket-index assignments on '{x}' raised no exception."
+pages\text_animator\animation_engine.py	'- [Follower Diagnostic] TextPlus tool attributes resolving to non-None: {x}'
+pages\text_animator\animation_engine.py	"- [Spline] comp.AddTool('BezierSpline') for '{x}' returned {x}"
+pages\text_animator\animation_engine.py	"- [Spline {x} Verify] SaveSettings()['KeyFrames'] = {x}"
+pages\text_animator\animation_engine.py	"- [Spline H2] {x}/{x} SetInput('Value', value, time) calls raised no exception."
+pages\text_animator\animation_engine.py	'- Applied Pop preset keyframes for LayoutSize at t={x}, {x}, {x}.'
+pages\text_animator\animation_engine.py	'- Applied Bounce preset keyframes for LayoutSize at t={x}, {x}, {x}, {x}, {x}.'
+pages\text_animator\animation_engine.py	'- Applied smooth fade-in keyframes for Opacity1 at t={x}, {x} (held flat from t={x}).'
+pages\text_animator\animation_engine.py	"- [Cleanup Warning] Existing tool '{x}' has no callable Delete()."
+pages\text_animator\animation_engine.py	"- [XYPath] AddModifier('{x}', 'XYPath') returned {x}"
+pages\text_animator\animation_engine.py	'- [XYPath] {x}.GetConnectedOutput() returned {x}'
+pages\text_animator\animation_engine.py	'- [XYPath] GetConnectedOutput().GetTool() returned {x}'
+pages\text_animator\animation_engine.py	"- [Slide Warning] Unrecognized direction '{x}' – defaulting to 'From Left'."
+pages\text_animator\animation_engine.py	'- Applied Slide preset ({x}) at t={x}, {x}.'
+pages\text_animator\animation_engine.py	'- [{x} Style Error] TextPlus tool is None or has no SetInput.'
+pages\text_animator\animation_engine.py	"- [Outline Style Exception] SetInput('Enabled2', 1): {x}"
+pages\text_animator\animation_engine.py	"- [Shadow Style Exception] SetInput('Enabled3', 1): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('Enabled4', 1): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('Level4', {x}): {x}"
+pages\text_animator\animation_engine.py	'- [Cleanup Exception] {x}.GetConnectedOutput(): {x}'
+pages\text_animator\animation_engine.py	"- [Cleanup Exception] {x}'s GetConnectedOutput().GetTool(): {x}"
+pages\text_animator\animation_engine.py	"- [Cleanup] Deleted stale tool previously connected to '{x}'."
+pages\text_animator\animation_engine.py	"- [Spline Exception] comp.AddTool('BezierSpline'): {x}"
+pages\text_animator\animation_engine.py	'- [Spline {x} Verify] spline.SaveSettings not available.'
+pages\text_animator\animation_engine.py	"- [Spline Warning] '{x}' input object has no callable ConnectTo."
+pages\text_animator\animation_engine.py	'- [Spline Exception] {x}.ConnectTo: {x}'
+pages\text_animator\animation_engine.py	"- [Cleanup] Deleted existing tool '{x}'."
+pages\text_animator\animation_engine.py	"- [XYPath Exception] AddModifier('{x}', 'XYPath'): {x}"
+pages\text_animator\animation_engine.py	"- [XYPath Warning] '{x}' input has no callable GetConnectedOutput."
+pages\text_animator\animation_engine.py	'- [XYPath Exception] Locating modifier via GetConnectedOutput/GetTool: {x}'
+pages\text_animator\animation_engine.py	"- [Slide Exception] SetInput('Center', [{x}, {x}]): {x}"
+pages\text_animator\animation_engine.py	'- [Remove Animations Exception] Center.ConnectTo(None): {x}'
+pages\text_animator\animation_engine.py	"- [Remove Animations Exception] Deleting Pivot's XYPath modifier: {x}"
+pages\text_animator\animation_engine.py	'- [Remove Animations Exception] Pivot reset: {x}'
+pages\text_animator\animation_engine.py	"- [Follower H1] AddModifier('StyledText', 'Follower') returned {x}"
+pages\text_animator\animation_engine.py	'- [Follower H2] text_plus_node.StyledText = {x} (type {x})'
+pages\text_animator\animation_engine.py	"- [Follower H3] AddModifier('Follower') returned {x}"
+pages\text_animator\animation_engine.py	"- [Follower H4] GetInput('StyledText') = {x} (type {x})"
+pages\text_animator\animation_engine.py	'- [Follower H5] GetInputList() = {x}, keys: {x}'
+pages\text_animator\animation_engine.py	'- Set Follower DelayType={x}, Delay={x}.'
+pages\text_animator\animation_engine.py	'- [Delay Warning] Partial failure setting DelayType/Delay.'
+pages\text_animator\animation_engine.py	'- [Delay Exception]: {x}'
+pages\text_animator\animation_engine.py	'- Applied Pop preset keyframes for Size at t={x}, {x}, {x}.'
+pages\text_animator\animation_engine.py	'- [Pop Exception]: {x}'
+pages\text_animator\animation_engine.py	'- Applied Fade preset keyframes for Opacity and OffsetY at t={x}, {x}.'
+pages\text_animator\animation_engine.py	'- [Fade Exception]: {x}'
+pages\text_animator\animation_engine.py	'- Applied Slide preset keyframes for OffsetX and Opacity at t={x}, {x}.'
+pages\text_animator\animation_engine.py	'- [Slide Exception]: {x}'
+pages\text_animator\animation_engine.py	"- [Text Style Exception] SetInput('Font', '{x}'): {x}"
+pages\text_animator\animation_engine.py	"- [Text Style Exception] SetInput('Size', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [{x} Style Exception] SetInput('Enabled{x}', 0): {x}"
+pages\text_animator\animation_engine.py	"- [Outline Style Exception] SetInput('Thickness2', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Outline Style Exception] SetInput('Alpha2', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Shadow Style Exception] SetInput('Offset3', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Shadow Style Exception] SetInput('Opacity3', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('Opacity4', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('Round4', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('ExtendHorizontal4', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('ExtendVertical4', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Cleanup Exception] Deleting stale '{x}' connection: {x}"
+pages\text_animator\animation_engine.py	'- [Spline {x} Verify Exception] SaveSettings(): {x}'
+pages\text_animator\animation_engine.py	'- [Spline] {x}.ConnectTo(spline.Value) returned {x}'
+pages\text_animator\animation_engine.py	'- [Spline] {x}.ConnectTo(spline) [fallback] returned {x}'
+pages\text_animator\animation_engine.py	'- [Spline H3 Exception] {x}[{x}] = {x}: {x}'
+pages\text_animator\animation_engine.py	"- [Spline H1 Exception] setattr(spline, 'KeyFrames', ...): {x}"
+pages\text_animator\animation_engine.py	'- [Cleanup Exception] {x}.Delete(): {x}'
+pages\text_animator\animation_engine.py	'- [EXPERIMENTAL] Applied Slide motion ({x}) via an XYPath modifier on Template.Pivot, t={x}->{x}. UNCONFIRMED against a live project – verify the result with a fresh node dump.'
+pages\text_animator\animation_engine.py	'- [Remove Animations Exception] {x}.ConnectTo(None): {x}'
+pages\text_animator\animation_engine.py	"- [Remove Animations Exception] SetInput('{x}', {x}): {x}"
+pages\text_animator\animation_engine.py	'- [Follower H1 Exception] {x}'
+pages\text_animator\animation_engine.py	"- [Follower H2] StyledText.AddModifier('Follower') returned {x}"
+pages\text_animator\animation_engine.py	'- [Follower H2 Exception] {x}'
+pages\text_animator\animation_engine.py	'- [Follower H3 Exception] {x}'
+pages\text_animator\animation_engine.py	"- [Follower H4] input_obj.AddModifier('Follower') returned {x}"
+pages\text_animator\animation_engine.py	'- [Follower H4 Exception] {x}'
+pages\text_animator\animation_engine.py	'- [Follower H5] Found StyledText input object: {x}'
+pages\text_animator\animation_engine.py	'- [Follower H5 Exception] {x}'
+pages\text_animator\animation_engine.py	"- [Follower H6] comp.AddTool('Follower') returned {x}"
+pages\text_animator\animation_engine.py	"- [Text Style Exception] Setting Style '{x}' after Font change: {x}"
+pages\text_animator\animation_engine.py	"- [Text Style Exception] SetInput('{x}', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Outline Style Exception] SetInput('{x}', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Shadow Style Exception] SetInput('{x}', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Background Style Exception] SetInput('{x}', {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Spline H2 Exception] spline.SetInput('Value', {x}, {x}): {x}"
+pages\text_animator\animation_engine.py	"- [Follower H5] StyledText input.AddModifier('Follower') returned {x}"
+pages\text_animator\animation_engine.py	'- [Follower H5 Probe] StyledText input object methods/attrs present: {x}'
+pages\text_animator\animation_engine.py	"- [Follower H6 Exception] comp.AddTool('Follower'): {x}"
+pages\text_animator\animation_engine.py	'StyledText attribute'
+pages\text_animator\animation_engine.py	'- [Comp ToolList Exception]: {x}'
+pages\text_animator\animation_engine.py	"- Located Follower node via GetInput('{x}')."
+pages\text_animator\animation_engine.py	'- [Follower H6] {x}.ConnectTo(new_follower) returned {x}'
+pages\text_animator\animation_engine.py	'- [Follower H6] {x} has no callable ConnectTo.'
+pages\text_animator\animation_engine.py	'- [Follower H6 Exception] {x}.ConnectTo: {x}'
+pages\text_animator\animation_engine.py	"- Located Follower node '{x}' via comp tool list."
+pages\text_animator\diagnostics.py	'Unknown failure.'
+pages\text_animator\diagnostics.py	'Resolve API instance not connected.'
+pages\text_animator\diagnostics.py	'resolve.Fusion() raised: {x}'
+pages\text_animator\diagnostics.py	"Fusion didn't report back within {x}s."
+pages\text_animator\diagnostics.py	'{x} Saved to: {x}'
+pages\text_animator\font_utils.py	'SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+pages\text_animator\font_utils.py	'Yu Gothic'
+pages\text_animator\font_utils.py	'Noto Sans JP'
+pages\text_animator\font_utils.py	'MS Gothic'
+pages\text_animator\font_utils.py	'Hiragino Sans'
+pages\text_animator\font_utils.py	'Hiragino Kaku Gothic ProN'
+pages\text_animator\font_utils.py	'Microsoft YaHei'
+pages\text_animator\font_utils.py	'Noto Sans SC'
+pages\text_animator\font_utils.py	'PingFang SC'
+pages\text_animator\font_utils.py	'Malgun Gothic'
+pages\text_animator\font_utils.py	'Noto Sans KR'
+pages\text_animator\font_utils.py	'Apple SD Gothic Neo'
+pages\text_animator\font_utils.py	'Leelawadee UI'
+pages\text_animator\font_utils.py	'Noto Sans Thai'
+pages\text_animator\font_utils.py	'Nirmala UI'
+pages\text_animator\font_utils.py	'Noto Sans Devanagari'
+pages\text_animator\font_utils.py	'Kohinoor Devanagari'
+pages\text_animator\font_utils.py	'{x} Regular'
+pages\text_animator\live_preview.py	"[Live Preview] Diagnostic – raw Size read for clip {x}: {x} (type {x}). Please share this line if the preview's font size doesn't match DaVinci's real render."
+pages\text_animator\live_preview.py	'[Live Preview] Could not parse Center value of type {x} ({x}) – leaving this item at its last known preview position instead of guessing. Please report this so the parser can be fixed.'
+pages\text_animator\options.py	'Offset X'
+pages\text_animator\options.py	'Offset Y'
+pages\text_animator\options.py	'Outline width'
+pages\text_animator\options.py	'Corner radius'
+pages\text_animator\options.py	'Extend H'
+pages\text_animator\options.py	'Extend V'
+pages\text_animator\overlays.py	'Rule of Thirds'
+pages\text_animator\overlays.py	'YouTube Shorts'
+pages\text_animator\page.py	'Editing Tools'
+pages\text_animator\page.py	'Subtitle Conversion'
+pages\text_animator\page.py	'Font Styling'
+pages\text_animator\page.py	'Timeline Layout'
+pages\text_animator\page.py	'Timeline Animation'
+pages\text_animator\page.py	'Custom Animation'
+pages\text_animator\page.py	'Text Animator initialized.'
+pages\text_animator\page.py	'[Live Position] Moved {x}/{x} word(s) together.'
+pages\text_animator\page.py	"[Layout Preset] Applied '{x}' to {x}/{x} word(s)."
+pages\text_animator\page.py	'every video track ({x} track(s))'
+pages\text_animator\page.py	"Font reset to '{x} {x}' – applying to all Text+ clips now…"
+pages\text_animator\page.py	'[Live Position] Updated Center = ({x}, {x}).'
+pages\text_animator\page.py	'[Live Resize] Updated Size = {x}.'
+pages\text_animator\page.py	'[Bounding] Vertically snapped {x} stacked Text+ clip(s) together.'
+pages\text_animator\page.py	'Applying bounding to the timeline…'
+pages\text_animator\page.py	'[Bounding] {x} clip(s) never temporally overlap any other Text+ clip – their vertical position is left untouched by design (vertical snapping only applies to clips that are actually stacked together at some point on the timeline).'
+pages\text_animator\page.py	'[Bounding] Vertically snapped {x} Text+ clip(s) across {x} stacked group(s) on the timeline.'
+pages\text_animator\page.py	'Applying position to the timeline…'
+pages\text_animator\page.py	'[Undo] Reverted {x} change.'
+pages\text_animator\page.py	'[Redo] Reapplied {x} change.'
+pages\text_animator\page.py	'Extracted {x} subtitle clips from Track {x}.'
+pages\text_animator\page.py	'Converting subtitles to Text+…'
+pages\text_animator\page.py	'Text+ clip(s) under the playhead'
+pages\text_animator\page.py	'Video Track {x}'
+pages\text_animator\page.py	"- Warning: Could not apply '{x}' animation to clip '{x}'."
+pages\text_animator\page.py	'Found {x} clip(s) on {x}. Applying animations…'
+pages\text_animator\page.py	'Applying animations…'
+pages\text_animator\page.py	'Removing animations…'
+pages\text_animator\page.py	'- Warning: Could not apply font style to clip {x}.'
+pages\text_animator\page.py	'Applying font style…'
+pages\text_animator\page.py	'[Placement Canvas] Sized to match timeline resolution {x}x{x}.'
+pages\text_animator\page.py	'[Error refreshing live preview]: {x}'
+pages\text_animator\page.py	'[Live Position] Center SetInput Exception: {x}'
+pages\text_animator\page.py	'[Live Resize] Size SetInput Exception: {x}'
+pages\text_animator\page.py	'Needs at least 2 words under the playhead.'
+pages\text_animator\page.py	'Applied Bounding resize to {x}/{x} Text+ clip(s) found across {x} video track(s).'
+pages\text_animator\page.py	'Bounding applied to {x} Text+ clip(s)'
+pages\text_animator\page.py	'[Error in apply_bounding_to_timeline]: {x}'
+pages\text_animator\page.py	"- [Bounding] Clip '{x}' has no GetStart()/GetEnd() – excluded from vertical stacking."
+pages\text_animator\page.py	'[Apply Position] Updated {x}/{x} Text+ clip(s) across {x} track(s) with a playhead reference.'
+pages\text_animator\page.py	'Position copied to {x} Text+ clip(s)'
+pages\text_animator\page.py	'[Error in apply_position_to_timeline]: {x}'
+pages\text_animator\page.py	'[Undo/Redo] {x} SetInput Exception: {x}'
+pages\text_animator\page.py	'Undid {x} change'
+pages\text_animator\page.py	'Redid {x} change'
+pages\text_animator\page.py	'[Info] No subtitles found on Subtitle Track {x}.'
+pages\text_animator\page.py	'Successfully processed {x} subtitle items to Text+ on Video Track {x}.'
+pages\text_animator\page.py	'{x} Text+ clips on video track {x}'
+pages\text_animator\page.py	'[Error in convert_subtitles]: {x}'
+pages\text_animator\page.py	'[Info] No video clips found on {x}.'
+pages\text_animator\page.py	"Successfully animated {x}/{x} Text+ clips on {x} using '{x}'."
+pages\text_animator\page.py	'Animated {x} Text+ clip(s)'
+pages\text_animator\page.py	'[Error in apply_animations]: {x}'
+pages\text_animator\page.py	'Removed animations from {x}/{x} Text+ clips on {x}.'
+pages\text_animator\page.py	'Removed animations from {x} Text+ clip(s)'
+pages\text_animator\page.py	'[Error in remove_animations_from_timeline]: {x}'
+pages\text_animator\page.py	"Share that file's contents to help debug animation behavior."
+pages\text_animator\page.py	'[Error in dump_selected_node_settings]: {x}'
+pages\text_animator\page.py	"Applied font style ('{x}', size {x}) to {x}/{x} Text+ clip(s) found across {x} video track(s)."
+pages\text_animator\page.py	'[Error in apply_font_style_to_all]: {x}'
+pages\text_animator\page.py	'[Error] {x}'
+pages\text_animator\page.py	"[Layout Preset] Unknown preset '{x}'."
+pages\text_animator\page.py	'[Word Layout] SetInput Exception: {x}'
+pages\text_animator\page.py	'[Bounding] SetInput Exception while vertically stacking: {x}'
+pages\text_animator\page.py	"- [Bounding] Could not read start/end for clip '{x}' – excluded from vertical stacking: {x}"
+pages\text_animator\page.py	"- [Bounding] Clip '{x}' has an unreadable Center/Size – excluded from vertical stacking."
+pages\text_animator\page.py	'No Text+ clip under the playhead to copy the position from.'
+pages\text_animator\page.py	'- [GetFusionCompByIndex Error]: {x}'
+pages\text_animator\page.py	'- [GetFusionCompByName Error]: {x}'
+pages\text_animator\page.py	'- [GetFusionCompList Error]: {x}'
+pages\text_animator\page.py	'- [GetToolList TextPlus Error]: {x}'
+pages\text_animator\page.py	'- [GetToolList All Error]: {x}'
+pages\text_animator\page.py	'No subtitles'
+pages\text_animator\page.py	'Subtitle track {x} has no subtitles.'
+pages\text_animator\page.py	'No clips on {x}'
+pages\text_animator\page.py	"Saved the node's settings to your Desktop"
+pages\text_animator\page.py	'[Action] Applying font style to Video Track {x}…'
+pages\text_animator\page.py	"Applied font style ('{x}', size {x}) to {x}/{x} Text+ clip(s) under the playhead."
+pages\text_animator\page.py	"Applied font style ('{x}', size {x}) to {x}/{x} Text+ clip(s) on Video Track {x}."
+pages\text_animator\page.py	'Styled {x} Text+ clip(s)'
+pages\text_animator\page.py	'Clip on Track {x}'
+pages\text_animator\page.py	"- [Bounding] Could not read Center/Size for clip '{x}' – excluded from vertical stacking: {x}"
+pages\text_animator\page.py	"- Warning: Could not vertically snap clip '{x}': {x}"
+pages\text_animator\page.py	"- [FindTool '{x}' Error]: {x}"
+pages\text_animator\page.py	"- [{x}/{x}] Warning: Could not access Fusion comp for clip '{x}'."
+pages\text_animator\page.py	"- [{x}/{x}] Warning: Could not find TextPlus tool inside comp for clip '{x}'."
+pages\text_animator\page.py	'[Info] No video clips found on Video Track {x}.'
+pages\text_animator\page.py	"'{x}' on Track {x}"
+pages\text_animator\page.py	"- Warning: Missing Center/Size for clip '{x}' – skipped."
+pages\text_animator\page.py	"- Skipped clip '{x}': the Bounding lines are degenerate (right must be right of left)."
+pages\text_animator\page.py	'No Text+ clips under the playhead'
+pages\text_animator\page.py	'Video track {x} is empty'
+pages\text_animator\page.py	"- Warning: Could not read style/position for clip '{x}': {x}"
+pages\text_animator\page.py	"- Warning: Could not set Size/Center for clip '{x}': {x}"
+pages\text_animator\page.py	"- Warning: Could not set Center for clip '{x}': {x}"
+pages\text_animator\subtitle_engine.py	'Buddy Text+'
+pages\text_animator\subtitle_engine.py	'Fusion Title'
+pages\text_animator\subtitle_engine.py	"<SubtitleData text='{x}' start={x} end={x} dur={x}>"
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] Timeline methods present: {x}'
+pages\text_animator\subtitle_engine.py	'- [Setup] Using the {x} font – {x} has no characters for this text.'
+pages\text_animator\subtitle_engine.py	'- [Setup Warning] No font with characters for this text was found (tried {x}); titles may show boxes or nothing. Pick a font that has them under Font styling.'
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] Timeline methods NOT present: {x}'
+pages\text_animator\subtitle_engine.py	"- [Playhead Warning] SetCurrentTimecode('{x}') returned falsy."
+pages\text_animator\subtitle_engine.py	'- [Duration Warning] Could not set generator duration to {x} frames; clip may need manual trimming.'
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] GetCurrentTimecode() = {x}'
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] GetStartFrame() = {x}'
+pages\text_animator\subtitle_engine.py	"- [Playhead Exception] SetCurrentTimecode('{x}'): {x}"
+pages\text_animator\subtitle_engine.py	'- [Playhead Insert Exception]: {x}'
+pages\text_animator\subtitle_engine.py	"- [Setup] Added a Text+ template to the Media Pool (bin '{x}') for exact placement – it stays there for next time."
+pages\text_animator\subtitle_engine.py	'[MISMATCH: actually landed at {x}-{x}]'
+pages\text_animator\subtitle_engine.py	'[TRACK MISMATCH: actually on Track {x}]'
+pages\text_animator\subtitle_engine.py	"- [{x}/{x}] Spawned Text+ ({x}) on Track {x} at frame {x}-{x} (dur: {x}): '{x}'{x}{x}"
+pages\text_animator\subtitle_engine.py	"- [FAIL] [{x}/{x}] Failed to insert Text+ clip for '{x}'"
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] GetCurrentTimecode() Exception: {x}'
+pages\text_animator\subtitle_engine.py	'- [Diagnostic] GetStartFrame() Exception: {x}'
+pages\text_animator\subtitle_engine.py	"- [Diagnostic] GetSetting('{x}') = {x}"
+pages\text_animator\subtitle_engine.py	"- [Duration] {x}.SetSetting('{x}', '{x}') = {x}"
+pages\text_animator\subtitle_engine.py	"- [Diagnostic] GetSetting('{x}') Exception: {x}"
+pages\text_animator\subtitle_engine.py	"- [Duration Exception] {x}.SetSetting('{x}', '{x}'): {x}"
+pages\text_animator\web\animator.js	'Type'
+pages\text_animator\web\animator.js	'OK'
+pages\text_animator\web\animator.js	'input, textarea, select'
+pages\text_animator\web\animator.js	'Hero + Stack'
+pages\text_animator\web\animator.js	'Pop (Scale)'
+pages\text_animator\web\animator.js	'Bounce (Extra Rebound)'
+pages\text_animator\web\animator.js	'Fade (Opacity)'
+pages\text_animator\web\animator.js	'Slide (Direction + Fade)'
+pages\text_animator\web\animator.js	'Nothing to undo'
+pages\text_animator\web\animator.js	'Nothing to redo'
+pages\text_animator\web\animator.js	'Choose a colour'
+pages\text_animator\web\animator.js	'From'
+pages\text_animator\web\animator.js	'Slide'
+pages\text_animator\web\animator.js	'Pop'
+pages\text_animator\web\animator.js	'Scales up from nothing with a little overshoot.'
+pages\text_animator\web\animator.js	'Bounce'
+pages\text_animator\web\animator.js	'Like Pop, with an extra rebound.'
+pages\text_animator\web\animator.js	'Fade'
+pages\text_animator\web\animator.js	'Fades in and out.'
+pages\text_animator\web\animator.js	'Slides in from a side while fading.'
+pages\text_animator\web\animator.js	'One big word, the rest above and below it.'
+pages\text_animator\web\animator.js	"Click a word in the preview to make it the hero – otherwise it's the middle word by timing."
+pages\text_animator\web\animator.js	'Side-by-Side'
+pages\text_animator\web\animator.js	'Every word in one row, evenly spaced.'
+pages\text_animator\web\animator.js	'Shrinks the row to fit the frame if it has to.'
+pages\text_animator\web\animator.js	'Grid'
+pages\text_animator\web\animator.js	'The words in a tidy grid.'
+pages\text_animator\web\animator.js	'Sample Text'
+pages\text_animator\web\animator.js	'stroke fill'
+pages\text_animator\web\animator.js	'Double-click for the standard spacing for this resolution'
+pages\text_animator\web\animator.js	'Spacing'
+pages\text_animator\web\animator.js	'Opacity'
+pages\text_animator\web\animator.js	'Safe zone'
+pages\text_animator\web\animator.js	'Platform'
+pages\text_animator\web\animator.js	'Snapping'
+pages\text_animator\web\animator.js	'Snap to the frame centre'
+pages\text_animator\web\animator.js	'Snap to other text'
+pages\text_animator\web\animator.js	'Snap to safe-zone edges'
+pages\text_animator\web\animator.js	'Remove animations?'
+pages\text_animator\web\animator.js	'Removes the animations from every Text+ clip on the timeline. Undo can put them back.'
+pages\text_animator\web\canvas.js	'use strict'
+pages\text_animator\web\canvas.js	'Standard'
+pages\text_animator\web\canvas.js	'Placement preview'
+pages\text_animator\web\canvas.js	'layer under'
+pages\text_animator\web\canvas.js	'layer over'
+pages\text_animator\web\canvas.js	"No Text+ clips under the playhead. Move Resolve's playhead over a Text+ clip."
+pages\text_animator\web\index.html	'Activity'
+pages\text_animator\web\index.html	'Read the timeline again'
+pages\text_animator\web\index.html	'Diagnostics'
+pages\text_animator\web\index.html	'Text Animator'
+pages\text_animator\web\index.html	'Redo (Ctrl+Shift+Z)'
+pages\text_animator\web\index.html	'Colour'
+pages\text_animator\web\index.html	'Subtitle conversion'
+pages\text_animator\web\index.html	'Font styling'
+pages\text_animator\web\index.html	'Timeline layout'
+pages\text_animator\web\index.html	'Timeline animation'
+pages\text_animator\web\index.html	'Custom animation'
+pages\text_animator\web\index.html	'Subtitles to Text+'
+pages\text_animator\web\index.html	'Turns each subtitle on a subtitle track into its own Text+ clip on a video track, at the same time – ready to style, place and animate on the other tabs.'
+pages\text_animator\web\index.html	'From subtitle track'
+pages\text_animator\web\index.html	'To video track'
+pages\text_animator\web\index.html	'Convert subtitles to Text+'
+pages\text_animator\web\index.html	'Titles are placed from a Text+ in your Media Pool, for exact timing. If the project has none, Buddy adds one the first time (a "Buddy Text+" bin) – nothing to set up. The video track suggested is the topmost empty one.'
+pages\text_animator\web\index.html	'Font'
+pages\text_animator\web\index.html	'Untick to leave font, size and colour as they are.'
+pages\text_animator\web\index.html	'Applies Arial Regular, size 0.08, to every Text+ clip straight away'
+pages\text_animator\web\index.html	'Reset to default'
+pages\text_animator\web\index.html	'Fonts with a real .ttf/.otf file on this computer – what Resolve\'s own list draws from. Resolve must also see the font (installed before it started, for the right user) or the clip shows "Font Not Found".'
+pages\text_animator\web\index.html	'Outline'
+pages\text_animator\web\index.html	'Drop shadow'
+pages\text_animator\web\index.html	'Not applied to Resolve yet'
+pages\text_animator\web\index.html	'Outline colour'
+pages\text_animator\web\index.html	'Override sizing'
+pages\text_animator\web\index.html	'These are kept but not sent to Resolve until their Text+ inputs are confirmed.'
+pages\text_animator\web\index.html	'Approximate – Resolve draws the real thing.'
+pages\text_animator\web\index.html	'Apply to'
+pages\text_animator\web\index.html	'Entire timeline'
+pages\text_animator\web\index.html	'Under the playhead'
+pages\text_animator\web\index.html	'One track'
+pages\text_animator\web\index.html	'Video track'
+pages\text_animator\web\index.html	'Apply font style'
+pages\text_animator\web\index.html	'Outline, shadow and background that are unticked are turned off on the clips.'
+pages\text_animator\web\index.html	'Live placement'
+pages\text_animator\web\index.html	'Drag to move, drag a corner to resize, arrow keys to nudge. Changes go to Resolve when you let go.'
+pages\text_animator\web\index.html	'Undo (Ctrl+Z)'
+pages\text_animator\web\index.html	'Guides & snapping'
+pages\text_animator\web\index.html	'Apply position'
+pages\text_animator\web\index.html	'Copies the position of each clip under the playhead onto every other Text+ clip on its video track, across the whole timeline. A track with nothing under the playhead is left alone.'
+pages\text_animator\web\index.html	'Apply position to entire timeline'
+pages\text_animator\web\index.html	'Bounding'
+pages\text_animator\web\index.html	"Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying resizes every clip's text to fill the space between them and centres it there. Turning them on also stacks clips under the playhead together vertically."
+pages\text_animator\web\index.html	'Show bounding lines'
+pages\text_animator\web\index.html	'Apply bounding to entire timeline'
+pages\text_animator\web\index.html	'Word preview'
+pages\text_animator\web\index.html	'For subtitles split one word per Text+ clip. Drag across empty space to select several words; Shift-click adds one.'
+pages\text_animator\web\index.html	'Layout presets'
+pages\text_animator\web\index.html	'Apply layout'
+pages\text_animator\web\index.html	'Animation'
+pages\text_animator\web\index.html	'Slide from'
+pages\text_animator\web\index.html	'Speed'
+pages\text_animator\web\index.html	'Apply'
+pages\text_animator\web\index.html	'Every Text+ on the timeline'
+pages\text_animator\web\index.html	'Tracks under the playhead'
+pages\text_animator\web\index.html	'Remove animations…'
+pages\text_animator\web\index.html	'To help debug an animation: click the clip on the timeline, switch Resolve to the Fusion page, select the TextPlus node (or a modifier) in the Flow view, then dump it. Its full settings are saved to your Desktop as a JSON file you can share.'
+pages\text_animator\web\index.html	'Dump selected node settings'

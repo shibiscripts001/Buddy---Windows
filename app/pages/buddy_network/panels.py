@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
+from core.i18n import format_when
+
 from . import avatars, render, web_view
 
 RECOVERY_WARNING = (
@@ -31,15 +33,14 @@ ADMIN_REQUESTS = ("list_reports", "resolve_report", "ban", "unban", "list_bans",
 
 
 def when(ts) -> str:
-    return datetime.fromtimestamp(ts).strftime("%d %b %Y %H:%M").lstrip("0") if ts else ""
+    return format_when(datetime.fromtimestamp(ts), "%d %b %Y %H:%M", "datetime").lstrip("0") if ts else ""
 
 
-def until_text(until) -> str:
-    return "permanently" if until is None else f"until {when(until)}"
-
-
-def plural(n: int, word: str) -> str:
-    return f"{n:,} {word}{'' if n == 1 else 's'}"
+def ban_length(until, network: bool) -> str:
+    """Whole phrases, so each is translated as one."""
+    if until is None:
+        return "Permanent, and their network" if network else "Permanent"
+    return f"Until {when(until)}, and their network" if network else f"Until {when(until)}"
 
 
 # ------------------------------------------------------------- account
@@ -53,11 +54,13 @@ def account(me: dict, *, devices: int, code: str | None, saved_chats: int) -> di
         "id": me.get("id", ""),
         "code": code,
         "recovery_warning": RECOVERY_WARNING,
-        "encryption": (f"Your direct messages are end-to-end encrypted for the {plural(devices, 'PC')} "
-                       "signed in to this account. A PC that hasn't used Buddy Network for 60 days drops off. "
+        "encryption": (("Your direct messages are end-to-end encrypted for the 1 PC" if devices == 1 else
+                        f"Your direct messages are end-to-end encrypted for the {devices:,} PCs") +
+                       " signed in to this account. A PC that hasn't used Buddy Network for 60 days drops off. "
                        "A new PC can't read messages sent before it was set up, unless you move with a "
                        "transfer file (below)."),
-        "saved_chats": (f"{plural(saved_chats, 'conversation')} saved on this PC." if saved_chats
+        "saved_chats": ("1 conversation saved on this PC." if saved_chats == 1 else
+                        f"{saved_chats:,} conversations saved on this PC." if saved_chats
                         else "None saved on this PC."),
     }
 
@@ -110,7 +113,8 @@ def avatar_panel(me: dict, saved: list[str], preview: str, error: str = "") -> d
 
 def transfer_panel(saved_chats: int, error: str = "") -> dict:
     return {
-        "chats_label": (f"Include the direct messages saved on this PC ({plural(saved_chats, 'conversation')})"
+        "chats_label": ("Include the direct messages saved on this PC (1 conversation)" if saved_chats == 1
+                        else f"Include the direct messages saved on this PC ({saved_chats:,} conversations)"
                         if saved_chats else "Include saved direct messages (none are saved on this PC)"),
         "has_chats": bool(saved_chats),
         "error": error,
@@ -122,9 +126,9 @@ def transfer_panel(saved_chats: int, error: str = "") -> dict:
 def saved_chats(chats: list[dict], note: str = "", tone: str = "") -> dict:
     rows = []
     for i, c in enumerate(chats):
-        last = datetime.fromtimestamp(c["last"]).strftime("%d %b %Y") if c.get("last") else "-"
-        rows.append({"index": i, "name": render.display_name(c["other"]),
-                     "detail": f"{plural(c['count'], 'message')}, last {last}"})
+        last = format_when(datetime.fromtimestamp(c["last"]), "%d %b %Y").lstrip("0") if c.get("last") else "-"
+        count = "1 message" if c["count"] == 1 else f"{c['count']:,} messages"
+        rows.append({"index": i, "name": render.display_name(c["other"]), "detail": f"{count}, last {last}"})
     return {"chats": rows, "note": note, "tone": tone}
 
 
@@ -191,8 +195,8 @@ def admin(role: str, answers: dict, tab: str, error: str = "") -> dict:
         "tabs": tabs, "tab": tab, "error": error,
         "reports": None if reports is None else [_report_row(r) for r in reports.get("reports", [])],
         "bans": None if bans is None else [
-            {"id": b["user"]["id"], "head": f"{render.display_name(b['user'])} – {until_text(b['until'])}"
-             + (" (and their network)" if b.get("network") else ""), "reason": b.get("reason") or ""}
+            {"id": b["user"]["id"], "head": render.display_name(b["user"]),
+             "lasts": ban_length(b["until"], bool(b.get("network"))), "reason": b.get("reason") or ""}
             for b in bans.get("bans", [])],
         "staff": None if staff is None else [
             {"id": a["id"], "head": render.display_name(a), "role": a["role"],

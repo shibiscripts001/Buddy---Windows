@@ -32,7 +32,9 @@ state from there, not assume the view remembers anything.
 The HTML lives next to the page, at pages/<tool>/web/index.html, and pulls
 in the shared app/web/buddy.css and buddy.js (see those files). The theme
 arrives as CSS variables from core/web_theme.py, on load and on every
-theme change.
+theme change; the language's strings ("i18n", core/i18n.py) on load and
+whenever Settings changes it, and buddy.js translates the page - so a page
+writes English and needs nothing more.
 
 Set BUDDY_WEB_DEBUG=1 to get Chromium DevTools at http://localhost:9223.
 """
@@ -54,6 +56,7 @@ from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile, QWebEngin
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
 from core import crash_log
+from core.i18n import LANGUAGE_CODES, get_i18n, tr, web_strings
 from core.web_theme import web_theme
 from pages.base import ToolPage
 
@@ -261,6 +264,10 @@ class WebSurface:
             self.view.installEventFilter(self._drop_filter)
             page.loadFinished.connect(self._watch_drops)
 
+        # A new language: this view gets its strings and redraws in it.
+        # A bound method of a QObject, so Qt drops the connection with it.
+        get_i18n().language_changed.connect(self._on_language_changed)
+
         self.build_state()
         page.load(home)
 
@@ -280,6 +287,10 @@ class WebSurface:
 
     def web_ready(self):
         """The page's JS has connected. Push everything it should show."""
+
+    def on_language_changed(self):
+        """The language changed and the page has its new strings. For a
+        page that caches text in Python it doesn't send as English."""
 
     def theme_vars(self, tokens):
         """Extra CSS variables (names without "--") for this page only."""
@@ -309,6 +320,18 @@ class WebSurface:
         theme["common"] = QUrl.fromLocalFile(WEB_COMMON_DIR + os.sep).toString()
         self.emit("theme", theme)
 
+    def _push_i18n(self):
+        language = get_i18n().language
+        self.emit("i18n", {"language": language, "lang": LANGUAGE_CODES.get(language, "en"),
+                           "strings": web_strings(language)})
+
+    def _on_language_changed(self, _language=None):
+        title = getattr(self, "_english_title", None)
+        if title:
+            self.setWindowTitle(tr(title))
+        self._push_i18n()
+        self.on_language_changed()
+
     def _trail_label(self):
         view = getattr(self, "view", None)
         return getattr(view.page(), "label", type(self).__name__) if view is not None else type(self).__name__
@@ -319,6 +342,8 @@ class WebSurface:
         self._queue = []
 
     def _js_ready(self):
+        # Strings before anything is drawn, so nothing shows in English first.
+        self._push_i18n()
         self._push_theme()
         self.web_ready()
         self._ready = True
@@ -433,7 +458,8 @@ class WebDialog(_ReadyToShow, WebSurface, QDialog):
     def __init__(self, host, parent=None, title="", size=(480, 360)):
         super().__init__(parent)
         self.host = host
-        self.setWindowTitle(title)
+        self._english_title = title
+        self.setWindowTitle(tr(title))
         self.resize(*size)
         self._build_web()
 

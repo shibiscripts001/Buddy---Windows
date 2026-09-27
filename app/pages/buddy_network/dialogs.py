@@ -28,9 +28,9 @@ Only open links from people you trust, never type a password into a site
 you reached from a chat link, and don't run files that people link to.</li>
 <li><b>Anyone can claim to be anyone.</b> Nobody who runs Buddy Network
 will ever ask for your password or keys.</li>
-<li><b>Rooms are public</b> and <b>not end-to-end encrypted</b>: they're
-encrypted on the way to the server, but the people who run the server
-could read them.</li>
+<li><b>Rooms are public and not end-to-end encrypted.</b> They're encrypted
+on the way to the server, but the people who run the server could read
+them.</li>
 <li><b>Direct messages are end-to-end encrypted</b>: only you and your
 buddy can read them – not the server, and not the people who run it. Your
 buddy can still copy or share what you send, so the rules above apply to

@@ -35,6 +35,7 @@ Buddy.on("tick", t => {
     $("pill").dataset.state = away ? "away" : t.state;
     $("pill-text").textContent = t.label;
     $("hero").dataset.state = t.state;
+    $("project").translate = !t.project;   // a project's name is the user's
     $("project").textContent = t.project || "No project detected";
     $("project").classList.toggle("none", !t.project);
     $("timer").textContent = t.elapsed;
@@ -143,11 +144,11 @@ function rowNode(name, r, index, showProject) {
     }, [
         el("td.sel", {}, box),
         el("td", {}, [el("span.day", {text: r.weekday}), r.date]),
-        showProject ? el("td", {text: r.project, title: r.project}) : null,
+        showProject ? el("td", {text: r.project, title: r.project, translate: "no"}) : null,
         el("td.time", {text: r.start}),
         el("td.time", {text: r.end}),
         el("td.dur", {text: r.duration}),
-        el("td.notes", {text: r.notes, title: r.notes}),
+        el("td.notes", {text: r.notes, title: r.notes, translate: "no"}),
     ]);
     return tr;
 }
@@ -289,7 +290,7 @@ function renderReports() {
 
     const top = Math.max(0, ...r.projects.map(p => p.seconds));
     $("projects").replaceChildren(...(r.projects.length ? r.projects.map(p => el("div.project-row", {}, [
-        el("span.name", {text: p.name, title: p.name}),
+        el("span.name", {text: p.name, title: p.name, translate: "no"}),
         el("div.bar", {}, el("i", {style: `width:${top ? Math.max(1, Math.round(p.seconds / top * 100)) : 0}%`})),
         el("div.figures", {}, [
             el("span", {text: p.text}),
@@ -335,7 +336,7 @@ $("invoice").onclick = () => {
         return Buddy.modal({title: "Generate invoice", body: el("p.modal-text", {text: "No tracked projects yet – nothing to invoice."}),
                             buttons: [{label: "OK", kind: "accent"}]});
     }
-    const project = el("select.field", {}, data.projects.map(p => el("option", {value: p, text: p})));
+    const project = el("select.field", {}, data.projects.map(p => el("option", {value: p, text: p, translate: "no"})));
     if (data.projects.includes(data.current_project)) project.value = data.current_project;
     const hint = el("div.muted.small");
     const showRate = () => {
@@ -380,12 +381,13 @@ function fillFormats(select, formats) {
 
 Buddy.on("data", d => {
     data = d;
+    $("this_project-title").translate = !d.current_project;
     $("this_project-title").textContent = d.current_project || "This project";
     const scope = $("history-scope");
     scope.replaceChildren(
         el("option", {value: "__current__", text: "Project open in Resolve"}),
         el("option", {value: "__all__", text: "All projects"}),
-        ...d.projects.map(p => el("option", {value: p, text: p})),
+        ...d.projects.map(p => el("option", {value: p, text: p, translate: "no"})),
     );
     scope.value = d.history.scope;
     for (const select of document.querySelectorAll("[data-format]")) fillFormats(select, d.history_formats);

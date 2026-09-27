@@ -8,6 +8,8 @@
  *   Buddy.toast("Copied")
  *   Buddy.modal / confirm / menu     dialogs and popup menus
  *   Buddy.pickColor({hex, onPick})   the colour picker
+ *   Buddy.t("Saved")                 text in the chosen language - rarely
+ *                                    needed: pages are translated as drawn
  *
  * Python owns the state (core/web_page.py); a page's script only draws
  * what it is sent and reports what the user did. The "theme" event is
@@ -53,6 +55,176 @@ const Buddy = (() => {
         root.dataset.family = theme.family;
         root.dataset.light = String(theme.light);
     });
+
+    /* Languages. Python sends the chosen language's strings ("i18n":
+       {language, lang, strings: {english: translation} | null for English},
+       core/i18n.py) and the page is translated here as it's drawn - its
+       text, tooltips, placeholders and labels - so a page's script keeps
+       writing English. Never touched: what people type (inputs, textareas,
+       contenteditable) and anything inside translate="no", which a view
+       puts on text people named themselves (palettes, clips, messages).
+       The matching is core/i18n.py's (_Catalog.lookup) - change one,
+       change both: runs of whitespace are one space, "..." is "…", "Name:"
+       comes from "Name", and {placeholders} stand for values that change,
+       which are kept as they are - except a {t_name}'s, one of Buddy's own
+       words (a marker colour), which is translated too. */
+    const i18n = (() => {
+        const ATTRS = ["title", "placeholder", "aria-label", "alt"];
+        // Not translated at all, text or attributes.
+        const TREE_SKIP = 'script, style, [translate="no"], .notranslate';
+        // Their text is the user's (or code); their placeholder and title aren't.
+        const TEXT_SKIP = "textarea, code, kbd";
+        const PH = /\{(\w+)\}/g;
+        const seen = new WeakMap();   // text node -> {src, shown}; element -> {attr: {src, shown}}
+        let exact = null;             // null: English, nothing to do
+        let templates = [];
+        let observer = null;
+
+        const norm = s => s.replace(/\s+/g, " ").trim();
+        const escape = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+        function load(strings) {
+            exact = strings ? new Map(Object.entries(strings)) : null;
+            templates = [];
+            for (const [key, text] of exact || []) {
+                if (!key.includes("{")) continue;
+                const literal = key.replace(PH, "");
+                if ((literal.match(/[\p{L}\p{M}]/gu) || []).length < 2) continue;   // core/i18n.py is_template
+                const names = [];
+                const parts = key.split(/(\{\w+\})/);
+                const source = parts.map(part => {
+                    const m = /^\{(\w+)\}$/.exec(part);
+                    if (!m) return escape(part);
+                    names.push(m[1]);
+                    return "([\\s\\S]+?)";
+                }).join("");
+                if (!names.length) continue;
+                // The longest fixed piece: a cheap test before the regex.
+                const hint = parts.filter(p => !/^\{\w+\}$/.test(p)).sort((a, b) => b.length - a.length)[0];
+                templates.push({re: new RegExp(`^${source}$`), names, text, hint, weight: literal.length});
+            }
+            templates.sort((a, b) => b.weight - a.weight);
+        }
+
+        function exactHit(key) {
+            let hit = exact.get(key);
+            if (hit !== undefined) return hit;
+            if (key.includes("...") || key.includes("…")) {
+                hit = exact.get(key.replaceAll("...", "…")) ?? exact.get(key.replaceAll("…", "..."));
+                if (hit !== undefined) return hit;
+            }
+            for (const tail of [":", "…"]) {
+                if (key.length > tail.length && key.endsWith(tail)) {
+                    hit = exact.get(key.slice(0, -tail.length).trimEnd());
+                    if (hit !== undefined) return hit + tail;
+                }
+            }
+            hit = exact.get(key + ":");
+            return hit === undefined ? undefined : hit.replace(/[:：]+$/, "").trimEnd();
+        }
+
+        /* text in the chosen language, or text itself. */
+        function t(text) {
+            if (!exact || typeof text !== "string" || !text) return text;
+            const key = norm(text);
+            if (!key || key.length > 4000 || !/\p{L}/u.test(key)) return text;
+            let hit = exactHit(key);
+            if (hit === undefined) {
+                for (const tp of templates) {
+                    if (tp.hint && !key.includes(tp.hint)) continue;
+                    const m = tp.re.exec(key);
+                    if (!m) continue;
+                    const values = {};
+                    tp.names.forEach((name, i) => {
+                        values[name] = name.startsWith("t_") ? exactHit(norm(m[i + 1])) ?? m[i + 1] : m[i + 1];
+                    });
+                    hit = tp.text.replace(PH, (all, name) => (name in values ? values[name] : all));
+                    break;
+                }
+            }
+            if (hit === undefined) return text;
+            return /^\s*/.exec(text)[0] + hit + /\s*$/.exec(text)[0];
+        }
+
+        function doText(node) {
+            const rec = seen.get(node);
+            // Unchanged since it was translated: translate its English again
+            // (the language may have changed); otherwise the page wrote new text.
+            const src = rec && node.data === rec.shown ? rec.src : node.data;
+            const out = t(src);
+            if (out === src && !rec) return;
+            seen.set(node, {src, shown: out});
+            if (node.data !== out) node.data = out;
+        }
+
+        function doAttrs(elm) {
+            let recs = seen.get(elm);
+            for (const name of ATTRS) {
+                const value = elm.getAttribute(name);
+                if (value === null) continue;
+                const rec = recs && recs[name];
+                const src = rec && value === rec.shown ? rec.src : value;
+                const out = t(src);
+                if (out === src && !rec) continue;
+                if (!recs) seen.set(elm, recs = {});
+                recs[name] = {src, shown: out};
+                if (value !== out) elm.setAttribute(name, out);
+            }
+        }
+
+        const textSkipped = elm => !elm || elm.isContentEditable || !!elm.closest(`${TREE_SKIP}, ${TEXT_SKIP}`);
+
+        function walk(root) {
+            if (root.nodeType === Node.TEXT_NODE) {
+                if (!textSkipped(root.parentElement)) doText(root);
+                return;
+            }
+            if (root.nodeType !== Node.ELEMENT_NODE || root.closest(TREE_SKIP)) return;
+            if (root.isContentEditable || root.closest(TEXT_SKIP)) { doAttrs(root); return; }
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
+                acceptNode: n => {
+                    if (n.nodeType !== Node.ELEMENT_NODE) return NodeFilter.FILTER_ACCEPT;
+                    if (n.matches(TREE_SKIP)) return NodeFilter.FILTER_REJECT;
+                    doAttrs(n);
+                    return n.isContentEditable || n.matches(TEXT_SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_SKIP;
+                },
+            });
+            doAttrs(root);
+            for (let n = walker.nextNode(); n; n = walker.nextNode()) doText(n);
+        }
+
+        function onMutations(records) {
+            for (const r of records) {
+                if (r.type === "characterData") {
+                    if (!textSkipped(r.target.parentElement)) doText(r.target);
+                } else if (r.type === "attributes") {
+                    if (!r.target.closest(TREE_SKIP)) doAttrs(r.target);
+                } else {
+                    for (const n of r.addedNodes) walk(n);
+                }
+            }
+        }
+
+        function apply(data) {
+            load(data && data.strings);
+            document.documentElement.lang = (data && data.lang) || "en";
+            const root = document.body || document.documentElement;
+            if (observer) observer.takeRecords();
+            walk(root);   // for English, puts back what was translated
+            if (exact && !observer) {
+                observer = new MutationObserver(onMutations);
+                observer.observe(root, {subtree: true, childList: true, characterData: true,
+                                        attributes: true, attributeFilter: ATTRS});
+            } else if (!exact && observer) {
+                observer.disconnect();
+                observer = null;
+            }
+        }
+
+        return {apply, t};
+    })();
+
+    on("i18n", data => i18n.apply(data));
 
     /* el("button.btn.accent#send", {title: "Send", onclick: fn}, ["Send"]) */
     function el(spec, props, children) {
@@ -227,9 +399,10 @@ const Buddy = (() => {
     let menuNode = null;
 
     /* A popup menu at (x, y) - a right-click or a "more" button:
-       menu({x, y, items: [{label, onClick, danger, disabled, swatch: "#hex"}
-       | {sep: true} | {heading: "text"}]}). Escape, a click elsewhere or a
-       pick closes it; Up/Down/Enter work. Returns close. */
+       menu({x, y, items: [{label, onClick, danger, disabled, swatch: "#hex",
+       raw: true for a label people named - a folder, a palette - so it isn't
+       translated} | {sep: true} | {heading: "text"}]}). Escape, a click
+       elsewhere or a pick closes it; Up/Down/Enter work. Returns close. */
     function menu({x, y, items}) {
         closeMenu();
         const node = el("div.menu-pop", {role: "menu"});
@@ -239,7 +412,7 @@ const Buddy = (() => {
             node.append(el(`button${item.danger ? ".danger" : ""}`, {
                 type: "button", role: "menuitem", disabled: !!item.disabled,
                 onclick: () => { closeMenu(); if (item.onClick) item.onClick(); },
-            }, [item.swatch ? el("i.menu-swatch", {style: `background:${item.swatch}`}) : null, el("span", {text: item.label})]));
+            }, [item.swatch ? el("i.menu-swatch", {style: `background:${item.swatch}`}) : null, el("span", {text: item.label, translate: item.raw ? "no" : undefined})]));
         }
         document.body.append(node);
         menuNode = node;
@@ -522,7 +695,8 @@ const Buddy = (() => {
             const o = row.option;
             const selected = o.value === select.value;
             const item = el("div.dropdown-opt", {role: "option", "aria-selected": String(selected), "aria-disabled": o.disabled ? "true" : undefined},
-                            [el("span.dropdown-check", {}, selected ? icon("check") : null), el("span.dropdown-label", {text: o.textContent})]);
+                            [el("span.dropdown-check", {}, selected ? icon("check") : null), el("span.dropdown-label", {text: o.textContent,
+                                translate: o.closest('[translate="no"]') ? "no" : null})]);
             const index = items.length;
             item.addEventListener("mousemove", () => highlight(index, false));
             item.addEventListener("mouseup", e => { if (e.button === 0) pickDropdown(index); });
@@ -657,6 +831,6 @@ const Buddy = (() => {
     });
     addEventListener("blur", () => closeDropdown(true));
 
-    return {on, send, receive, el, icon, toast, modal, confirm, menu, closeMenu, closeDropdown,
+    return {on, send, receive, el, icon, toast, modal, confirm, menu, closeMenu, closeDropdown, t: i18n.t,
             pickColor: picker.open, closePicker: picker.close, parseHex: picker.parseHex};
 })();

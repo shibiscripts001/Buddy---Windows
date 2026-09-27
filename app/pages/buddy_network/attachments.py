@@ -22,6 +22,8 @@ from PySide6.QtCore import QBuffer, QIODevice, QTimer
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr, tr_filter
+
 from . import e2e, images
 
 CACHE_MAX = 80            # images kept ready to show (about 30 MB at most)
@@ -63,7 +65,7 @@ class ImageMixin:
     def on_attach_image(self, _payload=None):
         if not self.images_allowed():
             return
-        path, _chosen = QFileDialog.getOpenFileName(self, "Send a picture", "", PICK_FILTER)
+        path, _chosen = QFileDialog.getOpenFileName(self, tr("Send a picture"), "", tr_filter(PICK_FILTER))
         if path:
             self._attach_file(path)
 
@@ -309,7 +311,7 @@ class ImageMixin:
             return
         extension = EXTENSIONS.get(self._image_mime.get(image_id, ""), ".webp")
         start = os.path.join(os.path.expanduser("~"), "Pictures", f"Buddy Network image{extension}")
-        path, _chosen = QFileDialog.getSaveFileName(self, "Save image", start, f"Image (*{extension})")
+        path, _chosen = QFileDialog.getSaveFileName(self, tr("Save image"), start, tr_filter(f"Image (*{extension})"))
         if not path:
             return
         try:

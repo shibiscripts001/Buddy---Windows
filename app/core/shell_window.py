@@ -50,6 +50,7 @@ from core.busy_overlay import BusyOverlay
 from core.desk_web import DeskMenu, TaskbarView
 from core.desktop_window import DesktopArea
 from core import crash_log
+from core.i18n import get_i18n, tr
 from core.settings_dialog import SettingsDialog
 from core.shell_web import HeaderView, RailView
 from core.message_dialog import alert
@@ -242,6 +243,9 @@ class ShellWindow(QMainWindow):
         QApplication.setAttribute(Qt.AA_DontCreateNativeWidgetSiblings, True)
         self.registry = registry
         self.shared_settings = SharedSettings()
+        # Before any page is built, so each draws in it from the start.
+        get_i18n().language = self.shared_settings.get("language", "English")
+        get_i18n().language_changed.connect(self._on_language_changed)
         self.controller = None
         self.connected = False
         self._tool_settings_cache = {}
@@ -456,14 +460,14 @@ class ShellWindow(QMainWindow):
         self.tray_icon.activated.connect(self._handle_tray_activated)
 
         menu = QMenu()
-        self.tray_show_action = QAction("Hide window", menu)
+        self.tray_show_action = QAction(tr("Hide window"), menu)
         self.tray_show_action.triggered.connect(self._toggle_window_visible)
         menu.addAction(self.tray_show_action)
 
         menu.addSeparator()
-        quit_action = QAction("Quit", menu)
-        quit_action.triggered.connect(self._quit_app)
-        menu.addAction(quit_action)
+        self.tray_quit_action = QAction(tr("Quit"), menu)
+        self.tray_quit_action.triggered.connect(self._quit_app)
+        menu.addAction(self.tray_quit_action)
 
         self.tray_icon.setContextMenu(menu)
         self.tray_icon.show()
@@ -517,12 +521,19 @@ class ShellWindow(QMainWindow):
     def notify(self, title: str, message: str):
         """A tray balloon (Windows notification) - see ShellHost in pages/base.py."""
         if self.tray_icon is not None:
-            self.tray_icon.showMessage(title, message, QSystemTrayIcon.Information, 5000)
+            self.tray_icon.showMessage(tr(title), tr(message), QSystemTrayIcon.Information, 5000)
 
     def _update_tray_show_action(self):
         if self.tray_icon is not None:
             visible = self.isVisible() and not self.isMinimized()
-            self.tray_show_action.setText("Hide window" if visible else "Show window")
+            self.tray_show_action.setText(tr("Hide window" if visible else "Show window"))
+
+    def _on_language_changed(self, _language=None):
+        """Settings' Language: the web views redraw themselves
+        (core/web_page.py); the tray menu is Qt's."""
+        if self.tray_icon is not None:
+            self._update_tray_show_action()
+            self.tray_quit_action.setText(tr("Quit"))
 
     def changeEvent(self, event):
         # Minimising/restoring from the taskbar changes what the tray's
@@ -556,9 +567,9 @@ class ShellWindow(QMainWindow):
             self._update_tray_show_action()
             if not self.shared_settings.get("_tray_notice_shown", False):
                 self.tray_icon.showMessage(
-                    "Still running",
-                    "Buddy is still running in the background. Right-click the tray icon to "
-                    "reopen or quit.",
+                    tr("Still running"),
+                    tr("Buddy is still running in the background. Right-click the tray icon to "
+                       "reopen or quit."),
                     QSystemTrayIcon.Information, 5000,
                 )
                 self.shared_settings["_tray_notice_shown"] = True

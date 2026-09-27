@@ -9,6 +9,7 @@ copies of the same toggles agree.
 from PySide6.QtWidgets import QFileDialog
 
 from core import settings_form as sf
+from core.i18n import tr
 
 TOGGLES = ("import_to_master", "collapse_delete_silent_audio", "shift_close_gaps")
 
@@ -42,6 +43,6 @@ class ProjectSetupSettingsMixin:
 
     def on_settings_action(self, action, ui):
         if action == "browse_ffmpeg":
-            path, _ = QFileDialog.getOpenFileName(ui.parent, "Choose ffmpeg executable")
+            path, _ = QFileDialog.getOpenFileName(ui.parent, tr("Choose ffmpeg executable"))
             if path:
                 self._set_setting("ffmpeg_path", path)

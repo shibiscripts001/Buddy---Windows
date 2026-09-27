@@ -87,7 +87,8 @@ def load_records(path, what, warnings, required=("id",)):
         else:
             skipped += 1
     if skipped:
-        warnings.append(f"{name}: skipped {skipped} unreadable entr{'y' if skipped == 1 else 'ies'}.")
+        warnings.append(f"{name}: skipped 1 unreadable entry." if skipped == 1
+                        else f"{name}: skipped {skipped} unreadable entries.")
     return records
 
 

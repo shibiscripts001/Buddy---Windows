@@ -30,7 +30,7 @@ function programs(m) {
                 el("button.menu-pin", {
                     type: "button", "aria-pressed": String(item.pinned),
                     title: item.pinned ? "Unpin from the taskbar" : "Pin to the taskbar",
-                    "aria-label": `${item.pinned ? "Unpin" : "Pin"} ${item.label}`,
+                    "aria-label": item.pinned ? `Unpin ${item.label} from the taskbar` : `Pin ${item.label} to the taskbar`,
                     onclick: () => send("pin", {id: item.id, on: !item.pinned}),
                 }, [icon("pin")]),
             ]);

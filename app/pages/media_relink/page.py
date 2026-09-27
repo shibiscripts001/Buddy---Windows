@@ -32,6 +32,7 @@ import time
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -126,6 +127,7 @@ class MediaRelinkPage(WebToolPage):
             "generation": data["generation"],
             "scanned": data["scanned"],
             "summary": data["summary"],
+            "summary_parts": data.get("summary_parts") or ([data["summary"]] if data["summary"] else []),
             "counts": relink_rows.counts(data["rows"]),
             "rows": [relink_rows.view(r) for r in data["rows"]],
         })
@@ -135,9 +137,13 @@ class MediaRelinkPage(WebToolPage):
         del self._log[:-LOG_LIMIT]
         self.emit("log", self._log)
 
-    def _summary(self, mode, text, kind="info"):
-        self._lists[mode]["summary"] = text
-        self._add_log(text, kind)
+    def _summary(self, mode, parts, kind="info"):
+        """parts: whole sentences, each translated on its own."""
+        self._lists[mode]["summary"] = " ".join(parts)
+        self._lists[mode]["summary_parts"] = parts
+        self._log.append({"time": time.strftime("%H:%M"), "text": " ".join(parts), "parts": parts, "kind": kind})
+        del self._log[:-LOG_LIMIT]
+        self.emit("log", self._log)
 
     def _rows_for(self, mode, ids):
         wanted = {int(i) for i in ids or [] if str(i).isdigit()}
@@ -183,10 +189,11 @@ class MediaRelinkPage(WebToolPage):
         data = self._lists[mode]
         data.update(rows=rows, skipped=skipped, scanned=True, generation=data["generation"] + 1)
         c = relink_rows.counts(rows)
-        text = f"Scanned {c['total']} clip{'s' if c['total'] != 1 else ''} – {c['offline']} offline."
+        parts = [f"Scanned 1 clip – {c['offline']} offline." if c["total"] == 1
+                 else f"Scanned {c['total']} clips – {c['offline']} offline."]
         if skipped:
-            text += f" {skipped} had no single file to check (generated media) and were left out."
-        self._summary(mode, text, "success" if not c["offline"] or mode == MODE_RELOCATE else "warn")
+            parts.append(f"{skipped} had no single file to check (generated media) and were left out.")
+        self._summary(mode, parts, "success" if not c["offline"] or mode == MODE_RELOCATE else "warn")
         self._push_rows(mode)
 
     def on_search(self, _payload):
@@ -194,7 +201,7 @@ class MediaRelinkPage(WebToolPage):
         if not self._lists[mode]["rows"]:
             self._alert("Scan first", "Scan the project first, so there are clips to find files for.")
             return
-        folder = QFileDialog.getExistingDirectory(self, "Choose the folder to search")
+        folder = QFileDialog.getExistingDirectory(self, tr("Choose the folder to search"))
         if not folder:
             return
         folder = os.path.normpath(folder)
@@ -233,11 +240,12 @@ class MediaRelinkPage(WebToolPage):
         search = self._end_search()
         mode = search["mode"]
         matched, ambiguous = relink_rows.apply_search(self._lists[mode]["rows"], index, mode)
-        text = f"Searched {os.path.basename(search['folder']) or search['folder']}: " \
-               f"{matched} match{'es' if matched != 1 else ''} found"
+        folder = os.path.basename(search["folder"]) or search["folder"]
+        parts = [f"Searched {folder}: 1 match found." if matched == 1
+                 else f"Searched {folder}: {matched} matches found."]
         if ambiguous:
-            text += f", {ambiguous} with more than one file of that name (pick which)"
-        self._summary(mode, text + ".", "success" if matched or ambiguous else "warn")
+            parts.append(f"{ambiguous} with more than one file of that name (pick which).")
+        self._summary(mode, parts,"success" if matched or ambiguous else "warn")
         self._push_rows(mode)
 
     def _on_search_failed(self, message):
@@ -263,7 +271,7 @@ class MediaRelinkPage(WebToolPage):
             return
         row = rows[0]
         start = os.path.dirname(row["old_path"])
-        path, _filter = QFileDialog.getOpenFileName(self, f"Choose the file for {row['name']}",
+        path, _filter = QFileDialog.getOpenFileName(self, tr("Choose the file for {name}").format(name=row["name"]),
                                                     start if os.path.isdir(start) else "")
         if path:
             relink_rows.pick(row, os.path.normpath(path))
@@ -292,19 +300,19 @@ class MediaRelinkPage(WebToolPage):
         except ResolveConnectionError:
             self._push_state()
             return
-        self.host.set_busy(True, f"Relinking {len(rows)} clip{'s' if len(rows) != 1 else ''}…")
+        self.host.set_busy(True, "Relinking 1 clip…" if len(rows) == 1 else f"Relinking {len(rows)} clips…")
         try:
             relinked, skipped, failed = relink_rows.relink(rows, resolve_ext.replace_clip)
         finally:
             self.host.set_busy(False)
-        text = f"Relinked {relinked} clip{'s' if relinked != 1 else ''}."
+        parts = ["Relinked 1 clip." if relinked == 1 else f"Relinked {relinked} clips."]
         if skipped:
-            text += f" {skipped} had no file chosen yet and were skipped."
+            parts.append(f"{skipped} had no file chosen yet and were skipped.")
         if failed:
-            text += f" Resolve refused {failed} (a different kind of media, or no access to the file)."
-        self._summary(mode, text, "error" if failed else "success" if relinked else "warn")
+            parts.append(f"Resolve refused {failed} (a different kind of media, or no access to the file).")
+        self._summary(mode, parts, "error" if failed else "success" if relinked else "warn")
         if relinked:
-            self.emit("toast", {"text": f"Relinked {relinked} clip{'s' if relinked != 1 else ''}"})
+            self.emit("toast", {"text": "Relinked 1 clip" if relinked == 1 else f"Relinked {relinked} clips"})
         self._push_rows(mode)
 
     def _alert(self, title, text):

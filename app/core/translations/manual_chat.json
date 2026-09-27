@@ -1,0 +1,1663 @@
+{
+ "_comment": "Ask Buddy. English -> each language; see core/i18n.py.",
+ "Previous conversation": {
+  "日本語": "前の会話",
+  "Español": "Conversación anterior",
+  "Deutsch": "Vorheriges Gespräch",
+  "Français": "Conversation précédente",
+  "한국인": "이전 대화",
+  "中文": "上一个对话",
+  "العربية": "المحادثة السابقة",
+  "Tiếng Việt": "Cuộc trò chuyện trước"
+ },
+ "Next conversation": {
+  "日本語": "次の会話",
+  "Español": "Conversación siguiente",
+  "Deutsch": "Nächstes Gespräch",
+  "Français": "Conversation suivante",
+  "한국인": "다음 대화",
+  "中文": "下一个对话",
+  "العربية": "المحادثة التالية",
+  "Tiếng Việt": "Cuộc trò chuyện sau"
+ },
+ "Save this conversation to a text file": {
+  "日本語": "この会話をテキストファイルに保存",
+  "Español": "Guardar esta conversación en un archivo de texto",
+  "Deutsch": "Dieses Gespräch als Textdatei speichern",
+  "Français": "Enregistrer cette conversation dans un fichier texte",
+  "한국인": "이 대화를 텍스트 파일로 저장",
+  "中文": "将此对话保存为文本文件",
+  "العربية": "حفظ هذه المحادثة في ملف نصي",
+  "Tiếng Việt": "Lưu cuộc trò chuyện này vào tệp văn bản"
+ },
+ "Thinking…": {
+  "日本語": "考え中…",
+  "Español": "Pensando…",
+  "Deutsch": "Denkt nach…",
+  "Français": "Réflexion…",
+  "한국인": "생각하는 중…",
+  "中文": "正在思考…",
+  "العربية": "جارٍ التفكير…",
+  "Tiếng Việt": "Đang suy nghĩ…"
+ },
+ "Thinking (step {n})…": {
+  "日本語": "考え中 (ステップ {n})…",
+  "Español": "Pensando (paso {n})…",
+  "Deutsch": "Denkt nach (Schritt {n})…",
+  "Français": "Réflexion (étape {n})…",
+  "한국인": "생각하는 중({n}단계)…",
+  "中文": "正在思考（第 {n} 步）…",
+  "العربية": "جارٍ التفكير (الخطوة {n})…",
+  "Tiếng Việt": "Đang suy nghĩ (bước {n})…"
+ },
+ "Searching the manual: \"{query}\"": {
+  "日本語": "マニュアルを検索中: 「{query}」",
+  "Español": "Buscando en el manual: \"{query}\"",
+  "Deutsch": "Handbuch wird durchsucht: „{query}“",
+  "Français": "Recherche dans le manuel : « {query} »",
+  "한국인": "매뉴얼 검색 중: \"{query}\"",
+  "中文": "正在搜索手册：“{query}”",
+  "العربية": "جارٍ البحث في الدليل: \"{query}\"",
+  "Tiếng Việt": "Đang tìm trong sách hướng dẫn: \"{query}\""
+ },
+ "Reading your Resolve project…": {
+  "日本語": "Resolve のプロジェクトを読み込み中…",
+  "Español": "Leyendo tu proyecto de Resolve…",
+  "Deutsch": "Ihr Resolve-Projekt wird gelesen…",
+  "Français": "Lecture de votre projet Resolve…",
+  "한국인": "Resolve 프로젝트를 읽는 중…",
+  "中文": "正在读取您的 Resolve 项目…",
+  "العربية": "جارٍ قراءة مشروع Resolve الخاص بك…",
+  "Tiếng Việt": "Đang đọc dự án Resolve của bạn…"
+ },
+ "Checking what Buddy's tools can do…": {
+  "日本語": "Buddy のツールでできることを確認中…",
+  "Español": "Comprobando qué pueden hacer las herramientas de Buddy…",
+  "Deutsch": "Es wird geprüft, was die Werkzeuge von Buddy können…",
+  "Français": "Vérification de ce que peuvent faire les outils de Buddy…",
+  "한국인": "Buddy 도구로 할 수 있는 일을 확인하는 중…",
+  "中文": "正在查看 Buddy 的工具能做什么…",
+  "العربية": "جارٍ التحقق مما يمكن لأدوات Buddy فعله…",
+  "Tiếng Việt": "Đang kiểm tra các công cụ của Buddy có thể làm gì…"
+ },
+ "Working out what that change would do…": {
+  "日本語": "その変更で何が起きるかを確認中…",
+  "Español": "Averiguando qué haría ese cambio…",
+  "Deutsch": "Es wird ermittelt, was diese Änderung bewirken würde…",
+  "Français": "Évaluation de l'effet de cette modification…",
+  "한국인": "그 변경이 무엇을 할지 파악하는 중…",
+  "中文": "正在分析该更改会产生什么效果…",
+  "العربية": "جارٍ تحديد ما سيفعله هذا التغيير…",
+  "Tiếng Việt": "Đang xác định thay đổi đó sẽ làm gì…"
+ },
+ "Add a picture – or paste or drag one in": {
+  "日本語": "画像を追加 – 貼り付けやドラッグでも追加できます",
+  "Español": "Añade una imagen, o pégala o arrástrala",
+  "Deutsch": "Bild hinzufügen – oder eines einfügen bzw. hineinziehen",
+  "Français": "Ajouter une image – ou en coller ou en faire glisser une",
+  "한국인": "그림 추가 – 붙여 넣거나 끌어 올 수도 있습니다",
+  "中文": "添加图片——也可以粘贴或拖入",
+  "العربية": "أضف صورة – أو الصقها أو اسحبها إلى هنا",
+  "Tiếng Việt": "Thêm ảnh – hoặc dán hay kéo ảnh vào"
+ },
+ "Ask about DaVinci Resolve…": {
+  "日本語": "DaVinci Resolve について質問…",
+  "Español": "Pregunta sobre DaVinci Resolve…",
+  "Deutsch": "Fragen Sie zu DaVinci Resolve…",
+  "Français": "Posez une question sur DaVinci Resolve…",
+  "한국인": "DaVinci Resolve에 대해 질문하세요…",
+  "中文": "询问有关 DaVinci Resolve 的问题…",
+  "العربية": "اسأل عن DaVinci Resolve…",
+  "Tiếng Việt": "Hỏi về DaVinci Resolve…"
+ },
+ "Enter to send, Shift+Enter for a new line": {
+  "日本語": "Enter で送信、Shift+Enter で改行",
+  "Español": "Intro para enviar, Mayús+Intro para una nueva línea",
+  "Deutsch": "Eingabe zum Senden, Umschalt+Eingabe für eine neue Zeile",
+  "Français": "Entrée pour envoyer, Maj+Entrée pour une nouvelle ligne",
+  "한국인": "Enter로 보내기, Shift+Enter로 줄 바꿈",
+  "中文": "按 Enter 发送，Shift+Enter 换行",
+  "العربية": "Enter للإرسال، وShift+Enter لسطر جديد",
+  "Tiếng Việt": "Enter để gửi, Shift+Enter để xuống dòng"
+ },
+ "Send (Enter)": {
+  "日本語": "送信 (Enter)",
+  "Español": "Enviar (Intro)",
+  "Deutsch": "Senden (Eingabe)",
+  "Français": "Envoyer (Entrée)",
+  "한국인": "보내기(Enter)",
+  "中文": "发送 (Enter)",
+  "العربية": "إرسال (Enter)",
+  "Tiếng Việt": "Gửi (Enter)"
+ },
+ "Send": {
+  "日本語": "送信",
+  "Español": "Enviar",
+  "Deutsch": "Senden",
+  "Français": "Envoyer",
+  "한국인": "보내기",
+  "中文": "发送",
+  "العربية": "إرسال",
+  "Tiếng Việt": "Gửi"
+ },
+ "Used 1 tool": {
+  "日本語": "ツールを 1 回使用",
+  "Español": "Usó 1 herramienta",
+  "Deutsch": "1 Werkzeug verwendet",
+  "Français": "1 outil utilisé",
+  "한국인": "도구 1개 사용",
+  "中文": "使用了 1 个工具",
+  "العربية": "استُخدمت أداة واحدة",
+  "Tiếng Việt": "Đã dùng 1 công cụ"
+ },
+ "Used {count} tools": {
+  "日本語": "ツールを {count} 回使用",
+  "Español": "Usó {count} herramientas",
+  "Deutsch": "{count} Werkzeuge verwendet",
+  "Français": "{count} outils utilisés",
+  "한국인": "도구 {count}개 사용",
+  "中文": "使用了 {count} 个工具",
+  "العربية": "استُخدمت {count} أدوات",
+  "Tiếng Việt": "Đã dùng {count} công cụ"
+ },
+ "Copy this reply": {
+  "日本語": "この返答をコピー",
+  "Español": "Copiar esta respuesta",
+  "Deutsch": "Diese Antwort kopieren",
+  "Français": "Copier cette réponse",
+  "한국인": "이 답변 복사",
+  "中文": "复制此回复",
+  "العربية": "نسخ هذا الرد",
+  "Tiếng Việt": "Sao chép câu trả lời này"
+ },
+ "Picture sent with the question": {
+  "日本語": "質問と一緒に送信した画像",
+  "Español": "Imagen enviada con la pregunta",
+  "Deutsch": "Mit der Frage gesendetes Bild",
+  "Français": "Image envoyée avec la question",
+  "한국인": "질문과 함께 보낸 그림",
+  "中文": "随问题发送的图片",
+  "العربية": "صورة مرسلة مع السؤال",
+  "Tiếng Việt": "Ảnh gửi kèm câu hỏi"
+ },
+ "You": {
+  "日本語": "あなた",
+  "Español": "Tú",
+  "Deutsch": "Sie",
+  "Français": "Vous",
+  "한국인": "나",
+  "中文": "您",
+  "العربية": "أنت",
+  "Tiếng Việt": "Bạn"
+ },
+ "Chat {n} of {total}": {
+  "日本語": "会話 {n} / {total}",
+  "Español": "Chat {n} de {total}",
+  "Deutsch": "Chat {n} von {total}",
+  "Français": "Conversation {n} sur {total}",
+  "한국인": "대화 {n}/{total}",
+  "中文": "对话 {n}/{total}",
+  "العربية": "المحادثة {n} من {total}",
+  "Tiếng Việt": "Trò chuyện {n}/{total}"
+ },
+ "Back to conversation {n} of {total}": {
+  "日本語": "会話 {n} / {total} に戻る",
+  "Español": "Volver a la conversación {n} de {total}",
+  "Deutsch": "Zurück zu Gespräch {n} von {total}",
+  "Français": "Revenir à la conversation {n} sur {total}",
+  "한국인": "대화 {n}/{total}(으)로 돌아가기",
+  "中文": "返回对话 {n}/{total}",
+  "العربية": "العودة إلى المحادثة {n} من {total}",
+  "Tiếng Việt": "Quay lại cuộc trò chuyện {n}/{total}"
+ },
+ "Forward to conversation {n} of {total}": {
+  "日本語": "会話 {n} / {total} に進む",
+  "Español": "Ir a la conversación {n} de {total}",
+  "Deutsch": "Weiter zu Gespräch {n} von {total}",
+  "Français": "Aller à la conversation {n} sur {total}",
+  "한국인": "대화 {n}/{total}(으)로 이동",
+  "中文": "前进到对话 {n}/{total}",
+  "العربية": "الانتقال إلى المحادثة {n} من {total}",
+  "Tiếng Việt": "Tới cuộc trò chuyện {n}/{total}"
+ },
+ "No earlier conversation": {
+  "日本語": "これより前の会話はありません",
+  "Español": "No hay ninguna conversación anterior",
+  "Deutsch": "Kein früheres Gespräch",
+  "Français": "Aucune conversation antérieure",
+  "한국인": "이전 대화 없음",
+  "中文": "没有更早的对话",
+  "العربية": "لا توجد محادثة أقدم",
+  "Tiếng Việt": "Không có cuộc trò chuyện trước"
+ },
+ "No later conversation": {
+  "日本語": "これより後の会話はありません",
+  "Español": "No hay ninguna conversación posterior",
+  "Deutsch": "Kein späteres Gespräch",
+  "Français": "Aucune conversation ultérieure",
+  "한국인": "이후 대화 없음",
+  "中文": "没有更晚的对话",
+  "العربية": "لا توجد محادثة أحدث",
+  "Tiếng Việt": "Không có cuộc trò chuyện sau"
+ },
+ "New chat": {
+  "日本語": "新しい会話",
+  "Español": "Nuevo chat",
+  "Deutsch": "Neuer Chat",
+  "Français": "Nouvelle conversation",
+  "한국인": "새 대화",
+  "中文": "新对话",
+  "العربية": "محادثة جديدة",
+  "Tiếng Việt": "Cuộc trò chuyện mới"
+ },
+ "Start a fresh conversation. This one has {turns} of {limit} remembered turns.": {
+  "日本語": "新しい会話を始めます。この会話は記憶できる {limit} ターンのうち {turns} ターンを使っています。",
+  "Español": "Empieza una conversación nueva. Esta tiene {turns} de {limit} turnos recordados.",
+  "Deutsch": "Ein neues Gespräch beginnen. Dieses hat {turns} von {limit} gemerkten Runden.",
+  "Français": "Démarrer une nouvelle conversation. Celle-ci compte {turns} tours mémorisés sur {limit}.",
+  "한국인": "새 대화를 시작합니다. 이 대화는 기억되는 {limit}턴 중 {turns}턴을 사용했습니다.",
+  "中文": "开始新的对话。此对话已记住 {limit} 轮中的 {turns} 轮。",
+  "العربية": "ابدأ محادثة جديدة. تحتوي هذه على {turns} من {limit} أدوار محفوظة.",
+  "Tiếng Việt": "Bắt đầu cuộc trò chuyện mới. Cuộc này đã có {turns}/{limit} lượt được ghi nhớ."
+ },
+ "Start a fresh conversation": {
+  "日本語": "新しい会話を始める",
+  "Español": "Empezar una conversación nueva",
+  "Deutsch": "Ein neues Gespräch beginnen",
+  "Français": "Démarrer une nouvelle conversation",
+  "한국인": "새 대화 시작",
+  "中文": "开始新的对话",
+  "العربية": "بدء محادثة جديدة",
+  "Tiếng Việt": "Bắt đầu cuộc trò chuyện mới"
+ },
+ "Buddy suggests a tool": {
+  "日本語": "Buddy からのツールの提案",
+  "Español": "Buddy sugiere una herramienta",
+  "Deutsch": "Buddy schlägt ein Werkzeug vor",
+  "Français": "Buddy suggère un outil",
+  "한국인": "Buddy가 도구를 제안합니다",
+  "中文": "Buddy 推荐了一个工具",
+  "العربية": "يقترح Buddy أداة",
+  "Tiếng Việt": "Buddy gợi ý một công cụ"
+ },
+ "Open {t_tool}": {
+  "日本語": "{t_tool} を開く",
+  "Español": "Abrir {t_tool}",
+  "Deutsch": "{t_tool} öffnen",
+  "Français": "Ouvrir {t_tool}",
+  "한국인": "{t_tool} 열기",
+  "中文": "打开{t_tool}",
+  "العربية": "فتح {t_tool}",
+  "Tiếng Việt": "Mở {t_tool}"
+ },
+ "Discard": {
+  "日本語": "破棄",
+  "Español": "Descartar",
+  "Deutsch": "Verwerfen",
+  "Français": "Ignorer",
+  "한국인": "버리기",
+  "中文": "放弃",
+  "العربية": "تجاهل",
+  "Tiếng Việt": "Bỏ"
+ },
+ "Applying…": {
+  "日本語": "適用中…",
+  "Español": "Aplicando…",
+  "Deutsch": "Wird angewendet…",
+  "Français": "Application…",
+  "한국인": "적용하는 중…",
+  "中文": "正在应用…",
+  "العربية": "جارٍ التطبيق…",
+  "Tiếng Việt": "Đang áp dụng…"
+ },
+ "Apply anyway": {
+  "日本語": "それでも適用",
+  "Español": "Aplicar de todos modos",
+  "Deutsch": "Trotzdem anwenden",
+  "Français": "Appliquer quand même",
+  "한국인": "그래도 적용",
+  "中文": "仍然应用",
+  "العربية": "تطبيق على أي حال",
+  "Tiếng Việt": "Vẫn áp dụng"
+ },
+ "Apply to my project": {
+  "日本語": "プロジェクトに適用",
+  "Español": "Aplicar a mi proyecto",
+  "Deutsch": "Auf mein Projekt anwenden",
+  "Français": "Appliquer à mon projet",
+  "한국인": "내 프로젝트에 적용",
+  "中文": "应用到我的项目",
+  "العربية": "تطبيق على مشروعي",
+  "Tiếng Việt": "Áp dụng cho dự án của tôi"
+ },
+ "Picture to send": {
+  "日本語": "送信する画像",
+  "Español": "Imagen para enviar",
+  "Deutsch": "Zu sendendes Bild",
+  "Français": "Image à envoyer",
+  "한국인": "보낼 그림",
+  "中文": "要发送的图片",
+  "العربية": "صورة للإرسال",
+  "Tiếng Việt": "Ảnh sẽ gửi"
+ },
+ "Don't send this picture": {
+  "日本語": "この画像を送信しない",
+  "Español": "No enviar esta imagen",
+  "Deutsch": "Dieses Bild nicht senden",
+  "Français": "Ne pas envoyer cette image",
+  "한국인": "이 그림 보내지 않기",
+  "中文": "不发送此图片",
+  "العربية": "لا ترسل هذه الصورة",
+  "Tiếng Việt": "Không gửi ảnh này"
+ },
+ "Ask about DaVinci Resolve and I'll answer from the reference manual, with chapter and page citations. If Resolve is running I can also read your open project to answer about your actual settings.": {
+  "日本語": "DaVinci Resolve について質問してください。リファレンスマニュアルをもとに、章とページを示して答えます。Resolve が起動していれば、開いているプロジェクトを読んで実際の設定について答えることもできます。",
+  "Español": "Pregunta sobre DaVinci Resolve y responderé a partir del manual de referencia, citando capítulo y página. Si Resolve está abierto, también puedo leer tu proyecto para responder sobre tus ajustes reales.",
+  "Deutsch": "Fragen Sie zu DaVinci Resolve, und ich antworte anhand des Referenzhandbuchs, mit Kapitel- und Seitenangaben. Wenn Resolve läuft, kann ich auch Ihr geöffnetes Projekt lesen, um zu Ihren tatsächlichen Einstellungen zu antworten.",
+  "Français": "Posez une question sur DaVinci Resolve et je répondrai à partir du manuel de référence, en citant chapitre et page. Si Resolve est lancé, je peux aussi lire votre projet ouvert pour répondre sur vos réglages réels.",
+  "한국인": "DaVinci Resolve에 대해 질문하면 레퍼런스 매뉴얼을 바탕으로 장과 페이지를 밝혀 답합니다. Resolve가 실행 중이면 열린 프로젝트를 읽고 실제 설정에 대해서도 답할 수 있습니다.",
+  "中文": "询问有关 DaVinci Resolve 的问题，我会根据参考手册回答，并注明章节和页码。如果 Resolve 正在运行，我还可以读取您打开的项目，就您的实际设置作答。",
+  "العربية": "اسأل عن DaVinci Resolve وسأجيب من الدليل المرجعي مع ذكر الفصل والصفحة. إذا كان Resolve يعمل يمكنني أيضًا قراءة مشروعك المفتوح للإجابة عن إعداداتك الفعلية.",
+  "Tiếng Việt": "Hãy hỏi về DaVinci Resolve và tôi sẽ trả lời dựa trên sách hướng dẫn tham khảo, kèm chương và trang. Nếu Resolve đang chạy, tôi cũng có thể đọc dự án đang mở để trả lời về cài đặt thực tế của bạn."
+ },
+ "Ask me about DaVinci Resolve.": {
+  "日本語": "DaVinci Resolve について質問してください。",
+  "Español": "Pregúntame sobre DaVinci Resolve.",
+  "Deutsch": "Fragen Sie mich zu DaVinci Resolve.",
+  "Français": "Posez-moi vos questions sur DaVinci Resolve.",
+  "한국인": "DaVinci Resolve에 대해 물어보세요.",
+  "中文": "问我有关 DaVinci Resolve 的问题。",
+  "العربية": "اسألني عن DaVinci Resolve.",
+  "Tiếng Việt": "Hãy hỏi tôi về DaVinci Resolve."
+ },
+ "I answer from the official Resolve 21 Reference Manual and cite the chapter and page, so you can check me.": {
+  "日本語": "公式の Resolve 21 リファレンスマニュアルをもとに、章とページを示して答えるので、確認できます。",
+  "Español": "Respondo a partir del manual de referencia oficial de Resolve 21 y cito el capítulo y la página, para que puedas comprobarlo.",
+  "Deutsch": "Ich antworte anhand des offiziellen Resolve 21-Referenzhandbuchs und nenne Kapitel und Seite, damit Sie es prüfen können.",
+  "Français": "Je réponds à partir du manuel de référence officiel de Resolve 21 et je cite le chapitre et la page, pour que vous puissiez vérifier.",
+  "한국인": "공식 Resolve 21 레퍼런스 매뉴얼을 바탕으로 장과 페이지를 밝혀 답하므로 직접 확인할 수 있습니다.",
+  "中文": "我根据官方的 Resolve 21 参考手册回答，并注明章节和页码，方便您核对。",
+  "العربية": "أجيب من دليل Resolve 21 المرجعي الرسمي وأذكر الفصل والصفحة، حتى تتمكن من التحقق.",
+  "Tiếng Việt": "Tôi trả lời dựa trên sách hướng dẫn tham khảo chính thức Resolve 21 và ghi rõ chương, trang để bạn kiểm tra."
+ },
+ "I can read your open project": {
+  "日本語": "開いているプロジェクトを読めます",
+  "Español": "Puedo leer tu proyecto abierto",
+  "Deutsch": "Ich kann Ihr geöffnetes Projekt lesen",
+  "Français": "Je peux lire votre projet ouvert",
+  "한국인": "열린 프로젝트를 읽을 수 있습니다",
+  "中文": "我可以读取您打开的项目",
+  "العربية": "يمكنني قراءة مشروعك المفتوح",
+  "Tiếng Việt": "Tôi có thể đọc dự án đang mở của bạn"
+ },
+ "(Resolve has to be running):": {
+  "日本語": "(Resolve が起動している必要があります):",
+  "Español": "(Resolve tiene que estar abierto):",
+  "Deutsch": "(Resolve muss laufen):",
+  "Français": "(Resolve doit être lancé) :",
+  "한국인": "(Resolve가 실행 중이어야 함):",
+  "中文": "（Resolve 必须正在运行）：",
+  "العربية": "(يجب أن يكون Resolve قيد التشغيل):",
+  "Tiếng Việt": "(Resolve phải đang chạy):"
+ },
+ "your project and timeline settings, and whether you are on Studio or the free version": {
+  "日本語": "プロジェクトとタイムラインの設定、Studio 版か無料版か",
+  "Español": "la configuración de tu proyecto y tu línea de tiempo, y si usas Studio o la versión gratuita",
+  "Deutsch": "Ihre Projekt- und Timeline-Einstellungen und ob Sie Studio oder die kostenlose Version nutzen",
+  "Français": "les paramètres de votre projet et de votre timeline, et si vous utilisez Studio ou la version gratuite",
+  "한국인": "프로젝트와 타임라인 설정, Studio 버전인지 무료 버전인지",
+  "中文": "您的项目和时间线设置，以及您用的是 Studio 版还是免费版",
+  "العربية": "إعدادات مشروعك وخطك الزمني، وما إذا كنت تستخدم Studio أو الإصدار المجاني",
+  "Tiếng Việt": "cài đặt dự án và timeline, và bạn dùng bản Studio hay bản miễn phí"
+ },
+ "what is on your timeline, and any clips whose frame rate or resolution does not match it": {
+  "日本語": "タイムラインの内容と、フレームレートや解像度が一致しないクリップ",
+  "Español": "lo que hay en tu línea de tiempo y los clips cuya velocidad de fotogramas o resolución no coincide",
+  "Deutsch": "was auf Ihrer Timeline ist und welche Clips in Bildrate oder Auflösung nicht passen",
+  "Français": "ce qui se trouve sur votre timeline, et les clips dont la fréquence d'images ou la résolution ne correspond pas",
+  "한국인": "타임라인에 있는 것과 프레임 레이트나 해상도가 맞지 않는 클립",
+  "中文": "时间线上有什么，以及帧率或分辨率不匹配的片段",
+  "العربية": "ما يوجد على خطك الزمني، وأي مقاطع لا يتطابق معدل إطاراتها أو دقتها معه",
+  "Tiếng Việt": "những gì có trên timeline, và các clip có tốc độ khung hình hoặc độ phân giải không khớp"
+ },
+ "your timeline markers": {
+  "日本語": "タイムラインのマーカー",
+  "Español": "los marcadores de tu línea de tiempo",
+  "Deutsch": "Ihre Timeline-Marker",
+  "Français": "les marqueurs de votre timeline",
+  "한국인": "타임라인 마커",
+  "中文": "您的时间线标记",
+  "العربية": "علامات خطك الزمني",
+  "Tiếng Việt": "các marker trên timeline"
+ },
+ "what every other Buddy tool does, and I can offer you one": {
+  "日本語": "Buddy の他のツールでできること (ツールの提案もできます)",
+  "Español": "lo que hace cada una de las demás herramientas de Buddy, y puedo ofrecerte una",
+  "Deutsch": "was jedes andere Buddy-Werkzeug kann – und ich kann Ihnen eines anbieten",
+  "Français": "ce que fait chacun des autres outils de Buddy, et je peux vous en proposer un",
+  "한국인": "Buddy의 다른 모든 도구가 하는 일(하나를 제안할 수도 있습니다)",
+  "中文": "Buddy 其他每个工具能做什么，我也可以为您推荐一个",
+  "العربية": "ما تفعله كل أداة أخرى في Buddy، ويمكنني أن أقترح عليك واحدة",
+  "Tiếng Việt": "mỗi công cụ khác của Buddy làm gì, và tôi có thể gợi ý một công cụ cho bạn"
+ },
+ "I can change your project": {
+  "日本語": "プロジェクトを変更できます",
+  "Español": "Puedo cambiar tu proyecto",
+  "Deutsch": "Ich kann Ihr Projekt ändern",
+  "Français": "Je peux modifier votre projet",
+  "한국인": "프로젝트를 변경할 수 있습니다",
+  "中文": "我可以更改您的项目",
+  "العربية": "يمكنني تغيير مشروعك",
+  "Tiếng Việt": "Tôi có thể thay đổi dự án của bạn"
+ },
+ "– this is ON. I never change anything directly: I show you a card listing exactly what would happen and you press Apply.": {
+  "日本語": "– この機能はオンです。直接変更することはありません: 何が起きるかを正確に示したカードを表示し、あなたが「適用」を押します。",
+  "Español": "– está ACTIVADO. Nunca cambio nada directamente: te muestro una tarjeta con exactamente lo que ocurriría y tú pulsas Aplicar.",
+  "Deutsch": "– das ist EIN. Ich ändere nie etwas direkt: Ich zeige Ihnen eine Karte, die genau auflistet, was passieren würde, und Sie klicken auf „Anwenden“.",
+  "Français": "– c'est ACTIVÉ. Je ne modifie jamais rien directement : je vous montre une carte indiquant exactement ce qui se passerait et vous appuyez sur Appliquer.",
+  "한국인": "– 이 기능은 켜져 있습니다. 직접 변경하는 일은 없으며, 무슨 일이 일어날지 정확히 보여 주는 카드를 표시하면 적용을 누르면 됩니다.",
+  "中文": "——此功能已开启。我从不直接更改任何内容：我会显示一张卡片，准确列出将要发生的事情，由您按“应用”。",
+  "العربية": "– هذا مُفعَّل. لا أغيّر أي شيء مباشرة: أعرض لك بطاقة تسرد بالضبط ما سيحدث وأنت تضغط تطبيق.",
+  "Tiếng Việt": "– tính năng này đang BẬT. Tôi không bao giờ thay đổi trực tiếp: tôi hiện một thẻ liệt kê chính xác những gì sẽ xảy ra và bạn nhấn Áp dụng."
+ },
+ "Safe to undo, nothing already in place moves:": {
+  "日本語": "元に戻しても安全で、既存のものは動きません:",
+  "Español": "Seguro de deshacer, no se mueve nada de lo que ya hay:",
+  "Deutsch": "Sicher rückgängig zu machen, nichts Bestehendes wird verschoben:",
+  "Français": "Annulable sans risque, rien de ce qui est en place ne bouge :",
+  "한국인": "되돌려도 안전하며, 이미 있는 것은 움직이지 않습니다:",
+  "中文": "可安全撤销，已有内容不会移动：",
+  "العربية": "آمن للتراجع، لا يتحرك أي شيء موجود بالفعل:",
+  "Tiếng Việt": "An toàn để hoàn tác, không có gì đã có sẵn bị di chuyển:"
+ },
+ "add markers to the timeline": {
+  "日本語": "タイムラインにマーカーを追加",
+  "Español": "añadir marcadores a la línea de tiempo",
+  "Deutsch": "der Timeline Marker hinzufügen",
+  "Français": "ajouter des marqueurs à la timeline",
+  "한국인": "타임라인에 마커 추가",
+  "中文": "在时间线上添加标记",
+  "العربية": "إضافة علامات إلى الخط الزمني",
+  "Tiếng Việt": "thêm marker vào timeline"
+ },
+ "append clips to the END of the timeline": {
+  "日本語": "タイムラインの「末尾」にクリップを追加",
+  "Español": "añadir clips al FINAL de la línea de tiempo",
+  "Deutsch": "Clips am ENDE der Timeline anhängen",
+  "Français": "ajouter des clips à la FIN de la timeline",
+  "한국인": "타임라인의 끝에 클립 추가",
+  "中文": "将片段追加到时间线的“末尾”",
+  "العربية": "إلحاق مقاطع بنهاية الخط الزمني",
+  "Tiếng Việt": "thêm clip vào CUỐI timeline"
+ },
+ "create a Media Pool bin": {
+  "日本語": "メディアプールのビンを作成",
+  "Español": "crear una bandeja del Grupo de medios",
+  "Deutsch": "einen Media-Pool-Bin erstellen",
+  "Français": "créer un chutier du Pool de médias",
+  "한국인": "미디어 풀 빈 만들기",
+  "中文": "创建媒体池媒体夹",
+  "العربية": "إنشاء حاوية في مجمع الوسائط",
+  "Tiếng Việt": "tạo bin trong Media Pool"
+ },
+ "create a new empty timeline": {
+  "日本語": "新しい空のタイムラインを作成",
+  "Español": "crear una nueva línea de tiempo vacía",
+  "Deutsch": "eine neue leere Timeline erstellen",
+  "Français": "créer une nouvelle timeline vide",
+  "한국인": "새 빈 타임라인 만들기",
+  "中文": "创建新的空时间线",
+  "العربية": "إنشاء خط زمني فارغ جديد",
+  "Tiếng Việt": "tạo timeline trống mới"
+ },
+ "rename Media Pool clips": {
+  "日本語": "メディアプールのクリップ名を変更",
+  "Español": "renombrar clips del Grupo de medios",
+  "Deutsch": "Media-Pool-Clips umbenennen",
+  "Français": "renommer des clips du Pool de médias",
+  "한국인": "미디어 풀 클립 이름 변경",
+  "中文": "重命名媒体池片段",
+  "العربية": "إعادة تسمية مقاطع مجمع الوسائط",
+  "Tiếng Việt": "đổi tên clip trong Media Pool"
+ },
+ "set the colour of clips on the timeline": {
+  "日本語": "タイムライン上のクリップの色を設定",
+  "Español": "cambiar el color de los clips de la línea de tiempo",
+  "Deutsch": "die Farbe von Clips auf der Timeline festlegen",
+  "Français": "définir la couleur des clips de la timeline",
+  "한국인": "타임라인의 클립 색상 설정",
+  "中文": "设置时间线上片段的颜色",
+  "العربية": "تعيين لون المقاطع على الخط الزمني",
+  "Tiếng Việt": "đặt màu cho clip trên timeline"
+ },
+ "These move or destroy work you did not name, and the card says so in red:": {
+  "日本語": "これらは指定していない作業を移動または破壊するため、カードに赤字で表示されます:",
+  "Español": "Estas mueven o destruyen trabajo que no has nombrado, y la tarjeta lo indica en rojo:",
+  "Deutsch": "Diese verschieben oder zerstören Arbeit, die Sie nicht genannt haben, und die Karte sagt das in Rot:",
+  "Français": "Celles-ci déplacent ou détruisent du travail que vous n'avez pas nommé, et la carte l'indique en rouge :",
+  "한국인": "다음은 지정하지 않은 작업을 옮기거나 없애며, 카드에 빨간색으로 표시됩니다:",
+  "中文": "这些操作会移动或破坏您未指定的内容，卡片会用红色标明：",
+  "العربية": "هذه تنقل أو تتلف عملًا لم تذكره، وتقول البطاقة ذلك باللون الأحمر:",
+  "Tiếng Việt": "Những thao tác này di chuyển hoặc phá hủy phần việc bạn không chỉ định, và thẻ sẽ báo bằng màu đỏ:"
+ },
+ "delete markers, by colour or by frame": {
+  "日本語": "マーカーを削除 (色またはフレームで指定)",
+  "Español": "eliminar marcadores, por color o por fotograma",
+  "Deutsch": "Marker löschen, nach Farbe oder Frame",
+  "Français": "supprimer des marqueurs, par couleur ou par image",
+  "한국인": "마커 삭제(색상 또는 프레임별)",
+  "中文": "删除标记（按颜色或按帧）",
+  "العربية": "حذف العلامات، حسب اللون أو الإطار",
+  "Tiếng Việt": "xóa marker, theo màu hoặc theo khung hình"
+ },
+ "delete clips, timelines or bins from the Media Pool": {
+  "日本語": "メディアプールからクリップ、タイムライン、ビンを削除",
+  "Español": "eliminar clips, líneas de tiempo o bandejas del Grupo de medios",
+  "Deutsch": "Clips, Timelines oder Bins aus dem Media Pool löschen",
+  "Français": "supprimer des clips, timelines ou chutiers du Pool de médias",
+  "한국인": "미디어 풀에서 클립, 타임라인, 빈 삭제",
+  "中文": "从媒体池中删除片段、时间线或媒体夹",
+  "العربية": "حذف المقاطع أو الخطوط الزمنية أو الحاويات من مجمع الوسائط",
+  "Tiếng Việt": "xóa clip, timeline hoặc bin khỏi Media Pool"
+ },
+ "delete clips from the timeline": {
+  "日本語": "タイムラインからクリップを削除",
+  "Español": "eliminar clips de la línea de tiempo",
+  "Deutsch": "Clips aus der Timeline löschen",
+  "Français": "supprimer des clips de la timeline",
+  "한국인": "타임라인에서 클립 삭제",
+  "中文": "从时间线删除片段",
+  "العربية": "حذف مقاطع من الخط الزمني",
+  "Tiếng Việt": "xóa clip khỏi timeline"
+ },
+ "insert a Fusion composition, title or generator at the playhead (this ripples – everything after it shifts later)": {
+  "日本語": "再生ヘッドに Fusion コンポジション、タイトル、ジェネレーターを挿入 (リップルします – 後ろのものはすべて後ろにずれます)",
+  "Español": "insertar una composición de Fusion, un título o un generador en el cabezal (esto desplaza: todo lo que va después se retrasa)",
+  "Deutsch": "eine Fusion-Komposition, einen Titel oder Generator am Abspielkopf einfügen (dies verschiebt – alles danach rückt nach hinten)",
+  "Français": "insérer une composition Fusion, un titre ou un générateur à la tête de lecture (effet ripple – tout ce qui suit est décalé)",
+  "한국인": "재생 헤드에 Fusion 컴포지션, 타이틀 또는 제너레이터 삽입(리플됨 – 뒤의 모든 것이 뒤로 밀림)",
+  "中文": "在播放头处插入 Fusion 合成、标题或生成器（会波纹移动——之后的所有内容都会后移）",
+  "العربية": "إدراج تركيبة Fusion أو عنوان أو مولّد عند رأس التشغيل (يُحدث إزاحة – كل ما بعده ينتقل لاحقًا)",
+  "Tiếng Việt": "chèn một comp Fusion, tiêu đề hoặc generator tại đầu phát (thao tác ripple – mọi thứ phía sau bị đẩy lùi)"
+ },
+ "change project settings (frame rate, colour management…)": {
+  "日本語": "プロジェクト設定を変更 (フレームレート、カラーマネージメント…)",
+  "Español": "cambiar la configuración del proyecto (velocidad de fotogramas, gestión del color…)",
+  "Deutsch": "Projekteinstellungen ändern (Bildrate, Farbmanagement…)",
+  "Français": "modifier les paramètres du projet (fréquence d'images, gestion des couleurs…)",
+  "한국인": "프로젝트 설정 변경(프레임 레이트, 색상 관리…)",
+  "中文": "更改项目设置（帧率、色彩管理…）",
+  "العربية": "تغيير إعدادات المشروع (معدل الإطارات، إدارة الألوان…)",
+  "Tiếng Việt": "thay đổi cài đặt dự án (tốc độ khung hình, quản lý màu…)"
+ },
+ "change the current timeline's settings": {
+  "日本語": "現在のタイムラインの設定を変更",
+  "Español": "cambiar la configuración de la línea de tiempo actual",
+  "Deutsch": "die Einstellungen der aktuellen Timeline ändern",
+  "Français": "modifier les paramètres de la timeline actuelle",
+  "한국인": "현재 타임라인 설정 변경",
+  "中文": "更改当前时间线的设置",
+  "العربية": "تغيير إعدادات الخط الزمني الحالي",
+  "Tiếng Việt": "thay đổi cài đặt của timeline hiện tại"
+ },
+ "Buttons:": {
+  "日本語": "ボタン:",
+  "Español": "Botones:",
+  "Deutsch": "Schaltflächen:",
+  "Français": "Boutons :",
+  "한국인": "버튼:",
+  "中文": "按钮：",
+  "العربية": "الأزرار:",
+  "Tiếng Việt": "Các nút:"
+ },
+ "New chat starts a fresh conversation; the arrows go back and forward between conversations. Nothing is lost either way while Buddy stays open.": {
+  "日本語": "「新しい会話」で新しい会話を始め、矢印で会話を行き来できます。Buddy を開いている間は、どちらでも何も失われません。",
+  "Español": "Nuevo chat empieza una conversación nueva; las flechas van hacia atrás y adelante entre conversaciones. No se pierde nada mientras Buddy siga abierto.",
+  "Deutsch": "„Neuer Chat“ beginnt ein neues Gespräch; mit den Pfeilen wechseln Sie zwischen Gesprächen. Solange Buddy geöffnet bleibt, geht nichts verloren.",
+  "Français": "Nouvelle conversation en démarre une nouvelle ; les flèches permettent de naviguer entre les conversations. Rien n'est perdu tant que Buddy reste ouvert.",
+  "한국인": "새 대화는 새 대화를 시작하고, 화살표로 대화 사이를 오갈 수 있습니다. Buddy가 열려 있는 동안에는 어느 쪽이든 사라지지 않습니다.",
+  "中文": "“新对话”会开始新的对话；箭头可在对话之间前后切换。只要 Buddy 保持打开，任何内容都不会丢失。",
+  "العربية": "تبدأ محادثة جديدة محادثة جديدة؛ وتنتقل الأسهم ذهابًا وإيابًا بين المحادثات. لا يضيع شيء في أي من الحالتين ما دام Buddy مفتوحًا.",
+  "Tiếng Việt": "Cuộc trò chuyện mới sẽ bắt đầu cuộc mới; các mũi tên chuyển qua lại giữa các cuộc trò chuyện. Không mất gì khi Buddy vẫn mở."
+ },
+ "To see this again any time, type": {
+  "日本語": "もう一度表示するには、いつでも次のように入力してください:",
+  "Español": "Para volver a ver esto en cualquier momento, escribe",
+  "Deutsch": "Um dies jederzeit erneut zu sehen, tippen Sie",
+  "Français": "Pour revoir ceci à tout moment, tapez",
+  "한국인": "언제든 다시 보려면 다음을 입력하세요:",
+  "中文": "如需随时再次查看，请输入",
+  "العربية": "لرؤية هذا مرة أخرى في أي وقت، اكتب",
+  "Tiếng Việt": "Để xem lại bất cứ lúc nào, hãy gõ"
+ },
+ "I cannot change your project": {
+  "日本語": "プロジェクトは変更できません",
+  "Español": "No puedo cambiar tu proyecto",
+  "Deutsch": "Ich kann Ihr Projekt nicht ändern",
+  "Français": "Je ne peux pas modifier votre projet",
+  "한국인": "프로젝트를 변경할 수 없습니다",
+  "中文": "我无法更改您的项目",
+  "العربية": "لا يمكنني تغيير مشروعك",
+  "Tiếng Việt": "Tôi không thể thay đổi dự án của bạn"
+ },
+ "– this is OFF, which is the default. Turn it on in Settings if you want it; you will be asked to type a sentence confirming you understand the risk. Even then I only ever propose a change and wait for you to press Apply.": {
+  "日本語": "– この機能はオフで、これが既定です。使いたい場合は設定でオンにしてください。リスクを理解したことを確認する文の入力を求められます。オンにしても、私は変更を提案するだけで、あなたが「適用」を押すまで待ちます。",
+  "Español": "– está DESACTIVADO, que es lo predeterminado. Actívalo en Ajustes si lo quieres; se te pedirá escribir una frase confirmando que entiendes el riesgo. Incluso entonces solo propongo un cambio y espero a que pulses Aplicar.",
+  "Deutsch": "– das ist AUS, die Standardeinstellung. Schalten Sie es in den Einstellungen ein, wenn Sie möchten; Sie werden gebeten, einen Satz einzugeben, der bestätigt, dass Sie das Risiko verstehen. Selbst dann schlage ich nur eine Änderung vor und warte, bis Sie auf „Anwenden“ klicken.",
+  "Français": "– c'est DÉSACTIVÉ, ce qui est le réglage par défaut. Activez-le dans les Paramètres si vous le souhaitez ; il vous sera demandé de saisir une phrase confirmant que vous comprenez le risque. Même alors, je propose seulement une modification et j'attends que vous appuyiez sur Appliquer.",
+  "한국인": "– 이 기능은 꺼져 있으며, 이것이 기본값입니다. 원하면 설정에서 켜세요. 위험을 이해했음을 확인하는 문장을 입력하라는 요청을 받습니다. 켜더라도 저는 변경을 제안만 하고 적용을 누를 때까지 기다립니다.",
+  "中文": "——此功能已关闭，这是默认设置。如有需要，请在设置中开启；系统会要求您输入一句话，确认您了解风险。即便开启，我也只会提议更改，并等待您按“应用”。",
+  "العربية": "– هذا مُعطَّل، وهو الإعداد الافتراضي. فعّله من الإعدادات إذا أردت؛ سيُطلب منك كتابة جملة تؤكد فهمك للمخاطر. وحتى عندها لا أفعل سوى اقتراح تغيير وانتظار أن تضغط تطبيق.",
+  "Tiếng Việt": "– tính năng này đang TẮT, đây là mặc định. Hãy bật trong Cài đặt nếu bạn muốn; bạn sẽ được yêu cầu gõ một câu xác nhận đã hiểu rủi ro. Ngay cả khi đó, tôi chỉ đề xuất thay đổi và chờ bạn nhấn Áp dụng."
+ },
+ "How do I add a Power Window on the Color page?": {
+  "日本語": "カラーページで Power Window を追加するには?",
+  "Español": "¿Cómo añado una Power Window en la página Color?",
+  "Deutsch": "Wie füge ich auf der Color-Seite ein Power Window hinzu?",
+  "Français": "Comment ajouter une Power Window sur la page Color ?",
+  "한국인": "컬러 페이지에서 Power Window를 추가하려면?",
+  "中文": "如何在调色页面添加 Power Window？",
+  "العربية": "كيف أضيف Power Window في صفحة Color؟",
+  "Tiếng Việt": "Làm sao thêm Power Window ở trang Color?"
+ },
+ "Check my timeline settings for problems": {
+  "日本語": "タイムライン設定に問題がないか確認して",
+  "Español": "Revisa si hay problemas en la configuración de mi línea de tiempo",
+  "Deutsch": "Prüfe meine Timeline-Einstellungen auf Probleme",
+  "Français": "Vérifie les paramètres de ma timeline",
+  "한국인": "타임라인 설정에 문제가 있는지 확인해 줘",
+  "中文": "检查我的时间线设置是否有问题",
+  "العربية": "افحص إعدادات خطي الزمني بحثًا عن مشكلات",
+  "Tiếng Việt": "Kiểm tra cài đặt timeline của tôi có vấn đề gì không"
+ },
+ "What's the difference between Fusion and the Edit page titles?": {
+  "日本語": "Fusion とエディットページのタイトルの違いは?",
+  "Español": "¿Qué diferencia hay entre los títulos de Fusion y los de la página Edición?",
+  "Deutsch": "Was ist der Unterschied zwischen Fusion- und Edit-Seiten-Titeln?",
+  "Français": "Quelle est la différence entre les titres Fusion et ceux de la page Edit ?",
+  "한국인": "Fusion 타이틀과 에디트 페이지 타이틀의 차이는?",
+  "中文": "Fusion 标题和剪辑页面标题有什么区别？",
+  "العربية": "ما الفرق بين عناوين Fusion وعناوين صفحة Edit؟",
+  "Tiếng Việt": "Tiêu đề Fusion và tiêu đề trang Edit khác nhau thế nào?"
+ },
+ "What can you do?": {
+  "日本語": "何ができますか?",
+  "Español": "¿Qué puedes hacer?",
+  "Deutsch": "Was kannst du?",
+  "Français": "Que sais-tu faire ?",
+  "한국인": "무엇을 할 수 있나요?",
+  "中文": "你能做什么？",
+  "العربية": "ماذا يمكنك أن تفعل؟",
+  "Tiếng Việt": "Bạn làm được gì?"
+ },
+ "Discarded – nothing was changed.": {
+  "日本語": "破棄しました – 何も変更されていません。",
+  "Español": "Descartado: no se ha cambiado nada.",
+  "Deutsch": "Verworfen – nichts wurde geändert.",
+  "Français": "Ignoré – rien n'a été modifié.",
+  "한국인": "버렸습니다 – 변경된 것은 없습니다.",
+  "中文": "已放弃——未做任何更改。",
+  "العربية": "تم التجاهل – لم يتغير شيء.",
+  "Tiếng Việt": "Đã bỏ – không có gì thay đổi."
+ },
+ "Project changes were turned off while I was answering, so the proposed change was dropped – nothing was changed.": {
+  "日本語": "回答中にプロジェクトの変更がオフになったため、提案した変更は取り消しました – 何も変更されていません。",
+  "Español": "Los cambios en el proyecto se desactivaron mientras respondía, así que se descartó el cambio propuesto: no se ha cambiado nada.",
+  "Deutsch": "Projektänderungen wurden ausgeschaltet, während ich geantwortet habe, daher wurde die vorgeschlagene Änderung verworfen – nichts wurde geändert.",
+  "Français": "Les modifications du projet ont été désactivées pendant que je répondais, la modification proposée a donc été abandonnée – rien n'a été modifié.",
+  "한국인": "답변하는 동안 프로젝트 변경이 꺼져 제안한 변경을 취소했습니다 – 변경된 것은 없습니다.",
+  "中文": "在我回答时项目更改被关闭了，因此提议的更改已被放弃——未做任何更改。",
+  "العربية": "تم إيقاف تغييرات المشروع أثناء إجابتي، لذا تم إسقاط التغيير المقترح – لم يتغير شيء.",
+  "Tiếng Việt": "Việc thay đổi dự án đã bị tắt khi tôi đang trả lời, nên thay đổi đề xuất đã bị bỏ – không có gì thay đổi."
+ },
+ "Project changes were turned off, so the pending change was cancelled – nothing was changed.": {
+  "日本語": "プロジェクトの変更がオフになったため、保留中の変更はキャンセルしました – 何も変更されていません。",
+  "Español": "Los cambios en el proyecto se desactivaron, así que se canceló el cambio pendiente: no se ha cambiado nada.",
+  "Deutsch": "Projektänderungen wurden ausgeschaltet, daher wurde die ausstehende Änderung abgebrochen – nichts wurde geändert.",
+  "Français": "Les modifications du projet ont été désactivées, la modification en attente a donc été annulée – rien n'a été modifié.",
+  "한국인": "프로젝트 변경이 꺼져 대기 중인 변경을 취소했습니다 – 변경된 것은 없습니다.",
+  "中文": "项目更改已关闭，因此待处理的更改已取消——未做任何更改。",
+  "العربية": "تم إيقاف تغييرات المشروع، لذا أُلغي التغيير المعلّق – لم يتغير شيء.",
+  "Tiếng Việt": "Việc thay đổi dự án đã bị tắt nên thay đổi đang chờ đã bị hủy – không có gì thay đổi."
+ },
+ "Project changes are turned off in Settings, so the proposed change was cancelled – nothing was changed.": {
+  "日本語": "設定でプロジェクトの変更がオフになっているため、提案した変更はキャンセルしました – 何も変更されていません。",
+  "Español": "Los cambios en el proyecto están desactivados en Ajustes, así que se canceló el cambio propuesto: no se ha cambiado nada.",
+  "Deutsch": "Projektänderungen sind in den Einstellungen ausgeschaltet, daher wurde die vorgeschlagene Änderung abgebrochen – nichts wurde geändert.",
+  "Français": "Les modifications du projet sont désactivées dans les Paramètres, la modification proposée a donc été annulée – rien n'a été modifié.",
+  "한국인": "설정에서 프로젝트 변경이 꺼져 있어 제안한 변경을 취소했습니다 – 변경된 것은 없습니다.",
+  "中文": "设置中已关闭项目更改，因此提议的更改已取消——未做任何更改。",
+  "العربية": "تغييرات المشروع مُعطَّلة في الإعدادات، لذا أُلغي التغيير المقترح – لم يتغير شيء.",
+  "Tiếng Việt": "Việc thay đổi dự án đang tắt trong Cài đặt nên thay đổi đề xuất đã bị hủy – không có gì thay đổi."
+ },
+ "Nothing has been changed yet. Buddy cannot undo this – use Resolve's own Edit > Undo.": {
+  "日本語": "まだ何も変更されていません。Buddy はこれを元に戻せません – Resolve の「編集 > 元に戻す」を使ってください。",
+  "Español": "Todavía no se ha cambiado nada. Buddy no puede deshacer esto: usa Editar > Deshacer de Resolve.",
+  "Deutsch": "Es wurde noch nichts geändert. Buddy kann dies nicht rückgängig machen – verwenden Sie Bearbeiten > Rückgängig in Resolve.",
+  "Français": "Rien n'a encore été modifié. Buddy ne peut pas annuler ceci – utilisez Édition > Annuler de Resolve.",
+  "한국인": "아직 아무것도 변경되지 않았습니다. Buddy는 이것을 되돌릴 수 없습니다 – Resolve의 편집 > 실행 취소를 사용하세요.",
+  "中文": "尚未更改任何内容。Buddy 无法撤销此操作——请使用 Resolve 自己的“编辑 > 撤销”。",
+  "العربية": "لم يتغير شيء بعد. لا يستطيع Buddy التراجع عن هذا – استخدم تحرير > تراجع في Resolve.",
+  "Tiếng Việt": "Chưa có gì thay đổi. Buddy không thể hoàn tác việc này – hãy dùng Edit > Undo của Resolve."
+ },
+ "Nothing has been changed yet.": {
+  "日本語": "まだ何も変更されていません。",
+  "Español": "Todavía no se ha cambiado nada.",
+  "Deutsch": "Es wurde noch nichts geändert.",
+  "Français": "Rien n'a encore été modifié.",
+  "한국인": "아직 아무것도 변경되지 않았습니다.",
+  "中文": "尚未更改任何内容。",
+  "العربية": "لم يتغير شيء بعد.",
+  "Tiếng Việt": "Chưa có gì thay đổi."
+ },
+ "Applying the change…": {
+  "日本語": "変更を適用中…",
+  "Español": "Aplicando el cambio…",
+  "Deutsch": "Änderung wird angewendet…",
+  "Français": "Application de la modification…",
+  "한국인": "변경 적용 중…",
+  "中文": "正在应用更改…",
+  "العربية": "جارٍ تطبيق التغيير…",
+  "Tiếng Việt": "Đang áp dụng thay đổi…"
+ },
+ "Could not reach Resolve: {error}": {
+  "日本語": "Resolve に接続できませんでした: {error}",
+  "Español": "No se pudo conectar con Resolve: {error}",
+  "Deutsch": "Resolve ist nicht erreichbar: {error}",
+  "Français": "Impossible de joindre Resolve : {error}",
+  "한국인": "Resolve에 연결할 수 없습니다: {error}",
+  "中文": "无法连接到 Resolve：{error}",
+  "العربية": "تعذر الوصول إلى Resolve: {error}",
+  "Tiếng Việt": "Không thể kết nối Resolve: {error}"
+ },
+ "Failed: {error}": {
+  "日本語": "失敗しました: {error}",
+  "Español": "Error: {error}",
+  "Deutsch": "Fehlgeschlagen: {error}",
+  "Français": "Échec : {error}",
+  "한국인": "실패: {error}",
+  "中文": "失败：{error}",
+  "العربية": "فشل: {error}",
+  "Tiếng Việt": "Thất bại: {error}"
+ },
+ "The change failed: {error}": {
+  "日本語": "変更に失敗しました: {error}",
+  "Español": "El cambio falló: {error}",
+  "Deutsch": "Die Änderung ist fehlgeschlagen: {error}",
+  "Français": "La modification a échoué : {error}",
+  "한국인": "변경에 실패했습니다: {error}",
+  "中文": "更改失败：{error}",
+  "العربية": "فشل التغيير: {error}",
+  "Tiếng Việt": "Thay đổi thất bại: {error}"
+ },
+ "Applied.": {
+  "日本語": "適用しました。",
+  "Español": "Aplicado.",
+  "Deutsch": "Angewendet.",
+  "Français": "Appliqué.",
+  "한국인": "적용했습니다.",
+  "中文": "已应用。",
+  "العربية": "تم التطبيق.",
+  "Tiếng Việt": "Đã áp dụng."
+ },
+ "Buddy is not connected to DaVinci Resolve. Press Connect in Buddy's header (with Resolve running and a project open), then ask again.": {
+  "日本語": "Buddy は DaVinci Resolve に接続されていません。Resolve を起動してプロジェクトを開いた状態で Buddy のヘッダーの「接続」を押し、もう一度質問してください。",
+  "Español": "Buddy no está conectado a DaVinci Resolve. Pulsa Conectar en el encabezado de Buddy (con Resolve abierto y un proyecto cargado) y vuelve a preguntar.",
+  "Deutsch": "Buddy ist nicht mit DaVinci Resolve verbunden. Klicken Sie in der Kopfzeile von Buddy auf „Verbinden“ (während Resolve mit geöffnetem Projekt läuft) und fragen Sie dann erneut.",
+  "Français": "Buddy n'est pas connecté à DaVinci Resolve. Appuyez sur Connecter dans l'en-tête de Buddy (avec Resolve lancé et un projet ouvert), puis reposez la question.",
+  "한국인": "Buddy가 DaVinci Resolve에 연결되어 있지 않습니다. Resolve를 실행하고 프로젝트를 연 상태에서 Buddy 헤더의 연결을 누른 다음 다시 질문하세요.",
+  "中文": "Buddy 未连接到 DaVinci Resolve。请在 Resolve 运行并打开项目的情况下，按 Buddy 标题栏中的“连接”，然后再问一次。",
+  "العربية": "Buddy غير متصل بـ DaVinci Resolve. اضغط اتصال في ترويسة Buddy (مع تشغيل Resolve وفتح مشروع)، ثم اسأل مرة أخرى.",
+  "Tiếng Việt": "Buddy chưa kết nối với DaVinci Resolve. Hãy nhấn Kết nối ở tiêu đề của Buddy (khi Resolve đang chạy và đã mở dự án), rồi hỏi lại."
+ },
+ "Loading the Resolve manual…": {
+  "日本語": "Resolve のマニュアルを読み込み中…",
+  "Español": "Cargando el manual de Resolve…",
+  "Deutsch": "Resolve-Handbuch wird geladen…",
+  "Français": "Chargement du manuel de Resolve…",
+  "한국인": "Resolve 매뉴얼 불러오는 중…",
+  "中文": "正在加载 Resolve 手册…",
+  "العربية": "جارٍ تحميل دليل Resolve…",
+  "Tiếng Việt": "Đang tải sách hướng dẫn Resolve…"
+ },
+ "Add pictures": {
+  "日本語": "画像を追加",
+  "Español": "Añadir imágenes",
+  "Deutsch": "Bilder hinzufügen",
+  "Français": "Ajouter des images",
+  "한국인": "그림 추가",
+  "中文": "添加图片",
+  "العربية": "إضافة صور",
+  "Tiếng Việt": "Thêm ảnh"
+ },
+ "Pictures": {
+  "日本語": "画像",
+  "Español": "Imágenes",
+  "Deutsch": "Bilder",
+  "Français": "Images",
+  "한국인": "그림",
+  "中文": "图片",
+  "العربية": "الصور",
+  "Tiếng Việt": "Ảnh"
+ },
+ "Only pictures can be added – PNG, JPEG, WebP, GIF, BMP or TIFF.": {
+  "日本語": "追加できるのは画像だけです – PNG、JPEG、WebP、GIF、BMP、TIFF。",
+  "Español": "Solo se pueden añadir imágenes: PNG, JPEG, WebP, GIF, BMP o TIFF.",
+  "Deutsch": "Es können nur Bilder hinzugefügt werden – PNG, JPEG, WebP, GIF, BMP oder TIFF.",
+  "Français": "Seules des images peuvent être ajoutées – PNG, JPEG, WebP, GIF, BMP ou TIFF.",
+  "한국인": "그림만 추가할 수 있습니다 – PNG, JPEG, WebP, GIF, BMP 또는 TIFF.",
+  "中文": "只能添加图片——PNG、JPEG、WebP、GIF、BMP 或 TIFF。",
+  "العربية": "يمكن إضافة الصور فقط – PNG أو JPEG أو WebP أو GIF أو BMP أو TIFF.",
+  "Tiếng Việt": "Chỉ có thể thêm ảnh – PNG, JPEG, WebP, GIF, BMP hoặc TIFF."
+ },
+ "Couldn't read {name}: {error}": {
+  "日本語": "{name} を読み込めませんでした: {error}",
+  "Español": "No se pudo leer {name}: {error}",
+  "Deutsch": "{name} konnte nicht gelesen werden: {error}",
+  "Français": "Impossible de lire {name} : {error}",
+  "한국인": "{name}을(를) 읽을 수 없습니다: {error}",
+  "中文": "无法读取 {name}：{error}",
+  "العربية": "تعذرت قراءة {name}: {error}",
+  "Tiếng Việt": "Không thể đọc {name}: {error}"
+ },
+ "Up to {count} pictures per question.": {
+  "日本語": "1 つの質問につき画像は {count} 枚までです。",
+  "Español": "Hasta {count} imágenes por pregunta.",
+  "Deutsch": "Bis zu {count} Bilder pro Frage.",
+  "Français": "Jusqu'à {count} images par question.",
+  "한국인": "질문당 그림은 {count}개까지입니다.",
+  "中文": "每个问题最多 {count} 张图片。",
+  "العربية": "حتى {count} صور لكل سؤال.",
+  "Tiếng Việt": "Tối đa {count} ảnh mỗi câu hỏi."
+ },
+ "Take a look at this picture.": {
+  "日本語": "この画像を見てください。",
+  "Español": "Echa un vistazo a esta imagen.",
+  "Deutsch": "Sieh dir dieses Bild an.",
+  "Français": "Regarde cette image.",
+  "한국인": "이 그림을 봐 주세요.",
+  "中文": "请看这张图片。",
+  "العربية": "ألقِ نظرة على هذه الصورة.",
+  "Tiếng Việt": "Hãy xem ảnh này."
+ },
+ "Take a look at these pictures.": {
+  "日本語": "これらの画像を見てください。",
+  "Español": "Echa un vistazo a estas imágenes.",
+  "Deutsch": "Sieh dir diese Bilder an.",
+  "Français": "Regarde ces images.",
+  "한국인": "이 그림들을 봐 주세요.",
+  "中文": "请看这些图片。",
+  "العربية": "ألقِ نظرة على هذه الصور.",
+  "Tiếng Việt": "Hãy xem những ảnh này."
+ },
+ "Copied to clipboard": {
+  "日本語": "クリップボードにコピーしました",
+  "Español": "Copiado al portapapeles",
+  "Deutsch": "In die Zwischenablage kopiert",
+  "Français": "Copié dans le presse-papiers",
+  "한국인": "클립보드에 복사했습니다",
+  "中文": "已复制到剪贴板",
+  "العربية": "تم النسخ إلى الحافظة",
+  "Tiếng Việt": "Đã sao chép vào bộ nhớ tạm"
+ },
+ "Export conversation": {
+  "日本語": "会話を書き出し",
+  "Español": "Exportar conversación",
+  "Deutsch": "Gespräch exportieren",
+  "Français": "Exporter la conversation",
+  "한국인": "대화 내보내기",
+  "中文": "导出对话",
+  "العربية": "تصدير المحادثة",
+  "Tiếng Việt": "Xuất cuộc trò chuyện"
+ },
+ "Text files": {
+  "日本語": "テキストファイル",
+  "Español": "Archivos de texto",
+  "Deutsch": "Textdateien",
+  "Français": "Fichiers texte",
+  "한국인": "텍스트 파일",
+  "中文": "文本文件",
+  "العربية": "ملفات نصية",
+  "Tiếng Việt": "Tệp văn bản"
+ },
+ "Could not save the file: {error}": {
+  "日本語": "ファイルを保存できませんでした: {error}",
+  "Español": "No se pudo guardar el archivo: {error}",
+  "Deutsch": "Die Datei konnte nicht gespeichert werden: {error}",
+  "Français": "Impossible d'enregistrer le fichier : {error}",
+  "한국인": "파일을 저장할 수 없습니다: {error}",
+  "中文": "无法保存文件：{error}",
+  "العربية": "تعذر حفظ الملف: {error}",
+  "Tiếng Việt": "Không thể lưu tệp: {error}"
+ },
+ "Exported to {path}": {
+  "日本語": "{path} に書き出しました",
+  "Español": "Exportado a {path}",
+  "Deutsch": "Exportiert nach {path}",
+  "Français": "Exporté vers {path}",
+  "한국인": "{path}(으)로 내보냈습니다",
+  "中文": "已导出到 {path}",
+  "العربية": "تم التصدير إلى {path}",
+  "Tiếng Việt": "Đã xuất vào {path}"
+ },
+ "Ask Buddy – AI provider": {
+  "日本語": "Buddy に質問 – AI プロバイダー",
+  "Español": "Pregunta a Buddy – Proveedor de IA",
+  "Deutsch": "Buddy fragen – KI-Anbieter",
+  "Français": "Demander à Buddy – Fournisseur d'IA",
+  "한국인": "Buddy에게 질문 – AI 제공업체",
+  "中文": "询问 Buddy – AI 服务商",
+  "العربية": "اسأل Buddy – مزوّد الذكاء الاصطناعي",
+  "Tiếng Việt": "Hỏi Buddy – Nhà cung cấp AI"
+ },
+ "Provider": {
+  "日本語": "プロバイダー",
+  "Español": "Proveedor",
+  "Deutsch": "Anbieter",
+  "Français": "Fournisseur",
+  "한국인": "제공업체",
+  "中文": "服务商",
+  "العربية": "المزوّد",
+  "Tiếng Việt": "Nhà cung cấp"
+ },
+ "Base URL": {
+  "日本語": "ベース URL",
+  "Español": "URL base",
+  "Deutsch": "Basis-URL",
+  "Français": "URL de base",
+  "한국인": "기본 URL",
+  "中文": "基础 URL",
+  "العربية": "عنوان URL الأساسي",
+  "Tiếng Việt": "URL gốc"
+ },
+ "Deployment": {
+  "日本語": "デプロイ",
+  "Español": "Implementación",
+  "Deutsch": "Bereitstellung",
+  "Français": "Déploiement",
+  "한국인": "배포",
+  "中文": "部署",
+  "العربية": "النشر",
+  "Tiếng Việt": "Bản triển khai"
+ },
+ "Endpoint": {
+  "日本語": "エンドポイント",
+  "Español": "Punto de conexión",
+  "Deutsch": "Endpunkt",
+  "Français": "Point de terminaison",
+  "한국인": "엔드포인트",
+  "中文": "端点",
+  "العربية": "نقطة النهاية",
+  "Tiếng Việt": "Endpoint"
+ },
+ "Server address": {
+  "日本語": "サーバーのアドレス",
+  "Español": "Dirección del servidor",
+  "Deutsch": "Serveradresse",
+  "Français": "Adresse du serveur",
+  "한국인": "서버 주소",
+  "中文": "服务器地址",
+  "العربية": "عنوان الخادم",
+  "Tiếng Việt": "Địa chỉ máy chủ"
+ },
+ "API key": {
+  "日本語": "API キー",
+  "Español": "Clave de API",
+  "Deutsch": "API-Schlüssel",
+  "Français": "Clé API",
+  "한국인": "API 키",
+  "中文": "API 密钥",
+  "العربية": "مفتاح API",
+  "Tiếng Việt": "Khóa API"
+ },
+ "API key (optional)": {
+  "日本語": "API キー (任意)",
+  "Español": "Clave de API (opcional)",
+  "Deutsch": "API-Schlüssel (optional)",
+  "Français": "Clé API (facultative)",
+  "한국인": "API 키(선택 사항)",
+  "中文": "API 密钥（可选）",
+  "العربية": "مفتاح API (اختياري)",
+  "Tiếng Việt": "Khóa API (tùy chọn)"
+ },
+ "Paste your API key": {
+  "日本語": "API キーを貼り付け",
+  "Español": "Pega tu clave de API",
+  "Deutsch": "API-Schlüssel einfügen",
+  "Français": "Collez votre clé API",
+  "한국인": "API 키 붙여넣기",
+  "中文": "粘贴您的 API 密钥",
+  "العربية": "الصق مفتاح API",
+  "Tiếng Việt": "Dán khóa API của bạn"
+ },
+ "Ollama (local)": {
+  "日本語": "Ollama (ローカル)",
+  "Español": "Ollama (local)",
+  "Deutsch": "Ollama (lokal)",
+  "Français": "Ollama (local)",
+  "한국인": "Ollama(로컬)",
+  "中文": "Ollama（本地）",
+  "العربية": "Ollama (محلي)",
+  "Tiếng Việt": "Ollama (cục bộ)"
+ },
+ "llama.cpp server (local)": {
+  "日本語": "llama.cpp サーバー (ローカル)",
+  "Español": "Servidor llama.cpp (local)",
+  "Deutsch": "llama.cpp-Server (lokal)",
+  "Français": "Serveur llama.cpp (local)",
+  "한국인": "llama.cpp 서버(로컬)",
+  "中文": "llama.cpp 服务器（本地）",
+  "العربية": "خادم llama.cpp (محلي)",
+  "Tiếng Việt": "Máy chủ llama.cpp (cục bộ)"
+ },
+ "LM Studio (local)": {
+  "日本語": "LM Studio (ローカル)",
+  "Español": "LM Studio (local)",
+  "Deutsch": "LM Studio (lokal)",
+  "Français": "LM Studio (local)",
+  "한국인": "LM Studio(로컬)",
+  "中文": "LM Studio（本地）",
+  "العربية": "LM Studio (محلي)",
+  "Tiếng Việt": "LM Studio (cục bộ)"
+ },
+ "Custom (OpenAI-compatible)": {
+  "日本語": "カスタム (OpenAI 互換)",
+  "Español": "Personalizado (compatible con OpenAI)",
+  "Deutsch": "Benutzerdefiniert (OpenAI-kompatibel)",
+  "Français": "Personnalisé (compatible OpenAI)",
+  "한국인": "사용자 지정(OpenAI 호환)",
+  "中文": "自定义（兼容 OpenAI）",
+  "العربية": "مخصص (متوافق مع OpenAI)",
+  "Tiếng Việt": "Tùy chỉnh (tương thích OpenAI)"
+ },
+ "Test connection": {
+  "日本語": "接続をテスト",
+  "Español": "Probar conexión",
+  "Deutsch": "Verbindung testen",
+  "Français": "Tester la connexion",
+  "한국인": "연결 테스트",
+  "中文": "测试连接",
+  "العربية": "اختبار الاتصال",
+  "Tiếng Việt": "Kiểm tra kết nối"
+ },
+ "Testing…": {
+  "日本語": "テスト中…",
+  "Español": "Probando…",
+  "Deutsch": "Wird getestet…",
+  "Français": "Test…",
+  "한국인": "테스트 중…",
+  "中文": "正在测试…",
+  "العربية": "جارٍ الاختبار…",
+  "Tiếng Việt": "Đang kiểm tra…"
+ },
+ "Load models": {
+  "日本語": "モデルを読み込む",
+  "Español": "Cargar modelos",
+  "Deutsch": "Modelle laden",
+  "Français": "Charger les modèles",
+  "한국인": "모델 불러오기",
+  "中文": "加载模型",
+  "العربية": "تحميل النماذج",
+  "Tiếng Việt": "Tải mô hình"
+ },
+ "Conversation memory": {
+  "日本語": "会話の記憶",
+  "Español": "Memoria de la conversación",
+  "Deutsch": "Gesprächsgedächtnis",
+  "Français": "Mémoire de la conversation",
+  "한국인": "대화 기억",
+  "中文": "对话记忆",
+  "العربية": "ذاكرة المحادثة",
+  "Tiếng Việt": "Bộ nhớ hội thoại"
+ },
+ "1 turn": {
+  "日本語": "1 ターン",
+  "Español": "1 turno",
+  "Deutsch": "1 Runde",
+  "Français": "1 tour",
+  "한국인": "1턴",
+  "中文": "1 轮",
+  "العربية": "دور واحد",
+  "Tiếng Việt": "1 lượt"
+ },
+ "{n} turns": {
+  "日本語": "{n} ターン",
+  "Español": "{n} turnos",
+  "Deutsch": "{n} Runden",
+  "Français": "{n} tours",
+  "한국인": "{n}턴",
+  "中文": "{n} 轮",
+  "العربية": "{n} أدوار",
+  "Tiếng Việt": "{n} lượt"
+ },
+ "Past question/answer pairs replayed to the model each request. 0 means every question is standalone.": {
+  "日本語": "リクエストのたびにモデルへ再送する過去の質問と回答の組の数です。0 にすると、各質問は独立して扱われます。",
+  "Español": "Pares de pregunta y respuesta anteriores que se reenvían al modelo en cada solicitud. 0 significa que cada pregunta es independiente.",
+  "Deutsch": "Frühere Frage-Antwort-Paare, die dem Modell bei jeder Anfrage erneut gesendet werden. 0 bedeutet, dass jede Frage für sich steht.",
+  "Français": "Paires question/réponse précédentes renvoyées au modèle à chaque requête. 0 signifie que chaque question est indépendante.",
+  "한국인": "요청할 때마다 모델에 다시 보내는 이전 질문/답변 쌍입니다. 0이면 각 질문이 독립적으로 처리됩니다.",
+  "中文": "每次请求时重新发送给模型的过往问答对数量。0 表示每个问题都相互独立。",
+  "العربية": "أزواج الأسئلة والأجوبة السابقة التي تُعاد إلى النموذج في كل طلب. تعني 0 أن كل سؤال مستقل.",
+  "Tiếng Việt": "Số cặp hỏi/đáp trước đó được gửi lại cho mô hình ở mỗi yêu cầu. 0 nghĩa là mỗi câu hỏi độc lập."
+ },
+ "Tool call budget": {
+  "日本語": "ツール呼び出しの上限",
+  "Español": "Límite de llamadas a herramientas",
+  "Deutsch": "Budget für Werkzeugaufrufe",
+  "Français": "Budget d'appels d'outils",
+  "한국인": "도구 호출 한도",
+  "中文": "工具调用上限",
+  "العربية": "حد استدعاءات الأدوات",
+  "Tiếng Việt": "Giới hạn gọi công cụ"
+ },
+ "1 call": {
+  "日本語": "1 回",
+  "Español": "1 llamada",
+  "Deutsch": "1 Aufruf",
+  "Français": "1 appel",
+  "한국인": "1회",
+  "中文": "1 次",
+  "العربية": "استدعاء واحد",
+  "Tiếng Việt": "1 lần gọi"
+ },
+ "{n} calls": {
+  "日本語": "{n} 回",
+  "Español": "{n} llamadas",
+  "Deutsch": "{n} Aufrufe",
+  "Français": "{n} appels",
+  "한국인": "{n}회",
+  "中文": "{n} 次",
+  "العربية": "{n} استدعاءات",
+  "Tiếng Việt": "{n} lần gọi"
+ },
+ "How many tool calls Buddy may make per answer before it gives up – manual searches, reading your project, offering tools. More calls let it dig deeper on hard questions, but each one is an extra model round-trip that uses more tokens.": {
+  "日本語": "Buddy が 1 つの回答であきらめるまでに使えるツール呼び出しの回数です (マニュアル検索、プロジェクトの読み込み、ツールの提案)。回数を増やすと難しい質問を深く調べられますが、1 回ごとにモデルとのやり取りが増え、トークンを多く消費します。",
+  "Español": "Cuántas llamadas a herramientas puede hacer Buddy por respuesta antes de rendirse: búsquedas en el manual, leer tu proyecto, ofrecer herramientas. Más llamadas le permiten profundizar en preguntas difíciles, pero cada una es un viaje extra al modelo que usa más tokens.",
+  "Deutsch": "Wie viele Werkzeugaufrufe Buddy pro Antwort machen darf, bevor es aufgibt – Handbuchsuchen, Ihr Projekt lesen, Werkzeuge anbieten. Mehr Aufrufe erlauben gründlichere Antworten auf schwierige Fragen, aber jeder ist ein zusätzlicher Modellaufruf, der mehr Tokens verbraucht.",
+  "Français": "Nombre d'appels d'outils que Buddy peut faire par réponse avant d'abandonner – recherches dans le manuel, lecture de votre projet, propositions d'outils. Plus d'appels lui permettent d'approfondir les questions difficiles, mais chacun est un aller-retour supplémentaire avec le modèle qui consomme plus de jetons.",
+  "한국인": "Buddy가 한 답변에서 포기하기 전까지 할 수 있는 도구 호출 수입니다(매뉴얼 검색, 프로젝트 읽기, 도구 제안). 호출이 많을수록 어려운 질문을 더 깊이 파고들 수 있지만, 호출마다 모델 왕복이 늘어 토큰을 더 사용합니다.",
+  "中文": "Buddy 在放弃前每个回答最多可进行的工具调用次数——搜索手册、读取项目、推荐工具。次数越多，越能深入处理难题，但每次调用都会多一次模型往返，消耗更多 token。",
+  "العربية": "عدد استدعاءات الأدوات التي يمكن لـ Buddy إجراؤها لكل إجابة قبل أن يستسلم – البحث في الدليل، وقراءة مشروعك، واقتراح الأدوات. المزيد من الاستدعاءات يتيح التعمق في الأسئلة الصعبة، لكن كل واحد رحلة إضافية إلى النموذج تستهلك المزيد من الرموز.",
+  "Tiếng Việt": "Số lần gọi công cụ Buddy được dùng cho mỗi câu trả lời trước khi bỏ cuộc – tìm trong sách hướng dẫn, đọc dự án, gợi ý công cụ. Nhiều lần gọi hơn giúp đào sâu câu hỏi khó, nhưng mỗi lần là một lượt trao đổi thêm với mô hình và tốn thêm token."
+ },
+ "Project changes": {
+  "日本語": "プロジェクトの変更",
+  "Español": "Cambios en el proyecto",
+  "Deutsch": "Projektänderungen",
+  "Français": "Modifications du projet",
+  "한국인": "프로젝트 변경",
+  "中文": "项目更改",
+  "العربية": "تغييرات المشروع",
+  "Tiếng Việt": "Thay đổi dự án"
+ },
+ "Allow Buddy to make changes to my project": {
+  "日本語": "Buddy がプロジェクトを変更することを許可する",
+  "Español": "Permitir que Buddy haga cambios en mi proyecto",
+  "Deutsch": "Buddy erlauben, Änderungen an meinem Projekt vorzunehmen",
+  "Français": "Autoriser Buddy à modifier mon projet",
+  "한국인": "Buddy가 내 프로젝트를 변경하도록 허용",
+  "中文": "允许 Buddy 更改我的项目",
+  "العربية": "السماح لـ Buddy بإجراء تغييرات على مشروعي",
+  "Tiếng Việt": "Cho phép Buddy thay đổi dự án của tôi"
+ },
+ "Off by default. Turning it on asks you to type a sentence confirming you understand the risk, every time – unticking this box revokes consent, and re-ticking it asks again. Buddy always shows you exactly what it wants to change and waits for you to press Apply.": {
+  "日本語": "既定ではオフです。オンにするたびに、リスクを理解したことを確認する文の入力を求められます – チェックを外すと同意が取り消され、再びチェックすると改めて確認されます。Buddy は変更したい内容を必ず正確に表示し、あなたが「適用」を押すまで待ちます。",
+  "Español": "Desactivado por defecto. Activarlo te pide escribir una frase confirmando que entiendes el riesgo, cada vez; desmarcar esta casilla revoca el consentimiento y volver a marcarla lo pide de nuevo. Buddy siempre te muestra exactamente lo que quiere cambiar y espera a que pulses Aplicar.",
+  "Deutsch": "Standardmäßig aus. Beim Einschalten werden Sie jedes Mal gebeten, einen Satz einzugeben, der bestätigt, dass Sie das Risiko verstehen – das Entfernen des Häkchens widerruft die Zustimmung, erneutes Ankreuzen fragt erneut. Buddy zeigt Ihnen immer genau, was es ändern möchte, und wartet, bis Sie auf „Anwenden“ klicken.",
+  "Français": "Désactivé par défaut. L'activer vous demande, à chaque fois, de saisir une phrase confirmant que vous comprenez le risque – décocher cette case retire le consentement, et la recocher le redemande. Buddy vous montre toujours exactement ce qu'il veut modifier et attend que vous appuyiez sur Appliquer.",
+  "한국인": "기본적으로 꺼져 있습니다. 켤 때마다 위험을 이해했음을 확인하는 문장을 입력하라는 요청을 받습니다 – 선택을 해제하면 동의가 철회되고, 다시 선택하면 다시 묻습니다. Buddy는 변경하려는 내용을 항상 정확히 보여 주고 적용을 누를 때까지 기다립니다.",
+  "中文": "默认关闭。每次开启都会要求您输入一句话，确认您了解风险——取消勾选即撤回同意，再次勾选会重新询问。Buddy 始终会准确显示它想更改的内容，并等待您按“应用”。",
+  "العربية": "مُعطَّل افتراضيًا. تفعيله يطلب منك في كل مرة كتابة جملة تؤكد فهمك للمخاطر – إلغاء تحديد هذا المربع يسحب الموافقة، وإعادة تحديده تطلبها مرة أخرى. يعرض لك Buddy دائمًا بالضبط ما يريد تغييره وينتظر أن تضغط تطبيق.",
+  "Tiếng Việt": "Mặc định tắt. Mỗi lần bật, bạn sẽ được yêu cầu gõ một câu xác nhận đã hiểu rủi ro – bỏ chọn ô này sẽ thu hồi sự đồng ý, chọn lại sẽ hỏi lại. Buddy luôn cho bạn thấy chính xác nó muốn thay đổi gì và chờ bạn nhấn Áp dụng."
+ },
+ "Manual data": {
+  "日本語": "マニュアルのデータ",
+  "Español": "Datos del manual",
+  "Deutsch": "Handbuchdaten",
+  "Français": "Données du manuel",
+  "한국인": "매뉴얼 데이터",
+  "中文": "手册数据",
+  "العربية": "بيانات الدليل",
+  "Tiếng Việt": "Dữ liệu sách hướng dẫn"
+ },
+ "Rebuild from PDF…": {
+  "日本語": "PDF から再構築…",
+  "Español": "Reconstruir desde PDF…",
+  "Deutsch": "Aus PDF neu erstellen…",
+  "Français": "Reconstruire depuis le PDF…",
+  "한국인": "PDF에서 다시 만들기…",
+  "中文": "从 PDF 重建…",
+  "العربية": "إعادة البناء من PDF…",
+  "Tiếng Việt": "Dựng lại từ PDF…"
+ },
+ "No manual bundle yet – answers are not grounded in the manual.": {
+  "日本語": "マニュアルのバンドルがまだありません – 回答はマニュアルに基づいていません。",
+  "Español": "Aún no hay paquete del manual: las respuestas no se basan en el manual.",
+  "Deutsch": "Noch kein Handbuch-Paket – Antworten stützen sich nicht auf das Handbuch.",
+  "Français": "Pas encore de paquet du manuel – les réponses ne s'appuient pas sur le manuel.",
+  "한국인": "아직 매뉴얼 번들이 없습니다 – 답변이 매뉴얼에 근거하지 않습니다.",
+  "中文": "尚无手册数据包——回答并非基于手册。",
+  "العربية": "لا توجد حزمة دليل بعد – الإجابات لا تستند إلى الدليل.",
+  "Tiếng Việt": "Chưa có gói sách hướng dẫn – câu trả lời không dựa trên sách hướng dẫn."
+ },
+ "Still waiting for the last answer…": {
+  "日本語": "前回の応答をまだ待っています…",
+  "Español": "Todavía esperando la última respuesta…",
+  "Deutsch": "Warte noch auf die letzte Antwort…",
+  "Français": "En attente de la dernière réponse…",
+  "한국인": "아직 마지막 응답을 기다리는 중…",
+  "中文": "仍在等待上一次的回复…",
+  "العربية": "لا يزال في انتظار آخر إجابة…",
+  "Tiếng Việt": "Vẫn đang chờ câu trả lời trước…"
+ },
+ "Asking {name}…": {
+  "日本語": "{name} に問い合わせ中…",
+  "Español": "Consultando a {name}…",
+  "Deutsch": "{name} wird gefragt…",
+  "Français": "Interrogation de {name}…",
+  "한국인": "{name}에 묻는 중…",
+  "中文": "正在询问 {name}…",
+  "العربية": "جارٍ سؤال {name}…",
+  "Tiếng Việt": "Đang hỏi {name}…"
+ },
+ "Add the API key first – the model list needs it.": {
+  "日本語": "先に API キーを追加してください – モデル一覧の取得に必要です。",
+  "Español": "Añade primero la clave de API: la lista de modelos la necesita.",
+  "Deutsch": "Fügen Sie zuerst den API-Schlüssel hinzu – die Modellliste benötigt ihn.",
+  "Français": "Ajoutez d'abord la clé API – la liste des modèles en a besoin.",
+  "한국인": "먼저 API 키를 추가하세요 – 모델 목록을 가져오려면 필요합니다.",
+  "中文": "请先添加 API 密钥——获取模型列表需要它。",
+  "العربية": "أضف مفتاح API أولًا – تحتاجه قائمة النماذج.",
+  "Tiếng Việt": "Hãy thêm khóa API trước – danh sách mô hình cần nó."
+ },
+ "Ollama isn't answering at that address – type a model name.": {
+  "日本語": "そのアドレスで Ollama が応答しません – モデル名を入力してください。",
+  "Español": "Ollama no responde en esa dirección: escribe un nombre de modelo.",
+  "Deutsch": "Ollama antwortet unter dieser Adresse nicht – geben Sie einen Modellnamen ein.",
+  "Français": "Ollama ne répond pas à cette adresse – saisissez un nom de modèle.",
+  "한국인": "해당 주소에서 Ollama가 응답하지 않습니다 – 모델 이름을 입력하세요.",
+  "中文": "Ollama 在该地址没有响应——请输入模型名称。",
+  "العربية": "لا يستجيب Ollama على ذلك العنوان – اكتب اسم نموذج.",
+  "Tiếng Việt": "Ollama không phản hồi ở địa chỉ đó – hãy nhập tên mô hình."
+ },
+ "The server listed no chat models.": {
+  "日本語": "サーバーにチャットモデルがありませんでした。",
+  "Español": "El servidor no listó ningún modelo de chat.",
+  "Deutsch": "Der Server hat keine Chat-Modelle aufgeführt.",
+  "Français": "Le serveur n'a listé aucun modèle de conversation.",
+  "한국인": "서버에 채팅 모델이 없습니다.",
+  "中文": "服务器未列出任何聊天模型。",
+  "العربية": "لم يسرد الخادم أي نماذج دردشة.",
+  "Tiếng Việt": "Máy chủ không liệt kê mô hình trò chuyện nào."
+ },
+ "Get a free key at": {
+  "日本語": "無料のキーの入手先:",
+  "Español": "Consigue una clave gratuita en",
+  "Deutsch": "Einen kostenlosen Schlüssel gibt es unter",
+  "Français": "Obtenez une clé gratuite sur",
+  "한국인": "무료 키 받는 곳:",
+  "中文": "免费获取密钥：",
+  "العربية": "احصل على مفتاح مجاني من",
+  "Tiếng Việt": "Lấy khóa miễn phí tại"
+ },
+ "Get a key at": {
+  "日本語": "キーの入手先:",
+  "Español": "Consigue una clave en",
+  "Deutsch": "Einen Schlüssel gibt es unter",
+  "Français": "Obtenez une clé sur",
+  "한국인": "키 받는 곳:",
+  "中文": "获取密钥：",
+  "العربية": "احصل على مفتاح من",
+  "Tiếng Việt": "Lấy khóa tại"
+ },
+ "Very fast hosted open models. Get a key at": {
+  "日本語": "高速なホスト型オープンモデル。キーの入手先:",
+  "Español": "Modelos abiertos alojados muy rápidos. Consigue una clave en",
+  "Deutsch": "Sehr schnelle gehostete offene Modelle. Einen Schlüssel gibt es unter",
+  "Français": "Modèles ouverts hébergés très rapides. Obtenez une clé sur",
+  "한국인": "매우 빠른 호스팅형 오픈 모델. 키 받는 곳:",
+  "中文": "速度极快的托管开源模型。获取密钥：",
+  "العربية": "نماذج مفتوحة مستضافة سريعة جدًا. احصل على مفتاح من",
+  "Tiếng Việt": "Mô hình mở được lưu trữ rất nhanh. Lấy khóa tại"
+ },
+ "One key for hundreds of models from every major lab, some of them free. Get one at": {
+  "日本語": "主要な研究機関の数百のモデルを 1 つのキーで利用でき、一部は無料です。キーの入手先:",
+  "Español": "Una clave para cientos de modelos de los principales laboratorios, algunos gratuitos. Consíguela en",
+  "Deutsch": "Ein Schlüssel für Hunderte Modelle aller großen Labore, einige davon kostenlos. Einen gibt es unter",
+  "Français": "Une clé pour des centaines de modèles de tous les grands laboratoires, certains gratuits. Obtenez-en une sur",
+  "한국인": "주요 연구소의 모델 수백 개를 하나의 키로, 일부는 무료. 키 받는 곳:",
+  "中文": "一个密钥即可使用各大实验室的数百个模型，其中一些免费。获取地址：",
+  "العربية": "مفتاح واحد لمئات النماذج من كل المختبرات الكبرى، بعضها مجاني. احصل عليه من",
+  "Tiếng Việt": "Một khóa cho hàng trăm mô hình từ mọi phòng thí nghiệm lớn, một số miễn phí. Lấy tại"
+ },
+ ", then Load models to pick. Leave the key empty to use $OPENROUTER_API_KEY from your environment instead.": {
+  "日本語": "、その後「モデルを読み込む」で選択します。キーを空欄にすると、環境変数の $OPENROUTER_API_KEY を使います。",
+  "Español": "y luego usa Cargar modelos para elegir. Deja la clave vacía para usar $OPENROUTER_API_KEY de tu entorno.",
+  "Deutsch": ", dann „Modelle laden“ zum Auswählen. Lassen Sie den Schlüssel leer, um stattdessen $OPENROUTER_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": ", puis Charger les modèles pour choisir. Laissez la clé vide pour utiliser $OPENROUTER_API_KEY de votre environnement.",
+  "한국인": "에서 받은 뒤 모델 불러오기로 고르세요. 키를 비워 두면 환경 변수의 $OPENROUTER_API_KEY를 사용합니다.",
+  "中文": "，然后用“加载模型”选择。将密钥留空则使用环境中的 $OPENROUTER_API_KEY。",
+  "العربية": "، ثم اختر من تحميل النماذج. اترك المفتاح فارغًا لاستخدام $OPENROUTER_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": ", rồi dùng Tải mô hình để chọn. Để trống khóa để dùng $OPENROUTER_API_KEY từ môi trường của bạn."
+ },
+ ". Leave the key empty to use $GEMINI_API_KEY from your environment instead.": {
+  "日本語": "。キーを空欄にすると、環境変数の $GEMINI_API_KEY を使います。",
+  "Español": ". Deja la clave vacía para usar $GEMINI_API_KEY de tu entorno.",
+  "Deutsch": ". Lassen Sie den Schlüssel leer, um stattdessen $GEMINI_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": ". Laissez la clé vide pour utiliser $GEMINI_API_KEY de votre environnement.",
+  "한국인": ". 키를 비워 두면 환경 변수의 $GEMINI_API_KEY를 사용합니다.",
+  "中文": "。将密钥留空则使用环境中的 $GEMINI_API_KEY。",
+  "العربية": ". اترك المفتاح فارغًا لاستخدام $GEMINI_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": ". Để trống khóa để dùng $GEMINI_API_KEY từ môi trường của bạn."
+ },
+ ". Leave the key empty to use $ANTHROPIC_API_KEY from your environment instead.": {
+  "日本語": "。キーを空欄にすると、環境変数の $ANTHROPIC_API_KEY を使います。",
+  "Español": ". Deja la clave vacía para usar $ANTHROPIC_API_KEY de tu entorno.",
+  "Deutsch": ". Lassen Sie den Schlüssel leer, um stattdessen $ANTHROPIC_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": ". Laissez la clé vide pour utiliser $ANTHROPIC_API_KEY de votre environnement.",
+  "한국인": ". 키를 비워 두면 환경 변수의 $ANTHROPIC_API_KEY를 사용합니다.",
+  "中文": "。将密钥留空则使用环境中的 $ANTHROPIC_API_KEY。",
+  "العربية": ". اترك المفتاح فارغًا لاستخدام $ANTHROPIC_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": ". Để trống khóa để dùng $ANTHROPIC_API_KEY từ môi trường của bạn."
+ },
+ ". Leave the key empty to use $OPENAI_API_KEY from your environment instead.": {
+  "日本語": "。キーを空欄にすると、環境変数の $OPENAI_API_KEY を使います。",
+  "Español": ". Deja la clave vacía para usar $OPENAI_API_KEY de tu entorno.",
+  "Deutsch": ". Lassen Sie den Schlüssel leer, um stattdessen $OPENAI_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": ". Laissez la clé vide pour utiliser $OPENAI_API_KEY de votre environnement.",
+  "한국인": ". 키를 비워 두면 환경 변수의 $OPENAI_API_KEY를 사용합니다.",
+  "中文": "。将密钥留空则使用环境中的 $OPENAI_API_KEY。",
+  "العربية": ". اترك المفتاح فارغًا لاستخدام $OPENAI_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": ". Để trống khóa để dùng $OPENAI_API_KEY từ môi trường của bạn."
+ },
+ ". Leave the key empty to use $GROQ_API_KEY from your environment instead.": {
+  "日本語": "。キーを空欄にすると、環境変数の $GROQ_API_KEY を使います。",
+  "Español": ". Deja la clave vacía para usar $GROQ_API_KEY de tu entorno.",
+  "Deutsch": ". Lassen Sie den Schlüssel leer, um stattdessen $GROQ_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": ". Laissez la clé vide pour utiliser $GROQ_API_KEY de votre environnement.",
+  "한국인": ". 키를 비워 두면 환경 변수의 $GROQ_API_KEY를 사용합니다.",
+  "中文": "。将密钥留空则使用环境中的 $GROQ_API_KEY。",
+  "العربية": ". اترك المفتاح فارغًا لاستخدام $GROQ_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": ". Để trống khóa để dùng $GROQ_API_KEY từ môi trường của bạn."
+ },
+ "Your organisation's Azure OpenAI resource. The endpoint and key are on the resource's Keys and Endpoint page in the Azure portal; Deployment is the name you gave the model there. Leave the key empty to use $AZURE_OPENAI_API_KEY from your environment instead.": {
+  "日本語": "組織の Azure OpenAI リソースです。エンドポイントとキーは Azure ポータルのリソースの「キーとエンドポイント」ページにあります。デプロイはそこでモデルに付けた名前です。キーを空欄にすると、環境変数の $AZURE_OPENAI_API_KEY を使います。",
+  "Español": "El recurso de Azure OpenAI de tu organización. El punto de conexión y la clave están en la página Claves y punto de conexión del recurso en el portal de Azure; Implementación es el nombre que diste al modelo allí. Deja la clave vacía para usar $AZURE_OPENAI_API_KEY de tu entorno.",
+  "Deutsch": "Die Azure-OpenAI-Ressource Ihrer Organisation. Endpunkt und Schlüssel finden Sie auf der Seite „Schlüssel und Endpunkt“ der Ressource im Azure-Portal; Bereitstellung ist der Name, den Sie dem Modell dort gegeben haben. Lassen Sie den Schlüssel leer, um stattdessen $AZURE_OPENAI_API_KEY aus Ihrer Umgebung zu verwenden.",
+  "Français": "La ressource Azure OpenAI de votre organisation. Le point de terminaison et la clé se trouvent sur la page Clés et point de terminaison de la ressource dans le portail Azure ; Déploiement est le nom donné au modèle là-bas. Laissez la clé vide pour utiliser $AZURE_OPENAI_API_KEY de votre environnement.",
+  "한국인": "조직의 Azure OpenAI 리소스입니다. 엔드포인트와 키는 Azure 포털에서 리소스의 키 및 엔드포인트 페이지에 있으며, 배포는 그곳에서 모델에 붙인 이름입니다. 키를 비워 두면 환경 변수의 $AZURE_OPENAI_API_KEY를 사용합니다.",
+  "中文": "您组织的 Azure OpenAI 资源。端点和密钥位于 Azure 门户中该资源的“密钥和终结点”页面；部署是您在那里为模型设置的名称。将密钥留空则使用环境中的 $AZURE_OPENAI_API_KEY。",
+  "العربية": "مورد Azure OpenAI الخاص بمؤسستك. نقطة النهاية والمفتاح موجودان في صفحة المفاتيح ونقطة النهاية للمورد في مدخل Azure؛ والنشر هو الاسم الذي أعطيته للنموذج هناك. اترك المفتاح فارغًا لاستخدام $AZURE_OPENAI_API_KEY من بيئتك بدلًا من ذلك.",
+  "Tiếng Việt": "Tài nguyên Azure OpenAI của tổ chức bạn. Endpoint và khóa nằm ở trang Keys and Endpoint của tài nguyên trong Azure portal; Deployment là tên bạn đặt cho mô hình ở đó. Để trống khóa để dùng $AZURE_OPENAI_API_KEY từ môi trường của bạn."
+ },
+ "Runs on your own hardware – no API key, and nothing goes to a cloud service. Ollama must be running; the list above shows what it has installed. Leave the address empty for this PC, or enter another machine's (e.g. 192.168.1.20:11434).": {
+  "日本語": "自分のハードウェアで動作します – API キーは不要で、クラウドサービスには何も送られません。Ollama が起動している必要があり、上の一覧にはインストール済みのモデルが表示されます。このパソコンならアドレスは空欄のまま、別のマシンならそのアドレスを入力してください (例: 192.168.1.20:11434)。",
+  "Español": "Se ejecuta en tu propio hardware: sin clave de API y sin enviar nada a un servicio en la nube. Ollama debe estar en ejecución; la lista de arriba muestra lo que tiene instalado. Deja la dirección vacía para este equipo o escribe la de otra máquina (p. ej., 192.168.1.20:11434).",
+  "Deutsch": "Läuft auf Ihrer eigenen Hardware – kein API-Schlüssel, und nichts geht an einen Cloud-Dienst. Ollama muss laufen; die Liste oben zeigt, was installiert ist. Lassen Sie die Adresse für diesen PC leer oder geben Sie die eines anderen Rechners ein (z. B. 192.168.1.20:11434).",
+  "Français": "Fonctionne sur votre propre matériel – pas de clé API, et rien ne part vers un service cloud. Ollama doit être lancé ; la liste ci-dessus montre ce qu'il a installé. Laissez l'adresse vide pour ce PC, ou saisissez celle d'une autre machine (ex. : 192.168.1.20:11434).",
+  "한국인": "내 하드웨어에서 실행됩니다 – API 키가 필요 없고 클라우드 서비스로 아무것도 보내지 않습니다. Ollama가 실행 중이어야 하며, 위 목록에 설치된 모델이 표시됩니다. 이 PC라면 주소를 비워 두고, 다른 컴퓨터라면 그 주소를 입력하세요(예: 192.168.1.20:11434).",
+  "中文": "在您自己的硬件上运行——无需 API 密钥，也不会向任何云服务发送内容。Ollama 必须正在运行；上方列表显示其已安装的模型。本机请将地址留空，其他机器请输入其地址（例如 192.168.1.20:11434）。",
+  "العربية": "يعمل على أجهزتك الخاصة – بلا مفتاح API، ولا يُرسل شيء إلى خدمة سحابية. يجب أن يكون Ollama قيد التشغيل؛ تعرض القائمة أعلاه ما هو مثبت لديه. اترك العنوان فارغًا لهذا الكمبيوتر، أو أدخل عنوان جهاز آخر (مثل 192.168.1.20:11434).",
+  "Tiếng Việt": "Chạy trên phần cứng của bạn – không cần khóa API và không có gì được gửi tới dịch vụ đám mây. Ollama phải đang chạy; danh sách ở trên hiển thị những gì đã cài. Để trống địa chỉ cho máy này, hoặc nhập địa chỉ của máy khác (vd: 192.168.1.20:11434)."
+ },
+ "llama.cpp's own server, llama-server. Start it with": {
+  "日本語": "llama.cpp 自体のサーバー、llama-server です。次のオプションを付けて起動してください:",
+  "Español": "El servidor propio de llama.cpp, llama-server. Inícialo con",
+  "Deutsch": "Der eigene Server von llama.cpp, llama-server. Starten Sie ihn mit",
+  "Français": "Le serveur propre à llama.cpp, llama-server. Lancez-le avec",
+  "한국인": "llama.cpp 자체 서버인 llama-server입니다. 다음 옵션으로 시작하세요:",
+  "中文": "llama.cpp 自带的服务器 llama-server。启动时请加上",
+  "العربية": "خادم llama.cpp الخاص، llama-server. شغّله مع",
+  "Tiếng Việt": "Máy chủ riêng của llama.cpp, llama-server. Hãy khởi động với"
+ },
+ ", or the model can't use the tools Ask Buddy works through. Leave the address empty for this PC on port 8080; the key only if you started it with --api-key.": {
+  "日本語": "(付けないと、モデルが Ask Buddy の使うツールを利用できません)。このパソコンのポート 8080 ならアドレスは空欄のまま、キーは --api-key を付けて起動した場合にだけ入力します。",
+  "Español": "; si no, el modelo no puede usar las herramientas con las que trabaja Pregunta a Buddy. Deja la dirección vacía para este equipo en el puerto 8080; la clave solo si lo iniciaste con --api-key.",
+  "Deutsch": ", sonst kann das Modell die Werkzeuge nicht nutzen, über die „Buddy fragen“ arbeitet. Lassen Sie die Adresse für diesen PC auf Port 8080 leer; den Schlüssel nur, wenn Sie ihn mit --api-key gestartet haben.",
+  "Français": ", sinon le modèle ne peut pas utiliser les outils de Demander à Buddy. Laissez l'adresse vide pour ce PC sur le port 8080 ; la clé seulement si vous l'avez lancé avec --api-key.",
+  "한국인": "그렇지 않으면 모델이 Buddy에게 질문이 사용하는 도구를 쓸 수 없습니다. 이 PC의 포트 8080이면 주소를 비워 두고, 키는 --api-key로 시작한 경우에만 입력하세요.",
+  "中文": "，否则模型无法使用“询问 Buddy”所依赖的工具。本机 8080 端口请将地址留空；仅当您用 --api-key 启动时才需要填写密钥。",
+  "العربية": "، وإلا فلن يتمكن النموذج من استخدام الأدوات التي يعمل بها اسأل Buddy. اترك العنوان فارغًا لهذا الكمبيوتر على المنفذ 8080؛ والمفتاح فقط إذا شغّلته مع ‎--api-key.",
+  "Tiếng Việt": ", nếu không mô hình không thể dùng các công cụ mà Hỏi Buddy cần. Để trống địa chỉ cho máy này ở cổng 8080; chỉ nhập khóa nếu bạn khởi động với --api-key."
+ },
+ "Start LM Studio's local server (the Developer tab). Leave the address empty for this PC on port 1234 – the list above shows the models it has. Nothing goes to a cloud service.": {
+  "日本語": "LM Studio のローカルサーバーを起動してください (開発者タブ)。このパソコンのポート 1234 ならアドレスは空欄のままで、上の一覧にはそのモデルが表示されます。クラウドサービスには何も送られません。",
+  "Español": "Inicia el servidor local de LM Studio (la pestaña Developer). Deja la dirección vacía para este equipo en el puerto 1234; la lista de arriba muestra sus modelos. No se envía nada a un servicio en la nube.",
+  "Deutsch": "Starten Sie den lokalen Server von LM Studio (Tab „Developer“). Lassen Sie die Adresse für diesen PC auf Port 1234 leer – die Liste oben zeigt die vorhandenen Modelle. Nichts geht an einen Cloud-Dienst.",
+  "Français": "Lancez le serveur local de LM Studio (onglet Developer). Laissez l'adresse vide pour ce PC sur le port 1234 – la liste ci-dessus montre ses modèles. Rien ne part vers un service cloud.",
+  "한국인": "LM Studio의 로컬 서버를 시작하세요(Developer 탭). 이 PC의 포트 1234면 주소를 비워 두세요 – 위 목록에 보유한 모델이 표시됩니다. 클라우드 서비스로는 아무것도 보내지 않습니다.",
+  "中文": "启动 LM Studio 的本地服务器（Developer 标签页）。本机 1234 端口请将地址留空——上方列表会显示其拥有的模型。不会向任何云服务发送内容。",
+  "العربية": "شغّل الخادم المحلي لـ LM Studio (تبويب Developer). اترك العنوان فارغًا لهذا الكمبيوتر على المنفذ 1234 – تعرض القائمة أعلاه النماذج المتوفرة لديه. لا يُرسل شيء إلى خدمة سحابية.",
+  "Tiếng Việt": "Hãy khởi động máy chủ cục bộ của LM Studio (thẻ Developer). Để trống địa chỉ cho máy này ở cổng 1234 – danh sách ở trên hiển thị các mô hình có sẵn. Không có gì được gửi tới dịch vụ đám mây."
+ },
+ "Any other endpoint that speaks OpenAI's /chat/completions – vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together and more. The base URL is what picks the service; the key is only needed if it uses one.": {
+  "日本語": "OpenAI の /chat/completions に対応するその他のエンドポイントです – vLLM、Jan、KoboldCpp、LocalAI、DeepSeek、Mistral、xAI、Together など。サービスはベース URL で決まり、キーはそのサービスが使う場合にだけ必要です。",
+  "Español": "Cualquier otro punto de conexión que hable /chat/completions de OpenAI: vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together y más. La URL base es lo que elige el servicio; la clave solo hace falta si lo usa.",
+  "Deutsch": "Jeder andere Endpunkt, der OpenAIs /chat/completions spricht – vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together und mehr. Die Basis-URL bestimmt den Dienst; der Schlüssel wird nur benötigt, wenn er einen verwendet.",
+  "Français": "Tout autre point de terminaison compatible avec /chat/completions d'OpenAI – vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together et d'autres. L'URL de base détermine le service ; la clé n'est nécessaire que s'il en utilise une.",
+  "한국인": "OpenAI의 /chat/completions를 지원하는 그 밖의 엔드포인트입니다 – vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together 등. 서비스는 기본 URL로 정해지며, 키는 서비스가 사용하는 경우에만 필요합니다.",
+  "中文": "任何其他支持 OpenAI /chat/completions 的端点——vLLM、Jan、KoboldCpp、LocalAI、DeepSeek、Mistral、xAI、Together 等。服务由基础 URL 决定；只有当服务需要时才需填写密钥。",
+  "العربية": "أي نقطة نهاية أخرى تدعم /chat/completions من OpenAI – vLLM وJan وKoboldCpp وLocalAI وDeepSeek وMistral وxAI وTogether وغيرها. عنوان URL الأساسي هو ما يحدد الخدمة؛ والمفتاح مطلوب فقط إذا كانت تستخدم واحدًا.",
+  "Tiếng Việt": "Bất kỳ endpoint nào khác hỗ trợ /chat/completions của OpenAI – vLLM, Jan, KoboldCpp, LocalAI, DeepSeek, Mistral, xAI, Together và nhiều hơn. URL gốc quyết định dịch vụ; khóa chỉ cần nếu dịch vụ dùng khóa."
+ },
+ "Rebuild the manual bundle": {
+  "日本語": "マニュアルのバンドルを再構築",
+  "Español": "Reconstruir el paquete del manual",
+  "Deutsch": "Handbuch-Paket neu erstellen",
+  "Français": "Reconstruire le paquet du manuel",
+  "한국인": "매뉴얼 번들 다시 만들기",
+  "中文": "重建手册数据包",
+  "العربية": "إعادة بناء حزمة الدليل",
+  "Tiếng Việt": "Dựng lại gói sách hướng dẫn"
+ },
+ "When Blackmagic publishes a new Reference Manual, download the PDF and drop it here. Buddy re-reads it and rebuilds the search index Ask Buddy answers from. A full manual takes about 8 minutes.": {
+  "日本語": "Blackmagic が新しいリファレンスマニュアルを公開したら、PDF をダウンロードしてここにドロップしてください。Buddy がそれを読み直し、Ask Buddy が回答に使う検索インデックスを再構築します。マニュアル全体で約 8 分かかります。",
+  "Español": "Cuando Blackmagic publique un nuevo manual de referencia, descarga el PDF y suéltalo aquí. Buddy lo vuelve a leer y reconstruye el índice de búsqueda del que responde Pregunta a Buddy. Un manual completo tarda unos 8 minutos.",
+  "Deutsch": "Wenn Blackmagic ein neues Referenzhandbuch veröffentlicht, laden Sie das PDF herunter und legen Sie es hier ab. Buddy liest es neu ein und erstellt den Suchindex neu, aus dem „Buddy fragen“ antwortet. Ein vollständiges Handbuch dauert etwa 8 Minuten.",
+  "Français": "Quand Blackmagic publie un nouveau manuel de référence, téléchargez le PDF et déposez-le ici. Buddy le relit et reconstruit l'index de recherche utilisé par Demander à Buddy. Un manuel complet prend environ 8 minutes.",
+  "한국인": "Blackmagic이 새 레퍼런스 매뉴얼을 공개하면 PDF를 내려받아 여기에 놓으세요. Buddy가 다시 읽고 Buddy에게 질문이 답변에 사용하는 검색 색인을 다시 만듭니다. 매뉴얼 전체는 약 8분 걸립니다.",
+  "中文": "当 Blackmagic 发布新的参考手册时，下载 PDF 并拖放到这里。Buddy 会重新读取它，并重建“询问 Buddy”回答所用的搜索索引。完整手册大约需要 8 分钟。",
+  "العربية": "عندما تنشر Blackmagic دليلًا مرجعيًا جديدًا، نزّل ملف PDF وأفلته هنا. يعيد Buddy قراءته ويعيد بناء فهرس البحث الذي يجيب منه اسأل Buddy. يستغرق الدليل الكامل نحو 8 دقائق.",
+  "Tiếng Việt": "Khi Blackmagic phát hành sách hướng dẫn tham khảo mới, hãy tải PDF về và thả vào đây. Buddy sẽ đọc lại và dựng lại chỉ mục tìm kiếm mà Hỏi Buddy dùng để trả lời. Một sách hướng dẫn đầy đủ mất khoảng 8 phút."
+ },
+ "Drop the Reference Manual PDF here": {
+  "日本語": "リファレンスマニュアルの PDF をここにドロップ",
+  "Español": "Suelta aquí el PDF del manual de referencia",
+  "Deutsch": "Legen Sie das PDF des Referenzhandbuchs hier ab",
+  "Français": "Déposez le PDF du manuel de référence ici",
+  "한국인": "레퍼런스 매뉴얼 PDF를 여기에 놓으세요",
+  "中文": "将参考手册 PDF 拖放到这里",
+  "العربية": "أفلت ملف PDF للدليل المرجعي هنا",
+  "Tiếng Việt": "Thả tệp PDF sách hướng dẫn tham khảo vào đây"
+ },
+ "Build": {
+  "日本語": "構築",
+  "Español": "Crear",
+  "Deutsch": "Erstellen",
+  "Français": "Créer",
+  "한국인": "만들기",
+  "中文": "构建",
+  "العربية": "بناء",
+  "Tiếng Việt": "Dựng"
+ },
+ "Choose the DaVinci Resolve Reference Manual": {
+  "日本語": "DaVinci Resolve リファレンスマニュアルを選択",
+  "Español": "Elige el manual de referencia de DaVinci Resolve",
+  "Deutsch": "DaVinci Resolve-Referenzhandbuch wählen",
+  "Français": "Choisir le manuel de référence de DaVinci Resolve",
+  "한국인": "DaVinci Resolve 레퍼런스 매뉴얼 선택",
+  "中文": "选择 DaVinci Resolve 参考手册",
+  "العربية": "اختر الدليل المرجعي لـ DaVinci Resolve",
+  "Tiếng Việt": "Chọn sách hướng dẫn tham khảo DaVinci Resolve"
+ },
+ "✓ PDF reader ready.": {
+  "日本語": "✓ PDF リーダーの準備ができました。",
+  "Español": "✓ Lector de PDF listo.",
+  "Deutsch": "✓ PDF-Leser bereit.",
+  "Français": "✓ Lecteur PDF prêt.",
+  "한국인": "✓ PDF 리더 준비됨.",
+  "中文": "✓ PDF 阅读器已就绪。",
+  "العربية": "✓ قارئ PDF جاهز.",
+  "Tiếng Việt": "✓ Trình đọc PDF đã sẵn sàng."
+ },
+ "✗ PyMuPDF is not installed. Run:": {
+  "日本語": "✗ PyMuPDF がインストールされていません。次を実行してください:",
+  "Español": "✗ PyMuPDF no está instalado. Ejecuta:",
+  "Deutsch": "✗ PyMuPDF ist nicht installiert. Führen Sie aus:",
+  "Français": "✗ PyMuPDF n'est pas installé. Exécutez :",
+  "한국인": "✗ PyMuPDF가 설치되어 있지 않습니다. 다음을 실행하세요:",
+  "中文": "✗ 未安装 PyMuPDF。请运行：",
+  "العربية": "✗ PyMuPDF غير مثبت. شغّل:",
+  "Tiếng Việt": "✗ PyMuPDF chưa được cài. Hãy chạy:"
+ },
+ "⚠ pymupdf4llm is not installed – passages will lose headings and tables. Run:": {
+  "日本語": "⚠ pymupdf4llm がインストールされていません – 見出しと表が失われます。次を実行してください:",
+  "Español": "⚠ pymupdf4llm no está instalado: los pasajes perderán encabezados y tablas. Ejecuta:",
+  "Deutsch": "⚠ pymupdf4llm ist nicht installiert – Abschnitte verlieren Überschriften und Tabellen. Führen Sie aus:",
+  "Français": "⚠ pymupdf4llm n'est pas installé – les passages perdront titres et tableaux. Exécutez :",
+  "한국인": "⚠ pymupdf4llm이 설치되어 있지 않습니다 – 제목과 표가 사라집니다. 다음을 실행하세요:",
+  "中文": "⚠ 未安装 pymupdf4llm——段落会丢失标题和表格。请运行：",
+  "العربية": "⚠ pymupdf4llm غير مثبت – ستفقد المقاطع العناوين والجداول. شغّل:",
+  "Tiếng Việt": "⚠ pymupdf4llm chưa được cài – các đoạn sẽ mất tiêu đề và bảng. Hãy chạy:"
+ },
+ "✓ Ollama with {model} – semantic search will be built.": {
+  "日本語": "✓ Ollama と {model} – 意味検索が構築されます。",
+  "Español": "✓ Ollama con {model}: se creará la búsqueda semántica.",
+  "Deutsch": "✓ Ollama mit {model} – semantische Suche wird erstellt.",
+  "Français": "✓ Ollama avec {model} – la recherche sémantique sera créée.",
+  "한국인": "✓ Ollama와 {model} – 의미 검색이 만들어집니다.",
+  "中文": "✓ Ollama 和 {model}——将构建语义搜索。",
+  "العربية": "✓ Ollama مع {model} – سيُبنى البحث الدلالي.",
+  "Tiếng Việt": "✓ Ollama với {model} – tìm kiếm ngữ nghĩa sẽ được dựng."
+ },
+ "Opening the PDF…": {
+  "日本語": "PDF を開いています…",
+  "Español": "Abriendo el PDF…",
+  "Deutsch": "PDF wird geöffnet…",
+  "Français": "Ouverture du PDF…",
+  "한국인": "PDF 여는 중…",
+  "中文": "正在打开 PDF…",
+  "العربية": "جارٍ فتح PDF…",
+  "Tiếng Việt": "Đang mở PDF…"
+ },
+ "Stopped. The existing bundle was not changed.": {
+  "日本語": "停止しました。既存のバンドルは変更されていません。",
+  "Español": "Detenido. El paquete existente no ha cambiado.",
+  "Deutsch": "Angehalten. Das vorhandene Paket wurde nicht geändert.",
+  "Français": "Arrêté. Le paquet existant n'a pas été modifié.",
+  "한국인": "중지했습니다. 기존 번들은 변경되지 않았습니다.",
+  "中文": "已停止。现有数据包未被更改。",
+  "العربية": "تم الإيقاف. لم تتغير الحزمة الحالية.",
+  "Tiếng Việt": "Đã dừng. Gói hiện có không bị thay đổi."
+ },
+ "Build failed – the existing bundle was not changed.\n\n{error}": {
+  "日本語": "構築に失敗しました – 既存のバンドルは変更されていません。\n\n{error}",
+  "Español": "Error al crear: el paquete existente no ha cambiado.\n\n{error}",
+  "Deutsch": "Erstellen fehlgeschlagen – das vorhandene Paket wurde nicht geändert.\n\n{error}",
+  "Français": "Échec de la création – le paquet existant n'a pas été modifié.\n\n{error}",
+  "한국인": "만들기 실패 – 기존 번들은 변경되지 않았습니다.\n\n{error}",
+  "中文": "构建失败——现有数据包未被更改。\n\n{error}",
+  "العربية": "فشل البناء – لم تتغير الحزمة الحالية.\n\n{error}",
+  "Tiếng Việt": "Dựng thất bại – gói hiện có không bị thay đổi.\n\n{error}"
+ },
+ "Stop the build?": {
+  "日本語": "構築を停止しますか?",
+  "Español": "¿Detener la creación?",
+  "Deutsch": "Erstellen anhalten?",
+  "Français": "Arrêter la création ?",
+  "한국인": "만들기를 중지할까요?",
+  "中文": "要停止构建吗？",
+  "العربية": "إيقاف البناء؟",
+  "Tiếng Việt": "Dừng dựng?"
+ },
+ "Stop rebuilding the manual? The bundle Buddy is using now stays as it is.": {
+  "日本語": "マニュアルの再構築を停止しますか? Buddy が現在使っているバンドルはそのままです。",
+  "Español": "¿Dejar de reconstruir el manual? El paquete que Buddy usa ahora se queda como está.",
+  "Deutsch": "Neuerstellung des Handbuchs anhalten? Das Paket, das Buddy jetzt verwendet, bleibt unverändert.",
+  "Français": "Arrêter la reconstruction du manuel ? Le paquet utilisé actuellement par Buddy reste tel quel.",
+  "한국인": "매뉴얼 다시 만들기를 중지할까요? Buddy가 지금 사용하는 번들은 그대로 유지됩니다.",
+  "中文": "要停止重建手册吗？Buddy 当前使用的数据包保持不变。",
+  "العربية": "إيقاف إعادة بناء الدليل؟ تبقى الحزمة التي يستخدمها Buddy الآن كما هي.",
+  "Tiếng Việt": "Dừng dựng lại sách hướng dẫn? Gói Buddy đang dùng vẫn giữ nguyên."
+ },
+ "Semantic + keyword search over the built bundle.": {
+  "日本語": "構築したバンドルで意味検索 + キーワード検索を行います。",
+  "Español": "Búsqueda semántica y por palabras clave en el paquete creado.",
+  "Deutsch": "Semantische Suche und Stichwortsuche im erstellten Paket.",
+  "Français": "Recherche sémantique et par mots-clés dans le paquet créé.",
+  "한국인": "만든 번들에서 의미 검색 + 키워드 검색.",
+  "中文": "在已构建的数据包中进行语义 + 关键词搜索。",
+  "العربية": "بحث دلالي وبالكلمات المفتاحية في الحزمة المبنية.",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa + từ khóa trong gói đã dựng."
+ },
+ "Keyword search over the built bundle. Start Ollama (with embeddinggemma pulled) for semantic search.": {
+  "日本語": "構築したバンドルでキーワード検索を行います。意味検索には Ollama を起動してください (embeddinggemma を取得済みで)。",
+  "Español": "Búsqueda por palabras clave en el paquete creado. Inicia Ollama (con embeddinggemma descargado) para la búsqueda semántica.",
+  "Deutsch": "Stichwortsuche im erstellten Paket. Starten Sie Ollama (mit heruntergeladenem embeddinggemma) für die semantische Suche.",
+  "Français": "Recherche par mots-clés dans le paquet créé. Lancez Ollama (avec embeddinggemma téléchargé) pour la recherche sémantique.",
+  "한국인": "만든 번들에서 키워드 검색. 의미 검색을 하려면 Ollama를 시작하세요(embeddinggemma를 받아 둔 상태로).",
+  "中文": "在已构建的数据包中进行关键词搜索。如需语义搜索，请启动 Ollama（并已拉取 embeddinggemma）。",
+  "العربية": "بحث بالكلمات المفتاحية في الحزمة المبنية. شغّل Ollama (مع تنزيل embeddinggemma) للبحث الدلالي.",
+  "Tiếng Việt": "Tìm kiếm từ khóa trong gói đã dựng. Hãy khởi động Ollama (đã tải embeddinggemma) để tìm kiếm ngữ nghĩa."
+ },
+ "Keyword search over the plain text extract. Build the bundle for chunk-level citations, and run Ollama for semantic search.": {
+  "日本語": "プレーンテキストの抽出データでキーワード検索を行います。段落単位で引用するにはバンドルを構築し、意味検索には Ollama を起動してください。",
+  "Español": "Búsqueda por palabras clave en el texto extraído. Crea el paquete para citas por fragmento y ejecuta Ollama para la búsqueda semántica.",
+  "Deutsch": "Stichwortsuche im reinen Textauszug. Erstellen Sie das Paket für abschnittsgenaue Quellenangaben und starten Sie Ollama für die semantische Suche.",
+  "Français": "Recherche par mots-clés dans l'extrait texte brut. Créez le paquet pour des citations par passage, et lancez Ollama pour la recherche sémantique.",
+  "한국인": "일반 텍스트 추출본에서 키워드 검색. 단락 단위 인용을 하려면 번들을 만들고, 의미 검색을 하려면 Ollama를 실행하세요.",
+  "中文": "在纯文本提取内容中进行关键词搜索。如需按段落引用，请构建数据包；如需语义搜索，请运行 Ollama。",
+  "العربية": "بحث بالكلمات المفتاحية في النص المستخرج. ابنِ الحزمة للحصول على استشهادات على مستوى المقاطع، وشغّل Ollama للبحث الدلالي.",
+  "Tiếng Việt": "Tìm kiếm từ khóa trong bản trích văn bản thuần. Hãy dựng gói để trích dẫn theo đoạn, và chạy Ollama để tìm kiếm ngữ nghĩa."
+ },
+ "No manual data found – answers will not be grounded.": {
+  "日本語": "マニュアルのデータが見つかりません – 回答はマニュアルに基づきません。",
+  "Español": "No se encontraron datos del manual: las respuestas no se basarán en él.",
+  "Deutsch": "Keine Handbuchdaten gefunden – Antworten stützen sich nicht auf das Handbuch.",
+  "Français": "Aucune donnée du manuel trouvée – les réponses ne s'appuieront pas sur le manuel.",
+  "한국인": "매뉴얼 데이터가 없습니다 – 답변이 매뉴얼에 근거하지 않습니다.",
+  "中文": "未找到手册数据——回答将不基于手册。",
+  "العربية": "لم يتم العثور على بيانات الدليل – لن تستند الإجابات إليه.",
+  "Tiếng Việt": "Không tìm thấy dữ liệu sách hướng dẫn – câu trả lời sẽ không dựa trên sách."
+ },
+ "No manual data found – answers will not be grounded. Build it from the manual PDF in Settings > Ask Buddy > Rebuild from PDF…": {
+  "日本語": "マニュアルのデータが見つかりません – 回答はマニュアルに基づきません。設定 > Buddy に質問 > PDF から再構築… でマニュアルの PDF から構築してください。",
+  "Español": "No se encontraron datos del manual: las respuestas no se basarán en él. Créalos desde el PDF del manual en Ajustes > Pregunta a Buddy > Reconstruir desde PDF…",
+  "Deutsch": "Keine Handbuchdaten gefunden – Antworten stützen sich nicht auf das Handbuch. Erstellen Sie sie aus dem Handbuch-PDF unter Einstellungen > Buddy fragen > Aus PDF neu erstellen…",
+  "Français": "Aucune donnée du manuel trouvée – les réponses ne s'appuieront pas sur le manuel. Créez-les à partir du PDF du manuel dans Paramètres > Demander à Buddy > Reconstruire depuis le PDF…",
+  "한국인": "매뉴얼 데이터가 없습니다 – 답변이 매뉴얼에 근거하지 않습니다. 설정 > Buddy에게 질문 > PDF에서 다시 만들기…에서 매뉴얼 PDF로 만드세요.",
+  "中文": "未找到手册数据——回答将不基于手册。请在“设置 > 询问 Buddy > 从 PDF 重建…”中用手册 PDF 构建。",
+  "العربية": "لم يتم العثور على بيانات الدليل – لن تستند الإجابات إليه. ابنها من ملف PDF للدليل في الإعدادات > اسأل Buddy > إعادة البناء من PDF…",
+  "Tiếng Việt": "Không tìm thấy dữ liệu sách hướng dẫn – câu trả lời sẽ không dựa trên sách. Hãy dựng từ PDF sách hướng dẫn trong Cài đặt > Hỏi Buddy > Dựng lại từ PDF…"
+ },
+ "Pictures stay on this PC. The model has to be one that can see images.": {
+  "日本語": "画像はこのパソコンから出ません。モデルは画像を認識できるものである必要があります。",
+  "Español": "Las imágenes se quedan en este equipo. El modelo tiene que poder ver imágenes.",
+  "Deutsch": "Bilder bleiben auf diesem PC. Das Modell muss Bilder erkennen können.",
+  "Français": "Les images restent sur ce PC. Le modèle doit pouvoir voir les images.",
+  "한국인": "그림은 이 PC에 머뭅니다. 모델이 이미지를 볼 수 있어야 합니다.",
+  "中文": "图片会留在本机。模型必须能够识别图像。",
+  "العربية": "تبقى الصور على هذا الكمبيوتر. يجب أن يكون النموذج قادرًا على رؤية الصور.",
+  "Tiếng Việt": "Ảnh vẫn ở trên máy này. Mô hình phải là loại nhìn được ảnh."
+ },
+ "Pictures go to {provider} with your question. The model has to be one that can see images.": {
+  "日本語": "画像は質問と一緒に {provider} に送られます。モデルは画像を認識できるものである必要があります。",
+  "Español": "Las imágenes van a {provider} con tu pregunta. El modelo tiene que poder ver imágenes.",
+  "Deutsch": "Bilder gehen mit Ihrer Frage an {provider}. Das Modell muss Bilder erkennen können.",
+  "Français": "Les images sont envoyées à {provider} avec votre question. Le modèle doit pouvoir voir les images.",
+  "한국인": "그림은 질문과 함께 {provider}(으)로 전송됩니다. 모델이 이미지를 볼 수 있어야 합니다.",
+  "中文": "图片会随您的问题发送给 {provider}。模型必须能够识别图像。",
+  "العربية": "تذهب الصور إلى {provider} مع سؤالك. يجب أن يكون النموذج قادرًا على رؤية الصور.",
+  "Tiếng Việt": "Ảnh được gửi tới {provider} cùng câu hỏi. Mô hình phải là loại nhìn được ảnh."
+ },
+ "Pictures go to your AI provider with your question. The model has to be one that can see images.": {
+  "日本語": "画像は質問と一緒に AI プロバイダーに送られます。モデルは画像を認識できるものである必要があります。",
+  "Español": "Las imágenes van a tu proveedor de IA con tu pregunta. El modelo tiene que poder ver imágenes.",
+  "Deutsch": "Bilder gehen mit Ihrer Frage an Ihren KI-Anbieter. Das Modell muss Bilder erkennen können.",
+  "Français": "Les images sont envoyées à votre fournisseur d'IA avec votre question. Le modèle doit pouvoir voir les images.",
+  "한국인": "그림은 질문과 함께 AI 제공업체로 전송됩니다. 모델이 이미지를 볼 수 있어야 합니다.",
+  "中文": "图片会随您的问题发送给您的 AI 服务商。模型必须能够识别图像。",
+  "العربية": "تذهب الصور إلى مزوّد الذكاء الاصطناعي مع سؤالك. يجب أن يكون النموذج قادرًا على رؤية الصور.",
+  "Tiếng Việt": "Ảnh được gửi tới nhà cung cấp AI cùng câu hỏi. Mô hình phải là loại nhìn được ảnh."
+ }
+}

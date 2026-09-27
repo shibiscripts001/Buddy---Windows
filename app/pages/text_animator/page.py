@@ -1022,7 +1022,9 @@ class TextAnimatorPage(WebToolPage):
                 self.log(f"Successfully processed {len(created_clips)} subtitle items to Text+ on Video Track {target_track}.")
             finally:
                 self.host.set_busy(False)
-            self.emit("toast", {"text": f"{len(created_clips)} Text+ clips on video track {target_track}"})
+            created = len(created_clips)
+            self.emit("toast", {"text": f"1 Text+ clip on video track {target_track}" if created == 1
+                                else f"{created} Text+ clips on video track {target_track}"})
             self._set_default_target_video_track()
         except Exception as err:
             self.log(f"[Error in convert_subtitles]: {err}")

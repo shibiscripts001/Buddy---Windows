@@ -20,7 +20,7 @@ Buddy.on("state", s => {
     const t = $("timeline");
     t.classList.toggle("bad", !s.timeline);
     t.replaceChildren(s.timeline
-        ? el("span", {}, [el("b", {text: s.timeline}), ` · ${plural(s.colors.reduce((a, c) => a + c.count, 0), "marker")}`])
+        ? el("span", {}, [el("b", {text: s.timeline, translate: "no"}), " · ", el("span", {text: plural(s.colors.reduce((a, c) => a + c.count, 0), "marker")})])
         : el("span", {text: s.problem || "No timeline open"}));
     t.hidden = !s.connected;   // offline is said once, in Buddy's header
 
@@ -33,7 +33,7 @@ Buddy.on("state", s => {
     $("add-marker").disabled = !s.timeline;
     $("markers-head").textContent = s.timeline ? `${plural(s.markers.length, s.color + " marker")} on this timeline` : "";
     $("markers").replaceChildren(...s.markers.map(m => el("li", {}, [
-        el("i.dot", {style: `background:${hex}`}), el("span.tc", {text: m.timecode}), el("span.name", {text: m.name || ""}),
+        el("i.dot", {style: `background:${hex}`}), el("span.tc", {text: m.timecode}), el("span.name", {text: m.name || "", translate: "no"}),
     ])));
     const grab = $("grab");
     grab.disabled = !s.markers.length;
@@ -56,7 +56,7 @@ Buddy.on("grabbed", list => {
     $("grabbed-head").textContent = list.length ? `${plural(list.length, "still")} grabbed this session` : "Nothing grabbed yet this session.";
     $("clear").hidden = !list.length;
     $("grabbed").replaceChildren(...list.map(g => el("li", {}, [
-        el("i.dot", {style: `background:${hexOf(g.color)}`}), el("span.tc", {text: g.timecode}), el("span.name", {text: g.name || g.color}),
+        el("i.dot", {style: `background:${hexOf(g.color)}`}), el("span.tc", {text: g.timecode}), el("span.name", {text: g.name || g.color, translate: g.name ? "no" : undefined}),
         el("button.btn.ghost.icon.x", {type: "button", title: "Take it off this list (the gallery keeps it)", text: "×",
                                        onclick: () => send("remove_grabbed", {id: g.id})}),
     ])));
@@ -73,7 +73,7 @@ Buddy.on("options", o => {
     if (document.activeElement !== $("prefix")) $("prefix").value = o.prefix;
     const folder = $("folder");
     // Trimmed from the left, so the end of a long path shows.
-    folder.replaceChildren(el("bdi", {text: o.folder || "No folder chosen"}));
+    folder.replaceChildren(el("bdi", {text: o.folder || "No folder chosen", translate: o.folder ? "no" : undefined}));
     folder.title = o.folder;
     folder.classList.toggle("unset", !o.folder);
     $("delete-after").checked = o.delete_after;

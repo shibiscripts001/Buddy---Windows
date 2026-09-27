@@ -230,7 +230,8 @@ class BatchClipRenamerPage(WebToolPage):
 
         if done:
             self._undo = {"items": done, "where": where}
-            self._add_log(f"Renamed {len(done)} clip{'s' if len(done) != 1 else ''} in {where}.", "success")
+            self._add_log(f"Renamed 1 clip in {where}." if len(done) == 1
+                          else f"Renamed {len(done)} clips in {where}.", "success")
         if failed:
             names_failed = ", ".join(old for _c, old, _n in failed[:5])
             more = f" and {len(failed) - 5} more" if len(failed) > 5 else ""
@@ -255,7 +256,8 @@ class BatchClipRenamerPage(WebToolPage):
                     skipped += 1
             except Exception:
                 skipped += 1
-        text = f"Undid the rename: {restored} clip{'s' if restored != 1 else ''} back to {'its' if restored == 1 else 'their'} old name."
+        text = ("Undid the rename: 1 clip back to its old name." if restored == 1
+                else f"Undid the rename: {restored} clips back to their old name.")
         if skipped:
             text += f" {skipped} had been renamed again since and were left alone."
         self._add_log(text, "success" if restored else "info")

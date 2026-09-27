@@ -91,7 +91,7 @@ def help_text(writes_on: bool) -> str:
         "go back and forward between conversations. Nothing is lost "
         "either way while Buddy stays open.",
         "",
-        "Type `help` any time to see this again.",
+        "To see this again any time, type `help`.",
     ]
     return "\n".join(lines)
 
@@ -261,13 +261,14 @@ class ChatSessions:
         """One turn is a question plus its answer."""
         return len(self.current.history) // 2
 
-    def add(self, who, body, trace=None, error=False, copyable=False, images=None) -> dict:
+    def add(self, who, body, trace=None, error=False, copyable=False, images=None, raw=False) -> dict:
         block = {
             "who": who,
             "body": body,
             "trace": list(trace or []),
             "error": bool(error),
             "copyable": bool(copyable),
+            "raw": bool(raw),   # someone's own words (a question, the model's answer): never translated
             "images": list(images or []),   # small data: URLs of the pictures sent with it
         }
         self.current.blocks.append(block)
@@ -342,5 +343,6 @@ def block_view(index: int, block: dict) -> dict:
         "html": md_to_html(block["body"]),
         "trace": block["trace"],
         "copyable": block["copyable"],
+        "raw": block.get("raw", False),
         "images": block.get("images") or [],
     }

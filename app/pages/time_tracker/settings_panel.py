@@ -14,6 +14,7 @@ import sys
 from PySide6.QtWidgets import QFileDialog
 
 from core import settings_form as sf
+from core.i18n import tr, tr_filter
 
 from .currencies import CURRENCIES, CURRENCY_CODES, DEFAULT_CURRENCY
 
@@ -90,7 +91,7 @@ class TrackerSettingsMixin:
         rate = info.get("rate") or 0.0
         currency = info.get("currency") if info.get("currency") in CURRENCY_CODES else DEFAULT_CURRENCY
         return [
-            sf.info("Project rate", project),
+            sf.info("Project rate", project, raw=True),
             sf.number("project_rate", "Rate per hour", f"{rate:.2f}" if rate > 0 else None, 0, RATE_MAX, 2,
                       placeholder="0.00"),
             sf.select("project_currency", "Currency", currency, [(c, f"{c} ({sym})") for c, sym, _n in CURRENCIES]),
@@ -136,7 +137,7 @@ class TrackerSettingsMixin:
 
     def _export_all_data(self, ui):
         default_path = self.data_mgr.default_export_path("time_tracker_backup.json")
-        path, _ = QFileDialog.getSaveFileName(ui.parent, "Export all data", default_path, "JSON files (*.json)")
+        path, _ = QFileDialog.getSaveFileName(ui.parent, tr("Export all data"), default_path, tr_filter("JSON files (*.json)"))
         if not path:
             return
         if not path.lower().endswith(".json"):
@@ -152,7 +153,7 @@ class TrackerSettingsMixin:
 
     def _import_all_data(self, ui):
         start_dir = self.data_mgr.get_export_start_dir()
-        path, _ = QFileDialog.getOpenFileName(ui.parent, "Import data", start_dir, "JSON files (*.json)")
+        path, _ = QFileDialog.getOpenFileName(ui.parent, tr("Import data"), start_dir, tr_filter("JSON files (*.json)"))
         if not path:
             return
         if not ui.confirm("Import data",
@@ -166,7 +167,7 @@ class TrackerSettingsMixin:
         except Exception as exc:  # noqa: BLE001 - reported to the user
             return ui.alert("Import failed", f"Could not import data:\n{exc}")
         self._apply_settings()
-        message = f"Imported {added} new {'entry' if added == 1 else 'entries'}."
+        message = "Imported 1 new entry." if added == 1 else f"Imported {added} new entries."
         if skipped:
             message += f" ({skipped} already present, skipped.)"
         ui.alert("Import complete", message)

@@ -1,0 +1,723 @@
+{
+ "_comment": "SVG Importer. English -> each language; see core/i18n.py.",
+ "Fusion comp not read yet": {
+  "日本語": "Fusion コンポジションはまだ読み込まれていません",
+  "Español": "Aún no se ha leído la composición de Fusion",
+  "Deutsch": "Fusion-Komposition noch nicht gelesen",
+  "Français": "Composition Fusion pas encore lue",
+  "한국인": "Fusion 컴포지션을 아직 읽지 않음",
+  "中文": "尚未读取 Fusion 合成",
+  "العربية": "لم تتم قراءة تركيبة Fusion بعد",
+  "Tiếng Việt": "Chưa đọc comp Fusion"
+ },
+ "Read the Fusion comp's size and frame rate again": {
+  "日本語": "Fusion コンポジションのサイズとフレームレートを再読み込み",
+  "Español": "Volver a leer el tamaño y la velocidad de fotogramas de la composición de Fusion",
+  "Deutsch": "Größe und Bildrate der Fusion-Komposition erneut lesen",
+  "Français": "Relire la taille et la fréquence d'images de la composition Fusion",
+  "한국인": "Fusion 컴포지션의 크기와 프레임 레이트 다시 읽기",
+  "中文": "重新读取 Fusion 合成的尺寸和帧率",
+  "العربية": "إعادة قراءة حجم تركيبة Fusion ومعدل إطاراتها",
+  "Tiếng Việt": "Đọc lại kích thước và tốc độ khung hình của comp Fusion"
+ },
+ "What to convert": {
+  "日本語": "変換する内容",
+  "Español": "Qué convertir",
+  "Deutsch": "Was konvertiert werden soll",
+  "Français": "Quoi convertir",
+  "한국인": "변환할 항목",
+  "中文": "要转换的内容",
+  "العربية": "ما الذي تريد تحويله",
+  "Tiếng Việt": "Nội dung cần chuyển đổi"
+ },
+ "SVG artwork": {
+  "日本語": "SVG アートワーク",
+  "Español": "Ilustración SVG",
+  "Deutsch": "SVG-Grafik",
+  "Français": "Illustration SVG",
+  "한국인": "SVG 아트워크",
+  "中文": "SVG 图稿",
+  "العربية": "رسم SVG",
+  "Tiếng Việt": "Hình minh họa SVG"
+ },
+ "Lottie animation": {
+  "日本語": "Lottie アニメーション",
+  "Español": "Animación Lottie",
+  "Deutsch": "Lottie-Animation",
+  "Français": "Animation Lottie",
+  "한국인": "Lottie 애니메이션",
+  "中文": "Lottie 动画",
+  "العربية": "رسوم Lottie المتحركة",
+  "Tiếng Việt": "Hoạt ảnh Lottie"
+ },
+ "Files": {
+  "日本語": "ファイル",
+  "Español": "Archivos",
+  "Deutsch": "Dateien",
+  "Français": "Fichiers",
+  "한국인": "파일",
+  "中文": "文件",
+  "العربية": "الملفات",
+  "Tiếng Việt": "Tệp"
+ },
+ "Size": {
+  "日本語": "サイズ",
+  "Español": "Tamaño",
+  "Deutsch": "Größe",
+  "Français": "Taille",
+  "한국인": "크기",
+  "中文": "尺寸",
+  "العربية": "الحجم",
+  "Tiếng Việt": "Kích thước"
+ },
+ "Every SVG pixel is one comp pixel": {
+  "日本語": "SVG の 1 ピクセルがコンポジションの 1 ピクセルになります",
+  "Español": "Cada píxel del SVG es un píxel de la composición",
+  "Deutsch": "Jedes SVG-Pixel ist ein Pixel der Komposition",
+  "Français": "Chaque pixel SVG correspond à un pixel de la composition",
+  "한국인": "SVG 1픽셀이 컴포지션 1픽셀이 됩니다",
+  "中文": "每个 SVG 像素对应一个合成像素",
+  "العربية": "كل بكسل في SVG يساوي بكسلًا واحدًا في التركيبة",
+  "Tiếng Việt": "Mỗi pixel SVG là một pixel của comp"
+ },
+ "Native (1:1)": {
+  "日本語": "ネイティブ (1:1)",
+  "Español": "Nativo (1:1)",
+  "Deutsch": "Nativ (1:1)",
+  "Français": "Natif (1:1)",
+  "한국인": "원본(1:1)",
+  "中文": "原始 (1:1)",
+  "العربية": "أصلي (1:1)",
+  "Tiếng Việt": "Gốc (1:1)"
+ },
+ "Scaled to fit the comp": {
+  "日本語": "コンポジションに合わせて拡大縮小",
+  "Español": "Escalado para ajustarse a la composición",
+  "Deutsch": "An die Komposition angepasst",
+  "Français": "Mis à l'échelle pour tenir dans la composition",
+  "한국인": "컴포지션에 맞게 크기 조정",
+  "中文": "缩放以适应合成",
+  "العربية": "يُحجَّم ليناسب التركيبة",
+  "Tiếng Việt": "Co giãn cho vừa comp"
+ },
+ "Fit to comp": {
+  "日本語": "コンポジションに合わせる",
+  "Español": "Ajustar a la composición",
+  "Deutsch": "An Komposition anpassen",
+  "Français": "Ajuster à la composition",
+  "한국인": "컴포지션에 맞추기",
+  "中文": "适应合成",
+  "العربية": "ملاءمة التركيبة",
+  "Tiếng Việt": "Vừa với comp"
+ },
+ "Nodes flow": {
+  "日本語": "ノードの並び",
+  "Español": "Flujo de nodos",
+  "Deutsch": "Knotenfluss",
+  "Français": "Disposition des nœuds",
+  "한국인": "노드 흐름",
+  "中文": "节点排列",
+  "العربية": "تدفق العُقد",
+  "Tiếng Việt": "Hướng sắp xếp node"
+ },
+ "Left to right": {
+  "日本語": "左から右",
+  "Español": "De izquierda a derecha",
+  "Deutsch": "Von links nach rechts",
+  "Français": "De gauche à droite",
+  "한국인": "왼쪽에서 오른쪽",
+  "中文": "从左到右",
+  "العربية": "من اليسار إلى اليمين",
+  "Tiếng Việt": "Trái sang phải"
+ },
+ "Top to bottom": {
+  "日本語": "上から下",
+  "Español": "De arriba abajo",
+  "Deutsch": "Von oben nach unten",
+  "Français": "De haut en bas",
+  "한국인": "위에서 아래",
+  "中文": "从上到下",
+  "العربية": "من الأعلى إلى الأسفل",
+  "Tiếng Việt": "Trên xuống dưới"
+ },
+ "Put every solid colour on one Master Controller": {
+  "日本語": "すべての単色を 1 つの Master Controller にまとめる",
+  "Español": "Poner todos los colores sólidos en un solo Master Controller",
+  "Deutsch": "Alle Volltonfarben auf einen Master Controller legen",
+  "Français": "Placer toutes les couleurs unies sur un seul Master Controller",
+  "한국인": "모든 단색을 하나의 Master Controller에 모으기",
+  "中文": "将所有纯色放到一个 Master Controller 上",
+  "العربية": "وضع كل الألوان الصلبة على Master Controller واحد",
+  "Tiếng Việt": "Đưa mọi màu đặc vào một Master Controller"
+ },
+ "- recolour the whole thing from one set of swatches": {
+  "日本語": "- 1 組のスウォッチで全体の色を変更できます",
+  "Español": "- cambia el color de todo desde un solo juego de muestras",
+  "Deutsch": "- alles über einen Satz Farbfelder umfärben",
+  "Français": "- recolorez l'ensemble à partir d'un seul jeu de nuances",
+  "한국인": "- 한 세트의 견본으로 전체 색 변경",
+  "中文": "- 用一组色板为整体重新着色",
+  "العربية": "- أعد تلوين كل شيء من مجموعة عينات واحدة",
+  "Tiếng Việt": "- đổi màu toàn bộ từ một bộ mẫu màu"
+ },
+ "Shape layers and precomps come in; position, anchor, scale, rotation and opacity become Fusion keyframes, and each layer shows between its in and out points. Shapes don't morph, and trim paths aren't supported – anything skipped is listed in the details.": {
+  "日本語": "シェイプレイヤーとプリコンポーズが読み込まれ、位置、アンカー、スケール、回転、不透明度は Fusion のキーフレームになり、各レイヤーはインポイントとアウトポイントの間に表示されます。シェイプのモーフィングやパスのトリミングには対応していません – スキップされたものは詳細に一覧表示されます。",
+  "Español": "Se importan las capas de forma y las precomposiciones; la posición, el ancla, la escala, la rotación y la opacidad se convierten en fotogramas clave de Fusion, y cada capa aparece entre sus puntos de entrada y salida. Las formas no se transforman y no se admite recortar trazados; todo lo omitido aparece en los detalles.",
+  "Deutsch": "Formebenen und Precomps werden übernommen; Position, Ankerpunkt, Skalierung, Drehung und Deckkraft werden zu Fusion-Keyframes, und jede Ebene erscheint zwischen ihrem In- und Out-Punkt. Formen morphen nicht, und Pfade trimmen wird nicht unterstützt – alles Übersprungene steht in den Details.",
+  "Français": "Les calques de forme et les précompositions sont importés ; la position, le point d'ancrage, l'échelle, la rotation et l'opacité deviennent des images clés Fusion, et chaque calque s'affiche entre ses points d'entrée et de sortie. Les formes ne se transforment pas et le découpage de tracés n'est pas pris en charge – tout ce qui est ignoré est listé dans les détails.",
+  "한국인": "셰이프 레이어와 프리컴프를 가져옵니다. 위치, 앵커, 크기, 회전, 불투명도는 Fusion 키프레임이 되고, 각 레이어는 시작 지점과 끝 지점 사이에 표시됩니다. 셰이프 모핑과 패스 트리밍은 지원되지 않습니다 – 건너뛴 항목은 세부 정보에 나열됩니다.",
+  "中文": "会导入形状图层和预合成；位置、锚点、缩放、旋转和不透明度会转为 Fusion 关键帧，每个图层在其入点和出点之间显示。形状不会变形，也不支持修剪路径——跳过的内容会列在详细信息中。",
+  "العربية": "يتم استيراد طبقات الأشكال والتركيبات المسبقة؛ ويصبح الموضع والمرتكز والحجم والدوران والعتامة إطارات مفتاحية في Fusion، وتظهر كل طبقة بين نقطتي دخولها وخروجها. لا تتحول الأشكال، ولا يُدعم قص المسارات – يُدرج كل ما تم تخطيه في التفاصيل.",
+  "Tiếng Việt": "Các lớp hình và precomp sẽ được nhập; vị trí, điểm neo, tỷ lệ, xoay và độ mờ trở thành keyframe của Fusion, và mỗi lớp hiện giữa điểm vào và điểm ra của nó. Hình không biến dạng, và không hỗ trợ cắt đường dẫn – mọi thứ bị bỏ qua được liệt kê trong phần chi tiết."
+ },
+ "Convert & copy for Fusion": {
+  "日本語": "変換して Fusion 用にコピー",
+  "Español": "Convertir y copiar para Fusion",
+  "Deutsch": "Konvertieren & für Fusion kopieren",
+  "Français": "Convertir et copier pour Fusion",
+  "한국인": "변환 후 Fusion용으로 복사",
+  "中文": "转换并复制到 Fusion",
+  "العربية": "تحويل ونسخ لـ Fusion",
+  "Tiếng Việt": "Chuyển đổi & sao chép cho Fusion"
+ },
+ "Convert {count} files & copy for Fusion": {
+  "日本語": "{count} 個のファイルを変換して Fusion 用にコピー",
+  "Español": "Convertir {count} archivos y copiar para Fusion",
+  "Deutsch": "{count} Dateien konvertieren & für Fusion kopieren",
+  "Français": "Convertir {count} fichiers et copier pour Fusion",
+  "한국인": "파일 {count}개 변환 후 Fusion용으로 복사",
+  "中文": "转换 {count} 个文件并复制到 Fusion",
+  "العربية": "تحويل {count} ملفات ونسخها لـ Fusion",
+  "Tiếng Việt": "Chuyển đổi {count} tệp & sao chép cho Fusion"
+ },
+ "Converting…": {
+  "日本語": "変換中…",
+  "Español": "Convirtiendo…",
+  "Deutsch": "Wird konvertiert…",
+  "Français": "Conversion…",
+  "한국인": "변환 중…",
+  "中文": "正在转换…",
+  "العربية": "جارٍ التحويل…",
+  "Tiếng Việt": "Đang chuyển đổi…"
+ },
+ "They're pasted as one group each, side by side.": {
+  "日本語": "それぞれ 1 つのグループとして横に並べて貼り付けられます。",
+  "Español": "Se pegan como un grupo cada uno, uno al lado del otro.",
+  "Deutsch": "Sie werden jeweils als eine Gruppe nebeneinander eingefügt.",
+  "Français": "Ils sont collés chacun comme un groupe, côte à côte.",
+  "한국인": "각각 하나의 그룹으로 나란히 붙여 넣어집니다.",
+  "中文": "它们会各自作为一个组并排粘贴。",
+  "العربية": "يتم لصق كل منها كمجموعة واحدة، جنبًا إلى جنب.",
+  "Tiếng Việt": "Mỗi tệp được dán thành một nhóm, xếp cạnh nhau."
+ },
+ "Details": {
+  "日本語": "詳細",
+  "Español": "Detalles",
+  "Deutsch": "Details",
+  "Français": "Détails",
+  "한국인": "세부 정보",
+  "中文": "详细信息",
+  "العربية": "التفاصيل",
+  "Tiếng Việt": "Chi tiết"
+ },
+ "Show debug lines": {
+  "日本語": "デバッグ行を表示",
+  "Español": "Mostrar líneas de depuración",
+  "Deutsch": "Debug-Zeilen anzeigen",
+  "Français": "Afficher les lignes de débogage",
+  "한국인": "디버그 줄 표시",
+  "中文": "显示调试行",
+  "العربية": "إظهار أسطر التصحيح",
+  "Tiếng Việt": "Hiện dòng gỡ lỗi"
+ },
+ "Diagnostics": {
+  "日本語": "診断",
+  "Español": "Diagnóstico",
+  "Deutsch": "Diagnose",
+  "Français": "Diagnostic",
+  "한국인": "진단",
+  "中文": "诊断",
+  "العربية": "التشخيص",
+  "Tiếng Việt": "Chẩn đoán"
+ },
+ "Saves whatever is selected in Fusion's Flow view to a JSON file on your Desktop, exactly as Fusion stores it. Useful for tracking down a size or position mismatch: import the same SVG with this tool and with Fusion's own File > Import > SVG, dump each, and compare the two files.": {
+  "日本語": "Fusion のフロービューで選択しているものを、Fusion が保存するとおりの形でデスクトップの JSON ファイルに保存します。サイズや位置のずれを調べるときに便利です: 同じ SVG をこのツールと Fusion の「ファイル > 読み込み > SVG」でそれぞれ読み込み、両方を書き出して 2 つのファイルを比較してください。",
+  "Español": "Guarda lo que esté seleccionado en la vista Flow de Fusion en un archivo JSON en tu escritorio, tal como lo almacena Fusion. Útil para localizar diferencias de tamaño o posición: importa el mismo SVG con esta herramienta y con Archivo > Importar > SVG de Fusion, vuelca cada uno y compara los dos archivos.",
+  "Deutsch": "Speichert die Auswahl in der Flow-Ansicht von Fusion als JSON-Datei auf Ihrem Desktop, genau so, wie Fusion sie speichert. Nützlich, um Abweichungen bei Größe oder Position aufzuspüren: Importieren Sie dasselbe SVG mit diesem Werkzeug und über Fusions eigenes Datei > Importieren > SVG, speichern Sie beide und vergleichen Sie die zwei Dateien.",
+  "Français": "Enregistre la sélection de la vue Flow de Fusion dans un fichier JSON sur votre Bureau, exactement comme Fusion la stocke. Utile pour repérer un écart de taille ou de position : importez le même SVG avec cet outil et avec Fichier > Importer > SVG de Fusion, exportez chacun et comparez les deux fichiers.",
+  "한국인": "Fusion 플로 뷰에서 선택한 항목을 Fusion이 저장하는 그대로 바탕 화면의 JSON 파일로 저장합니다. 크기나 위치 차이를 찾을 때 유용합니다: 같은 SVG를 이 도구와 Fusion의 파일 > 가져오기 > SVG로 각각 가져와 덤프한 뒤 두 파일을 비교하세요.",
+  "中文": "将 Fusion 节点视图中选中的内容按 Fusion 的存储方式原样保存为桌面上的 JSON 文件。便于排查尺寸或位置不一致：分别用此工具和 Fusion 自带的“文件 > 导入 > SVG”导入同一个 SVG，各导出一次，然后比较这两个文件。",
+  "العربية": "يحفظ كل ما هو محدد في عرض Flow في Fusion إلى ملف JSON على سطح المكتب، تمامًا كما يخزنه Fusion. مفيد لتتبع عدم تطابق الحجم أو الموضع: استورد ملف SVG نفسه بهذه الأداة وبأمر Fusion الخاص ملف > استيراد > SVG، ثم احفظ كلًا منهما وقارن الملفين.",
+  "Tiếng Việt": "Lưu mọi thứ đang chọn trong Flow view của Fusion vào tệp JSON trên Desktop, đúng như Fusion lưu trữ. Hữu ích để tìm lỗi lệch kích thước hoặc vị trí: nhập cùng một SVG bằng công cụ này và bằng File > Import > SVG của Fusion, xuất từng cái rồi so sánh hai tệp."
+ },
+ "Dump selected nodes": {
+  "日本語": "選択したノードを書き出す",
+  "Español": "Volcar nodos seleccionados",
+  "Deutsch": "Ausgewählte Knoten speichern",
+  "Français": "Exporter les nœuds sélectionnés",
+  "한국인": "선택한 노드 덤프",
+  "中文": "导出所选节点",
+  "العربية": "تفريغ العُقد المحددة",
+  "Tiếng Việt": "Xuất các node đã chọn"
+ },
+ "1 SVG file": {
+  "日本語": "SVG ファイル 1 個",
+  "Español": "1 archivo SVG",
+  "Deutsch": "1 SVG-Datei",
+  "Français": "1 fichier SVG",
+  "한국인": "SVG 파일 1개",
+  "中文": "1 个 SVG 文件",
+  "العربية": "ملف SVG واحد",
+  "Tiếng Việt": "1 tệp SVG"
+ },
+ "{count} SVG files": {
+  "日本語": "SVG ファイル {count} 個",
+  "Español": "{count} archivos SVG",
+  "Deutsch": "{count} SVG-Dateien",
+  "Français": "{count} fichiers SVG",
+  "한국인": "SVG 파일 {count}개",
+  "中文": "{count} 个 SVG 文件",
+  "العربية": "{count} ملفات SVG",
+  "Tiếng Việt": "{count} tệp SVG"
+ },
+ "1 Lottie file": {
+  "日本語": "Lottie ファイル 1 個",
+  "Español": "1 archivo Lottie",
+  "Deutsch": "1 Lottie-Datei",
+  "Français": "1 fichier Lottie",
+  "한국인": "Lottie 파일 1개",
+  "中文": "1 个 Lottie 文件",
+  "العربية": "ملف Lottie واحد",
+  "Tiếng Việt": "1 tệp Lottie"
+ },
+ "{count} Lottie files": {
+  "日本語": "Lottie ファイル {count} 個",
+  "Español": "{count} archivos Lottie",
+  "Deutsch": "{count} Lottie-Dateien",
+  "Français": "{count} fichiers Lottie",
+  "한국인": "Lottie 파일 {count}개",
+  "中文": "{count} 个 Lottie 文件",
+  "العربية": "{count} ملفات Lottie",
+  "Tiếng Việt": "{count} tệp Lottie"
+ },
+ "Drag .svg files here": {
+  "日本語": "ここに .svg ファイルをドラッグ",
+  "Español": "Arrastra aquí archivos .svg",
+  "Deutsch": ".svg-Dateien hierher ziehen",
+  "Français": "Faites glisser des fichiers .svg ici",
+  "한국인": "여기로 .svg 파일을 끌어 오세요",
+  "中文": "将 .svg 文件拖到这里",
+  "العربية": "اسحب ملفات ‎.svg إلى هنا",
+  "Tiếng Việt": "Kéo tệp .svg vào đây"
+ },
+ "Drag .json files here": {
+  "日本語": "ここに .json ファイルをドラッグ",
+  "Español": "Arrastra aquí archivos .json",
+  "Deutsch": ".json-Dateien hierher ziehen",
+  "Français": "Faites glisser des fichiers .json ici",
+  "한국인": "여기로 .json 파일을 끌어 오세요",
+  "中文": "将 .json 文件拖到这里",
+  "العربية": "اسحب ملفات ‎.json إلى هنا",
+  "Tiếng Việt": "Kéo tệp .json vào đây"
+ },
+ "or use Add files": {
+  "日本語": "または「ファイルを追加」を使用",
+  "Español": "o usa Añadir archivos",
+  "Deutsch": "oder „Dateien hinzufügen“ verwenden",
+  "Français": "ou utilisez Ajouter des fichiers",
+  "한국인": "또는 파일 추가 사용",
+  "中文": "或使用“添加文件”",
+  "العربية": "أو استخدم إضافة ملفات",
+  "Tiếng Việt": "hoặc dùng Thêm tệp"
+ },
+ "Several files come in together, laid out side by side – one paste.": {
+  "日本語": "複数のファイルは横に並べて一緒に読み込まれます – 貼り付けは 1 回です。",
+  "Español": "Varios archivos entran juntos, colocados uno al lado del otro: un solo pegado.",
+  "Deutsch": "Mehrere Dateien kommen gemeinsam, nebeneinander angeordnet – ein Einfügen.",
+  "Français": "Plusieurs fichiers arrivent ensemble, disposés côte à côte – un seul collage.",
+  "한국인": "여러 파일이 나란히 배치되어 함께 들어옵니다 – 한 번에 붙여 넣기.",
+  "中文": "多个文件会一起导入并排摆放——只需粘贴一次。",
+  "العربية": "تأتي عدة ملفات معًا، مرتبة جنبًا إلى جنب – لصق واحد.",
+  "Tiếng Việt": "Nhiều tệp được nhập cùng lúc, xếp cạnh nhau – chỉ cần dán một lần."
+ },
+ "Exported from After Effects with the Bodymovin / Lottie plugin.": {
+  "日本語": "After Effects から Bodymovin / Lottie プラグインで書き出したもの。",
+  "Español": "Exportado desde After Effects con el complemento Bodymovin / Lottie.",
+  "Deutsch": "Aus After Effects mit dem Bodymovin-/Lottie-Plug-in exportiert.",
+  "Français": "Exporté depuis After Effects avec le plug-in Bodymovin / Lottie.",
+  "한국인": "After Effects에서 Bodymovin / Lottie 플러그인으로 내보낸 파일.",
+  "中文": "使用 Bodymovin / Lottie 插件从 After Effects 导出。",
+  "العربية": "مُصدَّر من After Effects باستخدام إضافة Bodymovin / Lottie.",
+  "Tiếng Việt": "Xuất từ After Effects bằng plugin Bodymovin / Lottie."
+ },
+ "1 error": {
+  "日本語": "エラー 1 件",
+  "Español": "1 error",
+  "Deutsch": "1 Fehler",
+  "Français": "1 erreur",
+  "한국인": "오류 1개",
+  "中文": "1 个错误",
+  "العربية": "خطأ واحد",
+  "Tiếng Việt": "1 lỗi"
+ },
+ "{count} errors": {
+  "日本語": "エラー {count} 件",
+  "Español": "{count} errores",
+  "Deutsch": "{count} Fehler",
+  "Français": "{count} erreurs",
+  "한국인": "오류 {count}개",
+  "中文": "{count} 个错误",
+  "العربية": "{count} أخطاء",
+  "Tiếng Việt": "{count} lỗi"
+ },
+ "1 note": {
+  "日本語": "メモ 1 件",
+  "Español": "1 nota",
+  "Deutsch": "1 Hinweis",
+  "Français": "1 remarque",
+  "한국인": "참고 1개",
+  "中文": "1 条说明",
+  "العربية": "ملاحظة واحدة",
+  "Tiếng Việt": "1 ghi chú"
+ },
+ "{count} notes": {
+  "日本語": "メモ {count} 件",
+  "Español": "{count} notas",
+  "Deutsch": "{count} Hinweise",
+  "Français": "{count} remarques",
+  "한국인": "참고 {count}개",
+  "中文": "{count} 条说明",
+  "العربية": "{count} ملاحظات",
+  "Tiếng Việt": "{count} ghi chú"
+ },
+ "Fusion comp {w} × {h}": {
+  "日本語": "Fusion コンポジション {w} × {h}",
+  "Español": "Composición de Fusion {w} × {h}",
+  "Deutsch": "Fusion-Komposition {w} × {h}",
+  "Français": "Composition Fusion {w} × {h}",
+  "한국인": "Fusion 컴포지션 {w} × {h}",
+  "中文": "Fusion 合成 {w} × {h}",
+  "العربية": "تركيبة Fusion {w} × {h}",
+  "Tiếng Việt": "Comp Fusion {w} × {h}"
+ },
+ "Fusion comp {w} × {h} · {fps} fps": {
+  "日本語": "Fusion コンポジション {w} × {h} · {fps} fps",
+  "Español": "Composición de Fusion {w} × {h} · {fps} fps",
+  "Deutsch": "Fusion-Komposition {w} × {h} · {fps} fps",
+  "Français": "Composition Fusion {w} × {h} · {fps} i/s",
+  "한국인": "Fusion 컴포지션 {w} × {h} · {fps}fps",
+  "中文": "Fusion 合成 {w} × {h} · {fps} fps",
+  "العربية": "تركيبة Fusion {w} × {h} · {fps} إطار/ث",
+  "Tiếng Việt": "Comp Fusion {w} × {h} · {fps} fps"
+ },
+ "No Fusion comp open": {
+  "日本語": "Fusion コンポジションが開いていません",
+  "Español": "No hay ninguna composición de Fusion abierta",
+  "Deutsch": "Keine Fusion-Komposition geöffnet",
+  "Français": "Aucune composition Fusion ouverte",
+  "한국인": "열린 Fusion 컴포지션 없음",
+  "中文": "未打开 Fusion 合成",
+  "العربية": "لا توجد تركيبة Fusion مفتوحة",
+  "Tiếng Việt": "Chưa mở comp Fusion"
+ },
+ "Size and frame rate used for the conversion – read again every time you convert": {
+  "日本語": "変換に使うサイズとフレームレート – 変換するたびに再読み込みされます",
+  "Español": "Tamaño y velocidad de fotogramas usados en la conversión; se vuelven a leer cada vez que conviertes",
+  "Deutsch": "Für die Konvertierung verwendete Größe und Bildrate – wird bei jeder Konvertierung neu gelesen",
+  "Français": "Taille et fréquence d'images utilisées pour la conversion – relues à chaque conversion",
+  "한국인": "변환에 사용할 크기와 프레임 레이트 – 변환할 때마다 다시 읽습니다",
+  "中文": "用于转换的尺寸和帧率——每次转换时都会重新读取",
+  "العربية": "الحجم ومعدل الإطارات المستخدمان في التحويل – تُعاد قراءتهما في كل مرة تحوّل فيها",
+  "Tiếng Việt": "Kích thước và tốc độ khung hình dùng để chuyển đổi – được đọc lại mỗi lần chuyển đổi"
+ },
+ "Copied \"{name}\" for Fusion": {
+  "日本語": "「{name}」を Fusion 用にコピーしました",
+  "Español": "\"{name}\" copiado para Fusion",
+  "Deutsch": "„{name}“ für Fusion kopiert",
+  "Français": "« {name} » copié pour Fusion",
+  "한국인": "\"{name}\"을(를) Fusion용으로 복사했습니다",
+  "中文": "已为 Fusion 复制“{name}”",
+  "العربية": "تم نسخ \"{name}\" لـ Fusion",
+  "Tiếng Việt": "Đã sao chép \"{name}\" cho Fusion"
+ },
+ "Copied {count} files for Fusion": {
+  "日本語": "{count} 個のファイルを Fusion 用にコピーしました",
+  "Español": "{count} archivos copiados para Fusion",
+  "Deutsch": "{count} Dateien für Fusion kopiert",
+  "Français": "{count} fichiers copiés pour Fusion",
+  "한국인": "파일 {count}개를 Fusion용으로 복사했습니다",
+  "中文": "已为 Fusion 复制 {count} 个文件",
+  "العربية": "تم نسخ {count} ملفات لـ Fusion",
+  "Tiếng Việt": "Đã sao chép {count} tệp cho Fusion"
+ },
+ "On the Fusion page, click in the Flow view and press": {
+  "日本語": "Fusion ページでフロービューをクリックし、次のキーを押します:",
+  "Español": "En la página Fusion, haz clic en la vista Flow y pulsa",
+  "Deutsch": "Klicken Sie auf der Fusion-Seite in die Flow-Ansicht und drücken Sie",
+  "Français": "Sur la page Fusion, cliquez dans la vue Flow et appuyez sur",
+  "한국인": "Fusion 페이지에서 플로 뷰를 클릭하고 다음 키를 누르세요:",
+  "中文": "在 Fusion 页面中，点击节点视图，然后按",
+  "العربية": "في صفحة Fusion، انقر في عرض Flow واضغط",
+  "Tiếng Việt": "Trên trang Fusion, bấm vào Flow view rồi nhấn"
+ },
+ "Copy again": {
+  "日本語": "もう一度コピー",
+  "Español": "Copiar de nuevo",
+  "Deutsch": "Erneut kopieren",
+  "Français": "Copier à nouveau",
+  "한국인": "다시 복사",
+  "中文": "再次复制",
+  "العربية": "نسخ مرة أخرى",
+  "Tiếng Việt": "Sao chép lại"
+ },
+ "Couldn't convert": {
+  "日本語": "変換できませんでした",
+  "Español": "No se pudo convertir",
+  "Deutsch": "Konvertierung fehlgeschlagen",
+  "Français": "Conversion impossible",
+  "한국인": "변환할 수 없음",
+  "中文": "无法转换",
+  "العربية": "تعذر التحويل",
+  "Tiếng Việt": "Không thể chuyển đổi"
+ },
+ "Show details": {
+  "日本語": "詳細を表示",
+  "Español": "Mostrar detalles",
+  "Deutsch": "Details anzeigen",
+  "Français": "Afficher les détails",
+  "한국인": "세부 정보 보기",
+  "中文": "显示详细信息",
+  "العربية": "إظهار التفاصيل",
+  "Tiếng Việt": "Hiện chi tiết"
+ },
+ "Drop .svg files, or Lottie .json files": {
+  "日本語": ".svg ファイルまたは Lottie の .json ファイルをドロップしてください",
+  "Español": "Suelta archivos .svg o archivos .json de Lottie",
+  "Deutsch": "Legen Sie .svg-Dateien oder Lottie-.json-Dateien ab",
+  "Français": "Déposez des fichiers .svg ou des fichiers .json Lottie",
+  "한국인": ".svg 파일 또는 Lottie .json 파일을 놓으세요",
+  "中文": "请拖放 .svg 文件或 Lottie .json 文件",
+  "العربية": "أفلت ملفات ‎.svg أو ملفات Lottie ‎.json",
+  "Tiếng Việt": "Thả tệp .svg hoặc tệp .json Lottie"
+ },
+ "Choose {kind} files": {
+  "日本語": "{kind} ファイルを選択",
+  "Español": "Elige archivos {kind}",
+  "Deutsch": "{kind}-Dateien wählen",
+  "Français": "Choisir des fichiers {kind}",
+  "한국인": "{kind} 파일 선택",
+  "中文": "选择 {kind} 文件",
+  "العربية": "اختر ملفات {kind}",
+  "Tiếng Việt": "Chọn tệp {kind}"
+ },
+ "Choose a folder of {kind} files": {
+  "日本語": "{kind} ファイルのフォルダーを選択",
+  "Español": "Elige una carpeta de archivos {kind}",
+  "Deutsch": "Ordner mit {kind}-Dateien wählen",
+  "Français": "Choisir un dossier de fichiers {kind}",
+  "한국인": "{kind} 파일이 있는 폴더 선택",
+  "中文": "选择包含 {kind} 文件的文件夹",
+  "العربية": "اختر مجلدًا لملفات {kind}",
+  "Tiếng Việt": "Chọn thư mục chứa tệp {kind}"
+ },
+ "SVG files": {
+  "日本語": "SVG ファイル",
+  "Español": "Archivos SVG",
+  "Deutsch": "SVG-Dateien",
+  "Français": "Fichiers SVG",
+  "한국인": "SVG 파일",
+  "中文": "SVG 文件",
+  "العربية": "ملفات SVG",
+  "Tiếng Việt": "Tệp SVG"
+ },
+ "Lottie/Bodymovin JSON": {
+  "日本語": "Lottie/Bodymovin の JSON",
+  "Español": "JSON de Lottie/Bodymovin",
+  "Deutsch": "Lottie/Bodymovin-JSON",
+  "Français": "JSON Lottie/Bodymovin",
+  "한국인": "Lottie/Bodymovin JSON 파일",
+  "中文": "Lottie/Bodymovin JSON 文件",
+  "العربية": "JSON من Lottie/Bodymovin",
+  "Tiếng Việt": "JSON Lottie/Bodymovin"
+ },
+ "No {kind} files there": {
+  "日本語": "{kind} ファイルがありません",
+  "Español": "No hay archivos {kind} ahí",
+  "Deutsch": "Dort sind keine {kind}-Dateien",
+  "Français": "Aucun fichier {kind} ici",
+  "한국인": "{kind} 파일이 없습니다",
+  "中文": "那里没有 {kind} 文件",
+  "العربية": "لا توجد ملفات {kind} هناك",
+  "Tiếng Việt": "Không có tệp {kind} nào"
+ },
+ "No {ext} files were found directly in:\n{folder}": {
+  "日本語": "次のフォルダーの直下に {ext} ファイルが見つかりませんでした:\n{folder}",
+  "Español": "No se encontraron archivos {ext} directamente en:\n{folder}",
+  "Deutsch": "Direkt in diesem Ordner wurden keine {ext}-Dateien gefunden:\n{folder}",
+  "Français": "Aucun fichier {ext} trouvé directement dans :\n{folder}",
+  "한국인": "다음 폴더 바로 아래에서 {ext} 파일을 찾지 못했습니다:\n{folder}",
+  "中文": "在以下文件夹中未直接找到 {ext} 文件：\n{folder}",
+  "العربية": "لم يتم العثور على ملفات {ext} مباشرةً في:\n{folder}",
+  "Tiếng Việt": "Không tìm thấy tệp {ext} nào ngay trong:\n{folder}"
+ },
+ "Copied again – paste it in Fusion's Flow view": {
+  "日本語": "もう一度コピーしました – Fusion のフロービューに貼り付けてください",
+  "Español": "Copiado de nuevo: pégalo en la vista Flow de Fusion",
+  "Deutsch": "Erneut kopiert – fügen Sie es in die Flow-Ansicht von Fusion ein",
+  "Français": "Copié à nouveau – collez-le dans la vue Flow de Fusion",
+  "한국인": "다시 복사했습니다 – Fusion 플로 뷰에 붙여 넣으세요",
+  "中文": "已再次复制——请粘贴到 Fusion 的节点视图中",
+  "العربية": "تم النسخ مرة أخرى – الصقه في عرض Flow في Fusion",
+  "Tiếng Việt": "Đã sao chép lại – hãy dán vào Flow view của Fusion"
+ },
+ "Add a file first": {
+  "日本語": "先にファイルを追加してください",
+  "Español": "Añade primero un archivo",
+  "Deutsch": "Fügen Sie zuerst eine Datei hinzu",
+  "Français": "Ajoutez d'abord un fichier",
+  "한국인": "먼저 파일을 추가하세요",
+  "中文": "请先添加文件",
+  "العربية": "أضف ملفًا أولًا",
+  "Tiếng Việt": "Hãy thêm tệp trước"
+ },
+ "Add the {kind} file(s) to convert – drag them here, or use Add files.": {
+  "日本語": "変換する {kind} ファイルを追加してください – ここにドラッグするか、「ファイルを追加」を使います。",
+  "Español": "Añade los archivos {kind} que quieres convertir: arrástralos aquí o usa Añadir archivos.",
+  "Deutsch": "Fügen Sie die zu konvertierenden {kind}-Dateien hinzu – ziehen Sie sie hierher oder verwenden Sie „Dateien hinzufügen“.",
+  "Français": "Ajoutez le ou les fichiers {kind} à convertir – faites-les glisser ici, ou utilisez Ajouter des fichiers.",
+  "한국인": "변환할 {kind} 파일을 추가하세요 – 여기로 끌어 오거나 파일 추가를 사용하세요.",
+  "中文": "请添加要转换的 {kind} 文件——拖到这里，或使用“添加文件”。",
+  "العربية": "أضف ملفات {kind} المراد تحويلها – اسحبها إلى هنا، أو استخدم إضافة ملفات.",
+  "Tiếng Việt": "Thêm tệp {kind} cần chuyển đổi – kéo vào đây, hoặc dùng Thêm tệp."
+ },
+ "No Fusion comp is open. Open a clip on the Fusion page, then convert again.": {
+  "日本語": "Fusion コンポジションが開いていません。Fusion ページでクリップを開いてから、もう一度変換してください。",
+  "Español": "No hay ninguna composición de Fusion abierta. Abre un clip en la página Fusion y vuelve a convertir.",
+  "Deutsch": "Es ist keine Fusion-Komposition geöffnet. Öffnen Sie einen Clip auf der Fusion-Seite und konvertieren Sie dann erneut.",
+  "Français": "Aucune composition Fusion n'est ouverte. Ouvrez un clip sur la page Fusion, puis relancez la conversion.",
+  "한국인": "열린 Fusion 컴포지션이 없습니다. Fusion 페이지에서 클립을 연 다음 다시 변환하세요.",
+  "中文": "未打开 Fusion 合成。请在 Fusion 页面打开一个片段，然后再次转换。",
+  "العربية": "لا توجد تركيبة Fusion مفتوحة. افتح مقطعًا في صفحة Fusion، ثم حوّل مرة أخرى.",
+  "Tiếng Việt": "Chưa mở comp Fusion nào. Hãy mở một clip trên trang Fusion rồi chuyển đổi lại."
+ },
+ "Nothing was copied – see the details.": {
+  "日本語": "何もコピーされませんでした – 詳細を確認してください。",
+  "Español": "No se copió nada: consulta los detalles.",
+  "Deutsch": "Es wurde nichts kopiert – siehe Details.",
+  "Français": "Rien n'a été copié – consultez les détails.",
+  "한국인": "복사된 것이 없습니다 – 세부 정보를 확인하세요.",
+  "中文": "未复制任何内容——请查看详细信息。",
+  "العربية": "لم يُنسخ شيء – راجع التفاصيل.",
+  "Tiếng Việt": "Không có gì được sao chép – xem chi tiết."
+ },
+ "Saved the node dump to your Desktop": {
+  "日本語": "ノードのダンプをデスクトップに保存しました",
+  "Español": "Volcado de nodos guardado en el escritorio",
+  "Deutsch": "Knoten-Dump auf dem Desktop gespeichert",
+  "Français": "Export des nœuds enregistré sur votre Bureau",
+  "한국인": "노드 덤프를 바탕 화면에 저장했습니다",
+  "中文": "已将节点导出保存到桌面",
+  "العربية": "تم حفظ تفريغ العُقد على سطح المكتب",
+  "Tiếng Việt": "Đã lưu bản xuất node vào Desktop"
+ },
+ "Couldn't find an active composition.": {
+  "日本語": "アクティブなコンポジションが見つかりませんでした。",
+  "Español": "No se encontró ninguna composición activa.",
+  "Deutsch": "Keine aktive Komposition gefunden.",
+  "Français": "Aucune composition active trouvée.",
+  "한국인": "활성 컴포지션을 찾을 수 없습니다.",
+  "中文": "找不到活动的合成。",
+  "العربية": "تعذر العثور على تركيبة نشطة.",
+  "Tiếng Việt": "Không tìm thấy comp đang hoạt động."
+ },
+ "No fillable or strokeable shapes were found in this SVG (nothing had a fill or a stroke to draw).": {
+  "日本語": "この SVG には塗りや線を描けるシェイプが見つかりませんでした (塗りも線も持つものがありません)。",
+  "Español": "No se encontraron formas con relleno o trazo en este SVG (nada tenía relleno ni trazo que dibujar).",
+  "Deutsch": "In diesem SVG wurden keine Formen mit Füllung oder Kontur gefunden (nichts hatte eine Füllung oder Kontur zum Zeichnen).",
+  "Français": "Aucune forme avec remplissage ou contour n'a été trouvée dans ce SVG (rien n'avait de remplissage ni de contour à dessiner).",
+  "한국인": "이 SVG에서 채우기나 선을 그릴 수 있는 셰이프를 찾지 못했습니다(채우기나 선이 있는 것이 없음).",
+  "中文": "在此 SVG 中未找到可填充或描边的形状（没有任何可绘制的填充或描边）。",
+  "العربية": "لم يتم العثور على أشكال قابلة للتعبئة أو الحدّ في ملف SVG هذا (لم يكن هناك شيء له تعبئة أو حدّ لرسمه).",
+  "Tiếng Việt": "Không tìm thấy hình nào có thể tô hoặc vẽ viền trong SVG này (không có gì có tô màu hoặc viền để vẽ)."
+ },
+ "None of the queued SVGs had any fillable or strokeable shapes to draw.": {
+  "日本語": "待機中の SVG には、塗りや線を描けるシェイプがありませんでした。",
+  "Español": "Ninguno de los SVG en cola tenía formas con relleno o trazo que dibujar.",
+  "Deutsch": "Keines der eingereihten SVGs hatte Formen mit Füllung oder Kontur zum Zeichnen.",
+  "Français": "Aucun des SVG en attente n'avait de forme avec remplissage ou contour à dessiner.",
+  "한국인": "대기 중인 SVG 중 채우기나 선을 그릴 수 있는 셰이프가 있는 것이 없습니다.",
+  "中文": "队列中的 SVG 都没有可填充或描边的形状可绘制。",
+  "العربية": "لم يكن لأي من ملفات SVG في قائمة الانتظار أشكال قابلة للتعبئة أو الحدّ لرسمها.",
+  "Tiếng Việt": "Không SVG nào trong hàng đợi có hình có thể tô hoặc vẽ viền."
+ },
+ "No fillable or strokeable shapes were found in this Lottie file.": {
+  "日本語": "この Lottie ファイルには塗りや線を描けるシェイプが見つかりませんでした。",
+  "Español": "No se encontraron formas con relleno o trazo en este archivo Lottie.",
+  "Deutsch": "In dieser Lottie-Datei wurden keine Formen mit Füllung oder Kontur gefunden.",
+  "Français": "Aucune forme avec remplissage ou contour n'a été trouvée dans ce fichier Lottie.",
+  "한국인": "이 Lottie 파일에서 채우기나 선을 그릴 수 있는 셰이프를 찾지 못했습니다.",
+  "中文": "在此 Lottie 文件中未找到可填充或描边的形状。",
+  "العربية": "لم يتم العثور على أشكال قابلة للتعبئة أو الحدّ في ملف Lottie هذا.",
+  "Tiếng Việt": "Không tìm thấy hình nào có thể tô hoặc vẽ viền trong tệp Lottie này."
+ },
+ "None of the queued Lottie files had any fillable or strokeable shapes to draw.": {
+  "日本語": "待機中の Lottie ファイルには、塗りや線を描けるシェイプがありませんでした。",
+  "Español": "Ninguno de los archivos Lottie en cola tenía formas con relleno o trazo que dibujar.",
+  "Deutsch": "Keine der eingereihten Lottie-Dateien hatte Formen mit Füllung oder Kontur zum Zeichnen.",
+  "Français": "Aucun des fichiers Lottie en attente n'avait de forme avec remplissage ou contour à dessiner.",
+  "한국인": "대기 중인 Lottie 파일 중 채우기나 선을 그릴 수 있는 셰이프가 있는 것이 없습니다.",
+  "中文": "队列中的 Lottie 文件都没有可填充或描边的形状可绘制。",
+  "العربية": "لم يكن لأي من ملفات Lottie في قائمة الانتظار أشكال قابلة للتعبئة أو الحدّ لرسمها.",
+  "Tiếng Việt": "Không tệp Lottie nào trong hàng đợi có hình có thể tô hoặc vẽ viền."
+ },
+ "Couldn't find DaVinci Resolve's scripting module.\n\nCheck that DaVinci Resolve is installed, and that Preferences > System > General > \"External scripting using\" is set to \"Local\" (not \"None\").\n\nDetails: {error}": {
+  "日本語": "DaVinci Resolve のスクリプトモジュールが見つかりませんでした。\n\nDaVinci Resolve がインストールされていること、および「環境設定 > システム > 一般 > 外部スクリプトに使用」が「ローカル」(「なし」ではない) に設定されていることを確認してください。\n\n詳細: {error}",
+  "Español": "No se encontró el módulo de scripting de DaVinci Resolve.\n\nComprueba que DaVinci Resolve está instalado y que Preferencias > Sistema > General > \"External scripting using\" está en \"Local\" (no en \"None\").\n\nDetalles: {error}",
+  "Deutsch": "Das Skriptmodul von DaVinci Resolve wurde nicht gefunden.\n\nPrüfen Sie, ob DaVinci Resolve installiert ist und ob unter Einstellungen > System > Allgemein „External scripting using“ auf „Local“ (nicht „None“) gesetzt ist.\n\nDetails: {error}",
+  "Français": "Module de script de DaVinci Resolve introuvable.\n\nVérifiez que DaVinci Resolve est installé et que Préférences > Système > Général > « External scripting using » est réglé sur « Local » (et non « None »).\n\nDétails : {error}",
+  "한국인": "DaVinci Resolve의 스크립팅 모듈을 찾을 수 없습니다.\n\nDaVinci Resolve가 설치되어 있고 환경설정 > 시스템 > 일반 > \"External scripting using\"이 \"Local\"(\"None\"이 아님)로 설정되어 있는지 확인하세요.\n\n세부 정보: {error}",
+  "中文": "找不到 DaVinci Resolve 的脚本模块。\n\n请检查 DaVinci Resolve 是否已安装，以及“偏好设置 > 系统 > 常规 > External scripting using”是否设为“Local”（而不是“None”）。\n\n详细信息：{error}",
+  "العربية": "تعذر العثور على وحدة البرمجة النصية في DaVinci Resolve.\n\nتحقق من تثبيت DaVinci Resolve، ومن ضبط التفضيلات > النظام > عام > \"External scripting using\" على \"Local\" (وليس \"None\").\n\nالتفاصيل: {error}",
+  "Tiếng Việt": "Không tìm thấy mô-đun scripting của DaVinci Resolve.\n\nHãy kiểm tra DaVinci Resolve đã được cài đặt, và Preferences > System > General > \"External scripting using\" được đặt là \"Local\" (không phải \"None\").\n\nChi tiết: {error}"
+ },
+ "Found the scripting module but couldn't call it: {error}": {
+  "日本語": "スクリプトモジュールは見つかりましたが、呼び出せませんでした: {error}",
+  "Español": "Se encontró el módulo de scripting, pero no se pudo llamar: {error}",
+  "Deutsch": "Das Skriptmodul wurde gefunden, konnte aber nicht aufgerufen werden: {error}",
+  "Français": "Module de script trouvé, mais impossible de l'appeler : {error}",
+  "한국인": "스크립팅 모듈을 찾았지만 호출할 수 없습니다: {error}",
+  "中文": "找到了脚本模块，但无法调用：{error}",
+  "العربية": "تم العثور على وحدة البرمجة النصية لكن تعذر استدعاؤها: {error}",
+  "Tiếng Việt": "Đã tìm thấy mô-đun scripting nhưng không thể gọi: {error}"
+ },
+ "Connected to the scripting module, but Resolve didn't respond.\n\nMake sure DaVinci Resolve is running, and that Preferences > System > General > \"External scripting using\" is set to \"Local\".": {
+  "日本語": "スクリプトモジュールに接続しましたが、Resolve が応答しませんでした。\n\nDaVinci Resolve が起動していること、および「環境設定 > システム > 一般 > 外部スクリプトに使用」が「ローカル」に設定されていることを確認してください。",
+  "Español": "Conectado al módulo de scripting, pero Resolve no respondió.\n\nAsegúrate de que DaVinci Resolve está en ejecución y de que Preferencias > Sistema > General > \"External scripting using\" está en \"Local\".",
+  "Deutsch": "Mit dem Skriptmodul verbunden, aber Resolve hat nicht geantwortet.\n\nStellen Sie sicher, dass DaVinci Resolve läuft und unter Einstellungen > System > Allgemein „External scripting using“ auf „Local“ gesetzt ist.",
+  "Français": "Connecté au module de script, mais Resolve n'a pas répondu.\n\nVérifiez que DaVinci Resolve est lancé et que Préférences > Système > Général > « External scripting using » est réglé sur « Local ».",
+  "한국인": "스크립팅 모듈에 연결했지만 Resolve가 응답하지 않았습니다.\n\nDaVinci Resolve가 실행 중이고 환경설정 > 시스템 > 일반 > \"External scripting using\"이 \"Local\"로 설정되어 있는지 확인하세요.",
+  "中文": "已连接到脚本模块，但 Resolve 没有响应。\n\n请确保 DaVinci Resolve 正在运行，并且“偏好设置 > 系统 > 常规 > External scripting using”已设为“Local”。",
+  "العربية": "تم الاتصال بوحدة البرمجة النصية، لكن Resolve لم يستجب.\n\nتأكد من تشغيل DaVinci Resolve، ومن ضبط التفضيلات > النظام > عام > \"External scripting using\" على \"Local\".",
+  "Tiếng Việt": "Đã kết nối với mô-đun scripting nhưng Resolve không phản hồi.\n\nHãy đảm bảo DaVinci Resolve đang chạy, và Preferences > System > General > \"External scripting using\" được đặt là \"Local\"."
+ },
+ "Connected to Resolve, but couldn't reach Fusion: {error}": {
+  "日本語": "Resolve に接続しましたが、Fusion に接続できませんでした: {error}",
+  "Español": "Conectado a Resolve, pero no se pudo acceder a Fusion: {error}",
+  "Deutsch": "Mit Resolve verbunden, aber Fusion ist nicht erreichbar: {error}",
+  "Français": "Connecté à Resolve, mais impossible de joindre Fusion : {error}",
+  "한국인": "Resolve에 연결했지만 Fusion에 연결할 수 없습니다: {error}",
+  "中文": "已连接到 Resolve，但无法连接 Fusion：{error}",
+  "العربية": "تم الاتصال بـ Resolve، لكن تعذر الوصول إلى Fusion: {error}",
+  "Tiếng Việt": "Đã kết nối với Resolve nhưng không thể kết nối Fusion: {error}"
+ },
+ "Connected to Fusion, but no composition is open.\n\nOpen the Fusion page (or double-click a Fusion clip) with a composition loaded, then try again.": {
+  "日本語": "Fusion に接続しましたが、コンポジションが開いていません。\n\nコンポジションを読み込んだ状態で Fusion ページを開く (または Fusion クリップをダブルクリックする) と、もう一度お試しください。",
+  "Español": "Conectado a Fusion, pero no hay ninguna composición abierta.\n\nAbre la página Fusion (o haz doble clic en un clip de Fusion) con una composición cargada y vuelve a intentarlo.",
+  "Deutsch": "Mit Fusion verbunden, aber es ist keine Komposition geöffnet.\n\nÖffnen Sie die Fusion-Seite (oder doppelklicken Sie auf einen Fusion-Clip) mit geladener Komposition und versuchen Sie es erneut.",
+  "Français": "Connecté à Fusion, mais aucune composition n'est ouverte.\n\nOuvrez la page Fusion (ou double-cliquez sur un clip Fusion) avec une composition chargée, puis réessayez.",
+  "한국인": "Fusion에 연결했지만 열린 컴포지션이 없습니다.\n\n컴포지션이 로드된 상태로 Fusion 페이지를 열거나 Fusion 클립을 두 번 클릭한 다음 다시 시도하세요.",
+  "中文": "已连接到 Fusion，但没有打开的合成。\n\n请在加载了合成的情况下打开 Fusion 页面（或双击 Fusion 片段），然后重试。",
+  "العربية": "تم الاتصال بـ Fusion، لكن لا توجد تركيبة مفتوحة.\n\nافتح صفحة Fusion (أو انقر نقرًا مزدوجًا على مقطع Fusion) مع تحميل تركيبة، ثم حاول مرة أخرى.",
+  "Tiếng Việt": "Đã kết nối với Fusion nhưng chưa mở comp nào.\n\nHãy mở trang Fusion (hoặc bấm đúp vào một clip Fusion) với comp đã tải, rồi thử lại."
+ }
+}

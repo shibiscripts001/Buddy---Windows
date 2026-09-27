@@ -11,7 +11,9 @@ ToolPage.settings_fields() and handling on_setting() / on_settings_action()
     heading   text
     hint      text, [html] (Buddy's own fixed HTML - links), [tone]
     check     key, label, value, [hint], [tooltip]
-    select    key, label, value, options [{value, label}], [tooltip]
+    select    key, label, value, options [{value, label}], [tooltip],
+              [raw] (the option labels are names to show as they are -
+              never translated)
     text      key, label, value, [placeholder], [password], [hint],
               [live] (sent as it's typed, not when the field is left),
               [suggest] (a list the field offers), [browse] (an action)
@@ -31,6 +33,7 @@ that's only ever Buddy's own.
 
 import re
 
+from core.i18n import LANGUAGES, language_label
 from core.theme import (
     DEFAULT_SIDE_PANE_TINT,
     DEFAULT_THEME,
@@ -59,12 +62,13 @@ def check(key, label, value, hint_text=None, tooltip=None, indent=False):
             "tooltip": tooltip, "indent": indent}
 
 
-def select(key, label, value, options, tooltip=None, indent=False):
-    """options: [(value, label)] or [value] (shown as it is)."""
+def select(key, label, value, options, tooltip=None, indent=False, raw=False):
+    """options: [(value, label)] or [value] (shown as it is). raw: the
+    labels are names (a person's, a language's own) - never translated."""
     opts = [{"value": o[0], "label": o[1]} if isinstance(o, (tuple, list)) else {"value": o, "label": str(o)}
             for o in options]
     return {"kind": "select", "key": key, "label": label, "value": value, "options": opts, "tooltip": tooltip,
-            "indent": indent}
+            "indent": indent, "raw": raw}
 
 
 def text(key, label, value, placeholder="", password=False, hint_text=None, live=False, suggest=None,
@@ -102,8 +106,10 @@ def line():
     return {"kind": "line"}
 
 
-def info(label, value):
-    return {"kind": "info", "label": label, "text": value}
+def info(label, value, raw=False):
+    """raw: the value is a name to show as it is (a project's), never
+    translated."""
+    return {"kind": "info", "label": label, "text": value, "raw": raw}
 
 
 def parse_number(value, minimum, maximum):
@@ -184,10 +190,23 @@ def shell_fields(shared, autostart):
     ]
 
 
+def language_fields(shared):
+    """The Language dropdown - the last thing in Settings, whichever tool
+    is open. Each language is shown in its own name."""
+    language = shared.get("language", LANGUAGES[0])
+    return [
+        line(),
+        heading("Language"),
+        select("language", "Language", language if language in LANGUAGES else LANGUAGES[0],
+               [(key, language_label(key)) for key in LANGUAGES], raw=True,
+               tooltip="The language for all of Buddy. What you type yourself is left as it is."),
+    ]
+
+
 def apply_shell(shared, key, value):
     """Stores one shell setting. Returns what it affects - "theme",
-    "window", "announcements", "autostart", "tray" - or None if the value
-    isn't one it takes. Doesn't save; the caller does."""
+    "window", "announcements", "autostart", "tray", "language" - or None if
+    the value isn't one it takes. Doesn't save; the caller does."""
     if key == "theme":
         if value not in list_themes():
             return None
@@ -214,6 +233,11 @@ def apply_shell(shared, key, value):
             return None
         shared["split_tint"] = value
         return "window"
+    if key == "language":
+        if value not in LANGUAGES:
+            return None
+        shared["language"] = value
+        return "language"
     if key == "announcements_enabled":
         return "announcements"
     if key == "autostart":

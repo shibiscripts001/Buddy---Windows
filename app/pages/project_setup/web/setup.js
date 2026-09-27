@@ -41,7 +41,7 @@ for (const b of document.querySelectorAll("[data-action]")) {
 }
 for (const b of document.querySelectorAll("[data-help]")) {
     b.onclick = () => Buddy.modal({
-        title: b.textContent.trim() === "Info" ? "Import folder" : b.textContent.trim(),
+        title: b.dataset.help === "import" ? "Import folder" : b.textContent.trim(),
         body: el("p.modal-text", {text: help[b.dataset.help] || ""}),
         buttons: [{label: "Got it", kind: "accent"}],
         wide: true,
@@ -123,15 +123,16 @@ Buddy.on("bins", d => {
     } else {
         tree.replaceChildren(...d.rows.map(r => el(
             `div.tree-row${r.depth ? ".nested" : ".top"}${r.adjusted ? ".adjusted" : ""}`,
-            {style: `--depth: ${r.depth}`, title: r.adjusted
-                ? `Written with ${r.typed} '>' but there's no bin that deep above it, so it goes ${r.depth ? "inside the bin above" : "at the top"}.`
-                : undefined},
-            [icon("folder"), el("span.name", {text: r.name}),
+            {style: `--depth: ${r.depth}`, title: !r.adjusted ? undefined : r.depth
+                ? `Written with ${r.typed} '>' but there's no bin that deep above it, so it goes inside the bin above.`
+                : `Written with ${r.typed} '>' but there's no bin that deep above it, so it goes at the top.`},
+            [icon("folder"), el("span.name", {text: r.name, translate: "no"}),
              r.adjusted ? el("span.chip.small", {text: "moved up"}) : null],
         )));
     }
     const n = d.rows.length;
-    $("bins-summary").textContent = n ? plural(n, "bin") + (d.adjusted ? ` · ${d.adjusted} moved up a level` : "") : "";
+    $("bins-summary").replaceChildren(...(n ? [el("span", {text: plural(n, "bin")}),
+        ...(d.adjusted ? [" · ", el("span", {text: `${d.adjusted} moved up a level`})] : [])] : []));
     $("create-bins").textContent = n ? `Create ${plural(n, "bin")}` : "Create bins";
     applyEnabled();
 });
@@ -153,10 +154,11 @@ function stat(n, label) {
 Buddy.on("import", d => {
     imp = d;
     const name = $("import-name");
+    name.translate = !d.folder;   // a folder's name is the user's
     name.textContent = d.folder ? d.name : "No folder chosen";
     name.classList.toggle("none", !d.folder);
     const path = $("import-path");
-    path.replaceChildren(d.folder ? el("bdi", {text: d.folder}) : "Choose the folder you want to import.");
+    path.replaceChildren(d.folder ? el("bdi", {text: d.folder, translate: "no"}) : "Choose the folder you want to import.");
     path.title = d.folder || "";
     $("rescan").hidden = !d.folder;
     $("choose-folder").textContent = d.folder ? "Change…" : "Choose folder…";
@@ -172,22 +174,27 @@ Buddy.on("import", d => {
         const notes = [];
         if (s.skipped) notes.push(`${plural(s.skipped, "other file")} will be skipped`);
         if (s.partial) notes.push("big folder – counted the first part only");
-        if (notes.length) parts.push(el("span.muted.small.stats-note", {text: notes.join(" · ")}));
+        if (notes.length) {
+            parts.push(el("span.muted.small.stats-note", {},
+                          notes.flatMap((t, i) => i ? [" · ", el("span", {text: t})] : [el("span", {text: t})])));
+        }
         stats.replaceChildren(...parts);
     }
 
     for (const b of document.querySelectorAll("#dest [data-master]")) {
         b.setAttribute("aria-pressed", String((b.dataset.master === "true") === d.to_master));
     }
+    // One sentence per case, each a whole text node, so each translates.
     const binName = d.folder ? `"${d.name}"` : "The folder's bin";
     const dest = $("dest-text");
     if (d.to_master) {
-        dest.replaceChildren(`${binName} is created at the top of the Media Pool.`);
+        dest.textContent = `${binName} is created at the top of the Media Pool.`;
+    } else if (d.destination === "Master") {
+        dest.textContent = `${binName} is created inside Master (the top of the Media Pool).`;
     } else if (d.destination) {
-        dest.replaceChildren(`${binName} is created inside `, el("b", {text: d.destination}),
-            d.destination === "Master" ? " (the top of the Media Pool)." : ", the bin open in Resolve.");
+        dest.textContent = `${binName} is created inside "${d.destination}", the bin open in Resolve.`;
     } else {
-        dest.replaceChildren(`${binName} is created inside whichever bin is open in Resolve's Media Pool.`);
+        dest.textContent = `${binName} is created inside whichever bin is open in Resolve's Media Pool.`;
     }
 
     const go = $("import-go");
@@ -211,10 +218,12 @@ Buddy.on("populate", d => {
         $("pop-count").textContent = "Connect to Resolve to see the open bin.";
         note.textContent = "";
     } else {
+        bin.translate = !d.bin;
         bin.textContent = d.bin || "No bin open";
         bin.classList.toggle("none", !d.bin);
         $("pop-count").textContent = d.count === null || d.count === undefined ? "" :
             d.count ? `${plural(d.count, "clip")} will be added` : "No media clips in this bin";
+        tl.translate = !d.timeline;
         if (d.timeline) {
             tl.textContent = d.timeline;
             tl.classList.remove("none");
@@ -246,6 +255,7 @@ Buddy.on("sync", d => {
     sync = d;
     const name = $("tl-name");
     const summary = $("tl-summary");
+    name.translate = !(d.connected && d.timeline);   // a timeline's name is the user's
     if (!d.connected) {
         name.textContent = "Not connected";
         summary.textContent = "Connect to Resolve to sync the open timeline.";
@@ -255,7 +265,8 @@ Buddy.on("sync", d => {
     } else if (d.timeline) {
         name.textContent = d.timeline;
         const s = d.summary;
-        summary.textContent = s ? [plural(s.clips, "clip"), `${s.video} with picture`, `${s.audio_only} audio only`].join(" · ") : "";
+        summary.replaceChildren(...(s ? [el("span", {text: plural(s.clips, "clip")}), " · ", el("span", {text: `${s.video} with picture`}),
+                                          " · ", el("span", {text: `${s.audio_only} audio only`})] : []));
     } else {
         name.textContent = "No timeline open";
         summary.textContent = "";

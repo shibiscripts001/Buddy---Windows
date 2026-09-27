@@ -12,7 +12,8 @@ const $ = id => document.getElementById(id);
 
 // ------------------------------------------------------------ strings --
 
-// The tool's own translations (i18n.py), sent for the chosen language.
+// Translations (core/i18n.py) for the text this script builds itself,
+// sent for the language chosen in Settings. buddy.js translates the rest.
 let STRINGS = {};
 const T = text => STRINGS[text] || text;
 
@@ -24,7 +25,6 @@ function translatePage() {
 
 Buddy.on("strings", s => {
     STRINGS = s.strings || {};
-    document.documentElement.lang = s.language === "English" ? "en" : "";
     translatePage();
     drawGenerators();
 });
@@ -280,7 +280,7 @@ function folderEl(folder) {
         onclick: () => send("toggle_folder", {name: folder.name}),
         onkeydown: e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); send("toggle_folder", {name: folder.name}); } },
         oncontextmenu: e => { e.preventDefault(); Buddy.menu({x: e.clientX, y: e.clientY, items: folderMenu(folder)}); },
-    }, [caret, el("span.folder-icon", {}, icon("folder")), el("span.folder-name", {text: folder.name}),
+    }, [caret, el("span.folder-icon", {}, icon("folder")), el("span.folder-name", {text: folder.name, translate: "no"}),
         el("span.chip", {text: String(folder.count)}), el("div.spacer"), more]), folder.name);
     const body = folder.open ? el("div.folder-body", {}, folder.palettes.length
         ? folder.palettes.map(paletteEl)
@@ -324,8 +324,8 @@ function paletteEl(row) {
         ondragend: () => document.body.classList.remove("dragging-palette"),
     }, [
         el("span.caret", {text: row.open ? "▾" : "▸"}),
-        el("span.pal-name", {text: row.name}),
-        ...row.tags.map(t => el("span.chip.tag", {text: t})),
+        el("span.pal-name", {text: row.name, translate: "no"}),
+        ...row.tags.map(t => el("span.chip.tag", {text: t, translate: "no"})),
         row.open ? el("div.spacer") : el("div.strip.mini", {}, row.colors.map(c => el("i", {style: `background:${c.shown}`}))),
         el("span.muted.small.count", {text: row.colors.length === 1 ? "1 colour" : `${row.colors.length} colours`}),
         el("button.btn.ghost.icon.more", {type: "button", title: "Palette options", onclick: e => {
@@ -428,7 +428,7 @@ function editColor(row, index, anchor) {
 function paletteMenu(row) {
     const moveItems = [
         {heading: "Move to folder"},
-        ...LIB.folders_all.map(f => ({label: f, disabled: row.folder === f, onClick: () => send("move_palette", {name: row.name, folder: f})})),
+        ...LIB.folders_all.map(f => ({label: f, raw: true, disabled: row.folder === f, onClick: () => send("move_palette", {name: row.name, folder: f})})),
         {label: "Not in a folder", disabled: !row.folder, onClick: () => send("move_palette", {name: row.name, folder: null})},
     ];
     return [
@@ -476,7 +476,7 @@ function paletteMenu(row) {
 Buddy.on("history", h => {
     const list = el("div.history", {}, h.versions.map(v => el("div.version", {}, [
         el("div.version-text", {}, [
-            el("b", {text: `${v.number}. ${v.label}`}),
+            el("b", {text: `${v.number}. ${v.label}`, translate: "no"}),
             el("span.muted.small", {text: v.timestamp ? v.timestamp.replace("T", " ") : ""}),
         ]),
         el("div.strip", {}, v.colors.map(c => el("i", {style: `background:${c.shown}`, title: c.hex}))),
@@ -883,7 +883,7 @@ function gradientGenerator(d) {
             img.className = `gen-gradient ${v.aspect === "9:16" ? "tall" : "wide"}`;
             aspects.draw(v.aspects, v.aspect);
             fillSelect(style, v.styles, v.style);
-            [...style.options].forEach(o => { o.textContent = T(o.value); });
+            [...style.options].forEach(o => { o.textContent = T(o.value); o.removeAttribute("translate"); });
             grid.draw(v);
             modes.draw(v.modes, v.mode);
             if (document.activeElement !== weight) weight.value = v.weight;
@@ -1094,7 +1094,7 @@ Buddy.on("extract", x => {
             {sep: true},
             {heading: T("Add to palette")},
             ...[x.current, ...x.palettes.filter(p => p !== x.current)].map(p => ({
-                label: p, onClick: () => send("add_extracted", {hex: c.hex, name: p}),
+                label: p, raw: true, onClick: () => send("add_extracted", {hex: c.hex, name: p}),
             })),
         ],
     })) : [el("div.muted.small.none", {text: x.has_image ? "No colours found." : "Colours from the image show here."})]));
@@ -1207,9 +1207,10 @@ Buddy.on("visualize", v => {
     drawMockups(v.mockup);
 });
 
+/* A dropdown of palette names - the user's, so never translated. */
 function fillSelect(select, names, value) {
     if ([...select.options].map(o => o.value).join("\n") !== names.join("\n")) {
-        select.replaceChildren(...names.map(n => el("option", {value: n, text: n})));
+        select.replaceChildren(...names.map(n => el("option", {value: n, text: n, translate: "no"})));
     }
     select.value = value;
 }
@@ -1376,12 +1377,12 @@ Buddy.on("import_name", imp => {
         if (existing.includes(text) && warned !== text) {
             warned = text;
             return T("A palette named '{name}' already exists ({count} colours). Overwrite it?")
-                .replace("{name}", text).replace("{count}", imp.existing[text]) + " Press Import again to replace it.";
+                .replace("{name}", text).replace("{count}", imp.existing[text]) + " " + T("Press Import again to replace it.");
         }
         return "";
     };
     ask({title: T("Import palette"), label: T("Palette name:"), value: imp.suggested, ok: "Import", check,
-         note: `${imp.colors.length} colour${imp.colors.length === 1 ? "" : "s"} from ${imp.file}`,
+         note: imp.colors.length === 1 ? `1 colour from ${imp.file}` : `${imp.colors.length} colours from ${imp.file}`,
          extra: el("div.strip", {}, imp.colors.map(c => el("i", {style: `background:${c.shown}`, title: c.hex}))),
     }).then(name => send("import_commit", name ? {name, overwrite: existing.includes(name)} : {name: ""}));
 });

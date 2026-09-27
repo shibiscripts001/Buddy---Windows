@@ -68,9 +68,9 @@ function thumb(item) {
         },
     }, [
         frame,
-        el("div.name", {text: item.name}),
-        el("div.meta", {text: item.exists ? `${item.source} · ${item.added_at}` : "File not found"}),
-        el("button.x", {type: "button", title: "Take off the list", "aria-label": `Remove ${item.name}`, text: "×",
+        el("div.name", {text: item.name, translate: "no"}),
+        el("div.meta", {}, item.exists ? [el("span", {text: item.source}), ` · ${item.added_at}`] : "File not found"),
+        el("button.x", {type: "button", title: "Take off the list", "aria-label": `Take ${item.name} off the list`, text: "×",
             onclick: () => { selected.delete(item.id); send("remove", {ids: [item.id]}); }}),
     ]);
     return node;
@@ -108,7 +108,7 @@ function draw() {
 
 Buddy.on("settings", s => {
     const folder = $("save-folder");
-    folder.replaceChildren(el("bdi", {text: s.save_folder}));
+    folder.replaceChildren(el("bdi", {text: s.save_folder, translate: "no"}));
     folder.title = s.save_folder;
     if (document.activeElement !== $("bin-name")) $("bin-name").value = s.bin_name;
     drawFooter();

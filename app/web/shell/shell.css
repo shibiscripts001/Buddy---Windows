@@ -213,6 +213,7 @@ body.window { background: var(--surface); }
 .org-row:focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
 .org-grip { color: var(--text-dim); letter-spacing: -2px; font-size: var(--fs-sm); }
 .org-divider { flex: 1; font-weight: 700; font-size: var(--fs-xs); letter-spacing: 1px; color: var(--text-dim); }
+.org-divider.named { text-transform: uppercase; }
 .org-tool { flex: 1; }
 .org-side { display: flex; flex-direction: column; gap: 8px; }
 .btn.small { padding: 2px 8px; font-size: var(--fs-sm); }

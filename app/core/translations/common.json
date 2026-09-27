@@ -1,0 +1,553 @@
+{
+ "_comment": "Words many tools share, and Resolve's marker colours. English -> each language; see core/i18n.py.",
+ "Refresh": {
+  "日本語": "更新",
+  "Español": "Actualizar",
+  "Deutsch": "Aktualisieren",
+  "Français": "Actualiser",
+  "한국인": "새로 고침",
+  "中文": "刷新",
+  "العربية": "تحديث",
+  "Tiếng Việt": "Làm mới"
+ },
+ "Copy": {
+  "日本語": "コピー",
+  "Español": "Copiar",
+  "Deutsch": "Kopieren",
+  "Français": "Copier",
+  "한국인": "복사",
+  "中文": "复制",
+  "العربية": "نسخ",
+  "Tiếng Việt": "Sao chép"
+ },
+ "Copied": {
+  "日本語": "コピーしました",
+  "Español": "Copiado",
+  "Deutsch": "Kopiert",
+  "Français": "Copié",
+  "한국인": "복사됨",
+  "中文": "已复制",
+  "العربية": "تم النسخ",
+  "Tiếng Việt": "Đã sao chép"
+ },
+ "Reset": {
+  "日本語": "リセット",
+  "Español": "Restablecer",
+  "Deutsch": "Zurücksetzen",
+  "Français": "Réinitialiser",
+  "한국인": "재설정",
+  "中文": "重置",
+  "العربية": "إعادة تعيين",
+  "Tiếng Việt": "Đặt lại"
+ },
+ "Browse…": {
+  "日本語": "参照…",
+  "Español": "Examinar…",
+  "Deutsch": "Durchsuchen…",
+  "Français": "Parcourir…",
+  "한국인": "찾아보기…",
+  "中文": "浏览…",
+  "العربية": "استعراض…",
+  "Tiếng Việt": "Duyệt…"
+ },
+ "Open folder": {
+  "日本語": "フォルダーを開く",
+  "Español": "Abrir carpeta",
+  "Deutsch": "Ordner öffnen",
+  "Français": "Ouvrir le dossier",
+  "한국인": "폴더 열기",
+  "中文": "打开文件夹",
+  "العربية": "فتح المجلد",
+  "Tiếng Việt": "Mở thư mục"
+ },
+ "Activity": {
+  "日本語": "アクティビティ",
+  "Español": "Actividad",
+  "Deutsch": "Aktivität",
+  "Français": "Activité",
+  "한국인": "활동",
+  "中文": "活动",
+  "العربية": "النشاط",
+  "Tiếng Việt": "Hoạt động"
+ },
+ "Try again": {
+  "日本語": "再試行",
+  "Español": "Reintentar",
+  "Deutsch": "Erneut versuchen",
+  "Français": "Réessayer",
+  "한국인": "다시 시도",
+  "中文": "重试",
+  "العربية": "حاول مرة أخرى",
+  "Tiếng Việt": "Thử lại"
+ },
+ "All": {
+  "日本語": "すべて",
+  "Español": "Todos",
+  "Deutsch": "Alle",
+  "Français": "Tout",
+  "한국인": "전체",
+  "中文": "全部",
+  "العربية": "الكل",
+  "Tiếng Việt": "Tất cả"
+ },
+ "Folder": {
+  "日本語": "フォルダー",
+  "Español": "Carpeta",
+  "Deutsch": "Ordner",
+  "Français": "Dossier",
+  "한국인": "폴더",
+  "中文": "文件夹",
+  "العربية": "المجلد",
+  "Tiếng Việt": "Thư mục"
+ },
+ "File name": {
+  "日本語": "ファイル名",
+  "Español": "Nombre de archivo",
+  "Deutsch": "Dateiname",
+  "Français": "Nom du fichier",
+  "한국인": "파일 이름",
+  "中文": "文件名",
+  "العربية": "اسم الملف",
+  "Tiếng Việt": "Tên tệp"
+ },
+ "Edited": {
+  "日本語": "編集済み",
+  "Español": "Editado",
+  "Deutsch": "Bearbeitet",
+  "Français": "Modifié",
+  "한국인": "편집됨",
+  "中文": "已编辑",
+  "العربية": "معدّل",
+  "Tiếng Việt": "Đã chỉnh sửa"
+ },
+ "Choose a folder": {
+  "日本語": "フォルダーを選択",
+  "Español": "Elige una carpeta",
+  "Deutsch": "Ordner wählen",
+  "Français": "Choisir un dossier",
+  "한국인": "폴더 선택",
+  "中文": "选择文件夹",
+  "العربية": "اختر مجلدًا",
+  "Tiếng Việt": "Chọn thư mục"
+ },
+ "Choose or paste a folder": {
+  "日本語": "フォルダーを選択または貼り付け",
+  "Español": "Elige o pega una carpeta",
+  "Deutsch": "Ordner wählen oder einfügen",
+  "Français": "Choisissez ou collez un dossier",
+  "한국인": "폴더를 선택하거나 붙여 넣기",
+  "中文": "选择或粘贴文件夹",
+  "العربية": "اختر مجلدًا أو الصقه",
+  "Tiếng Việt": "Chọn hoặc dán thư mục"
+ },
+ "Nothing to save": {
+  "日本語": "保存するものがありません",
+  "Español": "No hay nada que guardar",
+  "Deutsch": "Nichts zu speichern",
+  "Français": "Rien à enregistrer",
+  "한국인": "저장할 내용이 없음",
+  "中文": "没有可保存的内容",
+  "العربية": "لا يوجد ما يُحفظ",
+  "Tiếng Việt": "Không có gì để lưu"
+ },
+ "Couldn't save": {
+  "日本語": "保存できませんでした",
+  "Español": "No se pudo guardar",
+  "Deutsch": "Speichern fehlgeschlagen",
+  "Français": "Impossible d'enregistrer",
+  "한국인": "저장할 수 없음",
+  "中文": "无法保存",
+  "العربية": "تعذر الحفظ",
+  "Tiếng Việt": "Không thể lưu"
+ },
+ "Saved {name}": {
+  "日本語": "{name} を保存しました",
+  "Español": "{name} guardado",
+  "Deutsch": "{name} gespeichert",
+  "Français": "{name} enregistré",
+  "한국인": "{name} 저장됨",
+  "中文": "已保存 {name}",
+  "العربية": "تم حفظ {name}",
+  "Tiếng Việt": "Đã lưu {name}"
+ },
+ "Couldn't save {name}: {error}": {
+  "日本語": "{name} を保存できませんでした: {error}",
+  "Español": "No se pudo guardar {name}: {error}",
+  "Deutsch": "{name} konnte nicht gespeichert werden: {error}",
+  "Français": "Impossible d'enregistrer {name} : {error}",
+  "한국인": "{name}을(를) 저장할 수 없습니다: {error}",
+  "中文": "无法保存 {name}：{error}",
+  "العربية": "تعذر حفظ {name}: {error}",
+  "Tiếng Việt": "Không thể lưu {name}: {error}"
+ },
+ "Error": {
+  "日本語": "エラー",
+  "Español": "Error",
+  "Deutsch": "Fehler",
+  "Français": "Erreur",
+  "한국인": "오류",
+  "中文": "错误",
+  "العربية": "خطأ",
+  "Tiếng Việt": "Lỗi"
+ },
+ "Done": {
+  "日本語": "完了",
+  "Español": "Listo",
+  "Deutsch": "Fertig",
+  "Français": "Terminé",
+  "한국인": "완료",
+  "中文": "完成",
+  "العربية": "تم",
+  "Tiếng Việt": "Xong"
+ },
+ "Clear": {
+  "日本語": "クリア",
+  "Español": "Borrar",
+  "Deutsch": "Leeren",
+  "Français": "Effacer",
+  "한국인": "지우기",
+  "中文": "清除",
+  "العربية": "مسح",
+  "Tiếng Việt": "Xóa"
+ },
+ "Stop": {
+  "日本語": "停止",
+  "Español": "Detener",
+  "Deutsch": "Stopp",
+  "Français": "Arrêter",
+  "한국인": "중지",
+  "中文": "停止",
+  "العربية": "إيقاف",
+  "Tiếng Việt": "Dừng"
+ },
+ "Import": {
+  "日本語": "読み込み",
+  "Español": "Importar",
+  "Deutsch": "Importieren",
+  "Français": "Importer",
+  "한국인": "가져오기",
+  "中文": "导入",
+  "العربية": "استيراد",
+  "Tiếng Việt": "Nhập"
+ },
+ "Export": {
+  "日本語": "書き出し",
+  "Español": "Exportar",
+  "Deutsch": "Exportieren",
+  "Français": "Exporter",
+  "한국인": "내보내기",
+  "中文": "导出",
+  "العربية": "تصدير",
+  "Tiếng Việt": "Xuất"
+ },
+ "Import failed": {
+  "日本語": "読み込みに失敗しました",
+  "Español": "Error al importar",
+  "Deutsch": "Import fehlgeschlagen",
+  "Français": "Échec de l'importation",
+  "한국인": "가져오기 실패",
+  "中文": "导入失败",
+  "العربية": "فشل الاستيراد",
+  "Tiếng Việt": "Nhập thất bại"
+ },
+ "Export failed": {
+  "日本語": "書き出しに失敗しました",
+  "Español": "Error al exportar",
+  "Deutsch": "Export fehlgeschlagen",
+  "Français": "Échec de l'exportation",
+  "한국인": "내보내기 실패",
+  "中文": "导出失败",
+  "العربية": "فشل التصدير",
+  "Tiếng Việt": "Xuất thất bại"
+ },
+ "Add files…": {
+  "日本語": "ファイルを追加…",
+  "Español": "Añadir archivos…",
+  "Deutsch": "Dateien hinzufügen…",
+  "Français": "Ajouter des fichiers…",
+  "한국인": "파일 추가…",
+  "中文": "添加文件…",
+  "العربية": "إضافة ملفات…",
+  "Tiếng Việt": "Thêm tệp…"
+ },
+ "Change…": {
+  "日本語": "変更…",
+  "Español": "Cambiar…",
+  "Deutsch": "Ändern…",
+  "Français": "Modifier…",
+  "한국인": "변경…",
+  "中文": "更改…",
+  "العربية": "تغيير…",
+  "Tiếng Việt": "Thay đổi…"
+ },
+ "Drop to add": {
+  "日本語": "ドロップして追加",
+  "Español": "Suelta para añadir",
+  "Deutsch": "Zum Hinzufügen ablegen",
+  "Français": "Déposez pour ajouter",
+  "한국인": "놓아서 추가",
+  "中文": "拖放以添加",
+  "العربية": "أفلت للإضافة",
+  "Tiếng Việt": "Thả để thêm"
+ },
+ "Clip Name": {
+  "日本語": "クリップ名",
+  "Español": "Nombre del clip",
+  "Deutsch": "Clipname",
+  "Français": "Nom du clip",
+  "한국인": "클립 이름",
+  "中文": "片段名称",
+  "العربية": "اسم المقطع",
+  "Tiếng Việt": "Tên clip"
+ },
+ "Read the timeline again": {
+  "日本語": "タイムラインを再読み込み",
+  "Español": "Volver a leer la línea de tiempo",
+  "Deutsch": "Timeline erneut lesen",
+  "Français": "Relire la timeline",
+  "한국인": "타임라인 다시 읽기",
+  "中文": "重新读取时间线",
+  "العربية": "إعادة قراءة الخط الزمني",
+  "Tiếng Việt": "Đọc lại timeline"
+ },
+ "Open Resolve with a project, then press Connect.": {
+  "日本語": "プロジェクトを開いた状態で Resolve を起動し、「接続」を押してください。",
+  "Español": "Abre Resolve con un proyecto y pulsa Conectar.",
+  "Deutsch": "Öffnen Sie Resolve mit einem Projekt und klicken Sie dann auf „Verbinden“.",
+  "Français": "Ouvrez Resolve avec un projet, puis appuyez sur Connecter.",
+  "한국인": "프로젝트를 연 상태로 Resolve를 실행한 다음 연결을 누르세요.",
+  "中文": "用一个项目打开 Resolve，然后按“连接”。",
+  "العربية": "افتح Resolve مع مشروع، ثم اضغط على اتصال.",
+  "Tiếng Việt": "Mở Resolve cùng một dự án, rồi nhấn Kết nối."
+ },
+ "No timeline open": {
+  "日本語": "タイムラインが開いていません",
+  "Español": "No hay ninguna línea de tiempo abierta",
+  "Deutsch": "Keine Timeline geöffnet",
+  "Français": "Aucune timeline ouverte",
+  "한국인": "열린 타임라인 없음",
+  "中文": "未打开时间线",
+  "العربية": "لا يوجد خط زمني مفتوح",
+  "Tiếng Việt": "Chưa mở timeline"
+ },
+ "Open a timeline in Resolve.": {
+  "日本語": "Resolve でタイムラインを開いてください。",
+  "Español": "Abre una línea de tiempo en Resolve.",
+  "Deutsch": "Öffnen Sie eine Timeline in Resolve.",
+  "Français": "Ouvrez une timeline dans Resolve.",
+  "한국인": "Resolve에서 타임라인을 여세요.",
+  "中文": "请在 Resolve 中打开一个时间线。",
+  "العربية": "افتح خطًا زمنيًا في Resolve.",
+  "Tiếng Việt": "Hãy mở một timeline trong Resolve."
+ },
+ "No project is open in Resolve.": {
+  "日本語": "Resolve でプロジェクトが開かれていません。",
+  "Español": "No hay ningún proyecto abierto en Resolve.",
+  "Deutsch": "In Resolve ist kein Projekt geöffnet.",
+  "Français": "Aucun projet n'est ouvert dans Resolve.",
+  "한국인": "Resolve에 열린 프로젝트가 없습니다.",
+  "中文": "Resolve 中没有打开的项目。",
+  "العربية": "لا يوجد مشروع مفتوح في Resolve.",
+  "Tiếng Việt": "Không có dự án nào đang mở trong Resolve."
+ },
+ "No project is open in Resolve!": {
+  "日本語": "Resolve でプロジェクトが開かれていません!",
+  "Español": "¡No hay ningún proyecto abierto en Resolve!",
+  "Deutsch": "In Resolve ist kein Projekt geöffnet!",
+  "Français": "Aucun projet n'est ouvert dans Resolve !",
+  "한국인": "Resolve에 열린 프로젝트가 없습니다!",
+  "中文": "Resolve 中没有打开的项目！",
+  "العربية": "لا يوجد مشروع مفتوح في Resolve!",
+  "Tiếng Việt": "Không có dự án nào đang mở trong Resolve!"
+ },
+ "No project is currently open in Resolve.": {
+  "日本語": "現在 Resolve でプロジェクトが開かれていません。",
+  "Español": "Ahora mismo no hay ningún proyecto abierto en Resolve.",
+  "Deutsch": "In Resolve ist derzeit kein Projekt geöffnet.",
+  "Français": "Aucun projet n'est actuellement ouvert dans Resolve.",
+  "한국인": "현재 Resolve에 열린 프로젝트가 없습니다.",
+  "中文": "Resolve 当前没有打开的项目。",
+  "العربية": "لا يوجد مشروع مفتوح حاليًا في Resolve.",
+  "Tiếng Việt": "Hiện không có dự án nào đang mở trong Resolve."
+ },
+ "No active timeline open in the current project.": {
+  "日本語": "現在のプロジェクトでアクティブなタイムラインが開かれていません。",
+  "Español": "No hay ninguna línea de tiempo activa abierta en el proyecto actual.",
+  "Deutsch": "Im aktuellen Projekt ist keine aktive Timeline geöffnet.",
+  "Français": "Aucune timeline active n'est ouverte dans le projet actuel.",
+  "한국인": "현재 프로젝트에 열린 활성 타임라인이 없습니다.",
+  "中文": "当前项目中没有打开的活动时间线。",
+  "العربية": "لا يوجد خط زمني نشط مفتوح في المشروع الحالي.",
+  "Tiếng Việt": "Không có timeline nào đang hoạt động trong dự án hiện tại."
+ },
+ "Could not access the Media Pool.": {
+  "日本語": "メディアプールにアクセスできませんでした。",
+  "Español": "No se pudo acceder al Grupo de medios.",
+  "Deutsch": "Auf den Media Pool konnte nicht zugegriffen werden.",
+  "Français": "Impossible d'accéder au Pool de médias.",
+  "한국인": "미디어 풀에 접근할 수 없습니다.",
+  "中文": "无法访问媒体池。",
+  "العربية": "تعذر الوصول إلى مجمع الوسائط.",
+  "Tiếng Việt": "Không thể truy cập Media Pool."
+ },
+ "Blue": {
+  "日本語": "青",
+  "Español": "Azul",
+  "Deutsch": "Blau",
+  "Français": "Bleu",
+  "한국인": "파랑",
+  "中文": "蓝色",
+  "العربية": "أزرق",
+  "Tiếng Việt": "Xanh dương"
+ },
+ "Cyan": {
+  "日本語": "シアン",
+  "Español": "Cian",
+  "Deutsch": "Cyan",
+  "Français": "Cyan",
+  "한국인": "청록",
+  "中文": "青色",
+  "العربية": "سماوي",
+  "Tiếng Việt": "Xanh lơ"
+ },
+ "Green": {
+  "日本語": "緑",
+  "Español": "Verde",
+  "Deutsch": "Grün",
+  "Français": "Vert",
+  "한국인": "초록",
+  "中文": "绿色",
+  "العربية": "أخضر",
+  "Tiếng Việt": "Xanh lá"
+ },
+ "Yellow": {
+  "日本語": "黄",
+  "Español": "Amarillo",
+  "Deutsch": "Gelb",
+  "Français": "Jaune",
+  "한국인": "노랑",
+  "中文": "黄色",
+  "العربية": "أصفر",
+  "Tiếng Việt": "Vàng"
+ },
+ "Red": {
+  "日本語": "赤",
+  "Español": "Rojo",
+  "Deutsch": "Rot",
+  "Français": "Rouge",
+  "한국인": "빨강",
+  "中文": "红色",
+  "العربية": "أحمر",
+  "Tiếng Việt": "Đỏ"
+ },
+ "Pink": {
+  "日本語": "ピンク",
+  "Español": "Rosa",
+  "Deutsch": "Pink",
+  "Français": "Rose",
+  "한국인": "분홍",
+  "中文": "粉色",
+  "العربية": "وردي",
+  "Tiếng Việt": "Hồng"
+ },
+ "Purple": {
+  "日本語": "紫",
+  "Español": "Morado",
+  "Deutsch": "Lila",
+  "Français": "Violet",
+  "한국인": "보라",
+  "中文": "紫色",
+  "العربية": "بنفسجي",
+  "Tiếng Việt": "Tím"
+ },
+ "Fuchsia": {
+  "日本語": "フューシャ",
+  "Español": "Fucsia",
+  "Deutsch": "Fuchsia",
+  "Français": "Fuchsia",
+  "한국인": "자홍",
+  "中文": "紫红色",
+  "العربية": "فوشيا",
+  "Tiếng Việt": "Hồng tím"
+ },
+ "Rose": {
+  "日本語": "ローズ",
+  "Español": "Rosado",
+  "Deutsch": "Rosé",
+  "Français": "Rose clair",
+  "한국인": "장미",
+  "中文": "玫瑰色",
+  "العربية": "وردي فاتح",
+  "Tiếng Việt": "Hồng phấn"
+ },
+ "Lavender": {
+  "日本語": "ラベンダー",
+  "Español": "Lavanda",
+  "Deutsch": "Lavendel",
+  "Français": "Lavande",
+  "한국인": "라벤더",
+  "中文": "薰衣草色",
+  "العربية": "لافندر",
+  "Tiếng Việt": "Oải hương"
+ },
+ "Sky": {
+  "日本語": "スカイ",
+  "Español": "Celeste",
+  "Deutsch": "Himmelblau",
+  "Français": "Bleu ciel",
+  "한국인": "하늘",
+  "中文": "天蓝色",
+  "العربية": "سماوي فاتح",
+  "Tiếng Việt": "Xanh da trời"
+ },
+ "Mint": {
+  "日本語": "ミント",
+  "Español": "Menta",
+  "Deutsch": "Mint",
+  "Français": "Menthe",
+  "한국인": "민트",
+  "中文": "薄荷色",
+  "العربية": "نعناعي",
+  "Tiếng Việt": "Bạc hà"
+ },
+ "Lemon": {
+  "日本語": "レモン",
+  "Español": "Limón",
+  "Deutsch": "Zitrone",
+  "Français": "Citron",
+  "한국인": "레몬",
+  "中文": "柠檬色",
+  "العربية": "ليموني",
+  "Tiếng Việt": "Vàng chanh"
+ },
+ "Sand": {
+  "日本語": "サンド",
+  "Español": "Arena",
+  "Deutsch": "Sand",
+  "Français": "Sable",
+  "한국인": "모래",
+  "中文": "沙色",
+  "العربية": "رملي",
+  "Tiếng Việt": "Cát"
+ },
+ "Cocoa": {
+  "日本語": "ココア",
+  "Español": "Cacao",
+  "Deutsch": "Kakao",
+  "Français": "Cacao",
+  "한국인": "코코아",
+  "中文": "可可色",
+  "العربية": "كاكاو",
+  "Tiếng Việt": "Ca cao"
+ },
+ "Cream": {
+  "日本語": "クリーム",
+  "Español": "Crema",
+  "Deutsch": "Creme",
+  "Français": "Crème",
+  "한국인": "크림",
+  "中文": "奶油色",
+  "العربية": "كريمي",
+  "Tiếng Việt": "Kem"
+ }
+}

@@ -24,7 +24,7 @@ from PySide6.QtCore import Qt, Signal
 from core.web_page import WebWindow
 
 from . import view
-from .i18n import get_i18n, tr
+from core.i18n import tr
 
 BASE_WINDOW_FLAGS = Qt.Window | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint
 
@@ -55,7 +55,6 @@ class MiniPaletteWindow(WebWindow):
         self.setWindowFlags(BASE_WINDOW_FLAGS)
         self.setFixedSize(*WINDOW_SIZE)
         self.apply_transparency()
-        get_i18n().language_changed.connect(self._on_language_changed)
 
     def web_ready(self):
         self._push_strings()
@@ -64,7 +63,7 @@ class MiniPaletteWindow(WebWindow):
     def _push_strings(self):
         self.emit("strings", {"pin": tr("Pin on top"), "unpin": tr("Unpin"), "copied": tr("Copied {hex}")})
 
-    def _on_language_changed(self, *_args):
+    def on_language_changed(self):
         self._push_strings()
         self.refresh()
 

@@ -180,11 +180,11 @@ class ChatSettingsMixin:
             sf.buttons(*buttons),
             sf.hint(test[1], tone=test[2]) if test else None,
             sf.slider("history_turns", "Conversation memory", history, 0, MAX_HISTORY_TURNS, DEFAULT_HISTORY_TURNS,
-                      {n: "Off" if not n else f"{n} turn{'s' if n != 1 else ''}" for n in range(MAX_HISTORY_TURNS + 1)},
+                      {n: "Off" if not n else "1 turn" if n == 1 else f"{n} turns" for n in range(MAX_HISTORY_TURNS + 1)},
                       hint_text="Past question/answer pairs replayed to the model each request. 0 means every "
                                 "question is standalone."),
             sf.slider("max_steps", "Tool call budget", steps, DEFAULT_MAX_STEPS, MAX_MAX_STEPS, DEFAULT_MAX_STEPS,
-                      {n: f"{n} call{'s' if n != 1 else ''}" for n in range(DEFAULT_MAX_STEPS, MAX_MAX_STEPS + 1)},
+                      {n: "1 call" if n == 1 else f"{n} calls" for n in range(DEFAULT_MAX_STEPS, MAX_MAX_STEPS + 1)},
                       hint_text="How many tool calls Buddy may make per answer before it gives up – manual "
                                 "searches, reading your project, offering tools. More calls let it dig deeper on "
                                 "hard questions, but each one is an extra model round-trip that uses more tokens."),

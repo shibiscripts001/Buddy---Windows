@@ -49,6 +49,8 @@ import html
 import re
 from datetime import datetime
 
+from core.i18n import format_when
+
 from . import avatars, images, mentions, safety
 
 LINK_NOTE = "Contains a link – only open links from people you trust."
@@ -79,15 +81,15 @@ def _day_label(ts: float, now: float) -> str:
         return "Today"
     if (today - day).days == 1:
         return "Yesterday"
-    return day.strftime("%A %d %B %Y").replace(" 0", " ")
+    return format_when(day, "%A %d %B %Y", "long").replace(" 0", " ")
 
 
 def stamp(ts: float, now: float) -> str:
     """When a message was sent: "25 Sep, 14:32", with the year if it's not
     this year's ("3 Mar 2025, 09:05")."""
     sent = datetime.fromtimestamp(ts)
-    day = f"{sent.day} {sent:%b}" + ("" if sent.year == datetime.fromtimestamp(now).year else f" {sent.year}")
-    return f"{day}, {sent:%H:%M}"
+    this_year = sent.year == datetime.fromtimestamp(now).year
+    return format_when(sent, "%d %b, %H:%M" if this_year else "%d %b %Y, %H:%M", "datetime").lstrip("0")
 
 
 def _plain_html(text: str, c: dict) -> str:
@@ -135,7 +137,7 @@ def _quote_html(reply: dict, lookup: dict, hidden, c: dict) -> str:
     else:
         what = quote_text(reply, lookup)
         who = f"{html.escape(author.get('name') or 'Someone')}: " if author.get("id") else ""
-    return (f'<div class="quote" style="color:{c["muted"]}; margin-left:10px"><i>&#8618; {who}'
+    return (f'<div class="quote" translate="no" style="color:{c["muted"]}; margin-left:10px"><i>&#8618; {who}'
             f'{html.escape(what)}</i></div>')
 
 
@@ -180,14 +182,14 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
     if top_note:
         parts.append(f'<p class="top" align="center" style="color:{c["muted"]}">{html.escape(top_note)}</p>')
     elif more or more_saved:
-        label = "Load earlier messages" + (" (saved on this PC)" if more_saved and not more else "")
+        label = "Load earlier messages (saved on this PC)" if more_saved and not more else "Load earlier messages"
         parts.append(f'<p class="top" align="center"><a class="more" href="bn-more" '
                      f'style="color:{c["link"]}">{label}</a></p>')
     else:
-        kept = (f"the server keeps messages for {history_days} days, and a copy is saved on this PC"
-                if saved_copy else f"messages are kept for {history_days} days")
-        parts.append(f'<p class="top" align="center" style="color:{c["muted"]}">Start of '
-                     f'{html.escape(room_name)} – {html.escape(kept)}.</p>')
+        start = (f"Start of {room_name} – the server keeps messages for {history_days} days, and a copy is "
+                 "saved on this PC." if saved_copy else
+                 f"Start of {room_name} – messages are kept for {history_days} days.")
+        parts.append(f'<p class="top" align="center" style="color:{c["muted"]}">{html.escape(start)}</p>')
     last_day = None
     for m in messages:
         if m["author"].get("id") in hidden:
@@ -208,12 +210,12 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
         if not author.get("id"):
             head += f'<span style="color:{c["muted"]}; font-weight:600">{DELETED_USER}</span>'
         elif mine:
-            head += f'<span style="color:{name_color}; font-weight:600">{name}</span>'
+            head += f'<span translate="no" style="color:{name_color}; font-weight:600">{name}</span>'
         else:
-            head += (f'<a class="who" href="bn-user:{html.escape(author["id"])}" style="color:{name_color}; '
+            head += (f'<a class="who" translate="no" href="bn-user:{html.escape(author["id"])}" style="color:{name_color}; '
                      f'font-weight:600; text-decoration:none">{name}</a>')
         if author.get("id"):
-            head += f'<span style="color:{c["muted"]}"> #{html.escape(author.get("tag", ""))}</span>'
+            head += f'<span translate="no" style="color:{c["muted"]}"> #{html.escape(author.get("tag", ""))}</span>'
         badge = BADGES.get(author.get("role", "")) if author.get("id") else None
         if badge:
             head += (f' <span class="badge" style="color:{c.get("badge", c["me"])}; font-size:small; '
@@ -254,7 +256,7 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
         elif m.get("unreadable"):
             body = f'<div class="body gone" style="color:{c["muted"]}"><i>&#128274; {UNREADABLE_NOTE}</i></div>'
         else:
-            body = (f'<div class="body" style="white-space:pre-wrap">{_text_html(m["text"], links, c)}</div>'
+            body = (f'<div class="body" translate="no" style="white-space:pre-wrap">{_text_html(m["text"], links, c)}</div>'
                     if m["text"] or not m.get("image") else "")
             body += _image_html(m, c, image_days)
             if safety.contains_link(m["text"]):

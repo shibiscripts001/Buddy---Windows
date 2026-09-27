@@ -1,0 +1,1063 @@
+{
+ "_comment": "Color Palette Manager - what core/i18n.py's own entries didn't cover. English -> each language; see core/i18n.py.",
+ "See your colours as people with colour blindness do": {
+  "日本語": "色覚に障害のある人から色がどう見えるかを確認します",
+  "Español": "Mira tus colores como los ven las personas con daltonismo",
+  "Deutsch": "Sehen Sie Ihre Farben so, wie Menschen mit Farbenblindheit sie sehen",
+  "Français": "Voyez vos couleurs comme les personnes daltoniennes les voient",
+  "한국인": "색각 이상이 있는 사람이 보는 색으로 확인",
+  "中文": "以色盲人士的视角查看颜色",
+  "العربية": "شاهد ألوانك كما يراها المصابون بعمى الألوان",
+  "Tiếng Việt": "Xem màu sắc như người mù màu nhìn thấy"
+ },
+ "1 palette": {
+  "日本語": "パレット 1 個",
+  "Español": "1 paleta",
+  "Deutsch": "1 Palette",
+  "Français": "1 palette",
+  "한국인": "팔레트 1개",
+  "中文": "1 个调色板",
+  "العربية": "لوحة واحدة",
+  "Tiếng Việt": "1 bảng màu"
+ },
+ "{count} palettes": {
+  "日本語": "パレット {count} 個",
+  "Español": "{count} paletas",
+  "Deutsch": "{count} Paletten",
+  "Français": "{count} palettes",
+  "한국인": "팔레트 {count}개",
+  "中文": "{count} 个调色板",
+  "العربية": "{count} لوحات",
+  "Tiếng Việt": "{count} bảng màu"
+ },
+ "1 colour": {
+  "日本語": "1 色",
+  "Español": "1 color",
+  "Deutsch": "1 Farbe",
+  "Français": "1 couleur",
+  "한국인": "1가지 색",
+  "中文": "1 种颜色",
+  "العربية": "لون واحد",
+  "Tiếng Việt": "1 màu"
+ },
+ "{count} colours": {
+  "日本語": "{count} 色",
+  "Español": "{count} colores",
+  "Deutsch": "{count} Farben",
+  "Français": "{count} couleurs",
+  "한국인": "{count}가지 색",
+  "中文": "{count} 种颜色",
+  "العربية": "{count} ألوان",
+  "Tiếng Việt": "{count} màu"
+ },
+ "Palette options": {
+  "日本語": "パレットのオプション",
+  "Español": "Opciones de la paleta",
+  "Deutsch": "Palettenoptionen",
+  "Français": "Options de la palette",
+  "한국인": "팔레트 옵션",
+  "中文": "调色板选项",
+  "العربية": "خيارات اللوحة",
+  "Tiếng Việt": "Tùy chọn bảng màu"
+ },
+ "Folder options": {
+  "日本語": "フォルダーのオプション",
+  "Español": "Opciones de la carpeta",
+  "Deutsch": "Ordneroptionen",
+  "Français": "Options du dossier",
+  "한국인": "폴더 옵션",
+  "中文": "文件夹选项",
+  "العربية": "خيارات المجلد",
+  "Tiếng Việt": "Tùy chọn thư mục"
+ },
+ "{hex} – click to copy, drag to reorder, right-click for more": {
+  "日本語": "{hex} – クリックでコピー、ドラッグで並べ替え、右クリックでその他",
+  "Español": "{hex}: haz clic para copiar, arrastra para reordenar, clic derecho para más",
+  "Deutsch": "{hex} – klicken zum Kopieren, ziehen zum Neuordnen, Rechtsklick für mehr",
+  "Français": "{hex} – cliquez pour copier, faites glisser pour réorganiser, clic droit pour plus",
+  "한국인": "{hex} – 클릭하여 복사, 드래그하여 순서 변경, 마우스 오른쪽 클릭으로 더 보기",
+  "中文": "{hex}——点击复制，拖动重新排序，右键查看更多",
+  "العربية": "{hex} – انقر للنسخ، واسحب لإعادة الترتيب، وانقر بزر الماوس الأيمن للمزيد",
+  "Tiếng Việt": "{hex} – bấm để sao chép, kéo để sắp xếp lại, bấm chuột phải để xem thêm"
+ },
+ "Mini window": {
+  "日本語": "ミニウィンドウ",
+  "Español": "Miniventana",
+  "Deutsch": "Mini-Fenster",
+  "Français": "Mini-fenêtre",
+  "한국인": "미니 창",
+  "中文": "迷你窗口",
+  "العربية": "نافذة مصغرة",
+  "Tiếng Việt": "Cửa sổ mini"
+ },
+ "Each generator keeps what you left in it while Buddy is open. Drag colours in from your palettes, and save what you make as a new palette or add it to the one that's open.": {
+  "日本語": "各ジェネレーターは、Buddy を開いている間は作業内容を保持します。パレットから色をドラッグし、作ったものを新しいパレットとして保存するか、開いているパレットに追加してください。",
+  "Español": "Cada generador conserva lo que dejaste en él mientras Buddy está abierto. Arrastra colores desde tus paletas y guarda lo que crees como una paleta nueva o añádelo a la que está abierta.",
+  "Deutsch": "Jeder Generator behält, was Sie darin gelassen haben, solange Buddy geöffnet ist. Ziehen Sie Farben aus Ihren Paletten hinein und speichern Sie das Ergebnis als neue Palette oder fügen Sie es der geöffneten hinzu.",
+  "Français": "Chaque générateur conserve ce que vous y avez laissé tant que Buddy est ouvert. Faites glisser des couleurs depuis vos palettes, et enregistrez le résultat comme nouvelle palette ou ajoutez-le à celle qui est ouverte.",
+  "한국인": "각 생성기는 Buddy가 열려 있는 동안 작업 내용을 유지합니다. 팔레트에서 색을 끌어 오고, 만든 결과를 새 팔레트로 저장하거나 열려 있는 팔레트에 추가하세요.",
+  "中文": "在 Buddy 打开期间，每个生成器都会保留您留下的内容。从调色板中拖入颜色，然后将结果另存为新调色板，或添加到当前打开的调色板。",
+  "العربية": "يحتفظ كل مولّد بما تركته فيه ما دام Buddy مفتوحًا. اسحب الألوان من لوحاتك، واحفظ ما تصنعه كلوحة جديدة أو أضفه إلى اللوحة المفتوحة.",
+  "Tiếng Việt": "Mỗi trình tạo giữ lại những gì bạn để trong đó khi Buddy còn mở. Kéo màu từ các bảng màu của bạn vào, rồi lưu kết quả thành bảng màu mới hoặc thêm vào bảng đang mở."
+ },
+ "Colours that go together, from one base colour: analogous, complementary, triads, shades and more.": {
+  "日本語": "1 つの基本色から、相性のよい色を作ります: 類似色、補色、トライアド、シェードなど。",
+  "Español": "Colores que combinan, a partir de un color base: análogos, complementarios, tríadas, sombras y más.",
+  "Deutsch": "Farben, die zusammenpassen, aus einer Grundfarbe: analog, komplementär, Triaden, Schattierungen und mehr.",
+  "Français": "Des couleurs qui vont ensemble, à partir d'une couleur de base : analogues, complémentaires, triades, nuances et plus.",
+  "한국인": "하나의 기본 색에서 어울리는 색을 만듭니다: 유사색, 보색, 3색 조화, 음영 등.",
+  "中文": "从一个基础颜色生成搭配的颜色：类似色、互补色、三角色、明暗色等。",
+  "العربية": "ألوان متناسقة من لون أساسي واحد: متجاورة، ومتكاملة، وثلاثية، وتدرجات وغيرها.",
+  "Tiếng Việt": "Các màu hợp nhau từ một màu gốc: tương đồng, bổ túc, bộ ba, sắc độ và nhiều hơn."
+ },
+ "Turns a palette into matching light and dark theme versions.": {
+  "日本語": "パレットを、対応するライトテーマ版とダークテーマ版に変換します。",
+  "Español": "Convierte una paleta en versiones de tema claro y oscuro a juego.",
+  "Deutsch": "Macht aus einer Palette passende Versionen für helles und dunkles Design.",
+  "Français": "Transforme une palette en versions assorties pour thème clair et thème sombre.",
+  "한국인": "팔레트를 어울리는 라이트 테마와 다크 테마 버전으로 바꿉니다.",
+  "中文": "将调色板转换为匹配的浅色和深色主题版本。",
+  "العربية": "يحوّل اللوحة إلى نسختين متطابقتين للسمة الفاتحة والداكنة.",
+  "Tiếng Việt": "Biến một bảng màu thành phiên bản giao diện sáng và tối tương ứng."
+ },
+ "Smooth ramps between colours – linear or radial, with easing – and a 16-bit PNG export.": {
+  "日本語": "色と色の間のなめらかなグラデーション – 線形または放射状、イージング付き – と 16 ビット PNG の書き出し。",
+  "Español": "Degradados suaves entre colores (lineales o radiales, con suavizado) y exportación PNG de 16 bits.",
+  "Deutsch": "Weiche Verläufe zwischen Farben – linear oder radial, mit Easing – und 16-Bit-PNG-Export.",
+  "Français": "Des dégradés doux entre les couleurs – linéaires ou radiaux, avec lissage – et un export PNG 16 bits.",
+  "한국인": "색 사이의 부드러운 그라데이션 – 선형 또는 방사형, 이징 포함 – 과 16비트 PNG 내보내기.",
+  "中文": "颜色之间的平滑渐变——线性或径向，支持缓动——并可导出 16 位 PNG。",
+  "العربية": "تدرجات ناعمة بين الألوان – خطية أو شعاعية، مع تخفيف – وتصدير PNG بعمق 16 بت.",
+  "Tiếng Việt": "Dải chuyển mượt giữa các màu – tuyến tính hoặc tỏa tròn, có easing – và xuất PNG 16-bit."
+ },
+ "Tinted greys and neutrals built from a base colour.": {
+  "日本語": "基本色から作る、色味のあるグレーとニュートラルカラー。",
+  "Español": "Grises y neutros teñidos a partir de un color base.",
+  "Deutsch": "Getönte Grau- und Neutraltöne aus einer Grundfarbe.",
+  "Français": "Des gris et neutres teintés, construits à partir d'une couleur de base.",
+  "한국인": "기본 색으로 만든 색조 있는 회색과 중간색.",
+  "中文": "由基础颜色构建的带色调的灰色和中性色。",
+  "العربية": "رماديات وألوان محايدة مصبوغة مبنية على لون أساسي.",
+  "Tiếng Việt": "Các màu xám và trung tính ngả màu được tạo từ một màu gốc."
+ },
+ "Pushes colours to vivid neon or soft pastel versions of themselves.": {
+  "日本語": "色を鮮やかなネオン調、または柔らかなパステル調に変えます。",
+  "Español": "Lleva los colores a versiones neón vivas o pastel suaves de sí mismos.",
+  "Deutsch": "Verwandelt Farben in leuchtende Neon- oder sanfte Pastellversionen ihrer selbst.",
+  "Français": "Pousse les couleurs vers des versions néon vives ou pastel douces.",
+  "한국인": "색을 선명한 네온이나 부드러운 파스텔 버전으로 바꿉니다.",
+  "中文": "将颜色转为鲜艳的霓虹色或柔和的粉彩色。",
+  "العربية": "يحوّل الألوان إلى نسخ نيون زاهية أو باستيل ناعمة منها.",
+  "Tiếng Việt": "Đẩy màu thành phiên bản neon rực rỡ hoặc pastel dịu nhẹ."
+ },
+ "Primary, highlight and shadow tones for a frosted-glass look.": {
+  "日本語": "すりガラス風のためのプライマリ、ハイライト、シャドウの色調。",
+  "Español": "Tonos primario, de resalte y de sombra para un aspecto de vidrio esmerilado.",
+  "Deutsch": "Primär-, Glanz- und Schattentöne für einen Milchglas-Look.",
+  "Français": "Des tons primaire, de reflet et d'ombre pour un effet verre dépoli.",
+  "한국인": "반투명 유리 느낌을 위한 기본, 하이라이트, 그림자 색조.",
+  "中文": "用于磨砂玻璃效果的主色、高光和阴影色调。",
+  "العربية": "درجات أساسية ومضيئة وظلية لمظهر الزجاج المصنفر.",
+  "Tiếng Việt": "Các tông chính, sáng và bóng cho hiệu ứng kính mờ."
+ },
+ "Drop an image here – a file, or one dragged from your browser – or paste one with": {
+  "日本語": "画像をここにドロップ (ファイル、またはブラウザーからドラッグした画像)、または次のキーで貼り付け:",
+  "Español": "Suelta aquí una imagen (un archivo o una arrastrada desde el navegador) o pégala con",
+  "Deutsch": "Legen Sie hier ein Bild ab – eine Datei oder eines aus Ihrem Browser – oder fügen Sie es ein mit",
+  "Français": "Déposez une image ici – un fichier, ou une image glissée depuis votre navigateur – ou collez-la avec",
+  "한국인": "여기에 이미지를 놓거나(파일 또는 브라우저에서 끌어 온 이미지) 다음 키로 붙여 넣으세요:",
+  "中文": "将图像拖放到这里（文件或从浏览器拖来的图像），或使用以下快捷键粘贴：",
+  "العربية": "أفلت صورة هنا – ملفًا أو صورة مسحوبة من متصفحك – أو الصقها باستخدام",
+  "Tiếng Việt": "Thả ảnh vào đây – một tệp, hoặc ảnh kéo từ trình duyệt – hoặc dán bằng"
+ },
+ "Open another image": {
+  "日本語": "別の画像を開く",
+  "Español": "Abrir otra imagen",
+  "Deutsch": "Anderes Bild öffnen",
+  "Français": "Ouvrir une autre image",
+  "한국인": "다른 이미지 열기",
+  "中文": "打开其他图像",
+  "العربية": "فتح صورة أخرى",
+  "Tiếng Việt": "Mở ảnh khác"
+ },
+ "Drop to extract colours": {
+  "日本語": "ドロップして色を抽出",
+  "Español": "Suelta para extraer colores",
+  "Deutsch": "Zum Extrahieren von Farben ablegen",
+  "Français": "Déposez pour extraire les couleurs",
+  "한국인": "놓아서 색 추출",
+  "中文": "拖放以提取颜色",
+  "العربية": "أفلت لاستخراج الألوان",
+  "Tiếng Việt": "Thả để trích xuất màu"
+ },
+ "Spreads the picks across the image's brightness range instead of the most common colours": {
+  "日本語": "最も多い色ではなく、画像の明るさの範囲全体から色を選びます",
+  "Español": "Reparte la selección por todo el rango de brillo de la imagen en lugar de tomar los colores más comunes",
+  "Deutsch": "Verteilt die Auswahl über den Helligkeitsbereich des Bildes statt der häufigsten Farben",
+  "Français": "Répartit les choix sur toute la plage de luminosité de l'image au lieu des couleurs les plus fréquentes",
+  "한국인": "가장 흔한 색 대신 이미지의 밝기 범위 전체에서 색을 고릅니다",
+  "中文": "在整个图像亮度范围内选取颜色，而不是选最常见的颜色",
+  "العربية": "يوزّع الاختيارات عبر نطاق سطوع الصورة بدلًا من الألوان الأكثر شيوعًا",
+  "Tiếng Việt": "Chọn màu trải khắp dải độ sáng của ảnh thay vì các màu phổ biến nhất"
+ },
+ "The most common colours in the image.": {
+  "日本語": "画像で最も多く使われている色です。",
+  "Español": "Los colores más comunes de la imagen.",
+  "Deutsch": "Die häufigsten Farben im Bild.",
+  "Français": "Les couleurs les plus fréquentes de l'image.",
+  "한국인": "이미지에서 가장 흔한 색입니다.",
+  "中文": "图像中最常见的颜色。",
+  "العربية": "الألوان الأكثر شيوعًا في الصورة.",
+  "Tiếng Việt": "Các màu phổ biến nhất trong ảnh."
+ },
+ "Picks colours that differ from each other, so small accents show up.": {
+  "日本語": "互いに異なる色を選ぶので、小さなアクセントカラーも拾えます。",
+  "Español": "Elige colores que se diferencian entre sí, para que aparezcan los pequeños acentos.",
+  "Deutsch": "Wählt Farben, die sich voneinander unterscheiden, sodass auch kleine Akzente erscheinen.",
+  "Français": "Choisit des couleurs différentes les unes des autres, pour faire ressortir les petites touches.",
+  "한국인": "서로 다른 색을 골라 작은 포인트 색도 나타납니다.",
+  "中文": "选取彼此不同的颜色，让细小的点缀色也能显示出来。",
+  "العربية": "يختار ألوانًا تختلف عن بعضها، لتظهر اللمسات الصغيرة.",
+  "Tiếng Việt": "Chọn các màu khác nhau để cả những điểm nhấn nhỏ cũng hiện ra."
+ },
+ "Signal matches the noise floor limit (severe underexposure/shadow noise).": {
+  "日本語": "信号がノイズフロアの限界に達しています (深刻な露出不足/シャドウノイズ)。",
+  "Español": "La señal coincide con el límite del ruido de fondo (subexposición grave/ruido en sombras).",
+  "Deutsch": "Das Signal erreicht die Grenze des Grundrauschens (starke Unterbelichtung/Schattenrauschen).",
+  "Français": "Le signal atteint la limite du bruit de fond (forte sous-exposition/bruit dans les ombres).",
+  "한국인": "신호가 노이즈 플로어 한계에 도달했습니다(심한 노출 부족/그림자 노이즈).",
+  "中文": "信号已达到本底噪声极限（严重曝光不足/暗部噪点）。",
+  "العربية": "الإشارة عند حد ضوضاء الخلفية (نقص تعريض شديد/ضوضاء في الظلال).",
+  "Tiếng Việt": "Tín hiệu chạm ngưỡng nhiễu nền (thiếu sáng nghiêm trọng/nhiễu vùng tối)."
+ },
+ "Crushed blacks - detail is lost in the shadows and the image will be noisy here.": {
+  "日本語": "黒つぶれ - シャドウのディテールが失われ、この部分はノイズが多くなります。",
+  "Español": "Negros aplastados: se pierde el detalle en las sombras y la imagen tendrá ruido aquí.",
+  "Deutsch": "Abgesoffene Schwarztöne – Details in den Schatten gehen verloren und das Bild rauscht hier.",
+  "Français": "Noirs bouchés – les détails sont perdus dans les ombres et l'image sera bruitée ici.",
+  "한국인": "검은색 뭉개짐 - 그림자의 디테일이 사라지고 이 부분에 노이즈가 생깁니다.",
+  "中文": "暗部死黑——阴影细节丢失，此处图像会有噪点。",
+  "العربية": "سواد مسحوق - تضيع التفاصيل في الظلال وستكون الصورة مشوشة هنا.",
+  "Tiếng Việt": "Vùng đen bị bệt - mất chi tiết ở vùng tối và ảnh sẽ bị nhiễu tại đây."
+ },
+ "Middle grey baseline - use this zone to expose a grey card for a neutral exposure.": {
+  "日本語": "中間グレーの基準 - ニュートラルな露出にするには、このゾーンでグレーカードを露出させます。",
+  "Español": "Referencia de gris medio: usa esta zona para exponer una carta de gris y lograr una exposición neutra.",
+  "Deutsch": "Mittelgrau-Referenz – belichten Sie in dieser Zone eine Graukarte für eine neutrale Belichtung.",
+  "Français": "Référence gris moyen – utilisez cette zone pour exposer une charte grise et obtenir une exposition neutre.",
+  "한국인": "중간 회색 기준 - 중립 노출을 위해 이 영역에 그레이 카드를 노출하세요.",
+  "中文": "中灰基准——在此区域曝光灰卡以获得中性曝光。",
+  "العربية": "خط الأساس للرمادي المتوسط - استخدم هذه المنطقة لتعريض بطاقة رمادية للحصول على تعريض محايد.",
+  "Tiếng Việt": "Mốc xám trung tính - dùng vùng này để đo sáng thẻ xám cho phơi sáng trung tính."
+ },
+ "Darker skin tones / 18% grey target zone.": {
+  "日本語": "暗めの肌色 / 18% グレーの目標ゾーン。",
+  "Español": "Tonos de piel más oscuros / zona objetivo del gris al 18 %.",
+  "Deutsch": "Dunklere Hauttöne / Zielzone für 18 % Grau.",
+  "Français": "Carnations plus foncées / zone cible du gris 18 %.",
+  "한국인": "어두운 피부 톤 / 18% 회색 목표 영역.",
+  "中文": "较深肤色 / 18% 灰目标区域。",
+  "العربية": "درجات البشرة الداكنة / منطقة هدف الرمادي 18%.",
+  "Tiếng Việt": "Tông da tối / vùng mục tiêu xám 18%."
+ },
+ "Lighter skin tones target zone.": {
+  "日本語": "明るめの肌色の目標ゾーン。",
+  "Español": "Zona objetivo de tonos de piel más claros.",
+  "Deutsch": "Zielzone für hellere Hauttöne.",
+  "Français": "Zone cible des carnations plus claires.",
+  "한국인": "밝은 피부 톤 목표 영역.",
+  "中文": "较浅肤色目标区域。",
+  "العربية": "منطقة هدف درجات البشرة الفاتحة.",
+  "Tiếng Việt": "Vùng mục tiêu tông da sáng."
+ },
+ "Near clipping - caution zone for bright light sources.": {
+  "日本語": "クリッピング寸前 - 明るい光源に注意するゾーン。",
+  "Español": "Cerca del recorte: zona de precaución para fuentes de luz intensas.",
+  "Deutsch": "Kurz vor dem Clipping – Warnzone für helle Lichtquellen.",
+  "Français": "Proche de l'écrêtage – zone d'attention pour les sources lumineuses vives.",
+  "한국인": "클리핑 근접 - 밝은 광원에 주의해야 하는 영역.",
+  "中文": "接近溢出——明亮光源的警示区域。",
+  "العربية": "قرب القص - منطقة تحذير لمصادر الضوء الساطعة.",
+  "Tiếng Việt": "Gần cháy sáng - vùng cần chú ý với nguồn sáng mạnh."
+ },
+ "Clipping (white) - highlight detail is lost and blown out.": {
+  "日本語": "クリッピング (白) - ハイライトのディテールが飛んで失われています。",
+  "Español": "Recorte (blanco): se pierde el detalle de las altas luces, que quedan quemadas.",
+  "Deutsch": "Clipping (Weiß) – Details in den Lichtern gehen verloren und brennen aus.",
+  "Français": "Écrêtage (blanc) – les détails des hautes lumières sont perdus et brûlés.",
+  "한국인": "클리핑(흰색) - 하이라이트 디테일이 날아가 사라졌습니다.",
+  "中文": "溢出（白色）——高光细节丢失，完全过曝。",
+  "العربية": "قص (أبيض) - تضيع تفاصيل الإضاءات العالية وتحترق.",
+  "Tiếng Việt": "Cháy sáng (trắng) - chi tiết vùng sáng bị mất và cháy trắng."
+ },
+ "Grey": {
+  "日本語": "グレー",
+  "Español": "Gris",
+  "Deutsch": "Grau",
+  "Français": "Gris",
+  "한국인": "회색",
+  "中文": "灰色",
+  "العربية": "رمادي",
+  "Tiếng Việt": "Xám"
+ },
+ "Click to copy · right-click to add to a palette": {
+  "日本語": "クリックでコピー · 右クリックでパレットに追加",
+  "Español": "Haz clic para copiar · clic derecho para añadir a una paleta",
+  "Deutsch": "Klicken zum Kopieren · Rechtsklick zum Hinzufügen zu einer Palette",
+  "Français": "Cliquez pour copier · clic droit pour ajouter à une palette",
+  "한국인": "클릭하여 복사 · 마우스 오른쪽 클릭으로 팔레트에 추가",
+  "中文": "点击复制 · 右键添加到调色板",
+  "العربية": "انقر للنسخ · انقر بزر الماوس الأيمن للإضافة إلى لوحة",
+  "Tiếng Việt": "Bấm để sao chép · bấm chuột phải để thêm vào bảng màu"
+ },
+ "Colours from the image show here.": {
+  "日本語": "画像から抽出した色がここに表示されます。",
+  "Español": "Aquí aparecen los colores de la imagen.",
+  "Deutsch": "Farben aus dem Bild erscheinen hier.",
+  "Français": "Les couleurs de l'image s'affichent ici.",
+  "한국인": "이미지의 색이 여기에 표시됩니다.",
+  "中文": "图像中的颜色会显示在这里。",
+  "العربية": "تظهر ألوان الصورة هنا.",
+  "Tiếng Việt": "Màu từ ảnh sẽ hiện ở đây."
+ },
+ "No colours found.": {
+  "日本語": "色が見つかりませんでした。",
+  "Español": "No se encontraron colores.",
+  "Deutsch": "Keine Farben gefunden.",
+  "Français": "Aucune couleur trouvée.",
+  "한국인": "색을 찾지 못했습니다.",
+  "中文": "未找到颜色。",
+  "العربية": "لم يتم العثور على ألوان.",
+  "Tiếng Việt": "Không tìm thấy màu nào."
+ },
+ "{hex} · {pct} – click for options, or drop a colour here": {
+  "日本語": "{hex} · {pct} – クリックでオプション、または色をここにドロップ",
+  "Español": "{hex} · {pct}: haz clic para ver opciones o suelta aquí un color",
+  "Deutsch": "{hex} · {pct} – klicken für Optionen oder eine Farbe hier ablegen",
+  "Français": "{hex} · {pct} – cliquez pour les options, ou déposez une couleur ici",
+  "한국인": "{hex} · {pct} – 클릭하여 옵션 보기 또는 여기에 색 놓기",
+  "中文": "{hex} · {pct}——点击查看选项，或将颜色拖放到此处",
+  "العربية": "{hex} · {pct} – انقر للخيارات، أو أفلت لونًا هنا",
+  "Tiếng Việt": "{hex} · {pct} – bấm để xem tùy chọn, hoặc thả màu vào đây"
+ },
+ "Drag a colour onto a block to try it there. Changes here never touch the saved palette.": {
+  "日本語": "色をブロックにドラッグすると試せます。ここでの変更は保存済みのパレットには影響しません。",
+  "Español": "Arrastra un color sobre un bloque para probarlo ahí. Los cambios aquí nunca afectan a la paleta guardada.",
+  "Deutsch": "Ziehen Sie eine Farbe auf einen Block, um sie dort auszuprobieren. Änderungen hier wirken sich nie auf die gespeicherte Palette aus.",
+  "Français": "Faites glisser une couleur sur un bloc pour l'essayer. Les modifications ici ne touchent jamais la palette enregistrée.",
+  "한국인": "색을 블록으로 끌어 와 시험해 보세요. 여기서의 변경은 저장된 팔레트에 영향을 주지 않습니다.",
+  "中文": "将颜色拖到色块上即可试用。此处的更改绝不会影响已保存的调色板。",
+  "العربية": "اسحب لونًا إلى كتلة لتجربته هناك. لا تؤثر التغييرات هنا أبدًا على اللوحة المحفوظة.",
+  "Tiếng Việt": "Kéo một màu lên khối để thử tại đó. Thay đổi ở đây không bao giờ ảnh hưởng đến bảng màu đã lưu."
+ },
+ "Slot {n} · {hex} – click to change": {
+  "日本語": "スロット {n} · {hex} – クリックで変更",
+  "Español": "Espacio {n} · {hex}: haz clic para cambiar",
+  "Deutsch": "Feld {n} · {hex} – zum Ändern klicken",
+  "Français": "Emplacement {n} · {hex} – cliquez pour modifier",
+  "한국인": "슬롯 {n} · {hex} – 클릭하여 변경",
+  "中文": "槽位 {n} · {hex}——点击更改",
+  "العربية": "الخانة {n} · {hex} – انقر للتغيير",
+  "Tiếng Việt": "Ô {n} · {hex} – bấm để thay đổi"
+ },
+ "The quick brown fox jumps over the lazy dog.": {
+  "日本語": "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら。",
+  "Español": "El veloz murciélago hindú comía feliz cardillo y kiwi.",
+  "Deutsch": "Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.",
+  "Français": "Portez ce vieux whisky au juge blond qui fume.",
+  "한국인": "다람쥐 헌 쳇바퀴에 타고파.",
+  "中文": "天地玄黄，宇宙洪荒，日月盈昃，辰宿列张。",
+  "العربية": "صِف خَلقَ خَودِ كَمِثلِ الشَمسِ إِذ بَزَغَت.",
+  "Tiếng Việt": "Con cáo nâu nhanh nhẹn nhảy qua chú chó lười."
+ },
+ "WCAG 2.1 ratio": {
+  "日本語": "WCAG 2.1 コントラスト比",
+  "Español": "Relación WCAG 2.1",
+  "Deutsch": "WCAG-2.1-Verhältnis",
+  "Français": "Rapport WCAG 2.1",
+  "한국인": "WCAG 2.1 대비율",
+  "中文": "WCAG 2.1 对比度",
+  "العربية": "نسبة WCAG 2.1",
+  "Tiếng Việt": "Tỷ lệ WCAG 2.1"
+ },
+ "{hex} – click to use it, or drag it onto Text or Background": {
+  "日本語": "{hex} – クリックで使用、または「テキスト」か「背景」にドラッグ",
+  "Español": "{hex}: haz clic para usarlo o arrástralo a Texto o Fondo",
+  "Deutsch": "{hex} – klicken zum Verwenden oder auf Text bzw. Hintergrund ziehen",
+  "Français": "{hex} – cliquez pour l'utiliser, ou faites-le glisser sur Texte ou Arrière-plan",
+  "한국인": "{hex} – 클릭하여 사용하거나 텍스트 또는 배경으로 끌어 오기",
+  "中文": "{hex}——点击使用，或拖到“文字”或“背景”上",
+  "العربية": "{hex} – انقر لاستخدامه، أو اسحبه إلى النص أو الخلفية",
+  "Tiếng Việt": "{hex} – bấm để dùng, hoặc kéo vào Chữ hoặc Nền"
+ },
+ "Click a colour to use it, or drag it onto Text or Background.": {
+  "日本語": "色をクリックして使用するか、「テキスト」か「背景」にドラッグしてください。",
+  "Español": "Haz clic en un color para usarlo o arrástralo a Texto o Fondo.",
+  "Deutsch": "Klicken Sie auf eine Farbe, um sie zu verwenden, oder ziehen Sie sie auf Text bzw. Hintergrund.",
+  "Français": "Cliquez sur une couleur pour l'utiliser, ou faites-la glisser sur Texte ou Arrière-plan.",
+  "한국인": "색을 클릭해 사용하거나 텍스트 또는 배경으로 끌어 오세요.",
+  "中文": "点击颜色即可使用，或将其拖到“文字”或“背景”上。",
+  "العربية": "انقر على لون لاستخدامه، أو اسحبه إلى النص أو الخلفية.",
+  "Tiếng Việt": "Bấm vào một màu để dùng, hoặc kéo vào Chữ hoặc Nền."
+ },
+ "Dims the screen behind Buddy while this tool is open.": {
+  "日本語": "このツールを開いている間、Buddy の背後の画面を暗くします。",
+  "Español": "Oscurece la pantalla detrás de Buddy mientras esta herramienta está abierta.",
+  "Deutsch": "Dunkelt den Bildschirm hinter Buddy ab, solange dieses Werkzeug geöffnet ist.",
+  "Français": "Assombrit l'écran derrière Buddy tant que cet outil est ouvert.",
+  "한국인": "이 도구가 열려 있는 동안 Buddy 뒤의 화면을 어둡게 합니다.",
+  "中文": "此工具打开时，调暗 Buddy 后面的屏幕。",
+  "العربية": "يعتّم الشاشة خلف Buddy ما دامت هذه الأداة مفتوحة.",
+  "Tiếng Việt": "Làm tối màn hình phía sau Buddy khi công cụ này đang mở."
+ },
+ "Add the colours of the palette below": {
+  "日本語": "下のパレットの色を追加",
+  "Español": "Añadir los colores de la paleta de abajo",
+  "Deutsch": "Farben der Palette unten hinzufügen",
+  "Français": "Ajouter les couleurs de la palette ci-dessous",
+  "한국인": "아래 팔레트의 색 추가",
+  "中文": "添加下方调色板的颜色",
+  "العربية": "إضافة ألوان اللوحة أدناه",
+  "Tiếng Việt": "Thêm màu của bảng màu bên dưới"
+ },
+ "Add to": {
+  "日本語": "追加先:",
+  "Español": "Añadir a",
+  "Deutsch": "Hinzufügen zu",
+  "Français": "Ajouter à",
+  "한국인": "추가:",
+  "中文": "添加到",
+  "العربية": "إضافة إلى",
+  "Tiếng Việt": "Thêm vào"
+ },
+ "Added {count} to {name}": {
+  "日本語": "{name} に {count} 色を追加しました",
+  "Español": "Se añadieron {count} a {name}",
+  "Deutsch": "{count} zu {name} hinzugefügt",
+  "Français": "{count} ajoutée(s) à {name}",
+  "한국인": "{name}에 {count}개를 추가했습니다",
+  "中文": "已向 {name} 添加 {count} 个",
+  "العربية": "تمت إضافة {count} إلى {name}",
+  "Tiếng Việt": "Đã thêm {count} vào {name}"
+ },
+ "Added {hex} to '{name}'": {
+  "日本語": "{hex} を「{name}」に追加しました",
+  "Español": "{hex} añadido a '{name}'",
+  "Deutsch": "{hex} zu „{name}“ hinzugefügt",
+  "Français": "{hex} ajouté à « {name} »",
+  "한국인": "{hex}을(를) '{name}'에 추가했습니다",
+  "中文": "已将 {hex} 添加到“{name}”",
+  "العربية": "تمت إضافة {hex} إلى '{name}'",
+  "Tiếng Việt": "Đã thêm {hex} vào '{name}'"
+ },
+ "Already in {name}": {
+  "日本語": "既に {name} にあります",
+  "Español": "Ya está en {name}",
+  "Deutsch": "Bereits in {name}",
+  "Français": "Déjà dans {name}",
+  "한국인": "이미 {name}에 있습니다",
+  "中文": "已在 {name} 中",
+  "العربية": "موجود بالفعل في {name}",
+  "Tiếng Việt": "Đã có trong {name}"
+ },
+ "Could not start the screen colour dropper:\n{0}": {
+  "日本語": "画面スポイトを起動できませんでした:\n{0}",
+  "Español": "No se pudo iniciar el cuentagotas de pantalla:\n{0}",
+  "Deutsch": "Die Bildschirm-Pipette konnte nicht gestartet werden:\n{0}",
+  "Français": "Impossible de lancer la pipette d'écran :\n{0}",
+  "한국인": "화면 스포이드를 시작할 수 없습니다:\n{0}",
+  "中文": "无法启动屏幕取色器：\n{0}",
+  "العربية": "تعذر بدء قطارة ألوان الشاشة:\n{0}",
+  "Tiếng Việt": "Không thể khởi động công cụ lấy màu màn hình:\n{0}"
+ },
+ "Created '{name}'": {
+  "日本語": "「{name}」を作成しました",
+  "Español": "'{name}' creada",
+  "Deutsch": "„{name}“ erstellt",
+  "Français": "« {name} » créée",
+  "한국인": "'{name}'을(를) 만들었습니다",
+  "中文": "已创建“{name}”",
+  "العربية": "تم إنشاء '{name}'",
+  "Tiếng Việt": "Đã tạo '{name}'"
+ },
+ "Created {name}": {
+  "日本語": "{name} を作成しました",
+  "Español": "{name} creada",
+  "Deutsch": "{name} erstellt",
+  "Français": "{name} créée",
+  "한국인": "{name}을(를) 만들었습니다",
+  "中文": "已创建 {name}",
+  "العربية": "تم إنشاء {name}",
+  "Tiếng Việt": "Đã tạo {name}"
+ },
+ "Deleted '{name}'": {
+  "日本語": "「{name}」を削除しました",
+  "Español": "'{name}' eliminada",
+  "Deutsch": "„{name}“ gelöscht",
+  "Français": "« {name} » supprimée",
+  "한국인": "'{name}'을(를) 삭제했습니다",
+  "中文": "已删除“{name}”",
+  "العربية": "تم حذف '{name}'",
+  "Tiếng Việt": "Đã xóa '{name}'"
+ },
+ "Failed to save PNG:\n{error}": {
+  "日本語": "PNG を保存できませんでした:\n{error}",
+  "Español": "No se pudo guardar el PNG:\n{error}",
+  "Deutsch": "PNG konnte nicht gespeichert werden:\n{error}",
+  "Français": "Échec de l'enregistrement du PNG :\n{error}",
+  "한국인": "PNG를 저장하지 못했습니다:\n{error}",
+  "中文": "保存 PNG 失败：\n{error}",
+  "العربية": "فشل حفظ PNG:\n{error}",
+  "Tiếng Việt": "Không thể lưu PNG:\n{error}"
+ },
+ "Nothing to paste – copy an image, or a link to one, first.": {
+  "日本語": "貼り付けるものがありません – 先に画像または画像へのリンクをコピーしてください。",
+  "Español": "No hay nada que pegar: copia primero una imagen o un enlace a una.",
+  "Deutsch": "Nichts zum Einfügen – kopieren Sie zuerst ein Bild oder einen Link zu einem Bild.",
+  "Français": "Rien à coller – copiez d'abord une image ou un lien vers une image.",
+  "한국인": "붙여 넣을 내용이 없습니다 – 먼저 이미지나 이미지 링크를 복사하세요.",
+  "中文": "没有可粘贴的内容——请先复制图像或图像链接。",
+  "العربية": "لا يوجد ما يُلصق – انسخ صورة أو رابطًا لها أولًا.",
+  "Tiếng Việt": "Không có gì để dán – hãy sao chép ảnh hoặc liên kết đến ảnh trước."
+ },
+ "Removed {hex}": {
+  "日本語": "{hex} を削除しました",
+  "Español": "{hex} eliminado",
+  "Deutsch": "{hex} entfernt",
+  "Français": "{hex} supprimé",
+  "한국인": "{hex}을(를) 제거했습니다",
+  "中文": "已移除 {hex}",
+  "العربية": "تمت إزالة {hex}",
+  "Tiếng Việt": "Đã xóa {hex}"
+ },
+ "Restored '{label}'": {
+  "日本語": "「{label}」を復元しました",
+  "Español": "'{label}' restaurada",
+  "Deutsch": "„{label}“ wiederhergestellt",
+  "Français": "« {label} » restaurée",
+  "한국인": "'{label}'을(를) 복원했습니다",
+  "中文": "已恢复“{label}”",
+  "العربية": "تمت استعادة '{label}'",
+  "Tiếng Việt": "Đã khôi phục '{label}'"
+ },
+ "Saved version '{label}'": {
+  "日本語": "バージョン「{label}」を保存しました",
+  "Español": "Versión '{label}' guardada",
+  "Deutsch": "Version „{label}“ gespeichert",
+  "Français": "Version « {label} » enregistrée",
+  "한국인": "'{label}' 버전을 저장했습니다",
+  "中文": "已保存版本“{label}”",
+  "العربية": "تم حفظ الإصدار '{label}'",
+  "Tiếng Việt": "Đã lưu phiên bản '{label}'"
+ },
+ "That isn't a colour - use a hex code like #1A2B3C.": {
+  "日本語": "色として認識できません - #1A2B3C のような 16 進コードを使ってください。",
+  "Español": "Eso no es un color: usa un código hexadecimal como #1A2B3C.",
+  "Deutsch": "Das ist keine Farbe – verwenden Sie einen Hex-Code wie #1A2B3C.",
+  "Français": "Ce n'est pas une couleur – utilisez un code hexadécimal comme #1A2B3C.",
+  "한국인": "색이 아닙니다 - #1A2B3C 같은 16진수 코드를 사용하세요.",
+  "中文": "这不是颜色——请使用类似 #1A2B3C 的十六进制代码。",
+  "العربية": "هذا ليس لونًا - استخدم رمزًا سداسيًا عشريًا مثل #1A2B3C.",
+  "Tiếng Việt": "Đó không phải là màu - hãy dùng mã hex như #1A2B3C."
+ },
+ "That isn't an image this can open.": {
+  "日本語": "この画像は開けません。",
+  "Español": "No es una imagen que se pueda abrir.",
+  "Deutsch": "Dieses Bild kann nicht geöffnet werden.",
+  "Français": "Ce n'est pas une image qui peut être ouverte.",
+  "한국인": "열 수 있는 이미지가 아닙니다.",
+  "中文": "这不是可以打开的图像。",
+  "العربية": "هذه ليست صورة يمكن فتحها.",
+  "Tiếng Việt": "Đây không phải ảnh có thể mở được."
+ },
+ "a pasted image": {
+  "日本語": "貼り付けた画像",
+  "Español": "una imagen pegada",
+  "Deutsch": "ein eingefügtes Bild",
+  "Français": "une image collée",
+  "한국인": "붙여 넣은 이미지",
+  "中文": "粘贴的图像",
+  "العربية": "صورة ملصقة",
+  "Tiếng Việt": "một ảnh đã dán"
+ },
+ "{hex} is already in '{name}'": {
+  "日本語": "{hex} は既に「{name}」にあります",
+  "Español": "{hex} ya está en '{name}'",
+  "Deutsch": "{hex} ist bereits in „{name}“",
+  "Français": "{hex} est déjà dans « {name} »",
+  "한국인": "{hex}은(는) 이미 '{name}'에 있습니다",
+  "中文": "{hex} 已在“{name}”中",
+  "العربية": "{hex} موجود بالفعل في '{name}'",
+  "Tiếng Việt": "{hex} đã có trong '{name}'"
+ },
+ "{hex} is already in this palette": {
+  "日本語": "{hex} は既にこのパレットにあります",
+  "Español": "{hex} ya está en esta paleta",
+  "Deutsch": "{hex} ist bereits in dieser Palette",
+  "Français": "{hex} est déjà dans cette palette",
+  "한국인": "{hex}은(는) 이미 이 팔레트에 있습니다",
+  "中文": "{hex} 已在此调色板中",
+  "العربية": "{hex} موجود بالفعل في هذه اللوحة",
+  "Tiếng Việt": "{hex} đã có trong bảng màu này"
+ },
+ "Show": {
+  "日本語": "表示",
+  "Español": "Mostrar",
+  "Deutsch": "Anzeigen",
+  "Français": "Afficher",
+  "한국인": "보기",
+  "中文": "显示",
+  "العربية": "إظهار",
+  "Tiếng Việt": "Hiện"
+ },
+ "Not in a folder": {
+  "日本語": "フォルダーなし",
+  "Español": "Fuera de carpetas",
+  "Deutsch": "In keinem Ordner",
+  "Français": "Hors dossier",
+  "한국인": "폴더에 없음",
+  "中文": "不在文件夹中",
+  "العربية": "ليس في مجلد",
+  "Tiếng Việt": "Không trong thư mục"
+ },
+ "Nothing matches that search": {
+  "日本語": "その検索に一致するものはありません",
+  "Español": "No hay coincidencias para esa búsqueda",
+  "Deutsch": "Keine Treffer für diese Suche",
+  "Français": "Aucun résultat pour cette recherche",
+  "한국인": "검색과 일치하는 항목 없음",
+  "中文": "没有与该搜索匹配的内容",
+  "العربية": "لا توجد نتائج مطابقة لهذا البحث",
+  "Tiếng Việt": "Không có kết quả phù hợp với tìm kiếm đó"
+ },
+ "No palettes yet": {
+  "日本語": "パレットはまだありません",
+  "Español": "Aún no hay paletas",
+  "Deutsch": "Noch keine Paletten",
+  "Français": "Aucune palette pour l'instant",
+  "한국인": "아직 팔레트가 없음",
+  "中文": "还没有调色板",
+  "العربية": "لا توجد لوحات بعد",
+  "Tiếng Việt": "Chưa có bảng màu"
+ },
+ "Search looks at palette names, tags and hex codes.": {
+  "日本語": "パレット名、タグ、16 進コードを検索します。",
+  "Español": "La búsqueda mira los nombres de paleta, las etiquetas y los códigos hexadecimales.",
+  "Deutsch": "Die Suche berücksichtigt Palettennamen, Tags und Hex-Codes.",
+  "Français": "La recherche porte sur les noms de palette, les tags et les codes hexadécimaux.",
+  "한국인": "팔레트 이름, 태그, 16진수 코드를 검색합니다.",
+  "中文": "搜索范围包括调色板名称、标签和十六进制代码。",
+  "العربية": "يبحث في أسماء اللوحات والوسوم والرموز السداسية العشرية.",
+  "Tiếng Việt": "Tìm kiếm theo tên bảng màu, thẻ và mã hex."
+ },
+ "Make one, import a file on Tools, or pull one out of an image on Extract.": {
+  "日本語": "作成するか、「ツール」でファイルを読み込むか、「抽出」で画像から作ってください。",
+  "Español": "Crea una, importa un archivo en Herramientas o sácala de una imagen en Extraer.",
+  "Deutsch": "Erstellen Sie eine, importieren Sie eine Datei unter „Werkzeuge“ oder gewinnen Sie eine aus einem Bild unter „Extrahieren“.",
+  "Français": "Créez-en une, importez un fichier dans Outils, ou extrayez-en une d'une image dans Extraire.",
+  "한국인": "새로 만들거나, 도구에서 파일을 가져오거나, 추출에서 이미지로 만드세요.",
+  "中文": "新建一个，在“工具”中导入文件，或在“提取”中从图像提取。",
+  "العربية": "أنشئ واحدة، أو استورد ملفًا من الأدوات، أو استخرج واحدة من صورة في استخراج.",
+  "Tiếng Việt": "Tạo mới, nhập tệp ở Công cụ, hoặc lấy từ ảnh ở Trích xuất."
+ },
+ "New palette in this folder…": {
+  "日本語": "このフォルダーに新規パレット…",
+  "Español": "Nueva paleta en esta carpeta…",
+  "Deutsch": "Neue Palette in diesem Ordner…",
+  "Français": "Nouvelle palette dans ce dossier…",
+  "한국인": "이 폴더에 새 팔레트…",
+  "中文": "在此文件夹中新建调色板…",
+  "العربية": "لوحة جديدة في هذا المجلد…",
+  "Tiếng Việt": "Bảng màu mới trong thư mục này…"
+ },
+ "No colours yet – type a hex code, use the + tile, or pick one off the screen.": {
+  "日本語": "まだ色がありません – 16 進コードを入力するか、+ タイルを使うか、画面から色を取得してください。",
+  "Español": "Aún no hay colores: escribe un código hexadecimal, usa el recuadro + o toma uno de la pantalla.",
+  "Deutsch": "Noch keine Farben – geben Sie einen Hex-Code ein, verwenden Sie die +-Kachel oder nehmen Sie eine Farbe vom Bildschirm auf.",
+  "Français": "Pas encore de couleurs – saisissez un code hexadécimal, utilisez la tuile + ou prélevez-en une à l'écran.",
+  "한국인": "아직 색이 없습니다 – 16진수 코드를 입력하거나 + 타일을 사용하거나 화면에서 색을 추출하세요.",
+  "中文": "还没有颜色——输入十六进制代码、使用 + 方块，或从屏幕上取色。",
+  "العربية": "لا توجد ألوان بعد – اكتب رمزًا سداسيًا عشريًا، أو استخدم مربع +، أو التقط لونًا من الشاشة.",
+  "Tiếng Việt": "Chưa có màu nào – nhập mã hex, dùng ô +, hoặc lấy màu từ màn hình."
+ },
+ "Move to folder": {
+  "日本語": "フォルダーへ移動",
+  "Español": "Mover a carpeta",
+  "Deutsch": "In Ordner verschieben",
+  "Français": "Déplacer vers un dossier",
+  "한국인": "폴더로 이동",
+  "中文": "移到文件夹",
+  "العربية": "نقل إلى مجلد",
+  "Tiếng Việt": "Chuyển đến thư mục"
+ },
+ "Move to folder (make a folder first)": {
+  "日本語": "フォルダーへ移動 (先にフォルダーを作成)",
+  "Español": "Mover a carpeta (crea antes una carpeta)",
+  "Deutsch": "In Ordner verschieben (zuerst einen Ordner erstellen)",
+  "Français": "Déplacer vers un dossier (créez d'abord un dossier)",
+  "한국인": "폴더로 이동(먼저 폴더를 만드세요)",
+  "中文": "移到文件夹（请先创建文件夹）",
+  "العربية": "نقل إلى مجلد (أنشئ مجلدًا أولًا)",
+  "Tiếng Việt": "Chuyển đến thư mục (hãy tạo thư mục trước)"
+ },
+ "Tags are searchable – e.g. warm, client, night exterior.": {
+  "日本語": "タグは検索できます – 例: warm、client、night exterior。",
+  "Español": "Las etiquetas se pueden buscar; p. ej., cálido, cliente, exterior noche.",
+  "Deutsch": "Tags sind durchsuchbar – z. B. warm, Kunde, Nacht außen.",
+  "Français": "Les tags sont consultables – ex. : chaud, client, extérieur nuit.",
+  "한국인": "태그는 검색할 수 있습니다 – 예: warm, client, night exterior.",
+  "中文": "标签可被搜索——例如：暖色、客户、夜景外景。",
+  "العربية": "يمكن البحث في الوسوم – مثل: دافئ، عميل، خارجي ليلي.",
+  "Tiếng Việt": "Có thể tìm theo thẻ – vd: ấm, khách hàng, ngoại cảnh đêm."
+ },
+ "Saves the palette's colours as they are now, so you can go back to them later.": {
+  "日本語": "パレットの現在の色を保存し、後で元に戻せるようにします。",
+  "Español": "Guarda los colores actuales de la paleta para que puedas volver a ellos más tarde.",
+  "Deutsch": "Speichert die aktuellen Farben der Palette, damit Sie später zu ihnen zurückkehren können.",
+  "Français": "Enregistre les couleurs actuelles de la palette pour pouvoir y revenir plus tard.",
+  "한국인": "팔레트의 현재 색을 저장해 나중에 되돌릴 수 있게 합니다.",
+  "中文": "保存调色板当前的颜色，以便以后恢复。",
+  "العربية": "يحفظ ألوان اللوحة كما هي الآن، لتتمكن من العودة إليها لاحقًا.",
+  "Tiếng Việt": "Lưu màu hiện tại của bảng màu để bạn có thể quay lại sau."
+ },
+ "Version history ({count})…": {
+  "日本語": "バージョン履歴 ({count})…",
+  "Español": "Historial de versiones ({count})…",
+  "Deutsch": "Versionsverlauf ({count})…",
+  "Français": "Historique des versions ({count})…",
+  "한국인": "버전 기록({count})…",
+  "中文": "版本历史（{count}）…",
+  "العربية": "سجل الإصدارات ({count})…",
+  "Tiếng Việt": "Lịch sử phiên bản ({count})…"
+ },
+ "Version history (none saved)": {
+  "日本語": "バージョン履歴 (保存なし)",
+  "Español": "Historial de versiones (ninguna guardada)",
+  "Deutsch": "Versionsverlauf (keine gespeichert)",
+  "Français": "Historique des versions (aucune enregistrée)",
+  "한국인": "버전 기록(저장된 버전 없음)",
+  "中文": "版本历史（未保存）",
+  "العربية": "سجل الإصدارات (لا يوجد محفوظ)",
+  "Tiếng Việt": "Lịch sử phiên bản (chưa lưu)"
+ },
+ "Export…": {
+  "日本語": "書き出し…",
+  "Español": "Exportar…",
+  "Deutsch": "Exportieren…",
+  "Français": "Exporter…",
+  "한국인": "내보내기…",
+  "中文": "导出…",
+  "العربية": "تصدير…",
+  "Tiếng Việt": "Xuất…"
+ },
+ "Versions of {name}": {
+  "日本語": "{name} のバージョン",
+  "Español": "Versiones de {name}",
+  "Deutsch": "Versionen von {name}",
+  "Français": "Versions de {name}",
+  "한국인": "{name}의 버전",
+  "中文": "{name} 的版本",
+  "العربية": "إصدارات {name}",
+  "Tiếng Việt": "Các phiên bản của {name}"
+ },
+ "Now": {
+  "日本語": "現在",
+  "Español": "Ahora",
+  "Deutsch": "Jetzt",
+  "Français": "Maintenant",
+  "한국인": "현재",
+  "中文": "当前",
+  "العربية": "الآن",
+  "Tiếng Việt": "Hiện tại"
+ },
+ "Restoring replaces these colours": {
+  "日本語": "復元するとこれらの色が置き換えられます",
+  "Español": "Restaurar reemplaza estos colores",
+  "Deutsch": "Beim Wiederherstellen werden diese Farben ersetzt",
+  "Français": "La restauration remplace ces couleurs",
+  "한국인": "복원하면 이 색이 바뀝니다",
+  "中文": "恢复将替换这些颜色",
+  "العربية": "الاستعادة تستبدل هذه الألوان",
+  "Tiếng Việt": "Khôi phục sẽ thay thế các màu này"
+ },
+ "Drag a colour onto the colours or the preview.": {
+  "日本語": "色を色の欄またはプレビューにドラッグしてください。",
+  "Español": "Arrastra un color a los colores o a la vista previa.",
+  "Deutsch": "Ziehen Sie eine Farbe auf die Farben oder die Vorschau.",
+  "Français": "Faites glisser une couleur sur les couleurs ou l'aperçu.",
+  "한국인": "색을 색 목록이나 미리 보기로 끌어 오세요.",
+  "中文": "将颜色拖到颜色区域或预览上。",
+  "العربية": "اسحب لونًا إلى الألوان أو المعاينة.",
+  "Tiếng Việt": "Kéo một màu vào ô màu hoặc bản xem trước."
+ },
+ "This palette is empty.": {
+  "日本語": "このパレットは空です。",
+  "Español": "Esta paleta está vacía.",
+  "Deutsch": "Diese Palette ist leer.",
+  "Français": "Cette palette est vide.",
+  "한국인": "이 팔레트는 비어 있습니다.",
+  "中文": "此调色板为空。",
+  "العربية": "هذه اللوحة فارغة.",
+  "Tiếng Việt": "Bảng màu này trống."
+ },
+ "Double-click the slider to reset it.": {
+  "日本語": "スライダーをダブルクリックするとリセットされます。",
+  "Español": "Haz doble clic en el control deslizante para restablecerlo.",
+  "Deutsch": "Doppelklicken Sie auf den Schieberegler, um ihn zurückzusetzen.",
+  "Français": "Double-cliquez sur le curseur pour le réinitialiser.",
+  "한국인": "슬라이더를 두 번 클릭하면 재설정됩니다.",
+  "中文": "双击滑块可将其重置。",
+  "العربية": "انقر نقرًا مزدوجًا على شريط التمرير لإعادة تعيينه.",
+  "Tiếng Việt": "Bấm đúp vào thanh trượt để đặt lại."
+ },
+ "Glass preview": {
+  "日本語": "ガラスのプレビュー",
+  "Español": "Vista previa del vidrio",
+  "Deutsch": "Glas-Vorschau",
+  "Français": "Aperçu du verre",
+  "한국인": "유리 미리 보기",
+  "中文": "玻璃预览",
+  "العربية": "معاينة الزجاج",
+  "Tiếng Việt": "Xem trước kính"
+ },
+ "Width and height are whole numbers from 16 to 8192.": {
+  "日本語": "幅と高さは 16 から 8192 までの整数で指定してください。",
+  "Español": "El ancho y el alto son números enteros de 16 a 8192.",
+  "Deutsch": "Breite und Höhe sind ganze Zahlen von 16 bis 8192.",
+  "Français": "La largeur et la hauteur sont des nombres entiers de 16 à 8192.",
+  "한국인": "너비와 높이는 16에서 8192 사이의 정수여야 합니다.",
+  "中文": "宽度和高度必须是 16 到 8192 之间的整数。",
+  "العربية": "العرض والارتفاع أعداد صحيحة من 16 إلى 8192.",
+  "Tiếng Việt": "Chiều rộng và chiều cao là số nguyên từ 16 đến 8192."
+ },
+ "This palette has no colours yet": {
+  "日本語": "このパレットにはまだ色がありません",
+  "Español": "Esta paleta aún no tiene colores",
+  "Deutsch": "Diese Palette hat noch keine Farben",
+  "Français": "Cette palette n'a pas encore de couleurs",
+  "한국인": "이 팔레트에는 아직 색이 없습니다",
+  "中文": "此调色板还没有颜色",
+  "العربية": "لا تحتوي هذه اللوحة على ألوان بعد",
+  "Tiếng Việt": "Bảng màu này chưa có màu nào"
+ },
+ "Grey blocks stand in until it does – or drop colours on them to try some out.": {
+  "日本語": "色が入るまではグレーのブロックが代わりに表示されます – 色をドロップして試すこともできます。",
+  "Español": "Los bloques grises ocupan su lugar hasta entonces; o suelta colores sobre ellos para probar.",
+  "Deutsch": "Graue Blöcke stehen bis dahin als Platzhalter – oder legen Sie Farben darauf ab, um sie auszuprobieren.",
+  "Français": "Des blocs gris en tiennent lieu en attendant – ou déposez-y des couleurs pour essayer.",
+  "한국인": "그때까지 회색 블록이 대신 표시됩니다 – 색을 놓아 시험해 볼 수도 있습니다.",
+  "中文": "在此之前由灰色块代替——也可以将颜色拖放到上面试用。",
+  "العربية": "تحل الكتل الرمادية محلها حتى ذلك الحين – أو أفلت ألوانًا عليها لتجربتها.",
+  "Tiếng Việt": "Các khối xám thay thế cho đến khi có màu – hoặc thả màu lên để thử."
+ },
+ "No colours in this palette.": {
+  "日本語": "このパレットには色がありません。",
+  "Español": "No hay colores en esta paleta.",
+  "Deutsch": "Keine Farben in dieser Palette.",
+  "Français": "Aucune couleur dans cette palette.",
+  "한국인": "이 팔레트에 색이 없습니다.",
+  "中文": "此调色板中没有颜色。",
+  "العربية": "لا توجد ألوان في هذه اللوحة.",
+  "Tiếng Việt": "Không có màu nào trong bảng màu này."
+ },
+ "A binary file – there's nothing to preview.": {
+  "日本語": "バイナリファイルのため、プレビューはありません。",
+  "Español": "Un archivo binario: no hay nada que previsualizar.",
+  "Deutsch": "Eine Binärdatei – es gibt nichts in der Vorschau zu zeigen.",
+  "Français": "Un fichier binaire – rien à prévisualiser.",
+  "한국인": "바이너리 파일이라 미리 볼 내용이 없습니다.",
+  "中文": "二进制文件——没有可预览的内容。",
+  "العربية": "ملف ثنائي – لا يوجد ما يُعاين.",
+  "Tiếng Việt": "Tệp nhị phân – không có gì để xem trước."
+ },
+ "Use {hex} as text": {
+  "日本語": "{hex} をテキストに使用",
+  "Español": "Usar {hex} como texto",
+  "Deutsch": "{hex} als Text verwenden",
+  "Français": "Utiliser {hex} pour le texte",
+  "한국인": "{hex}을(를) 텍스트로 사용",
+  "中文": "将 {hex} 用作文字",
+  "العربية": "استخدام {hex} للنص",
+  "Tiếng Việt": "Dùng {hex} cho chữ"
+ },
+ "Use {hex} as background": {
+  "日本語": "{hex} を背景に使用",
+  "Español": "Usar {hex} como fondo",
+  "Deutsch": "{hex} als Hintergrund verwenden",
+  "Français": "Utiliser {hex} pour l'arrière-plan",
+  "한국인": "{hex}을(를) 배경으로 사용",
+  "中文": "将 {hex} 用作背景",
+  "العربية": "استخدام {hex} للخلفية",
+  "Tiếng Việt": "Dùng {hex} cho nền"
+ },
+ "Choose Text Color": {
+  "日本語": "テキストの色を選択",
+  "Español": "Elige el color del texto",
+  "Deutsch": "Textfarbe wählen",
+  "Français": "Choisir la couleur du texte",
+  "한국인": "텍스트 색 선택",
+  "中文": "选择文字颜色",
+  "العربية": "اختر لون النص",
+  "Tiếng Việt": "Chọn màu chữ"
+ },
+ "Choose Background Color": {
+  "日本語": "背景の色を選択",
+  "Español": "Elige el color de fondo",
+  "Deutsch": "Hintergrundfarbe wählen",
+  "Français": "Choisir la couleur d'arrière-plan",
+  "한국인": "배경 색 선택",
+  "中文": "选择背景颜色",
+  "العربية": "اختر لون الخلفية",
+  "Tiếng Việt": "Chọn màu nền"
+ },
+ "Press Import again to replace it.": {
+  "日本語": "置き換えるには、もう一度「読み込み」を押してください。",
+  "Español": "Pulsa Importar de nuevo para reemplazarla.",
+  "Deutsch": "Klicken Sie erneut auf „Importieren“, um sie zu ersetzen.",
+  "Français": "Appuyez de nouveau sur Importer pour la remplacer.",
+  "한국인": "바꾸려면 가져오기를 다시 누르세요.",
+  "中文": "再次按“导入”即可替换。",
+  "العربية": "اضغط على استيراد مرة أخرى لاستبدالها.",
+  "Tiếng Việt": "Nhấn Nhập lần nữa để thay thế."
+ },
+ "1 colour from {file}": {
+  "日本語": "{file} からの 1 色",
+  "Español": "1 color de {file}",
+  "Deutsch": "1 Farbe aus {file}",
+  "Français": "1 couleur depuis {file}",
+  "한국인": "{file}에서 가져온 색 1개",
+  "中文": "来自 {file} 的 1 种颜色",
+  "العربية": "لون واحد من {file}",
+  "Tiếng Việt": "1 màu từ {file}"
+ },
+ "{count} colours from {file}": {
+  "日本語": "{file} からの {count} 色",
+  "Español": "{count} colores de {file}",
+  "Deutsch": "{count} Farben aus {file}",
+  "Français": "{count} couleurs depuis {file}",
+  "한국인": "{file}에서 가져온 색 {count}개",
+  "中文": "来自 {file} 的 {count} 种颜色",
+  "العربية": "{count} ألوان من {file}",
+  "Tiếng Việt": "{count} màu từ {file}"
+ },
+ "Downloading {url}": {
+  "日本語": "{url} をダウンロード中",
+  "Español": "Descargando {url}",
+  "Deutsch": "{url} wird heruntergeladen",
+  "Français": "Téléchargement de {url}",
+  "한국인": "{url} 다운로드 중",
+  "中文": "正在下载 {url}",
+  "العربية": "جارٍ تنزيل {url}",
+  "Tiếng Việt": "Đang tải xuống {url}"
+ },
+ "Previous colours": {
+  "日本語": "前の色",
+  "Español": "Colores anteriores",
+  "Deutsch": "Vorherige Farben",
+  "Français": "Couleurs précédentes",
+  "한국인": "이전 색",
+  "中文": "上一组颜色",
+  "العربية": "الألوان السابقة",
+  "Tiếng Việt": "Màu trước"
+ },
+ "More colours": {
+  "日本語": "次の色",
+  "Español": "Más colores",
+  "Deutsch": "Weitere Farben",
+  "Français": "Plus de couleurs",
+  "한국인": "더 많은 색",
+  "中文": "更多颜色",
+  "العربية": "مزيد من الألوان",
+  "Tiếng Việt": "Thêm màu"
+ },
+ "PNG Files": {
+  "日本語": "PNG ファイル",
+  "Español": "Archivos PNG",
+  "Deutsch": "PNG-Dateien",
+  "Français": "Fichiers PNG",
+  "한국인": "PNG 파일",
+  "中文": "PNG 文件",
+  "العربية": "ملفات PNG",
+  "Tiếng Việt": "Tệp PNG"
+ },
+ "PNG Image": {
+  "日本語": "PNG 画像",
+  "Español": "Imagen PNG",
+  "Deutsch": "PNG-Bild",
+  "Français": "Image PNG",
+  "한국인": "PNG 이미지",
+  "中文": "PNG 图像",
+  "العربية": "صورة PNG",
+  "Tiếng Việt": "Ảnh PNG"
+ },
+ "Image files": {
+  "日本語": "画像ファイル",
+  "Español": "Archivos de imagen",
+  "Deutsch": "Bilddateien",
+  "Français": "Fichiers image",
+  "한국인": "이미지 파일",
+  "中文": "图像文件",
+  "العربية": "ملفات الصور",
+  "Tiếng Việt": "Tệp ảnh"
+ },
+ "Palette Files": {
+  "日本語": "パレットファイル",
+  "Español": "Archivos de paleta",
+  "Deutsch": "Palettendateien",
+  "Français": "Fichiers de palette",
+  "한국인": "팔레트 파일",
+  "中文": "调色板文件",
+  "العربية": "ملفات اللوحات",
+  "Tiếng Việt": "Tệp bảng màu"
+ },
+ "All Files": {
+  "日本語": "すべてのファイル",
+  "Español": "Todos los archivos",
+  "Deutsch": "Alle Dateien",
+  "Français": "Tous les fichiers",
+  "한국인": "모든 파일",
+  "中文": "所有文件",
+  "العربية": "كل الملفات",
+  "Tiếng Việt": "Tất cả tệp"
+ },
+ "JSON Files": {
+  "日本語": "JSON ファイル",
+  "Español": "Archivos JSON",
+  "Deutsch": "JSON-Dateien",
+  "Français": "Fichiers JSON",
+  "한국인": "JSON 파일",
+  "中文": "JSON 文件",
+  "العربية": "ملفات JSON",
+  "Tiếng Việt": "Tệp JSON"
+ },
+ "This replaces your palettes, folders, tags, versions and Color Palette settings with the ones in the backup. Continue?": {
+  "日本語": "パレット、フォルダー、タグ、バージョン、カラーパレットの設定を、バックアップの内容で置き換えます。続行しますか?",
+  "Español": "Esto reemplaza tus paletas, carpetas, etiquetas, versiones y ajustes de la paleta de colores por los de la copia de seguridad. ¿Continuar?",
+  "Deutsch": "Dadurch werden Ihre Paletten, Ordner, Tags, Versionen und Farbpaletten-Einstellungen durch die aus der Sicherung ersetzt. Fortfahren?",
+  "Français": "Cela remplace vos palettes, dossiers, tags, versions et paramètres de la palette de couleurs par ceux de la sauvegarde. Continuer ?",
+  "한국인": "팔레트, 폴더, 태그, 버전, 색상 팔레트 설정이 백업의 내용으로 바뀝니다. 계속할까요?",
+  "中文": "这会用备份中的内容替换您的调色板、文件夹、标签、版本和调色板设置。要继续吗？",
+  "العربية": "سيستبدل هذا لوحاتك ومجلداتك ووسومك وإصداراتك وإعدادات لوحة الألوان بتلك الموجودة في النسخة الاحتياطية. هل تريد المتابعة؟",
+  "Tiếng Việt": "Thao tác này sẽ thay thế bảng màu, thư mục, thẻ, phiên bản và cài đặt Bảng màu bằng nội dung trong bản sao lưu. Tiếp tục?"
+ },
+ "Even": {
+  "日本語": "均等",
+  "Español": "Uniforme",
+  "Deutsch": "Gleichmäßig",
+  "Français": "Égal",
+  "한국인": "균등",
+  "中文": "均匀",
+  "العربية": "متساوٍ",
+  "Tiếng Việt": "Đều"
+ },
+ "CSS Variables (.css)": {
+  "日本語": "CSS 変数 (.css)",
+  "Español": "Variables CSS (.css)",
+  "Deutsch": "CSS-Variablen (.css)",
+  "Français": "Variables CSS (.css)",
+  "한국인": "CSS 변수(.css)",
+  "中文": "CSS 变量 (.css)",
+  "العربية": "متغيرات CSS (.css)",
+  "Tiếng Việt": "Biến CSS (.css)"
+ }
+}

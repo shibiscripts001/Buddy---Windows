@@ -77,7 +77,7 @@ function PlacementCanvas(root, {tab, multi}) {
         let node = nodes.get(item.id);
         if (!node) {
             node = el("div.tbox", {dataset: {id: item.id}});
-            node.append(svg("svg", {class: "tsvg"}));
+            node.append(svg("svg", {class: "tsvg", translate: "no"}));   // the clip's own text
             for (const corner of ["tl", "tr", "bl", "br"]) node.append(el(`i.handle.${corner}`, {dataset: {corner}}));
             boxes.append(node);
             nodes.set(item.id, node);

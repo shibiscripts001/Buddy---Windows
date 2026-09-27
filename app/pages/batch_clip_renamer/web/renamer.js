@@ -105,9 +105,10 @@ function drawPreview(s) {
     }
     const rows = onlyChanges.checked && s.changes ? s.rows.filter(r => r.changed) : s.rows;
     const body = rows.map(r => el(`tr.${r.changed ? "changed" : "same"}`, {}, [
-        el("td.name", {text: r.old}),
+        el("td.name", {text: r.old, translate: "no"}),
         el("td.arrow", {text: "→"}),
-        el("td.name.new", {}, [r.new, r.skipped ? el("span.chip.tag", {text: `unchanged - ${r.skipped}`}) : null]),
+        el("td.name.new", {}, [el("span", {text: r.new, translate: "no"}),
+                               r.skipped ? el("span.chip.tag", {text: `unchanged - ${r.skipped}`}) : null]),
     ]));
     box.replaceChildren(el("table.table", {}, [
         el("thead", {}, el("tr", {}, [el("th", {text: "Current name"}), el("th.arrow"), el("th", {text: "New name"})])),
@@ -118,10 +119,14 @@ function drawPreview(s) {
 Buddy.on("state", s => {
     state = s;
     setScope(s.scope);
-    $("where").textContent = s.connected && !s.error && s.where ? s.where : "Preview";
-    $("summary").textContent = !s.connected || s.error ? "" :
-        `${s.total} clip${s.total === 1 ? "" : "s"} · ` +
-        (s.changes ? `${s.changes} will be renamed` : "nothing to rename yet");
+    const where = s.connected && !s.error && s.where ? s.where : "Preview";
+    // A bin's name is the user's; "Preview" and "Selected clips" are ours.
+    $("where").translate = !(s.scope === "bin" && where !== "Preview" && where !== "Current bin");
+    $("where").textContent = where;
+    $("summary").replaceChildren(...(!s.connected || s.error ? [] : [
+        el("span", {text: s.total === 1 ? "1 clip" : `${s.total} clips`}), " · ",
+        el("span", {text: s.changes ? `${s.changes} will be renamed` : "nothing to rename yet"}),
+    ]));
     $("only-changes-box").hidden = !s.connected || !!s.error;
     drawPreview(s);
 
@@ -139,13 +144,14 @@ Buddy.on("state", s => {
 
     const rename = $("rename");
     rename.disabled = !s.connected || !!s.error || !!p || !s.changes;
-    rename.textContent = s.changes ? `Rename ${s.changes} clip${s.changes === 1 ? "" : "s"}` : "Rename";
+    rename.textContent = !s.changes ? "Rename" : s.changes === 1 ? "Rename 1 clip" : `Rename ${s.changes} clips`;
 
     const undo = $("undo");
     undo.hidden = !s.undo;
     if (s.undo) {
         undo.replaceChildren(icon("undo"), `Undo last rename (${s.undo.count})`);
-        undo.title = `Put back the ${s.undo.count} name${s.undo.count === 1 ? "" : "s"} changed in ${s.undo.where}`;
+        undo.title = s.undo.count === 1 ? `Put back the 1 name changed in ${s.undo.where}`
+                                        : `Put back the ${s.undo.count} names changed in ${s.undo.where}`;
     }
 });
 

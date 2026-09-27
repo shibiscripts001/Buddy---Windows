@@ -28,6 +28,7 @@ from pathlib import Path
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.message_dialog import confirm
 from core.web_page import WebDialog, _theme_host
 
@@ -148,8 +149,8 @@ class ManualBuildDialog(WebDialog):
     def on_browse(self, _payload=None):
         if self.worker is not None:
             return
-        path, _ = QFileDialog.getOpenFileName(self, "Choose the DaVinci Resolve Reference Manual", "",
-                                              "PDF files (*.pdf)")
+        path, _ = QFileDialog.getOpenFileName(self, tr("Choose the DaVinci Resolve Reference Manual"), "",
+                                              tr_filter("PDF files (*.pdf)"))
         if path:
             self._pick(path)
 

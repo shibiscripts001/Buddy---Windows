@@ -166,7 +166,7 @@ Buddy.on("result", r => {
         $("result-translate").classList.toggle("bad", !tr.ok);
         $("rtr-message").textContent = tr.message;
         $("rtr-files").replaceChildren(...(tr.translated || []).map(f => el("li", {title: f.path}, [
-            el("b", {text: f.language}), el("span.muted", {text: ` · ${f.cues} subtitles`}),
+            el("b", {text: f.language}), el("span.muted", {text: f.cues === 1 ? " · 1 subtitle" : ` · ${f.cues} subtitles`}),
         ])));
     }
     if (r && r.kind === "setup" && !r.ok) Buddy.toast(`Didn't finish: ${r.message}`, 6000);
@@ -185,7 +185,7 @@ Buddy.on("translate", t => {
     $("targets").replaceChildren(...(t.targets.length
         ? t.targets.map(c => el("span.chip.lang", {text: c.name}))
         : [el("span.muted", {text: "No languages chosen yet."})]));
-    $("folder").replaceChildren(el("bdi", {text: t.folder}));
+    $("folder").replaceChildren(el("bdi", {text: t.folder, translate: "no"}));
     $("folder").title = t.folder;
     $("tr-auto").checked = t.auto;
     $("tr-timeline").checked = t.timeline;

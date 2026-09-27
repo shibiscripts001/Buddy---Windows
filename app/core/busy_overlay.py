@@ -16,6 +16,8 @@ from PySide6.QtCore import QEvent, Qt, QTimer
 from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import QApplication, QWidget
 
+from core.i18n import tr
+
 # The shell overlay's historical look: near-black at ~63%.
 DEFAULT_TINT = QColor(20, 18, 24, 160)
 
@@ -154,5 +156,5 @@ class BusyOverlay(QWidget):
         font.setBold(True)
         painter.setFont(font)
         text_rect = self.rect().adjusted(0, int(cy + radius - 10), 0, 0)
-        painter.drawText(text_rect, Qt.AlignHCenter | Qt.AlignTop, self._message)
+        painter.drawText(text_rect, Qt.AlignHCenter | Qt.AlignTop, tr(self._message))
         painter.end()

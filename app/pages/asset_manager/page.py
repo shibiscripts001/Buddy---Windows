@@ -36,6 +36,7 @@ from PySide6.QtCore import QUrl
 from PySide6.QtGui import QImage
 from PySide6.QtWidgets import QFileDialog
 
+from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
@@ -113,7 +114,11 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
                             "sorts": self.sorts})
 
     def _add_log(self, text, kind="info"):
-        self._log.append({"time": time.strftime("%H:%M"), "text": text, "kind": kind})
+        """text: a sentence, or a list of whole sentences (each translated
+        on its own)."""
+        parts = text if isinstance(text, list) else None
+        self._log.append({"time": time.strftime("%H:%M"), "text": " ".join(parts) if parts else text,
+                          "parts": parts, "kind": kind})
         del self._log[:-LOG_LIMIT]
         self.emit("log", self._log)
 
@@ -251,7 +256,7 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
 
     # ------------------------------------------------------------- adding --
 
-    def _add_paths(self, paths, where):
+    def _add_paths(self, paths, folder=""):
         """Adds media files to the library (and, in Projects, links them to
         the open project). Returns (added, already there)."""
         project = self.projects.projects.get(self.project_id) if self.list_view == "projects" else None
@@ -268,12 +273,16 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
         self.library.save()
         if project:
             self.projects.save()
-        text = f"Added {added} asset{'s' if added != 1 else ''}{where}"
+        if folder:
+            parts = [f"Added 1 asset from {folder}." if added == 1 else f"Added {added} assets from {folder}."]
+        else:
+            parts = ["Added 1 asset." if added == 1 else f"Added {added} assets."]
         if existing:
-            text += f" ({existing} {'was' if existing == 1 else 'were'} in the library already)"
+            parts.append("1 was in the library already." if existing == 1
+                         else f"{existing} were in the library already.")
         if project:
-            text += f"; {linked} linked into '{project['name']}'"
-        self._add_log(text + ".", "success" if added or linked else "info")
+            parts.append(f"{linked} linked into '{project['name']}'.")
+        self._add_log(parts, "success" if added or linked else "info")
         self._push_projects()
         self._push_list()
 
@@ -294,16 +303,16 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
         if self._needs_project():
             return
         filter_str = "Supported media (" + " ".join(f"*{e}" for e in sorted(SUPPORTED_EXTS)) + ");;All files (*.*)"
-        paths, _ = QFileDialog.getOpenFileNames(self, "Add assets", "", filter_str)
+        paths, _ = QFileDialog.getOpenFileNames(self, tr("Add assets"), "", tr_filter(filter_str))
         if paths:
-            self._add_paths([os.path.normpath(p) for p in paths], "")
+            self._add_paths([os.path.normpath(p) for p in paths])
 
     def on_add_folder(self, _payload):
         if self._needs_project():
             return
-        folder = QFileDialog.getExistingDirectory(self, "Add every supported file in a folder")
+        folder = QFileDialog.getExistingDirectory(self, tr("Add every supported file in a folder"))
         if folder:
-            self._add_paths(self._media_under(folder), f" from {os.path.basename(os.path.normpath(folder))}")
+            self._add_paths(self._media_under(folder), os.path.basename(os.path.normpath(folder)))
 
     def on_files_dropped(self, paths):
         if self._needs_project():
@@ -315,7 +324,7 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
             elif os.path.splitext(path)[1].lower() in SUPPORTED_EXTS:
                 files.append(os.path.normpath(path))
         if files:
-            self._add_paths(files, "")
+            self._add_paths(files)
         else:
             self.emit("toast", {"text": "None of those are media Asset Manager takes"})
 
@@ -353,16 +362,17 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
         elif not total:
             self.emit("alert", {"title": "Nothing imported", "text": "None of the selected files are on disk any more."})
         else:
-            where = f" (folders as new bins: {', '.join(n for n, _ in groups)})" if groups else ""
-            self._add_log(f"Imported {total} item{'s' if total != 1 else ''} into the Media Pool{where}.", "success")
-            self.emit("toast", {"text": f"Imported {total} item{'s' if total != 1 else ''} into the Media Pool"})
+            text = "Imported 1 item into the Media Pool" if total == 1 else f"Imported {total} items into the Media Pool"
+            bins = ", ".join(n for n, _ in groups)
+            self._add_log(f"{text} (folders as new bins: {bins})." if groups else f"{text}.", "success")
+            self.emit("toast", {"text": text})
 
     def on_locate(self, payload):
         asset = self.library.assets.get((payload or {}).get("id"))
         if asset is None:
             return
         start = os.path.dirname(asset["path"])
-        path, _ = QFileDialog.getOpenFileName(self, f"Find {asset['name']}", start if os.path.isdir(start) else "")
+        path, _ = QFileDialog.getOpenFileName(self, tr("Find {name}").format(name=asset["name"]), start if os.path.isdir(start) else "")
         if path:
             self.library.update_path(asset["id"], os.path.normpath(path))
             self.library.save()
@@ -401,15 +411,16 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
             for asset_id in ids:
                 self.projects.remove_asset(project["id"], asset_id)
             self.projects.save()
-            self._add_log(f"Took {len(ids)} asset{'s' if len(ids) != 1 else ''} out of '{project['name']}' "
-                          "(still in your library).")
+            self._add_log(f"Took 1 asset out of '{project['name']}' (still in your library)." if len(ids) == 1
+                          else f"Took {len(ids)} assets out of '{project['name']}' (still in your library).")
         else:
             for asset_id in ids:
                 self.library.remove(asset_id)
                 self.projects.unlink_asset_everywhere(asset_id)
             self.library.save()
             self.projects.save()
-            self._add_log(f"Removed {len(ids)} asset{'s' if len(ids) != 1 else ''} from the library.")
+            self._add_log("Removed 1 asset from the library." if len(ids) == 1
+                          else f"Removed {len(ids)} assets from the library.")
         if self._preview_id in ids:
             self._show_preview(None)
         self._push_projects()
@@ -477,7 +488,8 @@ class AssetManagerPage(AssetSettingsMixin, WebToolPage):
             return
         linked = sum(1 for i in ids if self.projects.add_asset(project["id"], i))
         self.projects.save()
-        self._add_log(f"Linked {linked} asset{'s' if linked != 1 else ''} from your library into '{project['name']}'.",
+        self._add_log(f"Linked 1 asset from your library into '{project['name']}'." if linked == 1
+                      else f"Linked {linked} assets from your library into '{project['name']}'.",
                       "success")
         self._push_projects()
         self._push_list()
