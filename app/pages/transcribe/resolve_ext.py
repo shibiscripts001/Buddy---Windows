@@ -18,7 +18,14 @@ Rendering
 
 Subtitles
   - An SRT imports as one "Subtitle" media pool item; AppendToTimeline
-    places each cue as its own subtitle clip, at SRT time = timeline start.
+    places each cue as its own subtitle clip, at SRT time = timeline start
+    - EXCEPT the first time on a timeline that has anything on it: then it
+    really appends, and every cue lands after the end of the timeline's
+    content (12 minutes late on a 12-minute timeline; measured 2026-09-28,
+    playhead at the start, 30 s in, at the end or untouched alike). Placed
+    again after that, the same cues land exactly. So every placement is
+    checked cue by cue against the SRT and redone if it's off - and if it's
+    still off, taken off again (PLACE_TRIES): never left misplaced.
   - It needs a subtitle track to exist, and it ALWAYS lands on track 1 -
     new tracks, trackIndex, locking or disabling track 1 don't redirect it.
     So existing subtitles on track 1 are either replaced (the caller asks
@@ -49,8 +56,11 @@ import uuid
 from dataclasses import dataclass
 
 from . import drt
+from . import subtitles as st
 
 TRANSCRIPTS_BIN = "Buddy Transcripts"
+PLACE_TRIES = 2            # the first can land after the timeline's end; the second hasn't yet
+PLACE_TOLERANCE = 1        # frames a cue may be off (rounding) and still be where it belongs
 
 
 class TranscribeResolveError(RuntimeError):
@@ -218,14 +228,54 @@ class TranscribeController:
                     raise TranscribeResolveError("Resolve couldn't add a subtitle track.")
             if existing:
                 tl.DeleteClips(existing)
-            mp.AppendToTimeline([items[0]])
-            placed = len(self._subtitle_items(tl, 1))
-            if placed == 0:
-                raise TranscribeResolveError("Resolve imported the subtitles but didn't place them.")
-            return placed
+            expected = self._cue_frames(srt_path, tl, project)
+            off = 0
+            for _try in range(PLACE_TRIES):
+                mp.AppendToTimeline([items[0]])
+                placed = self._subtitle_items(tl, 1)
+                if not placed:
+                    raise TranscribeResolveError("Resolve imported the subtitles but didn't place them.")
+                off = self._misplaced_by(placed, expected)
+                if off is None:
+                    return len(placed)
+                tl.DeleteClips(placed)   # somewhere else: off again, and once more
+            seconds = off / self._fps(tl, project)
+            raise TranscribeResolveError(
+                f"Resolve put the subtitles {abs(seconds):.1f} s {'late' if seconds > 0 else 'early'}, "
+                "so they were taken off again – the SRT file is saved.")
         finally:
             if previous_bin is not None:
                 mp.SetCurrentFolder(previous_bin)
+
+    @staticmethod
+    def _fps(tl, project) -> float:
+        try:
+            return float(tl.GetSetting("timelineFrameRate") or project.GetSetting("timelineFrameRate") or 24)
+        except (TypeError, ValueError):
+            return 24.0
+
+    @classmethod
+    def _cue_frames(cls, srt_path, tl, project) -> list[int]:
+        """Where each cue of the SRT belongs: the timeline frame its start
+        is at (SRT 0 = the timeline's first frame), in time order."""
+        with open(srt_path, encoding="utf-8-sig") as f:
+            cues = st.parse_srt(f.read())
+        fps, start = cls._fps(tl, project), int(tl.GetStartFrame())
+        return sorted(start + round(c["start"] * fps) for c in cues)
+
+    @staticmethod
+    def _misplaced_by(placed, expected) -> int | None:
+        """None if every subtitle placed starts where its cue belongs (within
+        PLACE_TOLERANCE); else how many frames the furthest one is off (+:
+        late). Compared in time order; if Resolve dropped or merged some,
+        the first and last still have to line up."""
+        got = sorted(int(item.GetStart()) for item in placed)
+        if not got or not expected:
+            return None
+        pairs = list(zip(got, expected)) if len(got) == len(expected) else [(got[0], expected[0]),
+                                                                              (got[-1], expected[-1])]
+        worst = max((g - e for g, e in pairs), key=abs)
+        return None if abs(worst) <= PLACE_TOLERANCE else worst
 
     def timeline_with_subtitles(self, tracks: list, work_dir: str) -> tuple[str, list[int]]:
         """A copy of the current timeline with one subtitle track per
