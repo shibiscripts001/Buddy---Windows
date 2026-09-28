@@ -287,8 +287,9 @@ def fcp_time(value):
 
 
 def file_url(path):
-    """A media path as FCPXML's src: file://localhost/E:/My%20Media/a.wav."""
-    path = os.path.abspath(path).replace("\\", "/")
+    """A media path (as Resolve gives it: absolute, Windows' or a Mac's) as
+    FCPXML's src: file://localhost/E:/My%20Media/a.wav, file://localhost/Volumes/a.wav."""
+    path = str(path).replace("\\", "/")
     return "file://localhost" + ("" if path.startswith("/") else "/") + urllib.parse.quote(path, safe="/:")
 
 
@@ -318,7 +319,7 @@ def nested_fcpxml(name, path, fps, timeline_start, frames, media_start, source_i
     start = timeline_start * fd
     length = frames * fd
     duration = Fraction(media_duration) if media_duration else source_in + length
-    stem = os.path.basename(path)
+    stem = re.split(r"[\\/]", str(path))[-1]
 
     def key_time(t):
         return media_start + source_in + round((t - float(source_in)) / float(fd)) * fd + fd / 64

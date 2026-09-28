@@ -342,6 +342,8 @@ class KeysTests(unittest.TestCase):
         self.assertEqual(seconds(key.get("time")), media_start + source_in + 1 + Fraction(1, 24 * 64))
         self.assertEqual(key.get("value"), "-6dB")
         self.assertEqual(root.find(".//media-rep").get("src"), "file://localhost/E:/My%20Media/C1.MP4")
+        self.assertEqual(root.find(".//asset").get("name"), "C1.MP4")
+        self.assertEqual(K.file_url("/Volumes/SSD/a b.wav"), "file://localhost/Volumes/SSD/a%20b.wav")
 
     def test_ntsc_rates_are_exact(self):
         from fractions import Fraction
