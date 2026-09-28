@@ -144,9 +144,15 @@ def pymupdf_status() -> tuple[bool, bool]:
 
 
 def install_hint() -> str:
-    # sys.executable, not "pip": inside Resolve it is Resolve's interpreter,
-    # which is rarely the one on PATH. Same reasoning as Buddy.py's launcher.
-    return f'"{sys.executable}" -m pip install pymupdf pymupdf4llm'
+    # The Python Buddy runs on, not "pip" (rarely the one on PATH) and not
+    # sys.executable (fuscript.exe inside Resolve, which can't run pip).
+    # -s: Resolve runs Python isolated, so packages in the per-user folder
+    # (%APPDATA%\Python) are invisible to Buddy - without -s, pip would call
+    # a copy there "already satisfied" and install nothing.
+    from core.startup_manager import running_python_exe
+
+    python = running_python_exe() or sys.executable
+    return f'"{python}" -s -m pip install pymupdf pymupdf4llm'
 
 
 def ollama_status() -> tuple[bool, bool]:

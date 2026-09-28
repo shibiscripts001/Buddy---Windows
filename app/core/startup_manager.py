@@ -97,6 +97,17 @@ def _running_python_dirs():
     return dirs
 
 
+def running_python_exe():
+    """The console python.exe of the install Buddy is running on - what a
+    "pip install" hint should name, since inside Resolve sys.executable is
+    fuscript.exe, which can't run pip. None if it can't be found."""
+    for directory in _running_python_dirs():
+        candidate = os.path.join(directory, "python.exe" if IS_WINDOWS else "python3")
+        if os.path.isfile(candidate):
+            return candidate
+    return None
+
+
 def _python_dll_dir():
     if not IS_WINDOWS or not hasattr(sys, "dllhandle"):
         return None

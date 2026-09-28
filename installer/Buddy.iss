@@ -69,6 +69,15 @@ CloseApplications=no
 ; Always write %TEMP%\Setup Log <date> #NNN.txt - pip's full output goes in
 ; it, so a failed package install can be diagnosed afterwards.
 SetupLogging=yes
+; Inno Setup 6.7+ turns on Windows' RedirectionGuard by default, and - despite
+; its docs - the programs Setup runs get it too. It makes any junction a
+; non-admin user made untraversable (WinError 448), and pip resolves every
+; PATH entry after installing a package with scripts (cffi, PySide6), so one
+; user junction on PATH (e.g. a tool's bin folder) failed the whole install.
+; Setup runs per user without admin, so the guard protects nothing here.
+#if Ver >= EncodeVer(6, 7, 0)
+RedirectionGuard=no
+#endif
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -107,7 +116,7 @@ var
   PythonExe: string;
   NeedPython: Boolean;
   PipLines: Integer;
-  { What pip's output said went wrong, across both passes (see OnPipLine). }
+  { What pip's output said went wrong (see OnPipLine). }
   PipNetworkError, PipFilesLocked, PipNoMatch: Boolean;
   PipLastError: string;
 
@@ -289,16 +298,22 @@ begin
   end;
 end;
 
+{ -I everywhere Python runs below: Resolve's fuscript runs Python isolated
+  (no per-user site-packages in %APPDATA%\Python), so a package there is
+  missing as far as Buddy is concerned. Checking and installing isolated too
+  means "present" is what Buddy will actually find, and pip installs into
+  the Python's own site-packages instead of calling a per-user copy
+  "already satisfied". }
 function PackagesPresent(): Boolean;
 var
   ResultCode: Integer;
 begin
   Result := Exec(PythonExe,
-    '-c "import PySide6.QtWidgets, PySide6.QtMultimedia, PySide6.QtWebEngineWidgets, PIL, numpy, openpyxl, pynput, pymupdf, pymupdf4llm, cryptography"',
+    '-I -c "import PySide6.QtWidgets, PySide6.QtMultimedia, PySide6.QtWebEngineWidgets, PIL, numpy, openpyxl, pynput, pymupdf, pymupdf4llm, cryptography"',
     '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0);
 end;
 
-function PipInstall(const Extra: string): Boolean;
+function PipInstall(): Boolean;
 var
   ResultCode: Integer;
 begin
@@ -306,28 +321,34 @@ begin
   WizardForm.ProgressGauge.Style := npbstNormal;
   WizardForm.ProgressGauge.Max := 100;
   Result := ExecAndLogOutput(PythonExe,
-    '-m pip install --disable-pip-version-check --progress-bar off ' + Extra +
+    { --no-warn-script-location: Python isn't put on PATH on purpose, and the
+      check behind that warning is what walked PATH (see RedirectionGuard). }
+    '-I -m pip install --disable-pip-version-check --no-warn-script-location --progress-bar off' +
     ' -r "' + ExpandConstant('{tmp}\requirements.txt') + '"',
     '', SW_HIDE, ewWaitUntilTerminated, ResultCode, @OnPipLine) and (ResultCode = 0);
-  Log(Format('pip install %s exit code: %d', [Extra, ResultCode]));
+  Log(Format('pip install exit code: %d', [ResultCode]));
 end;
 
 { Programs that may have Buddy's Python packages loaded: Resolve (Buddy runs
   inside its script host) and anything running from Buddy's Python itself
-  (Buddy in the tray, its Resolve watcher). Windows won't let pip replace a
-  loaded .pyd, so an update fails while any of these are open. }
+  (Buddy in the tray). Windows won't let pip replace a loaded .pyd, so an
+  update fails while any of these are open. The Resolve watcher runs from
+  that Python too but isn't counted: it imports only the standard library,
+  so it holds nothing pip replaces - and it has no tray icon to quit it by,
+  so asking would just loop. }
 function FindBlockingPrograms(): string;
 var
   Locator, Service, Procs, P: Variant;
   I: Integer;
-  PyDir, Name, Path, Found: string;
+  PyDir, Watcher, Name, Path, CmdLine, Found: string;
 begin
   Result := '';
   PyDir := Lowercase(ExtractFilePath(PythonExe));
+  Watcher := Lowercase(ExpandConstant('{app}\resolve_watcher.py'));
   try
     Locator := CreateOleObject('WbemScripting.SWbemLocator');
     Service := Locator.ConnectServer('.', 'root\CIMV2');
-    Procs := Service.ExecQuery('SELECT Name, ExecutablePath FROM Win32_Process');
+    Procs := Service.ExecQuery('SELECT Name, ExecutablePath, CommandLine FROM Win32_Process');
     for I := 0 to Procs.Count - 1 do
     begin
       P := Procs.ItemIndex(I);
@@ -339,9 +360,17 @@ begin
         Path := P.ExecutablePath;
         Path := Lowercase(Path);
       end;
+      CmdLine := '';
+      if not VarIsNull(P.CommandLine) then
+      begin
+        CmdLine := P.CommandLine;
+        CmdLine := Lowercase(CmdLine);
+      end;
       Found := '';
       if (Name = 'resolve.exe') or (Name = 'fuscript.exe') then
         Found := 'DaVinci Resolve'
+      else if Pos(Watcher, CmdLine) > 0 then
+        Log('Ignoring the Resolve watcher (stdlib only): ' + CmdLine)
       else if (PyDir <> '') and (Pos(PyDir, Path) = 1) then
         Found := 'Buddy (or another Python program)';
       if (Found <> '') and (Pos(Found, Result) = 0) then
@@ -393,7 +422,7 @@ begin
   SuppressibleMsgBox('Buddy is installed, but its Python packages couldn''t be installed.' + #13#10#13#10 +
     Reason + #13#10#13#10 +
     'Or install them yourself with:' + #13#10 +
-    '"' + PythonExe + '" -m pip install PySide6 pillow numpy openpyxl pynput pymupdf pymupdf4llm cryptography' + #13#10#13#10 +
+    '"' + PythonExe + '" -s -m pip install PySide6 pillow numpy openpyxl pynput pymupdf pymupdf4llm cryptography' + #13#10#13#10 +
     'Full details are in the setup log:' + #13#10 + ExpandConstant('{log}'),
     mbError, MB_OK, IDOK);
 end;
@@ -424,11 +453,11 @@ begin
   PipLastError := '';
   WizardForm.StatusLabel.Caption := 'Downloading and installing Buddy''s Python packages ' +
     '(about 300 MB - this can take a few minutes)...';
-  Ok := PipInstall('') and PackagesPresent();
-  { A Python installed for all users (Program Files) can't be written to
-    without admin - fall back to the user's own site-packages. }
-  if not Ok then
-    Ok := PipInstall('--user') and PackagesPresent();
+  { No --user fallback: Resolve never looks in the per-user site-packages
+    (see PackagesPresent), so it could only report success while Buddy still
+    can't import anything. A Python installed for all users (Program Files)
+    needs the manual command from an admin prompt instead. }
+  Ok := PipInstall() and PackagesPresent();
 
   if not Ok then
     ReportPipFailure();
