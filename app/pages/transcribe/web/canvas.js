@@ -5,7 +5,8 @@
  * width, placed around the clip's Center the way Text+ lays it out: the Center is the middle of the
  * line box, not of the ink) and sends it with "canvas"; this draws and moves it locally and reports only a
  * finished edit ("move", "group_move", "resize", "bounding", through send) - nothing reaches Resolve
- * mid-drag. Snapping (frame centre, other clips' edges, centres and baselines, safe-zone edges) and the
+ * mid-drag. Snapping (frame centre, other clips' edges, centres and baselines, safe-zone edges; never
+ * back to where a drag started, and off while Alt is held) and the
  * overlays (grid, safe zone, bounding lines) are drawn here from "overlay".
  *
  *   const c = PlacementCanvas(node, {tab: "layout", multi: false, send});
@@ -255,11 +256,17 @@ function PlacementCanvas(root, {tab, multi, send}) {
             if (!it.moved && Math.hypot(dx, dy) < 3) return;
             it.moved = true;
             const primary = byId(it.primary), s0 = it.start.get(it.primary);
-            if (primary && s0) {
+            if (primary && s0 && !e.altKey) {             // Alt: place freely, no snapping
                 const r = rectOf(primary, {cx: s0.cx + dx / W, cy: s0.cy + dy / H, size: s0.size});
                 const s = snap(new Set(it.start.keys()), r);
+                // Never snapped back to where it started: a word on a line (or an edge) could
+                // otherwise not be nudged off it - every small move landed back in place.
+                if (Math.abs(dx + s.dx) < 0.5) { s.dx = 0; guides.x = null; }
+                if (Math.abs(dy + s.dy) < 0.5) { s.dy = 0; guides.y = null; }
                 dx += s.dx;
                 dy += s.dy;
+            } else {
+                guides = {x: null, y: null};
             }
             for (const [id, s] of it.start) local.set(id, {cx: s.cx + dx / W, cy: s.cy + dy / H, size: s.size});
             for (const id of it.start.keys()) drawItem(byId(id));

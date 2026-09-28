@@ -39,5 +39,33 @@ class ShadingElementTests(unittest.TestCase):
         self.assertIn("Background", logs[0])
 
 
+class GrowPresetTests(unittest.TestCase):
+    """Pop and Bounce grow the text from a tiny scale, never 0: a Text+ at LayoutSize 0
+    rendered the whole frame black over the video."""
+
+    def keyframes(self, apply):
+        seen = {}
+
+        def spline(_tool, _comp, input_name, keyframes):
+            seen[input_name] = keyframes
+            return True, []
+        original = E._create_and_connect_spline
+        E._create_and_connect_spline = staticmethod(spline)
+        try:
+            ok, _logs = apply(FakeTextTool(), object())
+        finally:
+            E._create_and_connect_spline = original
+        self.assertTrue(ok)
+        return seen["LayoutSize"]
+
+    def test_pop_and_bounce_start_just_above_zero(self):
+        for apply in (E.apply_pop_preset_to_clip, E.apply_bounce_preset_to_clip):
+            keys = self.keyframes(apply)
+            first, last = keys[min(keys)], keys[max(keys)]
+            self.assertGreater(first, 0, apply.__name__)
+            self.assertLess(first, 0.01, apply.__name__)                   # still nothing to see
+            self.assertEqual(last, 1.0, apply.__name__)
+
+
 if __name__ == "__main__":
     unittest.main()

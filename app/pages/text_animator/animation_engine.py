@@ -563,6 +563,10 @@ class FusionAnimationEngine:
         return keyframes_set, log_msgs
 
     # Tuning constants for the preset shapes below.
+    # Pop and Bounce grow from this scale, not 0: a Text+ at LayoutSize exactly 0 rendered the
+    # whole frame black over the video (seen on two clips; removing the animation fixed it).
+    # A thousandth of full size is still nothing to see.
+    _START_SCALE = 0.001
     _POP_OVERSHOOT_SCALE = 1.1  # kept small so Pop doesn't grow too far past its final size
     # before settling.
     _BOUNCE_FIRST_OVERSHOOT_SCALE = 1.25  # bigger than Pop's own overshoot, for a livelier feel
@@ -612,7 +616,7 @@ class FusionAnimationEngine:
         t0 = start_frame
         t1 = start_frame + int(duration * 0.6)
         t2 = start_frame + duration
-        keyframes = {t0: 0.0, t1: FusionAnimationEngine._POP_OVERSHOOT_SCALE, t2: 1.0}
+        keyframes = {t0: FusionAnimationEngine._START_SCALE, t1: FusionAnimationEngine._POP_OVERSHOOT_SCALE, t2: 1.0}
 
         success, kf_logs = FusionAnimationEngine._create_and_connect_spline(text_tool, comp, "LayoutSize", keyframes)
         log_msgs.extend(kf_logs)
@@ -638,7 +642,7 @@ class FusionAnimationEngine:
         t3 = start_frame + int(duration * 0.75)
         t4 = start_frame + duration
         keyframes = {
-            t0: 0.0,
+            t0: FusionAnimationEngine._START_SCALE,
             t1: FusionAnimationEngine._BOUNCE_FIRST_OVERSHOOT_SCALE,
             t2: FusionAnimationEngine._BOUNCE_UNDERSHOOT_SCALE,
             t3: FusionAnimationEngine._BOUNCE_SECOND_OVERSHOOT_SCALE,

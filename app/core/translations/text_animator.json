@@ -350,15 +350,15 @@
   "العربية": "الوضع المباشر",
   "Tiếng Việt": "Đặt vị trí trực tiếp"
  },
- "Drag to move, drag a corner to resize, arrow keys to nudge. Changes go to Resolve when you let go.": {
-  "日本語": "ドラッグで移動、角をドラッグでサイズ変更、矢印キーで微調整。指を離すと変更が Resolve に送られます。",
-  "Español": "Arrastra para mover, arrastra una esquina para cambiar el tamaño, usa las flechas para ajustar. Los cambios van a Resolve al soltar.",
-  "Deutsch": "Ziehen zum Verschieben, an einer Ecke ziehen zum Skalieren, Pfeiltasten zum Feinjustieren. Änderungen gehen beim Loslassen an Resolve.",
-  "Français": "Faites glisser pour déplacer, un coin pour redimensionner, les flèches pour ajuster. Les modifications partent vers Resolve quand vous relâchez.",
-  "한국어": "드래그하여 이동, 모서리를 드래그하여 크기 조정, 화살표 키로 미세 조정. 놓으면 변경 사항이 Resolve로 전송됩니다.",
-  "中文": "拖动以移动，拖动角以调整大小，方向键微调。松开后更改会发送到 Resolve。",
-  "العربية": "اسحب للنقل، واسحب زاوية لتغيير الحجم، ومفاتيح الأسهم للتحريك الدقيق. تذهب التغييرات إلى Resolve عند الإفلات.",
-  "Tiếng Việt": "Kéo để di chuyển, kéo góc để đổi kích thước, phím mũi tên để nhích. Thay đổi được gửi tới Resolve khi bạn thả chuột."
+ "Drag to move, drag a corner to resize, arrow keys to nudge; hold Alt while dragging to place without snapping. Changes go to Resolve when you let go.": {
+  "日本語": "ドラッグで移動、角をドラッグでサイズ変更、矢印キーで微調整。ドラッグ中に Alt を押すとスナップせずに配置できます。指を離すと変更が Resolve に送られます。",
+  "Español": "Arrastra para mover, arrastra una esquina para cambiar el tamaño, usa las flechas para ajustar; mantén Alt al arrastrar para colocar sin ajuste magnético. Los cambios van a Resolve al soltar.",
+  "Deutsch": "Ziehen zum Verschieben, an einer Ecke ziehen zum Skalieren, Pfeiltasten zum Feinjustieren; beim Ziehen Alt halten, um ohne Einrasten zu platzieren. Änderungen gehen beim Loslassen an Resolve.",
+  "Français": "Faites glisser pour déplacer, un coin pour redimensionner, les flèches pour ajuster ; maintenez Alt en faisant glisser pour placer sans magnétisme. Les modifications partent vers Resolve quand vous relâchez.",
+  "한국어": "드래그하여 이동, 모서리를 드래그하여 크기 조정, 화살표 키로 미세 조정. 드래그 중 Alt를 누르면 스냅 없이 배치합니다. 놓으면 변경 사항이 Resolve로 전송됩니다.",
+  "中文": "拖动以移动，拖动角以调整大小，方向键微调；拖动时按住 Alt 可不吸附地放置。松开后更改会发送到 Resolve。",
+  "العربية": "اسحب للنقل، واسحب زاوية لتغيير الحجم، ومفاتيح الأسهم للتحريك الدقيق؛ اضغط Alt أثناء السحب للوضع دون محاذاة تلقائية. تذهب التغييرات إلى Resolve عند الإفلات.",
+  "Tiếng Việt": "Kéo để di chuyển, kéo góc để đổi kích thước, phím mũi tên để nhích; giữ Alt khi kéo để đặt mà không bám dính. Thay đổi được gửi tới Resolve khi bạn thả chuột."
  },
  "Undo (Ctrl+Z)": {
   "日本語": "元に戻す (Ctrl+Z)",
