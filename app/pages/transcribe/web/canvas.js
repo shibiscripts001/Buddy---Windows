@@ -1,19 +1,20 @@
 /*
- * Text Animator's placement canvas: every Text+ clip under Resolve's playhead, drawn at its
+ * The Text+ tabs' placement canvas: every Text+ clip under Resolve's playhead, drawn at its
  * real position, font, size and colour, to drag, resize (corner handles) and nudge (arrow
- * keys). page.py measures each clip's text (canvas_math.text_box - fractions of the frame
- * width) and sends it with "canvas"; this draws and moves it locally and reports only a
- * finished edit ("move", "group_move", "resize", "bounding") - nothing reaches Resolve
- * mid-drag. Snapping (frame centre, other clips' edges and centres, safe-zone edges) and the
+ * keys). text_animator/text_plus.py measures each clip's text (canvas_math.text_box - fractions of the frame
+ * width, placed around the clip's Center the way Text+ lays it out: the Center is the middle of the
+ * line box, not of the ink) and sends it with "canvas"; this draws and moves it locally and reports only a
+ * finished edit ("move", "group_move", "resize", "bounding", through send) - nothing reaches Resolve
+ * mid-drag. Snapping (frame centre, other clips' edges, centres and baselines, safe-zone edges) and the
  * overlays (grid, safe zone, bounding lines) are drawn here from "overlay".
  *
- *   const c = PlacementCanvas(node, {tab: "layout", multi: false});
+ *   const c = PlacementCanvas(node, {tab: "layout", multi: false, send});
  *   c.update(canvasPayload); c.setOverlay(overlay); c.setBounding({on, left, right});
  */
 "use strict";
 
-function PlacementCanvas(root, {tab, multi}) {
-    const {el, send} = Buddy;
+function PlacementCanvas(root, {tab, multi, send}) {
+    const {el} = Buddy;
     const SNAP_PX = 8;
     const MIN_SIZE = 0.005;
     const GUIDE = "#FFEB3B";          // guide yellow - drawn on the frame, not the theme
@@ -52,10 +53,13 @@ function PlacementCanvas(root, {tab, multi}) {
         return {cx: o ? o.cx : item.cx, cy: o ? o.cy : item.cy, size: o && o.size !== undefined ? o.size : item.size};
     }
 
+    // The ink box (padded) where Text+ draws it: box.left/top are from the Center, in frame
+    // widths. baselines: each line's, in canvas pixels - what words in a row share.
     function rectOf(item, v = view(item)) {
         const k = item.size ? v.size / item.size : 1, b = item.box, pad = data.padding * W;
         const w = b.w * W * k + 2 * pad, h = b.h * W * k + 2 * pad;
-        return {x: v.cx * W - w / 2, y: v.cy * H - h / 2, w, h};
+        return {x: v.cx * W + b.left * W * k - pad, y: v.cy * H + b.top * W * k - pad, w, h,
+                baselines: b.lines.map(([, y]) => v.cy * H + y * W * k)};
     }
 
     function fit() {
@@ -91,9 +95,10 @@ function PlacementCanvas(root, {tab, multi}) {
         text.setAttribute("width", r.w);
         text.setAttribute("height", r.h);
         text.replaceChildren(...item.text.split("\n").map((line, i) => {
+            const [ox, oy] = b.lines[i] || b.lines[0];      // the line's origin, from the Center
             const t = svg("text", {
-                x: pad - b.left * W * k,
-                y: pad - b.top * W * k + (b.ascent + i * b.line) * W * k,
+                x: pad + (ox - b.left) * W * k,
+                y: pad + (oy - b.top) * W * k,
                 "font-size": b.px * W * k,
                 "font-weight": item.font.weight,
                 "font-style": item.font.italic ? "italic" : "normal",
@@ -157,13 +162,14 @@ function PlacementCanvas(root, {tab, multi}) {
     function snap(moving, r) {
         guides = {x: null, y: null};
         if (!overlay.snap) return {dx: 0, dy: 0};
-        const xs = [W / 2], ys = [H / 2];
+        const xs = [W / 2], ys = [H / 2], bases = [];
         if (overlay.snap_elements) {
             for (const item of data.items) {
                 if (moving.has(item.id)) continue;
                 const o = rectOf(item);
                 xs.push(o.x, o.x + o.w / 2, o.x + o.w);
                 ys.push(o.y, o.y + o.h / 2, o.y + o.h);
+                bases.push(...o.baselines);
             }
         }
         if (overlay.snap_safe) {
@@ -180,7 +186,10 @@ function PlacementCanvas(root, {tab, multi}) {
             return [delta, guide];
         };
         const [dx, gx] = best([r.x, r.x + r.w / 2, r.x + r.w], xs);
-        const [dy, gy] = best([r.y, r.y + r.h / 2, r.y + r.h], ys);
+        // Baseline to baseline wins when it's in reach: a word dropped on a line of the group
+        // then sits on that line as Resolve draws it, whatever its letters hang below or reach above.
+        let [dy, gy] = best(r.baselines, bases);
+        if (gy === null) [dy, gy] = best([r.y, r.y + r.h / 2, r.y + r.h], ys);
         guides = {x: gx, y: gy};
         return {dx, dy};
     }

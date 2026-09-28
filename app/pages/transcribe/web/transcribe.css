@@ -8,6 +8,12 @@
 .link-btn { font: inherit; background: none; border: 0; padding: 0; color: var(--link); cursor: pointer; text-decoration: underline; }
 p.hint, .note { margin: 0; line-height: 1.5; }
 
+/* Eight tabs scroll sideways in a narrow window (textplus.css). Only sideways: the selected
+   tab's line overlaps the row's border by a pixel, which would add a vertical scrollbar. */
+.tabs { overflow-y: hidden; }
+/* Setup sits apart at the far end of the tabs. */
+.tabs .end { margin-left: auto; }
+
 .badge-dot {
     display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-left: 4px; vertical-align: 2px;
     background: var(--danger);
@@ -15,7 +21,7 @@ p.hint, .note { margin: 0; line-height: 1.5; }
 
 /* The running job - same bar for transcription, translation and setup. */
 .jobbar { display: flex; flex-direction: column; gap: 8px; padding: var(--card-pad); border-color: var(--emphasis-line); }
-.stage { color: var(--text-strong); font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jobbar .stage { color: var(--text-strong); font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pct { font-variant-numeric: tabular-nums; color: var(--text-dim); font-size: var(--fs-sm); }
 .bar { height: 6px; border-radius: 3px; background: var(--raised-bg); overflow: hidden; position: relative; }
 .bar i { display: block; height: 100%; width: 0; background: var(--emphasis-fill); border-radius: inherit; transition: width .3s; }
@@ -33,6 +39,10 @@ p.hint, .note { margin: 0; line-height: 1.5; }
 .num { width: 72px !important; text-align: center; font-variant-numeric: tabular-nums; }
 .run-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .btn.big { padding: 10px 24px; font-size: var(--fs-md); }
+.opts > p { margin: 0; line-height: 1.5; }
+.conv-row { gap: 14px; align-items: flex-end; }
+.conv-row .lbl { min-width: 160px; }
+.conv-arrow { display: flex; color: var(--text-dim); padding-bottom: 8px; }
 
 .result { display: flex; flex-direction: column; gap: var(--card-gap); padding: var(--card-pad); }
 .result-head { display: flex; align-items: center; gap: 8px; color: var(--text-strong); }

@@ -12,6 +12,7 @@ script and has been ported into the shell.
 
 All 13 tools are working (12 ported, plus the new Transcribe):
 
+- Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Transcribe)
 - Ask Buddy (chat agent)
 - Asset Manager
 - Batch Clip Renamer
@@ -21,9 +22,8 @@ All 13 tools are working (12 ported, plus the new Transcribe):
 - Project Setup
 - Stills Exporter
 - SVG Importer
-- Text Animator
 - Time Tracker
-- Transcribe (Translate included)
+- Transcribe (Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
 - YouTube Chapters
 
 ## Background behavior (Time Tracker)
@@ -129,8 +129,8 @@ sent to the internet (unless you choose AI translation with a cloud model). Tran
 runs Whisper (faster-whisper) on it, builds readable subtitles from the word
 timings (42 characters a line, two lines, breaking at sentences and
 clauses), and puts them on subtitle track 1 as well as saving an SRT in
-`~/.buddy/transcribe/output/`. Text Animator's Subtitle Conversion can take
-them from there.
+`~/.buddy/transcribe/output/`. Its Subtitle Conversion tab turns them into
+Text+ clips, and the tabs after it style, place and animate them.
 
 - **One-time setup** (Transcribe > Set up...): installs the engine into its
   own environment in `~/.buddy/transcribe/`, built from the Python Buddy runs

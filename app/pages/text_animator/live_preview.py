@@ -30,9 +30,6 @@ class ActiveTextItem(NamedTuple):
 # with an unrecognized shape gets exactly one diagnostic line instead of one every ~0.5s.
 _warned_center_types: set = set()
 
-# Tracks which clip identities have already had their raw Size value logged (see
-# _read_text_tool_state) - one line per clip ever seen, not one every poll.
-_logged_size_keys: set = set()
 
 
 def parse_point(value: Any) -> Optional[Tuple[float, float]]:
@@ -94,14 +91,12 @@ def _get_current_frame(timeline: Any) -> Optional[int]:
 def _read_text_tool_state(
     text_tool: Any,
     log: Optional[Callable[[str], None]] = None,
-    diagnostic_key: Any = None,
 ) -> Optional[dict]:
     """Defensively reads the fields needed to render/reposition one Text+ tool, defaulting
     anything unreadable rather than failing the whole scan over one bad clip. `log`, if
-    given, receives a one-time diagnostic if Center can't be parsed (see parse_point), and
-    a one-time-per-clip diagnostic of the raw Size value (if the preview's rendered font
-    size doesn't match DaVinci's real render, the real number lets the actual formula be
-    derived from it rather than guessed)."""
+    given, receives a one-time diagnostic if Center can't be parsed (see parse_point). (A
+    line per clip with its raw Size went too - the size rule is measured now, see
+    canvas_math, and with a clip per word it flooded the activity log.)"""
     if text_tool is None or not hasattr(text_tool, "GetInput"):
         return None
 
@@ -139,15 +134,6 @@ def _read_text_tool_state(
                     f"({center!r}) – leaving this item at its last known preview position "
                     "instead of guessing. Please report this so the parser can be fixed."
                 )
-
-    if diagnostic_key is not None and diagnostic_key not in _logged_size_keys:
-        _logged_size_keys.add(diagnostic_key)
-        if log is not None:
-            log(
-                f"[Live Preview] Diagnostic – raw Size read for clip {diagnostic_key!r}: "
-                f"{font_size!r} (type {type(font_size).__name__}). Please share this line "
-                "if the preview's font size doesn't match DaVinci's real render."
-            )
 
     return {
         "text": text if isinstance(text, str) else "",
@@ -220,7 +206,7 @@ def get_active_text_plus_items(
             # position on this track.
             key = (track_index, clip_name, start_frame, end_frame)
 
-            state = _read_text_tool_state(text_tool, log=log, diagnostic_key=key)
+            state = _read_text_tool_state(text_tool, log=log)
             if state is None:
                 continue
 

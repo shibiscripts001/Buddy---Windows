@@ -137,6 +137,9 @@ if HAVE_QT:
 class FakeResolve:
     existing = 0
     placed = []
+    timeline, empty = "Interview", 4     # Subtitle Conversion's view of the timeline
+    subtitles = 12
+    converted = []
 
     def __init__(self, controller):
         pass
@@ -149,6 +152,18 @@ class FakeResolve:
         FakeResolve.placed.append((srt, replace_existing))
         return 12
 
+    def conversion_tracks(self):
+        return {"timeline": FakeResolve.timeline, "video": 3, "subtitle": 1, "empty": FakeResolve.empty}
+
+    def subtitles_to_text_plus(self, sub_track, video_track, log=lambda msg: None):
+        from pages.transcribe.resolve_ext import TranscribeResolveError
+        if not FakeResolve.subtitles:
+            raise TranscribeResolveError(f"Subtitle track {sub_track} has no subtitles.")
+        log("  - [Diagnostic] Timeline methods present: all")     # too much detail for the log
+        log("  - [Setup] Found a Text+ template in the Media Pool; using it for exact placement.")
+        FakeResolve.converted.append((sub_track, video_track))
+        return FakeResolve.subtitles
+
 
 class Mem(dict):
     def save(self):
@@ -159,7 +174,8 @@ class Host:
     shared_settings = {"theme": "Resolve"}
 
     def __init__(self):
-        self.controller, self.connected = object(), True
+        # resolve=None: the Text+ tabs' own calls find no timeline and do nothing.
+        self.controller, self.connected = SimpleNamespace(resolve=None), True
         self.busy = []
         self.tools = {}
 
@@ -189,6 +205,7 @@ class PageTests(unittest.TestCase):
         tmp = Path(self._tmp.name)
         FakeJob.made.clear()
         FakeResolve.existing, FakeResolve.placed = 0, []
+        FakeResolve.timeline, FakeResolve.empty, FakeResolve.subtitles, FakeResolve.converted = "Interview", 4, 12, []
         self._patch(page_mod.TranscribePage, "_settings_path", lambda s: tmp / "settings.json")
         self._patch(page_mod.jobs, "ProbeJob", FakeProbe)
         for name in ("TranscribeJob", "TranslateJob", "AITranslateJob", "SetupJob"):
@@ -288,6 +305,56 @@ class PageTests(unittest.TestCase):
         self.page.on_answer({"id": ask["id"], "ok": True})
         self.assertEqual(len(FakeJob.made), 1)
         self.assertTrue(self.page.settings.get("ai_consent_anthropic"))
+
+    def test_subtitle_conversion_suggests_the_topmost_empty_track(self):
+        self.page.on_shown()
+        c = self.last("convert")
+        self.assertEqual((c["video"], c["subtitle"], c["sub_track"], c["target_track"]), (3, 1, 1, 4))
+
+    def test_a_chosen_target_track_is_kept_until_used(self):
+        self.page.on_shown()
+        self.page.on_conv_option({"key": "target_track", "value": 2})
+        FakeResolve.empty = 3                                           # e.g. a track emptied meanwhile
+        self.page.on_shown()                                            # back from another page
+        self.page.on_refresh_timeline()
+        self.assertEqual(self.last("convert")["target_track"], 2)
+        self.page.on_convert()
+        self.assertEqual(FakeResolve.converted, [(1, 2)])               # the track chosen, not a new one
+        self.assertEqual(self.last("convert")["target_track"], 3)       # used: back to the suggestion
+        self.page.on_conv_option({"key": "target_track", "value": 2})
+        FakeResolve.timeline = "Another timeline"
+        self.page.on_shown()
+        self.assertEqual(self.last("convert")["target_track"], 3)
+
+    def test_converting_says_what_happened_and_offers_the_animation_page(self):
+        self.page.on_shown()
+        self.page.on_conv_option({"key": "sub_track", "value": 2})
+        self.page.on_convert()
+        self.assertEqual(FakeResolve.converted, [(2, 4)])
+        self.assertEqual(self.host.busy, [True, False])
+        self.assertEqual(self.last("toast"), {"text": "12 Text+ clips on video track 4", "style": True})
+        texts = [e["text"] for e in self.page._log]
+        self.assertIn("[Setup] Found a Text+ template in the Media Pool; using it for exact placement.", texts)
+        self.assertFalse([t for t in texts if "Diagnostic" in t])
+
+        FakeResolve.subtitles = 0
+        self.page.on_convert()
+        self.assertEqual(self.last("alert")["text"], "Subtitle track 2 has no subtitles.")
+        self.assertEqual(self.host.busy[-1], False)
+
+    def test_the_text_plus_tabs_are_hosted_here(self):
+        self.assertEqual(self.page_mod.TABS, ("subtitles", "translate", "convert", "style", "layout",
+                                              "animation", "words", "setup"))
+        tools = self.page.textplus
+        with mock.patch.object(tools, "tab_shown") as shown:
+            self.page.on_tab({"tab": "style"})
+            shown.assert_called_once_with()
+        self.assertEqual(tools.tab, "style")
+        self.page.on_run()                                                # a job running...
+        self.page._dispatch("tp_set", {"name": "font_size", "value": 0.2})
+        self.assertEqual(self.host.tools["text_animator"]["font_size"], 0.2)   # ...doesn't hold Text+ back
+        self.assertEqual(self.last("tp_options")["sliders"]["font_size"]["value"], 0.2)
+        self.page._dispatch("tp_nonsense", {})                            # unknown: ignored
 
     def test_setup_download_and_using_a_copy(self):
         self.page.on_download({"id": "large-v3-turbo"})

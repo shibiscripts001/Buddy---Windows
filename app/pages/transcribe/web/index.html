@@ -6,6 +6,7 @@
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
     <title>Transcribe</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="textplus.css">
     <link rel="stylesheet" href="transcribe.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
     <script src="../../../web/buddy.js"></script>
@@ -21,7 +22,12 @@
     <nav class="tabs" role="tablist" id="tabs">
         <button type="button" role="tab" data-tab="subtitles">Subtitles</button>
         <button type="button" role="tab" data-tab="translate">Translate</button>
-        <button type="button" role="tab" data-tab="setup">Setup <i class="badge-dot" id="setup-dot" hidden></i></button>
+        <button type="button" role="tab" data-tab="convert">Subtitle conversion</button>
+        <button type="button" role="tab" data-tab="style">Font styling</button>
+        <button type="button" role="tab" data-tab="layout">Timeline layout</button>
+        <button type="button" role="tab" data-tab="animation">Timeline animation</button>
+        <button type="button" role="tab" data-tab="words">Custom animation</button>
+        <button type="button" role="tab" data-tab="setup" class="end">Setup <i class="badge-dot" id="setup-dot" hidden></i></button>
     </nav>
 
     <section class="card jobbar" id="jobbar" hidden>
@@ -82,8 +88,8 @@
             <div class="muted" id="rt-summary"></div>
             <div class="row wrap">
                 <button type="button" class="btn" data-action="save_srt" id="rt-save">Save SRT…</button>
-                <button type="button" class="btn" data-action="open_animator" id="rt-animator"
-                        title="Text Animator's Subtitle conversion tab turns subtitle track clips into styled Text+">Open in Text Animator</button>
+                <button type="button" class="btn" data-goto="convert" id="rt-convert"
+                        title="Turns each subtitle into its own Text+ clip, to style, place and animate on the tabs that follow">Convert to Text+…</button>
                 <button type="button" class="btn ghost" data-goto="translate" id="rt-translate">Translate it…</button>
             </div>
         </section>
@@ -123,6 +129,206 @@
             <div class="result-head"><span class="result-icon" id="rtr-icon"></span><b id="rtr-message"></b></div>
             <ul class="files" id="rtr-files"></ul>
         </section>
+    </section>
+
+    <!-- ------------------------------------------------------- convert -->
+    <section class="panel" id="panel-convert" hidden>
+        <section class="card opts">
+            <span class="section-title">Subtitles to Text+</span>
+            <p class="muted">Turns each subtitle on a subtitle track into its own Text+ clip on a video track, at the
+                same time – ready to style, place and animate on the tabs that follow.</p>
+            <div class="row wrap conv-row">
+                <label class="lbl">From subtitle track <select class="field" id="sub-track"></select></label>
+                <span class="conv-arrow" id="conv-arrow"></span>
+                <label class="lbl">To video track <select class="field" id="target-track"></select></label>
+            </div>
+            <div class="run-row">
+                <button type="button" class="btn accent big" data-action="convert" id="convert">Convert subtitles to Text+</button>
+            </div>
+            <p class="muted small note">Titles are placed from a Text+ in your Media Pool, for exact timing. If the
+                project has none, Buddy adds one the first time (a "Buddy Text+" bin) – nothing to set up.
+                The video track suggested is the topmost empty one.</p>
+        </section>
+    </section>
+
+    <!-- The Text+ tabs (textplus.js, canvas.js; text_animator/text_plus.py). -->
+    <!-- --------------------------------------------------------- style -->
+    <section class="panel" id="panel-style" hidden>
+        <div class="style-layout">
+            <div class="style-controls">
+                <section class="card box group" data-toggle="font_on">
+                    <div class="group-head">
+                        <label class="check"><input type="checkbox" data-toggle-input="font_on"> <b>Font</b></label>
+                        <span class="muted small">Untick to leave font, size and colour as they are.</span>
+                    </div>
+                    <div class="group-body">
+                        <div class="row">
+                            <label class="lbl grow">Font <select class="field" id="font" translate="no"></select></label>
+                            <button type="button" class="btn ghost" data-tp="reset_font" id="reset-font"
+                                    title="Applies Arial Regular, size 0.08, to every Text+ clip straight away">Reset to default</button>
+                        </div>
+                        <div data-slider="font_size"></div>
+                        <div class="lbl">Colour <span data-color="font_color"></span></div>
+                        <p class="muted small note">Fonts with a real .ttf/.otf file on this computer – what Resolve's own list
+                            draws from. Resolve must also see the font (installed before it started, for the right user)
+                            or the clip shows "Font Not Found".</p>
+                    </div>
+                </section>
+
+                <section class="card box group" data-toggle="outline_on">
+                    <div class="group-head">
+                        <label class="check"><input type="checkbox" data-toggle-input="outline_on"> <b>Outline</b></label>
+                    </div>
+                    <div class="group-body">
+                        <div class="lbl">Colour <span data-color="outline_color"></span></div>
+                        <div data-slider="outline_thickness"></div>
+                        <div data-slider="outline_opacity"></div>
+                    </div>
+                </section>
+
+                <section class="card box group" data-toggle="shadow_on">
+                    <div class="group-head">
+                        <label class="check"><input type="checkbox" data-toggle-input="shadow_on"> <b>Drop shadow</b></label>
+                    </div>
+                    <div class="group-body">
+                        <div class="lbl">Colour <span data-color="shadow_color"></span></div>
+                        <div class="two">
+                            <div data-slider="shadow_offset_x"></div>
+                            <div data-slider="shadow_offset_y"></div>
+                        </div>
+                        <div data-slider="shadow_blur"></div>
+                        <div data-slider="shadow_opacity"></div>
+                    </div>
+                </section>
+
+                <section class="card box group" data-toggle="background_on">
+                    <div class="group-head">
+                        <label class="check"><input type="checkbox" data-toggle-input="background_on"> <b>Background</b></label>
+                    </div>
+                    <div class="group-body">
+                        <div class="lbl">Colour <span data-color="background_color"></span></div>
+                        <div data-slider="background_opacity"></div>
+                        <div data-slider="background_corner_radius"></div>
+                        <div class="two">
+                            <div data-slider="background_extend_horizontal"></div>
+                            <div data-slider="background_extend_vertical"></div>
+                        </div>
+                        <details class="later">
+                            <summary class="muted small">Not applied to Resolve yet</summary>
+                            <div class="lbl">Outline colour <span data-color="background_outline_color"></span></div>
+                            <div data-slider="background_outline_width"></div>
+                            <label class="check"><input type="checkbox" data-toggle-input="background_override_sizing"> Override sizing</label>
+                            <p class="muted small note">These are kept but not sent to Resolve until their Text+ inputs are confirmed.</p>
+                        </details>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="style-side">
+                <section class="card box preview-card">
+                    <span class="section-title">Preview</span>
+                    <div class="preview" id="preview"><span class="sample" id="sample"></span></div>
+                    <p class="muted small note">Approximate – Resolve draws the real thing.</p>
+                </section>
+                <section class="card box">
+                    <span class="section-title">Apply to</span>
+                    <div class="segmented" id="style-scope">
+                        <button type="button" data-value="timeline">Entire timeline</button>
+                        <button type="button" data-value="playhead">Under the playhead</button>
+                        <button type="button" data-value="track">One track</button>
+                    </div>
+                    <label class="lbl" id="style-track-row">Video track <select class="field" id="style-track"></select></label>
+                    <button type="button" class="btn accent big" data-tp="apply_style">Apply font style</button>
+                    <p class="muted small note">Outline, shadow and background that are unticked are turned off on the clips.</p>
+                </section>
+            </aside>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------- layout -->
+    <section class="panel" id="panel-layout" hidden>
+        <section class="card box canvas-card">
+            <div class="row canvas-head">
+                <span class="section-title">Live placement</span>
+                <span class="muted small">Drag to move, drag a corner to resize, arrow keys to nudge. Changes go to Resolve when you let go.</span>
+                <div class="spacer"></div>
+                <div class="history"><button type="button" class="btn ghost icon" data-undo title="Undo (Ctrl+Z)"></button><button type="button" class="btn ghost icon" data-redo title="Redo (Ctrl+Shift+Z)"></button></div>
+                <button type="button" class="btn ghost" data-guides>Guides &amp; snapping</button>
+            </div>
+            <div class="canvas-host" id="canvas-layout"></div>
+        </section>
+        <div class="tools">
+            <section class="card box">
+                <span class="section-title">Apply position</span>
+                <p class="muted small note">Copies the position of each clip under the playhead onto every other Text+
+                    clip on its video track, across the whole timeline. A track with nothing under the playhead is left alone.</p>
+                <button type="button" class="btn accent" data-tp="apply_position">Apply position to entire timeline</button>
+            </section>
+            <section class="card box">
+                <span class="section-title">Bounding</span>
+                <p class="muted small note">Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying
+                    resizes every clip's text to fill the space between them and centres it there. Turning them on also
+                    stacks clips under the playhead together vertically.</p>
+                <label class="check"><input type="checkbox" id="bounding-on"> Show bounding lines</label>
+                <button type="button" class="btn accent" data-tp="apply_bounding" id="apply-bounding">Apply bounding to entire timeline</button>
+            </section>
+        </div>
+    </section>
+
+    <!-- --------------------------------------------------------- words -->
+    <section class="panel" id="panel-words" hidden>
+        <section class="card box canvas-card">
+            <div class="row canvas-head">
+                <span class="section-title">Word preview</span>
+                <span class="muted small">For subtitles split one word per Text+ clip. Drag across empty space to select several words; Shift-click adds one.</span>
+                <div class="spacer"></div>
+                <div class="history"><button type="button" class="btn ghost icon" data-undo title="Undo (Ctrl+Z)"></button><button type="button" class="btn ghost icon" data-redo title="Redo (Ctrl+Shift+Z)"></button></div>
+                <button type="button" class="btn ghost" data-guides>Guides &amp; snapping</button>
+            </div>
+            <div class="canvas-host" id="canvas-words"></div>
+        </section>
+        <section class="card box">
+            <span class="section-title">Layout presets</span>
+            <div class="presets" id="presets"></div>
+            <div class="row">
+                <span class="muted small" id="preset-note"></span>
+                <div class="spacer"></div>
+                <button type="button" class="btn accent" id="apply-layout">Apply layout</button>
+            </div>
+        </section>
+    </section>
+
+    <!-- ----------------------------------------------------- animation -->
+    <section class="panel" id="panel-animation" hidden>
+        <section class="card box">
+            <span class="section-title">Animation</span>
+            <div class="presets" id="anim-presets"></div>
+            <div class="row wrap gap">
+                <div class="lbl" id="direction-row">Slide from <div class="segmented" id="anim-direction"></div></div>
+                <div class="lbl">Speed <div class="segmented" id="anim-speed"></div></div>
+            </div>
+        </section>
+        <section class="card box">
+            <span class="section-title">Apply</span>
+            <div class="row wrap">
+                <button type="button" class="btn accent" data-scope="timeline">Every Text+ on the timeline</button>
+                <button type="button" class="btn" data-scope="playhead">Tracks under the playhead</button>
+                <span class="track-apply"><button type="button" class="btn" data-scope="track">Video track</button>
+                    <select class="field" id="anim-track"></select></span>
+            </div>
+            <div class="row wrap">
+                <button type="button" class="btn danger" id="remove-anims">Remove animations…</button>
+                <div class="spacer"></div>
+                <div class="history labelled"><button type="button" class="btn" data-undo>Undo</button><button type="button" class="btn" data-redo>Redo</button></div>
+            </div>
+        </section>
+        <details class="card box diag">
+            <summary><span class="section-title">Diagnostics</span></summary>
+            <p class="muted small note">To help debug an animation: click the clip on the timeline, switch Resolve to the
+                Fusion page, select the TextPlus node (or a modifier) in the Flow view, then dump it. Its full settings are
+                saved to your Desktop as a JSON file you can share.</p>
+            <div><button type="button" class="btn" data-tp="dump">Dump selected node settings</button></div>
+        </details>
     </section>
 
     <!-- --------------------------------------------------------- setup -->
@@ -173,7 +379,11 @@
         <summary><span class="section-title">Activity</span> <span class="muted small" id="activity-last"></span></summary>
         <ol class="log" id="log"></ol>
     </details>
+
+    <div class="card guides-pop" id="guides-pop" hidden></div>
 </main>
+<script src="canvas.js"></script>
+<script src="textplus.js"></script>
 <script src="transcribe.js"></script>
 </body>
 </html>

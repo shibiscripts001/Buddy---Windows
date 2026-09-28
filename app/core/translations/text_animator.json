@@ -60,15 +60,15 @@
   "العربية": "الترجمات إلى Text+",
   "Tiếng Việt": "Phụ đề sang Text+"
  },
- "Turns each subtitle on a subtitle track into its own Text+ clip on a video track, at the same time – ready to style, place and animate on the other tabs.": {
-  "日本語": "字幕トラックの各字幕を、同じタイミングでビデオトラック上の個別の Text+ クリップに変換します – 他のタブでスタイル設定、配置、アニメーションができます。",
-  "Español": "Convierte cada subtítulo de una pista de subtítulos en su propio clip Text+ en una pista de vídeo, al mismo tiempo, listo para darle estilo, colocarlo y animarlo en las demás pestañas.",
-  "Deutsch": "Macht aus jedem Untertitel einer Untertitelspur einen eigenen Text+-Clip auf einer Videospur, zur selben Zeit – bereit zum Gestalten, Platzieren und Animieren auf den anderen Tabs.",
-  "Français": "Transforme chaque sous-titre d'une piste de sous-titres en son propre clip Text+ sur une piste vidéo, au même moment – prêt à être stylisé, placé et animé dans les autres onglets.",
-  "한국어": "자막 트랙의 각 자막을 같은 시점에 비디오 트랙의 개별 Text+ 클립으로 바꿉니다 – 다른 탭에서 스타일, 배치, 애니메이션을 적용할 수 있습니다.",
-  "中文": "将字幕轨道上的每条字幕在相同时间转为视频轨道上的独立 Text+ 片段——可在其他标签页中设置样式、放置和添加动画。",
-  "العربية": "يحوّل كل ترجمة على مسار الترجمة إلى مقطع Text+ خاص بها على مسار فيديو، في الوقت نفسه – جاهزة للتنسيق والوضع والتحريك في التبويبات الأخرى.",
-  "Tiếng Việt": "Biến mỗi phụ đề trên track phụ đề thành một clip Text+ riêng trên track video, cùng thời điểm – sẵn sàng để định dạng, đặt vị trí và tạo hoạt ảnh ở các thẻ khác."
+ "Turns each subtitle on a subtitle track into its own Text+ clip on a video track, at the same time – ready to style, place and animate on the tabs that follow.": {
+  "日本語": "字幕トラックの各字幕を、同じタイミングでビデオトラック上の個別の Text+ クリップに変換します – 続くタブでスタイル設定、配置、アニメーションができます。",
+  "Español": "Convierte cada subtítulo de una pista de subtítulos en su propio clip Text+ en una pista de vídeo, al mismo tiempo, listo para darle estilo, colocarlo y animarlo en las pestañas siguientes.",
+  "Deutsch": "Macht aus jedem Untertitel einer Untertitelspur einen eigenen Text+-Clip auf einer Videospur, zur selben Zeit – bereit zum Gestalten, Platzieren und Animieren auf den folgenden Tabs.",
+  "Français": "Transforme chaque sous-titre d'une piste de sous-titres en son propre clip Text+ sur une piste vidéo, au même moment – prêt à être stylisé, placé et animé dans les onglets suivants.",
+  "한국어": "자막 트랙의 각 자막을 같은 시점에 비디오 트랙의 개별 Text+ 클립으로 바꿉니다 – 이어지는 탭에서 스타일, 배치, 애니메이션을 적용할 수 있습니다.",
+  "中文": "将字幕轨道上的每条字幕在相同时间转为视频轨道上的独立 Text+ 片段——可在后面的标签页中设置样式、放置和添加动画。",
+  "العربية": "يحوّل كل ترجمة على مسار الترجمة إلى مقطع Text+ خاص بها على مسار فيديو، في الوقت نفسه – جاهزة للتنسيق والوضع والتحريك في التبويبات التالية.",
+  "Tiếng Việt": "Biến mỗi phụ đề trên track phụ đề thành một clip Text+ riêng trên track video, cùng thời điểm – sẵn sàng để định dạng, đặt vị trí và tạo hoạt ảnh ở các thẻ tiếp theo."
  },
  "From subtitle track": {
   "日本語": "元の字幕トラック",
@@ -1429,15 +1429,5 @@
   "中文": "视频轨道 {n} 为空",
   "العربية": "مسار الفيديو {n} فارغ",
   "Tiếng Việt": "Track video {n} trống"
- },
- "Text Animator initialized.": {
-  "日本語": "テキストアニメーターを初期化しました。",
-  "Español": "Animador de texto iniciado.",
-  "Deutsch": "Textanimation initialisiert.",
-  "Français": "Animateur de texte initialisé.",
-  "한국어": "텍스트 애니메이터를 초기화했습니다.",
-  "中文": "文字动画已初始化。",
-  "العربية": "تمت تهيئة محرك النصوص.",
-  "Tiếng Việt": "Đã khởi tạo Tạo hiệu ứng chữ."
  }
 }

@@ -105,20 +105,13 @@
       "notes": "Scope deliberately resets to the safer 'All Clips' default each launch, because which clips are selected changes every session."
     },
     "text_animator": {
-      "name": "Text Animator",
-      "summary": "Turns subtitles into styled, animated text in Resolve, across subtitle conversion, font styling, layout and animation.",
+      "name": "Animation",
+      "summary": "The page for animating things in Resolve. Its top row of tabs is the kind of animation - only Text+ so far, and that tab is empty for now: the Text+ tools (font styling, layout, animation) are tabs on Transcribe, after Subtitle Conversion. Formerly Text Animator.",
       "needs_resolve": true,
       "capabilities": [
-        "Subtitle Conversion: converts a subtitle track into Text+ clips on a video track (the topmost empty one is suggested), placed from a Media Pool Text+ for exact timing - Buddy adds one (a 'Buddy Text+' bin) if the project has none",
-        "Font Styling: font, size and colour, text outline, drop shadow and background for Text+ clips - on the entire timeline, the clips under the playhead, or one video track - with an approximate live preview; unticked outline/shadow/background are turned off on the clips",
-        "Timeline Layout: a live placement preview of every Text+ clip under the playhead at its real position and size - drag to move, drag a corner to resize, arrow keys to nudge; changes reach Resolve on release. Grid overlays (Standard, Rule of Thirds, Center, Phi), platform safe zones (YouTube Shorts, Instagram, TikTok, General) and snapping (frame centre, other text, safe-zone edges) under Guides & snapping",
-        "Apply Position copies each playhead clip's position to every Text+ on its track; Bounding lines resize every clip's text to fill the space between them, and stack overlapping clips vertically",
-        "Timeline Animation: Pop, Bounce, Fade and Slide (from left/right/top/bottom) whole-clip animations at Fast/Medium/Slow, on the whole timeline, the tracks under the playhead or one track; Remove Animations",
-        "Custom Animation: word-by-word layout presets (Hero + Stack - click a word to make it the hero, Side-by-Side, Grid) for subtitles split one word per clip, with marquee multi-select to move several words together",
-        "Undo/Redo (Ctrl+Z / Ctrl+Shift+Z) for moves, resizes, layouts and animations",
-        "Diagnostics: dumps a selected Fusion node's real settings to JSON on the Desktop for debugging animation issues"
+        "Nothing yet - a Text+ tab kept for animation tools to come; Font Styling, Timeline Layout, Timeline Animation and Custom Animation are on the Transcribe page"
       ],
-      "notes": "Requires DaVinci Resolve Studio (Fusion scripting). The preview is approximate - Resolve draws the real text."
+      "notes": "Send people wanting to style, place or animate Text+ to Transcribe's Text+ tabs."
     },
     "color_palette": {
       "name": "Color Palette Manager",
@@ -181,23 +174,31 @@
     },
     "transcribe": {
       "name": "Transcribe",
-      "summary": "Transcribes the current timeline's dialogue into subtitles on the timeline (Whisper or NVIDIA Parakeet, running locally), and translates subtitles into other languages (NLLB-200 or MADLAD-400 locally, or Ask Buddy's AI model).",
+      "summary": "Transcribes the current timeline's dialogue into subtitles on the timeline (Whisper or NVIDIA Parakeet, running locally), and translates subtitles into other languages (NLLB-200 or MADLAD-400 locally, or Ask Buddy's AI model), and turns them into styled, placed and animated Text+.",
       "needs_resolve": true,
       "capabilities": [
-        "Three tabs: Subtitles (transcribe), Translate, and Setup (install the engine and download models)",
+        "Eight tabs: Subtitles (transcribe), Translate, Subtitle Conversion, the four Text+ tabs (Font Styling, Timeline Layout, Timeline Animation, Custom Animation - formerly the Text Animator page), and Setup at the far right (install the engine and download models)",
         "Renders the timeline's audio mix, transcribes it locally with Whisper (faster-whisper) and builds readable subtitles from the word timings",
         "Runs on the GPU with an NVIDIA card and on the CPU on any other Windows PC or Mac; transcription sends nothing to the internet",
         "Models: Whisper Large v3 (most accurate, every language), Large v3 Turbo (fast, nearly as accurate), Distil-Whisper Large v3.5 (English only, about twice as fast), Small (fastest); NVIDIA Parakeet v3 (25 European languages, very fast even without a GPU, punctuates by itself); downloaded on the Setup tab, or a copy another app already downloaded reused",
         "Auto model choice: detects the language, then uses Parakeet for its 25 European languages and the best installed Whisper model for everything else",
         "Language auto-detect, a chosen language, or Mixed languages (tick the ones spoken; each part is transcribed in its own language)",
         "A box for names and terms to spell right (Whisper models only), and characters-per-line / lines-per-subtitle limits",
-        "Places the subtitles on subtitle track 1 and saves an SRT; Open in Text Animator goes straight to its Subtitle Conversion",
+        "Places the subtitles on subtitle track 1 and saves an SRT; Convert to Text+ goes straight to the Subtitle Conversion tab",
+        "Subtitle Conversion: converts a subtitle track into Text+ clips on a video track (the topmost empty one is suggested; a track the user picks is kept), placed from a Media Pool Text+ for exact timing - Buddy adds one (a 'Buddy Text+' bin) if the project has none. The toast afterwards offers Font Styling",
+        "Font Styling: font, size and colour, text outline, drop shadow and background for Text+ clips - on the entire timeline, the clips under the playhead, or one video track - with an approximate live preview; unticked outline/shadow/background are turned off on the clips",
+        "Timeline Layout: a live placement preview of every Text+ clip under the playhead at its real position and size - drag to move, drag a corner to resize, arrow keys to nudge; changes reach Resolve on release. Grid overlays (Standard, Rule of Thirds, Center, Phi), platform safe zones (YouTube Shorts, Instagram, TikTok, General) and snapping (frame centre, other text, safe-zone edges) under Guides & snapping",
+        "Apply Position copies each playhead clip's position to every Text+ on its track; Bounding lines resize every clip's text to fill the space between them, and stack overlapping clips vertically",
+        "Timeline Animation: Pop, Bounce, Fade and Slide (from left/right/top/bottom) whole-clip animations at Fast/Medium/Slow, on the whole timeline, the tracks under the playhead or one track; Remove Animations",
+        "Custom Animation: word-by-word layout presets (Hero + Stack - click a word to make it the hero, Side-by-Side, Grid) for subtitles split one word per clip, with marquee multi-select to move several words together",
+        "Undo/Redo (Ctrl+Z / Ctrl+Shift+Z) for moves, resizes, layouts and animations",
+        "Diagnostics: dumps a selected Fusion node's real settings to JSON on the Desktop for debugging animation issues",
         "Translates the last transcript, or any SRT file, one SRT per chosen language, saved to a folder the user picks; optionally automatic after each transcription",
         "Optionally makes a NEW timeline - a copy of the current one named '<name> (Subtitles)' - with the original language on subtitle track 1 and one subtitle track per translation; the timeline the user is on is never changed",
         "Translation engines: NLLB-200 (200 languages, non-commercial use only), MADLAD-400 (about 180 languages, free for commercial use) on this computer, or the AI model Ask Buddy is set up with (asks before sending a transcript to a cloud provider, once per provider)",
         "Translation works on whole sentences, then re-cuts them into timed cues; Chinese and Japanese get character-based line breaking and native punctuation"
       ],
-      "notes": "Needs a one-time setup on the Setup tab: the engine is about 1.45 GB with an NVIDIA GPU, about 110 MB without, plus a model (0.5-3.1 GB). Resolve only lets scripts place subtitles on track 1, so existing subtitles there are replaced only if the user confirms. The user's render settings are restored after the audio render. Local translation needs an NLLB-200 or MADLAD-400 model from the Setup tab; AI translation needs nothing there."
+      "notes": "Needs a one-time setup on the Setup tab: the engine is about 1.45 GB with an NVIDIA GPU, about 110 MB without, plus a model (0.5-3.1 GB). Resolve only lets scripts place subtitles on track 1, so existing subtitles there are replaced only if the user confirms. The user's render settings are restored after the audio render. Local translation needs an NLLB-200 or MADLAD-400 model from the Setup tab; AI translation needs nothing there. The Text+ tabs need DaVinci Resolve Studio (Fusion scripting); their preview is approximate - Resolve draws the real text."
     }
   }
 }

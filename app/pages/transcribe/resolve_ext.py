@@ -47,6 +47,12 @@ A subtitle track per language (timeline_with_subtitles)
     clips already there. The original timeline is left as it was.
   - ImportTimelineFromFile ignores timelineName for a .drt (the timeline is
     named after the file), so it's renamed with SetName afterwards.
+
+Subtitles to Text+ (the Subtitle Conversion tab)
+  - Each subtitle clip on a subtitle track becomes a Text+ clip at the same
+    time on a video track. The Text+ machinery is Animation's
+    (pages/text_animator/subtitle_engine.py - the template bin, fonts,
+    exact timing), since that's where the titles get styled next.
 """
 
 from __future__ import annotations
@@ -56,6 +62,12 @@ import tempfile
 import time
 import uuid
 from dataclasses import dataclass
+
+from pages.text_animator.subtitle_engine import (
+    SubtitleExtractor,
+    TextPlusGenerator,
+    get_top_most_unpopulated_video_track_index,
+)
 
 from . import drt
 from . import subtitles as st
@@ -349,6 +361,36 @@ class TranscribeController:
         for sub in folder.GetSubFolderList() or []:
             found.extend(cls._all_folders(sub))
         return found
+
+    # ------------------------------------------------ subtitles to Text+
+
+    def conversion_tracks(self) -> dict:
+        """What Subtitle Conversion offers: the timeline's name, its video
+        and subtitle track counts, and the topmost empty video track - one
+        above the rest when every track has clips - so titles land on
+        nothing."""
+        tl = self._timeline()
+        return {
+            "timeline": str(tl.GetName() or ""),
+            "video": int(tl.GetTrackCount("video") or 0),
+            "subtitle": int(tl.GetTrackCount("subtitle") or 0),
+            "empty": get_top_most_unpopulated_video_track_index(tl),
+        }
+
+    def subtitles_to_text_plus(self, sub_track: int, video_track: int, log=lambda msg: None) -> int:
+        """Each subtitle on subtitle track sub_track becomes a Text+ clip at
+        the same time on video track video_track (added if the timeline has
+        fewer). Returns how many were made; log gets what happened."""
+        resolve = self.controller.resolve
+        tl = self._timeline()
+        subtitles = SubtitleExtractor(resolve).extract_subtitles_from_track(tl, track_index=sub_track)
+        if not subtitles:
+            raise TranscribeResolveError(f"Subtitle track {sub_track} has no subtitles.")
+        clips, messages = TextPlusGenerator(resolve).create_text_plus_clips(
+            tl, subtitles, target_video_track=video_track)
+        for message in messages:
+            log(message)
+        return len(clips)
 
     @staticmethod
     def _transcripts_bin(mp):

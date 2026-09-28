@@ -1,6 +1,7 @@
 /*
  * Transcribe's view. page.py owns every setting, runs every job and asks
  * every question; this draws what it sends and reports what the user did.
+ * The Text+ tabs' controls are textplus.js; the tabs themselves are here.
  */
 "use strict";
 
@@ -8,6 +9,7 @@ const {el, icon, send} = Buddy;
 const $ = id => document.getElementById(id);
 
 $("refresh").append(icon("refresh"));
+$("conv-arrow").append(icon("arrow"));
 
 for (const node of document.querySelectorAll("[data-action]")) {
     node.addEventListener("click", () => send(node.dataset.action));
@@ -18,6 +20,7 @@ for (const node of document.querySelectorAll("[data-action]")) {
 function showTab(tab) {
     for (const b of $("tabs").querySelectorAll("button")) b.setAttribute("aria-selected", String(b.dataset.tab === tab));
     for (const p of document.querySelectorAll(".panel")) p.hidden = p.id !== `panel-${tab}`;
+    document.dispatchEvent(new CustomEvent("buddy-tab", {detail: tab}));   // for textplus.js
 }
 function goTo(tab) {
     showTab(tab);
@@ -45,6 +48,28 @@ Buddy.on("timeline", t => {
     node.classList.toggle("bad", !t.ok);
     node.hidden = !t.connected;   // offline is said once, in Buddy's header
 });
+
+// --------------------------------------------------- subtitle conversion --
+
+// Track numbers to choose from: the timeline's own, at least four, and for the
+// video track one more - a new track on top.
+function trackOptions(select, count, value, extra = 0) {
+    const n = Math.max(count + extra, value, 4);
+    if (select.options.length !== n) {
+        select.replaceChildren(...Array.from({length: n}, (_, i) => el("option", {
+            value: i + 1, text: i + 1 > count ? `${i + 1} (new)` : String(i + 1),
+        })));
+    }
+    select.value = String(value);
+}
+Buddy.on("convert", c => {
+    trackOptions($("sub-track"), c.subtitle, c.sub_track);
+    trackOptions($("target-track"), c.video, c.target_track, 1);
+});
+$("sub-track").onchange = e => send("conv_option", {key: "sub_track", value: Number(e.target.value)});
+$("target-track").onchange = e => send("conv_option", {key: "target_track", value: Number(e.target.value)});
+// A transcript is always placed on subtitle track 1: that's the one to convert.
+$("rt-convert").addEventListener("click", () => send("conv_option", {key: "sub_track", value: 1}));
 
 // ---------------------------------------------------------------- job --
 
@@ -156,7 +181,7 @@ Buddy.on("result", r => {
         $("rt-message").textContent = r.message;
         $("rt-summary").textContent = r.summary || "";
         $("rt-save").hidden = !r.ok;
-        $("rt-animator").hidden = !(r.ok && r.placed);
+        $("rt-convert").hidden = !(r.ok && r.placed);
         $("rt-translate").hidden = !r.ok;
     }
     const tr = r && r.kind === "translate" ? r : null;
@@ -341,7 +366,9 @@ Buddy.on("ask", a => {
 
 // --------------------------------------------------------- messages --
 
-Buddy.on("toast", t => Buddy.toast(t.text, 3000));
+// After a conversion the toast offers the next step: styling the new Text+.
+Buddy.on("toast", t => Buddy.toast(t.text, t.style ? 6000 : 3000,
+    t.style ? {label: "Font styling", onClick: () => goTo("style")} : null));
 Buddy.on("alert", a => Buddy.modal({title: a.title, body: el("p.modal-text", {text: a.text}), buttons: [{label: "OK", kind: "accent"}]}));
 
 Buddy.on("log", entries => {

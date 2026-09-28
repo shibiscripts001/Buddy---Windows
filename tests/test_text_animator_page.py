@@ -1,6 +1,7 @@
-"""Text Animator: its settings (options.py, no Qt), the canvas measuring (canvas_math) and
-the web page driven against a fake Resolve timeline of Text+ clips - never a real
-project, and settings in memory."""
+"""The Text+ tools (the old Text Animator, now tabs on Transcribe): their settings
+(options.py, no Qt), the canvas measuring (canvas_math) and TextPlusTools driven against
+a fake Resolve timeline of Text+ clips, inside a stand-in for the page that hosts them -
+never a real project, and settings in memory."""
 
 import os
 import unittest
@@ -144,6 +145,43 @@ class Host:
         self.busy.append(on)
 
 
+def font_file(test, ascent, descent, gap, win_ascent, win_descent, units=1000):
+    """A minimal font file - head, hhea and OS/2, all canvas_math reads - removed after
+    `test`. Vertical metrics in font units."""
+    import struct
+    import tempfile
+    head = bytes(18) + struct.pack(">H", units) + bytes(34)
+    hhea = struct.pack(">I", 0x00010000) + struct.pack(">hhh", ascent, -descent, gap) + bytes(26)
+    os2 = bytes(62) + bytes(2) + bytes(4) + struct.pack(">hhhHH", 880, -120, 0, win_ascent, win_descent) + bytes(20)
+    tables = [(b"OS/2", os2), (b"head", head), (b"hhea", hhea)]
+    start = 12 + 16 * len(tables)
+    directory, body = b"", b""
+    for tag, data in tables:
+        directory += struct.pack(">4sIII", tag, 0, start + len(body), len(data))
+        body += data
+    with tempfile.NamedTemporaryFile(suffix=".ttf", delete=False) as f:
+        f.write(struct.pack(">IHHHH", 0x00010000, len(tables), 0, 0, 0) + directory + body)
+    test.addCleanup(os.remove, f.name)
+    return f.name
+
+
+class HostPage:
+    """What TextPlusTools needs from the page it lives in (Transcribe's, in Buddy)."""
+
+    def __init__(self, host):
+        self.host, self.tab = host, "layout"
+        self.sent, self.logs = [], []
+
+    def emit(self, name, payload=None):
+        self.sent.append((name, payload))
+
+    def isVisible(self):
+        return True
+
+    def _add_log(self, text, kind="info"):
+        self.logs.append((text, kind))
+
+
 # ------------------------------------------------------------------ tests --
 
 class OptionTests(unittest.TestCase):
@@ -218,23 +256,71 @@ class CanvasMathTests(unittest.TestCase):
         from pages.text_animator.canvas_math import standard_grid_spacing
         self.assertAlmostEqual(standard_grid_spacing(1920, 1080), 120 / 1920)
 
+    def use_font_files(self, files):
+        from pages.text_animator import canvas_math as cm
+        saved = dict(cm._font_files)
+
+        def restore():
+            cm._font_files.clear()
+            cm._font_files.update(saved)
+            cm._px_per_size.cache_clear()
+            cm._text_metrics.cache_clear()
+        self.addCleanup(restore)
+        return cm.set_font_files(files)
+
+    def test_resolves_font_file_decides_the_size(self):
+        """Windows' Noto Sans JP: hhea 1.0 + 0.2 em, Windows metrics 1.16 + 0.288. Text+ goes
+        by hhea - Resolve drew it 21% bigger than the Windows figures (Qt's) said."""
+        from pages.text_animator import canvas_math as cm
+        path = font_file(self, ascent=1000, descent=200, gap=0, win_ascent=1160, win_descent=288)
+        self.assertTrue(self.use_font_files({"Arial": {"Bold": "C:/nowhere.ttf", "Regular": path}}))
+        self.assertEqual(cm.font_vertical_metrics("Arial"), (1.0, 0.2, 0.0))
+        self.assertAlmostEqual(cm.text_box("Arial", "Hi", 0.1)["px"], cm.TEXT_PLUS_HEIGHT * 0.1 / 1.2, places=9)
+        self.assertFalse(cm.set_font_files({"Arial": {"Bold": "C:/nowhere.ttf", "Regular": path}}))   # unchanged
+
+    def test_an_unreadable_font_file_falls_back_to_qt(self):
+        from pages.text_animator import canvas_math as cm
+        self.use_font_files({"Arial": {"Regular": __file__}})             # not a font
+        ascent, descent, _gap = cm.font_vertical_metrics("Arial")
+        self.assertGreater(ascent + descent, 0.9)
+
+    def test_laid_out_around_the_center_like_text_plus(self):
+        """Measured against Resolve's rendered bounds (to 1-2 px on 11 clips): the lines'
+        block - ascent + descent, and a line step per further line - is centred on Center,
+        each line centred on its own width."""
+        from pages.text_animator import canvas_math as cm
+        self.use_font_files({"Arial": {"Regular": font_file(self, 1000, 200, 0, 1160, 288)}})
+        one = cm.text_box("Arial", "Hello", 0.1)
+        px = one["px"]
+        self.assertAlmostEqual(one["lines"][0][1], 0.4 * px, places=9)        # baseline below the line box's middle
+        self.assertAlmostEqual(one["lines"][0][0], -cm._measure_word_width_fraction("Arial", "Hello", 0.1) / 2, places=9)
+        two = cm.text_box("Arial", "Hello\nHi", 0.1)
+        self.assertAlmostEqual(two["lines"][0][1], -0.2 * px, places=9)
+        self.assertAlmostEqual(two["lines"][1][1] - two["lines"][0][1], 1.2 * px, places=9)
+        self.assertGreater(two["lines"][1][0], two["lines"][0][0])             # the shorter line, centred
+
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
 class PageTests(unittest.TestCase):
     def setUp(self):
         QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
         self.app = QApplication.instance() or QApplication([])
-        from pages.text_animator.page import TextAnimatorPage
+        from pages.text_animator.text_plus import TextPlusTools
         self.host = Host()
-        self.page = TextAnimatorPage(self.host)
+        self.host_page = HostPage(self.host)
+        self.page = TextPlusTools(self.host_page)
         self.addCleanup(self.page.deleteLater)
-        self.events = []
-        self.page.emit = lambda name, payload=None: self.events.append((name, payload))
-        self.page.tab = "layout"
+        self.events = self.host_page.sent
         self.page._refresh_live_preview(force=True)
 
     def last(self, name):
+        # The Text+ script's messages are "tp_"-prefixed; toast and alert are the page's own.
+        name = name if name in ("toast", "alert") else f"tp_{name}"
         return [p for n, p in self.events if n == name][-1]
+
+    def show(self, tab):
+        self.host_page.tab = tab
+        self.page.tab_shown()
 
     def tool(self, track, index=0):
         return self.host.timeline.tracks[track][index].tool
@@ -249,7 +335,7 @@ class PageTests(unittest.TestCase):
         self.assertGreater(title["box"]["w"], 0)
         self.events.clear()
         self.page._refresh_live_preview(force=True)
-        self.assertFalse([e for e in self.events if e[0] == "canvas"])    # nothing changed, nothing sent
+        self.assertFalse([e for e in self.events if e[0] == "tp_canvas"])  # nothing changed, nothing sent
 
     def item_id(self, text):
         return next(i["id"] for i in self.last("canvas")["items"] if i["text"] == text)
@@ -293,8 +379,7 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.host.tools["text_animator"]["font_size"], 0.2)          # remembered
 
     def test_word_layout_uses_the_selected_hero(self):
-        self.page.tab = "words"
-        self.page._refresh_live_preview(force=True)
+        self.show("words")
         world = next(i["id"] for i in self.last("canvas")["items"] if i["text"] == "World")
         self.page.on_apply_layout({"preset": "Hero + Stack", "selected": [world]})
         self.assertEqual(self.tool(2).center(), (0.5, 0.5))                  # the hero, centred
@@ -309,9 +394,9 @@ class PageTests(unittest.TestCase):
 
     def test_style_preview_mirrors_the_text_under_the_playhead(self):
         def sent(name):
-            return [p for n, p in self.events if n == name]
+            return [p for n, p in self.events if n == f"tp_{name}"]
 
-        self.page.on_tab({"tab": "style"})
+        self.show("style")
         self.assertEqual(self.last("state")["sample"], "Big Title")       # the lowest track's clip
         self.tool(0).inputs["StyledText"] = "Two\nlines"
         self.events.clear()
@@ -333,31 +418,61 @@ class PageTests(unittest.TestCase):
         timeline = self.host.timeline
         vertical = {"timelineResolutionWidth": "1080", "timelineResolutionHeight": "1920"}
         timeline.GetSetting = lambda key: vertical.get(key)            # switched to a vertical timeline
-        self.page.on_tab({"tab": "style"})
+        self.show("style")
         self.assertEqual(self.last("state")["resolution"], [1080, 1920])
         self.events.clear()
         timeline.GetSetting = lambda key: None                         # a read that failed
         self.page._refresh_live_preview(force=True)
         self.assertEqual(self.page.resolution, (1080, 1920))           # not flipped back to 16:9
-        self.assertFalse([p for n, p in self.events if n == "state"])
+        self.assertFalse([p for n, p in self.events if n == "tp_state"])
 
-    def test_track_suggestion_and_page_switch(self):
+    def test_timeline_sync(self):
         self.page.on_shown()
         s = self.last("state")
         self.assertEqual((s["timeline"], s["tracks"]["video"], s["resolution"]), ("Promo", 3, [1920, 1080]))
-        self.page.switch_page("Subtitle Conversion")
-        self.assertEqual(self.last("state")["tab"], "subtitles")
 
-    def test_a_chosen_target_track_is_kept(self):
-        self.page.on_shown()
-        self.assertEqual(self.last("state")["target_track"], 4)             # every track has clips
-        self.page.on_set({"name": "target_track", "value": 2})
-        self.page.on_shown()                                              # e.g. back from Transcribe
-        self.page.on_refresh()
-        self.assertEqual(self.last("state")["target_track"], 2)
-        self.host.timeline.GetName = lambda: "Another timeline"           # a different timeline
-        self.page.on_shown()
-        self.assertEqual(self.last("state")["target_track"], 4)
+    def test_nothing_is_polled_off_its_tabs(self):
+        self.host_page.tab = "subtitles"                                  # one of Transcribe's own
+        self.host.timeline.playhead = "01:00:08:10"
+        self.events.clear()
+        self.page._refresh_live_preview(force=True)
+        self.assertFalse(self.events)
+
+    def test_log_lines_join_the_pages_log(self):
+        self.page.log("[Error] No active timeline found.")
+        self.page.log("Styled 3 clips")
+        self.assertEqual(self.host_page.logs[-2:], [("[Error] No active timeline found.", "error"),
+                                                    ("Styled 3 clips", "info")])
+        self.page.on_undo()                                               # nothing to undo: a toast
+        self.assertEqual(self.last("toast"), {"text": "Nothing to undo"})
+
+    def test_fonts_are_measured_from_the_files_resolve_uses(self):
+        from types import SimpleNamespace
+        from pages.text_animator import canvas_math as cm
+        saved = dict(cm._font_files)
+        self.addCleanup(lambda: (cm._font_files.clear(), cm._font_files.update(saved),
+                                 cm._px_per_size.cache_clear(), cm._text_metrics.cache_clear()))
+        path = font_file(self, 1000, 200, 0, 1160, 288)
+        fonts = SimpleNamespace(GetFontList=lambda: {"Arial": {"Regular": path}})
+        self.host.controller.resolve.Fusion = lambda: SimpleNamespace(FontManager=fonts)
+        def layout_px():
+            canvas = [p for n, p in self.events if n == "tp_canvas" and p["tab"] == "layout"][-1]
+            return next(i["box"]["px"] for i in canvas["items"] if i["text"] == "Hello")
+
+        before = layout_px()
+        self.page.on_refresh()                                            # Refresh reads them again
+        self.assertNotAlmostEqual(layout_px(), before, places=4)          # the canvas redrawn to Resolve's size
+        self.assertAlmostEqual(self.last("options")["font_css"]["height"], 1.2)   # and the style preview
+
+
+@unittest.skipUnless(HAVE_QT, "PySide6 not installed")
+class AnimationPageTests(unittest.TestCase):
+    def test_the_animation_page_keeps_the_old_id(self):
+        from pages.text_animator.page import AnimationPage
+        from pages.text_animator.text_plus import TABS
+        self.assertEqual(list(TABS), ["style", "layout", "animation", "words"])
+        self.assertEqual(AnimationPage.display_name, "Animation")
+        self.assertEqual(AnimationPage.tool_id, "text_animator")          # saved settings and sidebar keep working
 
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")

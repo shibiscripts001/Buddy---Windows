@@ -1,17 +1,20 @@
 /*
- * Text Animator's view. page.py owns every setting and makes every Resolve call; this
- * draws what it sends and reports what the user did. The placement canvases are
- * canvas.js.
+ * The Text+ tabs on Transcribe (Font styling, Timeline layout, Timeline animation, Custom
+ * animation). text_animator/text_plus.py owns every setting and makes every Resolve call;
+ * this draws what it sends and reports what the user did. The placement canvases are
+ * canvas.js. Its messages are "tp_"-prefixed both ways, so they never meet Transcribe's own;
+ * the tabs themselves, the toasts, alerts and activity log are transcribe.js's.
  */
+(() => {
 "use strict";
 
-const {el, icon, send} = Buddy;
+const {el, icon} = Buddy;
+const send = (name, data) => Buddy.send(`tp_${name}`, data);
+const on = (name, fn) => Buddy.on(`tp_${name}`, fn);
 const $ = id => document.getElementById(id);
 const $$ = sel => [...document.querySelectorAll(sel)];
 
-$("refresh").append(icon("refresh"));
-$("conv-arrow").append(icon("arrow"));
-for (const node of $$("[data-action]")) node.addEventListener("click", () => send(node.dataset.action));
+for (const node of $$("[data-tp]")) node.addEventListener("click", () => send(node.dataset.tp));
 for (const b of $$("[data-undo]")) { if (!b.textContent) b.append(icon("undo")); b.onclick = () => send("undo"); }
 for (const b of $$("[data-redo]")) {
     if (!b.textContent) { const i = icon("undo"); i.style.transform = "scaleX(-1)"; b.append(i); }
@@ -20,22 +23,14 @@ for (const b of $$("[data-redo]")) {
 
 // --------------------------------------------------------------- tabs --
 
+// Which of the page's tabs is on screen: transcribe.js says (the "buddy-tab" event).
+const TABS = new Set(["style", "layout", "animation", "words"]);
 let TAB = "subtitles";
-function showTab(tab) {
-    TAB = tab;
-    for (const b of $("tabs").querySelectorAll("button")) b.setAttribute("aria-selected", String(b.dataset.tab === tab));
-    for (const p of $$(".panel")) p.hidden = p.id !== `panel-${tab}`;
-    closeGuides();
-}
-$("tabs").onclick = e => {
-    const b = e.target.closest("button[data-tab]");
-    if (b && b.dataset.tab !== TAB) { showTab(b.dataset.tab); send("tab", {tab: b.dataset.tab}); }
-};
-showTab("subtitles");
+document.addEventListener("buddy-tab", e => { TAB = e.detail; closeGuides(); });
 
-// Undo / Redo anywhere on the page, outside a text box.
+// Undo / Redo anywhere on a Text+ tab, outside a text box.
 document.addEventListener("keydown", e => {
-    if (e.target.closest("input, textarea, select") || !(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "z") return;
+    if (!TABS.has(TAB) || e.target.closest("input, textarea, select") || !(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "z") return;
     e.preventDefault();
     send(e.shiftKey ? "redo" : "undo");
 });
@@ -44,8 +39,8 @@ document.addEventListener("keydown", e => {
 
 let STATE = null;
 
-function trackOptions(select, count, value, extra = 0) {
-    const n = Math.max(count + extra, value, 4);
+function trackOptions(select, count, value) {
+    const n = Math.max(count, value, 4);
     if (select.options.length !== n) {
         select.replaceChildren(...Array.from({length: n}, (_, i) => el("option", {
             value: i + 1, text: i + 1 > count ? `${i + 1} (new)` : String(i + 1),
@@ -54,17 +49,8 @@ function trackOptions(select, count, value, extra = 0) {
     select.value = String(value);
 }
 
-Buddy.on("state", s => {
+on("state", s => {
     STATE = s;
-    if (s.tab !== TAB) showTab(s.tab);
-    // The timeline's name is the user's; the rest is translated piece by piece.
-    const n = s.tracks.video;
-    $("timeline").replaceChildren(...(s.timeline ? [
-        el("span", {text: s.timeline, translate: "no"}), ` · ${s.resolution[0]}×${s.resolution[1]} · `,
-        el("span", {text: n === 1 ? "1 video track" : `${n} video tracks`}),
-    ] : []));
-    trackOptions($("sub-track"), s.tracks.subtitle, s.sub_track);
-    trackOptions($("target-track"), s.tracks.video, s.target_track, 1);
     if (OPT) {
         trackOptions($("style-track"), s.tracks.video, OPT.tracks.style_track);
         trackOptions($("anim-track"), s.tracks.video, OPT.tracks.anim_track);
@@ -75,8 +61,6 @@ Buddy.on("state", s => {
     drawPreview();
 });
 
-$("sub-track").onchange = e => send("set", {name: "sub_track", value: Number(e.target.value)});
-$("target-track").onchange = e => send("set", {name: "target_track", value: Number(e.target.value)});
 $("bounding-on").onchange = e => send("bounding", {on: e.target.checked});
 
 // ------------------------------------------------------------ options --
@@ -85,7 +69,7 @@ let OPT = null;
 let FONTS = [];
 const set = (name, value) => send("set", {name, value});
 
-Buddy.on("fonts", list => {
+on("fonts", list => {
     FONTS = list;
     $("font").replaceChildren(...list.map(f => el("option", {value: f, text: f})));
     if (OPT) $("font").value = OPT.font_display;
@@ -120,7 +104,7 @@ function swatch(host, name, hex) {
     button.lastChild.textContent = hex;
 }
 
-Buddy.on("options", o => {
+on("options", o => {
     OPT = o;
     for (const host of $$("[data-slider]")) {
         const name = host.dataset.slider, spec = o.sliders[name];
@@ -210,8 +194,10 @@ const PREVIEW_MAX_HEIGHT = 360;
 const TEXT_PLUS_HEIGHT = 0.803;
 const fontHeights = new Map();
 
-/* A font's ascent + descent per pixel of CSS font-size - the browser's own metrics
-   for it, the same ones Resolve's rule above uses. */
+/* A font's ascent + descent per pixel of CSS font-size - the browser's own metrics, the
+   fallback when page.py hasn't sent Text+'s (font_css.height, from the font file Resolve
+   uses): on Windows the browser can read a font's Windows metrics, which Text+ doesn't -
+   Noto Sans JP's are 21% taller than its real ones. */
 function fontHeightPerPx(css) {
     const font = `${css.italic ? "italic " : ""}${css.weight} 100px "${css.family}", sans-serif`;
     if (!fontHeights.has(font)) {
@@ -246,7 +232,7 @@ function drawPreview() {
     };
     const [w, h] = sizePreview(box);
     // Size is a fraction of frame width; this box stands in for the frame.
-    const fs = Math.max(8, val("font_size") * w * TEXT_PLUS_HEIGHT / fontHeightPerPx(OPT.font_css));
+    const fs = Math.max(8, val("font_size") * w * TEXT_PLUS_HEIGHT / (OPT.font_css.height || fontHeightPerPx(OPT.font_css)));
     const t = OPT.toggles;
     // A clip's own text is the user's; only the stand-in is translated.
     const userSample = (STATE && STATE.sample) || "";
@@ -256,6 +242,7 @@ function drawPreview() {
     sample.style.fontWeight = OPT.font_css.weight;
     sample.style.fontStyle = OPT.font_css.italic ? "italic" : "normal";
     sample.style.fontSize = `${fs}px`;
+    sample.style.lineHeight = OPT.font_css.line ? String(OPT.font_css.line) : "normal";   // Text+'s line step
     sample.style.color = OPT.colors.font_color;
     sample.style.webkitTextStroke = t.outline_on
         ? `${Math.max(0.5, val("outline_thickness") * fs * 2)}px ${rgba(OPT.colors.outline_color, val("outline_opacity"))}` : "0";
@@ -285,13 +272,13 @@ new ResizeObserver(() => {
 // ----------------------------------------------------------- canvases --
 
 const canvases = {
-    layout: PlacementCanvas($("canvas-layout"), {tab: "layout", multi: false}),
-    words: PlacementCanvas($("canvas-words"), {tab: "words", multi: true}),
+    layout: PlacementCanvas($("canvas-layout"), {tab: "layout", multi: false, send}),
+    words: PlacementCanvas($("canvas-words"), {tab: "words", multi: true, send}),
 };
-Buddy.on("canvas", c => canvases[c.tab] && canvases[c.tab].update(c));
+on("canvas", c => canvases[c.tab] && canvases[c.tab].update(c));
 
 let OVERLAY = null;
-Buddy.on("overlay", o => {
+on("overlay", o => {
     OVERLAY = o;
     for (const c of Object.values(canvases)) c.setOverlay(o);
     if (!$("guides-pop").hidden) drawGuides();
@@ -299,7 +286,7 @@ Buddy.on("overlay", o => {
 
 $("apply-layout").onclick = () => send("apply_layout", {preset: OPT.layout_preset, selected: canvases.words.selected()});
 
-Buddy.on("history", h => {
+on("history", h => {
     for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = !h.undo ? "Nothing to undo" : h.undo === 1 ? "Undo (Ctrl+Z) - 1 step" : `Undo (Ctrl+Z) - ${h.undo} steps`; }
     for (const b of $$("[data-redo]")) { b.disabled = !h.redo; b.title = h.redo ? "Redo (Ctrl+Shift+Z)" : "Nothing to redo"; }
 });
@@ -385,20 +372,4 @@ $("remove-anims").onclick = async () => {
         text: "Removes the animations from every Text+ clip on the timeline. Undo can put them back."});
     if (yes) send("remove_animations");
 };
-
-// ----------------------------------------------------------- messages --
-
-Buddy.on("toast", t => Buddy.toast(t.text, 2600));
-Buddy.on("alert", a => Buddy.modal({title: a.title, body: el("p.modal-text", {text: a.text}), buttons: [{label: "OK", kind: "accent"}]}));
-
-const LOG = [];
-function logLine(e) {
-    LOG.push(e);
-    if (LOG.length > 200) LOG.shift();
-    const kind = /\[Error|Exception|Warning|Failed|Could not/.test(e.text) ? "error" : "";
-    $("log").prepend(el(`li${kind ? "." + kind : ""}`, {}, [el("span.muted", {text: e.time}), " ", el("span", {text: e.text})]));
-    while ($("log").children.length > 200) $("log").lastChild.remove();
-    $("activity-last").textContent = e.text;
-}
-Buddy.on("log", entries => { LOG.length = 0; $("log").replaceChildren(); entries.forEach(logLine); });
-Buddy.on("log_line", logLine);
+})();

@@ -180,25 +180,25 @@
   "العربية": "حفظ SRT…",
   "Tiếng Việt": "Lưu SRT…"
  },
- "Open in Text Animator": {
-  "日本語": "テキストアニメーターで開く",
-  "Español": "Abrir en Animador de texto",
-  "Deutsch": "In Textanimation öffnen",
-  "Français": "Ouvrir dans l'Animateur de texte",
-  "한국어": "텍스트 애니메이터에서 열기",
-  "中文": "在文字动画中打开",
-  "العربية": "فتح في محرك النصوص",
-  "Tiếng Việt": "Mở trong Tạo hiệu ứng chữ"
+ "Convert to Text+…": {
+  "日本語": "Text+ に変換…",
+  "Español": "Convertir a Text+…",
+  "Deutsch": "In Text+ umwandeln …",
+  "Français": "Convertir en Text+…",
+  "한국어": "Text+로 변환…",
+  "中文": "转换为 Text+…",
+  "العربية": "تحويل إلى Text+…",
+  "Tiếng Việt": "Chuyển thành Text+…"
  },
- "Text Animator's Subtitle conversion tab turns subtitle track clips into styled Text+": {
-  "日本語": "テキストアニメーターの「字幕変換」タブで、字幕トラックのクリップをスタイル付きの Text+ に変換します",
-  "Español": "La pestaña Conversión de subtítulos del Animador de texto convierte los clips de subtítulos en Text+ con estilo",
-  "Deutsch": "Der Tab „Untertitelkonvertierung“ der Textanimation macht aus Untertitelclips gestaltete Text+",
-  "Français": "L'onglet Conversion des sous-titres de l'Animateur de texte transforme les clips de sous-titres en Text+ stylisés",
-  "한국어": "텍스트 애니메이터의 자막 변환 탭에서 자막 트랙 클립을 스타일이 적용된 Text+로 바꿉니다",
-  "中文": "文字动画的“字幕转换”标签页会将字幕轨道片段转为带样式的 Text+",
-  "العربية": "يحوّل تبويب تحويل الترجمات في محرك النصوص مقاطع مسار الترجمة إلى Text+ منسّق",
-  "Tiếng Việt": "Thẻ Chuyển đổi phụ đề của Tạo hiệu ứng chữ biến clip trên track phụ đề thành Text+ có định dạng"
+ "Turns each subtitle into its own Text+ clip, to style, place and animate on the tabs that follow": {
+  "日本語": "各字幕を個別の Text+ クリップに変換し、続くタブでスタイル設定、配置、アニメーションができるようにします",
+  "Español": "Convierte cada subtítulo en su propio clip Text+, para darle estilo, colocarlo y animarlo en las pestañas siguientes",
+  "Deutsch": "Macht aus jedem Untertitel einen eigenen Text+-Clip, zum Gestalten, Platzieren und Animieren auf den folgenden Tabs",
+  "Français": "Transforme chaque sous-titre en son propre clip Text+, à styliser, placer et animer dans les onglets suivants",
+  "한국어": "각 자막을 개별 Text+ 클립으로 바꿔 이어지는 탭에서 스타일, 배치, 애니메이션을 적용할 수 있게 합니다",
+  "中文": "将每条字幕转为独立的 Text+ 片段，可在后面的标签页中设置样式、放置和添加动画",
+  "العربية": "يحوّل كل ترجمة إلى مقطع Text+ خاص بها، لتنسيقه ووضعه وتحريكه في التبويبات التالية",
+  "Tiếng Việt": "Biến mỗi phụ đề thành một clip Text+ riêng, để định dạng, đặt vị trí và tạo hoạt ảnh ở các thẻ tiếp theo"
  },
  "Translate it…": {
   "日本語": "翻訳する…",
@@ -2169,5 +2169,15 @@
   "中文": "越南语",
   "العربية": "الفيتنامية",
   "Tiếng Việt": "Tiếng Việt"
+ },
+ "Couldn't convert the subtitles: {error}": {
+  "日本語": "字幕を変換できませんでした: {error}",
+  "Español": "No se pudieron convertir los subtítulos: {error}",
+  "Deutsch": "Die Untertitel konnten nicht umgewandelt werden: {error}",
+  "Français": "Impossible de convertir les sous-titres : {error}",
+  "한국어": "자막을 변환할 수 없습니다: {error}",
+  "中文": "无法转换字幕：{error}",
+  "العربية": "تعذر تحويل الترجمات: {error}",
+  "Tiếng Việt": "Không thể chuyển đổi phụ đề: {error}"
  }
 }

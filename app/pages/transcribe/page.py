@@ -2,7 +2,9 @@
 """
 Transcribe - turn the current timeline's dialogue into subtitles, and
 translate them. A web page (core/web_page.py): the view is web/index.html
-+ transcribe.js, with three tabs - Subtitles, Translate and Setup.
++ transcribe.js, with eight tabs - Subtitles, Translate, Subtitle
+Conversion, the four Text+ tabs (Font Styling, Timeline Layout, Timeline
+Animation, Custom Animation) and, at the far end, Setup.
 
 One button, three stages, all off the GUI thread (jobs.py):
 
@@ -37,6 +39,19 @@ or the language model Ask Buddy is set up with (ai_translate.py, in
 Buddy's own interpreter). Whole sentences are translated, then re-cut
 into cues (see subtitles.py).
 
+Subtitle Conversion: each subtitle on a subtitle track becomes a Text+
+clip on a video track, ready to style on the Animation page
+(resolve_ext.subtitles_to_text_plus). The video track suggested is the
+topmost empty one - until the user picks one, which is kept for that
+timeline until a conversion uses it.
+
+The Text+ tabs: styling, placing and animating the Text+ clips, conversion's
+next step. They are text_animator/text_plus.py's (TextPlusTools, the old
+Text Animator page), hosted here: its view is web/textplus.js + canvas.js,
+its messages are "tp_<name>" both ways (routed in _dispatch, and never held
+back by a running job - on their own page they never were), and its log
+lines join this page's activity log.
+
 Setup: the engine and every model say how much they download before
 anything starts, and only download when asked. What's installed is checked
 on a thread (jobs.ProbeJob) - asking the venv's Python takes seconds, and
@@ -49,13 +64,14 @@ Settings live in ~/.buddy/transcribe/settings.json beside the rest of this
 tool's files.
 
 Protocol:
-    to the view    catalog, setup, options, timeline, translate, job,
+    to the view    catalog, setup, options, timeline, translate, convert, job,
                    result, log, ask, alert, toast, tab
     from the view  tab, rescan, install_env, download, use_copy,
                    pick_model_folder, stop, option, mixed, run, save_srt,
-                   open_animator, refresh_timeline, tr_option, targets,
-                   choose_folder, translate_last, translate_srt, show_files,
-                   answer
+                   refresh_timeline, tr_option, targets, choose_folder,
+                   translate_last, translate_srt, show_files, conv_option,
+                   convert, answer
+    and tp_* both ways for the Text+ tabs (see text_animator/text_plus.py)
 """
 
 from __future__ import annotations
@@ -69,9 +85,12 @@ from PySide6.QtCore import QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
+from core import crash_log
 from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
+from pages.text_animator.text_plus import TABS as TEXT_PLUS_TABS
+from pages.text_animator.text_plus import TextPlusTools
 
 from . import ai_translate as ai
 from . import drt
@@ -82,11 +101,11 @@ from . import plan
 from . import subtitles as st
 from .resolve_ext import TranscribeController, TranscribeResolveError
 
-LOG_LIMIT = 80
+LOG_LIMIT = 200
 RECHECK_SECONDS = 10
-TABS = ("subtitles", "translate", "setup")
+TABS = ("subtitles", "translate", "convert", *TEXT_PLUS_TABS, "setup")
 _WHILE_BUSY = {"stop", "tab", "answer", "option", "mixed", "tr_option", "targets", "refresh_timeline",
-               "show_files", "save_srt", "open_animator", "choose_folder", "rescan"}
+               "show_files", "save_srt", "choose_folder", "rescan", "conv_option"}
 
 
 class TranscribePage(WebToolPage):
@@ -111,6 +130,11 @@ class TranscribePage(WebToolPage):
         self._log = []
         self._asks = {}
         self.timeline_text, self.timeline_ok = "Not read yet.", False
+        # Subtitle Conversion: from which subtitle track onto which video track.
+        self.sub_track, self.target_track = 1, 1
+        self._target_chosen = False      # the user picked target_track: keep it (see _read_tracks)
+        self.tracks = {"timeline": "", "video": 0, "subtitle": 0}
+        self.textplus = TextPlusTools(self)     # the Text+ tabs
         # What's installed, from jobs.ProbeJob.
         self.hw = None
         self.env = None
@@ -131,6 +155,7 @@ class TranscribePage(WebToolPage):
             "mixed": plan.MIXED,
         })
         self._push_all()
+        self.textplus.web_ready()
         self.emit("log", self._log)
         for ask_id, (kind, payload, _then, _cancel) in self._asks.items():
             self.emit("ask", dict(payload, id=ask_id, kind=kind))
@@ -141,8 +166,10 @@ class TranscribePage(WebToolPage):
         if time.monotonic() - self._probed_at > RECHECK_SECONDS:
             self._rescan()
         self._read_timeline()
+        self.textplus.on_shown()
 
     def on_app_quitting(self):
+        self.textplus.on_app_quitting()
         if self.job is not None:
             self.job.cancel()
             self.job.wait(5000)
@@ -150,6 +177,12 @@ class TranscribePage(WebToolPage):
             self._probe.wait(3000)
 
     def _dispatch(self, name, data):
+        if name.startswith("tp_"):
+            crash_log.trail("action", f"{self._trail_label()} {name}")
+            handler = getattr(self.textplus, f"on_{name[3:]}", None)
+            if handler is not None and name.isidentifier():
+                handler(data)
+            return
         if self.job is not None and name not in _WHILE_BUSY:
             return
         super()._dispatch(name, data)
@@ -194,6 +227,7 @@ class TranscribePage(WebToolPage):
         self._push_translate()
         self._push_job()
         self._push_timeline()
+        self._push_convert()
         self.emit("result", self.result)
 
     def _push_setup(self):
@@ -282,6 +316,10 @@ class TranscribePage(WebToolPage):
         self.emit("timeline", {"text": self.timeline_text, "ok": self.timeline_ok,
                                "connected": bool(getattr(self.host, "connected", False))})
 
+    def _push_convert(self):
+        self.emit("convert", {"video": self.tracks["video"], "subtitle": self.tracks["subtitle"],
+                              "sub_track": self.sub_track, "target_track": self.target_track})
+
     def _add_log(self, text, kind="info"):
         if not text:
             return
@@ -327,7 +365,22 @@ class TranscribePage(WebToolPage):
                 self.timeline_text = (f"{info.name} · {info.duration_seconds / 60:.1f} min · "
                                       f"starts {info.start_timecode}{extra}")
                 self.timeline_ok = True
+            self._read_tracks(controller)
         self._push_timeline()
+        self._push_convert()
+
+    def _read_tracks(self, controller):
+        """The timeline's tracks for Subtitle Conversion, and the video track to
+        suggest: the topmost empty one - unless the user picked one for this
+        timeline (picking track 2 and coming back to the page must not turn it
+        into a new top track without a word)."""
+        try:
+            tracks = TranscribeController(controller).conversion_tracks()
+        except Exception:  # noqa: BLE001 - the timeline line above says what's wrong
+            return
+        if not self._target_chosen or tracks["timeline"] != self.tracks["timeline"]:
+            self.target_track, self._target_chosen = tracks["empty"], False
+        self.tracks = tracks
 
     def on_refresh_timeline(self, _payload=None):
         try:
@@ -335,6 +388,7 @@ class TranscribePage(WebToolPage):
         except ResolveConnectionError:
             pass
         self._read_timeline()
+        self.textplus.on_refresh()
 
     # ------------------------------------------------------------ options --
 
@@ -342,6 +396,8 @@ class TranscribePage(WebToolPage):
         tab = (payload or {}).get("tab")
         if tab in TABS:
             self.tab, self._chose_tab = tab, True
+            if tab in TEXT_PLUS_TABS:
+                self.textplus.tab_shown()
 
     def on_option(self, payload):
         payload = payload or {}
@@ -520,14 +576,50 @@ class TranscribePage(WebToolPage):
             self._add_log(f"Saved a copy to {path}", "ok")
             self.emit("toast", {"text": f"Saved {Path(path).name}"})
 
-    def on_open_animator(self, _payload=None):
-        pages = getattr(self.host, "pages", {})
-        if "text_animator" in pages:
-            self.host.switch_tool("text_animator")
-            try:
-                pages["text_animator"].switch_page("Subtitle Conversion")
-            except Exception:
-                pass
+    # ------------------------------------------------ subtitle conversion --
+
+    def on_conv_option(self, payload):
+        payload = payload or {}
+        try:
+            value = max(1, min(99, int(payload.get("value") or 1)))
+        except (TypeError, ValueError):
+            return
+        if payload.get("key") == "sub_track":
+            self.sub_track = value
+        elif payload.get("key") == "target_track":
+            self.target_track, self._target_chosen = value, True
+        self._push_convert()
+
+    def on_convert(self, _payload=None):
+        try:
+            resolve = TranscribeController(self.host.ensure_connected())
+        except ResolveConnectionError as exc:
+            return self._alert(str(exc), "Subtitle conversion")
+        sub_track, video_track = self.sub_track, self.target_track
+
+        def log(message):
+            message = message.strip().lstrip("- ").strip()
+            if message and not message.startswith(("[Diagnostic]", "[Duration]")):
+                bad = any(w in message for w in ("Warning", "FAIL", "Exception"))
+                self._add_log(message, "error" if bad else "info")
+
+        self.host.set_busy(True, "Converting subtitles to Text+…")
+        try:
+            made = resolve.subtitles_to_text_plus(sub_track, video_track, log)
+        except TranscribeResolveError as exc:
+            return self._alert(str(exc), "Subtitle conversion")
+        except Exception as exc:  # noqa: BLE001 - Resolve's own errors, said rather than lost
+            self._add_log(f"Couldn't convert the subtitles: {exc}", "error")
+            return self._alert(f"Couldn't convert the subtitles: {exc}", "Subtitle conversion")
+        finally:
+            self.host.set_busy(False)
+        text = (f"1 Text+ clip on video track {video_track}" if made == 1
+                else f"{made} Text+ clips on video track {video_track}")
+        self._add_log(text, "ok" if made else "error")
+        self.emit("toast", {"text": text, "style": bool(made)})     # offers the Font Styling tab
+        self._target_chosen = False      # used: the next conversion gets a fresh empty track
+        self._read_timeline()
+        self.textplus.on_refresh()       # the Text+ tabs' track lists: maybe a new track
 
     # ---------------------------------------------------------- translate --
 

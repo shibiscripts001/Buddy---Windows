@@ -24,7 +24,7 @@ from pages.media_relink.page import MediaRelinkPage
 from pages.project_setup.page import ProjectSetupPage
 from pages.stills_exporter.page import StillsExporterPage
 from pages.svg_importer.page import SVGImporterPage
-from pages.text_animator.page import TextAnimatorPage
+from pages.text_animator.page import AnimationPage
 from pages.time_tracker.page import TimeTrackerPage
 from pages.transcribe.page import TranscribePage
 from pages.youtube_chapters.page import YouTubeChaptersPage
@@ -46,7 +46,7 @@ REGISTRY = [
     ("Media & Assets", MediaRelinkPage),
 
     ("Editing Tools", BatchClipRenamerPage),
-    ("Editing Tools", TextAnimatorPage),
+    ("Editing Tools", AnimationPage),
     ("Editing Tools", TranscribePage),
     ("Editing Tools", ColorPalettePage),
 

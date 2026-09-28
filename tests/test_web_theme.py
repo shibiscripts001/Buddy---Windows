@@ -15,6 +15,10 @@ from core.web_theme import web_theme
 WEB = _paths.APP / "web"
 # Every web tool page: pages/<tool>/web/index.html next to its page.py.
 PAGE_WEB_DIRS = sorted(p.parent for p in (_paths.APP / "pages").glob("*/web/index.html"))
+# Python a page hosts from elsewhere, whose view shares the page's: Transcribe's Text+
+# tabs are text_animator/text_plus.py (their script sends and hears through the local
+# send()/on() that add the "tp_" prefix).
+HOSTED = {"transcribe": [_paths.APP / "pages" / "text_animator" / "text_plus.py"]}
 # Web windows of their own (core/web_page.py WebWindow): view folder -> its Python.
 _CP = _paths.APP / "pages" / "color_palette"
 _CORE, _SHELL = _paths.APP / "core", WEB / "shell"
@@ -244,6 +248,7 @@ class WebPageContractTests(unittest.TestCase):
                 text = f.read_text(encoding="utf-8")
                 if f.name != "page.py" and re.search(r"^class \w+Mixin\b", text, re.M):
                     py.append(text)
+            py += [f.read_text(encoding="utf-8") for f in HOSTED.get(web.parent.name, [])]
             yield (web.parent.name, js, "\n".join(py), (web / "index.html").read_text(encoding="utf-8"), web)
         by_py = {}
         for web, py in WINDOW_WEB.items():
@@ -271,9 +276,11 @@ class WebPageContractTests(unittest.TestCase):
 
     def test_every_event_a_page_emits_is_drawn(self):
         for name, js, py, _html, _web in self.each():
+            if not js.strip():
+                continue                # a view with no script (Animation's empty Text+ tab)
             emitted = set(re.findall(r"self\.emit\(\"(\w+)\"", py))
             self.assertTrue(emitted, name)
-            handled = set(re.findall(r"Buddy\.on\(\"(\w+)\"", js))
+            handled = set(re.findall(r"\b(?:Buddy\.)?on\(\"(\w+)\"", js))
             self.assertFalse(emitted - handled, f"{name}: the view never handles {sorted(emitted - handled)}")
 
     def test_the_views_only_load_local_files(self):

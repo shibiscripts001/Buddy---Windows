@@ -1,4 +1,5 @@
-/* Text Animator. Theme colours only - the clips' own colours arrive inline. */
+/* Transcribe's Text+ tabs (textplus.js). Theme colours only - the clips' own colours arrive inline.
+   Loaded before transcribe.css, which wins where both style the same thing. */
 
 .timeline { color: var(--text-dim); font-size: var(--fs-sm); }
 .panel { display: flex; flex-direction: column; gap: 12px; }
@@ -49,8 +50,8 @@ input[type="range"] { width: 100%; margin: 0; accent-color: var(--primary); curs
     background: repeating-conic-gradient(color-mix(in srgb, var(--text) 10%, var(--surface)) 0 25%, var(--surface) 0 50%) 0 0 / 20px 20px;
 }
 /* Like Text+ with Wrap off: the clip's own line breaks, centred, running off both
-   edges when too wide (flex centring overflows evenly), and LineSpacing 1.0 = the
-   font's own line height, which is what "normal" is. */
+   edges when too wide (flex centring overflows evenly). LineSpacing 1.0 is the font's own
+   line step, which textplus.js sets from Text+'s figures ("normal" until they arrive). */
 .sample { white-space: pre; text-align: center; line-height: normal; flex-shrink: 0; }
 
 /* --------------------------------------------------------- canvases -- */
@@ -58,11 +59,11 @@ input[type="range"] { width: 100%; margin: 0; accent-color: var(--primary); curs
 .canvas-card { gap: 10px; }
 .canvas-head { flex-wrap: wrap; row-gap: 4px; }
 .canvas-host { width: 100%; display: flex; justify-content: center; }
-.stage {
+.canvas-host .stage {
     position: relative; overflow: hidden; outline: none; user-select: none; touch-action: none;
     border-radius: var(--r-sm); box-shadow: 0 0 0 var(--bw) var(--card-border);
 }
-.stage:focus-visible { box-shadow: 0 0 0 2px var(--accent-text); }
+.canvas-host .stage:focus-visible { box-shadow: 0 0 0 2px var(--accent-text); }
 .layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .layer.over { z-index: 3; }
 .layer .bound { pointer-events: all; cursor: ew-resize; }

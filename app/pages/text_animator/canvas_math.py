@@ -1,14 +1,14 @@
-"""The measuring behind Text Animator's placement canvas: how big a Text+ clip's text
-renders for a Fusion "Size" (from real font metrics - QtGui, no widgets), bounding-line and
-word-layout fits, and the grid / safe-zone overlays. Was placement_canvas.py; its
-QGraphicsView canvas is now the web page's (web/canvas.js), which draws what text_box()
-measures here."""
+"""The measuring behind the Text+ placement canvas: how big a Text+ clip's text renders for
+a Fusion "Size" and where it sits around its Center (font files' own metrics, and QtGui for
+glyph widths - no widgets), bounding-line and word-layout fits, and the grid / safe-zone
+overlays. Was placement_canvas.py; its QGraphicsView canvas is now the web page's
+(transcribe/web/canvas.js), which draws what text_box() measures here."""
 import math
+import struct
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
 
-from PySide6.QtCore import QRectF
-from PySide6.QtGui import QFont, QFontMetrics, QFontMetricsF
+from PySide6.QtGui import QFont, QFontMetricsF
 
 from .overlays import GRID_FRACTIONS, GRID_TYPES, SAFE_ZONE_RECTS, SAFE_ZONE_TYPES  # noqa: F401 - re-exported
 
@@ -18,12 +18,81 @@ from .overlays import GRID_FRACTIONS, GRID_TYPES, SAFE_ZONE_RECTS, SAFE_ZONE_TYP
 # fonts from Segoe UI (ascent + descent 1.33 em) to Times New Roman (1.11 em): 0.8024-0.8038
 # for all. (The earlier rule - cap height = 0.444 x Size x width, from one Open Sans render -
 # was only right for fonts shaped like Open Sans: it drew Arial 14% small.) The web style
-# preview uses the same constant (web/animator.js).
+# preview uses the same constant (transcribe/web/textplus.js).
 TEXT_PLUS_HEIGHT = 0.803
+
+# WHICH ascent and descent: the font file's hhea table - FreeType's, which Fusion renders
+# with - not the Windows metrics (OS/2 usWin) Qt and the browser use on Windows. For most
+# fonts they're the same, but not all: Windows' own Noto Sans JP (NotoSansJP-VF.ttf) has
+# hhea 1.0 + 0.2 em and usWin 1.16 + 0.288, and Resolve drew it 1.448 / 1.2 = 21% bigger
+# than Qt's figures said - measured on 16 words, all within the 2-3 px edge the rendered
+# bounds add. The same bounds showed how Text+ lays text out around its Center (text_box).
+# The file is the one Resolve's own FontManager names (set_font_files), since a family can
+# be installed several times over with different metrics (that one three times here).
+_font_files: Dict[str, Dict[str, str]] = {}      # family -> style -> font file, from Resolve
 
 # Fonts are measured at this pixel size and scaled - big enough that whole-pixel rounding
 # doesn't matter, and every length scales linearly with it.
 _MEASURE_PX = 1000
+
+
+def set_font_files(font_list) -> bool:
+    """Takes Resolve's FontManager.GetFontList() ({family: {style: file}}), so fonts are
+    measured from the files Resolve renders them with. True if that changed anything."""
+    files = {str(family): {str(style): str(path) for style, path in styles.items()}
+             for family, styles in (font_list or {}).items() if isinstance(styles, dict)}
+    if not files or files == _font_files:
+        return False
+    _font_files.clear()
+    _font_files.update(files)
+    _px_per_size.cache_clear()
+    _text_metrics.cache_clear()
+    return True
+
+
+def _sfnt_tables(data: bytes) -> Dict[str, bytes]:
+    """The tables of a .ttf/.otf, or of the first font in a .ttc collection."""
+    offset = struct.unpack(">I", data[12:16])[0] if data[:4] == b"ttcf" else 0
+    count = struct.unpack(">H", data[offset + 4:offset + 6])[0]
+    tables = {}
+    for i in range(count):
+        entry = offset + 12 + 16 * i
+        tag, _checksum, start, length = struct.unpack(">4sIII", data[entry:entry + 16])
+        tables[tag.decode("latin-1")] = data[start:start + length]
+    return tables
+
+
+@lru_cache(maxsize=128)
+def _file_metrics(path: str) -> Optional[Tuple[float, float, float]]:
+    """(ascent, descent, line gap) in ems from a font file's hhea table - OS/2's typo
+    figures if hhea has none - or None if it can't be read."""
+    try:
+        with open(path, "rb") as f:
+            tables = _sfnt_tables(f.read())
+        units = struct.unpack(">H", tables["head"][18:20])[0]
+        ascent, descent, gap = struct.unpack(">hhh", tables["hhea"][4:10])
+        if ascent - descent <= 0 and len(tables.get("OS/2", b"")) >= 74:
+            ascent, descent, gap = struct.unpack(">hhh", tables["OS/2"][68:74])
+    except (OSError, KeyError, struct.error, UnicodeDecodeError):
+        return None
+    if units <= 0 or ascent - descent <= 0:
+        return None
+    return ascent / units, -descent / units, max(gap, 0) / units
+
+
+def font_vertical_metrics(font_name: str) -> Tuple[float, float, float]:
+    """(ascent, descent, line gap) in ems, as Text+ sees them: from the file Resolve uses
+    for this family (its Regular, else any style), else Qt's figures for it."""
+    styles = _font_files.get(font_name or "Arial") or {}
+    path = styles.get("Regular") or next(iter(styles.values()), None)
+    found = _file_metrics(path) if path else None
+    if found:
+        return found
+    metrics = QFontMetricsF(_measure_font(font_name))
+    ascent, descent = metrics.ascent() / _MEASURE_PX, metrics.descent() / _MEASURE_PX
+    if ascent + descent <= 0:
+        return 0.905, 0.212, 0.033          # Arial's, if Qt can't say
+    return ascent, descent, max(metrics.leading(), 0.0) / _MEASURE_PX
 
 
 def _measure_font(font_name: str) -> QFont:
@@ -35,10 +104,9 @@ def _measure_font(font_name: str) -> QFont:
 @lru_cache(maxsize=256)
 def _px_per_size(font_name: str) -> float:
     """Text+'s font pixel size for Size 1, as a fraction of composition width: the
-    TEXT_PLUS_HEIGHT rule solved with this font's own ascent + descent."""
-    metrics = QFontMetricsF(_measure_font(font_name))
-    height = (metrics.ascent() + metrics.descent()) / _MEASURE_PX
-    return TEXT_PLUS_HEIGHT / (height if height > 0 else 1.117)   # 1.117: Arial's, if Qt can't say
+    TEXT_PLUS_HEIGHT rule solved with this font's ascent + descent."""
+    ascent, descent, _gap = font_vertical_metrics(font_name)
+    return TEXT_PLUS_HEIGHT / (ascent + descent)
 
 
 def cap_height_fraction(font_name: str, size: float) -> float:
@@ -225,65 +293,53 @@ def compute_large_word_layout(
     return targets
 
 
-def compute_multiline_ink_rect(font: QFont, text: str) -> QRectF:
-    """Measures the actual glyph-ink bounding box of (possibly multi-line, "\\n"-separated)
-    `text` in `font`, in the SAME local coordinate frame QGraphicsSimpleTextItem itself uses -
-    origin (0, 0) at the top-left of the item's full font box, NOT QFontMetrics' own
-    baseline-relative convention (getting that distinction wrong makes the box land nowhere
-    near the rendered text).
-
-    QFontMetrics.tightBoundingRect() only understands a single line - fed a multi-line string
-    directly, it measures totally wrong text (empirically, close to the SUM of every line's
-    own width, and only one line's worth of height) rather than raising or refusing. This
-    measures each line
-    separately and reproduces the same top-to-bottom stacking QGraphicsSimpleTextItem itself
-    uses (each line's baseline `metrics.lineSpacing()` pixels below the previous one, first
-    line's baseline at `metrics.ascent()`), then returns the union of every line's ink rect in
-    that shared frame - collapses to the exact single-line-correct behavior when `text` has no
-    newline."""
-    metrics = QFontMetrics(font)
-    ascent = metrics.ascent()
-    line_spacing = metrics.lineSpacing()
-
-    lefts, rights, tops, bottoms = [], [], [], []
-    for i, line in enumerate(text.split("\n")):
-        tight = metrics.tightBoundingRect(line or " ")
-        baseline = ascent + i * line_spacing
-        lefts.append(tight.left())
-        rights.append(tight.left() + tight.width())
-        tops.append(baseline + tight.top())
-        bottoms.append(baseline + tight.top() + tight.height())
-
-    left, top = min(lefts), min(tops)
-    return QRectF(left, top, max(rights) - left, max(bottoms) - top)
-
-
 # One measurement, reused: every length text_box() returns scales linearly with Size, so
 # fonts/texts are measured once at this Size and scaled.
 _MEASURE_SIZE = 1.0
 
 
 @lru_cache(maxsize=512)
-def _text_metrics(font_name: str, text: str) -> Tuple[float, ...]:
-    """(pixel size, ink left, ink top, ink width, ink height, ascent, line spacing), all
-    as fractions of composition width, for `text` at Size _MEASURE_SIZE."""
+def _text_metrics(font_name: str, text: str) -> Tuple[Any, ...]:
+    """(pixel size, ink left, ink top, ink width, ink height, ((x, baseline) per line)) at
+    Size _MEASURE_SIZE, as fractions of composition width, relative to the Text+ Center
+    (y down). See text_box()."""
     font = _measure_font(font_name)
-    metrics = QFontMetrics(font)
-    ink = compute_multiline_ink_rect(font, text or " ")
-    k = _MEASURE_SIZE * _px_per_size(font_name) / _MEASURE_PX   # measured px -> composition width
-    return (_MEASURE_PX * k, ink.left() * k, ink.top() * k, ink.width() * k, ink.height() * k,
-            metrics.ascent() * k, metrics.lineSpacing() * k)
+    metrics = QFontMetricsF(font)
+    ascent, descent, gap = (v * _MEASURE_PX for v in font_vertical_metrics(font_name))
+    lines = (text or " ").split("\n")
+    line_step = ascent + descent + gap
+    top = -(ascent + descent + (len(lines) - 1) * line_step) / 2    # the block, centred on Center
+    origins, lefts, tops, rights, bottoms = [], [], [], [], []
+    for i, line in enumerate(lines):
+        x = -metrics.horizontalAdvance(line) / 2                     # each line centred on its own width
+        baseline = top + ascent + i * line_step
+        origins.append((x, baseline))
+        ink = metrics.tightBoundingRect(line or " ")
+        lefts.append(x + ink.left())
+        rights.append(x + ink.right())
+        tops.append(baseline + ink.top())
+        bottoms.append(baseline + ink.bottom())
+    k = _MEASURE_SIZE * _px_per_size(font_name) / _MEASURE_PX       # measured px -> composition width
+    left, ink_top = min(lefts), min(tops)
+    return (_MEASURE_PX * k, left * k, ink_top * k, (max(rights) - left) * k, (max(bottoms) - ink_top) * k,
+            tuple((x * k, y * k) for x, y in origins))
 
 
-def text_box(font_name: str, text: str, size: float) -> Dict[str, float]:
-    """How a Text+ clip's text draws, for the web canvas: font pixel size, the ink box
-    (left/top relative to the text origin, width/height) and ascent/line spacing - each a
-    fraction of composition width, so the page multiplies by its canvas width. The same
-    Qt-measured glyph-height and ink-rect maths the old QGraphicsView canvas drew with."""
+def text_box(font_name: str, text: str, size: float) -> Dict[str, Any]:
+    """How a Text+ clip's text draws, for the web canvas: the font's pixel size, the ink box
+    (left/top from the clip's Center, y down, and width/height) and each line's origin (x
+    and baseline, from the Center) - fractions of composition width, so the page multiplies
+    by its canvas width.
+
+    Laid out as Text+ does it (centred, measured against rendered bounds): the lines' block
+    - ascent + descent, plus a line of ascent + descent + gap for each further line - is
+    centred on the Center, each line centred on its own width. So the Center sits on the
+    middle of the line box, not of the ink: a word with no ascenders ("was") has its ink
+    below the Center, and words in a row share a baseline only at the same Center y."""
     scale = max(size, 0.0) / _MEASURE_SIZE
-    px, left, top, width, height, ascent, line = _text_metrics(font_name or "Arial", text or " ")
+    px, left, top, width, height, lines = _text_metrics(font_name or "Arial", text or " ")
     return {"px": px * scale, "left": left * scale, "top": top * scale, "w": width * scale,
-            "h": height * scale, "ascent": ascent * scale, "line": line * scale}
+            "h": height * scale, "lines": [[x * scale, y * scale] for x, y in lines]}
 
 
 def standard_grid_spacing(width: float, height: float) -> float:
