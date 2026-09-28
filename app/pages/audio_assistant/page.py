@@ -20,9 +20,14 @@ tracks changes it:
     Clean-up   Voice Isolation and the Dialogue Leveler, where Resolve has them for the
                clip (they read None on some media, and only work on the active timeline)
     Cuts       an audio crossfade on each cut between selected clips
+    Curve      volume keys drawn on the clip's line - double-click to add one - and
+               Apply: real Resolve keyframes, in a one-clip timeline placed as a nested
+               clip where the clip was, the clip itself turned off (keys.py says why,
+               resolve_ext.apply_curve how). A clip keyed in Resolve shows its keys.
 
-Every change but a crossfade can be undone (Undo puts back what the clips had). Buddy
-can't remove a transition (DeleteClips refuses one), so the view asks first.
+Every change but a crossfade can be undone (Undo puts back what the clips had, and
+takes a curve off or puts the one before back). Buddy can't remove a transition
+(DeleteClips refuses one), so the view asks first.
 
 What Resolve 21.1's scripting can reach (tried on a duplicate timeline): a clip's
 volume, pan and pitch (SetProperties), fades in frames (SetFades), audio transitions
@@ -30,10 +35,9 @@ volume, pan and pitch (SetProperties), fades in frames (SetFades), audio transit
 (Timeline.NormalizeAudioLevel - on the active timeline only: on another it returns True
 and changes nothing), a track's Voice Isolation, and a clip's Voice Isolation and
 Dialogue Leveler - on the active timeline, and not for every clip: a camera MXF's read
-None and refused, an MP4's and MP3's worked. Not reachable: volume keyframes and
-Fairlight FX (de-esser, EQ, noise reduction), so those would be Buddy's own processing,
-baked into a new audio file - and a clip's keyframed volume can't be drawn: the blue
-wave shows its flat volume only.
+None and refused, an MP4's and MP3's worked. Volume keyframes have no call, but go in
+and out through timeline files (keys.py). Not reachable: Fairlight FX (de-esser, EQ,
+noise reduction), so those would be Buddy's own processing, baked into a new file.
 
 Reading runs on a ResolveWorker (Resolve holds calls while the timeline plays): a live
 read of the playhead, Resolve's selection and the selected clips' levels every LIVE_MS,
@@ -47,8 +51,9 @@ froze Buddy for all 15 s of a NormalizeAudioLevel when it was tried there.
 
 Protocol:
     to the view    state, timeline, levels, playhead, selection, peaks, peaks_progress,
-                   options, undo, toast, alert
-    from the view  refresh, select, seek, set_levels, match, crossfade, undo
+                   options, undo, curve, toast, alert
+    from the view  refresh, select, seek, set_levels, match, crossfade, curve,
+                   remove_curve, undo
 """
 
 import base64
@@ -68,6 +73,7 @@ from core.web_page import WebToolPage
 
 from pages.stills_exporter.resolve_ext import frames_to_timecode
 
+from . import keys as K
 from . import levels as mixer
 from . import resolve_ext
 from .peaks import FLOOR_DB, LOUD_BLOCK_S, PEAK_RATE, PeakLoader
@@ -107,7 +113,10 @@ class AudioAssistantPage(WebToolPage):
         self.playhead = None
         self.problem = ""
         self.busy = False
-        self.undo_stack = []         # [{"label", "timeline", "before"}], newest last
+        # [{"label", "timeline", and "before" (apply()'s) or "curve" ({"do": "remove", "id"}
+        # | {"do": "apply", "id", "keys", "volume", "outer"})}], newest last
+        self.undo_stack = []
+        self._select_next = None     # a clip id to select once a full read has it (a new curve clip)
         self._media_cache = {}
         self._peaks = {}             # file key -> (peaks, loudness) bytes | None (no waveform)
         self._peak_errors = {}
@@ -230,6 +239,9 @@ class AudioAssistantPage(WebToolPage):
         self._push_state()
         if changed:
             self.emit("timeline", data)
+        if self._select_next and self._select_next in self.items:
+            self.selected, self.from_resolve, self._select_next = [self._select_next], False, None
+            self._push_selection()
         for track in data["tracks"]:
             for clip in track["clips"]:
                 media = clip.get("media")
@@ -477,6 +489,10 @@ class AudioAssistantPage(WebToolPage):
             return
         change, report = mixer.match(self._clips(), ids, self._audio_of, self.timeline["fps"], preset,
                                      independent=bool(payload.get("independent")))
+        if report["keyed"] and not change:
+            return self.emit("alert", {"title": "Those clips have volume keyframes", "text": (
+                "Their keyframes set their volume in Resolve, so a clip volume wouldn't be heard. "
+                "Change the line on the clip instead, then Apply.")})
         if report["missing"] and not change:
             return self.emit("alert", {"title": "Nothing to measure yet", "text": (
                 "Buddy is still reading those clips' audio, or they have no file it can read. "
@@ -493,13 +509,13 @@ class AudioAssistantPage(WebToolPage):
         if error is not None:
             return self.emit("alert", {"title": "Couldn't match the loudness", "text": str(error)})
         self._written("Match loudness", result, count)
-        skipped = len(report["missing"]) + len(report["silent"])
+        skipped = len(report["missing"]) + len(report["silent"]) + len(report["keyed"])
         if report["clamped"]:
             self.emit("alert", {"title": "Some clips couldn't get there", "text": (
                 "+30 dB is as loud as Resolve's clip volume goes, and some clips needed more. "
                 "They're at +30 dB.")})
         elif skipped:
-            self.emit("toast", {"text": f"Matched to {preset['label']} – {skipped} left out, with no audio to measure yet"})
+            self.emit("toast", {"text": f"Matched to {preset['label']} – {skipped} left out, with volume keyframes or no audio to measure yet"})
         else:
             self.emit("toast", {"text": f"Matched to {preset['label']}"})
 
@@ -545,6 +561,89 @@ class AudioAssistantPage(WebToolPage):
         else:
             self.emit("toast", {"text": "Added 1 crossfade" if added == 1 else f"Added {added} crossfades"})
 
+    # -------------------------------------------------------------- curves --
+
+    def on_curve(self, payload):
+        """Apply: the keys the view drew on a clip (as heard) go to Resolve as its
+        curve - a new curve clip, or one in place of the clip's Buddy curve."""
+        payload = payload or {}
+        uid = str(payload.get("id") or "")
+        clip = self._clips().get(uid)
+        heard = K.clean(payload.get("keys"))
+        if clip is None or self.timeline is None:
+            return self.emit("curve", {"id": uid, "done": False})
+        if not heard:
+            if clip.get("curve"):
+                return self.on_remove_curve({"id": uid})
+            return self.emit("curve", {"id": uid, "done": True, "new": uid})
+        # A keyed clip's own volume isn't heard, so its curve clip starts at 0 dB;
+        # any other clip's volume comes with it, and the keys are what's on top.
+        volume = 0.0 if mixer.keyed_in_resolve(clip) else float(clip.get("volume") or 0.0)
+        undo = ({"do": "apply", "keys": clip["keys"], "volume": volume} if clip.get("curve")
+                else {"do": "remove"})
+        self._put_curve(uid, K.shifted(heard, -volume), volume, None, "Volume curve", undo)
+
+    def _put_curve(self, uid, inner, volume, outer, label, undo):
+        """apply_curve on the worker; `undo` (less its "id": the new clip's) kept for it."""
+        controller = self._writable()
+        if controller is None:
+            return self.emit("curve", {"id": uid, "done": False})
+        fps = self.timeline["fps"]
+        self._worker.start(lambda: resolve_ext.apply_curve(controller, uid, inner, fps, volume, outer),
+                           lambda result, error: self._on_curve(uid, label, undo, result, error))
+
+    def _on_curve(self, uid, label, undo, result, error):
+        self._full_due = 0.0                     # the new clip shows on the next read
+        if error is not None:
+            self.emit("curve", {"id": uid, "done": False})
+            return self.emit("alert", {"title": "Couldn't apply the curve", "text": str(error)})
+        new = result["id"]
+        if result.get("replaced"):
+            self._remap(result["replaced"], new)
+        self._keep_undo(label, dict(undo, id=new))
+        self._select_next = new
+        self.emit("curve", {"id": uid, "done": True, "new": new})
+        if not result.get("replaced"):
+            self.emit("toast", {"text": f"Curve on A{result['track']} – the clip under it is turned off"})
+
+    def on_remove_curve(self, payload):
+        """A Buddy curve clip taken off, and the clip it stood in for back on."""
+        uid = str((payload or {}).get("id") or "")
+        clip = self._clips().get(uid)
+        if clip is None or not clip.get("curve"):
+            return
+        controller = self._writable()
+        if controller is None:
+            return self.emit("curve", {"id": uid, "done": False})
+        self._worker.start(lambda: resolve_ext.remove_curve(controller, uid),
+                           lambda result, error: self._on_removed(uid, result, error))
+
+    def _on_removed(self, uid, result, error):
+        self._full_due = 0.0
+        if error is not None:
+            self.emit("curve", {"id": uid, "done": False})
+            return self.emit("alert", {"title": "Couldn't take the curve off", "text": str(error)})
+        if result["original"]:
+            self._keep_undo("Remove curve", {"do": "apply", "id": result["original"], "keys": result["keys"],
+                                             "volume": result["volume"], "outer": result["outer"]})
+            self._select_next = result["original"]
+        self.emit("curve", {"id": uid, "done": True, "new": result["original"] or None})
+
+    def _keep_undo(self, label, curve):
+        self.undo_stack.append({"label": label, "timeline": self.timeline["id"], "curve": curve})
+        del self.undo_stack[:-UNDO_LIMIT]
+        self._push_undo()
+
+    def _remap(self, old, new):
+        """A clip replaced by another (a curve clip by its new one): the undos follow."""
+        for entry in self.undo_stack:
+            if entry.get("curve", {}).get("id") == old:
+                entry["curve"]["id"] = new
+            if old in entry.get("before", {}):
+                entry["before"][new] = entry["before"].pop(old)
+
+    # --------------------------------------------------------------- undo --
+
     def on_undo(self, _payload=None):
         tid = (self.timeline or {}).get("id")
         mine = [i for i, u in enumerate(self.undo_stack) if u["timeline"] == tid]
@@ -555,8 +654,33 @@ class AudioAssistantPage(WebToolPage):
             return
         entry = self.undo_stack.pop(mine[-1])
         self._push_undo()
+        curve = entry.get("curve")
+        if curve and curve["do"] == "remove":
+            return self._worker.start(lambda: resolve_ext.remove_curve(controller, curve["id"]),
+                                      lambda result, error: self._on_curve_undone(entry, result, error))
+        if curve:
+            fps = self.timeline["fps"]
+            return self._worker.start(
+                lambda: resolve_ext.apply_curve(controller, curve["id"], curve["keys"] or [], fps, curve["volume"],
+                                                curve.get("outer")),
+                lambda result, error: self._on_curve_undone(entry, result, error))
         self._worker.start(lambda: resolve_ext.apply(controller, entry["before"]),
                            lambda result, error: self._on_undone(entry, result, error))
+
+    def _on_curve_undone(self, entry, result, error):
+        self._full_due = 0.0
+        if error is not None:
+            self.undo_stack.append(entry)          # nothing lost: it can be tried again
+            self._push_undo()
+            return self.emit("alert", {"title": "Couldn't undo", "text": str(error)})
+        curve = entry["curve"]
+        new = result.get("original") if curve["do"] == "remove" else result["id"]
+        if curve["do"] == "apply" and result.get("replaced"):
+            self._remap(result["replaced"], new)
+        if new:
+            self._select_next = new
+        self.emit("curve", {"id": curve["id"], "done": True, "new": new or None})
+        self.emit("toast", {"text": f"Undone: {entry['label']}"})
 
     def _on_undone(self, entry, result, error):
         if error is not None or result["failed"]:

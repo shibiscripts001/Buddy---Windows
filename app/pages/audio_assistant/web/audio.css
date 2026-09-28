@@ -24,6 +24,16 @@
 .swatch.file { background: var(--wave-file); }
 .swatch.mixed { background: var(--wave-mixed); }
 
+/* A curve drawn but not applied: said over the tracks, as its clip may be scrolled away. */
+.draft-bar {
+    padding: 6px 12px; gap: 10px; flex-wrap: wrap; font-size: var(--fs-sm);
+    border-bottom: var(--bw) solid var(--card-border);
+    background: color-mix(in srgb, #F2C94C 12%, transparent);
+}
+.draft-bar b { color: var(--text-strong); }
+.draft-bar .btn { padding: 3px 12px; }
+.draft-bar[hidden] { display: none; }
+
 .tl { display: grid; grid-template-columns: 124px minmax(0, 1fr); }
 .tl-heads { border-right: var(--bw) solid var(--card-border); }
 .tl-head {

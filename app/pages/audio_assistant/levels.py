@@ -14,13 +14,19 @@ mode all set the same volume (measured on a duplicate timeline) - so it can't
 aim for YouTube's -14. (targetLevel does work, for its peak modes.) Buddy's
 loudness (peaks.py, BS.1770) reads the same as ffmpeg's ebur128, so the new
 volume is target - measured + current: instant, and undone like any change.
-It's the file's audio through the clip's volume and fades - not through
+It's the file's audio through the clip's volume, keys and fades - not through
 Voice Isolation or the Dialogue Leveler, which Resolve applies after.
 timeline.js's lufs() is the same sum, so the panel's figure is what's aimed at.
+
+A clip with volume keys (keys.py) is heard at its keys, not its volume: on a
+clip keyed in Resolve the volume isn't heard at all, so it's left alone (and
+Match leaves the clip out); on a Buddy curve clip the volume is heard on top of
+the keys, so it moves the whole line.
 """
 
 import numpy as np
 
+from .keys import curve_db
 from .resolve_ext import LEVELER_GAIN_RANGE, PAN_RANGE, VOLUME_RANGE
 
 # Match's targets: integrated loudness (LUFS; LKFS is the same measure), or
@@ -53,6 +59,20 @@ def _number(value):
         return None
 
 
+def keyed_in_resolve(clip):
+    """A clip whose keys came from Resolve: its volume isn't heard."""
+    return bool(clip.get("keys")) and not clip.get("curve")
+
+
+def heard_db(clip, t):
+    """The volume a clip plays at, at file time(s) t: its keys (with its volume
+    on top, on a Buddy curve clip), or its volume."""
+    volume = clip.get("volume") or 0.0
+    if not clip.get("keys"):
+        return np.full_like(np.asarray(t, dtype=np.float64), volume)
+    return curve_db(clip["keys"], t) + (volume if clip.get("curve") else 0.0)
+
+
 def changes(clips, request):
     """{clip id: {"props": {...}, "fades": {...}}} for resolve_ext.apply().
 
@@ -62,7 +82,8 @@ def changes(clips, request):
     "isolation": {"on", "amount"}, "leveler": {"on", "mode", "reduce_loud",
     "lift_soft", "background", "gain"}}. Voice Isolation and the Dialogue
     Leveler are only asked of clips that have them (read as None otherwise:
-    Resolve would refuse the clip's whole change)."""
+    Resolve would refuse the clip's whole change), and the volume isn't asked
+    of a clip keyed in Resolve (it wouldn't be heard)."""
     out = {}
     for uid in request.get("ids") or []:
         clip = clips.get(uid)
@@ -71,6 +92,8 @@ def changes(clips, request):
         props, fades = {}, {}
         volume = _number(request.get("volume"))
         by = _number(request.get("volume_by"))
+        if keyed_in_resolve(clip):
+            volume = by = None
         if volume is not None:
             props["AudioVolume"] = round(_clamp(volume, VOLUME_RANGE), 2)
         elif by is not None:
@@ -153,8 +176,8 @@ def _fades(clip, frames):
 
 def clip_blocks(clip, audio, fps):
     """A clip's 400 ms gating blocks: (as it plays - its file's K-weighted
-    energy, audio["loud"] one per audio["block"] s, through its volume and
-    fades; the same without the volume, for gate()'s raw)."""
+    energy, audio["loud"] one per audio["block"] s, through its volume (or
+    keys) and fades; the same without them, for gate()'s raw)."""
     loud, block = audio["loud"], audio["block"]
     first = max(0, int(np.floor(clip.get("offset", 0.0) / block)))
     last = min(len(loud), int(np.ceil((clip.get("offset", 0.0) + (clip["end"] - clip["start"]) / fps) / block)))
@@ -163,8 +186,10 @@ def clip_blocks(clip, audio, fps):
     j = np.arange(first, last)
     frames = clip["start"] + ((j + 0.5) * block - clip.get("offset", 0.0)) * fps
     g = _fades(clip, frames)
-    raw = np.convolve(loud[first:last] * g * g, np.ones(4) / 4, mode="valid")
-    return raw * 10 ** ((clip.get("volume") or 0.0) / 10), raw
+    faded = loud[first:last] * g * g
+    heard = faded * 10 ** (heard_db(clip, (j + 0.5) * block) / 10)
+    four = np.ones(4) / 4
+    return np.convolve(heard, four, mode="valid"), np.convolve(faded, four, mode="valid")
 
 
 def clip_lufs(clip, audio, fps):
@@ -173,14 +198,15 @@ def clip_lufs(clip, audio, fps):
 
 
 def clip_peak(clip, audio, fps):
-    """The loudest sample a clip plays (dBFS), through its volume; None if silent."""
+    """The loudest sample a clip plays (dBFS), through its volume or keys; None if silent."""
     codes, rate = audio["codes"], audio["rate"]
     a = max(0, int(np.floor(clip.get("offset", 0.0) * rate)))
     b = min(len(codes), int(np.ceil((clip.get("offset", 0.0) + (clip["end"] - clip["start"]) / fps) * rate)))
-    top = int(codes[a:b].max()) if b > a else 0
-    if not top:
+    span = codes[a:b].astype(np.float64)
+    if not len(span) or not span.max():
         return None
-    return audio["floor"] + top / 255 * -audio["floor"] + (clip.get("volume") or 0.0)
+    level = audio["floor"] + span / 255 * -audio["floor"] + heard_db(clip, (np.arange(a, b) + 0.5) / rate)
+    return float(level[span > 0].max())
 
 
 def match(clips, ids, audio_of, fps, preset, independent=True):
@@ -189,13 +215,16 @@ def match(clips, ids, audio_of, fps, preset, independent=True):
     (independent), or all by one amount that takes them together there.
     audio_of(clip) gives the clip's file's decoded audio or None. The report
     says which clips were skipped: "missing" (no waveform yet, or no file),
-    "silent", and "clamped" - Resolve's clip volume stops at +30 dB."""
+    "silent", "keyed" (keyed in Resolve: a volume wouldn't be heard), and
+    "clamped" - Resolve's clip volume stops at +30 dB."""
     chosen = [clips[i] for i in ids if i in clips and not clips[i].get("transition")]
-    report = {"missing": [], "silent": [], "clamped": []}
+    report = {"missing": [], "silent": [], "keyed": [], "clamped": []}
     measured = {}
     for clip in chosen:
         audio = audio_of(clip)
-        if audio is None:
+        if keyed_in_resolve(clip):
+            report["keyed"].append(clip["id"])
+        elif audio is None:
             report["missing"].append(clip["id"])
         elif "loudness" in preset:
             measured[clip["id"]] = clip_blocks(clip, audio, fps)

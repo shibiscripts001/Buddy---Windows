@@ -34,10 +34,16 @@ one twice a second and the full one every few seconds.
 
 import hashlib
 import os
+import tempfile
+import uuid
+import xml.etree.ElementTree as ET
+from fractions import Fraction
 
 from core import marker_colors
 from core.resolve_bridge import ResolveConnectionError
 from pages.stills_exporter.resolve_ext import timecode_to_frames
+
+from . import keys as K
 
 # Resolve's 16 clip colours, for display (close to its swatches). "" = none set.
 CLIP_COLORS = {
@@ -191,6 +197,7 @@ def read_timeline(controller, media_cache):
             "locked": bool(_call(timeline, "GetIsTrackLocked", "audio", index, default=False)),
             "clips": clips,
         })
+    _read_keys(controller, timeline, fps, start, tracks, items, media_cache)
     markers = [{"frame": start + int(frame), "color": marker_colors.HEX.get(info.get("color", ""), "#888888"),
                 "name": str(info.get("name") or "")}
                for frame, info in marker_colors.numeric_markers(_call(timeline, "GetMarkers", default={}))]
@@ -208,6 +215,109 @@ def read_timeline(controller, media_cache):
         "markers": markers,
     }
     return data, items
+
+
+# ----------------------------------------------------------- volume keys --
+#
+# See keys.py for what Resolve does with them. A curve applied in Buddy is a
+# timeline of its own (named "<clip> (Buddy curve)", in the "Buddy Audio" bin,
+# with Buddy's note in its Comments) holding the clip with the keys, placed as a
+# nested clip on a free track at the clip's place; the clip itself stays, turned
+# off. The nested clip's own volume is heard on top of the keys, so the Levels
+# controls (and Match) work on it as on any clip.
+
+def _timelines(project):
+    """{name: Timeline} for the project's timelines."""
+    out = {}
+    for index in range(1, int(_call(project, "GetTimelineCount", default=0) or 0) + 1):
+        tl = _call(project, "GetTimelineByIndex", index)
+        if tl is not None:
+            out[str(_call(tl, "GetName", default="") or "")] = tl
+    return out
+
+
+def _curve_of(item, timelines):
+    """A Buddy curve clip's (its timeline, note, the clip in it, its media pool
+    item) - or None for any other clip. timelines() gives _timelines()."""
+    mpi = _call(item, "GetMediaPoolItem")
+    name = str(_call(mpi, "GetName", default="") or "") if mpi is not None else ""
+    if not K.is_curve_name(name):
+        return None
+    note = K.read_note(_call(mpi, "GetMetadata", "Comments", default=""))
+    tl = timelines().get(name) if note else None
+    inner = next(iter(_call(tl, "GetItemListInTrack", "audio", 1, default=[]) or []), None) if tl else None
+    return None if inner is None else (tl, note, inner, mpi)
+
+
+def _exported(controller, timeline):
+    """parse_fcp7() of an FCP 7 XML export of the timeline ([] if Resolve won't).
+    A few ms, and nothing in the project changes."""
+    resolve = getattr(controller, "resolve", None)
+    path = os.path.join(tempfile.gettempdir(), f"buddy_keys_{uuid.uuid4().hex[:10]}.xml")
+    try:
+        kind, none = getattr(resolve, "EXPORT_FCP_7_XML"), getattr(resolve, "EXPORT_NONE")
+        if not _call(timeline, "Export", path, kind, none, default=False):
+            return []
+        with open(path, encoding="utf-8") as f:
+            return K.parse_fcp7(f.read())
+    except (AttributeError, OSError, ET.ParseError, ValueError):
+        return []
+    finally:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+
+
+def _read_keys(controller, timeline, fps, start, tracks, items, cache):
+    """Each clip's "keys" (file-time keys, or None) and "curve" (Buddy's curve
+    clips: {"original": the clip it stands in for, "edited": its keys changed in
+    Resolve since}, else None). A curve clip also takes the media and offset of
+    the clip in it, so its waveform draws."""
+    project = controller.current_project()
+    found = {}
+
+    def timelines():
+        if "all" not in found:
+            found["all"] = _timelines(project) if project is not None else {}
+        return found["all"]
+
+    plain = []
+    for track in tracks:
+        for clip in track["clips"]:
+            if clip.get("transition"):
+                continue
+            clip["keys"], clip["curve"] = None, None
+            if clip["media"] is None:
+                _read_curve(controller, clip, items[clip["id"]], timelines, fps, cache)
+            else:
+                plain.append(clip)
+    if plain:
+        keyed = K.match_keys(_exported(controller, timeline), plain, start)
+        for clip in plain:
+            clip["keys"] = keyed.get(clip["id"]) or None
+
+
+def _read_curve(controller, clip, item, timelines, fps, cache):
+    curve = _curve_of(item, timelines)
+    if curve is None:
+        return
+    tl, note, inner, _mpi = curve
+    media = _media(inner, cache)
+    if media is None:
+        return
+    src_fps = media.get("fps") or fps
+    inner_offset = (_float(_call(inner, "GetSourceStartFrame"), 0.0) or 0.0) / src_fps
+    clip["media"] = media
+    # A nested clip's source start counts frames into its timeline: a trim.
+    clip["offset"] = inner_offset + (_float(_call(item, "GetSourceStartFrame"), 0.0) or 0.0) / fps
+    got = K.match_keys(_exported(controller, tl), [{
+        "id": "inner", "name": str(_call(inner, "GetName", default="") or ""), "offset": inner_offset,
+        "start": int(_call(inner, "GetStart", default=0)), "end": int(_call(inner, "GetEnd", default=0))}],
+        int(_call(tl, "GetStartFrame", default=0))).get("inner", [])
+    edited = not K.same_keys(K.expand(note["keys"], fps, inner_offset), got)
+    clip["keys"] = (got if edited else note["keys"]) or None
+    clip["curve"] = {"original": note["original"], "edited": edited}
 
 
 def read_live(controller, fps, selected_items):
@@ -303,6 +413,246 @@ def crossfade(controller, left_ids, kind, frames):
         else:
             failed.append(uid)
     return added, failed
+
+
+# What a curve clip takes over from the clip it stands in for (and a new curve
+# clip from the one it replaces): everything the Levels and Clean-up controls set.
+_CARRIED = ("AudioPan", "AudioVoiceIsolationEnabled", "AudioVoiceIsolationAmount", "AudioDialogueLevelerEnabled",
+            "AudioDialogueLevelerMode", "AudioDialogueLevelerReduceLoudDialogue",
+            "AudioDialogueLevelerLiftSoftDialogue", "AudioDialogueLevelerBackgroundReduction",
+            "AudioDialogueLevelerOutputGain")
+
+
+def _outer(item):
+    """A clip's settings that a curve clip carries on: {"props", "fades", "color"}."""
+    props = _call(item, "GetProperties", default={}) or {}
+    fades = _call(item, "GetFades", default={}) or {}
+    return {
+        "props": dict({key: props[key] for key in _CARRIED if props.get(key) is not None},
+                      AudioVolume=_float(props.get("AudioVolume"), 0.0)),
+        "fades": {key: int(round(_float(fades.get(key), 0.0))) for key in ("FadeIn", "FadeOut")},
+        "color": str(_call(item, "GetClipColor", default="") or ""),
+    }
+
+
+def _set_outer(item, outer):
+    """_outer()'s settings onto a clip: the volume and pan first (all a clip
+    has for certain), then Voice Isolation and the Leveler as one - Resolve
+    refuses a whole SetProperties with one key it doesn't take."""
+    props = dict(outer["props"])
+    base = {key: props.pop(key) for key in ("AudioVolume", "AudioPan") if key in props}
+    _call(item, "SetProperties", base)
+    if props:
+        _call(item, "SetProperties", props)
+    if any(outer.get("fades", {}).values()):
+        _call(item, "SetFades", outer["fades"])
+    if outer.get("color"):
+        _call(item, "SetClipColor", outer["color"])
+
+
+def _walk(folder):
+    for clip in _call(folder, "GetClipList", default=[]) or []:
+        yield folder, clip
+    for sub in _call(folder, "GetSubFolderList", default=[]) or []:
+        yield from _walk(sub)
+
+
+def _folder_of(root, mpi):
+    uid = _call(mpi, "GetUniqueId", default="")
+    return next((folder for folder, clip in _walk(root) if _call(clip, "GetUniqueId", default="") == uid), root)
+
+
+def _bin(media_pool):
+    """Buddy's bin for curve timelines, made at the top of the media pool if it isn't there."""
+    root = media_pool.GetRootFolder()
+    for sub in _call(root, "GetSubFolderList", default=[]) or []:
+        if _call(sub, "GetName", default="") == K.BIN_NAME:
+            return sub
+    made = _call(media_pool, "AddSubFolder", root, K.BIN_NAME)
+    if made is None:
+        raise ResolveConnectionError("Resolve didn't make Buddy's bin for curves.")
+    return made
+
+
+def _free_track(timeline, below, start, end):
+    """The first audio track under track `below` with nothing in [start, end),
+    on and unlocked - or None."""
+    for index in range(below + 1, int(timeline.GetTrackCount("audio") or 0) + 1):
+        if not _call(timeline, "GetIsTrackEnabled", "audio", index, default=True) \
+                or _call(timeline, "GetIsTrackLocked", "audio", index, default=False):
+            continue
+        if not any(_call(i, "GetStart", default=0) < end and _call(i, "GetEnd", default=0) > start
+                   for i in _call(timeline, "GetItemListInTrack", "audio", index, default=[]) or []):
+            return index
+    return None
+
+
+def _place(media_pool, mpi, track, start, frames):
+    """A timeline's media pool item placed as a nested clip, audio only, at
+    record frame `start` of `track` of the current timeline - the placed item,
+    or None. (On a spot that isn't empty Resolve places nothing.)"""
+    placed = _call(media_pool, "AppendToTimeline", [{
+        "mediaPoolItem": mpi, "startFrame": 0, "endFrame": frames, "mediaType": 2,
+        "trackIndex": track, "recordFrame": start}], default=[]) or []
+    item = placed[0] if placed else None
+    if item is None or _call(item, "GetStart") != start or _call(item, "GetEnd") != start + frames:
+        return None
+    return item
+
+
+def apply_curve(controller, clip_id, keys, fps, volume, outer=None):
+    """Puts a volume curve on a clip - Resolve keyframes, in a one-clip timeline
+    placed as a nested clip where the clip is (see keys.py).
+
+    keys: the curve's own keys (file time), heard with the nested clip's
+    `volume` on top. On a clip that's already a Buddy curve, the new one
+    replaces it, on its track, taking over its settings; on any other clip it
+    goes on the first free track under it (or a new one), the clip's settings
+    come with it, and the clip is turned off. outer: _outer()'s settings to
+    give it instead (an undone Remove).
+
+    Everything is checked - the clip in the new timeline is the same file,
+    from the same frame, as long - and taken back if anything fails. Returns
+    {"id": the curve clip, "original": the clip it stands in for, "replaced":
+    the curve clip it replaced or None, "track": the audio track it's on}."""
+    project = controller.current_project()
+    timeline, items = audio_items(controller)
+    media_pool = project.GetMediaPool()
+    item = items.get(clip_id)
+    if item is None:
+        raise ResolveConnectionError("That clip isn't on the open timeline any more.")
+    kind, track = (_call(item, "GetTrackTypeAndIndex", default=["audio", 1]) or ["audio", 1])[:2]
+    start, end = int(item.GetStart()), int(item.GetEnd())
+    frames = end - start
+    found = {}
+
+    def timelines():
+        if "all" not in found:
+            found["all"] = _timelines(project)
+        return found["all"]
+
+    curve = _curve_of(item, timelines)
+    source = curve[2] if curve else item
+    original = curve[1]["original"] if curve else clip_id
+    mpi = _call(source, "GetMediaPoolItem")
+    props = (_call(mpi, "GetClipProperty", default={}) or {}) if mpi is not None else {}
+    path = str(props.get("File Path") or "")
+    if not path:
+        raise ResolveConnectionError("That clip has no audio file Buddy can put a curve on.")
+    media_fps = _float(props.get("FPS"), fps) or fps
+    media_frame = K.frame_duration(media_fps)
+    first = int(round(_float(_call(source, "GetSourceStartFrame"), 0.0) or 0.0))
+    source_in = first * media_frame
+    if curve:
+        # A trimmed curve clip starts that many of its timeline's frames in.
+        source_in += int(round(_float(_call(item, "GetSourceStartFrame"), 0.0) or 0.0)) * K.frame_duration(fps)
+        first = int(round(source_in / media_frame))
+    media_start = timecode_to_frames(str(props.get("Start TC") or "00:00:00:00"), media_fps) * media_frame
+    origin = float(source_in)
+    before = _outer(item)
+    carried = outer or before
+    carried = dict(carried, props=dict(carried["props"], AudioVolume=float(volume)))
+    name = K.curve_name(str(_call(source, "GetName", default="") or "Clip"), timelines())
+    fcpxml = K.nested_fcpxml(name, path, fps, int(timeline.GetStartFrame()), frames, media_start, source_in,
+                             int(_float(props.get("Audio Ch"), 1) or 1), K.expand(keys, fps, origin),
+                             media_frame=media_frame)
+    xml_path = os.path.join(tempfile.gettempdir(), f"buddy_curve_{uuid.uuid4().hex[:10]}.fcpxml")
+    with open(xml_path, "w", encoding="utf-8") as f:
+        f.write(fcpxml)
+    bin_ = _bin(media_pool)
+    folder_before = _call(media_pool, "GetCurrentFolder")
+    try:
+        media_pool.SetCurrentFolder(bin_)
+        new_tl = _call(media_pool, "ImportTimelineFromFile", xml_path, {
+            "timelineName": name, "importSourceClips": False,
+            "sourceClipsFolders": [_folder_of(media_pool.GetRootFolder(), mpi)]})
+    finally:
+        # The import makes the new timeline the current one, and it goes in the current bin.
+        project.SetCurrentTimeline(timeline)
+        if folder_before is not None:
+            media_pool.SetCurrentFolder(folder_before)
+        try:
+            os.remove(xml_path)
+        except OSError:
+            pass
+    if new_tl is None:
+        raise ResolveConnectionError("Resolve didn't take the curve.")
+    placed, disabled, removed = None, False, False
+    try:
+        inner = next(iter(_call(new_tl, "GetItemListInTrack", "audio", 1, default=[]) or []), None)
+        if inner is None or _call(_call(inner, "GetMediaPoolItem"), "GetUniqueId") != _call(mpi, "GetUniqueId") \
+                or int(_call(inner, "GetSourceStartFrame", default=-1)) != first \
+                or int(inner.GetEnd()) - int(inner.GetStart()) != frames:
+            raise ResolveConnectionError("Resolve didn't line the curve up with the clip, so Buddy took it back.")
+        got = K.match_keys(_exported(controller, new_tl), [{
+            "id": "inner", "name": str(_call(inner, "GetName", default="") or ""), "offset": origin,
+            "start": int(inner.GetStart()), "end": int(inner.GetEnd())}], int(_call(new_tl, "GetStartFrame", default=0)))
+        if not K.same_keys(K.expand(keys, fps, origin), got.get("inner", [])):
+            raise ResolveConnectionError("Resolve didn't keep the curve's keys where Buddy put them, so Buddy took it back.")
+        new_mpi = next((c for c in _call(bin_, "GetClipList", default=[]) or []
+                        if _call(c, "GetName", default="") == name), None)
+        if new_mpi is None or not _call(new_mpi, "SetMetadata", {"Comments": K.note(keys, original)}, default=False):
+            raise ResolveConnectionError("Resolve didn't keep Buddy's note on the curve.")
+        if curve:
+            if not _call(timeline, "DeleteClips", [item], default=False):
+                raise ResolveConnectionError("Resolve didn't make room for the new curve.")
+            removed = True
+            spot = int(track)
+        else:
+            spot = _free_track(timeline, int(track), start, end)
+            if spot is None:
+                if not _call(timeline, "AddTrack", "audio", _call(timeline, "GetTrackSubType", "audio", int(track),
+                                                                  default="mono") or "mono", default=False):
+                    raise ResolveConnectionError("Resolve didn't add a track for the curve.")
+                spot = int(timeline.GetTrackCount("audio"))
+        placed = _place(media_pool, new_mpi, spot, start, frames)
+        if placed is None:
+            raise ResolveConnectionError("Resolve didn't place the curve on the timeline.")
+        _set_outer(placed, carried)
+        if not curve:
+            if not _call(item, "SetClipEnabled", False, default=False):
+                raise ResolveConnectionError("Resolve didn't turn the clip off under its curve.")
+            disabled = True
+    except Exception:
+        if placed is not None:
+            _call(timeline, "DeleteClips", [placed])
+        if removed:                       # the curve clip it was to replace goes back
+            back = _place(media_pool, curve[3], int(track), start, frames)
+            if back is not None:
+                _set_outer(back, before)
+        if disabled:
+            _call(item, "SetClipEnabled", True)
+        _call(media_pool, "DeleteTimelines", [new_tl])
+        raise
+    if curve:
+        _call(media_pool, "DeleteTimelines", [curve[0]])
+    return {"id": str(_call(placed, "GetUniqueId", default="") or ""), "original": original,
+            "replaced": clip_id if curve else None, "track": spot}
+
+
+def remove_curve(controller, clip_id):
+    """Takes a Buddy curve clip off: the clip it stood in for is turned back on,
+    the curve clip and its timeline go. Returns what apply_curve() needs to put
+    it back: {"original", "keys", "volume", "outer"}."""
+    project = controller.current_project()
+    timeline, items = audio_items(controller)
+    media_pool = project.GetMediaPool()
+    item = items.get(clip_id)
+    curve = _curve_of(item, lambda: _timelines(project)) if item is not None else None
+    if curve is None:
+        raise ResolveConnectionError("That clip isn't a Buddy curve any more.")
+    tl, note, _inner, _mpi = curve
+    outer = _outer(item)
+    original = items.get(note["original"])
+    if original is not None:
+        _call(original, "SetClipEnabled", True)
+    if not _call(timeline, "DeleteClips", [item], default=False):
+        if original is not None:
+            _call(original, "SetClipEnabled", False)
+        raise ResolveConnectionError("Resolve didn't take the curve clip off.")
+    _call(media_pool, "DeleteTimelines", [tl])
+    return {"original": note["original"] if original is not None else "", "keys": note["keys"],
+            "volume": outer["props"]["AudioVolume"], "outer": outer}
 
 
 def seek(controller, timecode):

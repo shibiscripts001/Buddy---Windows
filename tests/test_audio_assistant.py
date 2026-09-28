@@ -1,7 +1,8 @@
 """Audio Assistant's Timeline tab: what resolve_ext.py reads from and writes to a
 fake Resolve timeline (never a real project), what levels.py asks of it for each
-control, the child process, and how peaks.py folds decoded audio into the waveform
-bytes and loudness the page draws."""
+control, the child process, how peaks.py folds decoded audio into the waveform
+bytes and loudness the page draws, and keys.py's volume keys - the curve, and the
+timeline files they go to and come from Resolve in."""
 
 import unittest
 
@@ -9,6 +10,7 @@ import _paths  # noqa: F401
 
 try:
     import numpy as np
+    from pages.audio_assistant import keys as K
     from pages.audio_assistant import peaks, resolve_ext
     HAVE_DEPS = True
 except ImportError:  # pragma: no cover - numpy or PySide6 missing
@@ -18,12 +20,18 @@ except ImportError:  # pragma: no cover - numpy or PySide6 missing
 # ------------------------------------------------------------ fake Resolve --
 
 class MediaPoolItem:
-    def __init__(self, uid, path, fps="24.0", rate="48000", channels="2", codec="Linear PCM"):
-        self.uid, self.calls = uid, 0
+    def __init__(self, uid, path, fps="24.0", rate="48000", channels="2", codec="Linear PCM", name="", comments=""):
+        self.uid, self.calls, self.name, self.comments = uid, 0, name, comments
         self.props = {"File Path": path, "FPS": fps, "Sample Rate": rate, "Audio Ch": channels, "Audio Codec": codec}
 
     def GetUniqueId(self):
         return self.uid
+
+    def GetName(self):
+        return self.name
+
+    def GetMetadata(self, key):
+        return self.comments if key == "Comments" else ""
 
     def GetClipProperty(self):
         self.calls += 1
@@ -69,13 +77,21 @@ class Item:
 
 
 class Timeline:
-    def __init__(self, tracks, selected=(), timecode="01:00:10:00", markers=None):
+    def __init__(self, tracks, selected=(), timecode="01:00:10:00", markers=None, name="Edit 1", fcp7=None):
         self.tracks, self.selected, self.timecode = tracks, list(selected), timecode
         self.markers = markers or {}
         self.moved_to = None
+        self.name, self.fcp7 = name, fcp7          # fcp7: what Export(EXPORT_FCP_7_XML) writes
 
-    def GetUniqueId(self): return "tl-1"
-    def GetName(self): return "Edit 1"
+    def GetUniqueId(self): return "tl-" + self.name
+    def GetName(self): return self.name
+
+    def Export(self, path, kind, subtype):
+        if self.fcp7 is None or kind != Resolve.EXPORT_FCP_7_XML:
+            return False
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(self.fcp7)
+        return True
     def GetSetting(self, key): return {"timelineFrameRate": "24", "timelineDropFrameTimecode": "0"}.get(key)
     def GetStartFrame(self): return 86400
     def GetEndFrame(self): return 86400 + 24 * 60
@@ -103,23 +119,47 @@ class Timeline:
 class Resolve:
     NORMALIZE_AUDIO_SET_LEVEL_RELATIVE = 0.0
     NORMALIZE_AUDIO_SET_LEVEL_INDEPENDENT = 1.0
+    EXPORT_FCP_7_XML = 3
+    EXPORT_NONE = 0
 
     def GetProductName(self):
         return "DaVinci Resolve Studio"
 
 
 class Controller:
-    def __init__(self, timeline):
-        self.timeline = timeline
+    def __init__(self, timeline, others=()):
+        self.timeline, self.others = timeline, list(others)
         self.resolve = Resolve()
 
     def current_project(self):
-        tl = self.timeline
+        tl, all_ = self.timeline, [self.timeline] + self.others
 
         class Project:
             def GetCurrentTimeline(self):
                 return tl
+
+            def GetTimelineCount(self):
+                return len(all_)
+
+            def GetTimelineByIndex(self, i):
+                return all_[i - 1]
         return Project()
+
+
+def fcp7(*clips, rate=24):
+    """A Resolve-style FCP 7 XML export: clips are (name, start, end, in, [(when, gain, eased)])."""
+    items = []
+    for name, start, end, in_, frames in clips:
+        keys = "".join(f"<keyframe><when>{w}</when><value>{g}</value>"
+                       + ("<inbez><horiz>1</horiz><vert>1</vert></inbez>" if e else "") + "</keyframe>"
+                       for w, g, e in frames)
+        items.append(f"""<clipitem id="{name} 0"><name>{name}</name><rate><timebase>{rate}</timebase><ntsc>FALSE</ntsc></rate>
+            <start>{start}</start><end>{end}</end><in>{in_}</in><out>{in_ + end - start}</out>
+            <filter><effect><name>Audio Levels</name><effectid>audiolevels</effectid><parameter><name>Level</name>
+            <value>1</value>{keys}</parameter></effect></filter></clipitem>""")
+    return f"""<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE xmeml><xmeml version="5"><sequence>
+        <rate><timebase>{rate}</timebase><ntsc>FALSE</ntsc></rate><media><video><track/></video>
+        <audio><track>{''.join(items)}</track></audio></media></sequence></xmeml>"""
 
 
 @unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
@@ -194,6 +234,128 @@ class ReadTimelineTests(unittest.TestCase):
         self.assertTrue(fade["transition"])
         self.assertNotIn("media", fade)
         self.assertTrue(data["studio"])
+
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class ReadKeysTests(unittest.TestCase):
+    """Keys on the timeline: a clip keyed in Resolve, and a Buddy curve clip."""
+
+    def test_a_clip_keyed_in_resolve_reads_its_keys_in_file_time(self):
+        mic = MediaPoolItem("m2", r"D:\shoot\mic.wav")
+        clip = Item("c2", "mic.wav", 86424, 86800, mic, source_start=48)       # 2 s into the file
+        # Keys at source frames 72 and 96 (3 s and 4 s), the second eased; 0.1 is -20 dB.
+        tl = Timeline([{"name": "Mic", "items": [clip]}],
+                      fcp7=fcp7(("mic.wav", 24, 400, 48, [(72, 1, False), (96, 0.1, True)])))
+        data, _ = resolve_ext.read_timeline(Controller(tl), {})
+        read = data["tracks"][0]["clips"][0]
+        self.assertEqual(read["keys"], [{"t": 3.0, "db": 0.0, "ease": False}, {"t": 4.0, "db": -20.0, "ease": True}])
+        self.assertIsNone(read["curve"])
+
+    def test_no_export_means_no_keys(self):
+        mic = MediaPoolItem("m2", r"D:\shoot\mic.wav")
+        data, _ = resolve_ext.read_timeline(Controller(Timeline([{"name": "Mic", "items": [
+            Item("c2", "mic.wav", 86424, 86800, mic)]}])), {})
+        self.assertIsNone(data["tracks"][0]["clips"][0]["keys"])
+
+    def test_a_buddy_curve_clip_takes_its_files_waveform_and_buddys_keys(self):
+        mic = MediaPoolItem("m2", r"D:\shoot\mic.wav")
+        ours = [{"t": 2.0, "db": 0.0, "ease": False}, {"t": 3.0, "db": -12.0, "ease": True}]
+        inner = Item("i1", "mic.wav", 86400, 86776, mic, source_start=24)     # 1 s into the file
+        # Resolve holds the expanded keys (as Buddy wrote them), in source frames.
+        written = K.expand(ours, 24.0, 1.0)
+        nested = Timeline([{"name": "A1", "items": [inner]}], name="mic.wav (Buddy curve)",
+                          fcp7=fcp7(("mic.wav", 0, 376, 24, [(round(k["t"] * 24), 10 ** (k["db"] / 20), False)
+                                                           for k in written])))
+        tl_mpi = MediaPoolItem("t1", "", name="mic.wav (Buddy curve)", comments=K.note(ours, "c2"))
+        outer = Item("n1", "mic.wav (Buddy curve)", 86424, 86800, tl_mpi, volume=6.0)
+        tl = Timeline([{"name": "A2", "items": [outer]}])
+        data, _ = resolve_ext.read_timeline(Controller(tl, [nested]), {})
+        clip = data["tracks"][0]["clips"][0]
+        self.assertEqual(clip["curve"], {"original": "c2", "edited": False})
+        self.assertEqual(clip["keys"], ours)                        # Buddy's own, eases and all
+        self.assertAlmostEqual(clip["offset"], 1.0)
+        self.assertEqual(clip["media"]["path"], r"D:\shoot\mic.wav")
+        # Changed in Resolve since: its keys are what's shown.
+        nested.fcp7 = fcp7(("mic.wav", 0, 376, 24, [(48, 1, False), (60, 0.5, False)]))
+        clip = resolve_ext.read_timeline(Controller(tl, [nested]), {})[0]["tracks"][0]["clips"][0]
+        self.assertTrue(clip["curve"]["edited"])
+        self.assertEqual([k["t"] for k in clip["keys"]], [2.0, 2.5])
+
+    def test_a_nested_timeline_that_isnt_buddys_is_left_alone(self):
+        other = MediaPoolItem("t2", "", name="Intro music", comments="")
+        data, _ = resolve_ext.read_timeline(Controller(Timeline([{"name": "A1", "items": [
+            Item("n2", "Intro music", 86400, 86500, other)]}])), {})
+        clip = data["tracks"][0]["clips"][0]
+        self.assertEqual((clip["media"], clip["keys"], clip["curve"]), (None, None, None))
+
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class KeysTests(unittest.TestCase):
+    def test_straight_in_db_between_keys_and_flat_outside(self):
+        keys = [{"t": 1.0, "db": 0.0, "ease": False}, {"t": 3.0, "db": -20.0, "ease": False}]
+        self.assertEqual(list(K.curve_db(keys, [0.0, 1.0, 2.0, 2.5, 3.0, 9.0])), [0.0, 0.0, -10.0, -15.0, -20.0, -20.0])
+        self.assertEqual(float(K.curve_db(keys[:1], 5.0)), 0.0)
+        self.assertEqual(float(K.curve_db([], 5.0)), 0.0)
+
+    def test_an_eased_key_is_flat_into_it(self):
+        keys = [{"t": 0.0, "db": 0.0, "ease": False}, {"t": 1.0, "db": -20.0, "ease": True}]
+        near = K.curve_db(keys, [0.98, 0.99, 1.0])
+        self.assertLess(abs(near[0] - near[2]), 0.05)                # hardly moving as it arrives
+        self.assertLess(K.curve_db(keys, 0.5), -10.0)                 # so ahead of the straight line mid-way
+
+    def test_expand_writes_eases_as_short_straight_pieces_on_frames(self):
+        keys = [{"t": 1.0, "db": 0.0, "ease": True}, {"t": 3.0, "db": -20.0, "ease": True}, {"t": 4.0, "db": -20.0}]
+        out = K.expand(keys, 24.0, origin=0.5)
+        self.assertFalse(any(k["ease"] for k in out))
+        for k in out:
+            frames = (k["t"] - 0.5) * 24
+            self.assertAlmostEqual(frames, round(frames), places=4)
+        t = np.linspace(1.0, 4.0, 400)
+        self.assertLess(np.abs(K.curve_db(out, t) - K.curve_db(K.clean(keys), t)).max(), 0.3)
+        plain = [{"t": 1.0, "db": 0.0, "ease": False}, {"t": 2.0, "db": -6.0, "ease": False}]
+        self.assertEqual(K.expand(plain, 24.0), plain)
+
+    def test_clean_sorts_clamps_and_drops_junk(self):
+        self.assertEqual(K.clean([{"t": 2, "db": 50}, {"t": 1, "db": -300, "ease": 1}, {"t": "x", "db": 0}, {}]),
+                         [{"t": 1.0, "db": -100.0, "ease": True}, {"t": 2.0, "db": 30.0, "ease": False}])
+
+    def test_the_fcpxml_puts_the_clip_and_keys_where_resolve_lands_them(self):
+        import xml.etree.ElementTree as ET
+        from fractions import Fraction
+        media_frame = K.frame_duration(29.97)
+        media_start = 146120 * media_frame                          # a camera file's 01:21:15;16
+        source_in = 100 * media_frame
+        keys = [{"t": float(source_in) + 1.0, "db": -6.0, "ease": False}]
+        xml = K.nested_fcpxml("C1.MP4 (Buddy curve)", r"E:\My Media\C1.MP4", 24.0, 86400, 240, media_start,
+                              source_in, 2, keys, media_frame=media_frame)
+        root = ET.fromstring(xml)
+        clip = root.find(".//asset-clip")
+
+        def seconds(text):
+            return Fraction(text[:-1]) if text != "0s" else Fraction(0)
+        # A quarter of a file frame early (Resolve rounds a clip's start up)...
+        self.assertEqual(seconds(clip.get("start")), media_start + source_in - media_frame / 4)
+        self.assertEqual(clip.get("srcEnable"), "audio")
+        self.assertEqual(seconds(root.find(".//sequence").get("tcStart")), 3600)
+        # ...and a key on its timeline frame exactly, a sliver after (Resolve rounds a key down).
+        key = root.find(".//keyframe")
+        self.assertEqual(seconds(key.get("time")), media_start + source_in + 1 + Fraction(1, 24 * 64))
+        self.assertEqual(key.get("value"), "-6dB")
+        self.assertEqual(root.find(".//media-rep").get("src"), "file://localhost/E:/My%20Media/C1.MP4")
+
+    def test_ntsc_rates_are_exact(self):
+        from fractions import Fraction
+        self.assertEqual(K.frame_duration(23.976), Fraction(1001, 24000))
+        self.assertEqual(K.frame_duration(29.97), Fraction(1001, 30000))
+        self.assertEqual(K.frame_duration(25), Fraction(1, 25))
+
+    def test_names_and_the_note(self):
+        self.assertEqual(K.curve_name("a.wav", {"a.wav (Buddy curve)"}), "a.wav (Buddy curve 2)")
+        self.assertTrue(K.is_curve_name("a.wav (Buddy curve 2)"))
+        self.assertFalse(K.is_curve_name("a.wav"))
+        keys = [{"t": 1.0, "db": -3.0, "ease": True}]
+        self.assertEqual(K.read_note(K.note(keys, "c9")), {"original": "c9", "keys": keys})
+        self.assertIsNone(K.read_note("my own comment"))
 
 
 @unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
@@ -365,6 +527,22 @@ class MatchTests(unittest.TestCase):
         # ...and past Resolve's +30 dB it's said.
         change, report = self.levels.match(self.clips, ["b"], self.audio_of, self.fps, {"loudness": 10.0})
         self.assertEqual((change["b"]["props"]["AudioVolume"], report["clamped"]), (30.0, ["b"]))
+
+    def test_keys_are_what_a_clip_is_heard_at(self):
+        flat = self.lufs("a", -10.0)
+        keyed = dict(self.clips["a"], keys=[{"t": 0.0, "db": -10.0, "ease": False}])      # keyed in Resolve
+        self.assertAlmostEqual(self.levels.clip_lufs(keyed, self.audio, self.fps), flat, delta=0.05)
+        curve = dict(keyed, volume=5.0, curve={"original": "x"})                          # a Buddy curve: +5 on top
+        self.assertAlmostEqual(self.levels.clip_lufs(curve, self.audio, self.fps), flat + 5.0, delta=0.05)
+        self.assertAlmostEqual(self.levels.clip_peak(curve, self.audio, self.fps), -20.0 - 10.0 + 5.0, delta=0.3)
+
+    def test_a_clip_keyed_in_resolve_keeps_its_volume(self):
+        self.clips["a"]["keys"] = [{"t": 0.0, "db": -10.0, "ease": False}]
+        change, report = self.levels.match(self.clips, ["a", "b"], self.audio_of, self.fps,
+                                           self.levels.PRESET_IDS["youtube"])
+        self.assertEqual((report["keyed"], sorted(change)), (["a"], ["b"]))
+        self.assertEqual(self.levels.changes(self.clips, {"ids": ["a", "b"], "volume_by": 3}),
+                         {"b": {"props": {"AudioVolume": 8.0}}})
 
     def test_fades_count_as_the_panel_shows_them(self):
         faded = dict(self.clips["a"], fade_in=120)                                    # half the clip fading in

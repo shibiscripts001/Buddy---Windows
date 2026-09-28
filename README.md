@@ -14,7 +14,7 @@ All 13 tools are working (12 ported, plus the new Transcribe), and Audio Assista
 
 - Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Transcribe)
 - Ask Buddy (chat agent)
-- Audio Assistant (new; its Timeline tab mirrors the audio tracks with each clip's waveform, and sets clip volume, pan, fades, loudness to a target, Voice Isolation and the Dialogue Leveler - effects are coming)
+- Audio Assistant (new; its Timeline tab mirrors the audio tracks with each clip's waveform, and sets clip volume, pan, fades, loudness to a target, Voice Isolation and the Dialogue Leveler, and a volume curve drawn on the clip that becomes Resolve keyframes - effects are coming)
 - Asset Manager
 - Batch Clip Renamer
 - Color Palette Manager

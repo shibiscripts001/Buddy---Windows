@@ -90,16 +90,6 @@
   "العربية": "ملاءمة",
   "Tiếng Việt": "Vừa khít"
  },
- "With clip volume and fades": {
-  "日本語": "クリップの音量とフェード適用後",
-  "Español": "Con el volumen y los fundidos del clip",
-  "Deutsch": "Mit Clip-Lautstärke und Blenden",
-  "Français": "Avec le volume et les fondus du clip",
-  "한국어": "클립 볼륨과 페이드 적용",
-  "中文": "应用片段音量和淡入淡出后",
-  "العربية": "مع مستوى صوت المقطع والتلاشي",
-  "Tiếng Việt": "Với âm lượng và fade của clip"
- },
  "No audio file": {
   "日本語": "オーディオファイルなし",
   "Español": "Sin archivo de audio",
@@ -1060,14 +1050,524 @@
   "العربية": "‎+30 dB هو أقصى مستوى لصوت المقطع في Resolve، واحتاجت بعض المقاطع إلى أكثر. إنها الآن عند ‎+30 dB.",
   "Tiếng Việt": "+30 dB là mức tối đa của âm lượng clip trong Resolve, và một số clip cần hơn. Chúng đang ở +30 dB."
  },
- "Matched to {t_target} – {skipped} left out, with no audio to measure yet": {
-  "日本語": "{t_target} に合わせました – {skipped} 個は測定できるオーディオがまだないため除外",
-  "Español": "Igualado a {t_target}: {skipped} quedaron fuera, aún sin audio que medir",
-  "Deutsch": "Angeglichen an {t_target} – {skipped} ausgelassen, noch ohne messbares Audio",
-  "Français": "Ajusté à {t_target} – {skipped} laissés de côté, sans audio à mesurer pour l'instant",
-  "한국어": "{t_target}에 맞췄습니다 – {skipped}개는 아직 측정할 오디오가 없어 제외",
-  "中文": "已匹配到 {t_target}——{skipped} 个因尚无可测量的音频而跳过",
-  "العربية": "تمت المطابقة مع {t_target} – تُرك {skipped} لعدم وجود صوت لقياسه بعد",
-  "Tiếng Việt": "Đã khớp theo {t_target} – bỏ qua {skipped} vì chưa có âm thanh để đo"
+ "As heard, with the volume and fades": {
+  "日本語": "聞こえるとおり（音量とフェード込み）",
+  "Español": "Como suena, con el volumen y los fundidos",
+  "Deutsch": "Wie zu hören, mit Lautstärke und Blenden",
+  "Français": "Tel qu'entendu, avec le volume et les fondus",
+  "한국어": "들리는 그대로 (볼륨과 페이드 포함)",
+  "中文": "实际听到的（含音量和淡入淡出）",
+  "العربية": "كما يُسمع، مع مستوى الصوت والتلاشي",
+  "Tiếng Việt": "Như khi nghe, gồm âm lượng và fade"
+ },
+ "Volume curve": {
+  "日本語": "音量カーブ",
+  "Español": "Curva de volumen",
+  "Deutsch": "Lautstärkekurve",
+  "Français": "Courbe de volume",
+  "한국어": "볼륨 커브",
+  "中文": "音量曲线",
+  "العربية": "منحنى مستوى الصوت",
+  "Tiếng Việt": "Đường cong âm lượng"
+ },
+ "Curve not applied yet": {
+  "日本語": "カーブはまだ適用されていません",
+  "Español": "Curva aún sin aplicar",
+  "Deutsch": "Kurve noch nicht angewendet",
+  "Français": "Courbe pas encore appliquée",
+  "한국어": "커브가 아직 적용되지 않음",
+  "中文": "曲线尚未应用",
+  "العربية": "لم يُطبَّق المنحنى بعد",
+  "Tiếng Việt": "Đường cong chưa được áp dụng"
+ },
+ "Applying the curve…": {
+  "日本語": "カーブを適用しています…",
+  "Español": "Aplicando la curva…",
+  "Deutsch": "Kurve wird angewendet…",
+  "Français": "Application de la courbe…",
+  "한국어": "커브 적용 중…",
+  "中文": "正在应用曲线…",
+  "العربية": "جارٍ تطبيق المنحنى…",
+  "Tiếng Việt": "Đang áp dụng đường cong…"
+ },
+ "Apply or discard the curve on the other clip first": {
+  "日本語": "先にもう一方のクリップのカーブを適用するか破棄してください",
+  "Español": "Primero aplica o descarta la curva del otro clip",
+  "Deutsch": "Wende die Kurve des anderen Clips zuerst an oder verwirf sie",
+  "Français": "Appliquez ou abandonnez d'abord la courbe de l'autre clip",
+  "한국어": "먼저 다른 클립의 커브를 적용하거나 버리세요",
+  "中文": "请先应用或放弃另一个片段上的曲线",
+  "العربية": "طبّق منحنى المقطع الآخر أو تجاهله أولاً",
+  "Tiếng Việt": "Hãy áp dụng hoặc bỏ đường cong trên clip kia trước"
+ },
+ "Straight, no ease": {
+  "日本語": "直線（イーズなし）",
+  "Español": "Recta, sin suavizado",
+  "Deutsch": "Gerade, ohne Glättung",
+  "Français": "Droite, sans lissage",
+  "한국어": "직선, 이즈 없음",
+  "中文": "直线，无缓动",
+  "العربية": "مستقيم، بلا تنعيم",
+  "Tiếng Việt": "Thẳng, không làm mượt"
+ },
+ "Ease in and out": {
+  "日本語": "イーズイン・アウト",
+  "Español": "Suavizar entrada y salida",
+  "Deutsch": "Weich ein- und ausblenden",
+  "Français": "Lisser l'entrée et la sortie",
+  "한국어": "이즈 인/아웃",
+  "中文": "缓入缓出",
+  "العربية": "تنعيم الدخول والخروج",
+  "Tiếng Việt": "Làm mượt vào và ra"
+ },
+ "Delete key": {
+  "日本語": "キーを削除",
+  "Español": "Eliminar clave",
+  "Deutsch": "Key löschen",
+  "Français": "Supprimer la clé",
+  "한국어": "키 삭제",
+  "中文": "删除关键帧",
+  "العربية": "حذف المفتاح",
+  "Tiếng Việt": "Xóa key"
+ },
+ "Add a key here": {
+  "日本語": "ここにキーを追加",
+  "Español": "Añadir una clave aquí",
+  "Deutsch": "Hier einen Key setzen",
+  "Français": "Ajouter une clé ici",
+  "한국어": "여기에 키 추가",
+  "中文": "在此添加关键帧",
+  "العربية": "إضافة مفتاح هنا",
+  "Tiếng Việt": "Thêm key ở đây"
+ },
+ "Apply the curve": {
+  "日本語": "カーブを適用",
+  "Español": "Aplicar la curva",
+  "Deutsch": "Kurve anwenden",
+  "Français": "Appliquer la courbe",
+  "한국어": "커브 적용",
+  "中文": "应用曲线",
+  "العربية": "تطبيق المنحنى",
+  "Tiếng Việt": "Áp dụng đường cong"
+ },
+ "Discard the curve": {
+  "日本語": "カーブを破棄",
+  "Español": "Descartar la curva",
+  "Deutsch": "Kurve verwerfen",
+  "Français": "Abandonner la courbe",
+  "한국어": "커브 버리기",
+  "中文": "放弃曲线",
+  "العربية": "تجاهل المنحنى",
+  "Tiếng Việt": "Bỏ đường cong"
+ },
+ "Picked key": {
+  "日本語": "選択中のキー",
+  "Español": "Clave elegida",
+  "Deutsch": "Gewählter Key",
+  "Français": "Clé choisie",
+  "한국어": "선택한 키",
+  "中文": "选中的关键帧",
+  "العربية": "المفتاح المحدد",
+  "Tiếng Việt": "Key đã chọn"
+ },
+ "Take the curve off": {
+  "日本語": "カーブを外す",
+  "Español": "Quitar la curva",
+  "Deutsch": "Kurve entfernen",
+  "Français": "Retirer la courbe",
+  "한국어": "커브 제거",
+  "中文": "移除曲线",
+  "العربية": "إزالة المنحنى",
+  "Tiếng Việt": "Gỡ đường cong"
+ },
+ "Take the curve off?": {
+  "日本語": "カーブを外しますか？",
+  "Español": "¿Quitar la curva?",
+  "Deutsch": "Kurve entfernen?",
+  "Français": "Retirer la courbe ?",
+  "한국어": "커브를 제거할까요?",
+  "中文": "移除曲线？",
+  "العربية": "إزالة المنحنى؟",
+  "Tiếng Việt": "Gỡ đường cong?"
+ },
+ "Take it off": {
+  "日本語": "外す",
+  "Español": "Quitarla",
+  "Deutsch": "Entfernen",
+  "Français": "La retirer",
+  "한국어": "제거",
+  "中文": "移除",
+  "العربية": "إزالته",
+  "Tiếng Việt": "Gỡ"
+ },
+ "The curve clip goes, and the clip it stood in for is turned back on. Undo puts the curve back.": {
+  "日本語": "カーブのクリップが削除され、元のクリップが再びオンになります。元に戻すとカーブが戻ります。",
+  "Español": "El clip de la curva desaparece y el clip al que sustituía vuelve a activarse. Deshacer devuelve la curva.",
+  "Deutsch": "Der Kurven-Clip verschwindet, und der Clip, den er ersetzt hat, wird wieder eingeschaltet. Rückgängig holt die Kurve zurück.",
+  "Français": "Le clip de la courbe disparaît et le clip qu'il remplaçait est réactivé. Annuler remet la courbe.",
+  "한국어": "커브 클립이 사라지고, 그것이 대신하던 클립이 다시 켜집니다. 실행 취소하면 커브가 돌아옵니다.",
+  "中文": "曲线片段会被移除，它所替代的片段会重新启用。撤销可恢复曲线。",
+  "العربية": "يُزال مقطع المنحنى، ويُعاد تشغيل المقطع الذي كان يحلّ محله. التراجع يعيد المنحنى.",
+  "Tiếng Việt": "Clip đường cong sẽ bị gỡ, và clip mà nó thay thế được bật lại. Hoàn tác sẽ đưa đường cong trở lại."
+ },
+ "Putting the curve in Resolve…": {
+  "日本語": "カーブを Resolve に入れています…",
+  "Español": "Poniendo la curva en Resolve…",
+  "Deutsch": "Kurve wird in Resolve eingefügt…",
+  "Français": "Envoi de la courbe dans Resolve…",
+  "한국어": "커브를 Resolve에 넣는 중…",
+  "中文": "正在将曲线放入 Resolve…",
+  "العربية": "جارٍ وضع المنحنى في Resolve…",
+  "Tiếng Việt": "Đang đưa đường cong vào Resolve…"
+ },
+ "No keys left – Apply takes the curve off.": {
+  "日本語": "キーが残っていません – 適用するとカーブが外れます。",
+  "Español": "No quedan claves: Aplicar quita la curva.",
+  "Deutsch": "Keine Keys mehr – Anwenden entfernt die Kurve.",
+  "Français": "Plus aucune clé – Appliquer retire la courbe.",
+  "한국어": "남은 키가 없습니다 – 적용하면 커브가 제거됩니다.",
+  "中文": "没有关键帧了——应用将移除曲线。",
+  "العربية": "لم تبقَ مفاتيح – التطبيق يزيل المنحنى.",
+  "Tiếng Việt": "Không còn key – Áp dụng sẽ gỡ đường cong."
+ },
+ "No keys yet.": {
+  "日本語": "まだキーがありません。",
+  "Español": "Aún no hay claves.",
+  "Deutsch": "Noch keine Keys.",
+  "Français": "Aucune clé pour l'instant.",
+  "한국어": "아직 키가 없습니다.",
+  "中文": "尚无关键帧。",
+  "العربية": "لا مفاتيح بعد.",
+  "Tiếng Việt": "Chưa có key nào."
+ },
+ "1 key – not in Resolve until you Apply.": {
+  "日本語": "キー 1 個 – 適用するまで Resolve には入りません。",
+  "Español": "1 clave: no estará en Resolve hasta que apliques.",
+  "Deutsch": "1 Key – erst nach dem Anwenden in Resolve.",
+  "Français": "1 clé – pas dans Resolve tant que vous n'appliquez pas.",
+  "한국어": "키 1개 – 적용하기 전까지 Resolve에 없습니다.",
+  "中文": "1 个关键帧——应用后才会进入 Resolve。",
+  "العربية": "مفتاح واحد – لن يكون في Resolve حتى تطبّقه.",
+  "Tiếng Việt": "1 key – chưa có trong Resolve cho đến khi bạn Áp dụng."
+ },
+ "{count} keys – not in Resolve until you Apply.": {
+  "日本語": "キー {count} 個 – 適用するまで Resolve には入りません。",
+  "Español": "{count} claves: no estarán en Resolve hasta que apliques.",
+  "Deutsch": "{count} Keys – erst nach dem Anwenden in Resolve.",
+  "Français": "{count} clés – pas dans Resolve tant que vous n'appliquez pas.",
+  "한국어": "키 {count}개 – 적용하기 전까지 Resolve에 없습니다.",
+  "中文": "{count} 个关键帧——应用后才会进入 Resolve。",
+  "العربية": "{count} مفاتيح – لن تكون في Resolve حتى تطبّقها.",
+  "Tiếng Việt": "{count} key – chưa có trong Resolve cho đến khi bạn Áp dụng."
+ },
+ "A Buddy curve: Resolve keyframes, in a nested clip.": {
+  "日本語": "Buddy のカーブ：ネストされたクリップ内の Resolve キーフレームです。",
+  "Español": "Una curva de Buddy: fotogramas clave de Resolve, en un clip anidado.",
+  "Deutsch": "Eine Buddy-Kurve: Resolve-Keyframes in einem verschachtelten Clip.",
+  "Français": "Une courbe Buddy : des images clés Resolve, dans un clip imbriqué.",
+  "한국어": "Buddy 커브: 중첩 클립 안의 Resolve 키프레임입니다.",
+  "中文": "Buddy 曲线：嵌套片段中的 Resolve 关键帧。",
+  "العربية": "منحنى Buddy: إطارات مفتاحية في Resolve داخل مقطع متداخل.",
+  "Tiếng Việt": "Đường cong Buddy: keyframe của Resolve, trong một clip lồng."
+ },
+ "A Buddy curve, with keys changed in Resolve since.": {
+  "日本語": "Buddy のカーブ。その後 Resolve でキーが変更されています。",
+  "Español": "Una curva de Buddy, con claves cambiadas desde entonces en Resolve.",
+  "Deutsch": "Eine Buddy-Kurve, deren Keys seitdem in Resolve geändert wurden.",
+  "Français": "Une courbe Buddy, dont les clés ont depuis été modifiées dans Resolve.",
+  "한국어": "Buddy 커브이며, 이후 Resolve에서 키가 바뀌었습니다.",
+  "中文": "Buddy 曲线，之后在 Resolve 中改过关键帧。",
+  "العربية": "منحنى Buddy، تغيّرت مفاتيحه في Resolve منذ ذلك الحين.",
+  "Tiếng Việt": "Đường cong Buddy, key đã được đổi trong Resolve sau đó."
+ },
+ "The clip it stands in for is turned off on A{track}.": {
+  "日本語": "元のクリップは A{track} でオフになっています。",
+  "Español": "El clip al que sustituye está desactivado en A{track}.",
+  "Deutsch": "Der Clip, den sie ersetzt, ist auf A{track} ausgeschaltet.",
+  "Français": "Le clip qu'elle remplace est désactivé sur A{track}.",
+  "한국어": "대신하는 원래 클립은 A{track}에서 꺼져 있습니다.",
+  "中文": "它所替代的片段在 A{track} 上已关闭。",
+  "العربية": "المقطع الذي يحلّ محله معطَّل على A{track}.",
+  "Tiếng Việt": "Clip mà nó thay thế đã tắt trên A{track}."
+ },
+ "Its clip volume moves the whole line.": {
+  "日本語": "クリップ音量でライン全体が動きます。",
+  "Español": "Su volumen de clip mueve toda la línea.",
+  "Deutsch": "Seine Clip-Lautstärke verschiebt die ganze Linie.",
+  "Français": "Son volume de clip déplace toute la ligne.",
+  "한국어": "클립 볼륨으로 선 전체가 움직입니다.",
+  "中文": "其片段音量会移动整条线。",
+  "العربية": "مستوى صوت المقطع يحرّك الخط كله.",
+  "Tiếng Việt": "Âm lượng clip của nó di chuyển cả đường."
+ },
+ "1 keyframe from Resolve sets this clip's volume.": {
+  "日本語": "Resolve のキーフレーム 1 個がこのクリップの音量を決めています。",
+  "Español": "1 fotograma clave de Resolve fija el volumen de este clip.",
+  "Deutsch": "1 Keyframe aus Resolve bestimmt die Lautstärke dieses Clips.",
+  "Français": "1 image clé de Resolve fixe le volume de ce clip.",
+  "한국어": "Resolve의 키프레임 1개가 이 클립의 볼륨을 정합니다.",
+  "中文": "来自 Resolve 的 1 个关键帧决定此片段的音量。",
+  "العربية": "إطار مفتاحي واحد من Resolve يحدد مستوى صوت هذا المقطع.",
+  "Tiếng Việt": "1 keyframe từ Resolve quyết định âm lượng clip này."
+ },
+ "{count} keyframes from Resolve set this clip's volume.": {
+  "日本語": "Resolve のキーフレーム {count} 個がこのクリップの音量を決めています。",
+  "Español": "{count} fotogramas clave de Resolve fijan el volumen de este clip.",
+  "Deutsch": "{count} Keyframes aus Resolve bestimmen die Lautstärke dieses Clips.",
+  "Français": "{count} images clés de Resolve fixent le volume de ce clip.",
+  "한국어": "Resolve의 키프레임 {count}개가 이 클립의 볼륨을 정합니다.",
+  "中文": "来自 Resolve 的 {count} 个关键帧决定此片段的音量。",
+  "العربية": "{count} إطارات مفتاحية من Resolve تحدد مستوى صوت هذا المقطع.",
+  "Tiếng Việt": "{count} keyframe từ Resolve quyết định âm lượng clip này."
+ },
+ "Change the line here and Apply to replace them – the clip is kept, turned off.": {
+  "日本語": "ここでラインを変更して適用すると置き換わります – 元のクリップはオフにして残します。",
+  "Español": "Cambia la línea aquí y aplica para sustituirlos: el clip se conserva, desactivado.",
+  "Deutsch": "Ändere hier die Linie und wende an, um sie zu ersetzen – der Clip bleibt, ausgeschaltet.",
+  "Français": "Modifiez la ligne ici et appliquez pour les remplacer – le clip est conservé, désactivé.",
+  "한국어": "여기서 선을 바꾸고 적용하면 대체됩니다 – 원래 클립은 꺼진 채로 남습니다.",
+  "中文": "在这里修改线条并应用即可替换它们——原片段会保留并关闭。",
+  "العربية": "غيّر الخط هنا وطبّق لاستبدالها – يُحتفظ بالمقطع معطَّلاً.",
+  "Tiếng Việt": "Đổi đường ở đây rồi Áp dụng để thay chúng – clip vẫn được giữ, ở trạng thái tắt."
+ },
+ "Double-click the line on the clip to add a key, then drag it. Right-click a key to ease it.": {
+  "日本語": "クリップ上のラインをダブルクリックしてキーを追加し、ドラッグします。キーを右クリックするとイーズできます。",
+  "Español": "Haz doble clic en la línea del clip para añadir una clave y arrástrala. Clic derecho en una clave para suavizarla.",
+  "Deutsch": "Doppelklicke auf die Linie im Clip, um einen Key zu setzen, und ziehe ihn. Rechtsklick auf einen Key glättet ihn.",
+  "Français": "Double-cliquez sur la ligne du clip pour ajouter une clé, puis faites-la glisser. Clic droit sur une clé pour la lisser.",
+  "한국어": "클립의 선을 더블클릭해 키를 추가하고 드래그하세요. 키를 우클릭하면 이즈를 줄 수 있습니다.",
+  "中文": "双击片段上的线添加关键帧，然后拖动它。右键单击关键帧可设置缓动。",
+  "العربية": "انقر نقرًا مزدوجًا على الخط في المقطع لإضافة مفتاح، ثم اسحبه. انقر بزر الفأرة الأيمن على مفتاح لتنعيمه.",
+  "Tiếng Việt": "Nhấp đúp vào đường trên clip để thêm key, rồi kéo nó. Nhấp chuột phải vào key để làm mượt."
+ },
+ "Apply makes the keys Resolve keyframes.": {
+  "日本語": "適用するとキーが Resolve のキーフレームになります。",
+  "Español": "Aplicar convierte las claves en fotogramas clave de Resolve.",
+  "Deutsch": "Anwenden macht die Keys zu Resolve-Keyframes.",
+  "Français": "Appliquer transforme les clés en images clés Resolve.",
+  "한국어": "적용하면 키가 Resolve 키프레임이 됩니다.",
+  "中文": "应用会把这些关键帧变成 Resolve 关键帧。",
+  "العربية": "التطبيق يحوّل المفاتيح إلى إطارات مفتاحية في Resolve.",
+  "Tiếng Việt": "Áp dụng sẽ biến các key thành keyframe của Resolve."
+ },
+ "Its keyframes set its volume – change the line on the clip.": {
+  "日本語": "キーフレームが音量を決めています – クリップ上のラインを変更してください。",
+  "Español": "Sus fotogramas clave fijan su volumen: cambia la línea del clip.",
+  "Deutsch": "Seine Keyframes bestimmen die Lautstärke – ändere die Linie im Clip.",
+  "Français": "Ses images clés fixent son volume – modifiez la ligne sur le clip.",
+  "한국어": "키프레임이 볼륨을 정합니다 – 클립의 선을 바꾸세요.",
+  "中文": "它的关键帧决定音量——请修改片段上的线。",
+  "العربية": "إطاراته المفتاحية تحدد مستوى صوته – غيّر الخط على المقطع.",
+  "Tiếng Việt": "Keyframe của nó quyết định âm lượng – hãy đổi đường trên clip."
+ },
+ "Clips with keyframes from Resolve are left as they are.": {
+  "日本語": "Resolve のキーフレームがあるクリップはそのままです。",
+  "Español": "Los clips con fotogramas clave de Resolve se quedan como están.",
+  "Deutsch": "Clips mit Keyframes aus Resolve bleiben, wie sie sind.",
+  "Français": "Les clips avec des images clés de Resolve restent tels quels.",
+  "한국어": "Resolve 키프레임이 있는 클립은 그대로 둡니다.",
+  "中文": "带有 Resolve 关键帧的片段保持不变。",
+  "العربية": "تبقى المقاطع ذات الإطارات المفتاحية من Resolve كما هي.",
+  "Tiếng Việt": "Các clip có keyframe từ Resolve được giữ nguyên."
+ },
+ "Those clips have volume keyframes": {
+  "日本語": "それらのクリップには音量キーフレームがあります",
+  "Español": "Esos clips tienen fotogramas clave de volumen",
+  "Deutsch": "Diese Clips haben Lautstärke-Keyframes",
+  "Français": "Ces clips ont des images clés de volume",
+  "한국어": "그 클립들에는 볼륨 키프레임이 있습니다",
+  "中文": "这些片段有音量关键帧",
+  "العربية": "لتلك المقاطع إطارات مفتاحية لمستوى الصوت",
+  "Tiếng Việt": "Các clip đó có keyframe âm lượng"
+ },
+ "Their keyframes set their volume in Resolve, so a clip volume wouldn't be heard. Change the line on the clip instead, then Apply.": {
+  "日本語": "Resolve ではキーフレームが音量を決めるため、クリップ音量は聞こえません。代わりにクリップ上のラインを変更して適用してください。",
+  "Español": "Sus fotogramas clave fijan su volumen en Resolve, así que un volumen de clip no se oiría. Cambia la línea del clip y luego aplica.",
+  "Deutsch": "Ihre Keyframes bestimmen in Resolve die Lautstärke, eine Clip-Lautstärke wäre also nicht zu hören. Ändere stattdessen die Linie im Clip und wende dann an.",
+  "Français": "Leurs images clés fixent leur volume dans Resolve, donc un volume de clip ne s'entendrait pas. Modifiez plutôt la ligne sur le clip, puis appliquez.",
+  "한국어": "Resolve에서는 키프레임이 볼륨을 정하므로 클립 볼륨은 들리지 않습니다. 대신 클립의 선을 바꾼 뒤 적용하세요.",
+  "中文": "在 Resolve 中它们的关键帧决定音量，所以片段音量听不出来。请改为修改片段上的线，然后应用。",
+  "العربية": "إطاراتها المفتاحية تحدد مستوى صوتها في Resolve، لذا لن يُسمع مستوى صوت المقطع. غيّر الخط على المقطع بدلاً من ذلك، ثم طبّق.",
+  "Tiếng Việt": "Keyframe của chúng quyết định âm lượng trong Resolve, nên âm lượng clip sẽ không nghe thấy. Hãy đổi đường trên clip, rồi Áp dụng."
+ },
+ "Matched to {t_target} – {skipped} left out, with volume keyframes or no audio to measure yet": {
+  "日本語": "{t_target} に合わせました – {skipped} 個は音量キーフレームがあるか、測定できるオーディオがまだないため除外",
+  "Español": "Igualado a {t_target}: {skipped} quedaron fuera, con fotogramas clave de volumen o aún sin audio que medir",
+  "Deutsch": "Angeglichen an {t_target} – {skipped} ausgelassen, mit Lautstärke-Keyframes oder noch ohne messbares Audio",
+  "Français": "Ajusté à {t_target} – {skipped} laissés de côté, avec des images clés de volume ou sans audio à mesurer pour l'instant",
+  "한국어": "{t_target}에 맞췄습니다 – {skipped}개는 볼륨 키프레임이 있거나 아직 측정할 오디오가 없어 제외",
+  "中文": "已匹配到 {t_target}——{skipped} 个因有音量关键帧或尚无可测量的音频而跳过",
+  "العربية": "تمت المطابقة مع {t_target} – تُرك {skipped} لوجود إطارات مفتاحية لمستوى الصوت أو لعدم وجود صوت لقياسه بعد",
+  "Tiếng Việt": "Đã khớp theo {t_target} – bỏ qua {skipped} vì có keyframe âm lượng hoặc chưa có âm thanh để đo"
+ },
+ "Couldn't apply the curve": {
+  "日本語": "カーブを適用できませんでした",
+  "Español": "No se pudo aplicar la curva",
+  "Deutsch": "Kurve konnte nicht angewendet werden",
+  "Français": "Impossible d'appliquer la courbe",
+  "한국어": "커브를 적용하지 못했습니다",
+  "中文": "无法应用曲线",
+  "العربية": "تعذّر تطبيق المنحنى",
+  "Tiếng Việt": "Không thể áp dụng đường cong"
+ },
+ "Curve on A{track} – the clip under it is turned off": {
+  "日本語": "カーブを A{track} に置きました – 元のクリップはオフです",
+  "Español": "Curva en A{track}: el clip de debajo está desactivado",
+  "Deutsch": "Kurve auf A{track} – der Clip darunter ist ausgeschaltet",
+  "Français": "Courbe sur A{track} – le clip en dessous est désactivé",
+  "한국어": "커브가 A{track}에 있습니다 – 원래 클립은 꺼졌습니다",
+  "中文": "曲线在 A{track} 上——下面的原片段已关闭",
+  "العربية": "المنحنى على A{track} – المقطع تحته معطَّل",
+  "Tiếng Việt": "Đường cong ở A{track} – clip bên dưới đã tắt"
+ },
+ "Couldn't take the curve off": {
+  "日本語": "カーブを外せませんでした",
+  "Español": "No se pudo quitar la curva",
+  "Deutsch": "Kurve konnte nicht entfernt werden",
+  "Français": "Impossible de retirer la courbe",
+  "한국어": "커브를 제거하지 못했습니다",
+  "中文": "无法移除曲线",
+  "العربية": "تعذّرت إزالة المنحنى",
+  "Tiếng Việt": "Không thể gỡ đường cong"
+ },
+ "Remove curve": {
+  "日本語": "カーブを外す",
+  "Español": "Quitar curva",
+  "Deutsch": "Kurve entfernen",
+  "Français": "Retirer la courbe",
+  "한국어": "커브 제거",
+  "中文": "移除曲线",
+  "العربية": "إزالة المنحنى",
+  "Tiếng Việt": "Gỡ đường cong"
+ },
+ "That clip isn't on the open timeline any more.": {
+  "日本語": "そのクリップはもう開いているタイムラインにありません。",
+  "Español": "Ese clip ya no está en la línea de tiempo abierta.",
+  "Deutsch": "Dieser Clip ist nicht mehr in der geöffneten Timeline.",
+  "Français": "Ce clip n'est plus dans la timeline ouverte.",
+  "한국어": "그 클립은 더 이상 열린 타임라인에 없습니다.",
+  "中文": "该片段已不在打开的时间线上。",
+  "العربية": "لم يعد ذلك المقطع في الخط الزمني المفتوح.",
+  "Tiếng Việt": "Clip đó không còn trên timeline đang mở."
+ },
+ "That clip has no audio file Buddy can put a curve on.": {
+  "日本語": "そのクリップには Buddy がカーブを付けられるオーディオファイルがありません。",
+  "Español": "Ese clip no tiene un archivo de audio al que Buddy pueda poner una curva.",
+  "Deutsch": "Dieser Clip hat keine Audiodatei, auf die Buddy eine Kurve legen kann.",
+  "Français": "Ce clip n'a pas de fichier audio sur lequel Buddy peut poser une courbe.",
+  "한국어": "그 클립에는 Buddy가 커브를 넣을 수 있는 오디오 파일이 없습니다.",
+  "中文": "该片段没有 Buddy 可以加曲线的音频文件。",
+  "العربية": "لا يحتوي ذلك المقطع على ملف صوتي يستطيع Buddy وضع منحنى عليه.",
+  "Tiếng Việt": "Clip đó không có tệp âm thanh để Buddy đặt đường cong."
+ },
+ "Resolve didn't make Buddy's bin for curves.": {
+  "日本語": "Resolve がカーブ用の Buddy のビンを作成しませんでした。",
+  "Español": "Resolve no creó la carpeta de Buddy para las curvas.",
+  "Deutsch": "Resolve hat Buddys Bin für Kurven nicht angelegt.",
+  "Français": "Resolve n'a pas créé le chutier de Buddy pour les courbes.",
+  "한국어": "Resolve가 커브용 Buddy 빈을 만들지 않았습니다.",
+  "中文": "Resolve 未创建 Buddy 的曲线媒体夹。",
+  "العربية": "لم ينشئ Resolve حاوية Buddy للمنحنيات.",
+  "Tiếng Việt": "Resolve không tạo bin của Buddy cho đường cong."
+ },
+ "Resolve didn't take the curve.": {
+  "日本語": "Resolve がカーブを受け付けませんでした。",
+  "Español": "Resolve no aceptó la curva.",
+  "Deutsch": "Resolve hat die Kurve nicht übernommen.",
+  "Français": "Resolve n'a pas accepté la courbe.",
+  "한국어": "Resolve가 커브를 받아들이지 않았습니다.",
+  "中文": "Resolve 未接受该曲线。",
+  "العربية": "لم يقبل Resolve المنحنى.",
+  "Tiếng Việt": "Resolve không nhận đường cong."
+ },
+ "Resolve didn't line the curve up with the clip, so Buddy took it back.": {
+  "日本語": "Resolve がカーブをクリップに揃えなかったため、Buddy が取り消しました。",
+  "Español": "Resolve no alineó la curva con el clip, así que Buddy la retiró.",
+  "Deutsch": "Resolve hat die Kurve nicht am Clip ausgerichtet, daher hat Buddy sie zurückgenommen.",
+  "Français": "Resolve n'a pas aligné la courbe sur le clip, Buddy l'a donc retirée.",
+  "한국어": "Resolve가 커브를 클립에 맞추지 않아 Buddy가 되돌렸습니다.",
+  "中文": "Resolve 没有把曲线与片段对齐，所以 Buddy 撤回了它。",
+  "العربية": "لم يحاذِ Resolve المنحنى مع المقطع، لذا تراجع Buddy عنه.",
+  "Tiếng Việt": "Resolve không căn đường cong khớp với clip, nên Buddy đã rút lại."
+ },
+ "Resolve didn't keep the curve's keys where Buddy put them, so Buddy took it back.": {
+  "日本語": "Resolve がカーブのキーを Buddy の置いた位置に保たなかったため、Buddy が取り消しました。",
+  "Español": "Resolve no mantuvo las claves de la curva donde Buddy las puso, así que Buddy la retiró.",
+  "Deutsch": "Resolve hat die Keys der Kurve nicht dort gelassen, wo Buddy sie gesetzt hat, daher hat Buddy sie zurückgenommen.",
+  "Français": "Resolve n'a pas gardé les clés de la courbe là où Buddy les a mises, Buddy l'a donc retirée.",
+  "한국어": "Resolve가 커브의 키를 Buddy가 둔 위치에 두지 않아 Buddy가 되돌렸습니다.",
+  "中文": "Resolve 没有把曲线的关键帧保留在 Buddy 放的位置，所以 Buddy 撤回了它。",
+  "العربية": "لم يُبقِ Resolve مفاتيح المنحنى حيث وضعها Buddy، لذا تراجع Buddy عنه.",
+  "Tiếng Việt": "Resolve không giữ các key của đường cong ở chỗ Buddy đặt, nên Buddy đã rút lại."
+ },
+ "Resolve didn't keep Buddy's note on the curve.": {
+  "日本語": "Resolve がカーブに Buddy のメモを保存しませんでした。",
+  "Español": "Resolve no guardó la nota de Buddy en la curva.",
+  "Deutsch": "Resolve hat Buddys Notiz an der Kurve nicht behalten.",
+  "Français": "Resolve n'a pas gardé la note de Buddy sur la courbe.",
+  "한국어": "Resolve가 커브에 Buddy의 메모를 저장하지 않았습니다.",
+  "中文": "Resolve 未在曲线上保留 Buddy 的备注。",
+  "العربية": "لم يحتفظ Resolve بملاحظة Buddy على المنحنى.",
+  "Tiếng Việt": "Resolve không giữ ghi chú của Buddy trên đường cong."
+ },
+ "Resolve didn't make room for the new curve.": {
+  "日本語": "Resolve が新しいカーブの場所を空けませんでした。",
+  "Español": "Resolve no hizo sitio para la nueva curva.",
+  "Deutsch": "Resolve hat keinen Platz für die neue Kurve gemacht.",
+  "Français": "Resolve n'a pas fait de place pour la nouvelle courbe.",
+  "한국어": "Resolve가 새 커브를 위한 자리를 만들지 않았습니다.",
+  "中文": "Resolve 没有为新曲线腾出位置。",
+  "العربية": "لم يُفسح Resolve مكانًا للمنحنى الجديد.",
+  "Tiếng Việt": "Resolve không chừa chỗ cho đường cong mới."
+ },
+ "Resolve didn't add a track for the curve.": {
+  "日本語": "Resolve がカーブ用のトラックを追加しませんでした。",
+  "Español": "Resolve no añadió una pista para la curva.",
+  "Deutsch": "Resolve hat keine Spur für die Kurve hinzugefügt.",
+  "Français": "Resolve n'a pas ajouté de piste pour la courbe.",
+  "한국어": "Resolve가 커브용 트랙을 추가하지 않았습니다.",
+  "中文": "Resolve 未为曲线添加轨道。",
+  "العربية": "لم يُضف Resolve مسارًا للمنحنى.",
+  "Tiếng Việt": "Resolve không thêm track cho đường cong."
+ },
+ "Resolve didn't place the curve on the timeline.": {
+  "日本語": "Resolve がカーブをタイムラインに置きませんでした。",
+  "Español": "Resolve no colocó la curva en la línea de tiempo.",
+  "Deutsch": "Resolve hat die Kurve nicht in die Timeline gelegt.",
+  "Français": "Resolve n'a pas placé la courbe dans la timeline.",
+  "한국어": "Resolve가 커브를 타임라인에 놓지 않았습니다.",
+  "中文": "Resolve 未将曲线放到时间线上。",
+  "العربية": "لم يضع Resolve المنحنى على الخط الزمني.",
+  "Tiếng Việt": "Resolve không đặt đường cong lên timeline."
+ },
+ "Resolve didn't turn the clip off under its curve.": {
+  "日本語": "Resolve がカーブの下のクリップをオフにしませんでした。",
+  "Español": "Resolve no desactivó el clip bajo su curva.",
+  "Deutsch": "Resolve hat den Clip unter seiner Kurve nicht ausgeschaltet.",
+  "Français": "Resolve n'a pas désactivé le clip sous sa courbe.",
+  "한국어": "Resolve가 커브 아래의 클립을 끄지 않았습니다.",
+  "中文": "Resolve 未关闭曲线下方的片段。",
+  "العربية": "لم يعطّل Resolve المقطع الموجود تحت منحناه.",
+  "Tiếng Việt": "Resolve không tắt clip bên dưới đường cong."
+ },
+ "That clip isn't a Buddy curve any more.": {
+  "日本語": "そのクリップはもう Buddy のカーブではありません。",
+  "Español": "Ese clip ya no es una curva de Buddy.",
+  "Deutsch": "Dieser Clip ist keine Buddy-Kurve mehr.",
+  "Français": "Ce clip n'est plus une courbe Buddy.",
+  "한국어": "그 클립은 더 이상 Buddy 커브가 아닙니다.",
+  "中文": "该片段已不再是 Buddy 曲线。",
+  "العربية": "لم يعد ذلك المقطع منحنى من Buddy.",
+  "Tiếng Việt": "Clip đó không còn là đường cong Buddy."
+ },
+ "Resolve didn't take the curve clip off.": {
+  "日本語": "Resolve がカーブのクリップを外しませんでした。",
+  "Español": "Resolve no quitó el clip de la curva.",
+  "Deutsch": "Resolve hat den Kurven-Clip nicht entfernt.",
+  "Français": "Resolve n'a pas retiré le clip de la courbe.",
+  "한국어": "Resolve가 커브 클립을 제거하지 않았습니다.",
+  "中文": "Resolve 未移除曲线片段。",
+  "العربية": "لم يُزل Resolve مقطع المنحنى.",
+  "Tiếng Việt": "Resolve không gỡ clip đường cong."
  }
 }

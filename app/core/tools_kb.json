@@ -115,7 +115,7 @@
     },
     "audio_assistant": {
       "name": "Audio Assistant",
-      "summary": "An easier alternative to Resolve's Fairlight page for a clip's audio - volume, fades, a volume line to keyframe, noise reduction and voice clean-up. Its Timeline tab shows the audio tracks and changes the selected clips' levels; effects and a keyframed volume line are still to come.",
+      "summary": "An easier alternative to Resolve's Fairlight page for a clip's audio - volume, fades, a volume line to keyframe, noise reduction and voice clean-up. Its Timeline tab shows the audio tracks, changes the selected clips' levels and draws a volume curve that becomes Resolve keyframes; effects are still to come.",
       "needs_resolve": true,
       "capabilities": [
         "Timeline tab: mirrors the open timeline's audio tracks - each clip where it sits, named, in its clip colour, with disabled clips and tracks dimmed, crossfades shown, and the track's name, type (mono, stereo, adaptive) and lock shown",
@@ -127,9 +127,12 @@
         "Match: sets the clip volume so the clips hit YouTube/Spotify -14 LUFS, podcast -16, EBU R128 -23, ATSC A/85 -24, or peaks at -1 dBFS - each clip on its own, or several together keeping their balance",
         "Clean-up: Resolve's Voice Isolation (on/off and amount) and Dialogue Leveler (mode, reduce loud, lift soft, reduce background, output gain), where Resolve offers them for the clip",
         "Crossfade the cuts between selected clips (Cross Fade +3/0/-3 dB, length in frames) - after asking, since Buddy can't remove them",
-        "Undo for every change except crossfades, step by step"
+        "Volume curve: double-click the selected clip's line to add a key, drag a key (Shift keeps it to one direction) or a stretch between two, drag the grip at the line's end to move the whole line, right-click a key to ease it in and out or delete it, or type the picked key's level; the waveform and loudness follow as it's drawn, and nothing reaches Resolve until Apply",
+        "Apply puts the curve in Resolve as real volume keyframes: a one-clip timeline named '<file> (Buddy curve)' in a 'Buddy Audio' bin, placed as a nested clip on the first free audio track under the clip (or a new track), carrying the clip's volume, pan, fades, Voice Isolation and Dialogue Leveler, with the original clip kept and turned off. Applying again replaces it; 'Take the curve off' removes it and turns the original back on",
+        "Shows volume keyframes drawn in Resolve (read from an FCP 7 XML export of the timeline, which changes nothing), and the Buddy curves on the timeline with their eases",
+        "Undo for every change except crossfades, step by step - including applying, changing or taking off a curve"
       ],
-      "notes": "Buddy can read Resolve's selection but can't set it, and it can't move or trim clips. Volume keyframes drawn in Fairlight can't be read or kept by scripts: the blue wave shows the clip's flat volume, and setting the volume may affect a keyframed clip. Match uses Buddy's own measurement (the file through the clip's volume and fades, not through Voice Isolation or the Dialogue Leveler), because Resolve's NormalizeAudioLevel ignores the loudness target in 21.1. Voice Isolation and the Dialogue Leveler only work on the active timeline and not for all media (camera MXF/MP4 files often don't have them). Clip volume stops at +30 dB. Waveforms and loudness are decoded from the files once and cached."
+      "notes": "Buddy can read Resolve's selection but can't set it, and it can't move or trim clips. Resolve's scripting has no call for volume keyframes, so Buddy reads them from a timeline export and writes them by importing a small timeline (a nested clip). On a clip keyframed in Resolve the keys set the volume and the clip volume isn't heard, so Buddy leaves its volume alone and Match skips it - draw the line instead and Apply. On a Buddy curve clip the clip volume is heard on top of the keys, so it moves the whole line. Buddy writes eases as short straight keys, so Resolve plays exactly the drawn line; to edit a curve in Resolve, open the nested clip. Applying a curve takes about a second and briefly switches Resolve to the new timeline and back. Match uses Buddy's own measurement (the file through the clip's volume and fades, not through Voice Isolation or the Dialogue Leveler), because Resolve's NormalizeAudioLevel ignores the loudness target in 21.1. Voice Isolation and the Dialogue Leveler only work on the active timeline and not for all media (camera MXF/MP4 files often don't have them). Clip volume stops at +30 dB. Waveforms and loudness are decoded from the files once and cached."
     },
     "color_palette": {
       "name": "Color Palette Manager",

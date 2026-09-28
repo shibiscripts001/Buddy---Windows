@@ -2,8 +2,9 @@
  * Audio Assistant's view. page.py reads and writes Resolve and decodes the
  * waveforms; this draws the Timeline tab - the audio tracks on one canvas,
  * the track names beside it, the selected clips' controls under it - and
- * reports what the user did: select, seek, set_levels, match, crossfade, undo.
- * Match aims at the same LUFS this page shows (levels.py does the sum again).
+ * reports what the user did: select, seek, set_levels, match, crossfade,
+ * curve, remove_curve, undo. Match aims at the same LUFS this page shows
+ * (levels.py does the sum again).
  *
  * A waveform arrives once per file as bytes, one per 1/rate s: 0 is
  * `floor` dB or quieter, 255 is 0 dBFS (peaks.py). Grey is the file as it
@@ -16,6 +17,14 @@
  * field left, a handle dropped). For HOLD_MS after, the live reads of Resolve
  * don't move that clip back - they may have been made before the write.
  * Levels that come back from a write itself always win.
+ *
+ * A volume curve is keys on the selected clip's line: double-click to add
+ * one, drag a key (Shift: one way only) or a stretch between two, the grip to
+ * move the whole line; right-click a key to ease it or delete it. The keys
+ * are a draft (DRAFT, as heard) until Apply sends them - page.py makes them
+ * Resolve keyframes. A clip's keys (keys.py) are file times: {t, db, ease};
+ * curveDb() is keys.py's curve_db(). A Buddy curve clip is heard at its keys
+ * with its volume on top; a clip keyed in Resolve at its keys alone.
  */
 "use strict";
 
@@ -27,6 +36,7 @@ const MAX_PPF = 60;                   // px per frame, zoomed all the way in
 const SELECTED = "#F2A33A", CLIPPING = "#E5393B", LINE = "#F2C94C";
 const HOLD_MS = 1500;
 const HANDLE = 4;                     // half a handle's size, px
+const KEY_R = 4.5;                    // a key's radius, px
 
 let TL = null, CLIPS = {}, PEAKS = {}, SEL = new Set(), FROM_RESOLVE = false, HEAD = null;
 let OPTIONS = {presets: [], crossfades: [], leveler_modes: [], loud_block: 0.1};
@@ -34,6 +44,8 @@ let UNDO = null;
 let ppf = 0, fit = true, LOADING = 0;
 const HOLD = {};                      // clip id -> performance.now() until which live reads leave it alone
 const GEOM = {};                      // clip id -> where it was last drawn, for the handles
+// The curve being drawn: {id, keys (as heard), applying, applied: the new clip's id}, or null.
+let DRAFT = null, KEYSEL = null;      // KEYSEL: the key picked, {id: its clip, i: in shownKeys()}
 
 $("refresh").append(icon("refresh"));
 for (const node of document.querySelectorAll("[data-action]")) {
@@ -111,6 +123,40 @@ function peakCode(peak, clip, fa, fb) {
     return spanMax(peak, Math.floor(toBucket(fa)), Math.ceil(toBucket(fb)));
 }
 
+// --------------------------------------------------------------- curve --
+
+/* keys.py's curve_db: the dB the keys give at file time t. Straight between
+   two keys, curving to flat next to an eased one. */
+function curveDb(keys, t) {
+    const n = keys.length;
+    if (!n) return 0;
+    if (n === 1 || t <= keys[0].t) return keys[0].db;
+    if (t >= keys[n - 1].t) return keys[n - 1].db;
+    let lo = 0, hi = n - 1;
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (keys[mid].t <= t) lo = mid; else hi = mid; }
+    const a = keys[lo], b = keys[hi];
+    const u = clamp((t - a.t) / Math.max(b.t - a.t, 1e-9), 0, 1), u2 = u * u, u3 = u2 * u;
+    const chord = b.db - a.db, ma = a.ease ? 0 : chord, mb = b.ease ? 0 : chord;
+    return (2 * u3 - 3 * u2 + 1) * a.db + (u3 - 2 * u2 + u) * ma + (-2 * u3 + 3 * u2) * b.db + (u3 - u2) * mb;
+}
+
+const keyedInResolve = clip => !!(clip.keys && clip.keys.length) && !clip.curve;
+
+/* The keys a clip is heard at (the draft's, or its own - with its volume on
+   top, on a Buddy curve clip), or null: it's heard at its volume. */
+function heardKeys(clip) {
+    if (DRAFT && DRAFT.id === clip.id) return DRAFT.keys.length ? DRAFT.keys : null;
+    if (!clip.keys || !clip.keys.length) return null;
+    const add = clip.curve ? clip.volume || 0 : 0;
+    return add ? clip.keys.map(k => ({t: k.t, db: k.db + add, ease: k.ease})) : clip.keys;
+}
+
+const tOf = (clip, frame) => clip.offset + (frame - clip.start) / TL.fps;      // timeline frame -> file time
+const frameOfT = (clip, t) => clip.start + (t - clip.offset) * TL.fps;
+
+/* A clip's heard dB at a frame, given heardKeys(clip). */
+const heardAt = (clip, keys, frame) => keys ? curveDb(keys, tOf(clip, frame)) : clip.volume || 0;
+
 /* How far a clip's fades turn it down at a frame (1 = not at all). */
 function fadeAt(clip, frame) {
     let g = 1;
@@ -131,15 +177,16 @@ function gatingBlocks(clip) {
     const block = OPTIONS.loud_block || 0.1;
     const first = Math.max(0, Math.floor(clip.offset / block));
     const last = Math.min(peak.loud.length, Math.ceil((clip.offset + (clip.end - clip.start) / TL.fps) / block));
-    const volume = Math.pow(10, (clip.volume || 0) / 10);           // power, not amplitude
-    const z = [];
+    const keys = heardKeys(clip), flat = clip.volume || 0;
+    const z = [], h = [];
     for (let j = first; j < last; j++) {
-        const g = fadeAt(clip, clip.start + ((j + 0.5) * block - clip.offset) * TL.fps);
+        const t = (j + 0.5) * block;
+        const g = fadeAt(clip, frameOfT(clip, t));
         z.push(peak.loud[j] * g * g);
+        h.push(z[z.length - 1] * Math.pow(10, (keys ? curveDb(keys, t) : flat) / 10));   // power, not amplitude
     }
-    const raw = [];
-    for (let i = 0; i + 4 <= z.length; i++) raw.push((z[i] + z[i + 1] + z[i + 2] + z[i + 3]) / 4);
-    return {raw, play: raw.map(v => v * volume)};
+    const four = a => { const out = []; for (let i = 0; i + 4 <= a.length; i++) out.push((a[i] + a[i + 1] + a[i + 2] + a[i + 3]) / 4); return out; };
+    return {raw: four(z), play: four(h)};
 }
 
 /* Integrated loudness of the clips together, gated (absolute -70 on the raw
@@ -159,16 +206,27 @@ function lufs(clips) {
     return kept.length ? L(kept.reduce((a, b) => a + b, 0) / kept.length) : null;
 }
 
-/* The loudest moment of clips as played - the files' peaks through their volume. */
+/* The loudest moment of clips as played - the files' peaks through their volume or keys. */
 function peakDb(clips) {
     let best = null;
     for (const clip of clips) {
         const peak = clip.media ? PEAKS[clip.media.key] : null;
         if (!peak || !peak.codes) continue;
-        const code = peakCode(peak, clip, clip.start, clip.end);
-        if (!code) continue;
-        const v = peak.floor + code / 255 * -peak.floor + (clip.volume || 0);
-        best = best === null ? v : Math.max(best, v);
+        const keys = heardKeys(clip);
+        if (!keys) {
+            const code = peakCode(peak, clip, clip.start, clip.end);
+            if (!code) continue;
+            const v = peak.floor + code / 255 * -peak.floor + (clip.volume || 0);
+            best = best === null ? v : Math.max(best, v);
+            continue;
+        }
+        const a = Math.max(0, Math.floor(clip.offset * peak.rate));
+        const b = Math.min(peak.codes.length, Math.ceil(tOf(clip, clip.end) * peak.rate));
+        for (let i = a; i < b; i++) {
+            if (!peak.codes[i]) continue;
+            const v = peak.floor + peak.codes[i] / 255 * -peak.floor + curveDb(keys, (i + 0.5) / peak.rate);
+            best = best === null ? v : Math.max(best, v);
+        }
     }
     return best;
 }
@@ -314,10 +372,14 @@ function drawCrossfade(c, t, top, height, w) {
 }
 
 /* The volume line's height for a clip volume: 0 dB at 70% of the wave area,
-   +30 dB at the top, -40 dB and below at the bottom. */
+   +30 dB at the top, -40 dB and below at the bottom. dbAtY() is the way back. */
 function volumeY(db, wTop, wBottom) {
     const frac = db >= 0 ? 0.7 + 0.3 * Math.min(db, 30) / 30 : 0.7 * Math.max(0, 1 + db / 40);
     return wBottom - frac * (wBottom - wTop);
+}
+function dbAtY(y, wTop, wBottom) {
+    const frac = clamp((wBottom - y) / Math.max(1, wBottom - wTop), 0, 1);
+    return frac >= 0.7 ? (frac - 0.7) / 0.3 * 30 : frac <= 0 ? -100 : (frac / 0.7 - 1) * 40;
 }
 
 function drawClip(c, clip, x0, x1, top, height, w) {
@@ -342,12 +404,13 @@ function drawClip(c, clip, x0, x1, top, height, w) {
         // cost ~30 ms a frame to paint on 11on12.
         const x0px = Math.floor(left), n = Math.max(0, Math.ceil(right) - x0px);
         const file = new Float32Array(n), mixed = new Float32Array(n);
-        const volume = Math.pow(10, (clip.volume || 0) / 20);
+        const keys = heardKeys(clip), volume = Math.pow(10, (clip.volume || 0) / 20);
         const over = new Path2D();
         for (let i = 0; i < n; i++) {
             const fa = frameAt(x0px + i), fb = frameAt(x0px + i + 1);
             const amp = peak.amp[peakCode(peak, clip, fa, fb)];
-            const m = amp * volume * fadeAt(clip, (fa + fb) / 2);
+            const g = keys ? Math.pow(10, curveDb(keys, tOf(clip, (fa + fb) / 2)) / 20) : volume;
+            const m = amp * g * fadeAt(clip, (fa + fb) / 2);
             file[i] = Math.min(1, amp) * half;
             mixed[i] = Math.min(1, m) * half;
             if (m > 1) over.rect(x0px + i, wTop, 1, wBottom - wTop);
@@ -367,23 +430,29 @@ function drawClip(c, clip, x0, x1, top, height, w) {
         ctx.fillText(Buddy.t(why), Math.max(x0, 0) + 8, mid - 8);
     }
 
-    // The volume line through the fades - on a selected clip, with handles to drag.
+    // The volume line (through its keys) and the fades - on a selected clip, with handles to drag.
+    const keys = heardKeys(clip);
     const xIn = xOf(clip.start + (clip.fade_in || 0)), xOut = xOf(clip.end - (clip.fade_out || 0));
-    const yV = volumeY(clip.volume || 0, wTop, wBottom);
+    const lineY = frame => volumeY(heardAt(clip, keys, frame), wTop, wBottom);
+    const yIn = lineY(clip.start + (clip.fade_in || 0)), yOut = lineY(clip.end - (clip.fade_out || 0));
     ctx.strokeStyle = selected ? LINE : c.strong;
     ctx.globalAlpha = trackAlpha * (selected ? 1 : 0.55);
     ctx.lineWidth = selected ? 1.5 : 1;
     ctx.beginPath();
-    ctx.moveTo(x0, clip.fade_in > 0 ? wBottom : yV);
-    ctx.lineTo(xIn, yV);
-    ctx.lineTo(xOut, yV);
-    ctx.lineTo(x1, clip.fade_out > 0 ? wBottom : yV);
+    ctx.moveTo(x0, clip.fade_in > 0 ? wBottom : yIn);
+    ctx.lineTo(xIn, yIn);
+    if (keys) {
+        const a = Math.max(xIn, -4), b = Math.min(xOut, w + 4);
+        for (let x = a; x < b; x += 2) ctx.lineTo(x, lineY(frameAt(x)));
+    }
+    ctx.lineTo(xOut, yOut);
+    ctx.lineTo(x1, clip.fade_out > 0 ? wBottom : yOut);
     ctx.stroke();
     ctx.globalAlpha = trackAlpha * (clip.enabled ? 1 : 0.45);
 
-    // Name, and the clip volume when it isn't 0 dB.
+    // Name, and the clip volume when it isn't 0 dB (and is heard).
     if (cw > 24) {
-        const volume = Math.abs(clip.volume || 0) >= 0.05 ? dB(clip.volume) : "";
+        const volume = Math.abs(clip.volume || 0) >= 0.05 && !keyedInResolve(clip) ? dB(clip.volume) : "";
         const vw = volume ? ctx.measureText(volume).width + 10 : 0;
         const tx = Math.max(x0, 0) + 6;
         ctx.fillStyle = clip.enabled ? c.text : c.dim;
@@ -406,8 +475,37 @@ function drawClip(c, clip, x0, x1, top, height, w) {
     ctx.stroke();
     if (selected) {
         ctx.fillStyle = LINE;
-        for (const x of [xIn, xOut]) ctx.fillRect(Math.round(x) - HANDLE, Math.round(yV) - HANDLE, HANDLE * 2, HANDLE * 2);
-        GEOM[clip.id] = {x0, x1, xIn, xOut, yV, top, bottom: top + height};
+        ctx.fillRect(Math.round(xIn) - HANDLE, Math.round(yIn) - HANDLE, HANDLE * 2, HANDLE * 2);
+        ctx.fillRect(Math.round(xOut) - HANDLE, Math.round(yOut) - HANDLE, HANDLE * 2, HANDLE * 2);
+        const g = {x0, x1, xIn, xOut, yIn, yOut, top, bottom: top + height, wTop, wBottom, lineY, keys: []};
+        // Keys, and the grip that moves the whole line - on one clip at a time.
+        if (SEL.size === 1) {
+            for (const [i, k] of (keys || []).entries()) {
+                const f = frameOfT(clip, k.t), x = xOf(f), y = lineY(f);
+                if (x < x0 - 1 || x > x1 + 1) continue;
+                g.keys.push({i, x, y});
+                const picked = KEYSEL && KEYSEL.id === clip.id && KEYSEL.i === i;
+                ctx.beginPath();
+                if (k.ease) ctx.arc(x, y, KEY_R, 0, 2 * Math.PI);
+                else { ctx.moveTo(x, y - KEY_R - 1); ctx.lineTo(x + KEY_R + 1, y); ctx.lineTo(x, y + KEY_R + 1); ctx.lineTo(x - KEY_R - 1, y); ctx.closePath(); }
+                ctx.fillStyle = picked ? "#FFFFFF" : LINE;
+                ctx.fill();
+                ctx.strokeStyle = "rgba(0,0,0,.55)";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            if (xOut - xIn > 70) {
+                const gx = Math.round(Math.min(xOut, w) - 18), gy = Math.round(lineY(frameAt(gx)));
+                ctx.fillStyle = LINE;
+                ctx.beginPath();
+                ctx.roundRect(gx - 5, gy - 8, 10, 16, 3);
+                ctx.fill();
+                ctx.fillStyle = "rgba(0,0,0,.55)";
+                for (const d of [-3, 0, 3]) ctx.fillRect(gx - 3, gy + d, 6, 1);
+                g.grip = {x: gx, y: gy};
+            }
+        }
+        GEOM[clip.id] = g;
     }
     ctx.restore();
 }
@@ -450,6 +548,87 @@ function commit(label, ids, request) {
     send("set_levels", Object.assign({label, ids: [...ids]}, request));
 }
 
+/* The draft for a clip, started from the keys it's heard at - or null, having
+   said why (another clip's curve isn't applied yet). */
+function draftFor(clip) {
+    if (DRAFT && DRAFT.id === clip.id) return DRAFT;
+    if (DRAFT) {
+        Buddy.toast(Buddy.t("Apply or discard the curve on the other clip first"), 3500);
+        return null;
+    }
+    // The same keys in the same order, so a key picked before stays picked.
+    DRAFT = {id: clip.id, keys: (heardKeys(clip) || []).map(k => ({t: k.t, db: k.db, ease: !!k.ease}))};
+    return DRAFT;
+}
+
+/* The keys drawn on a clip, in the order KEYSEL counts them. */
+const shownKeys = clip => DRAFT && DRAFT.id === clip.id ? DRAFT.keys : heardKeys(clip) || [];
+const pickedKey = clip => KEYSEL && KEYSEL.id === clip.id ? shownKeys(clip)[KEYSEL.i] || null : null;
+
+/* fn(keys) on a clip's draft, started now if need be: false if it can't be. */
+function editKeys(clip, fn) {
+    const draft = draftFor(clip);
+    if (!draft || draft.applying) return false;
+    fn(draft.keys);
+    draftChanged();
+    return true;
+}
+
+/* A key at a frame of the clip (whole frames, from its start), on the line where it is. */
+function addKey(clip, frame) {
+    frame = clamp(Math.round(frame - clip.start), 0, clip.end - clip.start) + clip.start;
+    const t = +tOf(clip, frame).toFixed(6);
+    if (shownKeys(clip).some(k => Math.abs(k.t - t) < 0.5 / TL.fps)) return;
+    const db = +heardAt(clip, heardKeys(clip), frame).toFixed(2);
+    editKeys(clip, keys => {
+        keys.push({t, db, ease: false});
+        keys.sort((a, b) => a.t - b.t);
+        KEYSEL = {id: clip.id, i: keys.findIndex(k => k.t === t)};
+    });
+}
+
+function deleteKey(clip, i) {
+    if (!shownKeys(clip)[i]) return;
+    editKeys(clip, keys => { keys.splice(i, 1); KEYSEL = null; });
+}
+
+function draftChanged() {
+    requestDraw();
+    syncInspector();
+    drawDraftBar();
+}
+
+function applyDraft() {
+    if (!DRAFT || DRAFT.applying) return;
+    const clip = CLIPS[DRAFT.id];
+    if (!clip) return discardDraft();
+    if (!DRAFT.keys.length && !clip.curve) return discardDraft();
+    DRAFT.applying = true;
+    send("curve", {id: DRAFT.id, keys: DRAFT.keys});
+    draftChanged();
+    renderInspector();
+}
+
+function discardDraft() {
+    DRAFT = null;
+    KEYSEL = null;
+    draftChanged();
+    renderInspector();
+}
+
+/* The bar over the tracks while a curve isn't applied yet - it may be on a clip scrolled away. */
+function drawDraftBar() {
+    const bar = $("draft");
+    const clip = DRAFT && CLIPS[DRAFT.id];
+    bar.hidden = !clip;
+    if (!clip) return;
+    bar.replaceChildren(
+        el("span", {}, [el("b", {text: DRAFT.applying ? "Applying the curve…" : "Curve not applied yet"}), " · ",
+                        el("span", {text: clip.name, translate: "no"})]),
+        el("button.btn.accent", {type: "button", text: "Apply", disabled: !!DRAFT.applying, onclick: applyDraft}),
+        el("button.btn.ghost", {type: "button", text: "Discard", disabled: !!DRAFT.applying, onclick: discardDraft}));
+}
+
 // --------------------------------------------------------------- mouse --
 
 function clipAt(x, y) {
@@ -460,15 +639,27 @@ function clipAt(x, y) {
     return track.clips.find(c => !c.transition && f >= c.start && f < c.end) || null;
 }
 
-/* A selected clip's handle under the pointer: fade in, fade out or the volume line. */
+/* A selected clip's handle under the pointer: a key, the grip, fade in, fade
+   out or the volume line ("volume" when it's flat, "segment" through keys). */
 function handleAt(x, y) {
     for (const [id, g] of Object.entries(GEOM)) {
         if (y < g.top || y > g.bottom) continue;
-        if (Math.abs(x - g.xIn) <= HANDLE + 2 && Math.abs(y - g.yV) <= HANDLE + 2) return {id, kind: "fade_in"};
-        if (Math.abs(x - g.xOut) <= HANDLE + 2 && Math.abs(y - g.yV) <= HANDLE + 2) return {id, kind: "fade_out"};
-        if (x > g.xIn && x < g.xOut && Math.abs(y - g.yV) <= 4) return {id, kind: "volume"};
+        const key = g.keys.find(k => Math.abs(x - k.x) <= KEY_R + 2 && Math.abs(y - k.y) <= KEY_R + 2);
+        if (key) return {id, kind: "key", index: key.i};
+        if (g.grip && Math.abs(x - g.grip.x) <= 7 && Math.abs(y - g.grip.y) <= 10) return {id, kind: "grip"};
+        if (Math.abs(x - g.xIn) <= HANDLE + 2 && Math.abs(y - g.yIn) <= HANDLE + 2) return {id, kind: "fade_in"};
+        if (Math.abs(x - g.xOut) <= HANDLE + 2 && Math.abs(y - g.yOut) <= HANDLE + 2) return {id, kind: "fade_out"};
+        if (x > g.xIn && x < g.xOut && Math.abs(y - g.lineY(frameAt(x))) <= 4) {
+            return {id, kind: heardKeys(CLIPS[id]) && SEL.size === 1 ? "segment" : "volume"};
+        }
     }
     return null;
+}
+
+/* What the grip or a line drag does to a clip: move its volume (flat, or a
+   Buddy curve's - heard on top of its keys) unless there are keys to move. */
+function lineDrag(clip) {
+    return (DRAFT && DRAFT.id === clip.id) || keyedInResolve(clip) ? "shift" : "volume";
 }
 
 let scrubbing = false, lastSeek = 0, DRAG = null;
@@ -493,6 +684,18 @@ canvas.addEventListener("mousedown", e => {
     }
     const handle = handleAt(x, y);
     if (handle) {
+        const clip = CLIPS[handle.id];
+        if (handle.kind === "grip") handle.kind = lineDrag(clip);
+        if (["key", "segment", "shift"].includes(handle.kind)) {
+            // The draft starts with the first move: a click only picks a key.
+            if (handle.kind === "key") KEYSEL = {id: clip.id, i: handle.index};
+            DRAG = Object.assign(handle, {ids: [clip.id], x0: x, y0: y, g: GEOM[clip.id],
+                                          keys0: shownKeys(clip).map(k => Object.assign({}, k))});
+            requestDraw();
+            syncInspector();
+            e.preventDefault();
+            return;
+        }
         // Dragging one selected clip's volume moves every selected clip's by as much.
         const ids = handle.kind === "volume" ? [...SEL].filter(id => CLIPS[id]) : [handle.id];
         DRAG = Object.assign(handle, {ids, y0: y, base: Object.fromEntries(ids.map(id => [id, CLIPS[id].volume || 0]))});
@@ -523,6 +726,8 @@ addEventListener("mousemove", e => {
     if (scrubbing) return seekTo(x, false);
     if (!DRAG) return;
     const clip = CLIPS[DRAG.id];
+    if (!clip) return;
+    if (["key", "segment", "shift"].includes(DRAG.kind)) return dragKeys(clip, x, y, e.shiftKey);
     if (DRAG.kind === "volume") {
         const step = e.shiftKey ? 0.1 : 0.5;          // dB per pixel; Shift for fine
         const delta = Math.round((DRAG.y0 - y) * step * 10) / 10;
@@ -545,6 +750,7 @@ addEventListener("mouseup", e => {
     const drag = DRAG;
     DRAG = null;
     if (!drag.moved) return;
+    if (["key", "segment", "shift"].includes(drag.kind)) return;       // a draft, until Apply
     if (drag.kind === "volume") {
         const delta = (CLIPS[drag.id].volume || 0) - drag.base[drag.id];
         commit("Clip volume", drag.ids, drag.ids.length > 1 ? {volume_by: delta} : {volume: CLIPS[drag.id].volume});
@@ -552,15 +758,94 @@ addEventListener("mouseup", e => {
         commit("Fades", drag.ids, {[drag.kind]: CLIPS[drag.id][drag.kind]});
     }
 });
+/* A key, a stretch between two, or the whole line, dragged. dB from the
+   pointer's height; a key moves in time too, between its neighbours. Shift
+   keeps a key to the way it first went. */
+function dragKeys(clip, x, y, lock) {
+    const d = DRAG, g = d.g;
+    if (!d.moved && Math.hypot(x - d.x0, y - d.y0) < 2) return;
+    if (!d.moved && (!draftFor(clip) || DRAFT.applying)) { DRAG = null; return; }
+    const keys = DRAFT.keys;
+    const dy = dbAtY(y, g.wTop, g.wBottom) - dbAtY(d.y0, g.wTop, g.wBottom);
+    const step = v => Math.round(clamp(v, -100, 30) * 10) / 10;
+    if (d.kind === "key") {
+        if (lock && !d.axis && Math.hypot(x - d.x0, y - d.y0) > 4) d.axis = Math.abs(x - d.x0) > Math.abs(y - d.y0) ? "x" : "y";
+        const k0 = d.keys0[d.index], k = keys[d.index];
+        if (!lock || d.axis !== "x") k.db = step(k0.db + dy);
+        else k.db = k0.db;
+        if (!lock || d.axis !== "y") {
+            const frame = Math.round(frameOfT(clip, k0.t) + (x - d.x0) / ppf);
+            const lo = d.index > 0 ? Math.round(frameOfT(clip, d.keys0[d.index - 1].t)) + 1 : clip.start;
+            const hi = d.index < keys.length - 1 ? Math.round(frameOfT(clip, d.keys0[d.index + 1].t)) - 1 : clip.end;
+            k.t = +tOf(clip, clamp(frame, lo, hi)).toFixed(6);
+        } else {
+            k.t = k0.t;
+        }
+    } else {
+        // The keys either side of the stretch (only the one, before the first or after the last), or all.
+        let which = keys.map((_, i) => i);
+        if (d.kind === "segment") {
+            const t = tOf(clip, frameAt(d.x0));
+            const after = d.keys0.findIndex(k => k.t > t);
+            which = after === -1 ? [keys.length - 1] : after === 0 ? [0] : [after - 1, after];
+        }
+        for (const i of which) keys[i].db = step(d.keys0[i].db + dy);
+    }
+    d.moved = true;
+    draftChanged();
+}
+
+canvas.addEventListener("dblclick", e => {
+    if (!TL || e.offsetY < RULER_H || SEL.size !== 1) return;
+    const clip = clipAt(e.offsetX, e.offsetY);
+    if (!clip || !SEL.has(clip.id) || handleAt(e.offsetX, e.offsetY)?.kind === "key") return;
+    addKey(clip, frameAt(e.offsetX));
+});
+
+canvas.addEventListener("contextmenu", e => {
+    if (!TL || e.offsetY < RULER_H) return;
+    const handle = handleAt(e.offsetX, e.offsetY);
+    const clip = clipAt(e.offsetX, e.offsetY);
+    if (handle && handle.kind === "key") {
+        e.preventDefault();
+        const c = CLIPS[handle.id], i = handle.index;
+        KEYSEL = {id: c.id, i};
+        draftChanged();
+        const eased = !!shownKeys(c)[i].ease;
+        Buddy.menu({x: e.clientX, y: e.clientY, items: [
+            {label: eased ? "Straight, no ease" : "Ease in and out", onClick: () => editKeys(c, keys => { keys[i].ease = !eased; })},
+            {sep: true},
+            {label: "Delete key", danger: true, onClick: () => deleteKey(c, i)},
+        ]});
+    } else if (clip && SEL.size === 1 && SEL.has(clip.id)) {
+        e.preventDefault();
+        const frame = frameAt(e.offsetX);
+        Buddy.menu({x: e.clientX, y: e.clientY, items: [
+            {label: "Add a key here", onClick: () => addKey(clip, frame)},
+            DRAFT && DRAFT.id === clip.id ? {label: "Apply the curve", onClick: applyDraft} : null,
+            DRAFT && DRAFT.id === clip.id ? {label: "Discard the curve", onClick: discardDraft} : null,
+        ].filter(Boolean)});
+    }
+});
+
 canvas.addEventListener("mousemove", e => {
     if (!TL || scrubbing || DRAG) return;
     const handle = e.offsetY >= RULER_H && handleAt(e.offsetX, e.offsetY);
     canvas.style.cursor = e.offsetY < RULER_H ? "ew-resize"
-        : handle ? (handle.kind === "volume" ? "ns-resize" : "ew-resize")
+        : handle ? (handle.kind === "key" ? "move" : handle.kind === "fade_in" || handle.kind === "fade_out" ? "ew-resize" : "ns-resize")
         : clipAt(e.offsetX, e.offsetY) ? "pointer" : "default";
 });
 addEventListener("keydown", e => {
-    if (e.key === "Escape" && SEL.size && !e.target.closest("input, select, textarea")) {
+    if (e.target.closest("input, select, textarea")) return;
+    if ((e.key === "Delete" || e.key === "Backspace") && KEYSEL && CLIPS[KEYSEL.id]) {
+        e.preventDefault();
+        return deleteKey(CLIPS[KEYSEL.id], KEYSEL.i);
+    }
+    if (e.key === "Escape" && KEYSEL) {
+        KEYSEL = null;
+        return draftChanged();
+    }
+    if (e.key === "Escape" && SEL.size) {
         SEL = new Set();
         select();
     }
@@ -657,6 +942,7 @@ function renderInspector() {
             syncInspector(true);
         },
     }))) : null;
+    I.volWhy = el("span.muted.small");
     I.pan = slider(-100, 100, 1);
     I.panNum = number(1, -100, 100);
     I.fadeIn = number(1, 0);
@@ -781,11 +1067,12 @@ function renderInspector() {
         el("div.groups", {}, [
             el("section.group", {}, [
                 el("h3.group-title", {text: "Levels"}),
-                row("Clip volume", [I.volModes, I.vol, I.volNum, el("span.unit", {text: "dB"})]),
+                row("Clip volume", [I.volModes, I.vol, I.volNum, el("span.unit", {text: "dB"})], I.volWhy),
                 row("Pan", [I.pan, I.panNum]),
                 row("Fades", [el("span.unit", {text: "In"}), I.fadeIn, el("span.unit", {text: "Out"}), I.fadeOut, el("span.unit", {text: "frames"})]),
                 el("p.muted.small.hint", {text: "Or drag on the clip: the yellow line is its volume, the squares its fades. Shift for fine steps."}),
             ]),
+            many ? null : curveGroup(I, chosen[0]),
             el("section.group", {}, [
                 el("h3.group-title", {text: "Loudness"}),
                 el("div.tiles", {}, [I.lufs.node, I.peak.node]),
@@ -812,6 +1099,73 @@ function renderInspector() {
     );
     syncInspector(true);
 }
+
+/* The Curve group: what the clip's keys are, and - while there's a draft - the
+   picked key's level and ease, Apply and Discard. */
+function curveGroup(I, clip) {
+    I.curveText = el("p.muted.small.hint");
+    I.keyDb = number(0.1, -100, 30);
+    I.keyEase = el("input", {type: "checkbox"});
+    I.keyRow = el("div.ctl", {}, [el("span.ctl-label", {text: "Picked key"}), el("div.ctl-body", {}, [
+        I.keyDb, el("span.unit", {text: "dB"}), el("label.check", {}, [I.keyEase, " Ease in and out"]),
+        el("button.btn.ghost", {type: "button", text: "Delete", onclick: () => KEYSEL && deleteKey(clip, KEYSEL.i)})])]);
+    I.keyDb.addEventListener("change", () => {
+        const v = Number(I.keyDb.value), i = KEYSEL && KEYSEL.i;
+        if (!pickedKey(clip) || !isFinite(v) || I.keyDb.value === "") return syncInspector(true);
+        editKeys(clip, keys => { keys[i].db = clamp(Math.round(v * 10) / 10, -100, 30); });
+    });
+    I.keyEase.addEventListener("change", () => {
+        const i = KEYSEL && KEYSEL.i, on = I.keyEase.checked;
+        if (pickedKey(clip)) editKeys(clip, keys => { keys[i].ease = on; });
+        syncInspector(true);
+    });
+    I.apply = el("button.btn.accent", {type: "button", text: "Apply", onclick: applyDraft});
+    I.discard = el("button.btn.ghost", {type: "button", text: "Discard", onclick: discardDraft});
+    I.remove = el("button.btn.ghost", {type: "button", text: "Take the curve off", onclick: async () => {
+        const yes = await Buddy.confirm({title: "Take the curve off?", ok: "Take it off",
+            text: "The curve clip goes, and the clip it stood in for is turned back on. Undo puts the curve back."});
+        if (yes) send("remove_curve", {id: clip.id});
+    }});
+    I.curveButtons = el("div.ctl-body", {}, [I.apply, I.discard, I.remove]);
+    return el("section.group", {}, [el("h3.group-title", {text: "Volume curve"}), I.curveText, I.keyRow, I.curveButtons]);
+}
+
+function syncCurve(I, clip) {
+    if (!I.curveText) return;
+    const draft = DRAFT && DRAFT.id === clip.id ? DRAFT : null;
+    // Sentences, each its own node, so each is translated whole.
+    let text;
+    const n = draft ? draft.keys.length : (clip.keys || []).length;
+    if (draft && draft.applying) text = ["Putting the curve in Resolve…"];
+    else if (draft && !n) text = [clip.curve ? "No keys left – Apply takes the curve off." : "No keys yet."];
+    else if (draft) text = [n === 1 ? "1 key – not in Resolve until you Apply." : `${n} keys – not in Resolve until you Apply.`];
+    else if (clip.curve) {
+        const under = CLIPS[clip.curve.original];
+        text = [clip.curve.edited ? "A Buddy curve, with keys changed in Resolve since." : "A Buddy curve: Resolve keyframes, in a nested clip.",
+                under ? `The clip it stands in for is turned off on A${trackOf(under)}.` : null,
+                "Its clip volume moves the whole line."];
+    } else if (keyedInResolve(clip)) {
+        text = [n === 1 ? "1 keyframe from Resolve sets this clip's volume." : `${n} keyframes from Resolve set this clip's volume.`,
+                "Change the line here and Apply to replace them – the clip is kept, turned off."];
+    } else {
+        text = ["Double-click the line on the clip to add a key, then drag it. Right-click a key to ease it.",
+                "Apply makes the keys Resolve keyframes."];
+    }
+    I.curveText.replaceChildren(...text.filter(Boolean).flatMap((s, i) => i ? [" ", el("span", {text: s})] : [el("span", {text: s})]));
+    const key = pickedKey(clip);
+    I.keyRow.hidden = !key;
+    if (key) {
+        if (document.activeElement !== I.keyDb) I.keyDb.value = key.db.toFixed(1);
+        I.keyEase.checked = !!key.ease;
+    }
+    I.apply.hidden = I.discard.hidden = !draft;
+    I.apply.disabled = I.discard.disabled = !!(draft && draft.applying);
+    I.apply.disabled ||= !!(draft && !draft.keys.length && !clip.curve);
+    I.remove.hidden = !!draft || !clip.curve;
+    I.curveButtons.hidden = I.apply.hidden && I.remove.hidden;
+}
+
+const trackOf = clip => (TL.tracks.find(t => t.clips.includes(clip)) || {}).index;
 
 /* The cuts between selected clips (as page.py's levels.cuts works them out) - for the count. */
 function cutsBetween(ids) {
@@ -855,7 +1209,12 @@ function syncInspector(force = false) {
         I.info.replaceChildren(el("span", {text: `Total length ${timecode(frames, false)}`}));
     }
 
-    // Levels.
+    // Levels. A clip keyed in Resolve isn't heard at its volume.
+    const unheard = chosen.every(keyedInResolve);
+    for (const n of [I.vol, I.volNum]) n.disabled = unheard;
+    I.volWhy.textContent = unheard ? "Its keyframes set its volume – change the line on the clip."
+        : chosen.some(keyedInResolve) ? "Clips with keyframes from Resolve are left as they are." : "";
+    if (one) syncCurve(I, one);
     const vol = common(chosen, c => Math.round((c.volume || 0) * 10) / 10);
     if (I.volMode === "by") {
         if (!I.volBase) set(I.vol, 0);
@@ -962,6 +1321,8 @@ Buddy.on("timeline", data => {
     for (const track of (TL ? TL.tracks : [])) for (const clip of track.clips) CLIPS[clip.id] = clip;
     $("no-timeline").hidden = !!TL;
     $("tl-card").hidden = !TL;
+    if (DRAFT && (DRAFT.applied ? CLIPS[DRAFT.applied] : !CLIPS[DRAFT.id])) { DRAFT = null; KEYSEL = null; }
+    drawDraftBar();
     if (!TL) { $("inspector").hidden = true; INSP = null; return; }
     drawHeads();
     $("tl").style.height = `${RULER_H + TL.tracks.length * LANE_H}px`;
@@ -1019,6 +1380,18 @@ Buddy.on("undo", u => {
         b.lastChild.textContent = `Undo: ${u.label}`;
         b.title = u.count > 1 ? `${u.count} changes can be undone` : "";
     }
+});
+
+/* An Apply (or Remove) is done: {id, done, new}. The draft stays drawn until the
+   new clip is read, so the line doesn't jump back meanwhile. */
+Buddy.on("curve", c => {
+    if (DRAFT && DRAFT.id === c.id) {
+        if (c.done && c.new && c.new !== c.id) { DRAFT.applying = false; DRAFT.applied = c.new; }
+        else if (c.done) { DRAFT = null; KEYSEL = null; }
+        else DRAFT.applying = false;
+    }
+    draftChanged();
+    renderInspector();
 });
 
 Buddy.on("toast", t => Buddy.toast(t.text, 3500));
