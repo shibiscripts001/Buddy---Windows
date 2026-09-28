@@ -116,6 +116,20 @@ class RuleTests(Base):
         build_file_index(self.new, progress=seen.append)
         self.assertEqual(seen[-1], 4)
 
+    def test_index_reports_missing_or_unreadable_folders(self):
+        with self.assertRaises(NotADirectoryError):
+            build_file_index(os.path.join(self.tmp, "missing"))
+
+        unreadable = PermissionError("Access denied")
+
+        def failing_walk(_root, onerror):
+            yield self.new, [], ["B002.mov"]
+            onerror(unreadable)
+
+        with mock.patch("pages.media_relink.relink_engine.os.walk", side_effect=failing_walk):
+            with self.assertRaises(PermissionError):
+                build_file_index(self.new)
+
 
 # ------------------------------------------------------------------ page --
 
@@ -136,7 +150,9 @@ class Folder:
 class Controller:
     def __init__(self, root):
         pool = type("Pool", (), {"GetRootFolder": lambda s: root})()
-        self.project = type("Project", (), {"GetMediaPool": lambda s: pool})()
+        self.project = type("Project", (), {"GetMediaPool": lambda s: pool,
+                                            "GetUniqueId": lambda s: s._id})()
+        self.project._id = "project-a"
 
     def current_project(self):
         return self.project
@@ -220,6 +236,20 @@ class PageTests(Base):
     def test_search_needs_a_scan_first(self):
         self.page.on_search(None)
         self.assertEqual(self.last("alert")["title"], "Scan first")
+
+    def test_project_change_requires_new_scan(self):
+        self.page.on_scan(None)
+        self.search(self.new)
+        self.host.controller.project._id = "project-b"
+
+        with mock.patch.object(self.page_mod.QFileDialog, "getExistingDirectory") as dialog:
+            self.page.on_search(None)
+            dialog.assert_not_called()
+        self.assertEqual(self.last("alert")["title"], "Project changed")
+
+        self.page.on_relink_all(None)
+        self.assertEqual(self.last("alert")["title"], "Project changed")
+        self.assertEqual(self.clips[1].path, os.path.join(self.old, "B002.mov"))
 
 
 if __name__ == "__main__":

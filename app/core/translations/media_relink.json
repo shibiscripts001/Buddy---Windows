@@ -809,5 +809,25 @@
   "中文": "Resolve 拒绝了 {count} 个（媒体类型不同，或无法访问文件）。",
   "العربية": "رفض Resolve عدد {count} (نوع مختلف من الوسائط، أو لا يمكن الوصول إلى الملف).",
   "Tiếng Việt": "Resolve đã từ chối {count} (loại phương tiện khác, hoặc không truy cập được tệp)."
+ },
+ "Project changed": {
+  "日本語": "プロジェクトが変更されました",
+  "Español": "El proyecto ha cambiado",
+  "Deutsch": "Projekt wurde gewechselt",
+  "Français": "Le projet a changé",
+  "한국어": "프로젝트가 변경되었습니다",
+  "中文": "项目已更改",
+  "العربية": "تغيّر المشروع",
+  "Tiếng Việt": "Dự án đã thay đổi"
+ },
+ "Scan the current Resolve project before searching or relinking.": {
+  "日本語": "検索または再リンクする前に、現在の Resolve プロジェクトをスキャンしてください。",
+  "Español": "Escanea el proyecto actual de Resolve antes de buscar o revincular.",
+  "Deutsch": "Scannen Sie das aktuelle Resolve-Projekt, bevor Sie suchen oder neu verknüpfen.",
+  "Français": "Analysez le projet Resolve actuel avant de rechercher ou de reconnecter.",
+  "한국어": "검색하거나 다시 연결하기 전에 현재 Resolve 프로젝트를 검사하세요.",
+  "中文": "搜索或重新链接之前，请扫描当前的 Resolve 项目。",
+  "العربية": "افحص مشروع Resolve الحالي قبل البحث أو إعادة الربط.",
+  "Tiếng Việt": "Hãy quét dự án Resolve hiện tại trước khi tìm kiếm hoặc liên kết lại."
  }
 }

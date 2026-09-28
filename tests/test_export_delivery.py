@@ -9,6 +9,7 @@ from unittest import mock
 import _paths  # noqa: F401
 from core import marker_colors
 from pages.youtube_chapters import chapters
+from pages.stills_exporter import resolve_ext as stills_ext
 
 try:
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -60,11 +61,82 @@ class ChapterRuleTests(unittest.TestCase):
     def test_file_names(self):
         self.assertEqual(chapters.file_name_for('My: "Film" v2'), "My_Film_v2_Chapters.txt")
         self.assertEqual(chapters.file_name_for(""), chapters.DEFAULT_FILE_NAME)
+        self.assertTrue(chapters.valid_file_name("My_Chapters.txt"))
+        self.assertFalse(chapters.valid_file_name("../outside.txt"))
+        self.assertFalse(chapters.valid_file_name(r"C:\outside.txt"))
+
+    def test_last_chapter_needs_ten_seconds_before_video_ends(self):
+        mk = markers((0, "Open", "Blue"), (20, "Middle", "Blue"), (50, "End", "Blue"))
+        self.assertEqual(chapters.build(mk, FPS, duration_frames=60 * FPS)["warnings"], [])
+        warning = chapters.build(mk, FPS, duration_frames=59 * FPS)["warnings"]
+        self.assertIn("last chapter is under 10 seconds", warning[0])
+        late_frame = markers((0, "Open", "Blue"), (20, "Middle", "Blue"), (50.9, "End", "Blue"))
+        self.assertEqual(chapters.build(late_frame, FPS, duration_frames=60 * FPS)["warnings"], [])
 
     def test_colour_counts(self):
         counts = {c["name"]: c["count"] for c in marker_colors.color_counts(markers((1, "", "Red"), (2, "", "Red"), (3, "", "Mint")))}
         self.assertEqual((counts["Red"], counts["Mint"], counts["Blue"]), (2, 1, 0))
         self.assertEqual(len(counts), 16)
+
+    def test_timeline_duration_is_relative_to_its_start(self):
+        from pages.youtube_chapters.resolve_ext import read_timeline_markers
+        _markers, fps, duration_frames, name = read_timeline_markers(Timeline())
+        self.assertEqual((fps, duration_frames, name), (FPS, 140 * FPS, "My Film"))
+
+
+class StillsRuleTests(unittest.TestCase):
+    def test_export_prefix_cannot_contain_a_path(self):
+        self.assertTrue(stills_ext.valid_export_prefix("Shot_01"))
+        self.assertFalse(stills_ext.valid_export_prefix(r"..\outside"))
+        self.assertFalse(stills_ext.valid_export_prefix("subfolder/name"))
+
+    def test_drop_frame_timecodes_skip_invalid_minute_labels(self):
+        cases = [
+            (29.97, 1798, "00:00:59;28"),
+            (29.97, 1799, "00:00:59;29"),
+            (29.97, 1800, "00:01:00;02"),
+            (29.97, 17982, "00:10:00;00"),
+            (59.94, 3600, "00:01:00;04"),
+        ]
+        for fps, frame, expected in cases:
+            with self.subTest(fps=fps, frame=frame):
+                self.assertEqual(stills_ext.frames_to_timecode(frame, fps, True), expected)
+                self.assertEqual(stills_ext.timecode_to_frames(expected, fps), frame)
+
+    def test_markers_with_string_frame_keys_are_in_numeric_order(self):
+        controller = Controller()
+        timeline = controller.project.timeline
+        timeline.markers = {str(k): v for k, v in timeline.markers.items()}
+        name, found = stills_ext.timeline_markers(controller)
+        self.assertEqual(name, "My Film")
+        self.assertEqual([m["timecode"] for m in found],
+                         ["01:00:00:00", "01:00:30:00", "01:01:00:00", "01:01:35:00"])
+        grabbed = stills_ext.grab_stills_for_color(controller, "Blue")
+        self.assertEqual([tc for tc, _still in grabbed],
+                         ["01:00:00:00", "01:00:30:00", "01:01:35:00"])
+
+    def test_failed_playhead_move_does_not_grab_wrong_frame(self):
+        controller = Controller()
+        timeline = controller.project.timeline
+        real_seek = timeline.SetCurrentTimecode
+        timeline.SetCurrentTimecode = lambda tc: False if tc == "01:00:30:00" else real_seek(tc)
+        log = []
+        grabbed = stills_ext.grab_stills_for_color(controller, "Blue", log=log.append)
+        self.assertEqual([tc for tc, _still in grabbed], ["01:00:00:00", "01:01:35:00"])
+        self.assertTrue(any("failed to move the playhead" in line for line in log))
+
+    def test_failed_gallery_delete_does_not_turn_export_into_failure(self):
+        controller = Controller()
+        album = controller.project.album
+        album.delete_ok = False
+        log = []
+        self.assertFalse(stills_ext.export_stills(controller, ["still"], "folder", "Shot_", "png",
+                                                  delete_after=True, log=log.append))
+        self.assertIsNotNone(album.exported)
+        self.assertTrue(any("deletion failed" in line for line in log))
+        album.delete_raises = True
+        self.assertFalse(stills_ext.export_stills(controller, ["still"], "folder", "Shot_", "png",
+                                                  delete_after=True))
 
 
 # ------------------------------------------------------------ fake Resolve --
@@ -87,6 +159,9 @@ class Timeline:
     def GetStartFrame(self):
         return 86400
 
+    def GetEndFrame(self):
+        return 86400 + 140 * FPS
+
     def GetCurrentTimecode(self):
         return self.playhead
 
@@ -107,14 +182,18 @@ class Timeline:
 class Album:
     def __init__(self):
         self.exported = self.deleted = None
+        self.delete_ok = True
+        self.delete_raises = False
 
     def ExportStills(self, stills, folder, prefix, fmt):
         self.exported = (list(stills), folder, prefix, fmt)
         return True
 
     def DeleteStills(self, stills):
+        if self.delete_raises:
+            raise RuntimeError("Delete failed")
         self.deleted = list(stills)
-        return True
+        return self.delete_ok
 
 
 class Project:
@@ -193,8 +272,14 @@ class ChaptersPageTests(_PageCase):
         from pages.youtube_chapters.page import YouTubeChaptersPage
         return YouTubeChaptersPage
 
+    def settle(self):
+        for _ in range(3):
+            self.assertTrue(self.page._worker.wait_idle(5))
+            self.app.processEvents()
+
     def test_reads_the_timeline_and_follows_the_filter(self):
         self.page.on_refresh()
+        self.settle()
         s = self.last("state")
         self.assertEqual((s["timeline"], s["total"]), ("My Film", 4))
         c = self.last("chapters")
@@ -205,9 +290,11 @@ class ChaptersPageTests(_PageCase):
 
     def test_an_edit_is_kept_until_reset(self):
         self.page.on_refresh()
+        self.settle()
         self.page.on_edit({"text": "00:00 - Mine"})
         self.host.controller.project.timeline.markers[float(120 * FPS)] = {"color": "Blue", "name": "New"}
         self.page._read(connect=False)
+        self.settle()
         c = self.last("chapters")
         self.assertEqual((c["text"], c["edited"], c["stale"]), ("00:00 - Mine", True, True))
         self.page.on_reset_text()
@@ -215,6 +302,7 @@ class ChaptersPageTests(_PageCase):
 
     def test_copy_and_save(self):
         self.page.on_refresh()
+        self.settle()
         self.page.on_copy()
         self.assertTrue(QApplication.clipboard().text().startswith("00:00 - Open"))
         self.page.on_save()
@@ -228,8 +316,41 @@ class ChaptersPageTests(_PageCase):
     def test_no_timeline(self):
         self.host.controller.project.timeline = None
         self.page.on_refresh()
+        self.settle()
         self.assertIn("No active timeline", self.last("state")["problem"])
         self.assertEqual(self.last("chapters")["chapters"], [])
+
+    def test_copy_and_save_use_latest_edit_and_reject_paths_as_names(self):
+        self.page.on_refresh()
+        self.settle()
+        self.page.on_copy({"text": "00:00 - New text"})
+        self.assertEqual(QApplication.clipboard().text(), "00:00 - New text\n")
+        self.page.on_folder({"value": self._tmp.name})
+        self.page.on_file_name({"value": "../outside"})
+        self.page.on_save({"text": "00:00 - New text"})
+        self.assertEqual(self.last("alert")["title"], "Invalid file name")
+        self.assertFalse(os.path.exists(os.path.join(self._tmp.name, "..", "outside.txt")))
+
+    def test_a_stuck_marker_read_does_not_freeze_the_page(self):
+        import threading
+        import time
+        from pages.youtube_chapters import page as chapter_page
+
+        timeline = self.host.controller.project.timeline
+        release, real = threading.Event(), timeline.GetMarkers
+        timeline.GetMarkers = lambda: (release.wait(10), real())[1]
+        self.addCleanup(release.set)
+        with mock.patch.object(chapter_page, "BUSY_AFTER_S", 0.05):
+            start = time.monotonic()
+            self.page.on_refresh()
+            time.sleep(0.1)
+            self.page._read(connect=False)
+            self.assertTrue(self.last("state")["busy"])
+            self.assertLess(time.monotonic() - start, 2)
+        release.set()
+        self.settle()
+        self.assertFalse(self.last("state")["busy"])
+        self.assertEqual(self.last("state")["timeline"], "My Film")
 
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
@@ -326,6 +447,38 @@ class StillsPageTests(_PageCase):
     def test_nothing_to_export(self):
         self.page.on_export({})
         self.assertEqual(self.last("alert")["title"], "Nothing to export")
+
+    def test_export_keeps_list_when_gallery_delete_fails(self):
+        self.page.on_grab()
+        self.page.settings["folder"] = self._tmp.name
+        self.page.on_options({"delete_after": True})
+        album = self.host.controller.project.album
+        album.delete_ok = False
+        self.page.on_export({"confirmed": True})
+        self.assertIsNotNone(album.exported)
+        self.assertEqual(self.last("alert")["title"], "Exported, but gallery cleanup failed")
+        self.assertEqual(len(self.last("grabbed")), 3)
+
+    def test_invalid_prefix_is_rejected_before_export(self):
+        self.page.on_grab()
+        self.page.settings["folder"] = self._tmp.name
+        self.page.on_options({"prefix": r"..\outside"})
+        self.page.on_export({})
+        self.assertEqual(self.last("alert")["title"], "Invalid filename prefix")
+        self.assertIsNone(self.host.controller.project.album.exported)
+
+    def test_poll_during_grab_does_not_start_parallel_resolve_call(self):
+        original = self.host.set_busy
+
+        def pump_while_busy(on, message=None):
+            if on:
+                self.page._read(connect=False)
+                self.assertFalse(self.page._worker.busy())
+            original(on, message)
+
+        self.host.set_busy = pump_while_busy
+        self.page.on_grab()
+        self.assertEqual(len(self.last("grabbed")), 3)
 
 
 if __name__ == "__main__":

@@ -26,6 +26,8 @@ const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}
 // Whole sentences, one text node each, so each is translated on its own.
 const sentences = parts => parts.flatMap((p, i) => i ? [" ", el("span", {text: p})] : [el("span", {text: p})]);
 const needsAttention = r => r.status !== "online" || r.new_path;
+const visibleRows = list => state.mode === "fix" && onlyOffline.checked
+    ? list.rows.filter(needsAttention) : list.rows;
 
 for (const b of document.querySelectorAll("#mode [data-mode]")) {
     b.onclick = () => { state.mode = b.dataset.mode; draw(); send("mode", {mode: state.mode}); };
@@ -38,9 +40,9 @@ $("select-all").onclick = () => {
     const list = lists[state.mode];
     if (!list) return;
     const set = selected[state.mode];
-    const every = list.rows.length && list.rows.every(r => set.has(r.id));
-    set.clear();
-    if (!every) for (const r of list.rows) set.add(r.id);
+    const rows = visibleRows(list);
+    const every = rows.length && rows.every(r => set.has(r.id));
+    for (const r of rows) every ? set.delete(r.id) : set.add(r.id);
     draw();
 };
 $("relink-selected").onclick = () => send("relink_selected", {ids: [...selected[state.mode]]});
@@ -95,8 +97,7 @@ function drawTable(list) {
             el("button.btn.accent", {text: "Scan project", onclick: () => send("scan")})));
         return;
     }
-    const filter = state.mode === "fix" && onlyOffline.checked;
-    const rows = filter ? list.rows.filter(needsAttention) : list.rows;
+    const rows = visibleRows(list);
     if (!list.rows.length) {
         box.replaceChildren(emptyState("No clips with files", "The Media Pool has no clips that link to a file."));
         return;
@@ -166,8 +167,9 @@ function draw() {
     const picked = list.rows.filter(r => set.has(r.id));
     const ready = picked.filter(r => r.new_path && r.status !== "online");
     const matches = list.rows.filter(r => r.status === "match_found" && r.new_path).length;
-    $("select-all").hidden = !list.rows.length;
-    $("select-all").textContent = list.rows.length && list.rows.every(r => set.has(r.id)) ? "Select none" : "Select all";
+    const shown = visibleRows(list);
+    $("select-all").hidden = !shown.length;
+    $("select-all").textContent = shown.length && shown.every(r => set.has(r.id)) ? "Select none" : "Select all";
     $("selection").replaceChildren(...(picked.length
         ? [el("span", {text: `${picked.length} selected`}),
            ...(ready.length !== picked.length ? [" · ", el("span", {text: `${ready.length} with a file to go to`})] : [])]

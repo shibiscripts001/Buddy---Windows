@@ -185,6 +185,12 @@ Manual and cites chapter and page, so you can check it. Type `help` in the
 chat for the current capability list — it is generated from the code, so it
 cannot drift.
 
+Conversations are saved locally in `~/.buddy/ask_buddy/conversations.json`.
+Use **Chats** to search past messages or rename a conversation. Click a manual
+citation to open the manual PDF at that page - the PDF the bundle was built
+from (Buddy asks where it is once, for a bundle built before that was
+recorded). Image questions keep small preview thumbnails in saved chats.
+
 **Model providers** (bring your own key, set in Settings): Google Gemini,
 Anthropic Claude, OpenAI-compatible endpoints (OpenRouter, Groq, LM Studio…),
 or Ollama running locally.
@@ -212,6 +218,12 @@ or failed build leaves the current one untouched.
 timeline settings, which edition you have, what is on the timeline, any clips
 whose frame rate or resolution does not match it, and your markers. Mismatches
 are computed in Python rather than left to the model.
+The detected Free or Studio edition is included with every question while
+Buddy is connected to Resolve; without a connection, the edition is marked
+unknown. **Check project** scans the current timeline for frame-rate and
+upscaling mismatches and missing local source paths, then suggests next
+steps. **Explain clip** focuses on the selected timeline clip or the video
+clip under the playhead before answering.
 
 ### Changing your project
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 import html
 import random
 import re
+from datetime import datetime
 
 from . import actions
 
@@ -134,9 +135,10 @@ def help_text(writes_on: bool) -> str:
 
     lines += [
         "",
-        "**Buttons:** New chat starts a fresh conversation; the arrows "
-        "go back and forward between conversations. Nothing is lost "
-        "either way while Buddy stays open.",
+        "**Buttons:** New chat starts a fresh conversation; Chats searches "
+        "saved conversations and lets you rename them. Check project reviews "
+        "the current timeline's video formats. Explain clip reads the "
+        "selected timeline clip or clip at the playhead.",
         "",
         "To see this again any time, type `help`.",
     ]
@@ -146,6 +148,7 @@ def help_text(writes_on: bool) -> str:
 # ------------------------------------------------------------- markdown --
 
 _CITATION = re.compile(r"\((Chapter \d+[^)]*)\)")
+_CITED_PAGE = re.compile(r"\b(?:pp?\.|pages?)\s*(\d+)", re.IGNORECASE)
 _SOURCE = re.compile(r"\((general knowledge|their project)\)")
 _MD_LINK = re.compile(r"\[([^\]\n]+)\]\((https?://[^)\s]+)\)")
 # Runs on ESCAPED text, so it must stop at an escaped quote or bracket too.
@@ -155,6 +158,14 @@ _ITALIC = re.compile(r"(?<![*\w])\*(?!\s)([^*\n]+?)(?<!\s)\*(?![*\w])")
 _BULLET = re.compile(r"^\s*[-*•]\s+(.*)$")
 _NUMBERED = re.compile(r"^\s*(\d+)[.)]\s+(.*)$")
 _HEADING = re.compile(r"^\s*(#{1,4})\s+(.*)$")
+
+
+def _cite(m):
+    """A manual citation, carrying its page for the view to open the PDF
+    at (the first page of a range, or of several citations in one)."""
+    page = _CITED_PAGE.search(m.group(1))
+    data = f' data-page="{page.group(1)}"' if page else ""
+    return f'<span class="cite"{data}>({m.group(1)})</span>'
 
 
 def _bare_link(keep):
@@ -188,7 +199,7 @@ def _inline(text: str) -> str:
         s = _BARE_URL.sub(_bare_link(keep), s)
         s = _BOLD.sub(r"<b>\1</b>", s)
         s = _ITALIC.sub(r"<i>\1</i>", s)
-        s = _CITATION.sub(r'<span class="cite">(\1)</span>', s)
+        s = _CITATION.sub(_cite, s)
         s = _SOURCE.sub(r'<span class="source">(\1)</span>', s)
         s = re.sub(r"\x00(\d+)\x00", lambda m: links[int(m.group(1))], s)
         out.append(s)
@@ -275,6 +286,8 @@ def md_to_plain(text: str) -> str:
 
 class _Chat:
     def __init__(self):
+        self.title = "New chat"
+        self.updated = datetime.now().isoformat(timespec="seconds")
         # What the model is re-sent: prose only, user/assistant pairs.
         self.history: list[dict] = []
         # What is on screen, oldest first. The only source the view is
@@ -319,7 +332,68 @@ class ChatSessions:
             "images": list(images or []),   # small data: URLs of the pictures sent with it
         }
         self.current.blocks.append(block)
+        if who == YOU and self.current.title == "New chat":
+            self.current.title = " ".join(body.split())[:72] or "Picture question"
+        self.current.updated = datetime.now().isoformat(timespec="seconds")
         return block
+
+    def summaries(self, query="") -> list[dict]:
+        """Search full transcripts, while sending only short previews to the view."""
+        needle = query.strip().casefold()
+        found = []
+        for index, chat in enumerate(self.chats):
+            match = next((b["body"] for b in chat.blocks
+                          if needle and needle in b["body"].casefold()), "")
+            if needle and needle not in chat.title.casefold() and not match:
+                continue
+            found.append({"index": index, "title": chat.title, "updated": chat.updated,
+                          "preview": " ".join(match.split())[:130] if match else ""})
+        return list(reversed(found))
+
+    def rename(self, index, title):
+        title = " ".join(str(title).split())[:100]
+        if not title or not 0 <= index < len(self.chats):
+            return False
+        self.chats[index].title = title
+        self.chats[index].updated = datetime.now().isoformat(timespec="seconds")
+        return True
+
+    def to_data(self) -> dict:
+        """Save only the small preview images, never full model uploads."""
+        return {"version": 1, "index": self.index, "chats": [
+            {"title": c.title, "updated": c.updated, "history": c.history,
+             "blocks": c.blocks}
+            for c in self.chats]}
+
+    @classmethod
+    def from_data(cls, data):
+        if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("chats"), list):
+            raise ValueError("Unsupported conversation file")
+        instance = cls()
+        restored = []
+        for entry in data["chats"]:
+            if not isinstance(entry, dict) or not isinstance(entry.get("blocks"), list) or not isinstance(entry.get("history"), list):
+                raise ValueError("Invalid conversation")
+            chat = _Chat()
+            chat.title = str(entry.get("title") or "New chat")[:100]
+            chat.updated = str(entry.get("updated") or "")[:40]
+            chat.history = [m for m in entry["history"] if isinstance(m, dict)
+                            and m.get("role") in ("user", "assistant") and isinstance(m.get("content"), str)]
+            chat.blocks = []
+            for block in entry["blocks"]:
+                if not isinstance(block, dict) or not isinstance(block.get("body"), str):
+                    raise ValueError("Invalid message")
+                chat.blocks.append({"who": str(block.get("who") or BUDDY), "body": block["body"],
+                                    "trace": list(block.get("trace") or []), "error": bool(block.get("error")),
+                                    "copyable": bool(block.get("copyable")), "raw": bool(block.get("raw")),
+                                    "images": [v for v in (block.get("images") or [])
+                                               if isinstance(v, str) and v.startswith("data:image/jpeg;base64,")
+                                               and len(v) < 100_000][:4]})
+            restored.append(chat)
+        if restored:
+            instance.chats = restored
+            instance.index = min(max(0, int(data.get("index", len(restored)-1))), len(restored)-1)
+        return instance
 
     def record_turn(self, question, answer, limit, pictures=0):
         """Only the prose goes into history - replaying tool traffic would

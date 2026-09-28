@@ -17,7 +17,13 @@ explicit button.
 
 import time
 
+from core.marker_colors import numeric_markers
 from core.resolve_bridge import ResolveConnectionError
+
+
+def valid_export_prefix(prefix):
+    """Keep Resolve's generated filenames inside the selected folder."""
+    return not any(char in '\\/:*?"<>|' or ord(char) < 32 for char in prefix)
 
 
 def timecode_to_frames(timecode, fps):
@@ -50,7 +56,7 @@ def frames_to_timecode(frame, fps, drop_frame=False):
         D = frame // frames_per_10_min
         M = frame % frames_per_10_min
         if M > drop_count:
-            frame += drop_count * 9 * D + drop_count * ((M - drop_count) // frames_per_min + 1)
+            frame += drop_count * 9 * D + drop_count * ((M - drop_count) // frames_per_min)
         else:
             frame += drop_count * 9 * D
 
@@ -94,7 +100,8 @@ def timeline_markers(controller):
     drop_frame = str(timeline.GetSetting("timelineDropFrameTimecode")) == "1"
     start = timeline.GetStartFrame()
     markers = []
-    for frame_id, info in sorted((timeline.GetMarkers() or {}).items()):
+    for frame, info in numeric_markers(timeline.GetMarkers()):
+        frame_id = int(frame)
         markers.append({
             "frame": frame_id,
             "timecode": frames_to_timecode(int(frame_id) + start, fps, drop_frame),
@@ -145,10 +152,8 @@ def grab_stills_for_color(controller, color, log=lambda msg: None):
     drop_frame = str(timeline.GetSetting("timelineDropFrameTimecode")) == "1"
     start_frame = timeline.GetStartFrame()
 
-    markers = timeline.GetMarkers() or {}
-    matching = sorted(
-        frame_id for frame_id, info in markers.items() if info.get("color") == color
-    )
+    matching = [int(frame) for frame, info in numeric_markers(timeline.GetMarkers())
+                if info.get("color") == color]
     if not matching:
         raise ResolveConnectionError(
             f"No '{color}' markers found on the current timeline."
@@ -162,7 +167,9 @@ def grab_stills_for_color(controller, color, log=lambda msg: None):
     grabbed = []
     for frame_id in matching:
         timecode = frames_to_timecode(frame_id + start_frame, fps, drop_frame)
-        timeline.SetCurrentTimecode(timecode)
+        if not timeline.SetCurrentTimecode(timecode):
+            log(f"  WARNING: failed to move the playhead to {timecode}; no still grabbed")
+            continue
         still = timeline.GrabStill()
         if still:
             grabbed.append((timecode, still))
@@ -178,6 +185,8 @@ def export_stills(controller, stills, folder, prefix, fmt,
 
     delete_after also removes them from Resolve's gallery - the one
     destructive thing this tool can do, and why the page confirms first.
+    Returns False only when the files exported but gallery deletion failed;
+    export failures raise instead.
     """
     if not stills:
         raise ResolveConnectionError("No stills have been grabbed yet.")
@@ -195,7 +204,10 @@ def export_stills(controller, stills, folder, prefix, fmt,
 
     if not delete_after:
         return True
-    deleted = album.DeleteStills(stills)
+    try:
+        deleted = bool(album.DeleteStills(stills))
+    except Exception:
+        deleted = False
     log(
         f"Deleted {len(stills)} still(s) from the Resolve gallery."
         if deleted

@@ -73,6 +73,7 @@ class StillsExporterPage(WebToolPage):
         self.markers = []
         self.problem = ""
         self.busy = False          # a read has waited BUSY_AFTER_S on Resolve
+        self._action_running = False
         self._signature = None
         self._worker = ResolveWorker(self)
         self._log = []
@@ -112,6 +113,8 @@ class StillsExporterPage(WebToolPage):
     def _read(self, connect):
         """Reads the timeline's markers on the worker thread; the page updates when
         Resolve answers. A read still waiting is left to finish (never a second one)."""
+        if self._action_running:
+            return
         controller = self._controller(connect)
         if controller is None:
             return self._show(None, [], self.problem if connect else "Not connected to Resolve.")
@@ -220,6 +223,8 @@ class StillsExporterPage(WebToolPage):
             self._push_options()
 
     def on_add_marker(self, payload):
+        if self._action_running:
+            return
         controller = self._controller(connect=True)
         if controller is None or not self._resolve_free():
             return
@@ -237,11 +242,14 @@ class StillsExporterPage(WebToolPage):
         self._read(connect=False)
 
     def on_grab(self, _payload=None):
+        if self._action_running:
+            return
         controller = self._controller(connect=True)
         if controller is None or not self._resolve_free():
             return
         color = self.color
         self._add_log(f"Grabbing stills at every {color} marker…")
+        self._action_running = True
         self.host.set_busy(True, f"Grabbing stills at the {color} markers…")
         try:
             grabbed = resolve_ext.grab_stills_for_color(controller, color, log=self._add_log)
@@ -249,6 +257,7 @@ class StillsExporterPage(WebToolPage):
             return self._fail("Couldn't grab stills", exc)
         finally:
             self.host.set_busy(False)
+            self._action_running = False
         names = {m["timecode"]: m["name"] for m in self.markers}
         for timecode, still in grabbed:
             self.grabbed.append({"id": uuid.uuid4().hex, "timecode": timecode, "color": color,
@@ -272,12 +281,18 @@ class StillsExporterPage(WebToolPage):
 
     def on_export(self, payload):
         """The view confirms first when "delete after" is on (confirmed: true)."""
+        if self._action_running:
+            return
         s = self.settings
         folder = s.get("folder") or ""
         if not self.grabbed:
             return self.emit("alert", {"title": "Nothing to export", "text": "Grab some stills first (step 2)."})
         if not folder or not os.path.isdir(folder):
             return self.emit("alert", {"title": "Choose a folder", "text": "Choose the folder to export the stills to first."})
+        prefix = s.get("prefix") or DEFAULT_PREFIX
+        if not resolve_ext.valid_export_prefix(prefix):
+            return self.emit("alert", {"title": "Invalid filename prefix",
+                                       "text": "Use a prefix without slashes or special characters."})
         delete_after = bool(s.get("delete_after"))
         if delete_after and not (payload or {}).get("confirmed"):
             return
@@ -286,18 +301,24 @@ class StillsExporterPage(WebToolPage):
             return
         fmt_name = s.get("format") if s.get("format") in EXPORT_FORMATS else "JPEG"
         fmt = EXPORT_FORMATS[fmt_name]
-        prefix = s.get("prefix") or DEFAULT_PREFIX
         count = len(self.grabbed)
         self._add_log(f"Exporting {count} still(s) as .{fmt}…")
+        self._action_running = True
         self.host.set_busy(True, "Exporting stills…")
         try:
-            resolve_ext.export_stills(controller, [g["still"] for g in self.grabbed], folder, prefix, fmt,
-                                      delete_after=delete_after, log=self._add_log)
+            gallery_deleted = resolve_ext.export_stills(
+                controller, [g["still"] for g in self.grabbed], folder, prefix, fmt,
+                delete_after=delete_after, log=self._add_log)
         except Exception as exc:  # noqa: BLE001 - shown to the user
             return self._fail("Export failed", exc)
         finally:
             self.host.set_busy(False)
+            self._action_running = False
         if delete_after:
+            if not gallery_deleted:
+                self.emit("alert", {"title": "Exported, but gallery cleanup failed",
+                                    "text": "The image files were exported, but Resolve did not delete the gallery stills. They remain in this list."})
+                return
             self.grabbed = []
             self._push_grabbed()
         self.emit("toast", {"text": "Exported 1 still" if count == 1 else f"Exported {count} stills", "open_folder": True})

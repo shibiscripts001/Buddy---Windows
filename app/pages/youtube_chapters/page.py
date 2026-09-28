@@ -30,11 +30,13 @@ from PySide6.QtWidgets import QApplication, QFileDialog
 from core import marker_colors
 from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
+from core.resolve_worker import ResolveWorker
 from core.web_page import WebToolPage
 
 from . import chapters, resolve_ext
 
 POLL_MS = 2000
+BUSY_AFTER_S = 4
 LOG_LIMIT = 40
 DEFAULTS = {"folder": ""}
 
@@ -48,8 +50,9 @@ class YouTubeChaptersPage(WebToolPage):
     def build_state(self):
         self.settings = self.host.tool_settings(self.tool_id, DEFAULTS)
         self.color = chapters.ALL
-        self.timeline = None       # {"name", "fps", "markers"} or None
+        self.timeline = None       # {"name", "fps", "markers", "duration_frames"} or None
         self.problem = ""          # why there's no timeline, when there isn't
+        self.busy = False
         self.result = chapters.build({}, 24)
         self.text = ""
         self.edited = False
@@ -59,6 +62,7 @@ class YouTubeChaptersPage(WebToolPage):
         self._named_for = None     # the timeline the file name was made for
         self._signature = None
         self._log = []
+        self._worker = ResolveWorker(self)
         self._poll = QTimer(self)
         self._poll.setInterval(POLL_MS)
         self._poll.timeout.connect(self._poll_resolve)
@@ -91,34 +95,46 @@ class YouTubeChaptersPage(WebToolPage):
             self._read(connect=False)
 
     def _read(self, connect):
-        """Re-read the open timeline's markers; redraw only on a change."""
+        """Read markers off the UI thread; Resolve may hold a call during playback."""
         controller = self._controller(connect)
-        timeline, problem = None, ""
         if controller is None:
-            problem = self.problem if connect else "Not connected to Resolve."
-        else:
-            try:
-                markers, fps, _start, name = resolve_ext.read_timeline_markers(
-                    resolve_ext.get_current_timeline(controller))
-                timeline = {"name": name, "fps": fps, "markers": markers}
-            except ResolveConnectionError as exc:
-                problem = str(exc)
-            except Exception as exc:  # noqa: BLE001 - shown to the user
-                problem = f"Couldn't read the timeline: {exc}"
+            return self._show(None, self.problem if connect else "Not connected to Resolve.")
+        if self._worker.busy():
+            if not self.busy and self._worker.running_for() >= BUSY_AFTER_S:
+                self.busy = True
+                self._push_state()
+            return
+        self._worker.start(lambda: resolve_ext.read_timeline_markers(
+            resolve_ext.get_current_timeline(controller)), self._on_timeline)
+
+    def _on_timeline(self, result, error):
+        if isinstance(error, ResolveConnectionError):
+            return self._show(None, str(error))
+        if error is not None:
+            return self._show(None, f"Couldn't read the timeline: {error}")
+        markers, fps, duration_frames, name = result
+        self._show({"name": name, "fps": fps, "markers": markers,
+                    "duration_frames": duration_frames}, "")
+
+    def _show(self, timeline, problem):
+        was_busy, self.busy = self.busy, False
         signature = repr((timeline, problem))
         if signature == self._signature:
+            if was_busy:
+                self._push_state()
             return
         self._signature = signature
         self.timeline, self.problem = timeline, problem
         if timeline and timeline["name"] != self._named_for:
             self._named_for = timeline["name"]
             self.file_name = chapters.file_name_for(timeline["name"])
-        self._rebuild()
         self._push_state()
+        self._rebuild()
 
     def _rebuild(self):
         t = self.timeline
-        self.result = chapters.build(t["markers"] if t else {}, t["fps"] if t else 24, self.color)
+        self.result = chapters.build(t["markers"] if t else {}, t["fps"] if t else 24,
+                                     self.color, t["duration_frames"] if t else None)
         if self.edited:
             self.stale = self.result["text"] != self._built_text
         else:
@@ -135,6 +151,7 @@ class YouTubeChaptersPage(WebToolPage):
             "timeline": t["name"] if t else "",
             "fps": t["fps"] if t else None,
             "problem": self.problem,
+            "busy": self.busy,
             "total": len(marker_colors.numeric_markers(t["markers"])) if t else 0,
             "colors": marker_colors.color_counts(t["markers"] if t else {}),
             "filter": self.color,
@@ -167,8 +184,8 @@ class YouTubeChaptersPage(WebToolPage):
         color = (payload or {}).get("color")
         if color in [chapters.ALL] + marker_colors.NAMES and color != self.color:
             self.color = color
-            self._rebuild()
             self._push_state()
+            self._rebuild()
 
     def on_edit(self, payload):
         text = str((payload or {}).get("text") or "")
@@ -182,7 +199,12 @@ class YouTubeChaptersPage(WebToolPage):
         self.edited = self.stale = False
         self._rebuild()
 
-    def on_copy(self, _payload=None):
+    def _sync_text(self, payload):
+        if isinstance(payload, dict) and "text" in payload:
+            self.on_edit(payload)
+
+    def on_copy(self, payload=None):
+        self._sync_text(payload)
         if not self.text.strip():
             return self.emit("toast", {"text": "Nothing to copy yet – add markers to the timeline."})
         QApplication.clipboard().setText(self.text.strip() + "\n")
@@ -207,7 +229,8 @@ class YouTubeChaptersPage(WebToolPage):
     def on_file_name(self, payload):
         self.file_name = str((payload or {}).get("value") or "").strip()
 
-    def on_save(self, _payload=None):
+    def on_save(self, payload=None):
+        self._sync_text(payload)
         content = self.text.strip()
         if not content:
             return self.emit("alert", {"title": "Nothing to save", "text": "There are no chapters yet – add markers to the timeline first."})
@@ -217,6 +240,9 @@ class YouTubeChaptersPage(WebToolPage):
         name = self.file_name or chapters.DEFAULT_FILE_NAME
         if not name.lower().endswith(".txt"):
             name += ".txt"
+        if not chapters.valid_file_name(name):
+            return self.emit("alert", {"title": "Invalid file name",
+                                       "text": "Enter a file name without slashes or special characters."})
         path = os.path.join(folder, name)
         try:
             with open(path, "w", encoding="utf-8") as handle:

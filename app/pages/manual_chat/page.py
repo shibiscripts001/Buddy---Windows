@@ -8,7 +8,7 @@ Protocol (see core/web_page.py for the mechanism):
     to the view    transcript, append, controls, status, thinking,
                    proposal, offer, toast, pictures
     from the view  send, copy, new_chat, prev_chat, next_chat, export,
-                   apply_proposal, discard_proposal, open_tool,
+                   apply_proposal, discard_proposal, open_tool, open_manual,
                    attach_image, paste_image, remove_picture
 
 Pictures (pictures.py) can go with a question - picked, pasted or dropped -
@@ -45,7 +45,7 @@ from core.resolve_bridge import ResolveConnectionError
 from core.tools_kb import get_tool
 from core.web_page import WebToolPage
 
-from . import actions, pictures
+from . import actions, manual_pdf, pictures, chat_store
 from .agent import AgentResult, ManualAgent
 from .ask_folder import instructions_for_prompt
 from .config import (
@@ -68,6 +68,7 @@ from .conversation import (
     suggestions,
 )
 from .retrieval import TIER_NONE, ManualRetriever
+from .resolve_ext import project_checkup, resolve_info
 from .settings_panel import ChatSettingsMixin
 
 PICTURE_FILTER = "Pictures (*.png *.jpg *.jpeg *.webp *.gif *.bmp *.tif *.tiff);;All files (*)"
@@ -97,6 +98,20 @@ class _AgentWorker(QThread):
         self.done.emit(result)
 
 
+class _CheckupWorker(QThread):
+    done = Signal(object)
+
+    def __init__(self, controller):
+        super().__init__()
+        self.controller = controller
+
+    def run(self):
+        try:
+            self.done.emit(project_checkup(self.controller))
+        except Exception as exc:  # shown in the chat
+            self.done.emit({"error": str(exc)})
+
+
 class ManualChatPage(ChatSettingsMixin, WebToolPage):
     tool_id = "manual_chat"
     display_name = "Ask Buddy"
@@ -119,7 +134,15 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._proposal_state = "ready"
         self._proposal_note = ""
         self._offer = None
-        self.chats = ChatSessions()
+        self._chat_query = ""
+        self._chat_store_error = ""
+        try:
+            self.chats, warnings = chat_store.load(self.ask_folder)
+            self._chat_store_error = " ".join(warnings)
+        except (OSError, ValueError) as exc:
+            self.chats = ChatSessions()
+            self._chat_store_error = f"Saved chats could not be read: {exc}. Saving is disabled to protect the file."
+        self._checkup_worker = None
         self._suggestion_pool = shuffled_pool()     # this run's pick - a new chat keeps it
         self.pictures = []              # pictures.Picture, waiting to go with the next question
         self._pending_pictures = 0
@@ -128,6 +151,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._push_pictures()
         self._push_transcript()
         self._push_controls()
+        self._push_chat_list()
         self._push_status()
         self._push_proposal()
         self._push_offer()
@@ -166,12 +190,14 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if self.isVisible():
             self.on_shown()
 
-    def _build_agent(self) -> ManualAgent:
+    def _build_agent(self, prefetch_focus=False) -> ManualAgent:
         llm = llm_client_from_settings(self.settings)
         # Read here, on every build, rather than cached on the page. The
         # agent is rebuilt per send, so revoking consent in Settings takes
         # effect on the very next message instead of the next launch.
         allow_writes = bool(self.settings.get("allow_project_writes", False))
+        controller = self.host.controller if getattr(self.host, "connected", False) else None
+        edition = resolve_info(controller) if controller else None
         # host.registry rather than importing registry.py - that module
         # imports this page, so importing it back would be a cycle.
         return ManualAgent(
@@ -184,6 +210,8 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             # From the file each time, like the consent above: an edit in
             # Settings or a text editor applies to the next question.
             instructions=instructions_for_prompt(self.ask_folder),
+            edition=edition,
+            prefetch_focus=prefetch_focus,
         )
 
     def _resolve_source(self):
@@ -219,6 +247,19 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
     def _append(self, who, body, trace=None, error=False, copyable=False, images=None, raw=False):
         block = self.chats.add(who, body, trace=trace, error=error, copyable=copyable, images=images, raw=raw)
         self.emit("append", block_view(len(self.chats.blocks) - 1, block))
+        self._persist_chats()
+
+    def _persist_chats(self):
+        if self._chat_store_error and "Saving is disabled" in self._chat_store_error:
+            return
+        try:
+            chat_store.save(self.ask_folder, self.chats)
+        except OSError as exc:
+            self._toast(f"Could not save conversations: {exc}")
+
+    def _push_chat_list(self):
+        self.emit("chat_list", {"items": self.chats.summaries(self._chat_query),
+                                "current": self.chats.index, "query": self._chat_query})
 
     def _push_controls(self):
         chats = self.chats
@@ -233,10 +274,20 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             "can_prev": chats.index > 0 and not self._sending,
             "can_next": chats.index < len(chats.chats) - 1 and not self._sending,
             "can_new": not self._sending and not (chats.is_empty() and chats.index == len(chats.chats) - 1),
+            "connected": bool(getattr(self.host, "connected", False)),
+            "title": chats.current.title,
         })
+        self._push_chat_list()
 
     def _push_status(self):
-        self.emit("status", {"text": self._status_text()})
+        note = self._status_text()
+        controller = self.host.controller if getattr(self.host, "connected", False) else None
+        product = resolve_info(controller).get("product") if controller else ""
+        if product:
+            note = f"{product} · {note}"
+        if self._chat_store_error:
+            note += "  " + self._chat_store_error
+        self.emit("status", {"text": note})
 
     def _toast(self, text):
         self.emit("toast", {"text": text})
@@ -346,7 +397,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._push_pictures()
         self._set_sending(True)
 
-        self._worker = _AgentWorker(self._build_agent(), question, list(self.chats.history),
+        self._worker = _AgentWorker(self._build_agent(prefetch_focus=bool((payload or {}).get("focus"))), question, list(self.chats.history),
                                     images=[p.for_model() for p in sent] or None)
         self._worker.done.connect(self._on_done)
         self._worker.progress.connect(self._on_progress)
@@ -385,9 +436,11 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             return
 
         trace = [f"{e.name}: {e.summary}" for e in result.events]
-        self._append(BUDDY, result.answer, trace=trace, copyable=True, raw=True)
+        block = self.chats.add(BUDDY, result.answer, trace=trace, copyable=True, raw=True)
+        self.emit("append", block_view(len(self.chats.blocks) - 1, block))
         self.chats.record_turn(self._pending_question, result.answer, history_limit(self.settings),
                                pictures=self._pending_pictures)
+        self._persist_chats()
         self._push_controls()
 
         if result.proposed_action is not None:
@@ -419,12 +472,40 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if tool_id:
             self.host.switch_tool(tool_id)
 
+    def on_open_manual(self, payload):
+        """A citation was clicked: the manual PDF, at its page."""
+        try:
+            page = int((payload or {}).get("page"))
+        except (TypeError, ValueError):
+            return
+        if self._retriever is not None and self._retriever.bundle_dir:
+            bundle = self._retriever.bundle_dir
+        else:
+            bundle = self.settings.get("bundle_dir") or default_data_paths()[0]
+        pdf = manual_pdf.manual_pdf(bundle, self.settings.get("manual_pdf") or "")
+        if pdf is None:
+            path, _chosen = QFileDialog.getOpenFileName(
+                self, tr("Where is the DaVinci Resolve manual PDF?"), "", tr_filter("PDF files (*.pdf)"))
+            if not path:
+                return
+            pdf = Path(path)
+            self._save("manual_pdf", str(pdf))
+        try:
+            at_page = manual_pdf.open_at_page(pdf, page)
+        except OSError as exc:
+            self._toast(f"Couldn't open the manual: {exc.strerror or exc}")
+            return
+        if not at_page:
+            self._toast(f"Opened the manual - go to page {page}.")
+
     # ------------------------------------------------------ conversations
 
     def on_connection_changed(self, connected):
         # The project questions are only offered while there's a project to read.
         if self.chats.is_empty():
             self._push_transcript()
+        self._push_controls()
+        self._push_status()
 
     def _switched(self):
         """After the live conversation changes. Any pending proposal is
@@ -438,6 +519,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._push_transcript()
         self._push_controls()
         self._push_status()
+        self._persist_chats()
 
     def on_prev_chat(self, _payload):
         if not self._sending and self.chats.go(self.chats.index - 1):
@@ -459,6 +541,97 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._set_offer(None)
         if self.chats.new_chat():
             self._switched()
+
+    def on_search_chats(self, payload):
+        self._chat_query = str((payload or {}).get("query") or "")[:200]
+        self._push_chat_list()
+
+    def on_select_chat(self, payload):
+        if self._sending:
+            return
+        try:
+            index = int((payload or {}).get("index"))
+        except (TypeError, ValueError):
+            return
+        if self.chats.go(index):
+            self._switched()
+
+    def on_rename_chat(self, payload):
+        if self._sending:
+            return
+        if self.chats.rename(self.chats.index, (payload or {}).get("title") or ""):
+            self._persist_chats()
+            self._push_controls()
+
+    def on_explain_clip(self, _payload):
+        if not self._sending:
+            self.on_send({"text": "Explain the selected timeline clip, or the video clip at the playhead. Search the manual for the relevant settings and explain any mismatch or limitation you actually found.",
+                          "focus": True})
+
+    def on_run_checkup(self, _payload):
+        if self._sending or self._checkup_worker is not None:
+            return
+        controller = self.host.controller if getattr(self.host, "connected", False) else None
+        if controller is None:
+            self._toast("Connect Buddy to Resolve to check the open project.")
+            return
+        self._set_offer(None)
+        self._append(YOU, "Check my project", raw=True)
+        self._set_sending(True)
+        self._checkup_worker = _CheckupWorker(controller)
+        self._checkup_worker.done.connect(self._on_checkup_done)
+        self._checkup_worker.finished.connect(self._clear_checkup_worker)
+        self._checkup_worker.start()
+
+    def _clear_checkup_worker(self):
+        worker, self._checkup_worker = self._checkup_worker, None
+        if worker is not None:
+            worker.deleteLater()
+
+    def _on_checkup_done(self, report):
+        self._set_sending(False)
+        if report.get("error"):
+            self._append(ERROR, "Project checkup failed: " + report["error"], error=True)
+            return
+        if not report.get("open"):
+            answer = report.get("reason") or "No project is open."
+            self._append(BUDDY, answer)
+            self.chats.record_turn("Check my project", answer, history_limit(self.settings))
+            self._persist_chats()
+            self._push_controls()
+            return
+        fmt = report.get("timeline_format") or {}
+        edition = (report.get("resolve") or {}).get("product") or "edition unknown"
+        lines = [f"**Project checkup: {report.get('project') or 'Untitled'}**",
+                 f"Resolve: {edition}. Current timeline: {(report.get('timeline') or {}).get('name') or 'none'}.",
+                 f"Scanned {report['scanned_clips']} video clips. Timeline: {fmt.get('fps', '?')} fps, {fmt.get('width', '?')} × {fmt.get('height', '?')}."]
+        settings = report.get("settings") or {}
+        if settings.get("Color science"):
+            lines.append(f"Color science: {settings['Color science']}.")
+        issues = report.get("issues") or []
+        if issues:
+            lines += ["", f"**{len(issues)} findings to review**"]
+            lines += [f"- {i['location']} {i['clip']}: {'; '.join(i['details'])}" for i in issues[:50]]
+            if len(issues) > 50:
+                lines.append(f"- And {len(issues) - 50} more clips.")
+        else:
+            lines += ["", "No format mismatches or missing local source paths found in the scanned clips."]
+        if report.get("recommendations"):
+            lines += ["", "**Suggested next steps**"]
+            lines += [f"- {item}" for item in report["recommendations"]]
+        if report.get("truncated"):
+            lines += ["", report["truncated"]]
+        lines += ["", "This check covers current timeline video formats and local source paths. It does not verify audio, render settings, proxy availability, or color accuracy."]
+        answer = "\n".join(lines)
+        self._append(BUDDY, answer, copyable=True)
+        self.chats.record_turn("Check my project", answer, history_limit(self.settings))
+        self._persist_chats()
+        self._push_controls()
+        if any(issue.get("kind") == "missing_path" for issue in issues):
+            tool = get_tool("media_relink", getattr(self.host, "registry", None))
+            if tool and tool.is_available:
+                self._set_offer({"tool_id": "media_relink", "label": "Open Media Relink",
+                                 "reason": "Some source file paths could not be found on this computer."})
 
     def _on_history_limit_changed(self):
         self.chats.trim(history_limit(self.settings))

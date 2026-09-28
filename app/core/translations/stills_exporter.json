@@ -729,5 +729,45 @@
   "中文": "时间线播放时，Resolve 无法添加标记。请停止播放后重试。",
   "العربية": "لا يمكن لـ Resolve إضافة علامة أثناء تشغيل الخط الزمني. أوقف التشغيل ثم حاول مرة أخرى.",
   "Tiếng Việt": "Resolve không thể thêm marker khi timeline đang phát. Hãy dừng phát rồi thử lại."
+ },
+ "Exported, but gallery cleanup failed": {
+  "日本語": "書き出しましたが、ギャラリーの削除に失敗しました",
+  "Español": "Exportado, pero falló la limpieza de la galería",
+  "Deutsch": "Exportiert, aber das Löschen in der Galerie ist fehlgeschlagen",
+  "Français": "Exporté, mais le nettoyage de la galerie a échoué",
+  "한국어": "내보냈지만 갤러리 정리에 실패했습니다",
+  "中文": "已导出，但图库清理失败",
+  "العربية": "تم التصدير، لكن تعذّر تنظيف المعرض",
+  "Tiếng Việt": "Đã xuất, nhưng không thể xóa khỏi thư viện"
+ },
+ "The image files were exported, but Resolve did not delete the gallery stills. They remain in this list.": {
+  "日本語": "画像ファイルは書き出されましたが、Resolve はギャラリーのスチルを削除しませんでした。スチルはこのリストに残っています。",
+  "Español": "Los archivos de imagen se exportaron, pero Resolve no eliminó las imágenes de la galería. Siguen en esta lista.",
+  "Deutsch": "Die Bilddateien wurden exportiert, aber Resolve hat die Stills nicht aus der Galerie gelöscht. Sie bleiben in dieser Liste.",
+  "Français": "Les fichiers image ont été exportés, mais Resolve n'a pas supprimé les images de la galerie. Elles restent dans cette liste.",
+  "한국어": "이미지 파일은 내보냈지만 Resolve가 갤러리의 스틸을 삭제하지 않았습니다. 스틸은 이 목록에 남아 있습니다.",
+  "中文": "图像文件已导出，但 Resolve 未删除图库中的静帧。它们仍保留在此列表中。",
+  "العربية": "تم تصدير ملفات الصور، لكن Resolve لم يحذف الصور الثابتة من المعرض. لا تزال موجودة في هذه القائمة.",
+  "Tiếng Việt": "Các tệp ảnh đã được xuất, nhưng Resolve chưa xóa ảnh tĩnh khỏi thư viện. Chúng vẫn còn trong danh sách này."
+ },
+ "Invalid filename prefix": {
+  "日本語": "無効なファイル名の接頭辞",
+  "Español": "Prefijo de nombre de archivo no válido",
+  "Deutsch": "Ungültiges Dateinamenpräfix",
+  "Français": "Préfixe de nom de fichier non valide",
+  "한국어": "잘못된 파일 이름 접두어",
+  "中文": "文件名前缀无效",
+  "العربية": "بادئة اسم الملف غير صالحة",
+  "Tiếng Việt": "Tiền tố tên tệp không hợp lệ"
+ },
+ "Use a prefix without slashes or special characters.": {
+  "日本語": "スラッシュや特殊文字を含まない接頭辞を使用してください。",
+  "Español": "Usa un prefijo sin barras ni caracteres especiales.",
+  "Deutsch": "Verwenden Sie ein Präfix ohne Schrägstriche oder Sonderzeichen.",
+  "Français": "Utilisez un préfixe sans barres obliques ni caractères spéciaux.",
+  "한국어": "슬래시나 특수 문자가 없는 접두어를 사용하세요.",
+  "中文": "请使用不含斜杠或特殊字符的前缀。",
+  "العربية": "استخدم بادئة دون شرطات مائلة أو أحرف خاصة.",
+  "Tiếng Việt": "Dùng tiền tố không có dấu gạch chéo hoặc ký tự đặc biệt."
  }
 }

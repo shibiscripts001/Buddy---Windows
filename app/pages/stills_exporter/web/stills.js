@@ -92,7 +92,10 @@ function drawExport() {
 }
 
 $("prefix").addEventListener("change", e => send("options", {prefix: e.target.value}));
-$("delete-after").onchange = e => send("options", {delete_after: e.target.checked});
+$("delete-after").onchange = e => {
+    if (OPTIONS) OPTIONS.delete_after = e.target.checked;
+    send("options", {delete_after: e.target.checked});
+};
 
 $("export").onclick = async () => {
     if (OPTIONS.delete_after) {

@@ -239,6 +239,9 @@ DEFAULTS = {
     "api_version_azure": "",
     "bundle_dir": "",
     "text_path": "",
+    # The manual PDF citations open, for a bundle whose meta.json doesn't
+    # say what it was built from (manual_pdf.py).
+    "manual_pdf": "",
     "history_turns": DEFAULT_HISTORY_TURNS,
     # How many tool-call turns the agent may make per answer before it
     # gives up (Ask Buddy Settings -> "Tool call budget").

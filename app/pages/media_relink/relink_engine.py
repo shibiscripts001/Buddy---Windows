@@ -34,9 +34,17 @@ def build_file_index(search_root, progress=None, should_stop=None):
     progress(files_seen) is called after each folder; should_stop() is
     checked there too, raising SearchCancelled when it returns True - a
     walk over a big network share can take minutes."""
+    if not os.path.isdir(search_root):
+        raise NotADirectoryError(search_root)
+
+    def raise_walk_error(error):
+        # os.walk silently skips unreadable or vanished folders by default.
+        # A partial index must not be reported as a completed search.
+        raise error
+
     index = {}
     seen = 0
-    for dirpath, _dirnames, filenames in os.walk(search_root):
+    for dirpath, _dirnames, filenames in os.walk(search_root, onerror=raise_walk_error):
         for filename in filenames:
             key = filename.lower()
             full_path = os.path.join(dirpath, filename)

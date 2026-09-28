@@ -30,7 +30,7 @@ def get_current_timeline(controller):
 
 
 def read_timeline_markers(timeline):
-    """(markers, framerate, start_frame, timeline_name) for one timeline.
+    """(markers, framerate, duration_frames, timeline_name) for one timeline.
 
     Every value the chapter builder needs, read in one place so page.py
     holds no Resolve calls of its own. The framerate fallback:
@@ -44,6 +44,8 @@ def read_timeline_markers(timeline):
         framerate = 24.0
     try:
         start_frame = int(timeline.GetStartFrame())
-    except (TypeError, ValueError):
-        start_frame = 0
-    return markers, framerate, start_frame, str(timeline.GetName() or "")
+        end_frame = int(timeline.GetEndFrame())
+        duration_frames = max(0, end_frame - start_frame)
+    except (AttributeError, TypeError, ValueError):
+        duration_frames = None
+    return markers, framerate, duration_frames, str(timeline.GetName() or "")

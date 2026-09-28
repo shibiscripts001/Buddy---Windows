@@ -14,6 +14,7 @@ const transcript = $("transcript");
 const input = $("input");
 const sendBtn = $("send");
 let sending = false;
+let currentChatTitle = "New chat";
 
 $("prev").append(icon("left"));
 $("next").append(icon("right"));
@@ -69,6 +70,21 @@ function picturesNode(images) {
     return el("div.sent-pictures", {}, images.map(src => el("img", {src, alt: "Picture sent with the question"})));
 }
 
+// A citation opens the manual PDF at its page. The page comes from Python
+// (conversation.py's _cite), read off the citation text itself.
+function openableCitations(body) {
+    body.querySelectorAll(".cite[data-page]").forEach(cite => {
+        cite.classList.add("openable");
+        cite.tabIndex = 0;
+        cite.setAttribute("role", "link");
+        cite.title = `Open the manual at page ${cite.dataset.page}`;
+        const open = () => send("open_manual", {page: Number(cite.dataset.page)});
+        cite.onclick = open;
+        cite.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } };
+    });
+    return body;
+}
+
 function messageNode(block) {
     return el(`article.msg.${block.role}`, {dataset: {i: block.i}}, [
         el("div.who", {text: block.who}),
@@ -76,7 +92,7 @@ function messageNode(block) {
             picturesNode(block.images),
             // What people asked and what the model answered stay as written;
             // Buddy's own messages (the welcome, help) are translated.
-            el("div.body", {html: block.html, translate: block.raw ? "no" : undefined}),
+            openableCitations(el("div.body", {html: block.html, translate: block.raw ? "no" : undefined})),
             traceNode(block.trace),
         ]),
         copyButton(block),
@@ -111,8 +127,14 @@ Buddy.on("controls", c => {
     sending = c.sending;
     $("prev").disabled = !c.can_prev;
     $("next").disabled = !c.can_next;
+    $("checkup").disabled = sending || !c.connected;
+    $("explain").disabled = sending || !c.connected;
+    $("history").disabled = sending;
+    $("rename-chat").disabled = sending;
     $("switcher").hidden = c.total < 2;
     $("position").textContent = `Chat ${c.index + 1} of ${c.total}`;
+    currentChatTitle = c.title || "New chat";
+    $("history").title = c.title || "Search saved conversations";
     $("prev").title = c.can_prev ? `Back to conversation ${c.index} of ${c.total}` : "No earlier conversation";
     $("next").title = c.can_next ? `Forward to conversation ${c.index + 2} of ${c.total}` : "No later conversation";
 
@@ -137,6 +159,37 @@ $("prev").onclick = () => send("prev_chat");
 $("next").onclick = () => send("next_chat");
 $("new").onclick = () => { send("new_chat"); input.focus(); };
 $("export").onclick = () => send("export");
+$("checkup").onclick = () => send("run_checkup");
+$("explain").onclick = () => send("explain_clip");
+$("history").onclick = () => { $("chat-browser").hidden = !$("chat-browser").hidden; if (!$("chat-browser").hidden) $("chat-search").focus(); };
+$("close-browser").onclick = () => { $("chat-browser").hidden = true; };
+$("chat-search").oninput = () => send("search_chats", {query: $("chat-search").value});
+$("rename-chat").onclick = () => {
+    $("rename-row").hidden = false;
+    $("chat-title").value = currentChatTitle;
+    $("chat-title").focus();
+    $("chat-title").select();
+};
+function saveTitle() {
+    const title = $("chat-title").value.trim();
+    if (title) send("rename_chat", {title});
+    $("rename-row").hidden = true;
+}
+$("save-title").onclick = saveTitle;
+$("cancel-rename").onclick = () => { $("rename-row").hidden = true; };
+$("chat-title").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); saveTitle(); } };
+Buddy.on("chat_list", data => {
+    $("chat-results").replaceChildren(...data.items.map(item =>
+        el("button.chat-result", {type: "button", onclick: () => {
+            send("select_chat", {index: item.index});
+            $("chat-browser").hidden = true;
+        }}, [
+            el("span.strong", {text: item.title + (item.index === data.current ? " (current)" : "")}),
+            el("span.muted.small", {text: item.updated || ""}),
+            item.preview ? el("span.small", {text: item.preview}) : null,
+        ])));
+    if (!data.items.length) $("chat-results").append(el("div.muted", {text: "No matching conversations."}));
+});
 
 // ----------------------------------------------------------------- offer
 

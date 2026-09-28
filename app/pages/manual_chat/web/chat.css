@@ -14,6 +14,7 @@
 
 .bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
     min-height: 32px;
@@ -22,6 +23,18 @@
 .switcher { display: flex; align-items: center; gap: 2px; }
 .switcher[hidden] { display: none; }
 .switcher .muted { min-width: 88px; text-align: center; }
+
+.chat-browser { padding: 10px; max-height: 220px; overflow-y: auto; }
+.chat-browser[hidden] { display: none; }
+.browser-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.browser-row[hidden] { display: none; }
+.browser-row .field { flex: 1; min-width: 0; }
+.chat-results { display: flex; flex-direction: column; gap: 4px; }
+.chat-result { width: 100%; display: flex; flex-wrap: wrap; gap: 6px 12px;
+    align-items: baseline; text-align: left; padding: 6px 8px; border: 0;
+    border-radius: var(--r-sm); background: transparent; color: var(--text-strong); cursor: pointer; }
+.chat-result:hover, .chat-result:focus { background: var(--raised-bg); }
+.chat-result .small:last-child { width: 100%; color: var(--text-dim); }
 
 .badge {
     font-size: var(--fs-xs);
@@ -114,6 +127,8 @@
 }
 .body pre code { padding: 0; border: 0; background: none; }
 .body .cite { color: var(--text-dim); font-size: .92em; }
+.body .cite.openable { cursor: pointer; text-decoration: underline; text-decoration-style: dotted; }
+.body .cite.openable:hover, .body .cite.openable:focus { color: var(--accent-text); }
 .body .source { color: var(--text-dim); font-style: italic; font-size: .92em; }
 
 .trace { margin-top: 6px; }

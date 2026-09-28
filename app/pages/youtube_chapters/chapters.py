@@ -41,7 +41,13 @@ def file_name_for(timeline_name):
     return f"{clean}_Chapters.txt" if clean else DEFAULT_FILE_NAME
 
 
-def build(markers, framerate, color=ALL):
+def valid_file_name(name):
+    """A single Windows file name, never a path outside the chosen folder."""
+    return bool(name and name not in (".", "..") and not re.search(ILLEGAL_FILENAME_CHARS, name)
+                and not any(ord(char) < 32 for char in name) and not name.endswith((" ", ".")))
+
+
+def build(markers, framerate, color=ALL, duration_frames=None):
     """Chapters from a GetMarkers() dict (keys: frames from the timeline's
     start). Returns {"chapters": [...], "skipped": [...], "warnings": [...],
     "text": "..."}; each chapter/skip is {time, seconds, name, color, note}."""
@@ -77,6 +83,9 @@ def build(markers, framerate, color=ALL):
     warnings = []
     if chapters and len(chapters) < MIN_CHAPTERS:
         warnings.append(f"YouTube needs at least {MIN_CHAPTERS} chapters before it shows them – this has {len(chapters)}.")
+    if (chapters and duration_frames is not None
+            and duration_frames / fps - chapters[-1]["seconds"] < MIN_GAP_SECONDS):
+        warnings.append("The last chapter is under 10 seconds long – YouTube needs at least 10 seconds per chapter.")
     return {
         "chapters": chapters,
         "skipped": skipped,

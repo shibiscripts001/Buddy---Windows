@@ -16,7 +16,10 @@
       "needs_resolve": false,
       "capabilities": [
         "Hybrid semantic + keyword search over the DaVinci Resolve 21 Reference Manual, citing chapter and page for every claim",
+        "Click a citation to open the manual PDF at that page; save, search and rename local conversations",
         "Reads the currently open Resolve project read-only: timeline frame rate and resolution, colour management settings, track counts, selected clip properties",
+        "Checks the current timeline for format mismatches and missing local media paths, and explains the selected clip or clip under the playhead",
+        "Uses the detected Free or Studio edition for every question when connected to Resolve",
         "Points you at whichever other Buddy tool automates what you are asking about",
         "Runs on the AI model you choose in Settings > Ask Buddy: Google Gemini, Anthropic Claude, OpenAI, OpenRouter, Groq or Azure OpenAI in the cloud; Ollama, llama.cpp's llama-server (started with --jinja) or LM Studio on your own computer or network; or any other OpenAI-compatible endpoint. Test connection checks the key, the model and that it can call tools"
       ]

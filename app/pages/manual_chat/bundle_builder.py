@@ -555,6 +555,8 @@ def build_bundle(
             "built_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "source": {
                 "file": pdf_path.name,
+                # Citations open this file at their page (manual_pdf.py).
+                "path": str(pdf_path.resolve()),
                 "title": pdf_meta.get("title", ""),
                 "pdf_modified": pdf_meta.get("modDate", ""),
                 "pages": page_count,

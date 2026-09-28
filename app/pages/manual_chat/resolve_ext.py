@@ -18,6 +18,8 @@ still useful to the agent; an exception mid-collection is not.
 
 from __future__ import annotations
 
+import os
+
 # Project settings worth knowing about, mapped to the label the manual and
 # the Project Settings UI actually use - so the agent's answer matches what
 # the user sees on screen rather than the raw API key.
@@ -153,7 +155,7 @@ def project_snapshot(controller) -> dict:
         "open": True,
         "resolve": info,
         "project_name": _safe(project.GetName, ""),
-        "current_page": _safe(controller.resolve.GetCurrentPage, ""),
+        "current_page": _safe(lambda: controller.resolve.GetCurrentPage(), ""),
         "settings": {},
         "timeline": None,
     }
@@ -412,3 +414,123 @@ def timeline_markers(controller, max_markers: int = MAX_MARKERS) -> dict:
             f"Showing the first {max_markers} of {len(markers)} markers."
         )
     return out
+
+
+def focused_clip(controller) -> dict:
+    """Read the timeline selection, or the video clip under the playhead.
+
+    Older Resolve versions may not expose GetSelectedClips. In that case the
+    playhead lookup still works. Neither path changes selection or timecode.
+    """
+    project = _safe(controller.current_project)
+    timeline = _safe(project.GetCurrentTimeline) if project else None
+    if not timeline:
+        return {"found": False, "reason": "Open a timeline in Resolve first."}
+
+    fmt = _timeline_format(project, timeline)
+    selected = _safe(lambda: timeline.GetSelectedClips(), []) or []
+    chosen = list(selected)[:3]
+    mode = "selected timeline clip"
+    timecode = _safe(timeline.GetCurrentTimecode, "") or ""
+    if not chosen:
+        current = _safe(lambda: timeline.GetCurrentVideoItem())
+        if current:
+            chosen = [current]
+            mode = "clip at playhead"
+    if not chosen and timecode:
+        try:
+            from pages.stills_exporter.resolve_ext import timecode_to_frames
+            frame = timecode_to_frames(timecode, float(fmt.get("fps") or 0))
+        except (ValueError, TypeError, AttributeError, ZeroDivisionError):
+            frame = None
+        if frame is not None:
+            # Highest video track wins when clips overlap at the playhead.
+            for track in range(int(_safe(lambda: timeline.GetTrackCount("video"), 0) or 0), 0, -1):
+                items = _safe(lambda t=track: timeline.GetItemListInTrack("video", t), []) or []
+                hits = [item for item in items if
+                        (_safe(item.GetStart, -1) or -1) <= frame < (_safe(item.GetEnd, -1) or -1)]
+                if hits:
+                    chosen = hits[:1]
+                    mode = "clip at playhead"
+                    break
+    if not chosen:
+        return {"found": False, "reason": "Select a timeline clip or place the playhead over a video clip.",
+                "timecode": timecode}
+
+    tracks = {}
+    for track in range(1, int(_safe(lambda: timeline.GetTrackCount("video"), 0) or 0) + 1):
+        for index, item in enumerate(_safe(lambda t=track: timeline.GetItemListInTrack("video", t), []) or [], 1):
+            uid = _safe(item.GetUniqueId, "") or f"object:{id(item)}"
+            tracks[uid] = (f"V{track}", index)
+    cache = {}
+    clips = []
+    for item in chosen:
+        uid = _safe(item.GetUniqueId, "") or f"object:{id(item)}"
+        track, index = tracks.get(uid, ("unknown", None))
+        entry = {"name": _safe(item.GetName, ""), "track": track, "index": index,
+                 "start": _safe(item.GetStart, 0), "duration": _safe(item.GetDuration, 0)}
+        source = _source_properties(item, cache)
+        if source:
+            entry["source"] = source
+        entry["mismatch"] = _find_mismatches(entry, fmt)
+        clips.append(entry)
+    return {"found": True, "mode": mode, "timeline": _safe(timeline.GetName, ""),
+            "timecode": timecode, "timeline_format": fmt, "clips": clips}
+
+
+def project_checkup(controller, max_items=500) -> dict:
+    """Deterministic read-only checkup; limits and unknowns stay visible."""
+    snap = project_snapshot(controller)
+    if not snap.get("open"):
+        return {"open": False, "resolve": snap.get("resolve", {}),
+                "reason": snap.get("reason", "No project is open.")}
+    contents = timeline_contents(controller, max_items=max_items)
+    issues = []
+    recommendations = set()
+    for mismatch in contents.get("mismatches", []):
+        issues.append({"kind": "format", "clip": mismatch["clip"],
+                       "location": f"{mismatch['track']} #{mismatch['index']}",
+                       "details": mismatch["issues"]})
+        if any("frame rate" in detail for detail in mismatch["issues"]):
+            recommendations.add("Review source frame rate and retiming before changing the timeline frame rate.")
+        if any("upscaled" in detail for detail in mismatch["issues"]):
+            recommendations.add("For soft clips, use a higher-resolution source or review the timeline resolution.")
+
+    # Resolve's source File Path is a local path. Check only paths the OS can
+    # interpret as absolute files; blank paths, generators, and URIs are not
+    # enough evidence to call a clip offline. Deduplicate repeated sources.
+    project = _safe(controller.current_project)
+    timeline = _safe(project.GetCurrentTimeline) if project else None
+    checked_media = set()
+    checked_items = 0
+    if timeline:
+        for track in range(1, int(_safe(lambda: timeline.GetTrackCount("video"), 0) or 0) + 1):
+            for index, item in enumerate(_safe(lambda t=track: timeline.GetItemListInTrack("video", t), []) or [], 1):
+                if checked_items >= max_items:
+                    break
+                checked_items += 1
+                media = _safe(item.GetMediaPoolItem)
+                if not media:
+                    continue
+                media_id = _safe(media.GetMediaId, "") or id(media)
+                if media_id in checked_media:
+                    continue
+                checked_media.add(media_id)
+                path = _safe(lambda: media.GetClipProperty("File Path"), "") or ""
+                if isinstance(path, str) and os.path.isabs(path) and not os.path.exists(path):
+                    issues.append({"kind": "missing_path", "clip": _safe(item.GetName, ""),
+                                   "location": f"V{track} #{index}",
+                                   "details": ["source file path is not found on this computer"]})
+                    recommendations.add("Open Media Relink to locate source files whose paths are missing.")
+            if checked_items >= max_items:
+                break
+    if not snap.get("timeline"):
+        recommendations.add("Open a timeline to check its clips and format.")
+    return {"open": True, "project": snap.get("project_name", ""),
+            "resolve": snap.get("resolve", {}), "timeline": snap.get("timeline"),
+            "settings": snap.get("settings", {}),
+            "timeline_format": contents.get("timeline_format", {}),
+            "scanned_clips": len(contents.get("items", [])),
+            "truncated": contents.get("truncated", ""), "issues": issues,
+            "recommendations": sorted(recommendations),
+            "scope": "Current timeline video clips; frame rate, upscaling, and local source path checks."}

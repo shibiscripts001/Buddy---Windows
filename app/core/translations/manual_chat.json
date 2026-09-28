@@ -1969,5 +1969,15 @@
   "中文": "无法创建文件夹:{error}",
   "العربية": "تعذّر إنشاء المجلد: {error}",
   "Tiếng Việt": "Không thể tạo thư mục: {error}"
+ },
+ "Where is the DaVinci Resolve manual PDF?": {
+  "日本語": "DaVinci Resolve マニュアルの PDF はどこにありますか？",
+  "Español": "¿Dónde está el PDF del manual de DaVinci Resolve?",
+  "Deutsch": "Wo ist das PDF-Handbuch von DaVinci Resolve?",
+  "Français": "Où se trouve le manuel PDF de DaVinci Resolve ?",
+  "한국어": "DaVinci Resolve 매뉴얼 PDF는 어디에 있나요?",
+  "中文": "DaVinci Resolve 手册 PDF 在哪里？",
+  "العربية": "أين ملف PDF لدليل DaVinci Resolve؟",
+  "Tiếng Việt": "PDF hướng dẫn sử dụng DaVinci Resolve ở đâu?"
  }
 }

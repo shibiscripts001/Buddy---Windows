@@ -339,5 +339,45 @@
   "中文": "请先选择保存 .txt 的文件夹。",
   "العربية": "اختر أولًا المجلد الذي سيُحفظ فيه ملف ‎.txt.",
   "Tiếng Việt": "Hãy chọn thư mục để lưu tệp .txt trước."
+ },
+ "Waiting for Resolve…": {
+  "日本語": "Resolve の応答を待っています…",
+  "Español": "Esperando a Resolve…",
+  "Deutsch": "Warten auf Resolve…",
+  "Français": "En attente de Resolve…",
+  "한국어": "Resolve 응답을 기다리는 중…",
+  "中文": "正在等待 Resolve 响应…",
+  "العربية": "بانتظار استجابة Resolve…",
+  "Tiếng Việt": "Đang chờ Resolve…"
+ },
+ "The last chapter is under 10 seconds long – YouTube needs at least 10 seconds per chapter.": {
+  "日本語": "最後のチャプターは 10 秒未満です – YouTube では各チャプターに 10 秒以上必要です。",
+  "Español": "El último capítulo dura menos de 10 segundos; YouTube exige al menos 10 segundos por capítulo.",
+  "Deutsch": "Das letzte Kapitel ist kürzer als 10 Sekunden – YouTube verlangt mindestens 10 Sekunden pro Kapitel.",
+  "Français": "Le dernier chapitre dure moins de 10 secondes – YouTube exige au moins 10 secondes par chapitre.",
+  "한국어": "마지막 챕터가 10초보다 짧습니다. YouTube에서는 각 챕터가 최소 10초여야 합니다.",
+  "中文": "最后一个章节不足 10 秒——YouTube 要求每个章节至少持续 10 秒。",
+  "العربية": "الفصل الأخير أقصر من 10 ثوانٍ – يتطلب YouTube مدة لا تقل عن 10 ثوانٍ لكل فصل.",
+  "Tiếng Việt": "Chương cuối ngắn hơn 10 giây – YouTube yêu cầu mỗi chương dài ít nhất 10 giây."
+ },
+ "Invalid file name": {
+  "日本語": "無効なファイル名",
+  "Español": "Nombre de archivo no válido",
+  "Deutsch": "Ungültiger Dateiname",
+  "Français": "Nom de fichier non valide",
+  "한국어": "잘못된 파일 이름",
+  "中文": "文件名无效",
+  "العربية": "اسم ملف غير صالح",
+  "Tiếng Việt": "Tên tệp không hợp lệ"
+ },
+ "Enter a file name without slashes or special characters.": {
+  "日本語": "スラッシュや特殊文字を含まないファイル名を入力してください。",
+  "Español": "Escribe un nombre de archivo sin barras ni caracteres especiales.",
+  "Deutsch": "Geben Sie einen Dateinamen ohne Schrägstriche oder Sonderzeichen ein.",
+  "Français": "Saisissez un nom de fichier sans barres obliques ni caractères spéciaux.",
+  "한국어": "슬래시나 특수 문자가 없는 파일 이름을 입력하세요.",
+  "中文": "请输入不含斜杠或特殊字符的文件名。",
+  "العربية": "أدخل اسم ملف دون شرطات مائلة أو أحرف خاصة.",
+  "Tiếng Việt": "Nhập tên tệp không có dấu gạch chéo hoặc ký tự đặc biệt."
  }
 }

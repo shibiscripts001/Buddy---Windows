@@ -4,10 +4,12 @@ No Qt."""
 
 import json
 import random
+import tempfile
 import unittest
 
 import _paths
 from pages.manual_chat import config
+from pages.manual_chat import chat_store
 from pages.manual_chat.conversation import (
     BUDDY,
     HELP_SUGGESTION,
@@ -50,9 +52,15 @@ class RenderTests(unittest.TestCase):
     def test_lists_headings_and_citations(self):
         out = md_to_html("## Steps\n1. one (Chapter 3, p. 12)\n2. **two**\n\n- a\n- *b*\nend (general knowledge)")
         self.assertIn("<h4>Steps</h4>", out)
-        self.assertIn('<ol><li>one <span class="cite">(Chapter 3, p. 12)</span></li><li><b>two</b></li></ol>', out)
+        self.assertIn('<ol><li>one <span class="cite" data-page="12">(Chapter 3, p. 12)</span></li><li><b>two</b></li></ol>', out)
         self.assertIn("<ul><li>a</li><li><i>b</i></li></ul>", out)
         self.assertIn('<span class="source">(general knowledge)</span>', out)
+
+    def test_a_citation_carries_the_page_to_open(self):
+        self.assertIn('data-page="1198"', md_to_html("Fades (Chapter 55, pp.1198–1202)"))
+        self.assertIn('data-page="40"', md_to_html("See (Chapter 2 – Setup Step 3 – page 40)"))
+        # A number in the chapter's title is not a page.
+        self.assertNotIn("data-page", md_to_html("See (Chapter 2 – Step 3)"))
 
     def test_a_list_not_starting_at_one_keeps_its_number(self):
         self.assertIn('<ol start="3">', md_to_html("3. third\n4. fourth"))
@@ -62,6 +70,23 @@ class RenderTests(unittest.TestCase):
 
 
 class SessionTests(unittest.TestCase):
+    def test_saved_chats_restore_search_and_small_picture_previews(self):
+        chats = ChatSessions()
+        chats.add(YOU, "How do I fix a soft shot?", images=["data:image/jpeg;base64,YQ=="])
+        chats.add(BUDDY, "Check resolution")
+        chats.record_turn("How do I fix a soft shot?", "Check resolution", 6)
+        chats.new_chat()
+        chats.add(YOU, "A different question")
+        chats.rename(0, "Soft footage")
+        with tempfile.TemporaryDirectory() as folder:
+            chat_store.save(folder, chats)
+            restored, warnings = chat_store.load(folder)
+        self.assertEqual(warnings, [])
+        self.assertEqual((restored.index, len(restored.chats)), (1, 2))
+        self.assertEqual(restored.summaries("resolution")[0]["title"], "Soft footage")
+        self.assertEqual(restored.chats[0].blocks[1]["images"], ["data:image/jpeg;base64,YQ=="])
+        self.assertEqual(restored.chats[0].history[0]["content"], "How do I fix a soft shot?")
+
     def test_starts_with_the_welcome(self):
         chats = ChatSessions()
         self.assertEqual([b["body"] for b in chats.blocks], [WELCOME])

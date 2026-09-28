@@ -35,6 +35,7 @@ from . import actions
 
 from .llm import LLMError
 from .resolve_ext import (
+    focused_clip,
     project_snapshot,
     selected_clip_properties,
     timeline_contents,
@@ -57,9 +58,9 @@ Call search_manual before answering any question about how Resolve works. Its ex
 
 Call project_state when the question depends on how the user's project is actually configured - frame rate or resolution mismatches, color management, "why does my footage look wrong", "why won't this play smoothly". Prefer a specific answer about their real settings over a general one. If Resolve isn't running, say so in one line and answer from the manual instead.
 
-Set include_timeline when the question is about a specific clip the user is looking at, or about the edit itself - what is on the timeline, which clips do not match it, where the markers are. project_state without it reports only track COUNTS, which cannot answer "why does this clip look wrong". The result carries a "mismatches" list computed directly from their project; trust it over your own comparison of the numbers, and if it is empty, say the timeline is consistent rather than hunting for a problem.
+Set include_focused_clip when the question is about the selected timeline clip or the clip at the playhead. Set include_timeline for questions about the edit as a whole. The result carries a "mismatches" list computed directly from their project; trust it over your own comparison of the numbers.
 
-project_state also reports which Resolve this is, under "resolve". The Reference Manual documents Studio-only features without always flagging them as Studio-only. If "is_studio" is false, DO NOT walk the user through a Studio feature as though they have it - name it, say it needs Studio, and give them the best approach available in the free version. When you have not read "resolve" and the answer depends on a feature you believe is Studio-only, say so rather than assuming.
+The session context reports the detected Resolve edition on every question. project_state also reports it under "resolve". The Reference Manual documents Studio-only features without always flagging them as Studio-only. If "is_studio" is false, DO NOT walk the user through a Studio feature as though they have it - name it, say it needs Studio, and give them the best approach available in the free version. If the edition is unknown, do not assume Studio features are available; say that edition-specific guidance needs a connection.
 
 Call describe_tool when the user asks what a Buddy tool does, what Buddy can do for a task, or when you need a tool's exact capabilities before recommending it. The index below is a summary; describe_tool has the detail.
 
@@ -177,6 +178,10 @@ def tool_specs(catalog: list[tuple[str, str]], allow_writes: bool = False) -> li
                     "include_markers": {
                         "type": "boolean",
                         "description": "Also list the timeline's markers.",
+                    },
+                    "include_focused_clip": {
+                        "type": "boolean",
+                        "description": "Read selected timeline clip(s), or the video clip under the playhead, with source properties and format mismatches.",
                     },
                 },
             },
@@ -298,10 +303,12 @@ class ManualAgent:
     """
 
     def __init__(self, retriever, llm, connect_resolve=None, registry=None,
-                 allow_writes=False, max_steps=DEFAULT_MAX_STEPS, instructions=""):
+                 allow_writes=False, max_steps=DEFAULT_MAX_STEPS, instructions="", edition=None,
+                 prefetch_focus=False):
         self.retriever = retriever
         self.llm = llm
         self.connect_resolve = connect_resolve
+        self.prefetch_focus = bool(prefetch_focus)
         self.registry = registry
         # Captured at build time from the saved consent. page.py rebuilds
         # the agent whenever that setting changes, so a conversation
@@ -315,6 +322,10 @@ class ManualAgent:
         self.catalog = [(t.tool_id, t.name) for t in self.tools]
         self._specs = tool_specs(self.catalog, self.allow_writes)
         self._system = build_system_prompt(registry, instructions)
+        if edition and edition.get("product"):
+            self._system += "\n\nCurrent Resolve installation (checked for this question): " + json.dumps(edition)
+        else:
+            self._system += "\n\nCurrent Resolve edition: unknown because Buddy is not connected. Do not assume Studio features are available."
         self._progress = None
 
     def _say(self, message: str) -> None:
@@ -381,6 +392,9 @@ class ManualAgent:
                 markers = timeline_markers(controller)
                 snap["markers"] = markers
                 read.append(f"{markers.get('total', 0)} markers")
+            if args.get("include_focused_clip"):
+                snap["focused_clip"] = focused_clip(controller)
+                read.append("focused clip")
 
         label = snap.get("project_name") or "no project open"
         # The edition goes in the event line because it silently changes
@@ -512,7 +526,12 @@ class ManualAgent:
         self._progress = progress
         result = AgentResult()
         messages = list(history or [])
-        messages.append({"role": "user", "content": question, **({"images": images} if images else {})})
+        model_question = question
+        if self.prefetch_focus:
+            focus = self._do_project_state({"include_focused_clip": True}, result)
+            model_question += "\n\nLive Resolve context for this question (read only):\n" + focus
+        messages.append({"role": "user", "content": model_question,
+                         **({"images": images} if images else {})})
 
         for step in range(self.max_steps):
             self._say("Thinking…" if step == 0 else f"Thinking (step {step + 1})…")

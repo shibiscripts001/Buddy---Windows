@@ -10,10 +10,14 @@ const $ = id => document.getElementById(id);
 $("refresh").append(icon("refresh"), el("span", {text: "Refresh"}));
 
 for (const node of document.querySelectorAll("[data-action]")) {
-    node.addEventListener("click", () => send(node.dataset.action));
+    if (node.dataset.action !== "copy" && node.dataset.action !== "save") {
+        node.addEventListener("click", () => send(node.dataset.action));
+    }
 }
 
 let STATE = null;
+let editTimer = 0;
+let pendingEdit = false;
 
 Buddy.on("state", s => {
     STATE = s;
@@ -22,7 +26,8 @@ Buddy.on("state", s => {
     t.replaceChildren(s.timeline
         ? el("span", {}, [el("b", {text: s.timeline, translate: "no"}),
             ` · ${Math.round(s.fps * 1000) / 1000} fps · `,
-            el("span", {text: s.total === 1 ? "1 marker" : `${s.total} markers`})])
+            el("span", {text: s.total === 1 ? "1 marker" : `${s.total} markers`}),
+            s.busy ? " · Waiting for Resolve…" : ""])
         : el("span", {text: s.problem || "No timeline open"}));
     t.hidden = !s.connected;   // offline is said once, in Buddy's header
 
@@ -68,9 +73,10 @@ Buddy.on("chapters", c => {
 
     $("warnings").replaceChildren(...c.warnings.map(w => el("div.warn-line", {}, [icon("warning"), el("span", {text: w})])));
     const text = $("text");
-    if (!(document.activeElement === text && c.edited)) text.value = c.text;
+    if (text.value === c.text) pendingEdit = false;
+    if (!(document.activeElement === text && (c.edited || pendingEdit))) text.value = c.text;
     meta(c);
-    $("copy").disabled = $("save").disabled = !c.text.trim();
+    $("copy").disabled = $("save").disabled = !text.value.trim();
     const folder = $("folder");
     if (document.activeElement !== folder) folder.value = c.folder;
     $("open-folder").disabled = !c.folder;
@@ -85,19 +91,22 @@ function meta(m) {
 }
 Buddy.on("chapters_meta", meta);
 
-// Edits go to Python as you type; Copy and Save flush the latest one first
-// (mousedown comes before the click that sends copy/save).
-let editTimer = 0;
+// Edits go to Python as you type. Copy and Save carry the current text so
+// mouse and keyboard activation both use the latest edit.
 function flushEdit() {
     clearTimeout(editTimer);
     send("edit", {text: $("text").value});
 }
 $("text").addEventListener("input", e => {
     clearTimeout(editTimer);
+    pendingEdit = true;
     $("copy").disabled = $("save").disabled = !e.target.value.trim();
     editTimer = setTimeout(flushEdit, 150);
 });
-for (const id of ["copy", "save"]) $(id).addEventListener("mousedown", flushEdit);
+for (const id of ["copy", "save"]) $(id).addEventListener("click", () => {
+    clearTimeout(editTimer);
+    send(id, {text: $("text").value});
+});
 $("folder").addEventListener("change", e => send("folder", {value: e.target.value}));
 $("file-name").addEventListener("input", e => send("file_name", {value: e.target.value}));
 

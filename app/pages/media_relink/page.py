@@ -87,7 +87,8 @@ class MediaRelinkPage(WebToolPage):
 
     def build_state(self):
         self.mode = MODE_FIX
-        self._lists = {m: {"rows": [], "skipped": 0, "scanned": False, "summary": "", "generation": 0}
+        self._lists = {m: {"rows": [], "skipped": 0, "scanned": False, "summary": "", "generation": 0,
+                           "project_id": None}
                        for m in MODES}
         self._log = []
         self._worker = None
@@ -149,6 +150,23 @@ class MediaRelinkPage(WebToolPage):
         wanted = {int(i) for i in ids or [] if str(i).isdigit()}
         return [r for r in self._lists[mode]["rows"] if r["id"] in wanted]
 
+    @staticmethod
+    def _project_id(controller):
+        project = controller.current_project()
+        if project is None:
+            return None
+        try:
+            return project.GetUniqueId() or None
+        except Exception:
+            return None
+
+    def _check_scanned_project(self, mode, controller):
+        scanned_id = self._lists[mode]["project_id"]
+        if scanned_id and scanned_id != self._project_id(controller):
+            self._alert("Project changed", "Scan the current Resolve project before searching or relinking.")
+            return False
+        return True
+
     # ------------------------------------------------------------ actions --
 
     def on_mode(self, payload):
@@ -187,7 +205,8 @@ class MediaRelinkPage(WebToolPage):
             self._add_log(f"Couldn't scan the Media Pool: {error}", "error")
             return
         data = self._lists[mode]
-        data.update(rows=rows, skipped=skipped, scanned=True, generation=data["generation"] + 1)
+        data.update(rows=rows, skipped=skipped, scanned=True, generation=data["generation"] + 1,
+                    project_id=self._project_id(controller))
         c = relink_rows.counts(rows)
         parts = [f"Scanned 1 clip – {c['offline']} offline." if c["total"] == 1
                  else f"Scanned {c['total']} clips – {c['offline']} offline."]
@@ -200,6 +219,13 @@ class MediaRelinkPage(WebToolPage):
         mode = self.mode
         if not self._lists[mode]["rows"]:
             self._alert("Scan first", "Scan the project first, so there are clips to find files for.")
+            return
+        try:
+            controller = self.host.ensure_connected()
+        except ResolveConnectionError:
+            self._push_state()
+            return
+        if not self._check_scanned_project(mode, controller):
             return
         folder = QFileDialog.getExistingDirectory(self, tr("Choose the folder to search"))
         if not folder:
@@ -296,9 +322,11 @@ class MediaRelinkPage(WebToolPage):
 
     def _relink(self, mode, rows):
         try:
-            self.host.ensure_connected()
+            controller = self.host.ensure_connected()
         except ResolveConnectionError:
             self._push_state()
+            return
+        if not self._check_scanned_project(mode, controller):
             return
         self.host.set_busy(True, "Relinking 1 clip…" if len(rows) == 1 else f"Relinking {len(rows)} clips…")
         try:
