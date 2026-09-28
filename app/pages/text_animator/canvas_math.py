@@ -8,50 +8,44 @@ from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
 
 from PySide6.QtCore import QRectF
-from PySide6.QtGui import QFont, QFontMetrics
+from PySide6.QtGui import QFont, QFontMetrics, QFontMetricsF
 
 from .overlays import GRID_FRACTIONS, GRID_TYPES, SAFE_ZONE_RECTS, SAFE_ZONE_TYPES  # noqa: F401 - re-exported
 
 
-# Empirically measured from a real Fusion render via the "Dump Selected Node Settings"
-# RenderedBoundsProbe diagnostic: a 1080x1920 composition
-# with Size=0.1 rendered "RR" (Open Sans Semibold) with an actual pixel bounding box height
-# of 48px (DataWindow [150, 1704, 227, 1752]). So Size is a fraction of composition
-# WIDTH with this specific multiplier - not that Size directly equals
-# the fraction. May vary slightly by font/style; this is the best real measurement available.
-_SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO = 48.0 / (0.1 * 1080.0)
+# How Text+ sizes text: it makes the font's ascent + descent this x Size x composition
+# width. Measured in Resolve 21 from rendered bounds (a Text+ tool's Output:GetDoD()) on 7
+# fonts from Segoe UI (ascent + descent 1.33 em) to Times New Roman (1.11 em): 0.8024-0.8038
+# for all. (The earlier rule - cap height = 0.444 x Size x width, from one Open Sans render -
+# was only right for fonts shaped like Open Sans: it drew Arial 14% small.) The web style
+# preview uses the same constant (web/animator.js).
+TEXT_PLUS_HEIGHT = 0.803
+
+# Fonts are measured at this pixel size and scaled - big enough that whole-pixel rounding
+# doesn't matter, and every length scales linearly with it.
+_MEASURE_PX = 1000
 
 
-def _pixel_size_for_target_glyph_height(font_name: str, target_glyph_height_px: float) -> int:
-    """Qt's QFont.setPixelSize() sets the full em-box height (ascent+descent), not the
-    visible glyph height a viewer actually judges by eye. Fusion's Text+ "Size" is presumed
-    to represent that visible glyph height as a fraction of frame height (a typical real
-    Size value is 0.1) - setting Qt's
-    pixel size directly equal to Size*canvas_height was systematically over-sizing text
-    relative to DaVinci's real render, since it conflates the two measurements.
-
-    Uses QFontMetrics at a large reference pixel size to measure this specific font's real
-    capHeight-to-pixel-size ratio, then solves for the pixel size whose capHeight matches
-    target_glyph_height_px - a real, measurable per-font correction rather than a guessed
-    universal constant."""
-    if target_glyph_height_px <= 0:
-        return 6
-    reference_size = 1000
+def _measure_font(font_name: str) -> QFont:
     font = QFont(font_name or "Arial")
-    font.setPixelSize(reference_size)
-    cap_height_at_reference = QFontMetrics(font).capHeight()
-    if cap_height_at_reference <= 0:
-        return max(6, int(round(target_glyph_height_px)))
-    return max(6, int(round(target_glyph_height_px * reference_size / cap_height_at_reference)))
+    font.setPixelSize(_MEASURE_PX)
+    return font
 
 
-# Arbitrary internal reference used only to convert a Fusion "Size" value into a Qt pixel
-# font size for measuring rendered text WIDTH (see compute_bounding_fit_size() below) - its
-# actual value is irrelevant since it cancels out completely in the final ratio: both the
-# glyph-height conversion (_SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO) and a font's own advance-width
-# scale linearly with pixel size, so "current rendered width as a FRACTION of this reference"
-# is resolution-independent by construction, the same way Size itself already is.
-_BOUNDING_FIT_REFERENCE_PIXEL_SIZE = 1000.0
+@lru_cache(maxsize=256)
+def _px_per_size(font_name: str) -> float:
+    """Text+'s font pixel size for Size 1, as a fraction of composition width: the
+    TEXT_PLUS_HEIGHT rule solved with this font's own ascent + descent."""
+    metrics = QFontMetricsF(_measure_font(font_name))
+    height = (metrics.ascent() + metrics.descent()) / _MEASURE_PX
+    return TEXT_PLUS_HEIGHT / (height if height > 0 else 1.117)   # 1.117: Arial's, if Qt can't say
+
+
+def cap_height_fraction(font_name: str, size: float) -> float:
+    """How tall a Text+ clip's capital letters draw at `size`, as a fraction of composition
+    width."""
+    cap = QFontMetricsF(_measure_font(font_name)).capHeight() / _MEASURE_PX
+    return max(size, 0.0) * _px_per_size(font_name or "Arial") * cap
 
 
 def compute_bounding_fit_size(
@@ -84,20 +78,11 @@ def compute_bounding_fit_size(
     if target_width_fraction <= 0:
         return None
 
-    target_glyph_height_px = font_size * _BOUNDING_FIT_REFERENCE_PIXEL_SIZE * _SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO
-    pixel_size = _pixel_size_for_target_glyph_height(font_name, target_glyph_height_px)
-    font = QFont(font_name or "Arial")
-    font.setPixelSize(pixel_size)
-    # A multi-line Text+ (a literal "\n" in styled_text) must fit its WIDEST line between the
-    # Bounding lines, not some other measurement - QFontMetrics.horizontalAdvance() has no
-    # concept of line breaks, so calling it on the whole multi-line string directly would sum
-    # each line's advance together into one huge, meaningless width (roughly the SUM of all
-    # the lines' widths, not the widest one), producing a wildly under-sized fitted Size.
-    metrics = QFontMetrics(font)
-    current_width_px = max((metrics.horizontalAdvance(line) for line in styled_text.split("\n")), default=0)
-    if current_width_px <= 0:
+    # Width scales linearly with Size, so one measurement at the current Size gives the
+    # Size that fills the gap.
+    current_width_fraction = _measure_word_width_fraction(font_name, styled_text, font_size)
+    if current_width_fraction <= 0:
         return None
-    current_width_fraction = current_width_px / _BOUNDING_FIT_REFERENCE_PIXEL_SIZE
 
     return font_size * (target_width_fraction / current_width_fraction)
 
@@ -132,19 +117,17 @@ _LARGE_WORD_ROW_OFFSET = 0.22
 
 
 def _measure_word_width_fraction(font_name: str, text: str, size: float) -> float:
-    """The forward direction of compute_bounding_fit_size()'s math: given a Fusion "Size"
-    value, what fraction of composition width does `text` actually render at? Reuses the
-    exact same glyph-height/pixel-size/width-measurement chain (see that function's own
-    docstring for the full reasoning), just solving for width instead of solving for size."""
+    """Given a Fusion "Size" value, what fraction of composition width does `text` render
+    at? The forward direction of compute_bounding_fit_size().
+
+    A multi-line Text+ (a literal "\\n" in the text) is as wide as its WIDEST line -
+    horizontalAdvance() has no concept of line breaks, and on the whole string would sum
+    every line's width into one meaningless, far too wide measurement."""
     if size <= 0 or not text:
         return 0.0
-    target_glyph_height_px = size * _BOUNDING_FIT_REFERENCE_PIXEL_SIZE * _SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO
-    pixel_size = _pixel_size_for_target_glyph_height(font_name, target_glyph_height_px)
-    font = QFont(font_name or "Arial")
-    font.setPixelSize(pixel_size)
-    metrics = QFontMetrics(font)
-    width_px = max((metrics.horizontalAdvance(line) for line in text.split("\n")), default=0)
-    return width_px / _BOUNDING_FIT_REFERENCE_PIXEL_SIZE
+    metrics = QFontMetricsF(_measure_font(font_name))
+    widest = max((metrics.horizontalAdvance(line) for line in text.split("\n")), default=0.0)
+    return size * _px_per_size(font_name or "Arial") * widest / _MEASURE_PX
 
 
 def compute_auto_spaced_row(
@@ -284,14 +267,12 @@ _MEASURE_SIZE = 1.0
 def _text_metrics(font_name: str, text: str) -> Tuple[float, ...]:
     """(pixel size, ink left, ink top, ink width, ink height, ascent, line spacing), all
     as fractions of composition width, for `text` at Size _MEASURE_SIZE."""
-    ref = _BOUNDING_FIT_REFERENCE_PIXEL_SIZE
-    pixel_size = _pixel_size_for_target_glyph_height(font_name, _MEASURE_SIZE * ref * _SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO)
-    font = QFont(font_name or "Arial")
-    font.setPixelSize(pixel_size)
+    font = _measure_font(font_name)
     metrics = QFontMetrics(font)
     ink = compute_multiline_ink_rect(font, text or " ")
-    return (pixel_size / ref, ink.left() / ref, ink.top() / ref, ink.width() / ref, ink.height() / ref,
-            metrics.ascent() / ref, metrics.lineSpacing() / ref)
+    k = _MEASURE_SIZE * _px_per_size(font_name) / _MEASURE_PX   # measured px -> composition width
+    return (_MEASURE_PX * k, ink.left() * k, ink.top() * k, ink.width() * k, ink.height() * k,
+            metrics.ascent() * k, metrics.lineSpacing() * k)
 
 
 def text_box(font_name: str, text: str, size: float) -> Dict[str, float]:

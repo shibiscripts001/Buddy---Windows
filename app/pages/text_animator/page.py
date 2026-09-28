@@ -47,7 +47,7 @@ from core.web_page import WebToolPage
 from . import canvas_math, overlays
 from .animation_engine import FusionAnimationEngine
 from .canvas_math import (
-    _SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO,
+    cap_height_fraction,
     compute_auto_spaced_row,
     compute_bounding_fit_size,
     compute_large_word_layout,
@@ -790,7 +790,12 @@ class TextAnimatorPage(WebToolPage):
                 if center is None or not isinstance(font_size, (int, float)):
                     self.log(f"  - [Bounding] Clip '{clip_name}' has an unreadable Center/Size – excluded from vertical stacking.")
                     continue
-                height_fraction = float(font_size) * _SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO * aspect_ratio
+                try:
+                    font_name = text_tool.GetInput("Font") or "Arial"
+                except Exception:
+                    font_name = "Arial"
+                # Cap height, as a fraction of composition height (it's measured in widths).
+                height_fraction = cap_height_fraction(font_name, float(font_size)) * aspect_ratio
                 try:
                     background_enabled = bool(text_tool.GetInput("Enabled4"))
                     extend_vertical = text_tool.GetInput("ExtendVertical4")

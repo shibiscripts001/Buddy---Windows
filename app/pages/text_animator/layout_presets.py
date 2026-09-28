@@ -22,7 +22,7 @@ from typing import Any, Callable, Dict, List, Tuple
 LayoutTarget = Tuple[float, float, float]  # (center_x, center_y, size)
 
 # Reasonable starting proportions for a text hierarchy - not measured/derived like
-# placement_canvas._SIZE_TO_WIDTH_GLYPH_HEIGHT_RATIO, just ordinary design defaults, easy to
+# canvas_math.TEXT_PLUS_HEIGHT, just ordinary design defaults, easy to
 # retune later without touching the layout math itself.
 HERO_SIZE = 0.16
 SECONDARY_SIZE = 0.07

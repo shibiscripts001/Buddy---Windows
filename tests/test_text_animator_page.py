@@ -200,6 +200,20 @@ class CanvasMathTests(unittest.TestCase):
         self.assertGreater(two["h"], b["h"])
         self.assertAlmostEqual(two["w"], b["w"], places=6)                # widest line, not the sum
 
+    def test_sizes_follow_the_text_plus_rule(self):
+        """Text+ makes a font's ascent + descent TEXT_PLUS_HEIGHT x Size x width (measured
+        in Resolve on 7 fonts), and the canvas box, the bounding fit and word widths all
+        use it - so they agree with each other, whatever fonts this machine has."""
+        from PySide6.QtGui import QFont, QFontMetricsF
+        from pages.text_animator import canvas_math as cm
+        font = QFont("Arial")
+        font.setPixelSize(1000)
+        metrics = QFontMetricsF(font)
+        height = (metrics.ascent() + metrics.descent()) / 1000
+        self.assertAlmostEqual(cm.text_box("Arial", "Hi", 0.1)["px"] * height, cm.TEXT_PLUS_HEIGHT * 0.1, places=6)
+        size = cm.compute_bounding_fit_size("Arial", 0.09, "Because we're not\nno", 0.15, 0.85)
+        self.assertAlmostEqual(cm._measure_word_width_fraction("Arial", "Because we're not\nno", size), 0.70, places=6)
+
     def test_standard_grid(self):
         from pages.text_animator.canvas_math import standard_grid_spacing
         self.assertAlmostEqual(standard_grid_spacing(1920, 1080), 120 / 1920)
