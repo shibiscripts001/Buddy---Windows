@@ -1,0 +1,33 @@
+{
+ "_comment": "Audio Assistant. English -> each language; see core/i18n.py.",
+ "Audio Assistant": {
+  "日本語": "オーディオアシスタント",
+  "Español": "Asistente de audio",
+  "Deutsch": "Audio-Assistent",
+  "Français": "Assistant audio",
+  "한국어": "오디오 어시스턴트",
+  "中文": "音频助手",
+  "العربية": "مساعد الصوت",
+  "Tiếng Việt": "Trợ lý âm thanh"
+ },
+ "Coming soon": {
+  "日本語": "近日公開",
+  "Español": "Próximamente",
+  "Deutsch": "Demnächst verfügbar",
+  "Français": "Bientôt disponible",
+  "한국어": "곧 제공 예정",
+  "中文": "即将推出",
+  "العربية": "قريبًا",
+  "Tiếng Việt": "Sắp ra mắt"
+ },
+ "Clip volume, fades, keyframes and voice clean-up, without the Fairlight page.": {
+  "日本語": "クリップの音量、フェード、キーフレーム、声のクリーンアップを Fairlight ページなしで。",
+  "Español": "Volumen de clip, fundidos, fotogramas clave y limpieza de voz, sin la página Fairlight.",
+  "Deutsch": "Clip-Lautstärke, Blenden, Keyframes und Stimmbereinigung – ohne die Fairlight-Seite.",
+  "Français": "Volume des clips, fondus, images clés et nettoyage de la voix, sans la page Fairlight.",
+  "한국어": "Fairlight 페이지 없이도 클립 볼륨, 페이드, 키프레임, 음성 정리를 한 곳에서.",
+  "中文": "无需 Fairlight 页面即可调整片段音量、淡入淡出、关键帧和人声清理。",
+  "العربية": "مستوى صوت المقطع والتلاشي والإطارات المفتاحية وتنقية الصوت، دون صفحة Fairlight.",
+  "Tiếng Việt": "Âm lượng clip, fade, keyframe và làm sạch giọng nói, không cần trang Fairlight."
+ }
+}

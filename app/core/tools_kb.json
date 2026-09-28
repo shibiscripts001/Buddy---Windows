@@ -113,6 +113,15 @@
       ],
       "notes": "Send people wanting to style, place or animate Text+ to Transcribe's Text+ tabs."
     },
+    "audio_assistant": {
+      "name": "Audio Assistant",
+      "summary": "An easier alternative to Resolve's Fairlight page for a clip's audio - volume, fades, a volume line to keyframe, noise reduction and voice clean-up. New: only the page is there so far, its tools are coming.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Nothing yet - the page is in place and its tools are still being built"
+      ],
+      "notes": "Until it has tools, point people at Resolve's Inspector (clip Volume, fades) or the Fairlight page for audio work."
+    },
     "color_palette": {
       "name": "Color Palette Manager",
       "summary": "A general colour-palette and design tool. It does not read or write anything in a Resolve project.",

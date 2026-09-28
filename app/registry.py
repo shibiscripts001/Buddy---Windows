@@ -15,6 +15,7 @@ for the real import - the category/order here don't need to change.
 
 from pages.placeholder import make_placeholder_page
 from pages.asset_manager.page import AssetManagerPage
+from pages.audio_assistant.page import AudioAssistantPage
 from pages.batch_clip_renamer.page import BatchClipRenamerPage
 from pages.buddy_network.page import BuddyNetworkPage
 from pages.color_palette.page import ColorPalettePage
@@ -48,6 +49,7 @@ REGISTRY = [
     ("Editing Tools", BatchClipRenamerPage),
     ("Editing Tools", AnimationPage),
     ("Editing Tools", TranscribePage),
+    ("Editing Tools", AudioAssistantPage),
     ("Editing Tools", ColorPalettePage),
 
     ("Export & Delivery", StillsExporterPage),
