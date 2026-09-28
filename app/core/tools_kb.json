@@ -115,12 +115,21 @@
     },
     "audio_assistant": {
       "name": "Audio Assistant",
-      "summary": "An easier alternative to Resolve's Fairlight page for a clip's audio - volume, fades, a volume line to keyframe, noise reduction and voice clean-up. New: only the page is there so far, its tools are coming.",
+      "summary": "An easier alternative to Resolve's Fairlight page for a clip's audio - volume, fades, a volume line to keyframe, noise reduction and voice clean-up. Its Timeline tab shows the audio tracks and changes the selected clips' levels; effects and a keyframed volume line are still to come.",
       "needs_resolve": true,
       "capabilities": [
-        "Nothing yet - the page is in place and its tools are still being built"
+        "Timeline tab: mirrors the open timeline's audio tracks - each clip where it sits, named, in its clip colour, with disabled clips and tracks dimmed, crossfades shown, and the track's name, type (mono, stereo, adaptive) and lock shown",
+        "Draws each clip's waveform from its media file in grey, and over it in blue the same wave through the clip's volume and fades - red where it would go over 0 dBFS",
+        "Zoom (buttons or Ctrl + scroll) and scroll along the timeline; the playhead and markers are shown, and clicking or dragging on the ruler moves Resolve's playhead",
+        "Select clips by clicking them (Ctrl/Shift for several), clicking a track's name for all its clips, or selecting them in Resolve",
+        "Levels: set the clip volume (or change several clips' by the same amount), pan and fade in/out - with the controls, or by dragging the selected clip's yellow volume line and fade handles on the timeline (Shift for fine steps)",
+        "Loudness: integrated LUFS (BS.1770, measured by Buddy from the files, through the clip volume and fades) and peak level, live as the volume changes",
+        "Match: sets the clip volume so the clips hit YouTube/Spotify -14 LUFS, podcast -16, EBU R128 -23, ATSC A/85 -24, or peaks at -1 dBFS - each clip on its own, or several together keeping their balance",
+        "Clean-up: Resolve's Voice Isolation (on/off and amount) and Dialogue Leveler (mode, reduce loud, lift soft, reduce background, output gain), where Resolve offers them for the clip",
+        "Crossfade the cuts between selected clips (Cross Fade +3/0/-3 dB, length in frames) - after asking, since Buddy can't remove them",
+        "Undo for every change except crossfades, step by step"
       ],
-      "notes": "Until it has tools, point people at Resolve's Inspector (clip Volume, fades) or the Fairlight page for audio work."
+      "notes": "Buddy can read Resolve's selection but can't set it, and it can't move or trim clips. Volume keyframes drawn in Fairlight can't be read or kept by scripts: the blue wave shows the clip's flat volume, and setting the volume may affect a keyframed clip. Match uses Buddy's own measurement (the file through the clip's volume and fades, not through Voice Isolation or the Dialogue Leveler), because Resolve's NormalizeAudioLevel ignores the loudness target in 21.1. Voice Isolation and the Dialogue Leveler only work on the active timeline and not for all media (camera MXF/MP4 files often don't have them). Clip volume stops at +30 dB. Waveforms and loudness are decoded from the files once and cached."
     },
     "color_palette": {
       "name": "Color Palette Manager",

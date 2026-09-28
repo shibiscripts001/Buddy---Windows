@@ -6,6 +6,7 @@
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
     <title>Audio Assistant</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="audio.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
     <script src="../../../web/buddy.js"></script>
 </head>
@@ -13,13 +14,45 @@
 <main class="page">
     <header class="page-head">
         <h1 class="page-title">Audio Assistant</h1>
+        <span class="timeline" id="timeline"></span>
+        <button type="button" class="btn ghost icon" data-action="refresh" id="refresh" title="Read the timeline again"></button>
     </header>
 
-    <!-- Nothing yet: the tools come later. -->
-    <section class="card empty">
-        <div class="strong">Coming soon</div>
-        <div>Clip volume, fades, keyframes and voice clean-up, without the Fairlight page.</div>
+    <nav class="tabs" role="tablist" id="tabs">
+        <button type="button" role="tab" data-tab="timeline" aria-selected="true">Timeline</button>
+    </nav>
+
+    <!-- ------------------------------------------------------ timeline -->
+    <section class="panel" id="panel-timeline">
+        <section class="card empty" id="no-timeline" hidden>
+            <div class="strong">Open a timeline in Resolve</div>
+            <div id="no-timeline-why">Its audio tracks show here, with each clip's waveform.</div>
+        </section>
+
+        <section class="card tl-card" id="tl-card" hidden>
+            <div class="row tl-bar">
+                <div class="segmented" role="group" aria-label="Zoom">
+                    <button type="button" id="zoom-out" title="Zoom out (Ctrl + scroll)">−</button>
+                    <button type="button" id="zoom-fit" title="Fit the whole timeline">Fit</button>
+                    <button type="button" id="zoom-in" title="Zoom in (Ctrl + scroll)">+</button>
+                </div>
+                <span class="legend"><i class="swatch file"></i>File</span>
+                <span class="legend"><i class="swatch mixed"></i>With clip volume and fades</span>
+                <div class="spacer"></div>
+                <span class="muted small" id="tl-status"></span>
+                <button type="button" class="btn ghost" id="undo" hidden><span>Undo</span></button>
+            </div>
+            <div class="tl" id="tl">
+                <div class="tl-heads" id="heads"></div>
+                <div class="tl-scroll" id="scroll">
+                    <div class="tl-inner" id="inner"><canvas id="canvas"></canvas><i class="playhead" id="playhead" hidden></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card inspector" id="inspector" hidden></section>
     </section>
 </main>
+<script src="timeline.js"></script>
 </body>
 </html>

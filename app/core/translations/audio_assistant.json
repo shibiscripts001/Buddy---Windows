@@ -10,24 +10,1064 @@
   "العربية": "مساعد الصوت",
   "Tiếng Việt": "Trợ lý âm thanh"
  },
- "Coming soon": {
-  "日本語": "近日公開",
-  "Español": "Próximamente",
-  "Deutsch": "Demnächst verfügbar",
-  "Français": "Bientôt disponible",
-  "한국어": "곧 제공 예정",
-  "中文": "即将推出",
-  "العربية": "قريبًا",
-  "Tiếng Việt": "Sắp ra mắt"
+ "Timeline": {
+  "日本語": "タイムライン",
+  "Español": "Línea de tiempo",
+  "Deutsch": "Timeline",
+  "Français": "Timeline",
+  "한국어": "타임라인",
+  "中文": "时间线",
+  "العربية": "المخطط الزمني",
+  "Tiếng Việt": "Dòng thời gian"
  },
- "Clip volume, fades, keyframes and voice clean-up, without the Fairlight page.": {
-  "日本語": "クリップの音量、フェード、キーフレーム、声のクリーンアップを Fairlight ページなしで。",
-  "Español": "Volumen de clip, fundidos, fotogramas clave y limpieza de voz, sin la página Fairlight.",
-  "Deutsch": "Clip-Lautstärke, Blenden, Keyframes und Stimmbereinigung – ohne die Fairlight-Seite.",
-  "Français": "Volume des clips, fondus, images clés et nettoyage de la voix, sans la page Fairlight.",
-  "한국어": "Fairlight 페이지 없이도 클립 볼륨, 페이드, 키프레임, 음성 정리를 한 곳에서.",
-  "中文": "无需 Fairlight 页面即可调整片段音量、淡入淡出、关键帧和人声清理。",
-  "العربية": "مستوى صوت المقطع والتلاشي والإطارات المفتاحية وتنقية الصوت، دون صفحة Fairlight.",
-  "Tiếng Việt": "Âm lượng clip, fade, keyframe và làm sạch giọng nói, không cần trang Fairlight."
+ "Open a timeline in Resolve": {
+  "日本語": "Resolve でタイムラインを開いてください",
+  "Español": "Abre una línea de tiempo en Resolve",
+  "Deutsch": "Öffne eine Timeline in Resolve",
+  "Français": "Ouvrez une timeline dans Resolve",
+  "한국어": "Resolve에서 타임라인을 여세요",
+  "中文": "在 Resolve 中打开一个时间线",
+  "العربية": "افتح مخططًا زمنيًا في Resolve",
+  "Tiếng Việt": "Mở một dòng thời gian trong Resolve"
+ },
+ "Its audio tracks show here, with each clip's waveform.": {
+  "日本語": "オーディオトラックが各クリップの波形とともにここに表示されます。",
+  "Español": "Sus pistas de audio aparecen aquí, con la forma de onda de cada clip.",
+  "Deutsch": "Seine Audiospuren erscheinen hier, mit der Wellenform jedes Clips.",
+  "Français": "Ses pistes audio s'affichent ici, avec la forme d'onde de chaque clip.",
+  "한국어": "오디오 트랙이 각 클립의 파형과 함께 여기에 표시됩니다.",
+  "中文": "其音轨会显示在这里，并带有每个片段的波形。",
+  "العربية": "تظهر مساراته الصوتية هنا، مع الشكل الموجي لكل مقطع.",
+  "Tiếng Việt": "Các track âm thanh của nó hiện ở đây, kèm dạng sóng của từng clip."
+ },
+ "Zoom": {
+  "日本語": "ズーム",
+  "Español": "Zoom",
+  "Deutsch": "Zoom",
+  "Français": "Zoom",
+  "한국어": "확대/축소",
+  "中文": "缩放",
+  "العربية": "التكبير",
+  "Tiếng Việt": "Thu phóng"
+ },
+ "Zoom out (Ctrl + scroll)": {
+  "日本語": "縮小（Ctrl + スクロール）",
+  "Español": "Alejar (Ctrl + rueda)",
+  "Deutsch": "Verkleinern (Strg + Scrollen)",
+  "Français": "Dézoomer (Ctrl + molette)",
+  "한국어": "축소 (Ctrl + 스크롤)",
+  "中文": "缩小（Ctrl + 滚轮）",
+  "العربية": "تصغير (Ctrl + التمرير)",
+  "Tiếng Việt": "Thu nhỏ (Ctrl + cuộn)"
+ },
+ "Zoom in (Ctrl + scroll)": {
+  "日本語": "拡大（Ctrl + スクロール）",
+  "Español": "Acercar (Ctrl + rueda)",
+  "Deutsch": "Vergrößern (Strg + Scrollen)",
+  "Français": "Zoomer (Ctrl + molette)",
+  "한국어": "확대 (Ctrl + 스크롤)",
+  "中文": "放大（Ctrl + 滚轮）",
+  "العربية": "تكبير (Ctrl + التمرير)",
+  "Tiếng Việt": "Phóng to (Ctrl + cuộn)"
+ },
+ "Fit the whole timeline": {
+  "日本語": "タイムライン全体を表示",
+  "Español": "Ajustar toda la línea de tiempo",
+  "Deutsch": "Ganze Timeline einpassen",
+  "Français": "Afficher toute la timeline",
+  "한국어": "타임라인 전체 맞추기",
+  "中文": "适应整个时间线",
+  "العربية": "ملاءمة المخطط الزمني بالكامل",
+  "Tiếng Việt": "Vừa toàn bộ dòng thời gian"
+ },
+ "Fit": {
+  "日本語": "全体",
+  "Español": "Ajustar",
+  "Deutsch": "Einpassen",
+  "Français": "Ajuster",
+  "한국어": "맞추기",
+  "中文": "适应",
+  "العربية": "ملاءمة",
+  "Tiếng Việt": "Vừa khít"
+ },
+ "With clip volume and fades": {
+  "日本語": "クリップの音量とフェード適用後",
+  "Español": "Con el volumen y los fundidos del clip",
+  "Deutsch": "Mit Clip-Lautstärke und Blenden",
+  "Français": "Avec le volume et les fondus du clip",
+  "한국어": "클립 볼륨과 페이드 적용",
+  "中文": "应用片段音量和淡入淡出后",
+  "العربية": "مع مستوى صوت المقطع والتلاشي",
+  "Tiếng Việt": "Với âm lượng và fade của clip"
+ },
+ "No audio file": {
+  "日本語": "オーディオファイルなし",
+  "Español": "Sin archivo de audio",
+  "Deutsch": "Keine Audiodatei",
+  "Français": "Aucun fichier audio",
+  "한국어": "오디오 파일 없음",
+  "中文": "无音频文件",
+  "العربية": "لا يوجد ملف صوتي",
+  "Tiếng Việt": "Không có tệp âm thanh"
+ },
+ "Reading the waveform…": {
+  "日本語": "波形を読み込み中…",
+  "Español": "Leyendo la forma de onda…",
+  "Deutsch": "Wellenform wird gelesen…",
+  "Français": "Lecture de la forme d'onde…",
+  "한국어": "파형을 읽는 중…",
+  "中文": "正在读取波形…",
+  "العربية": "جارٍ قراءة الشكل الموجي…",
+  "Tiếng Việt": "Đang đọc dạng sóng…"
+ },
+ "No waveform": {
+  "日本語": "波形なし",
+  "Español": "Sin forma de onda",
+  "Deutsch": "Keine Wellenform",
+  "Français": "Pas de forme d'onde",
+  "한국어": "파형 없음",
+  "中文": "无波形",
+  "العربية": "لا يوجد شكل موجي",
+  "Tiếng Việt": "Không có dạng sóng"
+ },
+ "Mono": {
+  "日本語": "モノラル",
+  "Español": "Mono",
+  "Deutsch": "Mono",
+  "Français": "Mono",
+  "한국어": "모노",
+  "中文": "单声道",
+  "العربية": "أحادي",
+  "Tiếng Việt": "Mono"
+ },
+ "Stereo": {
+  "日本語": "ステレオ",
+  "Español": "Estéreo",
+  "Deutsch": "Stereo",
+  "Français": "Stéréo",
+  "한국어": "스테레오",
+  "中文": "立体声",
+  "العربية": "ستيريو",
+  "Tiếng Việt": "Stereo"
+ },
+ "Adaptive {count}": {
+  "日本語": "アダプティブ {count}",
+  "Español": "Adaptativa {count}",
+  "Deutsch": "Adaptiv {count}",
+  "Français": "Adaptative {count}",
+  "한국어": "어댑티브 {count}",
+  "中文": "自适应 {count}",
+  "العربية": "تكيفي {count}",
+  "Tiếng Việt": "Thích ứng {count}"
+ },
+ "Locked": {
+  "日本語": "ロック中",
+  "Español": "Bloqueada",
+  "Deutsch": "Gesperrt",
+  "Français": "Verrouillée",
+  "한국어": "잠김",
+  "中文": "已锁定",
+  "العربية": "مقفل",
+  "Tiếng Việt": "Đã khóa"
+ },
+ "Peak – over 0 dBFS, it will clip": {
+  "日本語": "ピーク – 0 dBFS を超えるためクリップします",
+  "Español": "Pico: supera 0 dBFS, se saturará",
+  "Deutsch": "Spitze – über 0 dBFS, es wird übersteuern",
+  "Français": "Crête – au-dessus de 0 dBFS, ça va saturer",
+  "한국어": "피크 – 0 dBFS를 넘어 클리핑됩니다",
+  "中文": "峰值——超过 0 dBFS，会削波",
+  "العربية": "الذروة – تتجاوز 0 dBFS، وسيحدث تشويه",
+  "Tiếng Việt": "Đỉnh – vượt 0 dBFS, sẽ bị clip"
+ },
+ "Peak, with the clip volume": {
+  "日本語": "ピーク（クリップ音量込み）",
+  "Español": "Pico, con el volumen del clip",
+  "Deutsch": "Spitze, mit der Clip-Lautstärke",
+  "Français": "Crête, avec le volume du clip",
+  "한국어": "피크 (클립 볼륨 포함)",
+  "中文": "峰值（含片段音量）",
+  "العربية": "الذروة، مع مستوى صوت المقطع",
+  "Tiếng Việt": "Đỉnh, tính cả âm lượng clip"
+ },
+ "Selected in Resolve": {
+  "日本語": "Resolve で選択中",
+  "Español": "Seleccionado en Resolve",
+  "Deutsch": "In Resolve ausgewählt",
+  "Français": "Sélectionné dans Resolve",
+  "한국어": "Resolve에서 선택됨",
+  "中文": "已在 Resolve 中选择",
+  "العربية": "محدد في Resolve",
+  "Tiếng Việt": "Đã chọn trong Resolve"
+ },
+ "Disabled in Resolve": {
+  "日本語": "Resolve で無効",
+  "Español": "Desactivado en Resolve",
+  "Deutsch": "In Resolve deaktiviert",
+  "Français": "Désactivé dans Resolve",
+  "한국어": "Resolve에서 비활성화됨",
+  "中文": "已在 Resolve 中禁用",
+  "العربية": "معطّل في Resolve",
+  "Tiếng Việt": "Đã tắt trong Resolve"
+ },
+ "Clip volume": {
+  "日本語": "クリップ音量",
+  "Español": "Volumen del clip",
+  "Deutsch": "Clip-Lautstärke",
+  "Français": "Volume du clip",
+  "한국어": "클립 볼륨",
+  "中文": "片段音量",
+  "العربية": "مستوى صوت المقطع",
+  "Tiếng Việt": "Âm lượng clip"
+ },
+ "Pan": {
+  "日本語": "パン",
+  "Español": "Panorámica",
+  "Deutsch": "Panorama",
+  "Français": "Panoramique",
+  "한국어": "팬",
+  "中文": "声像",
+  "العربية": "التوزيع",
+  "Tiếng Việt": "Pan"
+ },
+ "Voice isolation": {
+  "日本語": "ボイスアイソレーション",
+  "Español": "Aislamiento de voz",
+  "Deutsch": "Stimmisolierung",
+  "Français": "Isolation de la voix",
+  "한국어": "음성 분리",
+  "中文": "人声分离",
+  "العربية": "عزل الصوت البشري",
+  "Tiếng Việt": "Tách giọng nói"
+ },
+ "{count} clips selected": {
+  "日本語": "{count} 個のクリップを選択中",
+  "Español": "{count} clips seleccionados",
+  "Deutsch": "{count} Clips ausgewählt",
+  "Français": "{count} clips sélectionnés",
+  "한국어": "클립 {count}개 선택됨",
+  "中文": "已选择 {count} 个片段",
+  "العربية": "تم تحديد {count} مقاطع",
+  "Tiếng Việt": "Đã chọn {count} clip"
+ },
+ "Reading waveforms… {count} left": {
+  "日本語": "波形を読み込み中… 残り {count}",
+  "Español": "Leyendo formas de onda… faltan {count}",
+  "Deutsch": "Wellenformen werden gelesen… noch {count}",
+  "Français": "Lecture des formes d'onde… encore {count}",
+  "한국어": "파형을 읽는 중… {count}개 남음",
+  "中文": "正在读取波形… 还剩 {count} 个",
+  "العربية": "جارٍ قراءة الأشكال الموجية… تبقّى {count}",
+  "Tiếng Việt": "Đang đọc dạng sóng… còn {count}"
+ },
+ "1 audio track": {
+  "日本語": "オーディオトラック 1 本",
+  "Español": "1 pista de audio",
+  "Deutsch": "1 Audiospur",
+  "Français": "1 piste audio",
+  "한국어": "오디오 트랙 1개",
+  "中文": "1 条音轨",
+  "العربية": "مسار صوتي واحد",
+  "Tiếng Việt": "1 track âm thanh"
+ },
+ "{count} audio tracks": {
+  "日本語": "オーディオトラック {count} 本",
+  "Español": "{count} pistas de audio",
+  "Deutsch": "{count} Audiospuren",
+  "Français": "{count} pistes audio",
+  "한국어": "오디오 트랙 {count}개",
+  "中文": "{count} 条音轨",
+  "العربية": "{count} مسارات صوتية",
+  "Tiếng Việt": "{count} track âm thanh"
+ },
+ "No timeline is open in Resolve.": {
+  "日本語": "Resolve でタイムラインが開かれていません。",
+  "Español": "No hay ninguna línea de tiempo abierta en Resolve.",
+  "Deutsch": "In Resolve ist keine Timeline geöffnet.",
+  "Français": "Aucune timeline n'est ouverte dans Resolve.",
+  "한국어": "Resolve에 열린 타임라인이 없습니다.",
+  "中文": "Resolve 中没有打开的时间线。",
+  "العربية": "لا يوجد مخطط زمني مفتوح في Resolve.",
+  "Tiếng Việt": "Không có dòng thời gian nào đang mở trong Resolve."
+ },
+ "Resolve didn't move the playhead - is the timeline playing?": {
+  "日本語": "Resolve が再生ヘッドを移動しませんでした。タイムラインを再生中ですか？",
+  "Español": "Resolve no movió el cabezal. ¿Se está reproduciendo la línea de tiempo?",
+  "Deutsch": "Resolve hat den Abspielkopf nicht bewegt – läuft die Timeline gerade?",
+  "Français": "Resolve n'a pas déplacé la tête de lecture – la timeline est-elle en lecture ?",
+  "한국어": "Resolve가 재생 헤드를 옮기지 않았습니다. 타임라인이 재생 중인가요?",
+  "中文": "Resolve 没有移动播放头——时间线正在播放吗？",
+  "العربية": "لم يحرّك Resolve رأس التشغيل – هل المخطط الزمني قيد التشغيل؟",
+  "Tiếng Việt": "Resolve không di chuyển đầu phát – dòng thời gian đang phát à?"
+ },
+ "The file is offline.": {
+  "日本語": "ファイルがオフラインです。",
+  "Español": "El archivo está sin conexión.",
+  "Deutsch": "Die Datei ist offline.",
+  "Français": "Le fichier est hors ligne.",
+  "한국어": "파일이 오프라인입니다.",
+  "中文": "文件处于离线状态。",
+  "العربية": "الملف غير متصل.",
+  "Tiếng Việt": "Tệp đang ngoại tuyến."
+ },
+ "Decoding stalled.": {
+  "日本語": "デコードが止まりました。",
+  "Español": "La decodificación se detuvo.",
+  "Deutsch": "Das Dekodieren ist hängen geblieben.",
+  "Français": "Le décodage s'est bloqué.",
+  "한국어": "디코딩이 멈췄습니다.",
+  "中文": "解码停滞。",
+  "العربية": "توقف فك الترميز.",
+  "Tiếng Việt": "Quá trình giải mã bị treo."
+ },
+ "The file has no audio Buddy can read.": {
+  "日本語": "Buddy が読めるオーディオがファイルにありません。",
+  "Español": "El archivo no tiene audio que Buddy pueda leer.",
+  "Deutsch": "Die Datei hat kein Audio, das Buddy lesen kann.",
+  "Français": "Le fichier n'a pas d'audio que Buddy peut lire.",
+  "한국어": "Buddy가 읽을 수 있는 오디오가 파일에 없습니다.",
+  "中文": "该文件没有 Buddy 能读取的音频。",
+  "العربية": "لا يحتوي الملف على صوت يمكن لـ Buddy قراءته.",
+  "Tiếng Việt": "Tệp không có âm thanh mà Buddy đọc được."
+ },
+ "It couldn't be decoded.": {
+  "日本語": "デコードできませんでした。",
+  "Español": "No se pudo decodificar.",
+  "Deutsch": "Sie konnte nicht dekodiert werden.",
+  "Français": "Il n'a pas pu être décodé.",
+  "한국어": "디코딩할 수 없었습니다.",
+  "中文": "无法解码。",
+  "العربية": "تعذّر فك ترميزه.",
+  "Tiếng Việt": "Không thể giải mã."
+ },
+ "Click a clip to change its audio – or select one in Resolve. Click a track's name for all its clips.": {
+  "日本語": "クリップをクリックするとオーディオを変更できます。Resolve で選択しても構いません。トラック名をクリックすると、そのトラックのクリップをすべて選択します。",
+  "Español": "Haz clic en un clip para cambiar su audio, o selecciona uno en Resolve. Haz clic en el nombre de una pista para todos sus clips.",
+  "Deutsch": "Klicke auf einen Clip, um sein Audio zu ändern – oder wähle einen in Resolve aus. Klicke auf den Namen einer Spur für alle ihre Clips.",
+  "Français": "Cliquez sur un clip pour modifier son audio – ou sélectionnez-en un dans Resolve. Cliquez sur le nom d'une piste pour tous ses clips.",
+  "한국어": "클립을 클릭하면 오디오를 바꿀 수 있습니다. Resolve에서 선택해도 됩니다. 트랙 이름을 클릭하면 그 트랙의 모든 클립이 선택됩니다.",
+  "中文": "点击一个片段来更改其音频，或在 Resolve 中选择一个。点击音轨名称可选择其所有片段。",
+  "العربية": "انقر على مقطع لتغيير صوته – أو حدد مقطعًا في Resolve. انقر على اسم مسار لتحديد كل مقاطعه.",
+  "Tiếng Việt": "Nhấp vào một clip để thay đổi âm thanh – hoặc chọn một clip trong Resolve. Nhấp vào tên track để chọn mọi clip của nó."
+ },
+ "Click to select the track's clips (Ctrl to add them)": {
+  "日本語": "クリックでこのトラックのクリップを選択（Ctrl で追加）",
+  "Español": "Haz clic para seleccionar los clips de la pista (Ctrl para añadirlos)",
+  "Deutsch": "Klicken, um die Clips der Spur auszuwählen (Strg zum Hinzufügen)",
+  "Français": "Cliquez pour sélectionner les clips de la piste (Ctrl pour les ajouter)",
+  "한국어": "클릭하면 트랙의 클립을 선택합니다 (Ctrl로 추가)",
+  "中文": "点击选择该音轨的片段（按 Ctrl 添加）",
+  "العربية": "انقر لتحديد مقاطع المسار (Ctrl لإضافتها)",
+  "Tiếng Việt": "Nhấp để chọn các clip của track (Ctrl để thêm)"
+ },
+ "Set to": {
+  "日本語": "指定値に",
+  "Español": "Fijar en",
+  "Deutsch": "Setzen auf",
+  "Français": "Régler à",
+  "한국어": "값으로 설정",
+  "中文": "设为",
+  "العربية": "اضبط على",
+  "Tiếng Việt": "Đặt thành"
+ },
+ "Change by": {
+  "日本語": "増減",
+  "Español": "Cambiar en",
+  "Deutsch": "Ändern um",
+  "Français": "Modifier de",
+  "한국어": "만큼 변경",
+  "中文": "增减",
+  "العربية": "غيّر بمقدار",
+  "Tiếng Việt": "Thay đổi thêm"
+ },
+ "Loudness, measured by Buddy": {
+  "日本語": "ラウドネス（Buddy が測定）",
+  "Español": "Sonoridad, medida por Buddy",
+  "Deutsch": "Lautheit, von Buddy gemessen",
+  "Français": "Sonie, mesurée par Buddy",
+  "한국어": "라우드니스 (Buddy 측정)",
+  "中文": "响度（由 Buddy 测量）",
+  "العربية": "الجهارة، يقيسها Buddy",
+  "Tiếng Việt": "Độ lớn, do Buddy đo"
+ },
+ "Match": {
+  "日本語": "合わせる",
+  "Español": "Igualar",
+  "Deutsch": "Angleichen",
+  "Français": "Ajuster",
+  "한국어": "맞추기",
+  "中文": "匹配",
+  "العربية": "مطابقة",
+  "Tiếng Việt": "Khớp"
+ },
+ "Match each clip on its own": {
+  "日本語": "クリップごとに個別に合わせる",
+  "Español": "Igualar cada clip por separado",
+  "Deutsch": "Jeden Clip einzeln angleichen",
+  "Français": "Ajuster chaque clip séparément",
+  "한국어": "클립마다 따로 맞추기",
+  "中文": "分别匹配每个片段",
+  "العربية": "طابق كل مقطع على حدة",
+  "Tiếng Việt": "Khớp riêng từng clip"
+ },
+ "On": {
+  "日本語": "オン",
+  "Español": "Activado",
+  "Deutsch": "Ein",
+  "Français": "Activé",
+  "한국어": "켜기",
+  "中文": "开",
+  "العربية": "تشغيل",
+  "Tiếng Việt": "Bật"
+ },
+ "Reduce loud dialogue": {
+  "日本語": "大きな台詞を抑える",
+  "Español": "Reducir diálogo fuerte",
+  "Deutsch": "Laute Dialoge absenken",
+  "Français": "Réduire les dialogues forts",
+  "한국어": "큰 대사 줄이기",
+  "中文": "降低响亮对白",
+  "العربية": "خفض الحوار العالي",
+  "Tiếng Việt": "Giảm thoại lớn"
+ },
+ "Lift soft dialogue": {
+  "日本語": "小さな台詞を持ち上げる",
+  "Español": "Realzar diálogo suave",
+  "Deutsch": "Leise Dialoge anheben",
+  "Français": "Rehausser les dialogues faibles",
+  "한국어": "작은 대사 키우기",
+  "中文": "提升轻柔对白",
+  "العربية": "رفع الحوار الهادئ",
+  "Tiếng Việt": "Nâng thoại nhỏ"
+ },
+ "Reduce background": {
+  "日本語": "背景音を抑える",
+  "Español": "Reducir el fondo",
+  "Deutsch": "Hintergrund absenken",
+  "Français": "Réduire l'arrière-plan",
+  "한국어": "배경 줄이기",
+  "中文": "降低背景",
+  "العربية": "خفض الخلفية",
+  "Tiếng Việt": "Giảm nền"
+ },
+ "Output gain": {
+  "日本語": "出力ゲイン",
+  "Español": "Ganancia de salida",
+  "Deutsch": "Ausgangspegel",
+  "Français": "Gain de sortie",
+  "한국어": "출력 게인",
+  "中文": "输出增益",
+  "العربية": "كسب الخرج",
+  "Tiếng Việt": "Gain đầu ra"
+ },
+ "Levels": {
+  "日本語": "レベル",
+  "Español": "Niveles",
+  "Deutsch": "Pegel",
+  "Français": "Niveaux",
+  "한국어": "레벨",
+  "中文": "电平",
+  "العربية": "المستويات",
+  "Tiếng Việt": "Mức"
+ },
+ "Loudness": {
+  "日本語": "ラウドネス",
+  "Español": "Sonoridad",
+  "Deutsch": "Lautheit",
+  "Français": "Sonie",
+  "한국어": "라우드니스",
+  "中文": "响度",
+  "العربية": "الجهارة",
+  "Tiếng Việt": "Độ lớn"
+ },
+ "Clean-up": {
+  "日本語": "クリーンアップ",
+  "Español": "Limpieza",
+  "Deutsch": "Bereinigung",
+  "Français": "Nettoyage",
+  "한국어": "정리",
+  "中文": "清理",
+  "العربية": "التنظيف",
+  "Tiếng Việt": "Làm sạch"
+ },
+ "Cuts": {
+  "日本語": "カット",
+  "Español": "Cortes",
+  "Deutsch": "Schnitte",
+  "Français": "Coupes",
+  "한국어": "컷",
+  "中文": "剪切点",
+  "العربية": "القطعات",
+  "Tiếng Việt": "Điểm cắt"
+ },
+ "Crossfade": {
+  "日本語": "クロスフェード",
+  "Español": "Fundido cruzado",
+  "Deutsch": "Überblendung",
+  "Français": "Fondu enchaîné",
+  "한국어": "크로스페이드",
+  "中文": "交叉淡化",
+  "العربية": "تلاشٍ متقاطع",
+  "Tiếng Việt": "Crossfade"
+ },
+ "Crossfade the cuts": {
+  "日本語": "カットをクロスフェード",
+  "Español": "Fundir los cortes",
+  "Deutsch": "Schnitte überblenden",
+  "Français": "Fondre les coupes",
+  "한국어": "컷에 크로스페이드",
+  "中文": "交叉淡化剪切点",
+  "العربية": "طبّق التلاشي المتقاطع على القطعات",
+  "Tiếng Việt": "Crossfade các điểm cắt"
+ },
+ "Fades": {
+  "日本語": "フェード",
+  "Español": "Fundidos",
+  "Deutsch": "Blenden",
+  "Français": "Fondus",
+  "한국어": "페이드",
+  "中文": "淡入淡出",
+  "العربية": "التلاشي",
+  "Tiếng Việt": "Fade"
+ },
+ "In": {
+  "日本語": "イン",
+  "Español": "Entrada",
+  "Deutsch": "Ein",
+  "Français": "Entrée",
+  "한국어": "인",
+  "中文": "入",
+  "العربية": "دخول",
+  "Tiếng Việt": "Vào"
+ },
+ "Out": {
+  "日本語": "アウト",
+  "Español": "Salida",
+  "Deutsch": "Aus",
+  "Français": "Sortie",
+  "한국어": "아웃",
+  "中文": "出",
+  "العربية": "خروج",
+  "Tiếng Việt": "Ra"
+ },
+ "frames": {
+  "日本語": "フレーム",
+  "Español": "fotogramas",
+  "Deutsch": "Frames",
+  "Français": "images",
+  "한국어": "프레임",
+  "中文": "帧",
+  "العربية": "إطارات",
+  "Tiếng Việt": "khung hình"
+ },
+ "Dialogue leveler": {
+  "日本語": "ダイアログレベラー",
+  "Español": "Nivelador de diálogo",
+  "Deutsch": "Dialog-Leveler",
+  "Français": "Niveleur de dialogues",
+  "한국어": "대사 레벨러",
+  "中文": "对白电平调节器",
+  "العربية": "موازن الحوار",
+  "Tiếng Việt": "Cân bằng thoại"
+ },
+ "Or drag on the clip: the yellow line is its volume, the squares its fades. Shift for fine steps.": {
+  "日本語": "クリップ上でドラッグもできます。黄色の線が音量、四角がフェードです。Shift で細かく調整。",
+  "Español": "O arrastra sobre el clip: la línea amarilla es su volumen y los cuadrados, sus fundidos. Mayús para pasos finos.",
+  "Deutsch": "Oder auf dem Clip ziehen: Die gelbe Linie ist seine Lautstärke, die Quadrate seine Blenden. Umschalt für feine Schritte.",
+  "Français": "Ou faites glisser sur le clip : la ligne jaune est son volume, les carrés ses fondus. Maj pour des pas fins.",
+  "한국어": "클립 위에서 드래그해도 됩니다. 노란 선은 볼륨, 네모는 페이드입니다. Shift로 미세 조정.",
+  "中文": "也可以在片段上拖动：黄线是音量，方块是淡入淡出。按 Shift 精细调整。",
+  "العربية": "أو اسحب على المقطع: الخط الأصفر هو مستوى صوته والمربعات هي التلاشي. Shift للخطوات الدقيقة.",
+  "Tiếng Việt": "Hoặc kéo trên clip: đường vàng là âm lượng, các ô vuông là fade. Giữ Shift để chỉnh mịn."
+ },
+ "Add a crossfade?": {
+  "日本語": "クロスフェードを追加しますか？",
+  "Español": "¿Añadir un fundido cruzado?",
+  "Deutsch": "Eine Überblendung hinzufügen?",
+  "Français": "Ajouter un fondu enchaîné ?",
+  "한국어": "크로스페이드를 추가할까요?",
+  "中文": "添加交叉淡化？",
+  "العربية": "إضافة تلاشٍ متقاطع؟",
+  "Tiếng Việt": "Thêm một crossfade?"
+ },
+ "Add {count} crossfades?": {
+  "日本語": "クロスフェードを {count} 個追加しますか？",
+  "Español": "¿Añadir {count} fundidos cruzados?",
+  "Deutsch": "{count} Überblendungen hinzufügen?",
+  "Français": "Ajouter {count} fondus enchaînés ?",
+  "한국어": "크로스페이드 {count}개를 추가할까요?",
+  "中文": "添加 {count} 个交叉淡化？",
+  "العربية": "إضافة {count} تلاشيات متقاطعة؟",
+  "Tiếng Việt": "Thêm {count} crossfade?"
+ },
+ "Add": {
+  "日本語": "追加",
+  "Español": "Añadir",
+  "Deutsch": "Hinzufügen",
+  "Français": "Ajouter",
+  "한국어": "추가",
+  "中文": "添加",
+  "العربية": "إضافة",
+  "Tiếng Việt": "Thêm"
+ },
+ "A crossfade goes on each cut between the selected clips, centred on it.\n\nBuddy can't take them off again – remove them in Resolve if you change your mind.": {
+  "日本語": "選択したクリップ間の各カットに、カットを中心としてクロスフェードを追加します。\n\nBuddy では元に戻せません。気が変わったら Resolve で削除してください。",
+  "Español": "Se añade un fundido cruzado en cada corte entre los clips seleccionados, centrado en él.\n\nBuddy no puede quitarlos después: elimínalos en Resolve si cambias de opinión.",
+  "Deutsch": "Auf jeden Schnitt zwischen den ausgewählten Clips kommt eine Überblendung, mittig darauf.\n\nBuddy kann sie nicht wieder entfernen – lösche sie in Resolve, wenn du es dir anders überlegst.",
+  "Français": "Un fondu enchaîné est placé sur chaque coupe entre les clips sélectionnés, centré dessus.\n\nBuddy ne peut pas les retirer ensuite – supprimez-les dans Resolve si vous changez d'avis.",
+  "한국어": "선택한 클립 사이의 각 컷에 컷을 중심으로 크로스페이드가 들어갑니다.\n\nBuddy에서는 다시 없앨 수 없습니다. 마음이 바뀌면 Resolve에서 지우세요.",
+  "中文": "将在所选片段之间的每个剪切点上添加一个居中的交叉淡化。\n\nBuddy 无法再移除它们——如果改变主意，请在 Resolve 中删除。",
+  "العربية": "يوضع تلاشٍ متقاطع على كل قطع بين المقاطع المحددة، في منتصفه.\n\nلا يستطيع Buddy إزالتها لاحقًا – احذفها في Resolve إن غيّرت رأيك.",
+  "Tiếng Việt": "Mỗi điểm cắt giữa các clip đã chọn sẽ có một crossfade, đặt giữa điểm cắt.\n\nBuddy không thể gỡ chúng ra – hãy xóa trong Resolve nếu bạn đổi ý."
+ },
+ "1 cut between the selected clips.": {
+  "日本語": "選択したクリップ間のカット: 1",
+  "Español": "1 corte entre los clips seleccionados.",
+  "Deutsch": "1 Schnitt zwischen den ausgewählten Clips.",
+  "Français": "1 coupe entre les clips sélectionnés.",
+  "한국어": "선택한 클립 사이의 컷 1개.",
+  "中文": "所选片段之间有 1 个剪切点。",
+  "العربية": "قطع واحد بين المقاطع المحددة.",
+  "Tiếng Việt": "1 điểm cắt giữa các clip đã chọn."
+ },
+ "{count} cuts between the selected clips.": {
+  "日本語": "選択したクリップ間のカット: {count}",
+  "Español": "{count} cortes entre los clips seleccionados.",
+  "Deutsch": "{count} Schnitte zwischen den ausgewählten Clips.",
+  "Français": "{count} coupes entre les clips sélectionnés.",
+  "한국어": "선택한 클립 사이의 컷 {count}개.",
+  "中文": "所选片段之间有 {count} 个剪切点。",
+  "العربية": "{count} قطعات بين المقاطع المحددة.",
+  "Tiếng Việt": "{count} điểm cắt giữa các clip đã chọn."
+ },
+ "Resolve doesn't offer it for this clip's media.": {
+  "日本語": "Resolve はこのクリップのメディアでは提供していません。",
+  "Español": "Resolve no lo ofrece para el medio de este clip.",
+  "Deutsch": "Resolve bietet das für das Medium dieses Clips nicht an.",
+  "Français": "Resolve ne le propose pas pour le média de ce clip.",
+  "한국어": "Resolve가 이 클립의 미디어에는 제공하지 않습니다.",
+  "中文": "Resolve 不为此片段的媒体提供该功能。",
+  "العربية": "لا يوفّره Resolve لوسائط هذا المقطع.",
+  "Tiếng Việt": "Resolve không cung cấp tính năng này cho media của clip."
+ },
+ "Resolve doesn't offer it for this clip's media – it may need DaVinci Resolve Studio.": {
+  "日本語": "Resolve はこのクリップのメディアでは提供していません。DaVinci Resolve Studio が必要な場合があります。",
+  "Español": "Resolve no lo ofrece para el medio de este clip; puede requerir DaVinci Resolve Studio.",
+  "Deutsch": "Resolve bietet das für das Medium dieses Clips nicht an – eventuell ist DaVinci Resolve Studio nötig.",
+  "Français": "Resolve ne le propose pas pour le média de ce clip – il faut peut-être DaVinci Resolve Studio.",
+  "한국어": "Resolve가 이 클립의 미디어에는 제공하지 않습니다. DaVinci Resolve Studio가 필요할 수 있습니다.",
+  "中文": "Resolve 不为此片段的媒体提供该功能——可能需要 DaVinci Resolve Studio。",
+  "العربية": "لا يوفّره Resolve لوسائط هذا المقطع – قد يتطلب DaVinci Resolve Studio.",
+  "Tiếng Việt": "Resolve không cung cấp tính năng này cho media của clip – có thể cần DaVinci Resolve Studio."
+ },
+ "Some of these clips don't have it; they're left as they are.": {
+  "日本語": "一部のクリップにはこの機能がないため、そのままにします。",
+  "Español": "Algunos de estos clips no lo tienen; se dejan como están.",
+  "Deutsch": "Einige dieser Clips haben das nicht; sie bleiben, wie sie sind.",
+  "Français": "Certains de ces clips ne l'ont pas ; ils restent tels quels.",
+  "한국어": "일부 클립에는 이 기능이 없어 그대로 둡니다.",
+  "中文": "部分片段没有此功能，将保持不变。",
+  "العربية": "بعض هذه المقاطع لا تملكه؛ تُترك كما هي.",
+  "Tiếng Việt": "Một số clip không có tính năng này; chúng được giữ nguyên."
+ },
+ "Mixed": {
+  "日本語": "混在",
+  "Español": "Varios",
+  "Deutsch": "Gemischt",
+  "Français": "Mixte",
+  "한국어": "혼합",
+  "中文": "混合",
+  "العربية": "مختلط",
+  "Tiếng Việt": "Hỗn hợp"
+ },
+ "Total length {length}": {
+  "日本語": "合計の長さ {length}",
+  "Español": "Duración total {length}",
+  "Deutsch": "Gesamtlänge {length}",
+  "Français": "Durée totale {length}",
+  "한국어": "총 길이 {length}",
+  "中文": "总长度 {length}",
+  "العربية": "المدة الإجمالية {length}",
+  "Tiếng Việt": "Tổng độ dài {length}"
+ },
+ "Undo: {t_label}": {
+  "日本語": "元に戻す: {t_label}",
+  "Español": "Deshacer: {t_label}",
+  "Deutsch": "Rückgängig: {t_label}",
+  "Français": "Annuler : {t_label}",
+  "한국어": "실행 취소: {t_label}",
+  "中文": "撤销：{t_label}",
+  "العربية": "تراجع: {t_label}",
+  "Tiếng Việt": "Hoàn tác: {t_label}"
+ },
+ "{count} changes can be undone": {
+  "日本語": "{count} 件の変更を元に戻せます",
+  "Español": "Se pueden deshacer {count} cambios",
+  "Deutsch": "{count} Änderungen können rückgängig gemacht werden",
+  "Français": "{count} modifications peuvent être annulées",
+  "한국어": "변경 {count}개를 실행 취소할 수 있습니다",
+  "中文": "可撤销 {count} 项更改",
+  "العربية": "يمكن التراجع عن {count} تغييرات",
+  "Tiếng Việt": "Có thể hoàn tác {count} thay đổi"
+ },
+ "Undone: {t_label}": {
+  "日本語": "元に戻しました: {t_label}",
+  "Español": "Deshecho: {t_label}",
+  "Deutsch": "Rückgängig gemacht: {t_label}",
+  "Français": "Annulé : {t_label}",
+  "한국어": "실행 취소됨: {t_label}",
+  "中文": "已撤销：{t_label}",
+  "العربية": "تم التراجع: {t_label}",
+  "Tiếng Việt": "Đã hoàn tác: {t_label}"
+ },
+ "Allow wider dynamics": {
+  "日本語": "より広いダイナミクスを許容",
+  "Español": "Permitir más dinámica",
+  "Deutsch": "Größere Dynamik zulassen",
+  "Français": "Permettre plus de dynamique",
+  "한국어": "더 넓은 다이내믹 허용",
+  "中文": "允许更宽的动态",
+  "العربية": "السماح بمدى ديناميكي أوسع",
+  "Tiếng Việt": "Cho phép dải động rộng hơn"
+ },
+ "Optimize moderate levels": {
+  "日本語": "中程度のレベルに最適化",
+  "Español": "Optimizar niveles moderados",
+  "Deutsch": "Mittlere Pegel optimieren",
+  "Français": "Optimiser les niveaux modérés",
+  "한국어": "보통 레벨 최적화",
+  "中文": "优化中等电平",
+  "العربية": "تحسين المستويات المعتدلة",
+  "Tiếng Việt": "Tối ưu mức vừa phải"
+ },
+ "More lift for low levels": {
+  "日本語": "低いレベルをより持ち上げる",
+  "Español": "Más realce para niveles bajos",
+  "Deutsch": "Mehr Anhebung für leise Pegel",
+  "Français": "Plus de rehausse pour les niveaux faibles",
+  "한국어": "낮은 레벨을 더 끌어올리기",
+  "中文": "更多提升低电平",
+  "العربية": "رفع أكبر للمستويات المنخفضة",
+  "Tiếng Việt": "Nâng nhiều hơn cho mức thấp"
+ },
+ "Lift soft, whispery sources": {
+  "日本語": "小さな囁き声を持ち上げる",
+  "Español": "Realzar fuentes suaves y susurradas",
+  "Deutsch": "Leise, flüsternde Quellen anheben",
+  "Français": "Rehausser les sources douces et chuchotées",
+  "한국어": "작고 속삭이는 소리 끌어올리기",
+  "中文": "提升轻柔、耳语般的声源",
+  "العربية": "رفع المصادر الهادئة والهامسة",
+  "Tiếng Việt": "Nâng nguồn nhỏ, thì thầm"
+ },
+ "YouTube, Spotify – −14 LUFS": {
+  "日本語": "YouTube、Spotify – −14 LUFS",
+  "Español": "YouTube, Spotify – −14 LUFS",
+  "Deutsch": "YouTube, Spotify – −14 LUFS",
+  "Français": "YouTube, Spotify – −14 LUFS",
+  "한국어": "YouTube, Spotify – −14 LUFS",
+  "中文": "YouTube、Spotify – −14 LUFS",
+  "العربية": "YouTube وSpotify – ‎−14 LUFS",
+  "Tiếng Việt": "YouTube, Spotify – −14 LUFS"
+ },
+ "Podcast – −16 LUFS": {
+  "日本語": "ポッドキャスト – −16 LUFS",
+  "Español": "Pódcast – −16 LUFS",
+  "Deutsch": "Podcast – −16 LUFS",
+  "Français": "Podcast – −16 LUFS",
+  "한국어": "팟캐스트 – −16 LUFS",
+  "中文": "播客 – −16 LUFS",
+  "العربية": "بودكاست – ‎−16 LUFS",
+  "Tiếng Việt": "Podcast – −16 LUFS"
+ },
+ "Broadcast, EBU R128 – −23 LUFS": {
+  "日本語": "放送、EBU R128 – −23 LUFS",
+  "Español": "Emisión, EBU R128 – −23 LUFS",
+  "Deutsch": "Rundfunk, EBU R128 – −23 LUFS",
+  "Français": "Diffusion, EBU R128 – −23 LUFS",
+  "한국어": "방송, EBU R128 – −23 LUFS",
+  "中文": "广播，EBU R128 – −23 LUFS",
+  "العربية": "البث، EBU R128 – ‎−23 LUFS",
+  "Tiếng Việt": "Phát sóng, EBU R128 – −23 LUFS"
+ },
+ "Broadcast, ATSC A/85 – −24 LKFS": {
+  "日本語": "放送、ATSC A/85 – −24 LKFS",
+  "Español": "Emisión, ATSC A/85 – −24 LKFS",
+  "Deutsch": "Rundfunk, ATSC A/85 – −24 LKFS",
+  "Français": "Diffusion, ATSC A/85 – −24 LKFS",
+  "한국어": "방송, ATSC A/85 – −24 LKFS",
+  "中文": "广播，ATSC A/85 – −24 LKFS",
+  "العربية": "البث، ATSC A/85 – ‎−24 LKFS",
+  "Tiếng Việt": "Phát sóng, ATSC A/85 – −24 LKFS"
+ },
+ "Peaks at −1 dBFS": {
+  "日本語": "ピークを −1 dBFS に",
+  "Español": "Picos a −1 dBFS",
+  "Deutsch": "Spitzen bei −1 dBFS",
+  "Français": "Crêtes à −1 dBFS",
+  "한국어": "피크 −1 dBFS",
+  "中文": "峰值为 −1 dBFS",
+  "العربية": "الذروات عند ‎−1 dBFS",
+  "Tiếng Việt": "Đỉnh ở −1 dBFS"
+ },
+ "Resolve refused": {
+  "日本語": "Resolve が拒否しました",
+  "Español": "Resolve lo rechazó",
+  "Deutsch": "Resolve hat abgelehnt",
+  "Français": "Resolve a refusé",
+  "한국어": "Resolve가 거부함",
+  "中文": "Resolve 拒绝了",
+  "العربية": "رفض Resolve",
+  "Tiếng Việt": "Resolve đã từ chối"
+ },
+ "Resolve didn't take the change for those clips.": {
+  "日本語": "Resolve はこれらのクリップの変更を受け付けませんでした。",
+  "Español": "Resolve no aceptó el cambio en esos clips.",
+  "Deutsch": "Resolve hat die Änderung für diese Clips nicht übernommen.",
+  "Français": "Resolve n'a pas accepté la modification pour ces clips.",
+  "한국어": "Resolve가 그 클립들의 변경을 받아들이지 않았습니다.",
+  "中文": "Resolve 未接受这些片段的更改。",
+  "العربية": "لم يقبل Resolve التغيير لتلك المقاطع.",
+  "Tiếng Việt": "Resolve không nhận thay đổi cho các clip đó."
+ },
+ "Changed {done} of {count} clips – Resolve refused the rest": {
+  "日本語": "{count} 個中 {done} 個のクリップを変更 – 残りは Resolve が拒否",
+  "Español": "Se cambiaron {done} de {count} clips; Resolve rechazó el resto",
+  "Deutsch": "{done} von {count} Clips geändert – den Rest hat Resolve abgelehnt",
+  "Français": "{done} clips sur {count} modifiés – Resolve a refusé le reste",
+  "한국어": "클립 {count}개 중 {done}개 변경 – 나머지는 Resolve가 거부",
+  "中文": "已更改 {count} 个片段中的 {done} 个——其余被 Resolve 拒绝",
+  "العربية": "تم تغيير {done} من {count} مقاطع – ورفض Resolve الباقي",
+  "Tiếng Việt": "Đã đổi {done}/{count} clip – Resolve từ chối phần còn lại"
+ },
+ "Couldn't change the clips": {
+  "日本語": "クリップを変更できませんでした",
+  "Español": "No se pudieron cambiar los clips",
+  "Deutsch": "Die Clips konnten nicht geändert werden",
+  "Français": "Impossible de modifier les clips",
+  "한국어": "클립을 변경할 수 없습니다",
+  "中文": "无法更改片段",
+  "العربية": "تعذّر تغيير المقاطع",
+  "Tiếng Việt": "Không thể thay đổi các clip"
+ },
+ "Couldn't match the loudness": {
+  "日本語": "ラウドネスを合わせられませんでした",
+  "Español": "No se pudo igualar la sonoridad",
+  "Deutsch": "Die Lautheit konnte nicht angeglichen werden",
+  "Français": "Impossible d'ajuster la sonie",
+  "한국어": "라우드니스를 맞출 수 없습니다",
+  "中文": "无法匹配响度",
+  "العربية": "تعذّرت مطابقة الجهارة",
+  "Tiếng Việt": "Không thể khớp độ lớn"
+ },
+ "Matched to {t_target}": {
+  "日本語": "{t_target} に合わせました",
+  "Español": "Igualado a {t_target}",
+  "Deutsch": "Angeglichen an {t_target}",
+  "Français": "Ajusté à {t_target}",
+  "한국어": "{t_target}에 맞췄습니다",
+  "中文": "已匹配到 {t_target}",
+  "العربية": "تمت المطابقة مع {t_target}",
+  "Tiếng Việt": "Đã khớp theo {t_target}"
+ },
+ "No cuts between the selected clips.": {
+  "日本語": "選択したクリップの間にカットはありません。",
+  "Español": "No hay cortes entre los clips seleccionados.",
+  "Deutsch": "Keine Schnitte zwischen den ausgewählten Clips.",
+  "Français": "Aucune coupe entre les clips sélectionnés.",
+  "한국어": "선택한 클립 사이에 컷이 없습니다.",
+  "中文": "所选片段之间没有剪切点。",
+  "العربية": "لا توجد قطعات بين المقاطع المحددة.",
+  "Tiếng Việt": "Không có điểm cắt giữa các clip đã chọn."
+ },
+ "Couldn't add the crossfades": {
+  "日本語": "クロスフェードを追加できませんでした",
+  "Español": "No se pudieron añadir los fundidos cruzados",
+  "Deutsch": "Die Überblendungen konnten nicht hinzugefügt werden",
+  "Français": "Impossible d'ajouter les fondus enchaînés",
+  "한국어": "크로스페이드를 추가할 수 없습니다",
+  "中文": "无法添加交叉淡化",
+  "العربية": "تعذّرت إضافة التلاشيات المتقاطعة",
+  "Tiếng Việt": "Không thể thêm crossfade"
+ },
+ "Added {added} of {count} crossfades": {
+  "日本語": "{count} 個中 {added} 個のクロスフェードを追加",
+  "Español": "Se añadieron {added} de {count} fundidos cruzados",
+  "Deutsch": "{added} von {count} Überblendungen hinzugefügt",
+  "Français": "{added} fondus enchaînés sur {count} ajoutés",
+  "한국어": "크로스페이드 {count}개 중 {added}개 추가",
+  "中文": "已添加 {count} 个交叉淡化中的 {added} 个",
+  "العربية": "تمت إضافة {added} من {count} تلاشيات متقاطعة",
+  "Tiếng Việt": "Đã thêm {added}/{count} crossfade"
+ },
+ "Resolve refused the rest – a crossfade needs media to spare past the cut on both clips.": {
+  "日本語": "残りは Resolve が拒否しました。クロスフェードには、両方のクリップでカットの先に余分なメディアが必要です。",
+  "Español": "Resolve rechazó el resto: un fundido cruzado necesita medio de sobra más allá del corte en ambos clips.",
+  "Deutsch": "Den Rest hat Resolve abgelehnt – eine Überblendung braucht auf beiden Clips Material über den Schnitt hinaus.",
+  "Français": "Resolve a refusé le reste – un fondu enchaîné demande du média en réserve au-delà de la coupe sur les deux clips.",
+  "한국어": "나머지는 Resolve가 거부했습니다. 크로스페이드에는 두 클립 모두 컷 너머의 여분 미디어가 필요합니다.",
+  "中文": "其余被 Resolve 拒绝——交叉淡化需要两个片段在剪切点之外都有多余的媒体。",
+  "العربية": "رفض Resolve الباقي – يحتاج التلاشي المتقاطع إلى وسائط إضافية بعد القطع في كلا المقطعين.",
+  "Tiếng Việt": "Resolve từ chối phần còn lại – crossfade cần media dư qua điểm cắt ở cả hai clip."
+ },
+ "Added 1 crossfade": {
+  "日本語": "クロスフェードを 1 個追加",
+  "Español": "Se añadió 1 fundido cruzado",
+  "Deutsch": "1 Überblendung hinzugefügt",
+  "Français": "1 fondu enchaîné ajouté",
+  "한국어": "크로스페이드 1개 추가",
+  "中文": "已添加 1 个交叉淡化",
+  "العربية": "تمت إضافة تلاشٍ متقاطع واحد",
+  "Tiếng Việt": "Đã thêm 1 crossfade"
+ },
+ "Added {count} crossfades": {
+  "日本語": "クロスフェードを {count} 個追加",
+  "Español": "Se añadieron {count} fundidos cruzados",
+  "Deutsch": "{count} Überblendungen hinzugefügt",
+  "Français": "{count} fondus enchaînés ajoutés",
+  "한국어": "크로스페이드 {count}개 추가",
+  "中文": "已添加 {count} 个交叉淡化",
+  "العربية": "تمت إضافة {count} تلاشيات متقاطعة",
+  "Tiếng Việt": "Đã thêm {count} crossfade"
+ },
+ "Couldn't undo": {
+  "日本語": "元に戻せませんでした",
+  "Español": "No se pudo deshacer",
+  "Deutsch": "Konnte nicht rückgängig gemacht werden",
+  "Français": "Impossible d'annuler",
+  "한국어": "실행 취소할 수 없습니다",
+  "中文": "无法撤销",
+  "العربية": "تعذّر التراجع",
+  "Tiếng Việt": "Không thể hoàn tác"
+ },
+ "Resolve refused some clips.": {
+  "日本語": "Resolve が一部のクリップを拒否しました。",
+  "Español": "Resolve rechazó algunos clips.",
+  "Deutsch": "Resolve hat einige Clips abgelehnt.",
+  "Français": "Resolve a refusé certains clips.",
+  "한국어": "Resolve가 일부 클립을 거부했습니다.",
+  "中文": "Resolve 拒绝了部分片段。",
+  "العربية": "رفض Resolve بعض المقاطع.",
+  "Tiếng Việt": "Resolve đã từ chối một số clip."
+ },
+ "Couldn't reach Resolve: {error}": {
+  "日本語": "Resolve に接続できませんでした: {error}",
+  "Español": "No se pudo conectar con Resolve: {error}",
+  "Deutsch": "Resolve war nicht erreichbar: {error}",
+  "Français": "Impossible de joindre Resolve : {error}",
+  "한국어": "Resolve에 연결할 수 없습니다: {error}",
+  "中文": "无法连接 Resolve：{error}",
+  "العربية": "تعذّر الوصول إلى Resolve: {error}",
+  "Tiếng Việt": "Không kết nối được Resolve: {error}"
+ },
+ "Resolve didn't answer in time.": {
+  "日本語": "Resolve が時間内に応答しませんでした。",
+  "Español": "Resolve no respondió a tiempo.",
+  "Deutsch": "Resolve hat nicht rechtzeitig geantwortet.",
+  "Français": "Resolve n'a pas répondu à temps.",
+  "한국어": "Resolve가 제때 응답하지 않았습니다.",
+  "中文": "Resolve 未及时响应。",
+  "العربية": "لم يستجب Resolve في الوقت المناسب.",
+  "Tiếng Việt": "Resolve không trả lời kịp."
+ },
+ "Resolve didn't answer.": {
+  "日本語": "Resolve が応答しませんでした。",
+  "Español": "Resolve no respondió.",
+  "Deutsch": "Resolve hat nicht geantwortet.",
+  "Français": "Resolve n'a pas répondu.",
+  "한국어": "Resolve가 응답하지 않았습니다.",
+  "中文": "Resolve 没有响应。",
+  "العربية": "لم يستجب Resolve.",
+  "Tiếng Việt": "Resolve không trả lời."
+ },
+ "Match loudness": {
+  "日本語": "ラウドネスを合わせる",
+  "Español": "Igualar sonoridad",
+  "Deutsch": "Lautheit angleichen",
+  "Français": "Ajuster la sonie",
+  "한국어": "라우드니스 맞추기",
+  "中文": "匹配响度",
+  "العربية": "مطابقة الجهارة",
+  "Tiếng Việt": "Khớp độ lớn"
+ },
+ "Change": {
+  "日本語": "変更",
+  "Español": "Cambio",
+  "Deutsch": "Änderung",
+  "Français": "Modification",
+  "한국어": "변경",
+  "中文": "更改",
+  "العربية": "تغيير",
+  "Tiếng Việt": "Thay đổi"
+ },
+ "Nothing to measure yet": {
+  "日本語": "まだ測定できません",
+  "Español": "Aún no hay nada que medir",
+  "Deutsch": "Noch nichts zu messen",
+  "Français": "Rien à mesurer pour l'instant",
+  "한국어": "아직 측정할 것이 없습니다",
+  "中文": "尚无可测量的内容",
+  "العربية": "لا شيء لقياسه بعد",
+  "Tiếng Việt": "Chưa có gì để đo"
+ },
+ "Buddy is still reading those clips' audio, or they have no file it can read. Try again once their waveforms show.": {
+  "日本語": "Buddy はまだそれらのクリップのオーディオを読み込み中か、読めるファイルがありません。波形が表示されてからもう一度お試しください。",
+  "Español": "Buddy aún está leyendo el audio de esos clips, o no tienen un archivo que pueda leer. Inténtalo de nuevo cuando se vean sus formas de onda.",
+  "Deutsch": "Buddy liest das Audio dieser Clips noch, oder sie haben keine Datei, die es lesen kann. Versuche es erneut, sobald ihre Wellenformen zu sehen sind.",
+  "Français": "Buddy lit encore l'audio de ces clips, ou ils n'ont pas de fichier lisible. Réessayez une fois leurs formes d'onde affichées.",
+  "한국어": "Buddy가 아직 그 클립들의 오디오를 읽는 중이거나, 읽을 수 있는 파일이 없습니다. 파형이 보이면 다시 시도하세요.",
+  "中文": "Buddy 仍在读取这些片段的音频，或它们没有可读取的文件。等波形显示后再试一次。",
+  "العربية": "لا يزال Buddy يقرأ صوت تلك المقاطع، أو ليس لها ملف يمكنه قراءته. حاول مرة أخرى عندما تظهر أشكالها الموجية.",
+  "Tiếng Việt": "Buddy vẫn đang đọc âm thanh của các clip đó, hoặc chúng không có tệp đọc được. Hãy thử lại khi dạng sóng hiện ra."
+ },
+ "Nothing to match": {
+  "日本語": "合わせる対象がありません",
+  "Español": "Nada que igualar",
+  "Deutsch": "Nichts anzugleichen",
+  "Français": "Rien à ajuster",
+  "한국어": "맞출 것이 없습니다",
+  "中文": "没有可匹配的内容",
+  "العربية": "لا شيء للمطابقة",
+  "Tiếng Việt": "Không có gì để khớp"
+ },
+ "Those clips are silent.": {
+  "日本語": "それらのクリップは無音です。",
+  "Español": "Esos clips están en silencio.",
+  "Deutsch": "Diese Clips sind stumm.",
+  "Français": "Ces clips sont silencieux.",
+  "한국어": "그 클립들은 무음입니다.",
+  "中文": "这些片段是静音的。",
+  "العربية": "تلك المقاطع صامتة.",
+  "Tiếng Việt": "Các clip đó im lặng."
+ },
+ "Some clips couldn't get there": {
+  "日本語": "目標に届かないクリップがあります",
+  "Español": "Algunos clips no llegaron",
+  "Deutsch": "Einige Clips kamen nicht hin",
+  "Français": "Certains clips n'y arrivent pas",
+  "한국어": "목표에 닿지 못한 클립이 있습니다",
+  "中文": "部分片段未能达到目标",
+  "العربية": "لم تصل بعض المقاطع إلى الهدف",
+  "Tiếng Việt": "Một số clip không đạt được"
+ },
+ "+30 dB is as loud as Resolve's clip volume goes, and some clips needed more. They're at +30 dB.": {
+  "日本語": "Resolve のクリップ音量は +30 dB が上限で、それ以上必要なクリップがありました。それらは +30 dB にしてあります。",
+  "Español": "+30 dB es el máximo del volumen de clip de Resolve, y algunos clips necesitaban más. Están a +30 dB.",
+  "Deutsch": "+30 dB ist das Maximum der Clip-Lautstärke in Resolve, und einige Clips hätten mehr gebraucht. Sie stehen auf +30 dB.",
+  "Français": "+30 dB est le maximum du volume de clip de Resolve, et certains clips en demandaient plus. Ils sont à +30 dB.",
+  "한국어": "Resolve의 클립 볼륨은 +30 dB가 최대인데, 더 필요한 클립이 있었습니다. 그 클립들은 +30 dB로 두었습니다.",
+  "中文": "Resolve 的片段音量最高为 +30 dB，部分片段需要更多。它们已设为 +30 dB。",
+  "العربية": "‎+30 dB هو أقصى مستوى لصوت المقطع في Resolve، واحتاجت بعض المقاطع إلى أكثر. إنها الآن عند ‎+30 dB.",
+  "Tiếng Việt": "+30 dB là mức tối đa của âm lượng clip trong Resolve, và một số clip cần hơn. Chúng đang ở +30 dB."
+ },
+ "Matched to {t_target} – {skipped} left out, with no audio to measure yet": {
+  "日本語": "{t_target} に合わせました – {skipped} 個は測定できるオーディオがまだないため除外",
+  "Español": "Igualado a {t_target}: {skipped} quedaron fuera, aún sin audio que medir",
+  "Deutsch": "Angeglichen an {t_target} – {skipped} ausgelassen, noch ohne messbares Audio",
+  "Français": "Ajusté à {t_target} – {skipped} laissés de côté, sans audio à mesurer pour l'instant",
+  "한국어": "{t_target}에 맞췄습니다 – {skipped}개는 아직 측정할 오디오가 없어 제외",
+  "中文": "已匹配到 {t_target}——{skipped} 个因尚无可测量的音频而跳过",
+  "العربية": "تمت المطابقة مع {t_target} – تُرك {skipped} لعدم وجود صوت لقياسه بعد",
+  "Tiếng Việt": "Đã khớp theo {t_target} – bỏ qua {skipped} vì chưa có âm thanh để đo"
  }
 }

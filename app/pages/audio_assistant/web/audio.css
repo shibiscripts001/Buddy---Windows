@@ -1,0 +1,97 @@
+/* Audio Assistant. Theme colours only; the waveform's own two colours are
+   timeline.js's (--wave-file / --wave-mixed below, read by the canvas). */
+
+.timeline { color: var(--text-dim); font-size: var(--fs-sm); }
+.timeline b { color: var(--text-strong); }
+.timeline.bad { color: var(--danger-text); }
+.timeline .busy { margin-left: 0.75em; color: var(--accent-text); }
+
+/* Full height always: the page scrolls, the tracks never squash. */
+.panel { display: flex; flex-direction: column; gap: var(--section-gap); flex: none; }
+.panel > .card { flex: none; }
+
+/* ---------------------------------------------------------- timeline -- */
+
+.tl-card {
+    --wave-file: color-mix(in srgb, var(--text-dim) 70%, transparent);
+    --wave-mixed: #4C9BE8;
+    display: flex; flex-direction: column; overflow: hidden;
+}
+.tl-bar { padding: 8px 12px; border-bottom: var(--bw) solid var(--card-border); flex-wrap: wrap; }
+.tl-bar .segmented button { padding: 3px 10px; min-width: 32px; }
+.legend { display: inline-flex; align-items: center; gap: 6px; color: var(--text-dim); font-size: var(--fs-xs); }
+.swatch { width: 14px; height: 8px; border-radius: 2px; }
+.swatch.file { background: var(--wave-file); }
+.swatch.mixed { background: var(--wave-mixed); }
+
+.tl { display: grid; grid-template-columns: 124px minmax(0, 1fr); }
+.tl-heads { border-right: var(--bw) solid var(--card-border); }
+.tl-head {
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    padding: 0 10px; border-bottom: var(--bw) solid var(--card-border); overflow: hidden;
+}
+.tl-head.ruler { justify-content: flex-end; padding-bottom: 4px; }
+.tl-head .name { display: flex; gap: 6px; align-items: baseline; min-width: 0; }
+.tl-head .name b { color: var(--text-strong); flex: none; }
+.tl-head .name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tl-head .tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.tl-head .chip { padding: 0 6px; }
+.tl-head.off { color: var(--text-dim); }
+.tl-head.off .name b { color: var(--text-dim); }
+
+.tl-scroll { overflow-x: auto; overflow-y: hidden; }
+.tl-inner { position: relative; }
+.tl-inner canvas { position: sticky; left: 0; display: block; }
+/* Its own layer, moved by transform: playback never repaints the tracks. */
+.playhead {
+    position: absolute; top: 0; left: 0; width: 1.5px; margin-left: -0.75px;
+    background: #E5393B; pointer-events: none; will-change: transform;
+}
+.playhead::before {
+    content: ""; position: absolute; top: 2px; left: -4.25px;
+    border: 5px solid transparent; border-top: 7px solid #E5393B; border-bottom: 0;
+}
+
+/* --------------------------------------------------------- inspector -- */
+
+.inspector { display: flex; flex-direction: column; gap: var(--card-gap); padding: var(--card-pad); }
+.inspector .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.inspector .head .section-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.inspector .info { display: flex; gap: 16px; min-width: 0; white-space: nowrap; }
+.inspector .info .facts { flex: none; }
+.inspector .info .path { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; direction: rtl; text-align: left; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.tile {
+    display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; min-width: 0;
+    background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-radius: var(--r-sm);
+}
+.tile b { color: var(--text-strong); font-size: var(--fs-md); font-variant-numeric: tabular-nums;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile span { color: var(--text-dim); font-size: var(--fs-xs); }
+.tile.hot b { color: var(--danger-text); }
+
+.inspector .chips { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.tl-head { cursor: pointer; }
+.tl-head:hover .name b { color: var(--accent-text); }
+#undo { padding: 3px 10px; }
+
+/* The controls: Levels, Loudness, Clean-up, Cuts - side by side when there's room. */
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--card-gap); }
+.group {
+    display: flex; flex-direction: column; gap: 10px; padding: 12px; min-width: 0;
+    background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-radius: var(--r-sm);
+}
+.group-title { margin: 0; font-size: var(--fs-sm); font-weight: 700; color: var(--text-strong); }
+.group .tile { background: transparent; }
+.ctl { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; gap: 4px 10px; }
+.ctl-label { color: var(--text-dim); font-size: var(--fs-xs); font-weight: 600; }
+.ctl-body { display: flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
+.ctl > .muted { grid-column: 2; }
+.ctl-body.flags { padding-left: 114px; flex-direction: column; align-items: flex-start; gap: 4px; }
+.ctl-body select.field { flex: 1; min-width: 0; }
+.unit { color: var(--text-dim); font-size: var(--fs-xs); }
+.hint { margin: 0; line-height: 1.4; }
+.field.num { width: 72px; padding-left: 8px; padding-right: 4px; font-variant-numeric: tabular-nums; }
+.range { flex: 1; min-width: 80px; accent-color: var(--primary); cursor: pointer; }
+.range:disabled, .check input:disabled { cursor: default; opacity: .45; }
+.group .segmented button { padding: 3px 8px; }
