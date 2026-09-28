@@ -13,6 +13,7 @@ first), each import adds another copy (so it's only imported when no Text+
 is found), and titles placed from it land on the exact frames asked for,
 longer than its own 5 seconds too, each with its own text.
 """
+import math
 import os
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -21,6 +22,25 @@ from .font_utils import DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, SCRIPT_FONTS, fon
 
 TEMPLATE_BIN = "Buddy Text+"
 TEMPLATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "text_plus_template.drb")
+
+
+def source_frames_for(length: int, source_fps: float, timeline_fps: float) -> int:
+    """How many of a Media Pool clip's own frames to place so it lasts `length`
+    timeline frames. AppendToTimeline's startFrame/endFrame count the SOURCE clip's
+    frames - whole ones - and Resolve rounds the timeline length down: measured
+    2026-09-28, n frames of Buddy's 24 fps Text+ template last floor(n x 30/24) frames
+    on a 30 fps timeline. (The template is 24 fps whatever the project - it comes from
+    text_plus_template.drb, and Resolve refuses to change its FPS.) Passing timeline
+    frames as they were made a 90-frame subtitle 112 frames long, and each subtitle
+    after it was pushed later. A length no whole n gives (29 at 24 -> 30 fps) comes out
+    one frame short, never long: long would push the next subtitle along too."""
+    if not source_fps or not timeline_fps or abs(source_fps - timeline_fps) < 1e-6:
+        return max(1, int(length))
+    ratio = timeline_fps / source_fps
+    n = math.ceil(length / ratio - 1e-9)
+    if math.floor(n * ratio + 1e-9) > length:
+        n -= 1
+    return max(1, n)
 # Media Pool item types that can be a Text+ template. Anything else with
 # "Title" in its name - a timeline called "Title sequence", say - isn't one.
 _TEMPLATE_TYPES = ("Fusion Title", "Generator", "Title")
@@ -809,6 +829,12 @@ class TextPlusGenerator:
 
         default_font = self._default_font_for(subtitles, log_msgs)
         fps, drop_frame = self._get_timeline_frame_rate_info(timeline)
+        template_fps = fps
+        if text_plus_item is not None:
+            try:
+                template_fps = float(text_plus_item.GetClipProperty("FPS") or fps)
+            except Exception:
+                pass
         original_timecode = timeline.GetCurrentTimecode() if hasattr(timeline, "GetCurrentTimecode") else None
 
         created_clips: List[Any] = []
@@ -831,7 +857,8 @@ class TextPlusGenerator:
                     clip_info = {
                         "mediaPoolItem": text_plus_item,
                         "startFrame": 0,
-                        "endFrame": sub.duration,
+                        # In the template's own frames, which may not be the timeline's.
+                        "endFrame": source_frames_for(sub.duration, template_fps, fps),
                         "recordFrame": sub.start_frame,
                         "trackIndex": target_video_track,
                         "mediaType": 1,  # Video

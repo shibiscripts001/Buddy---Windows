@@ -140,6 +140,7 @@ class TextAnimatorPage(WebToolPage):
         self.tab = "subtitles"
         self.sub_track = 1
         self.target_track = 1
+        self._target_chosen = False   # the user picked target_track: keep it (see below)
         self.tracks = {"video": 0, "subtitle": 0}
         self.timeline_name = ""
         self.resolution = (1920, 1080)
@@ -303,6 +304,10 @@ class TextAnimatorPage(WebToolPage):
     # ------------------------------------------------------------ defaults sync --
 
     def _set_default_target_video_track(self):
+        """Syncs the timeline's name, tracks and resolution, and suggests the topmost empty
+        video track to convert onto - unless the user picked one for this timeline: it ran on
+        every showing of the page, so picking track 2, visiting Transcribe and coming back
+        turned it into a new top track without a word."""
         resolve = self._resolve(quiet=True)
         if resolve is None:
             return self._push_state()
@@ -310,9 +315,12 @@ class TextAnimatorPage(WebToolPage):
         if timeline is None:
             return self._push_state()
         try:
-            self.target_track = get_top_most_unpopulated_video_track_index(timeline)
+            name = timeline.GetName() if callable(getattr(timeline, "GetName", None)) else ""
+            if not self._target_chosen or name != self.timeline_name:
+                self.target_track = get_top_most_unpopulated_video_track_index(timeline)
+                self._target_chosen = False
             self._sync_resolution(timeline)
-            self.timeline_name = timeline.GetName() if callable(getattr(timeline, "GetName", None)) else ""
+            self.timeline_name = name
             self.tracks = {"video": int(timeline.GetTrackCount("video") or 0),
                            "subtitle": int(timeline.GetTrackCount("subtitle") or 0)}
         except Exception:
@@ -500,6 +508,7 @@ class TextAnimatorPage(WebToolPage):
             return self._push_state()
         if name == "target_track":
             self.target_track = max(1, min(99, int(value or 1)))
+            self._target_chosen = True
             return self._push_state()
         if name == "font_name":
             value = self._font_display_to_real.get(value, value)
@@ -1064,6 +1073,7 @@ class TextAnimatorPage(WebToolPage):
             created = len(created_clips)
             self.emit("toast", {"text": f"1 Text+ clip on video track {target_track}" if created == 1
                                 else f"{created} Text+ clips on video track {target_track}"})
+            self._target_chosen = False      # used: the next conversion gets a fresh empty track
             self._set_default_target_video_track()
         except Exception as err:
             self.log(f"[Error in convert_subtitles]: {err}")

@@ -348,6 +348,34 @@ class PageTests(unittest.TestCase):
         self.page.switch_page("Subtitle Conversion")
         self.assertEqual(self.last("state")["tab"], "subtitles")
 
+    def test_a_chosen_target_track_is_kept(self):
+        self.page.on_shown()
+        self.assertEqual(self.last("state")["target_track"], 4)             # every track has clips
+        self.page.on_set({"name": "target_track", "value": 2})
+        self.page.on_shown()                                              # e.g. back from Transcribe
+        self.page.on_refresh()
+        self.assertEqual(self.last("state")["target_track"], 2)
+        self.host.timeline.GetName = lambda: "Another timeline"           # a different timeline
+        self.page.on_shown()
+        self.assertEqual(self.last("state")["target_track"], 4)
+
+
+@unittest.skipUnless(HAVE_QT, "PySide6 not installed")
+class SourceFramesTests(unittest.TestCase):
+    def test_lengths_in_the_templates_own_frames(self):
+        """Measured in Resolve 21: n frames of the 24 fps Text+ template last floor(n x 30/24)
+        frames on a 30 fps timeline - so each length maps to the n that lands exactly, or one
+        frame short where no whole n does (never long: that pushes the next subtitle)."""
+        from pages.text_animator.subtitle_engine import source_frames_for
+        landed = lambda n: int(n * 30 / 24)
+        for want, n, got in [(10, 8, 10), (11, 9, 11), (29, 23, 28), (31, 25, 31), (33, 27, 33),
+                             (39, 31, 38), (40, 32, 40), (90, 72, 90), (149, 119, 148), (151, 121, 151)]:
+            self.assertEqual(source_frames_for(want, 24.0, 30.0), n, want)
+            self.assertEqual(landed(n), got, want)
+        self.assertEqual(source_frames_for(90, 30.0, 30.0), 90)          # same rate: unchanged
+        self.assertEqual(source_frames_for(90, 24.0, 23.976), 91)       # 24 -> 23.976: just longer
+        self.assertEqual(source_frames_for(1, 24.0, 60.0), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
