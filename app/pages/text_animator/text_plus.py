@@ -93,6 +93,13 @@ _LIVE_TABS = _CANVAS_TABS + ("style",)   # polled for the Text+ under the playhe
 _BOX_PADDING = 4 / 640
 _SAMPLE_MAX_LINES = 6      # the style preview's text: a clip's own, up to this
 _SAMPLE_MAX_CHARS = 400
+# What an Apply says when its "Apply to" holds no clips.
+_EMPTY_SCOPE = {
+    "timeline": "No clips on the timeline",
+    "selected": "No clips selected on the timeline",
+    "playhead": "No Text+ clips under the playhead",
+    "track": "Video track {track} is empty",
+}
 # A log line that went wrong, for the activity log's colour.
 _BAD_LOG = re.compile(r"\[Error|Exception|Warning|Failed|Could not")
 
@@ -121,6 +128,10 @@ def _css_font(name: str) -> dict:
     if bold and weight < 700:
         weight = 700
     return {"family": family, "weight": weight, "italic": italic or "oblique" in s}
+
+
+class _ScopeUnavailable(Exception):
+    """An "Apply to" choice this Resolve can't do - the message says why."""
 
 
 class TextPlusTools(QObject):
@@ -689,7 +700,6 @@ class TextPlusTools(QObject):
 
     def on_apply_bounding(self, _payload=None):
         try:
-            self.log("[Action] Applying Bounding to all Text+ clips on the timeline…")
             if not self.bounding["on"]:
                 self.log("[Warning] Turn on Show bounding lines first.")
                 return
@@ -702,56 +712,53 @@ class TextPlusTools(QObject):
             timeline = self._timeline_or_log(resolve)
             if timeline is None:
                 return
-            try:
-                track_count = timeline.GetTrackCount("video") if hasattr(timeline, "GetTrackCount") else 0
-            except Exception:
-                track_count = 0
-            if not track_count:
-                self.log("[Info] No video tracks found on the current timeline.")
+            found = self._scope_or_toast(timeline, self.opts.scope("layout_scope"), self.opts.track("layout_track"))
+            if found is None:
                 return
+            clips, scope_desc = found
+            self.log(f"[Action] Applying Bounding to {scope_desc}…")
 
-            self.host.set_busy(True, "Applying bounding to the timeline…")
+            self.host.set_busy(True, "Applying bounding…")
             try:
                 updated = 0
                 scanned = 0
                 processed_clips = []
-                for track_index in range(1, track_count + 1):
-                    for clip in timeline.GetItemListInTrack("video", track_index) or []:
-                        if clip is None:
-                            continue
-                        scanned += 1
-                        clip_name = clip.GetName() if hasattr(clip, "GetName") else f"Clip on Track {track_index}"
-                        comp = self._get_fusion_comp(clip)
-                        if comp is None:
-                            continue
-                        text_tool = self._find_text_tool(comp)
-                        if text_tool is None:
-                            continue
-                        try:
-                            styled_text = text_tool.GetInput("StyledText")
-                            font_name = text_tool.GetInput("Font")
-                            font_size = text_tool.GetInput("Size")
-                            center = parse_point(text_tool.GetInput("Center"))
-                        except Exception as err:
-                            self.log(f"  - Warning: Could not read style/position for clip '{clip_name}': {err}")
-                            continue
-                        if center is None or not isinstance(font_size, (int, float)):
-                            self.log(f"  - Warning: Missing Center/Size for clip '{clip_name}' – skipped.")
-                            continue
-                        processed_clips.append((clip, text_tool, clip_name))
-                        new_size = compute_bounding_fit_size(font_name, float(font_size), styled_text or "", left_frac, right_frac)
-                        if new_size is None:
-                            self.log(f"  - Skipped clip '{clip_name}': the Bounding lines are degenerate (right must be right of left).")
-                            continue
-                        new_center_x = (left_frac + right_frac) / 2.0
-                        try:
-                            text_tool.SetInput("Size", new_size)
-                            text_tool.SetInput("Center", [new_center_x, center[1]])
-                            updated += 1
-                        except Exception as err:
-                            self.log(f"  - Warning: Could not set Size/Center for clip '{clip_name}': {err}")
+                for clip, track_index in clips:
+                    if clip is None:
+                        continue
+                    scanned += 1
+                    clip_name = clip.GetName() if hasattr(clip, "GetName") else f"Clip on Track {track_index}"
+                    comp = self._get_fusion_comp(clip)
+                    if comp is None:
+                        continue
+                    text_tool = self._find_text_tool(comp)
+                    if text_tool is None:
+                        continue
+                    try:
+                        styled_text = text_tool.GetInput("StyledText")
+                        font_name = text_tool.GetInput("Font")
+                        font_size = text_tool.GetInput("Size")
+                        center = parse_point(text_tool.GetInput("Center"))
+                    except Exception as err:
+                        self.log(f"  - Warning: Could not read style/position for clip '{clip_name}': {err}")
+                        continue
+                    if center is None or not isinstance(font_size, (int, float)):
+                        self.log(f"  - Warning: Missing Center/Size for clip '{clip_name}' – skipped.")
+                        continue
+                    processed_clips.append((clip, text_tool, clip_name))
+                    new_size = compute_bounding_fit_size(font_name, float(font_size), styled_text or "", left_frac, right_frac)
+                    if new_size is None:
+                        self.log(f"  - Skipped clip '{clip_name}': the Bounding lines are degenerate (right must be right of left).")
+                        continue
+                    new_center_x = (left_frac + right_frac) / 2.0
+                    try:
+                        text_tool.SetInput("Size", new_size)
+                        text_tool.SetInput("Center", [new_center_x, center[1]])
+                        updated += 1
+                    except Exception as err:
+                        self.log(f"  - Warning: Could not set Size/Center for clip '{clip_name}': {err}")
 
-                self.log(f"Applied Bounding resize to {updated}/{scanned} Text+ clip(s) found across {track_count} video track(s).")
+                self.log(f"Applied Bounding resize to {updated}/{scanned} clip(s) on {scope_desc}.")
                 timeline_width, timeline_height = get_timeline_resolution(timeline)
                 self._snap_all_stacked_groups_vertically(processed_clips, timeline_width, timeline_height)
             finally:
@@ -839,7 +846,10 @@ class TextPlusTools(QObject):
 
     def on_apply_position(self, _payload=None):
         try:
-            self.log("[Action] Applying Position to all Text+ clips on the timeline…")
+            scope = self.opts.scope("layout_scope")
+            if scope == "playhead":
+                # Those are the clips it copies FROM; the view disables the button for this.
+                return self.emit("toast", {"text": "Apply position copies from the clips under the playhead – choose another Apply to."})
             resolve = self._resolve()
             if resolve is None:
                 return
@@ -851,48 +861,43 @@ class TextPlusTools(QObject):
             if not reference_by_track:
                 self.log("[Warning] No Text+ clip with a readable position is currently under the playhead – nothing to apply.")
                 return self.emit("toast", {"text": "No Text+ clip under the playhead to copy the position from."})
-            try:
-                track_count = timeline.GetTrackCount("video") if callable(getattr(timeline, "GetTrackCount", None)) else 0
-            except Exception:
-                track_count = 0
-            if not track_count:
-                self.log("[Info] No video tracks found on the current timeline.")
+            found = self._scope_or_toast(timeline, scope, self.opts.track("layout_track"))
+            if found is None:
                 return
+            clips, scope_desc = found
+            self.log(f"[Action] Applying Position to {scope_desc}…")
 
-            self.host.set_busy(True, "Applying position to the timeline…")
+            self.host.set_busy(True, "Applying position…")
             try:
                 sub_actions = []
                 updated = 0
                 scanned = 0
-                for track_index in range(1, track_count + 1):
+                for clip, track_index in clips:
                     reference_center = reference_by_track.get(track_index)
-                    if reference_center is None:
+                    if clip is None or reference_center is None:
+                        continue                # a track with nothing under the playhead: left alone
+                    scanned += 1
+                    clip_name = clip.GetName() if callable(getattr(clip, "GetName", None)) else f"Clip on Track {track_index}"
+                    comp = self._get_fusion_comp(clip)
+                    text_tool = self._find_text_tool(comp) if comp is not None else None
+                    if text_tool is None:
                         continue
-                    for clip in timeline.GetItemListInTrack("video", track_index) or []:
-                        if clip is None:
-                            continue
-                        scanned += 1
-                        clip_name = clip.GetName() if callable(getattr(clip, "GetName", None)) else f"Clip on Track {track_index}"
-                        comp = self._get_fusion_comp(clip)
-                        text_tool = self._find_text_tool(comp) if comp is not None else None
-                        if text_tool is None:
-                            continue
-                        try:
-                            old_center = parse_point(text_tool.GetInput("Center"))
-                        except Exception:
-                            old_center = None
-                        new_center = [reference_center[0], reference_center[1]]
-                        if (old_center is not None and abs(old_center[0] - new_center[0]) < 1e-9
-                                and abs(old_center[1] - new_center[1]) < 1e-9):
-                            continue
-                        try:
-                            text_tool.SetInput("Center", new_center)
-                            updated += 1
-                            if old_center is not None:
-                                sub_actions.append(_LivePreviewAction(clip=clip, kind="position",
-                                                                      old_value=list(old_center), new_value=new_center))
-                        except Exception as err:
-                            self.log(f"  - Warning: Could not set Center for clip '{clip_name}': {err}")
+                    try:
+                        old_center = parse_point(text_tool.GetInput("Center"))
+                    except Exception:
+                        old_center = None
+                    new_center = [reference_center[0], reference_center[1]]
+                    if (old_center is not None and abs(old_center[0] - new_center[0]) < 1e-9
+                            and abs(old_center[1] - new_center[1]) < 1e-9):
+                        continue
+                    try:
+                        text_tool.SetInput("Center", new_center)
+                        updated += 1
+                        if old_center is not None:
+                            sub_actions.append(_LivePreviewAction(clip=clip, kind="position",
+                                                                  old_value=list(old_center), new_value=new_center))
+                    except Exception as err:
+                        self.log(f"  - Warning: Could not set Center for clip '{clip_name}': {err}")
                 self.log(f"[Apply Position] Updated {updated}/{scanned} Text+ clip(s) across "
                          f"{len(reference_by_track)} track(s) with a playhead reference.")
                 self._record_batch_action(sub_actions)
@@ -1051,14 +1056,31 @@ class TextPlusTools(QObject):
 
     # ------------------------------------------------------------ animations --
 
-    def _get_animation_scope_clips(self, timeline, scope: str) -> Tuple[list, str]:
+    def _scope_clips(self, timeline, scope: str, track: int) -> Tuple[list, str]:
+        """[(clip, video track)] an "Apply to" choice covers, and how to say which:
+        "timeline" every video track, "selected" the clips selected on Resolve's timeline
+        (Timeline.GetSelectedClips - Resolve 21.0.4 and later; raises _ScopeUnavailable on an
+        older one), "playhead" the Text+ under the playhead, "track" one video track. Not
+        every clip is a Text+ - callers skip the ones without one."""
         if scope == "playhead":
             items = get_active_text_plus_items(timeline, self._get_fusion_comp, self._find_text_tool, log=self.log)
-            return [(item.clip, item.track_index) for item in items], "Text+ clip(s) under the playhead"
+            return [(item.clip, item.track_index) for item in items], "the Text+ clip(s) under the playhead"
         if scope == "track":
-            target_track = self.opts.track("anim_track")
-            clips = timeline.GetItemListInTrack("video", target_track) or []
-            return [(c, target_track) for c in clips], f"Video Track {target_track}"
+            return [(c, track) for c in timeline.GetItemListInTrack("video", track) or []], f"Video Track {track}"
+        if scope == "selected":
+            selected = getattr(timeline, "GetSelectedClips", None)
+            if not callable(selected):
+                raise _ScopeUnavailable("Selected clips needs DaVinci Resolve 21.0.4 or later.")
+            clips = []
+            for clip in selected() or []:
+                try:
+                    kind, index = clip.GetTrackTypeAndIndex()
+                except Exception:
+                    continue
+                if kind == "video":             # audio and subtitle clips hold no Text+
+                    clips.append((clip, int(index)))
+            clips.sort(key=lambda c: (c[1], c[0].GetStart() if callable(getattr(c[0], "GetStart", None)) else 0))
+            return clips, "the selected clips"
         try:
             track_count = timeline.GetTrackCount("video") if hasattr(timeline, "GetTrackCount") else 0
         except Exception:
@@ -1068,6 +1090,21 @@ class TextPlusTools(QObject):
             track_clips = timeline.GetItemListInTrack("video", track_index) or []
             clips_with_tracks.extend((c, track_index) for c in track_clips)
         return clips_with_tracks, f"every video track ({track_count} track(s))"
+
+    def _scope_or_toast(self, timeline, scope: str, track: int) -> Optional[Tuple[list, str]]:
+        """_scope_clips, or None after saying what's wrong: nothing there, or a choice this
+        Resolve can't do."""
+        try:
+            clips, desc = self._scope_clips(timeline, scope, track)
+        except _ScopeUnavailable as exc:
+            self.log(f"[Warning] {exc}")
+            self.emit("toast", {"text": str(exc)})
+            return None
+        if not clips:
+            self.log(f"[Info] No video clips found on {desc}.")
+            self.emit("toast", {"text": _EMPTY_SCOPE.get(scope, _EMPTY_SCOPE["timeline"]).format(track=track)})
+            return None
+        return clips, desc
 
     def _apply_animation_to_tool(self, text_tool, comp, clip_name: str, preset_choice: str,
                                  speed: Optional[str] = None, direction: Optional[str] = None) -> bool:
@@ -1114,10 +1151,8 @@ class TextPlusTools(QObject):
             return None
         return (name, start, end, track_index)
 
-    def on_apply_animation(self, payload):
-        scope = (payload or {}).get("scope")
-        if scope not in ("timeline", "playhead", "track"):
-            return
+    def on_apply_animation(self, _payload=None):
+        scope = self.opts.scope("anim_scope")
         try:
             resolve = self._resolve()
             if resolve is None:
@@ -1127,10 +1162,10 @@ class TextPlusTools(QObject):
                 return
             preset_choice = self.opts.anim_preset
             self.log("[Action] Starting text animation…")
-            video_clips_with_tracks, scope_desc = self._get_animation_scope_clips(timeline, scope)
-            if not video_clips_with_tracks:
-                self.log(f"[Info] No video clips found on {scope_desc}.")
-                return self.emit("toast", {"text": f"No clips on {scope_desc}"})
+            found = self._scope_or_toast(timeline, scope, self.opts.track("anim_track"))
+            if found is None:
+                return
+            video_clips_with_tracks, scope_desc = found
             self.log(f"Found {len(video_clips_with_tracks)} clip(s) on {scope_desc}. Applying animations…")
             self.host.set_busy(True, "Applying animations…")
             try:
@@ -1179,10 +1214,10 @@ class TextPlusTools(QObject):
             if timeline is None:
                 return
             self.log("[Action] Removing animations…")
-            video_clips_with_tracks, scope_desc = self._get_animation_scope_clips(timeline, "timeline")
-            if not video_clips_with_tracks:
-                self.log(f"[Info] No video clips found on {scope_desc}.")
+            found = self._scope_or_toast(timeline, self.opts.scope("anim_scope"), self.opts.track("anim_track"))
+            if found is None:
                 return
+            video_clips_with_tracks, scope_desc = found
             self.host.set_busy(True, "Removing animations…")
             try:
                 sub_actions = []
@@ -1247,7 +1282,7 @@ class TextPlusTools(QObject):
         self.opts.set("font_name", DEFAULT_FONT_NAME)
         self.opts.set("font_size", 0.08)
         self._push_options()
-        self.log(f"Font reset to '{DEFAULT_FONT_NAME} {DEFAULT_FONT_STYLE}' – applying to all Text+ clips now…")
+        self.log(f"Font reset to '{DEFAULT_FONT_NAME} {DEFAULT_FONT_STYLE}' – applying it to the clips in Apply to…")
         self._apply_style(force_font_only=True)
 
     def _get_playhead_text_tools(self, timeline):
@@ -1320,87 +1355,37 @@ class TextPlusTools(QObject):
     def _apply_style(self, force_font_only=False):
         try:
             scope = self.opts.style_scope
-            style_track = self.opts.track("style_track")
-            if scope == "playhead":
-                self.log("[Action] Applying font style to Text+ clip(s) under the playhead…")
-            elif scope == "track":
-                self.log(f"[Action] Applying font style to Video Track {style_track}…")
-            else:
-                self.log("[Action] Applying font style to all Text+ clips on the timeline…")
             resolve = self._resolve()
             if resolve is None:
                 return
             timeline = self._timeline_or_log(resolve)
             if timeline is None:
                 return
-            font_name = self.opts.font_name
-            font_size = self.opts.slider("font_size")
-
+            found = self._scope_or_toast(timeline, scope, self.opts.track("style_track"))
+            if found is None:
+                return
+            clips, scope_desc = found
+            self.log(f"[Action] Applying font style to {scope_desc}…")
             self.host.set_busy(True, "Applying font style…")
             try:
-                if scope == "playhead":
-                    clip_tool_pairs = self._get_playhead_text_tools(timeline)
-                    if not clip_tool_pairs:
-                        self.log("[Info] No Text+ clips found under the playhead.")
-                        return self.emit("toast", {"text": "No Text+ clips under the playhead"})
-                    updated = 0
-                    for clip, text_tool in clip_tool_pairs:
-                        clip_name = clip.GetName() if hasattr(clip, "GetName") else "Clip"
-                        if self._apply_font_style_to_tool(text_tool, f"'{clip_name}'", force_font_only=force_font_only):
-                            updated += 1
-                    self.log(f"Applied font style ('{font_name}', size {font_size}) to {updated}/{len(clip_tool_pairs)} Text+ clip(s) under the playhead.")
-                    return self.emit("toast", {"text": f"Styled {updated} Text+ clip(s)"})
-
-                if scope == "track":
-                    video_clips = timeline.GetItemListInTrack("video", style_track) or []
-                    if not video_clips:
-                        self.log(f"[Info] No video clips found on Video Track {style_track}.")
-                        return self.emit("toast", {"text": f"Video track {style_track} is empty"})
-                    updated = 0
-                    scanned = 0
-                    for clip in video_clips:
-                        if clip is None:
-                            continue
-                        scanned += 1
-                        clip_name = clip.GetName() if hasattr(clip, "GetName") else "Clip"
-                        comp = self._get_fusion_comp(clip)
-                        if comp is None:
-                            continue
-                        text_tool = self._find_text_tool(comp)
-                        if text_tool is None:
-                            continue
-                        if self._apply_font_style_to_tool(text_tool, f"'{clip_name}' on Track {style_track}", force_font_only=force_font_only):
-                            updated += 1
-                    self.log(f"Applied font style ('{font_name}', size {font_size}) to {updated}/{scanned} Text+ clip(s) on Video Track {style_track}.")
-                    return self.emit("toast", {"text": f"Styled {updated} Text+ clip(s)"})
-
-                try:
-                    track_count = timeline.GetTrackCount("video") if hasattr(timeline, "GetTrackCount") else 0
-                except Exception:
-                    track_count = 0
-                if not track_count:
-                    self.log("[Info] No video tracks found on the current timeline.")
-                    return
-                updated = 0
-                scanned = 0
-                for track_index in range(1, track_count + 1):
-                    for clip in timeline.GetItemListInTrack("video", track_index) or []:
-                        if clip is None:
-                            continue
-                        scanned += 1
-                        clip_name = clip.GetName() if hasattr(clip, "GetName") else f"Clip on Track {track_index}"
-                        comp = self._get_fusion_comp(clip)
-                        if comp is None:
-                            continue
-                        text_tool = self._find_text_tool(comp)
-                        if text_tool is None:
-                            continue
-                        if self._apply_font_style_to_tool(text_tool, f"'{clip_name}' on Track {track_index}", force_font_only=force_font_only):
-                            updated += 1
-                self.log(f"Applied font style ('{font_name}', size {font_size}) to {updated}/{scanned} Text+ clip(s) found across {track_count} video track(s).")
-                self.emit("toast", {"text": f"Styled {updated} Text+ clip(s)"})
+                updated = scanned = 0
+                for clip, track_index in clips:
+                    if clip is None:
+                        continue
+                    scanned += 1
+                    comp = self._get_fusion_comp(clip)
+                    text_tool = self._find_text_tool(comp) if comp is not None else None
+                    if text_tool is None:
+                        continue
+                    clip_name = clip.GetName() if hasattr(clip, "GetName") else "Clip"
+                    if self._apply_font_style_to_tool(text_tool, f"'{clip_name}' on Track {track_index}",
+                                                      force_font_only=force_font_only):
+                        updated += 1
+                self.log(f"Applied font style ('{self.opts.font_name}', size {self.opts.slider('font_size')}) "
+                         f"to {updated}/{scanned} clip(s) on {scope_desc}.")
             finally:
                 self.host.set_busy(False)
+            self.emit("toast", {"text": f"Styled {updated} Text+ clip(s)"})
         except Exception as err:
-            self.log(f"[Error in apply_font_style_to_all]: {err}")
+            self.log(f"[Error in apply_style]: {err}")
             self.log(traceback.format_exc())

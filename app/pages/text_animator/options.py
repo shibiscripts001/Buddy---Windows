@@ -18,7 +18,11 @@ from .overlays import GRID_TYPES, SAFE_ZONE_TYPES
 from .layout_presets import LAYOUT_PRESETS
 
 ANIM_PRESETS = ["Pop (Scale)", "Bounce (Extra Rebound)", "Fade (Opacity)", "Slide (Direction + Fade)"]
-STYLE_SCOPES = ("timeline", "playhead", "track")
+# Which Text+ clips an Apply works on - each tab's "Apply to" dropdown (Font Styling, Timeline
+# Layout, Timeline Animation). "selected" is the clips selected on Resolve's timeline.
+SCOPES = ("timeline", "selected", "playhead", "track")
+# tab -> settings key of its "Apply to" choice. Font Styling's also reads the two older keys below.
+SCOPE_KEYS = {"style_scope": "font_style_scope", "anim_scope": "anim_scope", "layout_scope": "layout_scope"}
 
 # name -> (label, min, max, step, decimals, default, settings key). The page's sliders.
 SLIDERS = {
@@ -55,6 +59,7 @@ TOGGLES = {
 TRACKS = {
     "style_track": (1, "font_style_scope_track"),
     "anim_track": (1, "anim_specific_track"),
+    "layout_track": (1, "layout_specific_track"),
 }
 # The canvases' overlay and snapping settings (keys of their own).
 OVERLAY = {
@@ -124,13 +129,21 @@ class Options:
         from .font_utils import DEFAULT_FONT_NAME
         return str(self.s.get("selected_font_name") or DEFAULT_FONT_NAME)
 
+    def scope(self, name: str) -> str:
+        """A tab's "Apply to" choice (see SCOPES); name is one of SCOPE_KEYS."""
+        value = self.s.get(SCOPE_KEYS[name])
+        if value in SCOPES:
+            return value
+        if name == "style_scope":          # saved before the dropdown: two ticks
+            if self.s.get("font_style_scope_specific_track"):
+                return "track"
+            if self.s.get("font_style_scope_playhead"):
+                return "playhead"
+        return "timeline"
+
     @property
     def style_scope(self) -> str:
-        if self.s.get("font_style_scope_specific_track"):
-            return "track"
-        if self.s.get("font_style_scope_playhead"):
-            return "playhead"
-        return "timeline"
+        return self.scope("style_scope")
 
     @property
     def anim_preset(self) -> str:
@@ -198,11 +211,13 @@ class Options:
             if not isinstance(value, str) or not value.strip():
                 return False
             s["selected_font_name"] = value.strip()
-        elif name == "style_scope":
-            if value not in STYLE_SCOPES:
+        elif name in SCOPE_KEYS:
+            if value not in SCOPES:
                 return False
-            s["font_style_scope_playhead"] = value == "playhead"
-            s["font_style_scope_specific_track"] = value == "track"
+            s[SCOPE_KEYS[name]] = value
+            if name == "style_scope":        # kept in step, for an older Buddy on this PC
+                s["font_style_scope_playhead"] = value == "playhead"
+                s["font_style_scope_specific_track"] = value == "track"
         elif name == "anim_preset":
             if value not in ANIM_PRESETS:
                 return False
@@ -252,6 +267,8 @@ class Options:
             "tracks": {name: self.track(name) for name in TRACKS},
             "font_name": self.font_name,
             "style_scope": self.style_scope,
+            "anim_scope": self.scope("anim_scope"),
+            "layout_scope": self.scope("layout_scope"),
             "anim_presets": ANIM_PRESETS, "anim_preset": self.anim_preset,
             "anim_directions": list(FusionAnimationEngine.SLIDE_DIRECTIONS), "anim_direction": self.anim_direction,
             "anim_speeds": list(FusionAnimationEngine.SPEEDS), "anim_speed": self.anim_speed,

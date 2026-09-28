@@ -165,7 +165,7 @@
                         <div class="row">
                             <label class="lbl grow">Font <select class="field" id="font" translate="no"></select></label>
                             <button type="button" class="btn ghost" data-tp="reset_font" id="reset-font"
-                                    title="Applies Arial Regular, size 0.08, to every Text+ clip straight away">Reset to default</button>
+                                    title="Applies Arial Regular, size 0.08, straight away, to the clips chosen in Apply to">Reset to default</button>
                         </div>
                         <div data-slider="font_size"></div>
                         <div class="lbl">Colour <span data-color="font_color"></span></div>
@@ -232,12 +232,15 @@
                 </section>
                 <section class="card box">
                     <span class="section-title">Apply to</span>
-                    <div class="segmented" id="style-scope">
-                        <button type="button" data-value="timeline">Entire timeline</button>
-                        <button type="button" data-value="playhead">Under the playhead</button>
-                        <button type="button" data-value="track">One track</button>
+                    <div class="row wrap gap scope-row">
+                        <select class="field" data-scope-select="style_scope" aria-label="Apply to">
+                            <option value="timeline">Entire timeline</option>
+                            <option value="selected">Selected clips</option>
+                            <option value="playhead">Under the playhead</option>
+                            <option value="track">Specific track</option>
+                        </select>
+                        <label class="lbl" data-scope-track="style_scope">Video track <select class="field" id="style-track"></select></label>
                     </div>
-                    <label class="lbl" id="style-track-row">Video track <select class="field" id="style-track"></select></label>
                     <button type="button" class="btn accent big" data-tp="apply_style">Apply font style</button>
                     <p class="muted small note">Outline, shadow and background that are unticked are turned off on the clips.</p>
                 </section>
@@ -257,20 +260,35 @@
             </div>
             <div class="canvas-host" id="canvas-layout"></div>
         </section>
+        <section class="card box">
+            <div class="row wrap gap">
+                <span class="section-title">Apply to</span>
+                <div class="row wrap gap scope-row">
+                    <select class="field" data-scope-select="layout_scope" aria-label="Apply to">
+                        <option value="timeline">Entire timeline</option>
+                        <option value="selected">Selected clips</option>
+                        <option value="playhead">Under the playhead</option>
+                        <option value="track">Specific track</option>
+                    </select>
+                    <label class="lbl" data-scope-track="layout_scope">Video track <select class="field" id="layout-track"></select></label>
+                </div>
+            </div>
+            <p class="muted small note">Which Text+ clips Apply position and Apply bounding change.</p>
+        </section>
         <div class="tools">
             <section class="card box">
                 <span class="section-title">Apply position</span>
-                <p class="muted small note">Copies the position of each clip under the playhead onto every other Text+
-                    clip on its video track, across the whole timeline. A track with nothing under the playhead is left alone.</p>
-                <button type="button" class="btn accent" data-tp="apply_position">Apply position to entire timeline</button>
+                <p class="muted small note">Copies the position of each clip under the playhead onto the other Text+ clips on
+                    its video track that Apply to chooses. A track with nothing under the playhead is left alone.</p>
+                <button type="button" class="btn accent" data-tp="apply_position" id="apply-position">Apply position</button>
             </section>
             <section class="card box">
                 <span class="section-title">Bounding</span>
                 <p class="muted small note">Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying
-                    resizes every clip's text to fill the space between them and centres it there. Turning them on also
-                    stacks clips under the playhead together vertically.</p>
+                    resizes the text of each clip Apply to chooses to fill the space between them, and centres it there.
+                    Turning them on also stacks clips under the playhead together vertically.</p>
                 <label class="check"><input type="checkbox" id="bounding-on"> Show bounding lines</label>
-                <button type="button" class="btn accent" data-tp="apply_bounding" id="apply-bounding">Apply bounding to entire timeline</button>
+                <button type="button" class="btn accent" data-tp="apply_bounding" id="apply-bounding">Apply bounding</button>
             </section>
         </div>
     </section>
@@ -309,12 +327,18 @@
             </div>
         </section>
         <section class="card box">
-            <span class="section-title">Apply</span>
-            <div class="row wrap">
-                <button type="button" class="btn accent" data-scope="timeline">Every Text+ on the timeline</button>
-                <button type="button" class="btn" data-scope="playhead">Tracks under the playhead</button>
-                <span class="track-apply"><button type="button" class="btn" data-scope="track">Video track</button>
-                    <select class="field" id="anim-track"></select></span>
+            <span class="section-title">Apply to</span>
+            <div class="row wrap gap">
+                <div class="row wrap gap scope-row">
+                    <select class="field" data-scope-select="anim_scope" aria-label="Apply to">
+                        <option value="timeline">Entire timeline</option>
+                        <option value="selected">Selected clips</option>
+                        <option value="playhead">Under the playhead</option>
+                        <option value="track">Specific track</option>
+                    </select>
+                    <label class="lbl" data-scope-track="anim_scope">Video track <select class="field" id="anim-track"></select></label>
+                </div>
+                <button type="button" class="btn accent" data-tp="apply_animation">Apply animation</button>
             </div>
             <div class="row wrap">
                 <button type="button" class="btn danger" id="remove-anims">Remove animations…</button>

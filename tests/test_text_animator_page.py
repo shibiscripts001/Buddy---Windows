@@ -74,11 +74,21 @@ class Clip:
     def GetFusionCompByIndex(self, _i):
         return Comp(self.tool)
 
+    def GetTrackTypeAndIndex(self):
+        return [self.kind, self.track]
+
 
 class Timeline:
     def __init__(self, tracks):
         self.tracks = tracks        # [[Clip]] per video track
         self.playhead = "01:00:00:10"
+        self.selected = []          # what's selected on the timeline (Resolve 21.0.4+)
+        for index, clips in enumerate(tracks, start=1):
+            for clip in clips:
+                clip.kind, clip.track = "video", index
+
+    def GetSelectedClips(self):
+        return list(self.selected)
 
     def GetName(self):
         return "Promo"
@@ -206,13 +216,26 @@ class OptionTests(unittest.TestCase):
         self.assertEqual((s["outline_color_r"], s["outline_color_g"]), (0.0, 1.0))
         self.assertTrue(o.set("style_scope", "playhead"))
         self.assertEqual((s["font_style_scope_playhead"], s["font_style_scope_specific_track"]), (True, False))
+        self.assertTrue(o.set("style_scope", "selected"))                  # kept under a key of its own
+        self.assertEqual((s["font_style_scope"], o.style_scope), ("selected", "selected"))
         self.assertTrue(o.set("anim_speed", "Medium"))
         self.assertEqual(s["anim_speed"], 1)
         for bad in (("font_size", "big"), ("outline_color", "red"), ("style_scope", "all"), ("nope", 1),
+                    ("anim_scope", "tracks"), ("layout_track", "x"),
                     ("grid_type", "Hexagons")):
             self.assertFalse(o.set(*bad), bad)
         self.assertTrue(o.set("grid_type", "Rule of Thirds"))
         self.assertEqual(o.overlay_view()["grid_type"], "Rule of Thirds")
+
+    def test_each_tab_has_its_own_apply_to(self):
+        o = opts.Options(Mem())
+        self.assertEqual({o.view()[k] for k in ("style_scope", "anim_scope", "layout_scope")}, {"timeline"})
+        self.assertTrue(o.set("anim_scope", "track"))
+        self.assertTrue(o.set("layout_scope", "selected"))
+        self.assertTrue(o.set("layout_track", 4))
+        v = o.view()
+        self.assertEqual((v["style_scope"], v["anim_scope"], v["layout_scope"], v["tracks"]["layout_track"]),
+                         ("timeline", "track", "selected", 4))
 
     def test_hex(self):
         self.assertEqual(opts.to_hex((1, 0.5, 0)), "#FF8000")
@@ -377,6 +400,55 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.tool(0).GetInput("Size"), 0.1)                           # other tracks untouched
         self.assertEqual(self.tool(1).GetInput("Blue1"), 1.0)
         self.assertEqual(self.host.tools["text_animator"]["font_size"], 0.2)          # remembered
+
+    def select(self, *clips):
+        self.host.timeline.selected = list(clips)
+
+    def clip(self, track, index=0):
+        return self.host.timeline.tracks[track][index]
+
+    def test_apply_to_finds_the_clips(self):
+        timeline = self.host.timeline
+        audio = Clip("Music", 86400, 90000, None)
+        audio.kind, audio.track = "audio", 1
+        self.select(self.clip(1, 1), audio, self.clip(0))                   # audio holds no Text+: left out
+        names = lambda scope, track=1: [c.GetName() for c, _t in self.page._scope_clips(timeline, scope, track)[0]]
+        self.assertEqual(names("selected"), ["Title", "Later"])             # track order
+        self.assertEqual(names("track", 2), ["Hello", "Later"])
+        self.assertEqual(sorted(names("playhead")), ["Hello", "Title", "World"])
+        self.assertEqual(len(names("timeline")), 4)
+
+    def test_selected_clips_needs_a_resolve_that_says(self):
+        del Timeline.GetSelectedClips                                        # Resolve before 21.0.4
+        self.addCleanup(setattr, Timeline, "GetSelectedClips", lambda s: list(s.selected))
+        self.page.on_set({"name": "style_scope", "value": "selected"})
+        self.page.on_apply_style()
+        self.assertEqual(self.last("toast")["text"], "Selected clips needs DaVinci Resolve 21.0.4 or later.")
+        self.assertEqual(self.host.busy, [])                                 # nothing started
+
+    def test_style_goes_to_the_selected_clips_only(self):
+        self.page.on_set({"name": "font_size", "value": 0.2})
+        self.page.on_set({"name": "style_scope", "value": "selected"})
+        self.page.on_apply_style()
+        self.assertEqual(self.last("toast")["text"], "No clips selected on the timeline")
+        self.select(self.clip(1, 1))                                         # just "Later"
+        self.page.on_apply_style()
+        self.assertEqual((self.tool(1, 1).GetInput("Size"), self.tool(1).GetInput("Size")), (0.2, 0.06))
+
+    def test_apply_position_and_bounding_follow_apply_to(self):
+        self.page.on_set({"name": "layout_scope", "value": "playhead"})      # it copies FROM those
+        self.page.on_apply_position()
+        self.assertIn("choose another Apply to", self.last("toast")["text"])
+        self.assertEqual(self.tool(1, 1).center(), (0.5, 0.5))
+        self.page.on_set({"name": "layout_scope", "value": "selected"})
+        self.select(self.clip(1, 1))
+        self.page.on_apply_position()
+        self.assertEqual(self.tool(1, 1).center(), (0.3, 0.3))              # "Later" follows "Hello"
+        self.page.on_bounding({"on": True, "left": 0.2, "right": 0.8})
+        self.page.on_apply_bounding()
+        self.assertEqual(self.tool(1, 1).center()[0], 0.5)                  # the selected one, fitted
+        self.assertEqual(self.tool(0).center()[0], 0.5)                     # (already centred)
+        self.assertEqual(self.tool(0).GetInput("Size"), 0.1)                # not selected: untouched
 
     def test_word_layout_uses_the_selected_hero(self):
         self.show("words")

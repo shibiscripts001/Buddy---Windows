@@ -160,16 +160,6 @@
   "العربية": "ألغِ التحديد لترك الخط والحجم واللون كما هي.",
   "Tiếng Việt": "Bỏ chọn để giữ nguyên phông chữ, cỡ chữ và màu."
  },
- "Applies Arial Regular, size 0.08, to every Text+ clip straight away": {
-  "日本語": "すべての Text+ クリップにすぐに Arial Regular、サイズ 0.08 を適用します",
-  "Español": "Aplica Arial Regular, tamaño 0.08, a todos los clips Text+ de inmediato",
-  "Deutsch": "Wendet sofort Arial Regular, Größe 0.08, auf jeden Text+-Clip an",
-  "Français": "Applique immédiatement Arial Regular, taille 0.08, à chaque clip Text+",
-  "한국어": "모든 Text+ 클립에 Arial Regular, 크기 0.08을 즉시 적용합니다",
-  "中文": "立即对每个 Text+ 片段应用 Arial Regular、大小 0.08",
-  "العربية": "يطبّق Arial Regular بحجم 0.08 على كل مقاطع Text+ فورًا",
-  "Tiếng Việt": "Áp dụng ngay Arial Regular, cỡ 0.08 cho mọi clip Text+"
- },
  "Colour": {
   "日本語": "色",
   "Español": "Color",
@@ -299,16 +289,6 @@
   "中文": "播放头下方",
   "العربية": "أسفل رأس التشغيل",
   "Tiếng Việt": "Dưới đầu phát"
- },
- "One track": {
-  "日本語": "1 つのトラック",
-  "Español": "Una pista",
-  "Deutsch": "Eine Spur",
-  "Français": "Une piste",
-  "한국어": "트랙 하나",
-  "中文": "单条轨道",
-  "العربية": "مسار واحد",
-  "Tiếng Việt": "Một track"
  },
  "Video track": {
   "日本語": "ビデオトラック",
@@ -440,26 +420,6 @@
   "العربية": "تطبيق الموضع",
   "Tiếng Việt": "Áp dụng vị trí"
  },
- "Copies the position of each clip under the playhead onto every other Text+ clip on its video track, across the whole timeline. A track with nothing under the playhead is left alone.": {
-  "日本語": "再生ヘッド下の各クリップの位置を、タイムライン全体でそのビデオトラック上の他のすべての Text+ クリップにコピーします。再生ヘッドの下に何もないトラックはそのままです。",
-  "Español": "Copia la posición de cada clip bajo el cabezal a todos los demás clips Text+ de su pista de vídeo, en toda la línea de tiempo. Una pista sin nada bajo el cabezal no se toca.",
-  "Deutsch": "Kopiert die Position jedes Clips unter dem Abspielkopf auf alle anderen Text+-Clips derselben Videospur, über die gesamte Timeline. Eine Spur ohne Clip unter dem Abspielkopf bleibt unverändert.",
-  "Français": "Copie la position de chaque clip sous la tête de lecture sur tous les autres clips Text+ de sa piste vidéo, sur toute la timeline. Une piste sans rien sous la tête de lecture n'est pas modifiée.",
-  "한국어": "재생 헤드 아래 각 클립의 위치를 타임라인 전체에서 같은 비디오 트랙의 다른 모든 Text+ 클립에 복사합니다. 재생 헤드 아래에 아무것도 없는 트랙은 그대로 둡니다.",
-  "中文": "将播放头下每个片段的位置复制到整个时间线上同一视频轨道的其他所有 Text+ 片段。播放头下方没有内容的轨道保持不变。",
-  "العربية": "ينسخ موضع كل مقطع أسفل رأس التشغيل إلى كل مقاطع Text+ الأخرى على مسار الفيديو نفسه، عبر الخط الزمني بأكمله. يُترك المسار الذي لا شيء أسفل رأس التشغيل فيه كما هو.",
-  "Tiếng Việt": "Sao chép vị trí của từng clip dưới đầu phát sang mọi clip Text+ khác trên cùng track video, trên toàn bộ timeline. Track không có gì dưới đầu phát sẽ được giữ nguyên."
- },
- "Apply position to entire timeline": {
-  "日本語": "位置をタイムライン全体に適用",
-  "Español": "Aplicar la posición a toda la línea de tiempo",
-  "Deutsch": "Position auf gesamte Timeline anwenden",
-  "Français": "Appliquer la position à toute la timeline",
-  "한국어": "위치를 타임라인 전체에 적용",
-  "中文": "将位置应用到整个时间线",
-  "العربية": "تطبيق الموضع على الخط الزمني بأكمله",
-  "Tiếng Việt": "Áp dụng vị trí cho toàn bộ timeline"
- },
  "Bounding": {
   "日本語": "範囲指定",
   "Español": "Delimitación",
@@ -470,16 +430,6 @@
   "العربية": "التحديد",
   "Tiếng Việt": "Giới hạn"
  },
- "Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying resizes every clip's text to fill the space between them and centres it there. Turning them on also stacks clips under the playhead together vertically.": {
-  "日本語": "プレビュー内でドラッグする 2 本の線です (例: セーフゾーンの端に合わせる)。適用すると、各クリップのテキストが線の間を埋める大きさに変わり、その中央に配置されます。オンにすると、再生ヘッド下のクリップも縦にまとめて並びます。",
-  "Español": "Dos líneas que arrastrar en la vista previa (p. ej., a los bordes de una zona segura). Al aplicar, el texto de cada clip se redimensiona para llenar el espacio entre ellas y se centra ahí. Activarlas también apila verticalmente los clips bajo el cabezal.",
-  "Deutsch": "Zwei Linien, die Sie in der Vorschau ziehen (z. B. an die Ränder einer sicheren Zone). Beim Anwenden wird der Text jedes Clips so skaliert, dass er den Raum dazwischen füllt, und dort zentriert. Das Einschalten stapelt außerdem die Clips unter dem Abspielkopf vertikal.",
-  "Français": "Deux lignes à faire glisser dans l'aperçu (par ex. sur les bords d'une zone de sécurité). Appliquer redimensionne le texte de chaque clip pour remplir l'espace entre elles et l'y centre. Les activer empile aussi verticalement les clips sous la tête de lecture.",
-  "한국어": "미리 보기에서 드래그하는 두 개의 선입니다(예: 안전 영역의 가장자리에 맞춤). 적용하면 각 클립의 텍스트가 두 선 사이를 채우도록 크기가 바뀌고 그 가운데에 놓입니다. 켜면 재생 헤드 아래의 클립도 세로로 함께 쌓입니다.",
-  "中文": "在预览中拖动的两条线（例如拖到安全区边缘）。应用后，每个片段的文字会调整大小以填满两线之间的空间并居中。开启后还会将播放头下的片段垂直堆叠在一起。",
-  "العربية": "خطان تسحبهما في المعاينة (مثلًا إلى حواف منطقة آمنة). يؤدي التطبيق إلى تغيير حجم نص كل مقطع ليملأ المسافة بينهما ويوسّطه هناك. وتشغيلهما يرصّ أيضًا المقاطع أسفل رأس التشغيل عموديًا معًا.",
-  "Tiếng Việt": "Hai đường để kéo trong bản xem trước (vd: vào các cạnh của vùng an toàn). Áp dụng sẽ đổi kích thước chữ của mỗi clip để lấp đầy khoảng giữa hai đường và căn giữa ở đó. Bật chúng cũng xếp chồng các clip dưới đầu phát theo chiều dọc."
- },
  "Show bounding lines": {
   "日本語": "範囲線を表示",
   "Español": "Mostrar líneas de delimitación",
@@ -489,16 +439,6 @@
   "中文": "显示边界线",
   "العربية": "إظهار خطوط التحديد",
   "Tiếng Việt": "Hiện đường giới hạn"
- },
- "Apply bounding to entire timeline": {
-  "日本語": "範囲指定をタイムライン全体に適用",
-  "Español": "Aplicar la delimitación a toda la línea de tiempo",
-  "Deutsch": "Begrenzung auf gesamte Timeline anwenden",
-  "Français": "Appliquer la délimitation à toute la timeline",
-  "한국어": "경계를 타임라인 전체에 적용",
-  "中文": "将边界应用到整个时间线",
-  "العربية": "تطبيق التحديد على الخط الزمني بأكمله",
-  "Tiếng Việt": "Áp dụng giới hạn cho toàn bộ timeline"
  },
  "Word preview": {
   "日本語": "単語のプレビュー",
@@ -579,26 +519,6 @@
   "中文": "应用",
   "العربية": "تطبيق",
   "Tiếng Việt": "Áp dụng"
- },
- "Every Text+ on the timeline": {
-  "日本語": "タイムライン上のすべての Text+",
-  "Español": "Todos los Text+ de la línea de tiempo",
-  "Deutsch": "Jeder Text+ auf der Timeline",
-  "Français": "Tous les Text+ de la timeline",
-  "한국어": "타임라인의 모든 Text+",
-  "中文": "时间线上的所有 Text+",
-  "العربية": "كل Text+ على الخط الزمني",
-  "Tiếng Việt": "Mọi Text+ trên timeline"
- },
- "Tracks under the playhead": {
-  "日本語": "再生ヘッド下のトラック",
-  "Español": "Pistas bajo el cabezal",
-  "Deutsch": "Spuren unter dem Abspielkopf",
-  "Français": "Pistes sous la tête de lecture",
-  "한국어": "재생 헤드 아래 트랙",
-  "中文": "播放头下方的轨道",
-  "العربية": "المسارات أسفل رأس التشغيل",
-  "Tiếng Việt": "Các track dưới đầu phát"
  },
  "Remove animations…": {
   "日本語": "アニメーションを削除…",
@@ -1310,36 +1230,6 @@
   "العربية": "{count} مقاطع Text+ على مسار الفيديو {n}",
   "Tiếng Việt": "{count} clip Text+ trên track video {n}"
  },
- "No clips on Text+ clip(s) under the playhead": {
-  "日本語": "再生ヘッドの下に Text+ クリップがありません",
-  "Español": "No hay clips Text+ bajo el cabezal",
-  "Deutsch": "Keine Text+-Clips unter dem Abspielkopf",
-  "Français": "Aucun clip Text+ sous la tête de lecture",
-  "한국어": "재생 헤드 아래에 Text+ 클립 없음",
-  "中文": "播放头下方没有 Text+ 片段",
-  "العربية": "لا توجد مقاطع Text+ أسفل رأس التشغيل",
-  "Tiếng Việt": "Không có clip Text+ nào dưới đầu phát"
- },
- "No clips on Video Track {n}": {
-  "日本語": "ビデオトラック {n} にクリップがありません",
-  "Español": "No hay clips en la pista de vídeo {n}",
-  "Deutsch": "Keine Clips auf Videospur {n}",
-  "Français": "Aucun clip sur la piste vidéo {n}",
-  "한국어": "비디오 트랙 {n}에 클립 없음",
-  "中文": "视频轨道 {n} 上没有片段",
-  "العربية": "لا توجد مقاطع على مسار الفيديو {n}",
-  "Tiếng Việt": "Không có clip nào trên track video {n}"
- },
- "No clips on every video track ({count} track(s))": {
-  "日本語": "どのビデオトラックにもクリップがありません ({count} トラック)",
-  "Español": "No hay clips en ninguna pista de vídeo ({count} pista(s))",
-  "Deutsch": "Keine Clips auf allen Videospuren ({count} Spur(en))",
-  "Français": "Aucun clip sur les pistes vidéo ({count} piste(s))",
-  "한국어": "모든 비디오 트랙({count}개)에 클립 없음",
-  "中文": "所有视频轨道（{count} 条）上都没有片段",
-  "العربية": "لا توجد مقاطع على أي مسار فيديو ({count} مسار)",
-  "Tiếng Việt": "Không có clip nào trên các track video ({count} track)"
- },
  "Applying animations…": {
   "日本語": "アニメーションを適用中…",
   "Español": "Aplicando animaciones…",
@@ -1429,5 +1319,155 @@
   "中文": "视频轨道 {n} 为空",
   "العربية": "مسار الفيديو {n} فارغ",
   "Tiếng Việt": "Track video {n} trống"
+ },
+ "Specific track": {
+  "日本語": "特定のトラック",
+  "Español": "Pista concreta",
+  "Deutsch": "Bestimmte Spur",
+  "Français": "Piste précise",
+  "한국어": "특정 트랙",
+  "中文": "指定轨道",
+  "العربية": "مسار محدد",
+  "Tiếng Việt": "Track cụ thể"
+ },
+ "Applies Arial Regular, size 0.08, straight away, to the clips chosen in Apply to": {
+  "日本語": "Arial Regular・サイズ 0.08 を、「適用先」で選んだクリップにすぐ適用します",
+  "Español": "Aplica Arial Regular, tamaño 0.08, al instante a los clips elegidos en Aplicar a",
+  "Deutsch": "Wendet Arial Regular, Größe 0.08, sofort auf die unter „Anwenden auf“ gewählten Clips an",
+  "Français": "Applique tout de suite Arial Regular, taille 0.08, aux clips choisis dans Appliquer à",
+  "한국어": "Arial Regular, 크기 0.08을 '적용 대상'에서 고른 클립에 바로 적용합니다",
+  "中文": "立即将 Arial Regular、大小 0.08 应用到“应用到”所选的片段",
+  "العربية": "يطبّق Arial Regular بحجم 0.08 فورًا على المقاطع المختارة في «تطبيق على»",
+  "Tiếng Việt": "Áp dụng ngay Arial Regular, cỡ 0.08, cho các clip được chọn ở Áp dụng cho"
+ },
+ "Which Text+ clips Apply position and Apply bounding change.": {
+  "日本語": "「位置を適用」と「境界を適用」で変更する Text+ クリップ。",
+  "Español": "Qué clips Text+ cambian Aplicar posición y Aplicar límites.",
+  "Deutsch": "Welche Text+-Clips „Position anwenden“ und „Begrenzung anwenden“ ändern.",
+  "Français": "Les clips Text+ que modifient Appliquer la position et Appliquer les limites.",
+  "한국어": "'위치 적용'과 '경계 적용'이 바꿀 Text+ 클립입니다.",
+  "中文": "“应用位置”和“应用边界”要更改的 Text+ 片段。",
+  "العربية": "مقاطع Text+ التي يغيّرها «تطبيق الموضع» و«تطبيق الحدود».",
+  "Tiếng Việt": "Các clip Text+ mà Áp dụng vị trí và Áp dụng giới hạn sẽ thay đổi."
+ },
+ "Copies the position of each clip under the playhead onto the other Text+ clips on its video track that Apply to chooses. A track with nothing under the playhead is left alone.": {
+  "日本語": "再生ヘッド下の各クリップの位置を、同じビデオトラック上で「適用先」が選ぶ他の Text+ クリップにコピーします。再生ヘッド下に何もないトラックはそのままです。",
+  "Español": "Copia la posición de cada clip bajo el cabezal en los demás clips Text+ de su pista de vídeo que elija Aplicar a. Una pista sin nada bajo el cabezal no se toca.",
+  "Deutsch": "Kopiert die Position jedes Clips unter dem Abspielkopf auf die anderen Text+-Clips seiner Videospur, die „Anwenden auf“ wählt. Eine Spur ohne Clip unter dem Abspielkopf bleibt unverändert.",
+  "Français": "Copie la position de chaque clip sous la tête de lecture sur les autres clips Text+ de sa piste vidéo que choisit Appliquer à. Une piste sans rien sous la tête de lecture reste telle quelle.",
+  "한국어": "재생 헤드 아래 각 클립의 위치를 같은 비디오 트랙에서 '적용 대상'이 고른 다른 Text+ 클립에 복사합니다. 재생 헤드 아래에 아무것도 없는 트랙은 그대로 둡니다.",
+  "中文": "将播放头下每个片段的位置复制到其视频轨道上“应用到”所选的其他 Text+ 片段。播放头下没有内容的轨道保持不变。",
+  "العربية": "ينسخ موضع كل مقطع تحت رأس التشغيل إلى مقاطع Text+ الأخرى على مسار الفيديو نفسه التي يختارها «تطبيق على». يُترك المسار الذي لا شيء تحت رأس التشغيل فيه كما هو.",
+  "Tiếng Việt": "Sao chép vị trí của mỗi clip dưới đầu phát sang các clip Text+ khác trên track video của nó mà Áp dụng cho chọn. Track không có gì dưới đầu phát được giữ nguyên."
+ },
+ "Two lines to drag in the preview (e.g. onto a safe zone's edges). Applying resizes the text of each clip Apply to chooses to fill the space between them, and centres it there. Turning them on also stacks clips under the playhead together vertically.": {
+  "日本語": "プレビューでドラッグする 2 本の線です（例: セーフゾーンの端に合わせる）。適用すると、「適用先」が選ぶ各クリップのテキストを線の間いっぱいにサイズ変更し、中央に配置します。オンにすると、再生ヘッド下のクリップも縦に重ねて揃えます。",
+  "Español": "Dos líneas para arrastrar en la vista previa (p. ej., a los bordes de una zona segura). Al aplicar, el texto de cada clip que elija Aplicar a se ajusta para llenar el espacio entre ellas y se centra ahí. Al activarlas, los clips bajo el cabezal también se apilan verticalmente.",
+  "Deutsch": "Zwei Linien, die Sie in der Vorschau ziehen (z. B. an die Ränder einer Sicherheitszone). Beim Anwenden wird der Text jedes Clips, den „Anwenden auf“ wählt, so skaliert, dass er den Raum dazwischen füllt, und dort zentriert. Eingeschaltet stapeln sie außerdem die Clips unter dem Abspielkopf senkrecht.",
+  "Français": "Deux lignes à faire glisser dans l'aperçu (par ex. sur les bords d'une zone de sécurité). L'application redimensionne le texte de chaque clip que choisit Appliquer à pour remplir l'espace entre elles, et l'y centre. Les activer empile aussi verticalement les clips sous la tête de lecture.",
+  "한국어": "미리보기에서 드래그하는 두 선입니다(예: 세이프 존 가장자리에 맞추기). 적용하면 '적용 대상'이 고른 각 클립의 텍스트를 두 선 사이를 채우도록 크기를 바꾸고 가운데에 둡니다. 켜면 재생 헤드 아래 클립도 세로로 쌓습니다.",
+  "中文": "在预览中拖动的两条线（例如拖到安全区边缘）。应用时，“应用到”所选的每个片段的文字会调整大小以填满两线之间的空间，并在其中居中。打开后，播放头下的片段也会垂直堆叠。",
+  "العربية": "خطان للسحب في المعاينة (مثلًا إلى حواف المنطقة الآمنة). عند التطبيق يُغيَّر حجم نص كل مقطع يختاره «تطبيق على» ليملأ المسافة بينهما ويُوسَّط فيها. وتشغيلهما يرصّ أيضًا المقاطع تحت رأس التشغيل عموديًا.",
+  "Tiếng Việt": "Hai đường để kéo trong bản xem trước (vd. tới mép vùng an toàn). Khi áp dụng, chữ của mỗi clip mà Áp dụng cho chọn được đổi cỡ để lấp đầy khoảng giữa hai đường và căn giữa ở đó. Bật chúng cũng xếp chồng theo chiều dọc các clip dưới đầu phát."
+ },
+ "Apply bounding": {
+  "日本語": "境界を適用",
+  "Español": "Aplicar límites",
+  "Deutsch": "Begrenzung anwenden",
+  "Français": "Appliquer les limites",
+  "한국어": "경계 적용",
+  "中文": "应用边界",
+  "العربية": "تطبيق الحدود",
+  "Tiếng Việt": "Áp dụng giới hạn"
+ },
+ "Apply animation": {
+  "日本語": "アニメーションを適用",
+  "Español": "Aplicar animación",
+  "Deutsch": "Animation anwenden",
+  "Français": "Appliquer l'animation",
+  "한국어": "애니메이션 적용",
+  "中文": "应用动画",
+  "العربية": "تطبيق الحركة",
+  "Tiếng Việt": "Áp dụng hoạt ảnh"
+ },
+ "Copies from the clips under the playhead – choose another Apply to": {
+  "日本語": "再生ヘッド下のクリップからコピーします – 別の「適用先」を選んでください",
+  "Español": "Copia de los clips bajo el cabezal: elige otro Aplicar a",
+  "Deutsch": "Kopiert von den Clips unter dem Abspielkopf – wählen Sie ein anderes „Anwenden auf“",
+  "Français": "Copie depuis les clips sous la tête de lecture – choisissez un autre Appliquer à",
+  "한국어": "재생 헤드 아래 클립에서 복사합니다 – 다른 '적용 대상'을 고르세요",
+  "中文": "从播放头下的片段复制——请选择其他“应用到”",
+  "العربية": "ينسخ من المقاطع تحت رأس التشغيل – اختر «تطبيق على» آخر",
+  "Tiếng Việt": "Sao chép từ các clip dưới đầu phát – hãy chọn Áp dụng cho khác"
+ },
+ "Apply position copies from the clips under the playhead – choose another Apply to.": {
+  "日本語": "「位置を適用」は再生ヘッド下のクリップからコピーします – 別の「適用先」を選んでください。",
+  "Español": "Aplicar posición copia de los clips bajo el cabezal: elige otro Aplicar a.",
+  "Deutsch": "„Position anwenden“ kopiert von den Clips unter dem Abspielkopf – wählen Sie ein anderes „Anwenden auf“.",
+  "Français": "Appliquer la position copie depuis les clips sous la tête de lecture – choisissez un autre Appliquer à.",
+  "한국어": "'위치 적용'은 재생 헤드 아래 클립에서 복사합니다 – 다른 '적용 대상'을 고르세요.",
+  "中文": "“应用位置”从播放头下的片段复制——请选择其他“应用到”。",
+  "العربية": "«تطبيق الموضع» ينسخ من المقاطع تحت رأس التشغيل – اختر «تطبيق على» آخر.",
+  "Tiếng Việt": "Áp dụng vị trí sao chép từ các clip dưới đầu phát – hãy chọn Áp dụng cho khác."
+ },
+ "Removes the animations from the selected Text+ clips. Undo can put them back.": {
+  "日本語": "選択した Text+ クリップからアニメーションを削除します。元に戻すで戻せます。",
+  "Español": "Quita las animaciones de los clips Text+ seleccionados. Deshacer puede recuperarlas.",
+  "Deutsch": "Entfernt die Animationen von den ausgewählten Text+-Clips. Rückgängig stellt sie wieder her.",
+  "Français": "Retire les animations des clips Text+ sélectionnés. Annuler peut les rétablir.",
+  "한국어": "선택한 Text+ 클립에서 애니메이션을 제거합니다. 실행 취소로 되돌릴 수 있습니다.",
+  "中文": "移除所选 Text+ 片段的动画。撤销可以恢复。",
+  "العربية": "يزيل الحركات من مقاطع Text+ المحددة. يمكن للتراجع إعادتها.",
+  "Tiếng Việt": "Xóa hoạt ảnh khỏi các clip Text+ đã chọn. Hoàn tác có thể khôi phục."
+ },
+ "Removes the animations from the Text+ clips under the playhead. Undo can put them back.": {
+  "日本語": "再生ヘッド下の Text+ クリップからアニメーションを削除します。元に戻すで戻せます。",
+  "Español": "Quita las animaciones de los clips Text+ bajo el cabezal. Deshacer puede recuperarlas.",
+  "Deutsch": "Entfernt die Animationen von den Text+-Clips unter dem Abspielkopf. Rückgängig stellt sie wieder her.",
+  "Français": "Retire les animations des clips Text+ sous la tête de lecture. Annuler peut les rétablir.",
+  "한국어": "재생 헤드 아래 Text+ 클립에서 애니메이션을 제거합니다. 실행 취소로 되돌릴 수 있습니다.",
+  "中文": "移除播放头下 Text+ 片段的动画。撤销可以恢复。",
+  "العربية": "يزيل الحركات من مقاطع Text+ تحت رأس التشغيل. يمكن للتراجع إعادتها.",
+  "Tiếng Việt": "Xóa hoạt ảnh khỏi các clip Text+ dưới đầu phát. Hoàn tác có thể khôi phục."
+ },
+ "Removes the animations from the Text+ clips on video track {n}. Undo can put them back.": {
+  "日本語": "ビデオトラック {n} の Text+ クリップからアニメーションを削除します。元に戻すで戻せます。",
+  "Español": "Quita las animaciones de los clips Text+ de la pista de vídeo {n}. Deshacer puede recuperarlas.",
+  "Deutsch": "Entfernt die Animationen von den Text+-Clips auf Videospur {n}. Rückgängig stellt sie wieder her.",
+  "Français": "Retire les animations des clips Text+ de la piste vidéo {n}. Annuler peut les rétablir.",
+  "한국어": "비디오 트랙 {n}의 Text+ 클립에서 애니메이션을 제거합니다. 실행 취소로 되돌릴 수 있습니다.",
+  "中文": "移除视频轨道 {n} 上 Text+ 片段的动画。撤销可以恢复。",
+  "العربية": "يزيل الحركات من مقاطع Text+ على مسار الفيديو {n}. يمكن للتراجع إعادتها.",
+  "Tiếng Việt": "Xóa hoạt ảnh khỏi các clip Text+ trên track video {n}. Hoàn tác có thể khôi phục."
+ },
+ "No clips selected on the timeline": {
+  "日本語": "タイムラインでクリップが選択されていません",
+  "Español": "No hay clips seleccionados en la línea de tiempo",
+  "Deutsch": "Keine Clips auf der Timeline ausgewählt",
+  "Français": "Aucun clip sélectionné sur la timeline",
+  "한국어": "타임라인에서 선택된 클립이 없습니다",
+  "中文": "时间线上没有选中的片段",
+  "العربية": "لا توجد مقاطع محددة على الخط الزمني",
+  "Tiếng Việt": "Chưa chọn clip nào trên timeline"
+ },
+ "No clips on the timeline": {
+  "日本語": "タイムラインにクリップがありません",
+  "Español": "No hay clips en la línea de tiempo",
+  "Deutsch": "Keine Clips auf der Timeline",
+  "Français": "Aucun clip sur la timeline",
+  "한국어": "타임라인에 클립이 없습니다",
+  "中文": "时间线上没有片段",
+  "العربية": "لا توجد مقاطع على الخط الزمني",
+  "Tiếng Việt": "Không có clip nào trên timeline"
+ },
+ "Selected clips needs DaVinci Resolve 21.0.4 or later.": {
+  "日本語": "「選択したクリップ」には DaVinci Resolve 21.0.4 以降が必要です。",
+  "Español": "Clips seleccionados necesita DaVinci Resolve 21.0.4 o posterior.",
+  "Deutsch": "„Ausgewählte Clips“ erfordert DaVinci Resolve 21.0.4 oder neuer.",
+  "Français": "Clips sélectionnés nécessite DaVinci Resolve 21.0.4 ou une version ultérieure.",
+  "한국어": "'선택한 클립'에는 DaVinci Resolve 21.0.4 이상이 필요합니다.",
+  "中文": "“所选片段”需要 DaVinci Resolve 21.0.4 或更高版本。",
+  "العربية": "«المقاطع المحددة» يتطلب DaVinci Resolve 21.0.4 أو أحدث.",
+  "Tiếng Việt": "Clip đã chọn cần DaVinci Resolve 21.0.4 trở lên."
  }
 }

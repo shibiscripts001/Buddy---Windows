@@ -39,12 +39,12 @@ document.addEventListener("keydown", e => {
 
 let STATE = null;
 
+// Specific track's choices: the timeline's own video tracks (and a saved one past them, so
+// the choice still shows) - an Apply only changes tracks that are there.
 function trackOptions(select, count, value) {
-    const n = Math.max(count, value, 4);
+    const n = Math.max(count, value, 1);
     if (select.options.length !== n) {
-        select.replaceChildren(...Array.from({length: n}, (_, i) => el("option", {
-            value: i + 1, text: i + 1 > count ? `${i + 1} (new)` : String(i + 1),
-        })));
+        select.replaceChildren(...Array.from({length: n}, (_, i) => el("option", {value: i + 1, text: String(i + 1)})));
     }
     select.value = String(value);
 }
@@ -52,8 +52,7 @@ function trackOptions(select, count, value) {
 on("state", s => {
     STATE = s;
     if (OPT) {
-        trackOptions($("style-track"), s.tracks.video, OPT.tracks.style_track);
-        trackOptions($("anim-track"), s.tracks.video, OPT.tracks.anim_track);
+        drawScopes(OPT);
     }
     $("bounding-on").checked = s.bounding.on;
     $("apply-bounding").disabled = !s.bounding.on;
@@ -117,18 +116,13 @@ on("options", o => {
     for (const group of $$("[data-toggle]")) group.classList.toggle("off", !o.toggles[group.dataset.toggle]);
     if (FONTS.length) $("font").value = o.font_display;
 
-    segmented($("style-scope"), null, o.style_scope, v => set("style_scope", v));
-    $("style-track-row").hidden = o.style_scope !== "track";
     segmented($("anim-direction"), o.anim_directions.map(d => [d, d.replace("From ", "")]), o.anim_direction, v => set("anim_direction", v));
     segmented($("anim-speed"), o.anim_speeds.map(s => [s, s]), o.anim_speed, v => set("anim_speed", v));
     $("direction-row").hidden = !o.anim_preset.startsWith("Slide");
     presetCards($("anim-presets"), ANIMATIONS.filter(a => o.anim_presets.includes(a.id)), o.anim_preset, v => set("anim_preset", v));
     presetCards($("presets"), LAYOUTS.filter(l => o.layout_presets.includes(l.id)), o.layout_preset, v => { set("layout_preset", v); });
     $("preset-note").textContent = (LAYOUTS.find(l => l.id === o.layout_preset) || {}).note || "";
-    if (STATE) {
-        trackOptions($("style-track"), STATE.tracks.video, o.tracks.style_track);
-        trackOptions($("anim-track"), STATE.tracks.video, o.tracks.anim_track);
-    }
+    drawScopes(o);
     drawPreview();
 });
 
@@ -139,8 +133,26 @@ for (const input of $$("[data-toggle-input]")) {
         set(input.dataset.toggleInput, input.checked);
     };
 }
-$("style-track").onchange = e => set("style_track", Number(e.target.value));
-$("anim-track").onchange = e => set("anim_track", Number(e.target.value));
+// Each Text+ tab's "Apply to": which clips its Apply buttons change, and for Specific
+// track, which one. Resolve can report selected clips (21.0.4 and later), not tracks.
+const SCOPE_TRACKS = {style_scope: ["style-track", "style_track"], anim_scope: ["anim-track", "anim_track"],
+                      layout_scope: ["layout-track", "layout_track"]};
+function drawScopes(o) {
+    for (const select of $$("[data-scope-select]")) {
+        const name = select.dataset.scopeSelect, [trackId, trackName] = SCOPE_TRACKS[name];
+        if (document.activeElement !== select) select.value = o[name];
+        document.querySelector(`[data-scope-track="${name}"]`).hidden = o[name] !== "track";
+        if (STATE) trackOptions($(trackId), STATE.tracks.video, o.tracks[trackName]);
+    }
+    // Apply position copies FROM the clips under the playhead: there's nothing to copy onto.
+    const position = $("apply-position");
+    position.disabled = o.layout_scope === "playhead";
+    position.title = position.disabled ? "Copies from the clips under the playhead – choose another Apply to" : "";
+}
+for (const select of $$("[data-scope-select]")) select.onchange = () => set(select.dataset.scopeSelect, select.value);
+for (const [trackId, trackName] of Object.values(SCOPE_TRACKS)) {
+    $(trackId).onchange = e => set(trackName, Number(e.target.value));
+}
 
 function segmented(node, choices, value, onPick) {
     if (choices && node.children.length !== choices.length) {
@@ -366,10 +378,14 @@ function drawGuides() {
 
 // ---------------------------------------------------------- animation --
 
-for (const b of $$("[data-scope]")) b.onclick = () => send("apply_animation", {scope: b.dataset.scope});
 $("remove-anims").onclick = async () => {
-    const yes = await Buddy.confirm({title: "Remove animations?", danger: true, ok: "Remove",
-        text: "Removes the animations from every Text+ clip on the timeline. Undo can put them back."});
+    const n = OPT.tracks.anim_track;
+    const text = {
+        selected: "Removes the animations from the selected Text+ clips. Undo can put them back.",
+        playhead: "Removes the animations from the Text+ clips under the playhead. Undo can put them back.",
+        track: `Removes the animations from the Text+ clips on video track ${n}. Undo can put them back.`,
+    }[OPT.anim_scope] || "Removes the animations from every Text+ clip on the timeline. Undo can put them back.";
+    const yes = await Buddy.confirm({title: "Remove animations?", danger: true, ok: "Remove", text});
     if (yes) send("remove_animations");
 };
 })();
