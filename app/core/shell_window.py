@@ -1097,8 +1097,12 @@ class ShellWindow(QMainWindow):
 
     # ------------------------------------------------------------ connection --
     def _set_connected(self, connected):
+        changed = connected != self.connected
         self.connected = connected
         self.push_header()
+        if changed:
+            for page in self.pages.values():
+                page.on_connection_changed(connected)
 
     def reconnect(self):
         """The header's Connect (Reconnect once connected)."""

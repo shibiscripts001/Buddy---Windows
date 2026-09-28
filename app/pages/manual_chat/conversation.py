@@ -10,6 +10,7 @@ web view only ever draws what this holds.
 from __future__ import annotations
 
 import html
+import random
 import re
 
 from . import actions
@@ -25,13 +26,59 @@ WELCOME = (
 # does not exist, and this list is built from the registry so it cannot.
 HELP_WORDS = {"help", "/help", "?", "/?", "what can you do", "what can you do?"}
 
-# Shown under the welcome of an empty chat; clicking one sends it.
-SUGGESTIONS = [
-    "How do I add a Power Window on the Color page?",
-    "Check my timeline settings for problems",
-    "What's the difference between Fusion and the Edit page titles?",
-    "What can you do?",   # one of HELP_WORDS: lists what Buddy can do
-]
+# Shown under the welcome of an empty chat; clicking one sends it. Three come from the
+# pool, one per group where it can (so they're never all the same kind), and "What can
+# you do?" always ends the row. Which three is chosen once per run (shuffled_pool), so a
+# new chat doesn't reshuffle them. "project" ones read the open project, so they're only
+# offered while Buddy is connected to Resolve.
+HELP_SUGGESTION = "What can you do?"   # one of HELP_WORDS: lists what Buddy can do
+SUGGESTION_POOL = {
+    "resolve": [
+        "How do I add a Power Window on the Color page?",
+        "What's the difference between Fusion and the Edit page titles?",
+        "How do I stabilize a shaky clip?",
+        "How do I speed ramp a clip?",
+        "How do I make a J-cut or an L-cut?",
+        "How do I track a mask onto a moving object?",
+        "How does Magic Mask work?",
+        "When should I use a serial, parallel or layer node?",
+        "How do I copy a grade to other clips?",
+        "How do I use adjustment clips?",
+        "How do I set up proxies for smoother playback?",
+        "What render settings should I use for YouTube?",
+        "How do I replace a clip without losing its effects?",
+        "How do I reduce background noise in dialogue?",
+    ],
+    "project": [
+        "Check my timeline settings for problems",
+        "Do any clips not match my timeline's frame rate?",
+        "Am I on DaVinci Resolve Studio or the free version?",
+        "Summarise the markers on my timeline",
+        "What colour management is my project using?",
+        "Is my timeline set up right for a 4K YouTube upload?",
+    ],
+    "tools": [
+        "Which Buddy tool makes subtitles?",
+        "How can Buddy help me relink offline media?",
+        "Can Buddy rename a batch of clips for me?",
+        "How do I animate my Text+ titles?",
+        "What's the fastest way to import images into Resolve?",
+    ],
+}
+SUGGESTIONS_PICKED = 3
+
+
+def shuffled_pool(rng=random) -> dict[str, list[str]]:
+    """The pool with each group in its own random order - made once per run."""
+    return {group: rng.sample(questions, len(questions)) for group, questions in SUGGESTION_POOL.items()}
+
+
+def suggestions(pool: dict[str, list[str]], connected: bool) -> list[str]:
+    """The suggestion row: SUGGESTIONS_PICKED from the pool, taken round the groups in
+    turn (a second from the same group only when a group is left out), then help."""
+    groups = [g for g in SUGGESTION_POOL if connected or g != "project"]
+    picked = [pool[groups[i % len(groups)]][i // len(groups)] for i in range(SUGGESTIONS_PICKED)]
+    return picked + [HELP_SUGGESTION]
 
 YOU, BUDDY, ERROR = "You", "Buddy", "Error"
 

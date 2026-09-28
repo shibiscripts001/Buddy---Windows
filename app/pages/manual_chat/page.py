@@ -59,12 +59,13 @@ from .config import (
 from .conversation import (
     BUDDY,
     ERROR,
-    SUGGESTIONS,
     YOU,
     ChatSessions,
     block_view,
     help_text,
     is_help,
+    shuffled_pool,
+    suggestions,
 )
 from .retrieval import TIER_NONE, ManualRetriever
 from .settings_panel import ChatSettingsMixin
@@ -119,6 +120,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._proposal_note = ""
         self._offer = None
         self.chats = ChatSessions()
+        self._suggestion_pool = shuffled_pool()     # this run's pick - a new chat keeps it
         self.pictures = []              # pictures.Picture, waiting to go with the next question
         self._pending_pictures = 0
 
@@ -210,7 +212,8 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
     def _push_transcript(self):
         self.emit("transcript", {
             "blocks": [block_view(i, b) for i, b in enumerate(self.chats.blocks)],
-            "suggestions": SUGGESTIONS if self.chats.is_empty() else [],
+            "suggestions": (suggestions(self._suggestion_pool, bool(getattr(self.host, "connected", False)))
+                            if self.chats.is_empty() else []),
         })
 
     def _append(self, who, body, trace=None, error=False, copyable=False, images=None, raw=False):
@@ -417,6 +420,11 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             self.host.switch_tool(tool_id)
 
     # ------------------------------------------------------ conversations
+
+    def on_connection_changed(self, connected):
+        # The project questions are only offered while there's a project to read.
+        if self.chats.is_empty():
+            self._push_transcript()
 
     def _switched(self):
         """After the live conversation changes. Any pending proposal is

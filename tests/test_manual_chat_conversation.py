@@ -2,12 +2,16 @@
 conversation.py) - what the web view draws and what the model is re-sent.
 No Qt."""
 
+import json
+import random
 import unittest
 
-import _paths  # noqa: F401
+import _paths
 from pages.manual_chat import config
 from pages.manual_chat.conversation import (
     BUDDY,
+    HELP_SUGGESTION,
+    SUGGESTION_POOL,
     WELCOME,
     YOU,
     ChatSessions,
@@ -16,6 +20,8 @@ from pages.manual_chat.conversation import (
     is_help,
     md_to_html,
     md_to_plain,
+    shuffled_pool,
+    suggestions,
 )
 
 
@@ -96,6 +102,34 @@ class SessionTests(unittest.TestCase):
         view = block_view(1, chats.blocks[1])
         self.assertEqual((view["role"], view["copyable"], view["i"]), ("error", True, 1))
         self.assertEqual(block_view(0, chats.blocks[0])["role"], "buddy")
+
+
+class SuggestionTests(unittest.TestCase):
+    def test_three_of_different_kinds_then_help(self):
+        pool = shuffled_pool(random.Random(1))
+        row = suggestions(pool, connected=True)
+        self.assertEqual(len(row), 4)
+        self.assertEqual(row[-1], HELP_SUGGESTION)
+        self.assertTrue(is_help(row[-1]))                                   # answered locally, not by the model
+        kinds = [next(g for g, qs in SUGGESTION_POOL.items() if q in qs) for q in row[:-1]]
+        self.assertEqual(kinds, ["resolve", "project", "tools"])
+
+    def test_project_questions_wait_for_a_connection(self):
+        row = suggestions(shuffled_pool(random.Random(2)), connected=False)
+        self.assertEqual(len(set(row)), 4)
+        self.assertFalse(set(row) & set(SUGGESTION_POOL["project"]))
+
+    def test_the_pick_holds_for_the_run_and_changes_between_runs(self):
+        pool = shuffled_pool(random.Random(3))
+        self.assertEqual(suggestions(pool, True), suggestions(pool, True))  # a new chat keeps them
+        rows = {tuple(suggestions(shuffled_pool(random.Random(seed)), True)) for seed in range(20)}
+        self.assertGreater(len(rows), 10)
+
+    def test_every_suggestion_is_translated(self):
+        path = _paths.APP / "core" / "translations" / "manual_chat.json"
+        known = json.loads(path.read_text(encoding="utf-8"))
+        missing = [q for qs in SUGGESTION_POOL.values() for q in qs + [HELP_SUGGESTION] if q not in known]
+        self.assertEqual(missing, [])
 
 
 class HelpAndConfigTests(unittest.TestCase):

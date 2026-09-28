@@ -47,6 +47,10 @@ class ToolPage(QWidget):
         page, for pages that want to refresh data lazily rather than
         polling in the background."""
 
+    def on_connection_changed(self, connected):
+        """Optional hook: Buddy connected to Resolve, or lost it
+        (host.connected is already the new value)."""
+
     def settings_fields(self):
         """Optional hook: this tool's own section of the shared Settings
         window, as a list of fields (see core/settings_form.py) - or None

@@ -690,6 +690,226 @@
   "العربية": "ماذا يمكنك أن تفعل؟",
   "Tiếng Việt": "Bạn làm được gì?"
  },
+ "How do I stabilize a shaky clip?": {
+  "日本語": "揺れているクリップを安定させるには？",
+  "Español": "¿Cómo estabilizo un clip tembloroso?",
+  "Deutsch": "Wie stabilisiere ich einen verwackelten Clip?",
+  "Français": "Comment stabiliser un clip tremblant ?",
+  "한국어": "흔들리는 클립을 안정화하려면 어떻게 하나요?",
+  "中文": "如何稳定抖动的片段？",
+  "العربية": "كيف أثبّت مقطعًا مهتزًا؟",
+  "Tiếng Việt": "Làm sao để ổn định một clip bị rung?"
+ },
+ "How do I speed ramp a clip?": {
+  "日本語": "クリップにスピードランプをかけるには？",
+  "Español": "¿Cómo hago una rampa de velocidad en un clip?",
+  "Deutsch": "Wie erstelle ich eine Geschwindigkeitsrampe für einen Clip?",
+  "Français": "Comment faire une rampe de vitesse sur un clip ?",
+  "한국어": "클립에 속도 램프를 적용하려면 어떻게 하나요?",
+  "中文": "如何给片段做变速（速度坡度）？",
+  "العربية": "كيف أطبّق تدرّج السرعة على مقطع؟",
+  "Tiếng Việt": "Làm sao để tạo speed ramp cho một clip?"
+ },
+ "How do I make a J-cut or an L-cut?": {
+  "日本語": "J カットや L カットを作るには？",
+  "Español": "¿Cómo hago un corte en J o en L?",
+  "Deutsch": "Wie mache ich einen J-Cut oder L-Cut?",
+  "Français": "Comment faire un montage en J ou en L ?",
+  "한국어": "J컷이나 L컷을 만들려면 어떻게 하나요?",
+  "中文": "如何制作 J 型剪辑或 L 型剪辑？",
+  "العربية": "كيف أنفّذ قطعًا من نوع J أو L؟",
+  "Tiếng Việt": "Làm sao để tạo J-cut hoặc L-cut?"
+ },
+ "How do I track a mask onto a moving object?": {
+  "日本語": "動く被写体にマスクをトラッキングするには？",
+  "Español": "¿Cómo hago que una máscara siga a un objeto en movimiento?",
+  "Deutsch": "Wie lasse ich eine Maske einem bewegten Objekt folgen?",
+  "Français": "Comment faire suivre un masque sur un objet en mouvement ?",
+  "한국어": "움직이는 물체에 마스크를 트래킹하려면 어떻게 하나요?",
+  "中文": "如何让遮罩跟踪移动的物体？",
+  "العربية": "كيف أجعل قناعًا يتتبّع جسمًا متحركًا؟",
+  "Tiếng Việt": "Làm sao để mask bám theo một vật thể đang chuyển động?"
+ },
+ "How does Magic Mask work?": {
+  "日本語": "Magic Mask はどう使うの？",
+  "Español": "¿Cómo funciona Magic Mask?",
+  "Deutsch": "Wie funktioniert Magic Mask?",
+  "Français": "Comment fonctionne Magic Mask ?",
+  "한국어": "Magic Mask는 어떻게 작동하나요?",
+  "中文": "Magic Mask 怎么用？",
+  "العربية": "كيف تعمل ميزة Magic Mask؟",
+  "Tiếng Việt": "Magic Mask hoạt động như thế nào?"
+ },
+ "When should I use a serial, parallel or layer node?": {
+  "日本語": "シリアル、パラレル、レイヤーノードはどう使い分ける？",
+  "Español": "¿Cuándo uso un nodo en serie, en paralelo o de capa?",
+  "Deutsch": "Wann nehme ich einen seriellen, parallelen oder Layer-Node?",
+  "Français": "Quand utiliser un nœud en série, parallèle ou de calque ?",
+  "한국어": "직렬, 병렬, 레이어 노드는 각각 언제 쓰나요?",
+  "中文": "串行、并行和图层节点分别在什么时候用？",
+  "العربية": "متى أستخدم عقدة تسلسلية أو متوازية أو عقدة طبقات؟",
+  "Tiếng Việt": "Khi nào nên dùng node nối tiếp, song song hay node layer?"
+ },
+ "How do I copy a grade to other clips?": {
+  "日本語": "グレードを他のクリップにコピーするには？",
+  "Español": "¿Cómo copio una corrección de color a otros clips?",
+  "Deutsch": "Wie kopiere ich ein Grading auf andere Clips?",
+  "Français": "Comment copier un étalonnage sur d'autres clips ?",
+  "한국어": "그레이드를 다른 클립에 복사하려면 어떻게 하나요?",
+  "中文": "如何把调色复制到其他片段？",
+  "العربية": "كيف أنسخ تصحيح الألوان إلى مقاطع أخرى؟",
+  "Tiếng Việt": "Làm sao để sao chép grade sang các clip khác?"
+ },
+ "How do I use adjustment clips?": {
+  "日本語": "調整クリップの使い方は？",
+  "Español": "¿Cómo uso los clips de ajuste?",
+  "Deutsch": "Wie verwende ich Einstellungsclips?",
+  "Français": "Comment utiliser les clips d'ajustement ?",
+  "한국어": "조정 클립은 어떻게 사용하나요?",
+  "中文": "如何使用调整片段？",
+  "العربية": "كيف أستخدم مقاطع الضبط؟",
+  "Tiếng Việt": "Làm sao để dùng adjustment clip?"
+ },
+ "How do I set up proxies for smoother playback?": {
+  "日本語": "再生を滑らかにするためにプロキシを設定するには？",
+  "Español": "¿Cómo configuro proxies para una reproducción más fluida?",
+  "Deutsch": "Wie richte ich Proxys für flüssigere Wiedergabe ein?",
+  "Français": "Comment configurer des proxys pour une lecture plus fluide ?",
+  "한국어": "재생을 부드럽게 하려면 프록시를 어떻게 설정하나요?",
+  "中文": "如何设置代理文件让播放更流畅？",
+  "العربية": "كيف أُعدّ ملفات البروكسي لتشغيل أكثر سلاسة؟",
+  "Tiếng Việt": "Làm sao để thiết lập proxy cho phát lại mượt hơn?"
+ },
+ "What render settings should I use for YouTube?": {
+  "日本語": "YouTube 用にはどんなレンダー設定がいい？",
+  "Español": "¿Qué ajustes de render uso para YouTube?",
+  "Deutsch": "Welche Render-Einstellungen nehme ich für YouTube?",
+  "Français": "Quels réglages de rendu utiliser pour YouTube ?",
+  "한국어": "YouTube용으로는 렌더 설정을 어떻게 해야 하나요?",
+  "中文": "YouTube 应该用什么渲染设置？",
+  "العربية": "ما إعدادات التصيير التي أستخدمها ليوتيوب؟",
+  "Tiếng Việt": "Nên dùng thiết lập render nào cho YouTube?"
+ },
+ "How do I replace a clip without losing its effects?": {
+  "日本語": "エフェクトを残したままクリップを差し替えるには？",
+  "Español": "¿Cómo reemplazo un clip sin perder sus efectos?",
+  "Deutsch": "Wie ersetze ich einen Clip, ohne seine Effekte zu verlieren?",
+  "Français": "Comment remplacer un clip sans perdre ses effets ?",
+  "한국어": "효과를 유지한 채 클립을 교체하려면 어떻게 하나요?",
+  "中文": "如何替换片段而不丢失它的效果？",
+  "العربية": "كيف أستبدل مقطعًا دون أن أفقد تأثيراته؟",
+  "Tiếng Việt": "Làm sao để thay một clip mà không mất hiệu ứng của nó?"
+ },
+ "How do I reduce background noise in dialogue?": {
+  "日本語": "セリフの背景ノイズを減らすには？",
+  "Español": "¿Cómo reduzco el ruido de fondo en los diálogos?",
+  "Deutsch": "Wie reduziere ich Hintergrundgeräusche im Dialog?",
+  "Français": "Comment réduire le bruit de fond dans les dialogues ?",
+  "한국어": "대사의 배경 소음을 줄이려면 어떻게 하나요?",
+  "中文": "如何降低对白里的背景噪音？",
+  "العربية": "كيف أقلّل الضوضاء الخلفية في الحوار؟",
+  "Tiếng Việt": "Làm sao để giảm tiếng ồn nền trong lời thoại?"
+ },
+ "Do any clips not match my timeline's frame rate?": {
+  "日本語": "タイムラインのフレームレートと合わないクリップはある？",
+  "Español": "¿Hay clips que no coincidan con la frecuencia de fotogramas de mi línea de tiempo?",
+  "Deutsch": "Passen Clips nicht zur Bildrate meiner Timeline?",
+  "Français": "Des clips ne correspondent-ils pas à la fréquence d'images de ma timeline ?",
+  "한국어": "타임라인 프레임 레이트와 맞지 않는 클립이 있나요?",
+  "中文": "有没有片段和时间线的帧率不一致？",
+  "العربية": "هل توجد مقاطع لا تطابق معدل إطارات الخط الزمني؟",
+  "Tiếng Việt": "Có clip nào không khớp frame rate với timeline của tôi không?"
+ },
+ "Am I on DaVinci Resolve Studio or the free version?": {
+  "日本語": "使っているのは DaVinci Resolve Studio？それとも無償版？",
+  "Español": "¿Uso DaVinci Resolve Studio o la versión gratuita?",
+  "Deutsch": "Nutze ich DaVinci Resolve Studio oder die kostenlose Version?",
+  "Français": "J'utilise DaVinci Resolve Studio ou la version gratuite ?",
+  "한국어": "제가 쓰는 건 DaVinci Resolve Studio인가요, 무료 버전인가요?",
+  "中文": "我用的是 DaVinci Resolve Studio 还是免费版？",
+  "العربية": "هل أستخدم DaVinci Resolve Studio أم النسخة المجانية؟",
+  "Tiếng Việt": "Tôi đang dùng DaVinci Resolve Studio hay bản miễn phí?"
+ },
+ "Summarise the markers on my timeline": {
+  "日本語": "タイムラインのマーカーをまとめて",
+  "Español": "Resume los marcadores de mi línea de tiempo",
+  "Deutsch": "Fasse die Marker meiner Timeline zusammen",
+  "Français": "Résume les marqueurs de ma timeline",
+  "한국어": "타임라인의 마커를 요약해 줘",
+  "中文": "总结一下我时间线上的标记",
+  "العربية": "لخّص العلامات على الخط الزمني",
+  "Tiếng Việt": "Tóm tắt các marker trên timeline của tôi"
+ },
+ "What colour management is my project using?": {
+  "日本語": "プロジェクトのカラーマネージメントは何になってる？",
+  "Español": "¿Qué gestión del color usa mi proyecto?",
+  "Deutsch": "Welches Farbmanagement nutzt mein Projekt?",
+  "Français": "Quelle gestion des couleurs mon projet utilise-t-il ?",
+  "한국어": "제 프로젝트는 어떤 컬러 관리를 쓰고 있나요?",
+  "中文": "我的项目用的是哪种色彩管理？",
+  "العربية": "ما نظام إدارة الألوان الذي يستخدمه مشروعي؟",
+  "Tiếng Việt": "Dự án của tôi đang dùng quản lý màu nào?"
+ },
+ "Is my timeline set up right for a 4K YouTube upload?": {
+  "日本語": "タイムラインは 4K の YouTube アップロード向けに正しく設定されてる？",
+  "Español": "¿Está mi línea de tiempo bien configurada para subir a YouTube en 4K?",
+  "Deutsch": "Ist meine Timeline richtig für einen 4K-Upload auf YouTube eingerichtet?",
+  "Français": "Ma timeline est-elle bien réglée pour une mise en ligne 4K sur YouTube ?",
+  "한국어": "제 타임라인이 4K 유튜브 업로드에 맞게 설정되어 있나요?",
+  "中文": "我的时间线设置适合上传 4K YouTube 吗？",
+  "العربية": "هل الخط الزمني مُعدّ بشكل صحيح لرفع فيديو 4K على يوتيوب؟",
+  "Tiếng Việt": "Timeline của tôi đã thiết lập đúng để tải lên YouTube 4K chưa?"
+ },
+ "Which Buddy tool makes subtitles?": {
+  "日本語": "字幕を作れる Buddy のツールはどれ？",
+  "Español": "¿Qué herramienta de Buddy crea subtítulos?",
+  "Deutsch": "Welches Buddy-Tool erstellt Untertitel?",
+  "Français": "Quel outil de Buddy crée des sous-titres ?",
+  "한국어": "자막을 만드는 Buddy 도구는 무엇인가요?",
+  "中文": "Buddy 的哪个工具可以做字幕？",
+  "العربية": "أي أداة في Buddy تنشئ الترجمات؟",
+  "Tiếng Việt": "Công cụ nào của Buddy tạo phụ đề?"
+ },
+ "How can Buddy help me relink offline media?": {
+  "日本語": "オフラインのメディアを再リンクするのに Buddy はどう役立つ？",
+  "Español": "¿Cómo me ayuda Buddy a volver a vincular medios sin conexión?",
+  "Deutsch": "Wie hilft mir Buddy, Offline-Medien neu zu verknüpfen?",
+  "Français": "Comment Buddy peut-il m'aider à relier des médias hors ligne ?",
+  "한국어": "Buddy가 오프라인 미디어 재연결을 어떻게 도와주나요?",
+  "中文": "Buddy 如何帮我重新链接离线媒体？",
+  "العربية": "كيف يساعدني Buddy في إعادة ربط الوسائط غير المتصلة؟",
+  "Tiếng Việt": "Buddy giúp tôi liên kết lại media bị offline như thế nào?"
+ },
+ "Can Buddy rename a batch of clips for me?": {
+  "日本語": "Buddy でクリップをまとめて名前変更できる？",
+  "Español": "¿Puede Buddy renombrar varios clips a la vez?",
+  "Deutsch": "Kann Buddy mehrere Clips auf einmal umbenennen?",
+  "Français": "Buddy peut-il renommer plusieurs clips à la fois ?",
+  "한국어": "Buddy로 클립 여러 개의 이름을 한 번에 바꿀 수 있나요?",
+  "中文": "Buddy 能帮我批量重命名片段吗？",
+  "العربية": "هل يستطيع Buddy إعادة تسمية مجموعة مقاطع دفعة واحدة؟",
+  "Tiếng Việt": "Buddy có thể đổi tên hàng loạt clip giúp tôi không?"
+ },
+ "How do I animate my Text+ titles?": {
+  "日本語": "Text+ タイトルをアニメーションさせるには？",
+  "Español": "¿Cómo animo mis títulos Text+?",
+  "Deutsch": "Wie animiere ich meine Text+-Titel?",
+  "Français": "Comment animer mes titres Text+ ?",
+  "한국어": "Text+ 타이틀에 애니메이션을 넣으려면 어떻게 하나요?",
+  "中文": "如何给 Text+ 标题加动画？",
+  "العربية": "كيف أحرّك عناوين Text+؟",
+  "Tiếng Việt": "Làm sao để tạo chuyển động cho tiêu đề Text+?"
+ },
+ "What's the fastest way to import images into Resolve?": {
+  "日本語": "Resolve に画像をいちばん早く読み込む方法は？",
+  "Español": "¿Cuál es la forma más rápida de importar imágenes a Resolve?",
+  "Deutsch": "Wie importiere ich Bilder am schnellsten in Resolve?",
+  "Français": "Quel est le moyen le plus rapide d'importer des images dans Resolve ?",
+  "한국어": "Resolve로 이미지를 가장 빠르게 가져오는 방법은 무엇인가요?",
+  "中文": "把图片导入 Resolve 最快的方法是什么？",
+  "العربية": "ما أسرع طريقة لاستيراد الصور إلى Resolve؟",
+  "Tiếng Việt": "Cách nhanh nhất để nhập ảnh vào Resolve là gì?"
+ },
  "Discarded – nothing was changed.": {
   "日本語": "破棄しました – 何も変更されていません。",
   "Español": "Descartado: no se ha cambiado nada.",
