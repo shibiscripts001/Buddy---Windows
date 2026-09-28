@@ -90,8 +90,11 @@ TABS = {
     "words": "Custom Animation",
 }
 _CANVAS_TABS = ("layout", "words")
+_LIVE_TABS = _CANVAS_TABS + ("style",)   # polled for the Text+ under the playhead
 # 4 px of box padding at a 640 px reference width, as a fraction of frame width.
 _BOX_PADDING = 4 / 640
+_SAMPLE_MAX_LINES = 6      # the style preview's text: a clip's own, up to this
+_SAMPLE_MAX_CHARS = 400
 
 
 class _LivePreviewAction(NamedTuple):
@@ -308,11 +311,7 @@ class TextAnimatorPage(WebToolPage):
             return self._push_state()
         try:
             self.target_track = get_top_most_unpopulated_video_track_index(timeline)
-            width, height = get_timeline_resolution(timeline)
-            if (width, height) != self.resolution:
-                self.resolution = (width, height)
-                self.log(f"[Placement Canvas] Sized to match timeline resolution {width}x{height}.")
-                self.emit("overlay", self._overlay_view())
+            self._sync_resolution(timeline)
             self.timeline_name = timeline.GetName() if callable(getattr(timeline, "GetName", None)) else ""
             self.tracks = {"video": int(timeline.GetTrackCount("video") or 0),
                            "subtitle": int(timeline.GetTrackCount("subtitle") or 0)}
@@ -320,14 +319,33 @@ class TextAnimatorPage(WebToolPage):
             pass
         self._push_state()
 
+    def _sync_resolution(self, timeline) -> bool:
+        """Takes the timeline's resolution for the canvases and the style preview; True
+        if it changed. Also run on every poll: the page may first show before Resolve
+        is reachable, and the user can switch to a timeline of another shape. Only a
+        real answer counts: get_timeline_resolution's 1920x1080 fallback for a read
+        that failed would flip a vertical preview back to 16:9 on one bad poll."""
+        try:
+            width = int(timeline.GetSetting("timelineResolutionWidth") or 0)
+            height = int(timeline.GetSetting("timelineResolutionHeight") or 0)
+        except Exception:
+            return False
+        if width <= 0 or height <= 0 or (width, height) == self.resolution:
+            return False
+        self.resolution = (width, height)
+        self.log(f"[Placement Canvas] Sized to match timeline resolution {width}x{height}.")
+        self.emit("overlay", self._overlay_view())
+        return True
+
     # ------------------------------------------------------------ live preview --
 
     def _refresh_live_preview(self, force=False):
         """Polling tick. Only calls into Resolve while this page is the visible one AND a
-        canvas tab is active; reconnect attempts are throttled."""
-        if not force and (not self.isVisible() or self.tab not in _CANVAS_TABS):
+        tab showing the playhead's Text+ is active (a canvas, or the style preview's
+        text); reconnect attempts are throttled."""
+        if not force and (not self.isVisible() or self.tab not in _LIVE_TABS):
             return
-        if self.tab not in _CANVAS_TABS:
+        if self.tab not in _LIVE_TABS:
             return
         if self._no_connection and (time.monotonic() - self._last_connect_attempt) < _RECONNECT_COOLDOWN_SECONDS:
             return
@@ -338,14 +356,30 @@ class TextAnimatorPage(WebToolPage):
         if timeline is None:
             return
         try:
+            if self._sync_resolution(timeline):
+                self._push_state()
+        except Exception:
+            pass
+        try:
             items = get_active_text_plus_items(timeline, self._get_fusion_comp, self._find_text_tool, log=self.log)
         except Exception as err:
             self.log(f"[Error refreshing live preview]: {err}")
             return
-        self._items[self.tab] = {self._item_id(item): item for item in items}
-        if items and items[0].text:
-            self._sample = items[0].text.split("\n")[0][:40]
-        self._push_canvas(self.tab)
+        self._update_sample(items)
+        if self.tab in _CANVAS_TABS:
+            self._items[self.tab] = {self._item_id(item): item for item in items}
+            self._push_canvas(self.tab)
+
+    def _update_sample(self, items):
+        """The style preview's text: the playhead's Text+, every line as Resolve draws
+        them - capped only for sanity, not a cut a subtitle would hit. With nothing
+        under the playhead the last one stays, rather than flicking back to a stand-in."""
+        if not items or not items[0].text:
+            return
+        sample = "\n".join(items[0].text.split("\n")[:_SAMPLE_MAX_LINES])[:_SAMPLE_MAX_CHARS]
+        if sample != self._sample:
+            self._sample = sample
+            self._push_state()
 
     def _clip_for(self, tab, item_id):
         item = self._items.get(tab, {}).get(item_id)
@@ -455,7 +489,7 @@ class TextAnimatorPage(WebToolPage):
         tab = (payload or {}).get("tab")
         if tab in TABS:
             self.tab = tab
-            if tab in _CANVAS_TABS:
+            if tab in _LIVE_TABS:
                 self._refresh_live_preview(force=True)
 
     def on_set(self, payload):

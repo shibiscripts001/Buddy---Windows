@@ -201,6 +201,41 @@ function rgba(hex, alpha) {
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
 }
 
+// A vertical frame at the card's full width would push the rest of the panel off screen.
+const PREVIEW_MAX_HEIGHT = 360;
+
+// Text+ sizes a font so that its ascent + descent is this x Size x frame width.
+// Measured in Resolve 21 from rendered bounds (Output:GetDoD), 7 fonts from Segoe UI
+// (ascent + descent 1.33 em) to Times New Roman (1.11 em): 0.8024-0.8038 for all.
+const TEXT_PLUS_HEIGHT = 0.803;
+const fontHeights = new Map();
+
+/* A font's ascent + descent per pixel of CSS font-size - the browser's own metrics
+   for it, the same ones Resolve's rule above uses. */
+function fontHeightPerPx(css) {
+    const font = `${css.italic ? "italic " : ""}${css.weight} 100px "${css.family}", sans-serif`;
+    if (!fontHeights.has(font)) {
+        const ctx = document.createElement("canvas").getContext("2d");
+        ctx.font = font;
+        const m = ctx.measureText("Hg");
+        const h = (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent) / 100;
+        fontHeights.set(font, h > 0 ? h : 1.117);   // 1.117: Arial's, if a browser can't say
+    }
+    return fontHeights.get(font);
+}
+
+/* The preview box is the timeline's frame: its aspect ratio, as wide as the
+   card allows but no taller than PREVIEW_MAX_HEIGHT. Returns [width, height]. */
+function sizePreview(box) {
+    const [rw, rh] = (STATE && STATE.resolution) || [1920, 1080];
+    const card = box.parentElement, pad = getComputedStyle(card);
+    const avail = (card.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight)) || 400;
+    const w = Math.min(avail, PREVIEW_MAX_HEIGHT * rw / rh);
+    box.style.width = `${w}px`;
+    box.style.aspectRatio = `${rw} / ${rh}`;
+    return [w, w * rh / rw];
+}
+
 /* A CSS approximation of the Text+ look being set up - Resolve renders the real one. */
 function drawPreview() {
     if (!OPT) return;
@@ -209,9 +244,9 @@ function drawPreview() {
         const host = document.querySelector(`[data-slider="${name}"]`);
         return host && host._input ? Number(host._input.value) : OPT.sliders[name].value;
     };
-    const w = box.clientWidth || 400;
-    // Size is a fraction of frame width; this box stands in for a 16:9 frame.
-    const fs = Math.max(8, val("font_size") * w * 0.62);
+    const [w, h] = sizePreview(box);
+    // Size is a fraction of frame width; this box stands in for the frame.
+    const fs = Math.max(8, val("font_size") * w * TEXT_PLUS_HEIGHT / fontHeightPerPx(OPT.font_css));
     const t = OPT.toggles;
     // A clip's own text is the user's; only the stand-in is translated.
     const userSample = (STATE && STATE.sample) || "";
@@ -229,7 +264,7 @@ function drawPreview() {
         // Offsets are fractions of the frame width, like Size.
         ? `${val("shadow_offset_x") * w}px ${-val("shadow_offset_y") * w}px ${val("shadow_blur") * w / 400}px ${rgba(OPT.colors.shadow_color, val("shadow_opacity"))}` : "none";
     if (t.background_on) {
-        const ph = Math.max(2, 6 + val("background_extend_horizontal") * w), pv = Math.max(2, 4 + val("background_extend_vertical") * w * 0.56);
+        const ph = Math.max(2, 6 + val("background_extend_horizontal") * w), pv = Math.max(2, 4 + val("background_extend_vertical") * h);
         sample.style.background = rgba(OPT.colors.background_color, val("background_opacity"));
         sample.style.padding = `${pv}px ${ph}px`;
         sample.style.borderRadius = `${val("background_corner_radius") * fs}px`;
@@ -238,12 +273,14 @@ function drawPreview() {
         sample.style.padding = "0";
     }
 }
-let previewWidth = 0;
+// The card, not the box: the box's own width is set from the card's.
+let cardWidth = 0;
 new ResizeObserver(() => {
-    if ($("preview").clientWidth === previewWidth) return;
-    previewWidth = $("preview").clientWidth;
+    const card = $("preview").parentElement;
+    if (card.clientWidth === cardWidth) return;
+    cardWidth = card.clientWidth;
     drawPreview();
-}).observe($("preview"));
+}).observe($("preview").parentElement);
 
 // ----------------------------------------------------------- canvases --
 

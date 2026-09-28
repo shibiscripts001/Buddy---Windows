@@ -293,6 +293,40 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.tool(0).center()[0], 0.5)
         self.assertNotEqual(self.tool(0).GetInput("Size"), 0.1)
 
+    def test_style_preview_mirrors_the_text_under_the_playhead(self):
+        def sent(name):
+            return [p for n, p in self.events if n == name]
+
+        self.page.on_tab({"tab": "style"})
+        self.assertEqual(self.last("state")["sample"], "Big Title")       # the lowest track's clip
+        self.tool(0).inputs["StyledText"] = "Two\nlines"
+        self.events.clear()
+        self.page._refresh_live_preview(force=True)
+        self.assertEqual(self.last("state")["sample"], "Two\nlines")      # every line, breaks kept
+        self.assertFalse(sent("canvas"))                                  # no canvas on this tab
+        self.events.clear()
+        self.page._refresh_live_preview(force=True)
+        self.assertFalse(sent("state"))                                   # unchanged: nothing sent
+        self.host.timeline.playhead = "01:00:08:10"                       # only "Later" is here
+        self.page._refresh_live_preview(force=True)
+        self.assertEqual(self.last("state")["sample"], "Later")
+        self.events.clear()
+        self.host.timeline.playhead = "01:00:30:00"                       # nothing is here
+        self.page._refresh_live_preview(force=True)
+        self.assertFalse(sent("state"))                                   # the last text stays
+
+    def test_the_poll_keeps_the_timeline_shape(self):
+        timeline = self.host.timeline
+        vertical = {"timelineResolutionWidth": "1080", "timelineResolutionHeight": "1920"}
+        timeline.GetSetting = lambda key: vertical.get(key)            # switched to a vertical timeline
+        self.page.on_tab({"tab": "style"})
+        self.assertEqual(self.last("state")["resolution"], [1080, 1920])
+        self.events.clear()
+        timeline.GetSetting = lambda key: None                         # a read that failed
+        self.page._refresh_live_preview(force=True)
+        self.assertEqual(self.page.resolution, (1080, 1920))           # not flipped back to 16:9
+        self.assertFalse([p for n, p in self.events if n == "state"])
+
     def test_track_suggestion_and_page_switch(self):
         self.page.on_shown()
         s = self.last("state")

@@ -42,11 +42,16 @@ input[type="range"] { width: 100%; margin: 0; accent-color: var(--primary); curs
 
 .preview-card { gap: 10px; }
 .preview {
-    aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    /* 16:9 until animator.js sizes it to the timeline's frame (sizePreview). */
+    aspect-ratio: 16 / 9; align-self: center; max-width: 100%; box-sizing: border-box;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
     border-radius: var(--r-md); border: var(--bw) solid var(--card-border);
     background: repeating-conic-gradient(color-mix(in srgb, var(--text) 10%, var(--surface)) 0 25%, var(--surface) 0 50%) 0 0 / 20px 20px;
 }
-.sample { white-space: nowrap; line-height: 1.1; max-width: 100%; }
+/* Like Text+ with Wrap off: the clip's own line breaks, centred, running off both
+   edges when too wide (flex centring overflows evenly), and LineSpacing 1.0 = the
+   font's own line height, which is what "normal" is. */
+.sample { white-space: pre; text-align: center; line-height: normal; flex-shrink: 0; }
 
 /* --------------------------------------------------------- canvases -- */
 
