@@ -239,8 +239,16 @@ class StillsPageTests(_PageCase):
         from pages.stills_exporter.page import StillsExporterPage
         return StillsExporterPage
 
+    def settle(self):
+        """Lets the page's worker thread (it reads and adds markers off the UI thread)
+        finish, and its answers - which can start the next read - arrive."""
+        for _ in range(3):
+            self.assertTrue(self.page._worker.wait_idle(5))
+            QCoreApplication.processEvents()
+
     def test_marker_counts_and_the_markers_a_grab_will_visit(self):
         self.page.on_refresh()
+        self.settle()
         s = self.last("state")
         self.assertEqual({c["name"]: c["count"] for c in s["colors"]}["Blue"], 3)
         self.assertEqual([x["timecode"] for x in s["markers"]], ["01:00:00:00", "01:00:30:00", "01:01:35:00"])
@@ -249,10 +257,50 @@ class StillsPageTests(_PageCase):
 
     def test_add_a_named_marker(self):
         self.page.on_add_marker({"name": "Hero"})
+        self.settle()
         added = self.host.controller.project.timeline.markers[10 * FPS]
         self.assertEqual((added["color"], added["name"]), ("Blue", "Hero"))
+        self.assertIn("Hero", [m["name"] for m in self.last("state")["markers"]])   # read again after
         self.page.on_add_marker({"name": ""})                        # same frame again
+        self.settle()
         self.assertEqual(self.last("alert")["title"], "Couldn't add the marker")
+        self.assertIn("already be a marker", self.last("alert")["text"])
+
+    def test_a_marker_refused_while_playing_says_so(self):
+        timeline = self.host.controller.project.timeline
+        frames = iter(range(1000))
+        timeline.GetCurrentTimecode = lambda: f"01:00:10:{next(frames) % 24:02d}"   # moving
+        timeline.AddMarker = lambda *args: False
+        self.page.on_add_marker({"name": ""})
+        self.settle()
+        self.assertIn("while the timeline is playing", self.last("alert")["text"])
+
+    def test_a_stuck_read_leaves_the_page_responsive_and_says_so(self):
+        """Resolve holds scripting calls while the timeline plays - the page mustn't
+        wait with it (on the UI thread each 2-second poll froze Buddy)."""
+        import threading
+        import time
+        from pages.stills_exporter import page as stills
+        timeline = self.host.controller.project.timeline
+        release, real = threading.Event(), timeline.GetMarkers
+        timeline.GetMarkers = lambda: (release.wait(10), real())[1]
+        self.addCleanup(release.set)
+        with mock.patch.object(stills, "BUSY_AFTER_S", 0.05), mock.patch.object(stills, "ACTION_WAIT_S", 0.05):
+            t0 = time.monotonic()
+            self.page.on_refresh()                                   # a read Resolve holds
+            time.sleep(0.1)
+            self.page._read(connect=False)                           # the next poll: no second read
+            self.assertTrue(self.last("state")["busy"])
+            self.page.on_add_marker({"name": "Hero"})
+            self.assertEqual(self.last("alert")["title"], stills.BUSY_TITLE)
+            self.page.on_grab()
+            self.assertEqual(self.host.controller.pages, [])        # nothing started behind it
+            self.assertLess(time.monotonic() - t0, 2)               # never waited on Resolve
+        release.set()
+        self.settle()
+        self.assertFalse(self.last("state")["busy"])
+        self.assertEqual(self.last("state")["timeline"], "My Film")
+        self.assertNotIn(10 * FPS, timeline.markers)                # the refused click added nothing
 
     def test_grab_then_export_and_delete(self):
         self.page.on_grab()

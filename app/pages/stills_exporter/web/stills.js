@@ -22,6 +22,8 @@ Buddy.on("state", s => {
     t.replaceChildren(s.timeline
         ? el("span", {}, [el("b", {text: s.timeline, translate: "no"}), " · ", el("span", {text: plural(s.colors.reduce((a, c) => a + c.count, 0), "marker")})])
         : el("span", {text: s.problem || "No timeline open"}));
+    // Resolve holds Buddy's calls while the timeline plays: the last markers stay shown.
+    if (s.busy) t.append(el("span.busy", {text: "Waiting for Resolve – is the timeline playing?"}));
     t.hidden = !s.connected;   // offline is said once, in Buddy's header
 
     $("colours").replaceChildren(...s.colors.map(c => el(`button.colour${c.name === s.color ? ".on" : ""}`, {

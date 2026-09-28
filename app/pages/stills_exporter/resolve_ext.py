@@ -15,6 +15,8 @@ can delete them from the gallery afterward. Every such call is behind an
 explicit button.
 """
 
+import time
+
 from core.resolve_bridge import ResolveConnectionError
 
 
@@ -102,6 +104,16 @@ def timeline_markers(controller):
     return str(timeline.GetName() or ""), markers
 
 
+def _playhead_moving(timeline, gap=0.15):
+    """True if the playhead moves within `gap` seconds - the timeline is playing."""
+    try:
+        before = timeline.GetCurrentTimecode()
+        time.sleep(gap)
+        return timeline.GetCurrentTimecode() != before
+    except Exception:  # noqa: BLE001 - only used to explain a refusal
+        return False
+
+
 def add_marker_at_playhead(controller, color, name="", note=""):
     """Drop a marker on the current frame. Returns its timecode."""
     timeline = get_timeline(controller)
@@ -111,6 +123,9 @@ def add_marker_at_playhead(controller, color, name="", note=""):
 
     ok = timeline.AddMarker(frame_id, color, name or f"{color} Marker", note, 1, "")
     if not ok:
+        if _playhead_moving(timeline):
+            raise ResolveConnectionError(
+                "Resolve can't add a marker while the timeline is playing. Stop playback and try again.")
         raise ResolveConnectionError(
             f"Resolve rejected the marker at {current_tc} "
             "(there may already be a marker on that frame)."

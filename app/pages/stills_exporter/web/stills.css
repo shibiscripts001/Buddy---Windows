@@ -3,6 +3,7 @@
 .timeline { color: var(--text-dim); font-size: var(--fs-sm); }
 .timeline b { color: var(--text-strong); }
 .timeline.bad { color: var(--danger-text); }
+.timeline .busy { margin-left: 0.75em; color: var(--accent-text); }
 
 .colour-card { display: flex; flex-direction: column; gap: var(--card-gap); padding: var(--card-pad); }
 .colours { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; }

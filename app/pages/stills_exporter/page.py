@@ -10,6 +10,9 @@ and moves the playhead to grab stills, and - only when asked, and after a
 confirmation - deletes the grabbed stills from the gallery after export.
 Each is behind its own button. Grabbing and exporting run behind the
 shell's busy overlay: they're Resolve calls that must stay on this thread.
+Reading the markers (every POLL_MS while on screen) and adding one run on
+a ResolveWorker thread instead: Resolve holds calls while the timeline
+plays, and on this thread each poll froze Buddy until it stopped.
 
 The grabbed-stills list lives on this page, not the shared controller (a
 reconnect would drop it), and only for this session.
@@ -38,6 +41,7 @@ from PySide6.QtWidgets import QFileDialog
 from core import marker_colors
 from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
+from core.resolve_worker import ResolveWorker
 from core.web_page import WebToolPage
 
 from . import resolve_ext
@@ -45,6 +49,13 @@ from . import resolve_ext
 EXPORT_FORMATS = {"JPEG": "jpg", "PNG": "png", "TIFF": "tif"}
 DEFAULT_PREFIX = "Still_"
 POLL_MS = 2000
+# Resolve holds scripting calls while the timeline plays (see core/resolve_worker.py): a
+# read still waiting after this long means it's busy, and the page says so.
+BUSY_AFTER_S = 4
+# An action on this thread waits this long for a running read before saying Resolve is busy.
+ACTION_WAIT_S = 1.5
+BUSY_TITLE = "Resolve isn't answering"
+BUSY_TEXT = "Resolve is holding Buddy's requests – usually because the timeline is playing. Stop playback and try again."
 LOG_LIMIT = 60
 DEFAULTS = {"format": "JPEG", "prefix": DEFAULT_PREFIX, "folder": "", "delete_after": False, "color": "Blue"}
 
@@ -61,7 +72,9 @@ class StillsExporterPage(WebToolPage):
         self.timeline = None       # name, when one is open
         self.markers = []
         self.problem = ""
+        self.busy = False          # a read has waited BUSY_AFTER_S on Resolve
         self._signature = None
+        self._worker = ResolveWorker(self)
         self._log = []
         self._poll = QTimer(self)
         self._poll.setInterval(POLL_MS)
@@ -97,23 +110,46 @@ class StillsExporterPage(WebToolPage):
             self._read(connect=False)
 
     def _read(self, connect):
+        """Reads the timeline's markers on the worker thread; the page updates when
+        Resolve answers. A read still waiting is left to finish (never a second one)."""
         controller = self._controller(connect)
-        name, markers, problem = None, [], ""
         if controller is None:
-            problem = self.problem if connect else "Not connected to Resolve."
+            return self._show(None, [], self.problem if connect else "Not connected to Resolve.")
+        if self._worker.busy():
+            if not self.busy and self._worker.running_for() >= BUSY_AFTER_S:
+                self.busy = True
+                self._push_state()
+            return
+        self._worker.start(lambda: resolve_ext.timeline_markers(controller), self._on_markers)
+
+    def _on_markers(self, result, error):
+        name, markers, problem = None, [], ""
+        if isinstance(error, ResolveConnectionError):
+            problem = str(error)
+        elif error is not None:
+            problem = f"Couldn't read the timeline: {error}"
         else:
-            try:
-                name, markers = resolve_ext.timeline_markers(controller)
-            except ResolveConnectionError as exc:
-                problem = str(exc)
-            except Exception as exc:  # noqa: BLE001 - shown to the user
-                problem = f"Couldn't read the timeline: {exc}"
+            name, markers = result
+        self._show(name, markers, problem)
+
+    def _show(self, name, markers, problem):
+        was_busy, self.busy = self.busy, False
         signature = repr((name, markers, problem))
-        if signature != self._signature:
+        if signature != self._signature or was_busy:
             self._signature = signature
             self.timeline, self.markers, self.problem = name, markers, problem
             self._push_state()
-        return controller
+
+    def _resolve_free(self):
+        """True once no read is waiting on Resolve. Otherwise says it's busy and
+        returns False: a call now would freeze Buddy until playback stops."""
+        if self._worker.wait_idle(ACTION_WAIT_S):
+            return True
+        if not self.busy:
+            self.busy = True
+            self._push_state()
+        self.emit("alert", {"title": BUSY_TITLE, "text": BUSY_TEXT})
+        return False
 
     # --------------------------------------------------------------- view --
 
@@ -127,6 +163,7 @@ class StillsExporterPage(WebToolPage):
             "connected": self._controller(connect=False) is not None,
             "timeline": self.timeline or "",
             "problem": self.problem,
+            "busy": self.busy,
             "colors": marker_colors.color_counts({m["frame"]: m for m in self.markers}),
             "color": self.color,
             "markers": [m for m in self.markers if m["color"] == self.color],
@@ -184,14 +221,16 @@ class StillsExporterPage(WebToolPage):
 
     def on_add_marker(self, payload):
         controller = self._controller(connect=True)
-        if controller is None:
+        if controller is None or not self._resolve_free():
             return
         color = self.color
         name = str((payload or {}).get("name") or "").strip()
-        try:
-            timecode = resolve_ext.add_marker_at_playhead(controller, color, name=name)
-        except Exception as exc:  # noqa: BLE001 - shown to the user
-            return self._fail("Couldn't add the marker", exc)
+        self._worker.start(lambda: resolve_ext.add_marker_at_playhead(controller, color, name=name),
+                           lambda timecode, error: self._on_marker_added(color, timecode, error))
+
+    def _on_marker_added(self, color, timecode, error):
+        if error is not None:
+            return self._fail("Couldn't add the marker", error)
         self._add_log(f"Added a {color} marker at {timecode}.", "ok")
         self.emit("toast", {"text": f"{color} marker added at {timecode}"})
         self._signature = None
@@ -199,7 +238,7 @@ class StillsExporterPage(WebToolPage):
 
     def on_grab(self, _payload=None):
         controller = self._controller(connect=True)
-        if controller is None:
+        if controller is None or not self._resolve_free():
             return
         color = self.color
         self._add_log(f"Grabbing stills at every {color} marker…")
@@ -243,7 +282,7 @@ class StillsExporterPage(WebToolPage):
         if delete_after and not (payload or {}).get("confirmed"):
             return
         controller = self._controller(connect=True)
-        if controller is None:
+        if controller is None or not self._resolve_free():
             return
         fmt_name = s.get("format") if s.get("format") in EXPORT_FORMATS else "JPEG"
         fmt = EXPORT_FORMATS[fmt_name]

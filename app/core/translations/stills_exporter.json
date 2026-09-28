@@ -689,5 +689,45 @@
   "中文": "警告：Resolve 报告从画廊删除失败。",
   "العربية": "تحذير: أبلغ Resolve عن فشل الحذف من المعرض.",
   "Tiếng Việt": "CẢNH BÁO: Resolve báo cáo xóa khỏi thư viện thất bại."
+ },
+ "Waiting for Resolve – is the timeline playing?": {
+  "日本語": "Resolve の応答を待っています – タイムラインを再生中ですか?",
+  "Español": "Esperando a Resolve: ¿se está reproduciendo la línea de tiempo?",
+  "Deutsch": "Warte auf Resolve – läuft gerade die Wiedergabe der Timeline?",
+  "Français": "En attente de Resolve – la timeline est-elle en lecture ?",
+  "한국어": "Resolve를 기다리는 중 – 타임라인이 재생 중인가요?",
+  "中文": "正在等待 Resolve – 时间线是否正在播放？",
+  "العربية": "في انتظار Resolve – هل الخط الزمني قيد التشغيل؟",
+  "Tiếng Việt": "Đang chờ Resolve – timeline có đang phát không?"
+ },
+ "Resolve isn't answering": {
+  "日本語": "Resolve が応答しません",
+  "Español": "Resolve no responde",
+  "Deutsch": "Resolve antwortet nicht",
+  "Français": "Resolve ne répond pas",
+  "한국어": "Resolve가 응답하지 않습니다",
+  "中文": "Resolve 没有响应",
+  "العربية": "Resolve لا يستجيب",
+  "Tiếng Việt": "Resolve không phản hồi"
+ },
+ "Resolve is holding Buddy's requests – usually because the timeline is playing. Stop playback and try again.": {
+  "日本語": "Resolve が Buddy からの要求を保留しています – 通常はタイムラインの再生中です。再生を停止してから、もう一度お試しください。",
+  "Español": "Resolve está reteniendo las peticiones de Buddy, normalmente porque la línea de tiempo se está reproduciendo. Detén la reproducción e inténtalo de nuevo.",
+  "Deutsch": "Resolve hält Buddys Anfragen zurück – meist, weil die Timeline gerade abgespielt wird. Stoppe die Wiedergabe und versuche es noch einmal.",
+  "Français": "Resolve met en attente les demandes de Buddy – généralement parce que la timeline est en lecture. Arrêtez la lecture et réessayez.",
+  "한국어": "Resolve가 Buddy의 요청을 보류하고 있습니다. 보통 타임라인이 재생 중이기 때문입니다. 재생을 멈춘 뒤 다시 시도하세요.",
+  "中文": "Resolve 正在搁置 Buddy 的请求 – 通常是因为时间线正在播放。请停止播放后重试。",
+  "العربية": "يؤجّل Resolve طلبات Buddy – غالبًا لأن الخط الزمني قيد التشغيل. أوقف التشغيل ثم حاول مرة أخرى.",
+  "Tiếng Việt": "Resolve đang giữ các yêu cầu của Buddy – thường là do timeline đang phát. Hãy dừng phát rồi thử lại."
+ },
+ "Resolve can't add a marker while the timeline is playing. Stop playback and try again.": {
+  "日本語": "タイムラインの再生中は、Resolve でマーカーを追加できません。再生を停止してから、もう一度お試しください。",
+  "Español": "Resolve no puede añadir un marcador mientras se reproduce la línea de tiempo. Detén la reproducción e inténtalo de nuevo.",
+  "Deutsch": "Resolve kann keinen Marker setzen, während die Timeline abgespielt wird. Stoppe die Wiedergabe und versuche es noch einmal.",
+  "Français": "Resolve ne peut pas ajouter de marqueur pendant la lecture de la timeline. Arrêtez la lecture et réessayez.",
+  "한국어": "타임라인이 재생 중일 때는 Resolve에서 마커를 추가할 수 없습니다. 재생을 멈춘 뒤 다시 시도하세요.",
+  "中文": "时间线播放时，Resolve 无法添加标记。请停止播放后重试。",
+  "العربية": "لا يمكن لـ Resolve إضافة علامة أثناء تشغيل الخط الزمني. أوقف التشغيل ثم حاول مرة أخرى.",
+  "Tiếng Việt": "Resolve không thể thêm marker khi timeline đang phát. Hãy dừng phát rồi thử lại."
  }
 }
