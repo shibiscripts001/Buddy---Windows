@@ -6,6 +6,7 @@ Every test uses a DataManager in a temp folder - never the real
 import os
 import tempfile
 import unittest
+from unittest import mock
 from datetime import date, datetime, timedelta
 
 import _paths  # noqa: F401
@@ -89,8 +90,11 @@ class EngineTests(Base):
         self.assertFalse(self.engine.undo_stop("missing"))
 
     def test_a_blip_leaves_nothing_to_undo(self):
-        self.engine.on_project_detected("A", True)
-        self.assertIsNone(self.engine.stop_tracking())               # under a second: dropped
+        # One clock time for the start and the stop: times are kept to the second, so a start
+        # at 12:00:00.999 and a stop 2 ms later measured a whole second - and weren't dropped.
+        with mock.patch("pages.time_tracker.data_manager.now_iso", return_value="2026-01-01T12:00:00"):
+            self.engine.on_project_detected("A", True)
+            self.assertIsNone(self.engine.stop_tracking())           # under a second: dropped
 
     def test_manual_mode(self):
         self.dm.settings["manual_tracking"] = True

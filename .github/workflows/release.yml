@@ -2,6 +2,7 @@
 # file on main changes - bump the number (even from GitHub's web editor) to
 # release. Tests run first; nothing is published if they fail, and an
 # existing release for the same version is never replaced.
+# Editing this file runs it too - how to retry a version whose run failed.
 #
 # It builds from the repo alone on a clean Windows machine: build_installer.py
 # makes buddy.zip and compiles installer/Buddy.iss with Inno Setup.
