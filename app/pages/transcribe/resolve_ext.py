@@ -12,6 +12,8 @@ Rendering
     QuickTime: mov/ProRes422P with ExportVideo off and 16-bit LPCM audio.
     faster-whisper reads it directly.
   - StartRendering takes the job id itself; given a LIST it returns False.
+    Rarely it returns False for a good job too, so it's retried a couple of
+    times (START_TRIES) before giving up.
   - There is no GetRenderSettings(), so the user's Deliver settings are
     saved as a temporary preset first and loaded back after, whatever
     happens. Render mode is saved separately. The job is always deleted.
@@ -61,6 +63,8 @@ from . import subtitles as st
 TRANSCRIPTS_BIN = "Buddy Transcripts"
 PLACE_TRIES = 2            # the first can land after the timeline's end; the second hasn't yet
 PLACE_TOLERANCE = 1        # frames a cue may be off (rounding) and still be where it belongs
+START_TRIES = 3            # StartRendering: the first try plus two retries, never more
+START_RETRY_WAIT = 1.0     # seconds between them
 
 
 class TranscribeResolveError(RuntimeError):
@@ -174,7 +178,7 @@ class TranscribeController:
             job = project.AddRenderJob()
             if not job:
                 raise TranscribeResolveError("Resolve couldn't add the audio render job.")
-            if not project.StartRendering(job):
+            if not self._start_rendering(project, job):
                 raise TranscribeResolveError("Resolve didn't start rendering the timeline audio.")
             while project.IsRenderingInProgress():
                 if cancelled():
@@ -199,6 +203,20 @@ class TranscribeController:
         if not os.path.isfile(path):
             raise TranscribeResolveError(f"The render finished but {path} wasn't written.")
         return path
+
+    @staticmethod
+    def _start_rendering(project, job) -> bool:
+        """StartRendering, tried up to START_TRIES times. Now and then Resolve
+        refuses it for no reason it reports, and the same job starts fine a
+        moment later (never reproduced on demand - 20 tries from every page,
+        playing, minimized, from a thread all started first time). A refusal
+        that started rendering anyway counts as started."""
+        for attempt in range(START_TRIES):
+            if attempt:
+                time.sleep(START_RETRY_WAIT)
+            if project.StartRendering(job) or project.IsRenderingInProgress():
+                return True
+        return False
 
     # --------------------------------------------------------- subtitles
 
