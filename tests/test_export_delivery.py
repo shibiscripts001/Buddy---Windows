@@ -3,6 +3,7 @@ both web pages driven against a fake Resolve - never a real project."""
 
 import os
 import tempfile
+import threading
 import unittest
 from unittest import mock
 
@@ -264,6 +265,17 @@ class _PageCase(unittest.TestCase):
     def last(self, name):
         return [p for n, p in self.events if n == name][-1]
 
+    def settle(self):
+        """Lets the page's worker thread finish and its answers - which can
+        start the next read - arrive. The worker is idle just BEFORE it
+        hands its answer back, so the thread itself is waited for too."""
+        for _ in range(3):
+            self.assertTrue(self.page._worker.wait_idle(5))
+            for thread in threading.enumerate():
+                if thread.name == "resolve-worker":
+                    thread.join(5)
+            self.app.processEvents()
+
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
 class ChaptersPageTests(_PageCase):
@@ -271,11 +283,6 @@ class ChaptersPageTests(_PageCase):
     def page_class(self):
         from pages.youtube_chapters.page import YouTubeChaptersPage
         return YouTubeChaptersPage
-
-    def settle(self):
-        for _ in range(3):
-            self.assertTrue(self.page._worker.wait_idle(5))
-            self.app.processEvents()
 
     def test_reads_the_timeline_and_follows_the_filter(self):
         self.page.on_refresh()
@@ -359,13 +366,6 @@ class StillsPageTests(_PageCase):
     def page_class(self):
         from pages.stills_exporter.page import StillsExporterPage
         return StillsExporterPage
-
-    def settle(self):
-        """Lets the page's worker thread (it reads and adds markers off the UI thread)
-        finish, and its answers - which can start the next read - arrive."""
-        for _ in range(3):
-            self.assertTrue(self.page._worker.wait_idle(5))
-            QCoreApplication.processEvents()
 
     def test_marker_counts_and_the_markers_a_grab_will_visit(self):
         self.page.on_refresh()

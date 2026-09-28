@@ -31,12 +31,12 @@ class ManualPdfTests(unittest.TestCase):
 
     def test_each_app_is_given_the_page_its_own_way(self):
         pdf = Path("C:/Manuals/Resolve Manual.pdf")
-        chrome = manual_pdf.command_for(r"C:\Program Files\Google\Chrome\Application\chrome.exe", pdf, 1195)
+        chrome = manual_pdf.command_for("C:/Program Files/Google/Chrome/Application/chrome.exe", pdf, 1195)
         self.assertTrue(chrome[1].startswith("file:///") and chrome[1].endswith("Manual.pdf#page=1195"))
         self.assertIn("%20", chrome[1])
-        self.assertEqual(manual_pdf.command_for(r"C:\Adobe\Acrobat.exe", pdf, 7)[1:3], ["/A", "page=7"])
-        self.assertEqual(manual_pdf.command_for(r"C:\SumatraPDF.exe", pdf, 7)[1:3], ["-page", "7"])
-        self.assertIsNone(manual_pdf.command_for(r"C:\Apps\SomeViewer.exe", pdf, 7))
+        self.assertEqual(manual_pdf.command_for("C:/Adobe/Acrobat.exe", pdf, 7)[1:3], ["/A", "page=7"])
+        self.assertEqual(manual_pdf.command_for("C:/SumatraPDF.exe", pdf, 7)[1:3], ["-page", "7"])
+        self.assertIsNone(manual_pdf.command_for("C:/Apps/SomeViewer.exe", pdf, 7))
 
     def test_a_mac_goes_to_the_page_in_a_browser_else_preview(self):
         pdf = Path("/Users/me/Manual.pdf")
