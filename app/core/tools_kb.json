@@ -35,7 +35,7 @@
     },
     "project_setup": {
       "name": "Project Setup",
-      "summary": "Builds out a new project's Media Pool and timeline: bin structure from a list, folder-tree import, bin-to-timeline, and a full multicam sync suite.",
+      "summary": "Builds out a new project's Media Pool and timeline: bin structure from a list, folder-tree import, bin-to-timeline, a full multicam sync suite, and ffmpeg-rendered proxy media.",
       "needs_resolve": true,
       "capabilities": [
         "Bins tab: one bin per line, prefix a line with '>' to nest it inside the nearest bin above with one fewer '>' (Tab / Shift+Tab in the list adds or removes one); a live tree preview shows exactly what will be created",
@@ -43,9 +43,12 @@
         "Import Folder: mirrors an entire folder tree from disk into the Media Pool as nested bins, skipping non-media files; shows what's inside first (video, audio, stills, image sequences counted once, subfolders) and whether it goes into the open bin or the Master level",
         "Populate Timeline: adds the currently selected Media Pool bin's clips to the open timeline, or creates a new timeline from them; shows which bin and which timeline, following Resolve as you click around",
         "Sync tab: Sync Everything lines clips up by embedded timecode or waveform, places untimecoded audio, packs to the fewest tracks and shifts to the start - all as one offline transform that imports a NEW timeline and never touches the original; long audio jobs show progress and can be cancelled",
-        "Sync tab: Expand (one clip per track), Align, Sync External Audio, Collapse (with optional silent-audio removal) and Shift (optionally closing gaps) as separate steps under 'Or run the steps yourself'"
+        "Sync tab: Expand (one clip per track), Align, Sync External Audio, Collapse (with optional silent-audio removal) and Shift (optionally closing gaps) as separate steps under 'Or run the steps yourself'",
+        "Proxy tab: renders lightweight .mov copies of the project's video clips with ffmpeg into a 'Proxy' folder beside each source (Resolve's own proxy convention) and links them with LinkProxyMedia - the same call as Resolve's manual proxy relink; source files are never touched",
+        "Proxy tab can target the Media Pool selection, the clips selected on the open timeline (Resolve 21.0.4 or later), the open bin (optionally with its sub-bins), or every clip in the project - only video files, since audio-only clips never play from a proxy",
+        "Proxy tab: Original/Half/Quarter resolution and a Format dropdown - H.264, H.265 (HEVC), ProRes 422 Proxy/LT/422, DNxHR LB/SQ/HQ or CineForm; each proxy carries its clip's start timecode, which Resolve needs to link it; a clip whose proxy file already exists is linked, not re-rendered (unless its timecode is wrong, when it's rendered again); audio is stream-copied so multicam tracks survive; each render writes to a .buddy-part file and only moves into place on success, so a cancelled run leaves nothing half-written"
       ],
-      "notes": "Formerly called Resolve Bin Generator, then Media Pool Organizer. Waveform sync and silent-audio detection need ffmpeg installed (path settable in Settings)."
+      "notes": "Formerly called Resolve Bin Generator, then Media Pool Organizer. Waveform sync and silent-audio detection need ffmpeg installed (path settable in Settings); the Proxy tab needs it for every render. Timeline selection needs Resolve 21.0.4 or later; older Resolves hide that choice."
     },
     "asset_manager": {
       "name": "Asset Manager",

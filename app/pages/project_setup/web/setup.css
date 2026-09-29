@@ -147,6 +147,12 @@
 .step-body .check { margin-top: 4px; }
 .step > .btn { min-width: 104px; align-self: center; }
 
+/* ------------------------------------------------------------- proxy -- */
+
+.proxy-card { flex: none; display: flex; flex-direction: column; gap: 12px; padding-bottom: 14px; }
+.proxy-card > :not(.card-head) { margin: 0 16px; }
+.proxy-opts { gap: 10px 18px; }
+
 /* ----------------------------------------------------------- activity -- */
 
 .metadata-card { flex: none; padding-bottom: 14px; }

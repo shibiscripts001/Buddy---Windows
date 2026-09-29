@@ -53,6 +53,11 @@ class EngineWorker(QThread):
             ffmpeg_utils.terminate_active()
         except Exception:
             pass
+        try:
+            from . import proxy
+            proxy.terminate_active()
+        except Exception:
+            pass
 
     def _report(self, stage, done=0, total=1):
         if self._stop:

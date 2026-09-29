@@ -153,6 +153,7 @@ extra API call; the cost is that a real project with that name is ignored.
 | `timeline.GetMarkers()` | Can return `None` instead of `{}`. Keys are frame numbers. |
 | `timeline.GrabStill()` | Reliable only after `resolve.OpenPage("color")`; re-fetch the timeline object after switching pages. Returns falsy per frame on failure: log it and carry on rather than abandoning the batch. |
 | `gallery.GetCurrentStillAlbum()` / `album.ExportStills(...)` / `album.DeleteStills(...)` | All return booleans. Treat a failed export as fatal, a failed delete as a warning (a failed clean-up shouldn't undo a good export). |
+| `clip.LinkProxyMedia(path)` | Returns `False` with no reason when Resolve won't take the proxy - the manual's requirements are a **supported codec** and the **same frame rate** as the source, and (measured on 21.1) the **same start timecode** as the clip's `Start TC`. ffmpeg drops a Sony MP4's timecode (it's on the `rtmd` track), so stamp `-timecode`. Report per clip and carry on (see `pages/project_setup/proxy.py`). |
 
 ---
 
@@ -285,7 +286,7 @@ the Fusion page, not that the connection failed.
 |---|---|---|---|
 | Shell | probe subprocess, then in-process | One shared controller for every page | `core/resolve_bridge.py`, `core/resolve_probe_worker.py` |
 | Asset Manager | in-process | Imports files, optionally into a new bin | `pages/asset_manager/resolve_ext.py` |
-| Project Setup | in-process | Bins, folder import, timeline population, sync | `pages/project_setup/resolve_ext.py` |
+| Project Setup | in-process | Bins, folder import, timeline population, sync, proxy rendering | `pages/project_setup/resolve_ext.py`, `pages/project_setup/proxy.py` |
 | Batch Clip Renamer | in-process | Timeline pseudo-clips in bin listings; `GetSelectedClips()` differs by version | `pages/batch_clip_renamer/resolve_ext.py` |
 | Image Importer | in-process | `ImportMedia` failures give no reason (bad path vs. bin not current) | `pages/image_importer/resolve_ext.py` |
 | Media Relink | in-process | Finds and relinks offline clips | `pages/media_relink/resolve_ext.py` |

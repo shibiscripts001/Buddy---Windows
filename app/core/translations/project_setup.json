@@ -2409,5 +2409,755 @@
   "中文": "“全部同步”会对齐打开的时间线上的所有片段，按波形放置没有时间码的音频，将结果压缩到最少的轨道上，并移到时间线开头。结果会作为一条新时间线导入：原来的时间线绝不会被更改，因此它也是您的备份。\n\n同步依据：\n  - 时间码：使用每个片段内嵌的时间码。显示 00:00:00:00 的片段会被视为没有时间码（这是未设置时间码时摄像机写入的值），并留给波形处理。\n  - 波形：按音频匹配片段，完全不需要时间码。\n\n“全部同步”不会删除任何内容，也不会消除间隙——这些属于剪辑决定，位于单独的步骤中，“展开”（每条轨道一个片段，便于手动操作）也在其中。\n\n步骤：\n  - 展开：将每个片段铺到各自的轨道上，保持位置和修剪。\n  - 对齐：以最早的片段为基准，将每个片段移到其时间码位置。\n  - 同步外部音频：根据摄像机片段的参考音频放置没有可用时间码的录音（领夹麦、现场录音机）。请在“对齐”之后运行。\n  - 合并：在不改变任何内容播放时间的前提下，将片段压缩到最少的轨道上，并可选择删除全程静音的音频片段。\n  - 移位：将所有内容移到开头，并可选择消除素材块之间的间隙。间隙是跨所有轨道判断的，因此同步得以保持。\n\n每个步骤都会生成一条新时间线。任何读取音频的操作都需要 ffmpeg（如果 Buddy 找不到它，请在设置中指定其路径）。",
   "العربية": "تصفّ مزامنة كل شيء كل مقطع على الخط الزمني المفتوح، وتضع الصوت الذي بلا رمز زمني حسب شكله الموجي، وتجمع النتيجة على أقل عدد من المسارات وتسحبها إلى بداية الخط الزمني. تُستورد كخط زمني جديد واحد: الخط الزمني الذي بدأت منه لا يتغير أبدًا، لذا فهو نسختك الاحتياطية أيضًا.\n\nالمزامنة حسب:\n  - الرمز الزمني يستخدم الرمز الزمني المضمّن في كل مقطع. المقطع الذي يقرأ 00:00:00:00 يُعامل كأنه بلا رمز (وهو ما تكتبه الكاميرا عندما لا يضبطه شيء) ويُترك لمرحلة الشكل الموجي.\n  - الشكل الموجي يطابق المقاطع حسب صوتها، ولا يحتاج إلى رمز زمني إطلاقًا.\n\nلا تحذف مزامنة كل شيء أي شيء ولا تغلق أي فجوات – فتلك قرارات تحرير. وهي موجودة في الخطوات المنفصلة، مع التوسيع (مقطع واحد لكل مسار، للعمل يدويًا).\n\nالخطوات:\n  - التوسيع يوزع كل مقطع على مساره الخاص، مع الحفاظ على الموضع والقص.\n  - المحاذاة تنقل كل مقطع إلى رمزه الزمني، بالنسبة إلى أقدمها.\n  - مزامنة الصوت الخارجي تضع التسجيلات التي بلا رمز زمني صالح (الميكروفونات اللاسلكية، المسجلات الميدانية) وفق صوت المرجع في مقاطع الكاميرا. شغّلها بعد المحاذاة.\n  - الضغط يجمع المقاطع على أقل عدد من المسارات دون تغيير وقت تشغيل أي شيء، مع إمكانية حذف مقاطع الصوت الصامتة تمامًا.\n  - الإزاحة تسحب كل شيء إلى البداية، مع إمكانية إغلاق الفجوات بين كتل اللقطات. تُقيَّم الفجوات عبر كل المسارات، لذا تبقى المزامنة.\n\nكل خطوة تنشئ خطًا زمنيًا جديدًا. أي شيء يقرأ الصوت يحتاج إلى ffmpeg (عيّن مساره في الإعدادات إذا لم يجده Buddy).",
   "Tiếng Việt": "Đồng bộ tất cả căn mọi clip trên timeline đang mở, đặt âm thanh không có timecode theo dạng sóng, gom kết quả vào ít track nhất và kéo về đầu timeline. Kết quả được nhập thành một timeline mới: timeline bạn bắt đầu không bao giờ bị thay đổi, nên nó cũng là bản sao lưu của bạn.\n\nĐồng bộ theo:\n  - Timecode dùng timecode nhúng của từng clip. Clip có giá trị 00:00:00:00 được coi như không có timecode (đó là giá trị máy quay ghi khi không ai đặt) và được để lại cho lượt dạng sóng.\n  - Dạng sóng khớp clip theo âm thanh và hoàn toàn không cần timecode.\n\nĐồng bộ tất cả không xóa gì và không xóa khoảng trống nào – đó là quyết định biên tập. Chúng nằm trong các bước riêng, cùng với Mở rộng (mỗi track một clip, để làm thủ công).\n\nCác bước:\n  - Mở rộng trải từng clip ra track riêng, giữ nguyên vị trí và phần cắt.\n  - Căn chỉnh di chuyển từng clip đến timecode của nó, so với clip sớm nhất.\n  - Đồng bộ âm thanh ngoài đặt các bản ghi không có timecode dùng được (mic cài áo, máy ghi hiện trường) theo âm thanh tham chiếu của clip máy quay. Chạy sau bước Căn chỉnh.\n  - Thu gọn gom clip vào ít track nhất mà không thay đổi thời điểm phát, có thể xóa các clip âm thanh im lặng hoàn toàn.\n  - Dịch chuyển kéo mọi thứ về đầu, có thể xóa khoảng trống giữa các khối cảnh quay. Khoảng trống được xét trên mọi track nên đồng bộ vẫn được giữ.\n\nMỗi bước tạo một timeline mới. Mọi thao tác đọc âm thanh đều cần ffmpeg (đặt đường dẫn trong Cài đặt nếu Buddy không tìm thấy)."
+ },
+ "Proxy": {
+  "日本語": "プロキシ",
+  "Español": "Proxy",
+  "Deutsch": "Proxy",
+  "Français": "Proxy",
+  "한국어": "프록시",
+  "中文": "代理",
+  "العربية": "البروكسي",
+  "Tiếng Việt": "Proxy"
+ },
+ "Make playback-light copies of the project's video clips with ffmpeg, linked in Resolve as proxy media – Resolve's own proxy workflow, with Buddy driving the transcodes. Source files are never touched.": {
+  "日本語": "ffmpegでプロジェクトの動画クリップの軽量コピーを作成し、Resolveのプロキシメディアとしてリンクします。Resolve独自のプロキシのワークフローを、Buddyがトランスコードを担当する形で実現します。ソースファイルは決して変更されません。",
+  "Español": "Hace copias ligeras para reproducción de los videoclips del proyecto con ffmpeg y las enlaza en Resolve como material proxy: el propio flujo de proxy de Resolve, con Buddy encargándose de las transcodificaciones. Los archivos de origen nunca se tocan.",
+  "Deutsch": "Erstellt mit ffmpeg abgespielleichte Kopien der Videoclips des Projekts und verlinkt sie in Resolve als Proxy-Medien – Resolves eigener Proxy-Workflow, wobei Buddy die Transkodierungen übernimmt. Quelldateien werden nie angetastet.",
+  "Français": "Crée avec ffmpeg des copies légères des clips vidéo du projet, liées dans Resolve comme médias proxy – le propre flux proxy de Resolve, Buddy pilotant les transcodages. Les fichiers sources ne sont jamais modifiés.",
+  "한국어": "ffmpeg로 프로젝트의 비디오 클립 가벼운 재생용 사본을 만들고 Resolve의 프록시 미디어로 연결합니다. Resolve 자체 프록시 워크플로에서 Buddy가 트랜스코딩을 담당합니다. 원본 파일은 절대 건드리지 않습니다.",
+  "中文": "用 ffmpeg 为项目的视频剪辑制作便于播放的轻量副本，并在 Resolve 中作为代理媒体链接——这是 Resolve 自己的代理工作流，由 Buddy 驱动转码。源文件永远不会被改动。",
+  "العربية": "ينشئ نسخًا خفيفة لتشغيل المقاطع المرئية للمشروع بواسطة ffmpeg ويربطها في Resolve كوسائط بروكسي — سير عمل البروكسي الخاص بـ Resolve نفسه، مع تولّي Buddy عمليات التحويل. لا يتم المساس بالملفات الأصلية أبدًا.",
+  "Tiếng Việt": "Tạo bản sao nhẹ để phát lại các clip video của dự án bằng ffmpeg và liên kết chúng trong Resolve dưới dạng phương tiện proxy — chính quy trình proxy của Resolve, với Buddy điều khiển việc chuyển mã. Tệp gốc không bao giờ bị thay đổi."
+ },
+ "Make proxies": {
+  "日本語": "プロキシを作成",
+  "Español": "Hacer proxies",
+  "Deutsch": "Proxys erstellen",
+  "Français": "Créer les proxies",
+  "한국어": "프록시 만들기",
+  "中文": "制作代理",
+  "العربية": "إنشاء البروكسي",
+  "Tiếng Việt": "Tạo proxy"
+ },
+ "Each video file gets a .mov copy in a 'Proxy' folder beside it, then linked as that clip's proxy media in Resolve. Flip them on in Resolve with the proxy button in the viewer.": {
+  "日本語": "各動画ファイルの横にある「Proxy」フォルダーに.movコピーが作成され、そのクリップのプロキシメディアとしてResolveにリンクされます。Resolveのビューアーのプロキシボタンで切り替えられます。",
+  "Español": "Cada archivo de vídeo recibe una copia .mov en una carpeta 'Proxy' a su lado, que luego se enlaza como material proxy de ese clip en Resolve. Actívalos en Resolve con el botón de proxy del visor.",
+  "Deutsch": "Jede Videodatei erhält eine .mov-Kopie in einem 'Proxy'-Ordner daneben, die dann in Resolve als Proxy-Medium dieses Clips verlinkt wird. Im Viewer von Resolve über den Proxy-Knopf einschalten.",
+  "Français": "Chaque fichier vidéo reçoit une copie .mov dans un dossier « Proxy » à côté de lui, puis est lié comme média proxy de ce clip dans Resolve. Activez-les dans Resolve avec le bouton proxy du visualiseur.",
+  "한국어": "각 비디오 파일 옆의 'Proxy' 폴더에 .mov 사본이 만들어지고, 해당 클립의 프록시 미디어로 Resolve에 연결됩니다. 뷰어의 프록시 버튼으로 Resolve에서 켜세요.",
+  "中文": "每个视频文件都会在旁边的「Proxy」文件夹中得到一个 .mov 副本，然后作为该剪辑的代理媒体在 Resolve 中链接。用查看器中的代理按钮在 Resolve 里开启它们。",
+  "العربية": "يحصل كل ملف مرئي على نسخة .mov في مجلد «Proxy» بجانبه، ثم تُربط كوسائط بروكسي لهذا المقطع في Resolve. شغّلها في Resolve بزر البروكسي في العارض.",
+  "Tiếng Việt": "Mỗi tệp video nhận một bản sao .mov trong thư mục 'Proxy' bên cạnh nó, sau đó được liên kết làm phương tiện proxy của clip đó trong Resolve. Bật chúng trong Resolve bằng nút proxy trong trình xem."
+ },
+ "Which clips": {
+  "日本語": "対象クリップ",
+  "Español": "Qué clips",
+  "Deutsch": "Welche Clips",
+  "Français": "Quels clips",
+  "한국어": "어떤 클립",
+  "中文": "哪些剪辑",
+  "العربية": "أي المقاطع",
+  "Tiếng Việt": "Những clip nào"
+ },
+ "The clips selected in Resolve's Media Pool": {
+  "日本語": "Resolveのメディアプールで選択されているクリップ",
+  "Español": "Los clips seleccionados en la piscina de medios de Resolve",
+  "Deutsch": "Die in Resolves Media Pool ausgewählten Clips",
+  "Français": "Les clips sélectionnés dans la médiathèque de Resolve",
+  "한국어": "Resolve 미디어 풀에서 선택한 클립",
+  "中文": "在 Resolve 媒体池中选中的剪辑",
+  "العربية": "المقاطع المحددة في مجمع الوسائط في Resolve",
+  "Tiếng Việt": "Các clip được chọn trong Media Pool của Resolve"
+ },
+ "Media Pool selection": {
+  "日本語": "メディアプールの選択",
+  "Español": "Selección de la piscina de medios",
+  "Deutsch": "Media-Pool-Auswahl",
+  "Français": "Sélection de la médiathèque",
+  "한국어": "미디어 풀 선택",
+  "中文": "媒体池选择",
+  "العربية": "تحديد مجمع الوسائط",
+  "Tiếng Việt": "Vùng chọn Media Pool"
+ },
+ "The clips selected on the open timeline": {
+  "日本語": "開いているタイムラインで選択されているクリップ",
+  "Español": "Los clips seleccionados en la línea de tiempo abierta",
+  "Deutsch": "Die auf der offenen Timeline ausgewählten Clips",
+  "Français": "Les clips sélectionnés sur la timeline ouverte",
+  "한국어": "열려 있는 타임라인에서 선택한 클립",
+  "中文": "打开的时间线上选中的剪辑",
+  "العربية": "المقاطع المحددة على الخط الزمني المفتوح",
+  "Tiếng Việt": "Các clip được chọn trên timeline đang mở"
+ },
+ "Timeline selection": {
+  "日本語": "タイムラインの選択",
+  "Español": "Selección de la línea de tiempo",
+  "Deutsch": "Timeline-Auswahl",
+  "Français": "Sélection de la timeline",
+  "한국어": "타임라인 선택",
+  "中文": "时间线选择",
+  "العربية": "تحديد الخط الزمني",
+  "Tiếng Việt": "Vùng chọn timeline"
+ },
+ "The bin open in Resolve's Media Pool, and its sub-bins if ticked below": {
+  "日本語": "Resolveのメディアプールで開いているビン（下のチェックでサブビンも含む）",
+  "Español": "La bandeja abierta en la piscina de medios de Resolve, y sus subbandejas si se marca abajo",
+  "Deutsch": "Der in Resolves Media Pool geöffnete Bin, samt Unter-Bins, wenn unten angehakt",
+  "Français": "Le chutier ouvert dans la médiathèque de Resolve, et ses sous-chutiers si coché ci-dessous",
+  "한국어": "Resolve 미디어 풀에서 열린 빈, 아래에 체크하면 하위 빈도 포함",
+  "中文": "Resolve 媒体池中打开的素材箱（勾选下方则包含子素材箱）",
+  "العربية": "الحاوية المفتوحة في مجمع الوسائط في Resolve، وحاوياتها الفرعية إذا فُعّل الخيار أدناه",
+  "Tiếng Việt": "Bin đang mở trong Media Pool của Resolve, và các bin con nếu tích bên dưới"
+ },
+ "Every clip in the project": {
+  "日本語": "プロジェクト内のすべてのクリップ",
+  "Español": "Todos los clips del proyecto",
+  "Deutsch": "Jeder Clip im Projekt",
+  "Français": "Tous les clips du projet",
+  "한국어": "프로젝트의 모든 클립",
+  "中文": "项目中的所有剪辑",
+  "العربية": "كل مقطع في المشروع",
+  "Tiếng Việt": "Mọi clip trong dự án"
+ },
+ "All clips": {
+  "日本語": "すべてのクリップ",
+  "Español": "Todos los clips",
+  "Deutsch": "Alle Clips",
+  "Français": "Tous les clips",
+  "한국어": "모든 클립",
+  "中文": "所有剪辑",
+  "العربية": "كل المقاطع",
+  "Tiếng Việt": "Tất cả clip"
+ },
+ "Proxy resolution": {
+  "日本語": "プロキシ解像度",
+  "Español": "Resolución del proxy",
+  "Deutsch": "Proxy-Auflösung",
+  "Français": "Résolution du proxy",
+  "한국어": "프록시 해상도",
+  "中文": "代理分辨率",
+  "العربية": "دقة البروكسي",
+  "Tiếng Việt": "Độ phân giải proxy"
+ },
+ "Keep the source's resolution": {
+  "日本語": "ソースの解像度を維持",
+  "Español": "Mantener la resolución del original",
+  "Deutsch": "Auflösung der Quelle behalten",
+  "Français": "Garder la résolution de la source",
+  "한국어": "원본 해상도 유지",
+  "中文": "保持源的分辨率",
+  "العربية": "الاحتفاظ بدقة المصدر",
+  "Tiếng Việt": "Giữ độ phân giải của nguồn"
+ },
+ "Original": {
+  "日本語": "オリジナル",
+  "Español": "Original",
+  "Deutsch": "Original",
+  "Français": "Originale",
+  "한국어": "원본",
+  "中文": "原始",
+  "العربية": "الأصلي",
+  "Tiếng Việt": "Gốc"
+ },
+ "Half the source's resolution – the usual proxy size": {
+  "日本語": "ソースの半分の解像度（標準的なプロキシサイズ）",
+  "Español": "La mitad de la resolución del original: el tamaño de proxy habitual",
+  "Deutsch": "Halbe Auflösung der Quelle – die übliche Proxy-Größe",
+  "Français": "La moitié de la résolution de la source – la taille proxy habituelle",
+  "한국어": "원본 해상도의 절반 — 일반적인 프록시 크기",
+  "中文": "源分辨率的一半——常用的代理大小",
+  "العربية": "نصف دقة المصدر — حجم البروكسي المعتاد",
+  "Tiếng Việt": "Một nửa độ phân giải của nguồn — kích thước proxy thông thường"
+ },
+ "Half": {
+  "日本語": "半分",
+  "Español": "Mitad",
+  "Deutsch": "Halb",
+  "Français": "Moitié",
+  "한국어": "절반",
+  "中文": "一半",
+  "العربية": "النصف",
+  "Tiếng Việt": "Một nửa"
+ },
+ "Quarter the source's resolution": {
+  "日本語": "ソースの4分の1の解像度",
+  "Español": "Un cuarto de la resolución del original",
+  "Deutsch": "Ein Viertel der Auflösung der Quelle",
+  "Français": "Un quart de la résolution de la source",
+  "한국어": "원본 해상도의 4분의 1",
+  "中文": "源分辨率的四分之一",
+  "العربية": "ربع دقة المصدر",
+  "Tiếng Việt": "Một phần tư độ phân giải của nguồn"
+ },
+ "Quarter": {
+  "日本語": "4分の1",
+  "Español": "Un cuarto",
+  "Deutsch": "Viertel",
+  "Français": "Quart",
+  "한국어": "4분의 1",
+  "中文": "四分之一",
+  "العربية": "الربع",
+  "Tiếng Việt": "Một phần tư"
+ },
+ "Proxy format": {
+  "日本語": "プロキシフォーマット",
+  "Español": "Formato del proxy",
+  "Deutsch": "Proxy-Format",
+  "Français": "Format du proxy",
+  "한국어": "프록시 형식",
+  "中文": "代理格式",
+  "العربية": "صيغة البروكسي",
+  "Tiếng Việt": "Định dạng proxy"
+ },
+ "Small files, plays anywhere": {
+  "日本語": "ファイルが小さく、どこでも再生可能",
+  "Español": "Archivos pequeños, se reproducen en todas partes",
+  "Deutsch": "Kleine Dateien, läuft überall",
+  "Français": "Petits fichiers, lisibles partout",
+  "한국어": "파일이 작고 어디서든 재생됩니다",
+  "中文": "文件小，随处可播",
+  "العربية": "ملفات صغيرة، تعمل في أي مكان",
+  "Tiếng Việt": "Tệp nhỏ, phát được ở mọi nơi"
+ },
+ "H.264": {
+  "日本語": "H.264",
+  "Español": "H.264",
+  "Deutsch": "H.264",
+  "Français": "H.264",
+  "한국어": "H.264",
+  "中文": "H.264",
+  "العربية": "H.264",
+  "Tiếng Việt": "H.264"
+ },
+ "ProRes 422 Proxy – heavier files, no long-GOP decode lag while cutting": {
+  "日本語": "ProRes 422 Proxy – ファイルは大きめですが、編集中にロングGOPの遅延がありません",
+  "Español": "ProRes 422 Proxy: archivos más pesados, sin retardo de decodificación long-GOP al cortar",
+  "Deutsch": "ProRes 422 Proxy – größere Dateien, kein Long-GOP-Dekodier-Verzug beim Schneiden",
+  "Français": "ProRes 422 Proxy – fichiers plus lourds, pas de retard de décodage long-GOP au montage",
+  "한국어": "ProRes 422 Proxy — 파일은 더 크지만 편집 중 롱 GOP 디코딩 지연이 없습니다",
+  "中文": "ProRes 422 Proxy——文件更大，但剪辑时没有长 GOP 解码延迟",
+  "العربية": "ProRes 422 Proxy — ملفات أكبر، دون تأخير فك ترميز long-GOP أثناء القص",
+  "Tiếng Việt": "ProRes 422 Proxy — tệp lớn hơn, không độ trễ giải mã long-GOP khi cắt"
+ },
+ "ProRes": {
+  "日本語": "ProRes",
+  "Español": "ProRes",
+  "Deutsch": "ProRes",
+  "Français": "ProRes",
+  "한국어": "ProRes",
+  "中文": "ProRes",
+  "العربية": "ProRes",
+  "Tiếng Việt": "ProRes"
+ },
+ "Making proxies needs ffmpeg, and Buddy can't find it. Install it, or set its path in Settings.": {
+  "日本語": "プロキシ作成にはffmpegが必要ですが、Buddyが見つけられません。インストールするか、設定でパスを指定してください。",
+  "Español": "Hacer proxies necesita ffmpeg, y Buddy no lo encuentra. Instálalo, o pon su ruta en Ajustes.",
+  "Deutsch": "Proxys erstellen braucht ffmpeg, und Buddy findet es nicht. Installiere es oder hinterlege den Pfad in den Einstellungen.",
+  "Français": "Créer des proxies exige ffmpeg, et Buddy ne le trouve pas. Installez-le, ou indiquez son chemin dans les Réglages.",
+  "한국어": "프록시를 만들려면 ffmpeg가 필요한데 Buddy가 찾지 못합니다. 설치하거나 설정에서 경로를 지정하세요.",
+  "中文": "制作代理需要 ffmpeg，但 Buddy 找不到它。请安装，或在设置中指定路径。",
+  "العربية": "إنشاء البروكسي يحتاج ffmpeg، وBuddy لا يجده. ثبّته، أو حدّد مساره في الإعدادات.",
+  "Tiếng Việt": "Tạo proxy cần ffmpeg, mà Buddy không tìm thấy. Hãy cài đặt nó, hoặc đặt đường dẫn trong Cài đặt."
+ },
+ "Reading the clips…": {
+  "日本語": "クリップを読み込み中…",
+  "Español": "Leyendo los clips…",
+  "Deutsch": "Clips werden gelesen…",
+  "Français": "Lecture des clips…",
+  "한국어": "클립 읽는 중…",
+  "中文": "正在读取剪辑…",
+  "العربية": "جارٍ قراءة المقاطع…",
+  "Tiếng Việt": "Đang đọc các clip…"
+ },
+ "Linking the proxies…": {
+  "日本語": "プロキシをリンク中…",
+  "Español": "Enlazando los proxies…",
+  "Deutsch": "Proxys werden verlinkt…",
+  "Français": "Liaison des proxies…",
+  "한국어": "프록시 연결 중…",
+  "中文": "正在链接代理…",
+  "العربية": "جارٍ ربط البروكسي…",
+  "Tiếng Việt": "Đang liên kết các proxy…"
+ },
+ "Rendering {file}": {
+  "日本語": "レンダリング中: {file}",
+  "Español": "Generando {file}",
+  "Deutsch": "Rendern von {file}",
+  "Français": "Rendu de {file}",
+  "한국어": "렌더링 중: {file}",
+  "中文": "正在渲染 {file}",
+  "العربية": "جارٍ تصيير {file}",
+  "Tiếng Việt": "Đang kết xuất {file}"
+ },
+ "No video files in that scope – audio and stills don't need proxies.": {
+  "日本語": "その範囲に動画ファイルがありません。音声と静止画にプロキシは不要です。",
+  "Español": "No hay archivos de vídeo en ese ámbito: el audio y las imágenes fijas no necesitan proxies.",
+  "Deutsch": "Keine Videodateien in diesem Bereich – Audio und Standbilder brauchen keine Proxys.",
+  "Français": "Aucun fichier vidéo dans cette portée – l'audio et les images fixes n'ont pas besoin de proxies.",
+  "한국어": "그 범위에 비디오 파일이 없습니다 — 오디오와 스틸 이미지에는 프록시가 필요하지 않습니다.",
+  "中文": "该范围内没有视频文件——音频和静帧不需要代理。",
+  "العربية": "لا توجد ملفات مرئية في هذا النطاق — الصوت والصور الثابتة لا تحتاج إلى بروكسي.",
+  "Tiếng Việt": "Không có tệp video nào trong phạm vi đó — âm thanh và ảnh tĩnh không cần proxy."
+ },
+ "Select one or more clips in Resolve's Media Pool first.": {
+  "日本語": "先にResolveのメディアプールで1つ以上のクリップを選択してください。",
+  "Español": "Selecciona primero uno o más clips en la piscina de medios de Resolve.",
+  "Deutsch": "Wähle zuerst einen oder mehrere Clips in Resolves Media Pool.",
+  "Français": "Sélectionnez d'abord un ou plusieurs clips dans la médiathèque de Resolve.",
+  "한국어": "먼저 Resolve 미디어 풀에서 클립을 하나 이상 선택하세요.",
+  "中文": "请先在 Resolve 的媒体池中选择一个或多个剪辑。",
+  "العربية": "حدّد أولًا مقطعًا واحدًا أو أكثر في مجمع الوسائط في Resolve.",
+  "Tiếng Việt": "Trước tiên hãy chọn một hoặc nhiều clip trong Media Pool của Resolve."
+ },
+ "Select one or more clips on the timeline in Resolve first.": {
+  "日本語": "先にResolveのタイムラインで1つ以上のクリップを選択してください。",
+  "Español": "Selecciona primero uno o más clips en la línea de tiempo de Resolve.",
+  "Deutsch": "Wähle zuerst einen oder mehrere Clips auf der Timeline in Resolve.",
+  "Français": "Sélectionnez d'abord un ou plusieurs clips sur la timeline de Resolve.",
+  "한국어": "먼저 Resolve 타임라인에서 클립을 하나 이상 선택하세요.",
+  "中文": "请先在 Resolve 的时间线上选择一个或多个剪辑。",
+  "العربية": "حدّد أولًا مقطعًا واحدًا أو أكثر على الخط الزمني في Resolve.",
+  "Tiếng Việt": "Trước tiên hãy chọn một hoặc nhiều clip trên timeline của Resolve."
+ },
+ "The Media Pool has no clips in it.": {
+  "日本語": "メディアプールにクリップがありません。",
+  "Español": "La piscina de medios no tiene clips.",
+  "Deutsch": "Der Media Pool enthält keine Clips.",
+  "Français": "La médiathèque ne contient aucun clip.",
+  "한국어": "미디어 풀에 클립이 없습니다.",
+  "中文": "媒体池中没有剪辑。",
+  "العربية": "لا توجد مقاطع في مجمع الوسائط.",
+  "Tiếng Việt": "Media Pool không có clip nào."
+ },
+ "Nothing to do – no video clips to render and none already have proxy files.": {
+  "日本語": "することがありません – レンダリングする動画クリップがなく、既存のプロキシファイルもありません。",
+  "Español": "Nada que hacer: no hay videoclips que generar y ninguno tiene ya archivos proxy.",
+  "Deutsch": "Nichts zu tun – keine Videoclips zu rendern, und keine vorhandenen Proxy-Dateien.",
+  "Français": "Rien à faire – aucun clip vidéo à générer et aucun fichier proxy existant.",
+  "한국어": "할 일이 없습니다 — 렌더링할 비디오 클립이 없고 기존 프록시 파일도 없습니다.",
+  "中文": "无事可做——没有要渲染的视频剪辑，也没有已存在的代理文件。",
+  "العربية": "لا شيء لفعله — لا توجد مقاطع فيديو للتصيير ولا ملفات بروكسي موجودة مسبقًا.",
+  "Tiếng Việt": "Không có gì để làm — không có clip video cần kết xuất và không có tệp proxy nào sẵn có."
+ },
+ "ffmpeg not found – install it, or set its path in Settings.": {
+  "日本語": "ffmpegが見つかりません – インストールするか、設定でパスを指定してください。",
+  "Español": "No se encontró ffmpeg: instálalo, o pon su ruta en Ajustes.",
+  "Deutsch": "ffmpeg nicht gefunden – installiere es oder hinterlege den Pfad in den Einstellungen.",
+  "Français": "ffmpeg introuvable – installez-le, ou indiquez son chemin dans les Réglages.",
+  "한국어": "ffmpeg를 찾을 수 없습니다 — 설치하거나 설정에서 경로를 지정하세요.",
+  "中文": "找不到 ffmpeg——请安装，或在设置中指定路径。",
+  "العربية": "لم يُعثر على ffmpeg — ثبّته، أو حدّد مساره في الإعدادات.",
+  "Tiếng Việt": "Không tìm thấy ffmpeg — hãy cài đặt nó, hoặc đặt đường dẫn trong Cài đặt."
+ },
+ "Making proxies needs ffmpeg installed, or its path set in Settings.": {
+  "日本語": "プロキシ作成にはffmpegのインストールか、設定でのパス指定が必要です。",
+  "Español": "Hacer proxies necesita ffmpeg instalado, o su ruta puesta en Ajustes.",
+  "Deutsch": "Proxys erstellen braucht ein installiertes ffmpeg oder einen Pfad dazu in den Einstellungen.",
+  "Français": "Créer des proxies exige ffmpeg installé, ou son chemin réglé dans les Réglages.",
+  "한국어": "프록시를 만들려면 ffmpeg를 설치하거나 설정에서 경로를 지정해야 합니다.",
+  "中文": "制作代理需要安装 ffmpeg，或在设置中指定其路径。",
+  "العربية": "إنشاء البروكسي يتطلب تثبيت ffmpeg أو تحديد مساره في الإعدادات.",
+  "Tiếng Việt": "Tạo proxy cần ffmpeg được cài đặt, hoặc đường dẫn của nó được đặt trong Cài đặt."
+ },
+ "No clips to proxy": {
+  "日本語": "プロキシを作成するクリップがありません",
+  "Español": "No hay clips a los que hacer proxy",
+  "Deutsch": "Keine Clips für Proxys",
+  "Français": "Aucun clip à proxifier",
+  "한국어": "프록시로 만들 클립이 없습니다",
+  "中文": "没有可制作代理的剪辑",
+  "العربية": "لا توجد مقاطع لعمل بروكسي لها",
+  "Tiếng Việt": "Không có clip nào để tạo proxy"
+ },
+ "Couldn't make proxies": {
+  "日本語": "プロキシを作成できませんでした",
+  "Español": "No se pudieron hacer los proxies",
+  "Deutsch": "Proxys konnten nicht erstellt werden",
+  "Français": "Impossible de créer les proxies",
+  "한국어": "프록시를 만들 수 없습니다",
+  "中文": "无法制作代理",
+  "العربية": "تعذّر إنشاء البروكسي",
+  "Tiếng Việt": "Không thể tạo proxy"
+ },
+ "Couldn't read the clips: {error}": {
+  "日本語": "クリップを読み込めませんでした: {error}",
+  "Español": "No se pudieron leer los clips: {error}",
+  "Deutsch": "Clips konnten nicht gelesen werden: {error}",
+  "Français": "Impossible de lire les clips : {error}",
+  "한국어": "클립을 읽을 수 없습니다: {error}",
+  "中文": "无法读取剪辑：{error}",
+  "العربية": "تعذّرت قراءة المقاطع: {error}",
+  "Tiếng Việt": "Không thể đọc các clip: {error}"
+ },
+ "Cancelled – any unfinished renders were stopped.": {
+  "日本語": "キャンセルされました – 未完了のレンダリングは停止されました。",
+  "Español": "Cancelado: las generaciones sin terminar se detuvieron.",
+  "Deutsch": "Abgebrochen – nicht fertige Renders wurden gestoppt.",
+  "Français": "Annulé – les rendus inachevés ont été arrêtés.",
+  "한국어": "취소되었습니다 — 완료되지 않은 렌더링이 중지되었습니다.",
+  "中文": "已取消——未完成的渲染已停止。",
+  "العربية": "أُلغي — أُوقفت عمليات التصيير غير المكتملة.",
+  "Tiếng Việt": "Đã hủy — các kết xuất chưa hoàn tất đã bị dừng."
+ },
+ "Rendered 1 proxy.": {
+  "日本語": "プロキシを1つレンダリングしました。",
+  "Español": "Se generó 1 proxy.",
+  "Deutsch": "1 Proxy gerendert.",
+  "Français": "1 proxy généré.",
+  "한국어": "프록시 1개를 렌더링했습니다.",
+  "中文": "已渲染 1 个代理。",
+  "العربية": "تم تصيير بروكسي واحد.",
+  "Tiếng Việt": "Đã kết xuất 1 proxy."
+ },
+ "Rendered {done} of {total} proxies.": {
+  "日本語": "{total}個中{done}個のプロキシをレンダリングしました。",
+  "Español": "Se generaron {done} de {total} proxies.",
+  "Deutsch": "{done} von {total} Proxys gerendert.",
+  "Français": "{done} proxies sur {total} générés.",
+  "한국어": "{total}개 중 {done}개의 프록시를 렌더링했습니다.",
+  "中文": "已渲染 {total} 个代理中的 {done} 个。",
+  "العربية": "تم تصيير {done} من {total} بروكسي.",
+  "Tiếng Việt": "Đã kết xuất {done} trên {total} proxy."
+ },
+ "Linked 1 clip to its proxy.": {
+  "日本語": "1つのクリップをプロキシにリンクしました。",
+  "Español": "Se enlazó 1 clip a su proxy.",
+  "Deutsch": "1 Clip mit seinem Proxy verlinkt.",
+  "Français": "1 clip lié à son proxy.",
+  "한국어": "클립 1개를 프록시에 연결했습니다.",
+  "中文": "已将 1 个剪辑链接到其代理。",
+  "العربية": "تم ربط مقطع واحد ببروكسيه.",
+  "Tiếng Việt": "Đã liên kết 1 clip với proxy của nó."
+ },
+ "Linked {count} clips to their proxies.": {
+  "日本語": "{count}個のクリップをプロキシにリンクしました。",
+  "Español": "Se enlazaron {count} clips a sus proxies.",
+  "Deutsch": "{count} Clips mit ihren Proxys verlinkt.",
+  "Français": "{count} clips liés à leurs proxies.",
+  "한국어": "클립 {count}개를 프록시에 연결했습니다.",
+  "中文": "已将 {count} 个剪辑链接到其代理。",
+  "العربية": "تم ربط {count} مقطعًا ببروكسيها.",
+  "Tiếng Việt": "Đã liên kết {count} clip với proxy của chúng."
+ },
+ "Resolve wouldn't link \"{name}\".": {
+  "日本語": "Resolveは「{name}」をリンクしませんでした。",
+  "Español": "Resolve no quiso enlazar \"{name}\".",
+  "Deutsch": "Resolve hat \"{name}\" nicht verlinkt.",
+  "Français": "Resolve a refusé de lier « {name} ».",
+  "한국어": "Resolve가 \"{name}\"을(를) 연결하지 않았습니다.",
+  "中文": "Resolve 不愿链接“{name}”。",
+  "العربية": "رفض Resolve ربط \"{name}\".",
+  "Tiếng Việt": "Resolve đã không liên kết \"{name}\"."
+ },
+ "1 clip already had a proxy file – linked to it instead of rendering.": {
+  "日本語": "1つのクリップには既にプロキシファイルがありました – レンダリングせずにそれへリンクしました。",
+  "Español": "1 clip ya tenía archivo proxy: se enlazó a él en vez de generar.",
+  "Deutsch": "1 Clip hatte bereits eine Proxy-Datei – mit ihr verlinkt statt neu gerendert.",
+  "Français": "1 clip avait déjà un fichier proxy – lié à lui au lieu de générer.",
+  "한국어": "클립 1개에 이미 프록시 파일이 있었습니다 — 렌더링하지 않고 그것에 연결했습니다.",
+  "中文": "1 个剪辑已有代理文件——链接到它而非重新渲染。",
+  "العربية": "كان لمقطع واحد ملف بروكسي بالفعل — رُبط به بدلًا من التصيير.",
+  "Tiếng Việt": "1 clip đã có sẵn tệp proxy — đã liên kết với nó thay vì kết xuất."
+ },
+ "{count} clips already had proxy files – linked instead of rendering.": {
+  "日本語": "{count}個のクリップには既にプロキシファイルがありました – レンダリングせずにリンクしました。",
+  "Español": "{count} clips ya tenían archivos proxy: se enlazaron en vez de generar.",
+  "Deutsch": "{count} Clips hatten bereits Proxy-Dateien – verlinkt statt neu gerendert.",
+  "Français": "{count} clips avaient déjà des fichiers proxy – liés au lieu de générer.",
+  "한국어": "클립 {count}개에 이미 프록시 파일이 있었습니다 — 렌더링하지 않고 연결했습니다.",
+  "中文": "{count} 个剪辑已有代理文件——链接而非重新渲染。",
+  "العربية": "كان لـ {count} مقطعًا ملفات بروكسي بالفعل — رُبطت بدلًا من التصيير.",
+  "Tiếng Việt": "{count} clip đã có sẵn tệp proxy — đã liên kết thay vì kết xuất."
+ },
+ "Skipped \"{name}\" – no file behind this clip.": {
+  "日本語": "「{name}」をスキップしました – このクリップの背後にファイルがありません。",
+  "Español": "Se omitió \"{name}\": no hay archivo detrás de este clip.",
+  "Deutsch": "\"{name}\" übersprungen – hinter diesem Clip liegt keine Datei.",
+  "Français": "« {name} » ignoré – aucun fichier derrière ce clip.",
+  "한국어": "\"{name}\" 건너뜀 — 이 클립 뒤에 파일이 없습니다.",
+  "中文": "跳过“{name}”——该剪辑背后没有文件。",
+  "العربية": "تم تخطي \"{name}\" — لا يوجد ملف خلف هذا المقطع.",
+  "Tiếng Việt": "Đã bỏ qua \"{name}\" — không có tệp nào phía sau clip này."
+ },
+ "Skipped \"{name}\" – the file is offline.": {
+  "日本語": "「{name}」をスキップしました – ファイルがオフラインです。",
+  "Español": "Se omitió \"{name}\": el archivo está desconectado.",
+  "Deutsch": "\"{name}\" übersprungen – die Datei ist offline.",
+  "Français": "« {name} » ignoré – le fichier est hors ligne.",
+  "한국어": "\"{name}\" 건너뜀 — 파일이 오프라인입니다.",
+  "中文": "跳过“{name}”——文件已离线。",
+  "العربية": "تم تخطي \"{name}\" — الملف غير متصل.",
+  "Tiếng Việt": "Đã bỏ qua \"{name}\" — tệp đang ngoại tuyến."
+ },
+ "Couldn't create the 'Proxy' folder beside \"{file}\": {error}": {
+  "日本語": "「{file}」の横に「Proxy」フォルダーを作成できませんでした: {error}",
+  "Español": "No se pudo crear la carpeta 'Proxy' junto a \"{file}\": {error}",
+  "Deutsch": "Der 'Proxy'-Ordner neben \"{file}\" konnte nicht erstellt werden: {error}",
+  "Français": "Impossible de créer le dossier « Proxy » à côté de « {file} » : {error}",
+  "한국어": "\"{file}\" 옆의 'Proxy' 폴더를 만들 수 없습니다: {error}",
+  "中文": "无法在“{file}”旁创建「Proxy」文件夹：{error}",
+  "العربية": "تعذّر إنشاء مجلد «Proxy» بجانب \"{file}\": {error}",
+  "Tiếng Việt": "Không thể tạo thư mục 'Proxy' bên cạnh \"{file}\": {error}"
+ },
+ "ffmpeg couldn't render \"{file}\"": {
+  "日本語": "ffmpegが「{file}」をレンダリングできませんでした",
+  "Español": "ffmpeg no pudo generar \"{file}\"",
+  "Deutsch": "ffmpeg konnte \"{file}\" nicht rendern",
+  "Français": "ffmpeg n'a pas pu générer « {file} »",
+  "한국어": "ffmpeg가 \"{file}\"을(를) 렌더링할 수 없습니다",
+  "中文": "ffmpeg 无法渲染“{file}”",
+  "العربية": "تعذّر على ffmpeg تصيير \"{file}\"",
+  "Tiếng Việt": "ffmpeg không thể kết xuất \"{file}\""
+ },
+ "Proxy {scope}: {render} to render, {existing} already have files.": {
+  "日本語": "プロキシ {scope}: レンダリング{render}個、既存ファイル{existing}個。",
+  "Español": "Proxy {scope}: {render} por generar, {existing} ya tienen archivos.",
+  "Deutsch": "Proxy {scope}: {render} zu rendern, {existing} haben bereits Dateien.",
+  "Français": "Proxy {scope} : {render} à générer, {existing} ont déjà des fichiers.",
+  "한국어": "프록시 {scope}: 렌더링 {render}개, 이미 파일 있는 것 {existing}개.",
+  "中文": "代理 {scope}：待渲染 {render} 个，已有文件 {existing} 个。",
+  "العربية": "بروكسي {scope}: {render} للتصيير، و{existing} لها ملفات بالفعل.",
+  "Tiếng Việt": "Proxy {scope}: {render} cần kết xuất, {existing} đã có tệp."
+ },
+ "Making proxies for {where}": {
+  "日本語": "{where}のプロキシを作成中",
+  "Español": "Haciendo proxies de {where}",
+  "Deutsch": "Proxys werden erstellt für {where}",
+  "Français": "Création des proxies pour {where}",
+  "한국어": "{where}의 프록시 만드는 중",
+  "中文": "正在为{where}制作代理",
+  "العربية": "جارٍ إنشاء البروكسي لـ {where}",
+  "Tiếng Việt": "Đang tạo proxy cho {where}"
+ },
+ "the Media Pool selection": {
+  "日本語": "メディアプールの選択",
+  "Español": "la selección de la piscina de medios",
+  "Deutsch": "die Media-Pool-Auswahl",
+  "Français": "la sélection de la médiathèque",
+  "한국어": "미디어 풀 선택",
+  "中文": "媒体池选择",
+  "العربية": "تحديد مجمع الوسائط",
+  "Tiếng Việt": "vùng chọn Media Pool"
+ },
+ "the timeline selection": {
+  "日本語": "タイムラインの選択",
+  "Español": "la selección de la línea de tiempo",
+  "Deutsch": "die Timeline-Auswahl",
+  "Français": "la sélection de la timeline",
+  "한국어": "타임라인 선택",
+  "中文": "时间线选择",
+  "العربية": "تحديد الخط الزمني",
+  "Tiếng Việt": "vùng chọn timeline"
+ },
+ "the open bin": {
+  "日本語": "開いているビン",
+  "Español": "la bandeja abierta",
+  "Deutsch": "der offene Bin",
+  "Français": "le chutier ouvert",
+  "한국어": "열린 빈",
+  "中文": "打开的素材箱",
+  "العربية": "الحاوية المفتوحة",
+  "Tiếng Việt": "bin đang mở"
+ },
+ "every clip in the project": {
+  "日本語": "プロジェクト内のすべてのクリップ",
+  "Español": "todos los clips del proyecto",
+  "Deutsch": "jeder Clip im Projekt",
+  "Français": "tous les clips du projet",
+  "한국어": "프로젝트의 모든 클립",
+  "中文": "项目中的所有剪辑",
+  "العربية": "كل مقطع في المشروع",
+  "Tiếng Việt": "mọi clip trong dự án"
+ },
+ "bin '{name}'": {
+  "日本語": "ビン「{name}」",
+  "Español": "bandeja '{name}'",
+  "Deutsch": "Bin '{name}'",
+  "Français": "chutier « {name} »",
+  "한국어": "빈 '{name}'",
+  "中文": "素材箱“{name}”",
+  "العربية": "الحاوية '{name}'",
+  "Tiếng Việt": "bin '{name}'"
+ },
+ "bin '{name}' and its sub-bins": {
+  "日本語": "ビン「{name}」とそのサブビン",
+  "Español": "bandeja '{name}' y sus subbandejas",
+  "Deutsch": "Bin '{name}' und seine Unter-Bins",
+  "Français": "chutier « {name} » et ses sous-chutiers",
+  "한국어": "빈 '{name}'과(와) 하위 빈",
+  "中文": "素材箱“{name}”及其子素材箱",
+  "العربية": "الحاوية '{name}' وحاوياتها الفرعية",
+  "Tiếng Việt": "bin '{name}' và các bin con của nó"
+ },
+ "the selection on '{name}'": {
+  "日本語": "「{name}」の選択",
+  "Español": "la selección en '{name}'",
+  "Deutsch": "die Auswahl auf '{name}'",
+  "Français": "la sélection sur « {name} »",
+  "한국어": "'{name}'의 선택",
+  "中文": "“{name}”上的选择",
+  "العربية": "التحديد على '{name}'",
+  "Tiếng Việt": "vùng chọn trên '{name}'"
+ },
+ "This Resolve version could not read the Media Pool selection. Update Resolve to use the selected clips here.": {
+  "日本語": "このResolveのバージョンではメディアプールの選択を読み取れません。選択したクリップをここで使うにはResolveを更新してください。",
+  "Español": "Esta versión de Resolve no pudo leer la selección de la piscina de medios. Actualiza Resolve para usar aquí los clips seleccionados.",
+  "Deutsch": "Diese Resolve-Version konnte die Media-Pool-Auswahl nicht lesen. Aktualisiere Resolve, um die ausgewählten Clips hier zu verwenden.",
+  "Français": "Cette version de Resolve n'a pas pu lire la sélection de la médiathèque. Mettez Resolve à jour pour utiliser les clips sélectionnés ici.",
+  "한국어": "이 Resolve 버전은 미디어 풀 선택을 읽지 못합니다. 여기서 선택한 클립을 사용하려면 Resolve를 업데이트하세요.",
+  "中文": "此 Resolve 版本无法读取媒体池选择。请更新 Resolve 以在此使用所选剪辑。",
+  "العربية": "لم يستطع إصدار Resolve هذا قراءة تحديد مجمع الوسائط. حدّث Resolve لاستخدام المقاطع المحددة هنا.",
+  "Tiếng Việt": "Phiên bản Resolve này không thể đọc vùng chọn Media Pool. Hãy cập nhật Resolve để dùng các clip đã chọn tại đây."
+ },
+ "Selected on the timeline needs DaVinci Resolve 21.0.4 or later.": {
+  "日本語": "タイムラインでの選択にはDaVinci Resolve 21.0.4以降が必要です。",
+  "Español": "La selección en la línea de tiempo necesita DaVinci Resolve 21.0.4 o posterior.",
+  "Deutsch": "Die Auswahl auf der Timeline braucht DaVinci Resolve 21.0.4 oder neuer.",
+  "Français": "La sélection sur la timeline exige DaVinci Resolve 21.0.4 ou ultérieur.",
+  "한국어": "타임라인에서 선택하려면 DaVinci Resolve 21.0.4 이상이 필요합니다.",
+  "中文": "在时间线上选择需要 DaVinci Resolve 21.0.4 或更高版本。",
+  "العربية": "التحديد على الخط الزمني يتطلب DaVinci Resolve 21.0.4 أو أحدث.",
+  "Tiếng Việt": "Chọn trên timeline cần DaVinci Resolve 21.0.4 trở lên."
+ },
+ "Checking {file}": {
+  "日本語": "{file} を確認しています",
+  "Español": "Comprobando {file}",
+  "Deutsch": "{file} wird geprüft",
+  "Français": "Vérification de {file}",
+  "한국어": "{file} 확인 중",
+  "中文": "正在检查 {file}",
+  "العربية": "جارٍ فحص {file}",
+  "Tiếng Việt": "Đang kiểm tra {file}"
+ },
+ "Small files that play anywhere.": {
+  "日本語": "どこでも再生できる小さなファイル。",
+  "Español": "Archivos pequeños que se reproducen en cualquier sitio.",
+  "Deutsch": "Kleine Dateien, die überall abspielbar sind.",
+  "Français": "Des fichiers légers, lisibles partout.",
+  "한국어": "어디서나 재생되는 작은 파일.",
+  "中文": "文件小，随处可播放。",
+  "العربية": "ملفات صغيرة تعمل في أي مكان.",
+  "Tiếng Việt": "Tệp nhỏ, phát được ở mọi nơi."
+ },
+ "The smallest files, but the heaviest to decode while scrubbing.": {
+  "日本語": "最も小さいファイルですが、スクラブ時のデコード負荷が最も高くなります。",
+  "Español": "Los archivos más pequeños, pero los más pesados de decodificar al desplazarse.",
+  "Deutsch": "Die kleinsten Dateien, aber beim Scrubben am aufwendigsten zu dekodieren.",
+  "Français": "Les fichiers les plus légers, mais les plus lourds à décoder en naviguant.",
+  "한국어": "파일이 가장 작지만 스크러빙할 때 디코딩 부담이 가장 큽니다.",
+  "中文": "文件最小，但拖动浏览时解码负担最重。",
+  "العربية": "أصغر الملفات، لكنها الأثقل في فك الترميز أثناء التمرير.",
+  "Tiếng Việt": "Tệp nhỏ nhất, nhưng giải mã nặng nhất khi tua."
+ },
+ "Light to play back, larger files – Resolve's usual proxy format.": {
+  "日本語": "再生は軽く、ファイルは大きめ – Resolve の標準的なプロキシ形式。",
+  "Español": "Ligero de reproducir, archivos más grandes: el formato de proxy habitual de Resolve.",
+  "Deutsch": "Leicht abzuspielen, größere Dateien – das übliche Proxy-Format von Resolve.",
+  "Français": "Léger à lire, fichiers plus gros – le format de proxy habituel de Resolve.",
+  "한국어": "재생이 가볍고 파일은 더 큼 – Resolve의 일반적인 프록시 형식.",
+  "中文": "播放轻快，文件较大——Resolve 常用的代理格式。",
+  "العربية": "خفيف في التشغيل، وملفات أكبر – صيغة الوكيل المعتادة في Resolve.",
+  "Tiếng Việt": "Phát nhẹ, tệp lớn hơn – định dạng proxy thông dụng của Resolve."
+ },
+ "Better picture than Proxy, about twice the size.": {
+  "日本語": "Proxy より画質が良く、サイズは約 2 倍。",
+  "Español": "Mejor imagen que Proxy, con el doble de tamaño aproximadamente.",
+  "Deutsch": "Besseres Bild als Proxy, etwa doppelt so groß.",
+  "Français": "Meilleure image que Proxy, environ deux fois plus lourd.",
+  "한국어": "Proxy보다 화질이 좋고 크기는 약 두 배.",
+  "中文": "画质优于 Proxy，体积约为两倍。",
+  "العربية": "صورة أفضل من Proxy، وحجم يقارب الضعف.",
+  "Tiếng Việt": "Hình ảnh đẹp hơn Proxy, dung lượng khoảng gấp đôi."
+ },
+ "Close to the original's quality – large files.": {
+  "日本語": "元の画質に近い – ファイルは大きめ。",
+  "Español": "Calidad cercana a la del original: archivos grandes.",
+  "Deutsch": "Nahe an der Qualität des Originals – große Dateien.",
+  "Français": "Proche de la qualité d'origine – fichiers volumineux.",
+  "한국어": "원본에 가까운 화질 – 큰 파일.",
+  "中文": "接近原始画质——文件较大。",
+  "العربية": "جودة قريبة من الأصل – ملفات كبيرة.",
+  "Tiếng Việt": "Chất lượng gần với bản gốc – tệp lớn."
+ },
+ "Avid's low-bandwidth format: light to play, modest files.": {
+  "日本語": "Avid の低ビットレート形式: 再生が軽く、ファイルは控えめ。",
+  "Español": "El formato de bajo ancho de banda de Avid: ligero de reproducir, archivos moderados.",
+  "Deutsch": "Avids Format mit niedriger Bandbreite: leicht abzuspielen, mäßige Dateigröße.",
+  "Français": "Le format basse bande passante d'Avid : léger à lire, fichiers modestes.",
+  "한국어": "Avid의 저대역폭 형식: 재생이 가볍고 파일은 적당함.",
+  "中文": "Avid 的低码率格式：播放轻快，文件适中。",
+  "العربية": "صيغة Avid منخفضة معدل البت: خفيفة في التشغيل، وملفات معتدلة.",
+  "Tiếng Việt": "Định dạng băng thông thấp của Avid: phát nhẹ, tệp vừa phải."
+ },
+ "Avid's standard quality – larger files.": {
+  "日本語": "Avid の標準画質 – ファイルは大きめ。",
+  "Español": "La calidad estándar de Avid: archivos más grandes.",
+  "Deutsch": "Avids Standardqualität – größere Dateien.",
+  "Français": "La qualité standard d'Avid – fichiers plus gros.",
+  "한국어": "Avid의 표준 화질 – 더 큰 파일.",
+  "中文": "Avid 的标准画质——文件较大。",
+  "العربية": "الجودة القياسية من Avid – ملفات أكبر.",
+  "Tiếng Việt": "Chất lượng tiêu chuẩn của Avid – tệp lớn hơn."
+ },
+ "Avid's high quality – large files.": {
+  "日本語": "Avid の高画質 – ファイルは大きい。",
+  "Español": "La alta calidad de Avid: archivos grandes.",
+  "Deutsch": "Avids hohe Qualität – große Dateien.",
+  "Français": "La haute qualité d'Avid – fichiers volumineux.",
+  "한국어": "Avid의 고화질 – 큰 파일.",
+  "中文": "Avid 的高画质——文件大。",
+  "العربية": "الجودة العالية من Avid – ملفات كبيرة.",
+  "Tiếng Việt": "Chất lượng cao của Avid – tệp lớn."
+ },
+ "GoPro's intra-frame format: light to play, between LB and SQ in size.": {
+  "日本語": "GoPro のイントラフレーム形式: 再生が軽く、サイズは LB と SQ の中間。",
+  "Español": "El formato intraframe de GoPro: ligero de reproducir, de tamaño entre LB y SQ.",
+  "Deutsch": "GoPros Intraframe-Format: leicht abzuspielen, in der Größe zwischen LB und SQ.",
+  "Français": "Le format intra-image de GoPro : léger à lire, d'une taille entre LB et SQ.",
+  "한국어": "GoPro의 인트라 프레임 형식: 재생이 가볍고 크기는 LB와 SQ 사이.",
+  "中文": "GoPro 的帧内格式：播放轻快，体积介于 LB 与 SQ 之间。",
+  "العربية": "صيغة GoPro داخلية الإطارات: خفيفة في التشغيل، وحجمها بين LB وSQ.",
+  "Tiếng Việt": "Định dạng nội khung của GoPro: phát nhẹ, dung lượng giữa LB và SQ."
+ },
+ "1 proxy file already there had the wrong timecode – rendered again.": {
+  "日本語": "既存のプロキシファイル 1 件のタイムコードが違っていたため、もう一度レンダリングしました。",
+  "Español": "1 archivo de proxy que ya existía tenía el timecode incorrecto: se ha renderizado de nuevo.",
+  "Deutsch": "1 vorhandene Proxy-Datei hatte den falschen Timecode – neu gerendert.",
+  "Français": "1 fichier de proxy déjà présent avait le mauvais timecode – rendu à nouveau.",
+  "한국어": "이미 있던 프록시 파일 1개의 타임코드가 달라 다시 렌더링했습니다.",
+  "中文": "1 个已有的代理文件时间码不对——已重新渲染。",
+  "العربية": "كان لملف وكيل موجود واحد رمز زمني خاطئ – أُعيد تصييره.",
+  "Tiếng Việt": "1 tệp proxy có sẵn bị sai timecode – đã render lại."
+ },
+ "{count} proxy files already there had the wrong timecode – rendered again.": {
+  "日本語": "既存のプロキシファイル {count} 件のタイムコードが違っていたため、もう一度レンダリングしました。",
+  "Español": "{count} archivos de proxy que ya existían tenían el timecode incorrecto: se han renderizado de nuevo.",
+  "Deutsch": "{count} vorhandene Proxy-Dateien hatten den falschen Timecode – neu gerendert.",
+  "Français": "{count} fichiers de proxy déjà présents avaient le mauvais timecode – rendus à nouveau.",
+  "한국어": "이미 있던 프록시 파일 {count}개의 타임코드가 달라 다시 렌더링했습니다.",
+  "中文": "{count} 个已有的代理文件时间码不对——已重新渲染。",
+  "العربية": "كان لـ {count} ملفات وكيل موجودة رمز زمني خاطئ – أُعيد تصييرها.",
+  "Tiếng Việt": "{count} tệp proxy có sẵn bị sai timecode – đã render lại."
+ },
+ "Resolve wouldn't link the proxy file already there for \"{name}\" – delete it from the Proxy folder to render it again.": {
+  "日本語": "Resolve は「{name}」の既存のプロキシファイルをリンクしませんでした – Proxy フォルダーから削除すると、もう一度レンダリングされます。",
+  "Español": "Resolve no quiso vincular el archivo de proxy que ya existía para \"{name}\": bórralo de la carpeta Proxy para renderizarlo de nuevo.",
+  "Deutsch": "Resolve wollte die vorhandene Proxy-Datei für „{name}“ nicht verlinken – löschen Sie sie aus dem Proxy-Ordner, um sie neu zu rendern.",
+  "Français": "Resolve n'a pas voulu lier le fichier de proxy déjà présent pour « {name} » – supprimez-le du dossier Proxy pour le rendre à nouveau.",
+  "한국어": "Resolve가 \"{name}\"의 기존 프록시 파일을 연결하지 않았습니다 – Proxy 폴더에서 삭제하면 다시 렌더링됩니다.",
+  "中文": "Resolve 无法链接“{name}”已有的代理文件——请从 Proxy 文件夹中删除它以重新渲染。",
+  "العربية": "رفض Resolve ربط ملف الوكيل الموجود لـ \"{name}\" – احذفه من مجلد Proxy لتصييره مرة أخرى.",
+  "Tiếng Việt": "Resolve không chịu liên kết tệp proxy có sẵn cho \"{name}\" – hãy xóa nó khỏi thư mục Proxy để render lại."
+ },
+ "Renders lightweight copies of the project's video clips with ffmpeg and links them in Resolve as proxy media - the same workflow as Resolve's own Generate Proxy Media, for when a machine struggles to play the originals back.\n\nProxies are .mov files written into a 'Proxy' folder beside each source (Resolve's own convention), then linked with the same call the manual relink uses. Source files are never touched, and each clip's audio is stream-copied, so nothing changes but the playback load.\n\nWhich clips: the Media Pool selection, the timeline selection (Resolve 21.0.4 or later), the open bin (optionally with its sub-bins), or every clip in the project. Only video files are transcoded - audio-only clips never play from a proxy.\n\nResolution and format are chosen here. H.264 and H.265 make the smallest files but take more work to decode while scrubbing; ProRes, DNxHR and CineForm are larger on disk and much lighter to play. Each proxy carries its clip's timecode, which Resolve needs to link it. A clip whose proxy file already exists is linked, not re-rendered - unless the file's timecode is wrong, when it's rendered again; delete the file to render it again anyway. ffmpeg is needed - install it or set its path in Settings.": {
+  "日本語": "プロジェクトのビデオクリップの軽量なコピーを ffmpeg でレンダリングし、Resolve でプロキシメディアとしてリンクします – Resolve 自身の「プロキシメディアを生成」と同じワークフローで、マシンが元のメディアをスムーズに再生できないときに使います。\n\nプロキシは各ソースの横にある「Proxy」フォルダーに書き出される .mov ファイルで（Resolve 自身の慣例）、手動の再リンクと同じ呼び出しでリンクされます。ソースファイルには一切手を加えず、各クリップの音声はストリームコピーされるため、変わるのは再生の負荷だけです。\n\n対象のクリップ: メディアプールの選択、タイムラインの選択（Resolve 21.0.4 以降）、開いているビン（サブビンも含めることができます）、またはプロジェクト内のすべてのクリップ。変換されるのはビデオファイルだけです – 音声だけのクリップがプロキシから再生されることはありません。\n\n解像度と形式はここで選びます。H.264 と H.265 はファイルが最も小さくなりますが、スクラブ時のデコード負荷が大きくなります。ProRes、DNxHR、CineForm はディスク上では大きくなりますが、再生ははるかに軽くなります。各プロキシにはクリップのタイムコードが入ります – Resolve がリンクするのに必要です。プロキシファイルがすでにあるクリップは、レンダリングし直さずにリンクされます – ただしファイルのタイムコードが違う場合はレンダリングし直されます。それでもレンダリングし直したい場合はファイルを削除してください。ffmpeg が必要です – インストールするか、設定でパスを指定してください。",
+  "Español": "Renderiza copias ligeras de los clips de vídeo del proyecto con ffmpeg y las vincula en Resolve como medios proxy: el mismo flujo de trabajo que el propio Generar medios proxy de Resolve, para cuando un equipo no consigue reproducir bien los originales.\n\nLos proxies son archivos .mov escritos en una carpeta 'Proxy' junto a cada original (la convención del propio Resolve) y se vinculan con la misma llamada que usa la revinculación manual. Los archivos originales nunca se tocan, y el audio de cada clip se copia sin recodificar, así que solo cambia la carga de reproducción.\n\nQué clips: la selección del Media Pool, la selección de la línea de tiempo (Resolve 21.0.4 o posterior), el bin abierto (opcionalmente con sus sub-bins) o todos los clips del proyecto. Solo se transcodifican los archivos de vídeo: los clips solo de audio nunca se reproducen desde un proxy.\n\nLa resolución y el formato se eligen aquí. H.264 y H.265 generan los archivos más pequeños, pero cuesta más decodificarlos al desplazarse; ProRes, DNxHR y CineForm ocupan más en disco y son mucho más ligeros de reproducir. Cada proxy lleva el timecode de su clip, que Resolve necesita para vincularlo. Un clip cuyo archivo de proxy ya existe se vincula, sin volver a renderizar, salvo que el timecode del archivo sea incorrecto: entonces se renderiza de nuevo. Borra el archivo para renderizarlo de nuevo igualmente. Hace falta ffmpeg: instálalo o indica su ruta en Ajustes.",
+  "Deutsch": "Rendert mit ffmpeg schlanke Kopien der Videoclips des Projekts und verlinkt sie in Resolve als Proxy-Medien – derselbe Ablauf wie Resolves eigenes „Proxy-Medien generieren“, für Rechner, die die Originale nicht flüssig abspielen.\n\nProxys sind .mov-Dateien in einem Ordner „Proxy“ neben jeder Quelle (Resolves eigene Konvention) und werden mit demselben Aufruf verlinkt wie beim manuellen Neuverlinken. Quelldateien werden nie angerührt, und der Ton jedes Clips wird unverändert kopiert – es ändert sich nur die Last beim Abspielen.\n\nWelche Clips: die Auswahl im Media Pool, die Auswahl in der Timeline (Resolve 21.0.4 oder neuer), der geöffnete Bin (auf Wunsch mit seinen Unter-Bins) oder alle Clips im Projekt. Umgewandelt werden nur Videodateien – reine Audioclips werden nie von einem Proxy abgespielt.\n\nAuflösung und Format wählen Sie hier. H.264 und H.265 ergeben die kleinsten Dateien, sind beim Scrubben aber aufwendiger zu dekodieren; ProRes, DNxHR und CineForm brauchen mehr Speicherplatz und spielen viel leichter ab. Jeder Proxy trägt den Timecode seines Clips, den Resolve zum Verlinken braucht. Ein Clip, dessen Proxy-Datei schon vorhanden ist, wird verlinkt statt neu gerendert – außer der Timecode der Datei stimmt nicht, dann wird sie neu gerendert. Löschen Sie die Datei, um sie trotzdem neu zu rendern. ffmpeg wird benötigt – installieren Sie es oder legen Sie seinen Pfad in den Einstellungen fest.",
+  "Français": "Rend avec ffmpeg des copies légères des clips vidéo du projet et les lie dans Resolve comme médias proxy – le même flux de travail que la fonction Générer des médias proxy de Resolve, pour une machine qui peine à lire les originaux.\n\nLes proxys sont des fichiers .mov écrits dans un dossier « Proxy » à côté de chaque source (la convention de Resolve lui-même), puis liés par le même appel que la reliaison manuelle. Les fichiers sources ne sont jamais modifiés, et l'audio de chaque clip est copié tel quel : seule la charge de lecture change.\n\nQuels clips : la sélection du Media Pool, la sélection de la timeline (Resolve 21.0.4 ou plus récent), le chutier ouvert (avec ses sous-chutiers si vous le souhaitez) ou tous les clips du projet. Seuls les fichiers vidéo sont transcodés – un clip uniquement audio n'est jamais lu depuis un proxy.\n\nLa résolution et le format se choisissent ici. H.264 et H.265 donnent les fichiers les plus légers, mais demandent plus de travail de décodage en navigation ; ProRes, DNxHR et CineForm prennent plus de place sur le disque et sont bien plus légers à lire. Chaque proxy porte le timecode de son clip, dont Resolve a besoin pour le lier. Un clip dont le fichier de proxy existe déjà est lié sans nouveau rendu – sauf si le timecode du fichier est faux : il est alors rendu à nouveau. Supprimez le fichier pour le rendre à nouveau quand même. ffmpeg est nécessaire – installez-le ou indiquez son chemin dans les Réglages.",
+  "한국어": "프로젝트의 비디오 클립을 ffmpeg로 가볍게 복사해 렌더링하고, Resolve에서 프록시 미디어로 연결합니다 – Resolve 자체의 프록시 미디어 생성과 같은 작업 흐름으로, 컴퓨터가 원본을 원활하게 재생하지 못할 때 사용합니다.\n\n프록시는 각 소스 옆의 'Proxy' 폴더에 기록되는 .mov 파일이며(Resolve 자체의 관례), 수동 재연결과 같은 호출로 연결됩니다. 소스 파일은 절대 건드리지 않고 각 클립의 오디오는 스트림 복사되므로, 바뀌는 것은 재생 부담뿐입니다.\n\n대상 클립: 미디어 풀 선택, 타임라인 선택(Resolve 21.0.4 이상), 열려 있는 빈(원하면 하위 빈 포함), 또는 프로젝트의 모든 클립. 비디오 파일만 변환합니다 – 오디오만 있는 클립은 프록시로 재생되지 않습니다.\n\n해상도와 형식은 여기서 고릅니다. H.264와 H.265는 파일이 가장 작지만 스크러빙할 때 디코딩 부담이 큽니다. ProRes, DNxHR, CineForm은 디스크 용량은 더 크지만 훨씬 가볍게 재생됩니다. 각 프록시에는 클립의 타임코드가 들어갑니다 – Resolve가 연결하는 데 필요합니다. 프록시 파일이 이미 있는 클립은 다시 렌더링하지 않고 연결합니다 – 단, 파일의 타임코드가 다르면 다시 렌더링합니다. 그래도 다시 렌더링하려면 파일을 삭제하세요. ffmpeg가 필요합니다 – 설치하거나 설정에서 경로를 지정하세요.",
+  "中文": "使用 ffmpeg 渲染项目视频片段的轻量副本，并在 Resolve 中将其链接为代理媒体——与 Resolve 自带的“生成代理媒体”工作流程相同，适用于电脑难以流畅播放原始素材的情况。\n\n代理是写入每个源文件旁 “Proxy” 文件夹中的 .mov 文件（Resolve 自己的惯例），并通过与手动重新链接相同的调用进行链接。源文件从不改动，每个片段的音频按流复制，因此唯一变化的是播放负担。\n\n哪些片段：媒体池中的选择、时间线上的选择（Resolve 21.0.4 或更高版本）、当前打开的媒体夹（可选包含其子媒体夹），或项目中的所有片段。只转码视频文件——纯音频片段从不通过代理播放。\n\n分辨率和格式在此选择。H.264 和 H.265 文件最小，但拖动浏览时解码负担更重；ProRes、DNxHR 和 CineForm 占用更多磁盘空间，但播放轻快得多。每个代理都带有其片段的时间码，Resolve 需要它才能链接。已有代理文件的片段会直接链接而不重新渲染——除非文件的时间码不对，那时会重新渲染；若仍想重新渲染，请删除该文件。需要 ffmpeg——请安装它，或在设置中指定其路径。",
+  "العربية": "يصيّر نسخًا خفيفة من مقاطع الفيديو في المشروع باستخدام ffmpeg ويربطها في Resolve كوسائط وكيلة – سير العمل نفسه لميزة «إنشاء وسائط وكيلة» في Resolve، لحين يعجز الجهاز عن تشغيل الأصول بسلاسة.\n\nالوكلاء ملفات .mov تُكتب في مجلد «Proxy» بجانب كل مصدر (اصطلاح Resolve نفسه)، ثم تُربط بالاستدعاء نفسه الذي تستخدمه إعادة الربط اليدوية. لا تُلمس الملفات المصدر أبدًا، ويُنسخ صوت كل مقطع كما هو، فلا يتغير سوى عبء التشغيل.\n\nأي المقاطع: التحديد في Media Pool، أو التحديد على الخط الزمني (Resolve 21.0.4 أو أحدث)، أو الحاوية المفتوحة (مع حاوياتها الفرعية اختياريًا)، أو كل مقاطع المشروع. تُحوَّل ملفات الفيديو فقط – المقاطع الصوتية وحدها لا تُشغَّل أبدًا من وكيل.\n\nتختار الدقة والصيغة هنا. تعطي H.264 وH.265 أصغر الملفات لكنها تتطلب جهدًا أكبر في فك الترميز أثناء التمرير؛ أما ProRes وDNxHR وCineForm فأكبر حجمًا على القرص وأخف كثيرًا في التشغيل. يحمل كل وكيل الرمز الزمني لمقطعه، وهو ما يحتاجه Resolve لربطه. المقطع الذي يوجد ملف وكيله مسبقًا يُربط دون إعادة تصيير – إلا إذا كان رمزه الزمني خاطئًا، فيُصيَّر من جديد؛ احذف الملف لتصييره من جديد على أي حال. يلزم ffmpeg – ثبّته أو حدّد مساره في الإعدادات.",
+  "Tiếng Việt": "Render các bản sao nhẹ của clip video trong dự án bằng ffmpeg và liên kết chúng trong Resolve làm proxy media – cùng quy trình với tính năng Generate Proxy Media của chính Resolve, dành cho khi máy khó phát mượt các tệp gốc.\n\nProxy là các tệp .mov được ghi vào thư mục 'Proxy' bên cạnh mỗi tệp nguồn (quy ước của chính Resolve), rồi được liên kết bằng cùng lệnh mà thao tác liên kết lại thủ công dùng. Tệp nguồn không bao giờ bị động đến, và âm thanh của mỗi clip được sao chép nguyên luồng, nên chỉ có tải phát lại thay đổi.\n\nNhững clip nào: phần chọn trong Media Pool, phần chọn trên timeline (Resolve 21.0.4 trở lên), bin đang mở (có thể kèm các bin con), hoặc mọi clip trong dự án. Chỉ tệp video được chuyển mã – clip chỉ có âm thanh không bao giờ phát từ proxy.\n\nĐộ phân giải và định dạng được chọn ở đây. H.264 và H.265 cho tệp nhỏ nhất nhưng giải mã nặng hơn khi tua; ProRes, DNxHR và CineForm chiếm nhiều dung lượng hơn nhưng phát nhẹ hơn nhiều. Mỗi proxy mang timecode của clip, thứ Resolve cần để liên kết. Clip đã có tệp proxy sẽ được liên kết mà không render lại – trừ khi timecode của tệp sai, khi đó tệp được render lại; hãy xóa tệp nếu vẫn muốn render lại. Cần có ffmpeg – hãy cài đặt hoặc đặt đường dẫn của nó trong Cài đặt."
  }
 }

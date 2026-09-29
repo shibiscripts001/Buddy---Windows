@@ -22,7 +22,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Dailies (named source tapes, continuous Media Pool review, notes and metadata)
 - Image Importer
 - Media Relink
-- Project Setup
+- Project Setup (bins, folder import, timeline populate, multicam sync, proxy rendering)
 - Marker Manager (Stills Exporter and YouTube Chapters tabs)
 - SVG Importer
 - Time Tracker

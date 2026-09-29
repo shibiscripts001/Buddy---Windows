@@ -14,6 +14,7 @@ let help = {};
 let sync = null;
 let imp = null;
 let pop = null;
+let proxy = null;
 let binRows = [];
 let job = null;
 let metadata = null;
@@ -62,12 +63,14 @@ function applyEnabled() {
     $("remove-gaps").disabled = noTimeline || !sync.can_remove_gaps;
     applyMetadataEnabled();
     if (state.busy) {
-        for (const b of document.querySelectorAll("[data-action], #choose-folder, #rescan, #bins-reset")) {
+        for (const b of document.querySelectorAll("[data-action], #choose-folder, #rescan, #bins-reset, [data-scope], [data-resolution], #proxy-format, #proxy-recursive")) {
             b.disabled = true;
         }
     } else {
         $("choose-folder").disabled = $("rescan").disabled = $("bins-reset").disabled = false;
         for (const b of document.querySelectorAll("[data-action='connect'], [data-action='refresh']")) b.disabled = false;
+        for (const b of document.querySelectorAll("[data-scope], [data-resolution], #proxy-format")) b.disabled = false;
+        $("proxy-recursive").disabled = false;
     }
 }
 
@@ -75,6 +78,7 @@ Buddy.on("state", s => {
     state = s;
     showTab(s.tab);
     applyEnabled();
+    applyProxyEnabled();
 });
 
 Buddy.on("help", h => { help = h; });
@@ -299,18 +303,67 @@ Buddy.on("sync", d => {
 
 Buddy.on("job", j => {
     job = j;
-    const box = $("job");
-    box.hidden = !j;
-    if (!j) return;
-    $("job-label").textContent = j.label;
-    const counted = j.total > 1;
-    const step = Math.min(j.done + 1, j.total);
-    $("job-bar").style.width = counted ? `${(step / j.total) * 100}%` : "";
-    $("job-bar").parentElement.classList.toggle("indeterminate", !counted);
-    $("job-stage").textContent = j.stage ? (counted ? `${j.stage} (${step} of ${j.total})` : `${j.stage}…`) : "";
-    $("job-cancel").hidden = j.action === "finish";
-    $("job-cancel").disabled = j.stage === "Stopping";
+    // The one job box lands on whichever tab owns the running job.
+    const spots = [[$("job"), $("job-label"), $("job-bar"), $("job-stage"), $("job-cancel"), "sync"],
+                   [$("proxy-job"), $("proxy-job-label"), $("proxy-job-bar"), $("proxy-job-stage"), $("proxy-job-cancel"), "proxy"]];
+    for (const [box, label, bar, stage, cancel, tab] of spots) {
+        box.hidden = !j || j.log_tab !== tab;
+        if (j && j.log_tab === tab) {
+            label.textContent = j.label;
+            const counted = j.total > 1;
+            const step = Math.min(j.done + 1, j.total);
+            bar.style.width = counted ? `${(step / j.total) * 100}%` : "";
+            bar.parentElement.classList.toggle("indeterminate", !counted);
+            stage.textContent = j.stage ? (counted ? `${j.stage} (${step} of ${j.total})` : `${j.stage}…`) : "";
+            cancel.disabled = j.stage === "Stopping";
+        }
+    }
 });
+
+// ----------------------------------------------------------------- proxy
+
+$("proxy-job-cancel").onclick = () => send("cancel_job");
+
+for (const b of document.querySelectorAll("#proxy-scope [data-scope]")) {
+    b.onclick = () => send("proxy_option", {key: "scope", value: b.dataset.scope});
+}
+for (const b of document.querySelectorAll("#proxy-resolution [data-resolution]")) {
+    b.onclick = () => send("proxy_option", {key: "resolution", value: b.dataset.resolution});
+}
+$("proxy-format").onchange = e => send("proxy_option", {key: "codec", value: e.target.value});
+$("proxy-recursive").onchange = e => send("proxy_option", {key: "recursive", value: e.target.checked});
+
+Buddy.on("proxy", d => {
+    proxy = d;
+    const scope = d.scope || "selection";
+    for (const b of document.querySelectorAll("#proxy-scope [data-scope]")) {
+        const usable = b.dataset.scope !== "timeline" || !!d.can_select_timeline;
+        b.hidden = !usable;
+        b.setAttribute("aria-pressed", String(b.dataset.scope === scope));
+    }
+    $("proxy-recursive-box").hidden = scope !== "bin";
+    $("proxy-recursive").checked = !!d.recursive;
+    for (const b of document.querySelectorAll("#proxy-resolution [data-resolution]")) {
+        b.setAttribute("aria-pressed", String(b.dataset.resolution === (d.resolution || "half")));
+    }
+    const format = $("proxy-format"), codecs = d.codecs || [];
+    if (format.options.length !== codecs.length) {
+        format.replaceChildren(...codecs.map(c => el("option", {value: c.id, text: c.label})));
+    }
+    format.value = d.codec || "h264";
+    const chosen = codecs.find(c => c.id === format.value);
+    $("proxy-format-hint").textContent = chosen ? chosen.hint : "";
+    const note = $("proxy-ffmpeg-note");
+    note.hidden = !!d.ffmpeg;
+    note.textContent = "Making proxies needs ffmpeg, and Buddy can't find it. Install it, or set its path in Settings.";
+    applyProxyEnabled();
+});
+
+function applyProxyEnabled() {
+    const go = $("proxy-go");
+    if (!proxy) return;
+    go.disabled = !(proxy.connected && proxy.ffmpeg && !state.busy);
+}
 
 // ------------------------------------------------------------- activity
 

@@ -46,11 +46,29 @@ class Folder:
 
 
 class Clip:
-    def __init__(self, name, kind="Video"):
+    def __init__(self, name, kind="Video", path=None, tc="19:45:12:08"):
         self.name, self.kind = name, kind
+        self.path = path
+        self.tc = tc
+        self.linked = []
 
-    def GetClipProperty(self, key):
-        return {"Type": self.kind, "Clip Name": self.name}[key]
+    def GetClipProperty(self, key=None):
+        props = {"Type": self.kind, "Clip Name": self.name, "Start TC": self.tc}
+        if self.path is not None:
+            props["File Path"] = self.path
+        return props if key is None else props.get(key)
+
+    def GetUniqueId(self):
+        return f"clip-{self.name}"
+
+    def GetName(self):
+        return self.name
+
+    def LinkProxyMedia(self, path):
+        if self.kind == "Timeline" or self.path is None:
+            return False
+        self.linked.append(path)
+        return True
 
 
 class Pool:
@@ -471,6 +489,128 @@ class PageTests(unittest.TestCase):
                 self.app.processEvents()
             self.page._read_sync(self.page.controller)
         self.assertFalse(self.last("sync")["can_remove_gaps"])
+
+    # ------------------------------------------------------------ proxy --
+
+    def test_proxy_tab_reads_bin_and_options_persist(self):
+        self.pool.current = self.pool.AddSubFolder(self.pool.root, "Footage")
+        self.page.on_tab({"tab": "proxy"})
+        state = self.last("proxy")
+        self.assertEqual(state["bin"], "Footage")
+        self.assertFalse(state["can_select_timeline"])   # the fake Timeline predates 21.0.4
+        self.page.on_proxy_option({"key": "scope", "value": "bin"})
+        self.page.on_proxy_option({"key": "scope", "value": "nonsense"})   # refused
+        self.page.on_proxy_option({"key": "resolution", "value": "quarter"})
+        self.page.on_proxy_option({"key": "codec", "value": "prores"})
+        self.page.on_proxy_option({"key": "recursive", "value": True})
+        self.assertEqual(self.page.data_mgr.settings["proxy_scope"], "bin")
+        self.assertEqual(self.page.data_mgr.settings["proxy_resolution"], "quarter")
+        self.assertEqual(self.page.data_mgr.settings["proxy_codec"], "prores")
+        self.assertTrue(self.page.data_mgr.settings["proxy_recursive"])
+        state = self.last("proxy")
+        self.assertEqual((state["scope"], state["resolution"], state["codec"], state["recursive"]),
+                         ("bin", "quarter", "prores", True))
+
+    def test_proxy_needs_ffmpeg(self):
+        with mock.patch.object(self.page, "_ffmpeg", return_value=None):
+            self.page.on_proxy_go(None)
+        self.assertEqual(self.last("alert")["title"], "ffmpeg needed")
+        self.assertEqual([e for e in self.logs("proxy")], ["ffmpeg not found – install it, or set its path in Settings."])
+
+    def test_proxy_run_renders_and_links(self):
+        media = os.path.join(self._tmp.name, "media")
+        os.makedirs(media)
+        open(os.path.join(media, "A001.mp4"), "w").close()
+        cams = self.pool.AddSubFolder(self.pool.root, "Cams")
+        cams.clips = [Clip("A001", path=os.path.join(media, "A001.mp4")),
+                      Clip("sound", kind="Audio", path=os.path.join(media, "t.wav")),
+                      Clip("TL", kind="Timeline")]
+        self.pool.current = cams
+        self.pool.selected = [cams.clips[0]]
+        self.page.on_proxy_option({"key": "scope", "value": "selection"})
+
+        rendered = []
+        with mock.patch.object(self.page, "_ffmpeg", return_value="ffmpeg.exe"), \
+                mock.patch("pages.project_setup.proxy.render_one",
+                           side_effect=lambda ff, src, dst, res, codec, run=None, timecode="":
+                           rendered.append((dst, timecode)) or dst):
+            self.page.on_proxy_go(None)
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+        # Stamped with the clip's own start timecode - Resolve won't link one without it.
+        self.assertEqual(rendered, [(os.path.join(media, "Proxy", "A001_proxy.mov"), "19:45:12:08")])
+        self.assertEqual(cams.clips[0].linked, [os.path.join(media, "Proxy", "A001_proxy.mov")])
+        texts = self.logs("proxy")
+        self.assertTrue(any("Linked 1 clip to its proxy." == t for t in texts), texts)
+        # The audio clip and the timeline pseudo-clip never reached ffmpeg.
+        self.assertEqual(len(rendered), 1)
+
+    def _existing_run(self, file_tc, links=True):
+        """A run over one clip whose proxy file is already there, with
+        file_tc as that file's timecode. Returns (clip, what was rendered)."""
+        media = os.path.join(self._tmp.name, "media")
+        os.makedirs(os.path.join(media, "Proxy"))
+        existing = os.path.join(media, "Proxy", "A001_proxy.mov")
+        open(existing, "w").close()
+        open(os.path.join(media, "A001.mp4"), "w").close()
+        clip = Clip("A001", path=os.path.join(media, "A001.mp4"))
+        if not links:
+            clip.LinkProxyMedia = lambda path: False
+        self.pool.selected = [clip]
+        self.page.on_proxy_option({"key": "scope", "value": "selection"})
+        rendered = []
+        with mock.patch.object(self.page, "_ffmpeg", return_value="ffmpeg.exe"), \
+                mock.patch("pages.project_setup.proxy.file_timecode", return_value=file_tc), \
+                mock.patch("pages.project_setup.proxy.render_one",
+                           side_effect=lambda *a, **k: rendered.append((a[2], k.get("timecode"))) or a[2]):
+            self.page.on_proxy_go(None)
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+        return clip, rendered, existing
+
+    def test_an_existing_proxy_with_the_wrong_timecode_is_rendered_again(self):
+        clip, rendered, existing = self._existing_run("")   # an older Buddy's: no timecode at all
+        self.assertEqual(rendered, [(existing, "19:45:12:08")])
+        self.assertEqual(clip.linked, [existing])
+        texts = self.logs("proxy")
+        self.assertIn("1 proxy file already there had the wrong timecode – rendered again.", texts)
+
+    def test_an_existing_proxy_resolve_refuses_is_reported(self):
+        _clip, rendered, _existing = self._existing_run("19:45:12:08", links=False)
+        self.assertEqual(rendered, [])
+        self.assertTrue(any("wouldn't link the proxy file already there" in t for t in self.logs("proxy")),
+                        self.logs("proxy"))
+
+    def test_proxy_run_adopts_an_existing_file(self):
+        media = os.path.join(self._tmp.name, "media")
+        os.makedirs(os.path.join(media, "Proxy"))
+        existing = os.path.join(media, "Proxy", "A001_proxy.mov")
+        open(existing, "w").close()
+        open(os.path.join(media, "A001.mp4"), "w").close()
+        clip = Clip("A001", path=os.path.join(media, "A001.mp4"))
+        self.pool.selected = [clip]
+        self.page.on_proxy_option({"key": "scope", "value": "selection"})
+        rendered = []
+        with mock.patch.object(self.page, "_ffmpeg", return_value="ffmpeg.exe"), \
+                mock.patch("pages.project_setup.proxy.file_timecode", return_value="19:45:12:08"), \
+                mock.patch("pages.project_setup.proxy.render_one",
+                           side_effect=lambda *a, **k: rendered.append(a) or a[2]):
+            self.page.on_proxy_go(None)
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+        self.assertEqual(rendered, [])   # nothing rendered: the file was linked as-is
+        self.assertEqual(clip.linked, [existing])
+        self.assertTrue(any("already had a proxy file" in t for t in self.logs("proxy")), self.logs("proxy"))
+
+    def test_proxy_refuses_empty_selection(self):
+        self.pool.selected = []
+        with mock.patch.object(self.page, "_ffmpeg", return_value="ffmpeg.exe"):
+            self.page.on_proxy_go(None)
+        self.assertEqual(self.last("alert")["title"], "No clips to proxy")
+        self.assertIn("Select one or more clips", self.last("alert")["text"])
 
 
 if __name__ == "__main__":

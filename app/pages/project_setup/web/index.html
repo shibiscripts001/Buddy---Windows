@@ -21,6 +21,7 @@
         <button type="button" role="tab" data-tab="import">Import folder</button>
         <button type="button" role="tab" data-tab="populate">Populate timeline</button>
         <button type="button" role="tab" data-tab="sync">Sync</button>
+        <button type="button" role="tab" data-tab="proxy">Proxy</button>
         <button type="button" role="tab" data-tab="metadata">Metadata</button>
     </nav>
 
@@ -232,6 +233,56 @@
             </div>
         </div>
         <details class="activity" data-log="sync" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+
+    <!-- ------------------------------------------------------------ Proxy -->
+    <section class="panel scroll" id="panel-proxy" hidden>
+        <p class="intro muted">Make playback-light copies of the project's video clips with ffmpeg, linked in Resolve as proxy media – Resolve's own proxy workflow, with Buddy driving the transcodes. Source files are never touched.</p>
+        <div class="card job" id="proxy-job" hidden>
+            <div class="row">
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span class="strong" id="proxy-job-label"></span>
+                <div class="spacer"></div>
+                <button type="button" class="btn" id="proxy-job-cancel">Cancel</button>
+            </div>
+            <div class="bar"><i id="proxy-job-bar"></i></div>
+            <div class="muted small" id="proxy-job-stage"></div>
+        </div>
+        <div class="card proxy-card">
+            <div class="card-head">
+                <h2 class="section-title">Make proxies</h2>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" data-help="proxy">How it works</button>
+            </div>
+            <p class="muted desc">Each video file gets a .mov copy in a 'Proxy' folder beside it, then linked as that clip's proxy media in Resolve. Flip them on in Resolve with the proxy button in the viewer.</p>
+            <div class="row wrap">
+                <span class="lbl-inline">Proxy</span>
+                <div class="segmented" id="proxy-scope" role="group" aria-label="Which clips">
+                    <button type="button" data-scope="selection" title="The clips selected in Resolve's Media Pool">Media Pool selection</button>
+                    <button type="button" data-scope="timeline" title="The clips selected on the open timeline">Timeline selection</button>
+                    <button type="button" data-scope="bin" title="The bin open in Resolve's Media Pool, and its sub-bins if ticked below">Open bin</button>
+                    <button type="button" data-scope="all" title="Every clip in the project">All clips</button>
+                </div>
+            </div>
+            <label class="check small" id="proxy-recursive-box" hidden><input type="checkbox" id="proxy-recursive"> Include bins inside it</label>
+            <div class="row wrap proxy-opts">
+                <span class="lbl-inline">Resolution</span>
+                <div class="segmented" id="proxy-resolution" role="group" aria-label="Proxy resolution">
+                    <button type="button" data-resolution="original" title="Keep the source's resolution">Original</button>
+                    <button type="button" data-resolution="half" title="Half the source's resolution – the usual proxy size">Half</button>
+                    <button type="button" data-resolution="quarter" title="Quarter the source's resolution">Quarter</button>
+                </div>
+                <span class="lbl-inline">Format</span>
+                <select class="field proxy-format" id="proxy-format" aria-label="Proxy format"></select>
+            </div>
+            <p class="muted small" id="proxy-format-hint"></p>
+            <div class="note warn-note" id="proxy-ffmpeg-note" hidden></div>
+            <div class="row">
+                <div class="spacer"></div>
+                <button type="button" class="btn accent big" data-action="proxy_go" id="proxy-go" disabled>Make proxies</button>
+            </div>
+        </div>
+        <details class="activity" data-log="proxy" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
     </section>
 </main>
 <script src="setup.js"></script>

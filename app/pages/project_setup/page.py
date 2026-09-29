@@ -8,7 +8,8 @@ Five tabs, each backed by a Qt-free module:
     Bins      bins.py        the typed list -> a tree (previewed live) -> bins
     Import    importer.py    a folder's tree -> bins, its media imported
     Populate  resolve_ext    the bin open in Resolve -> the timeline
-    Sync      otio_engine    export -> transform offline -> import a NEW timeline
+    Sync      otio_engine   export -> transform offline -> import a NEW timeline
+    Proxy     proxy.py       ffmpeg -> .mov copies beside the source -> linked
     Metadata  metadata.py   edit chosen fields on selected Media Pool clips
 
 The Sync tab's discipline: every operation
@@ -24,12 +25,13 @@ timeline it will append to (or create); the Sync tab showing the open
 timeline and following it; and Cancel for the long audio jobs.
 
 Protocol:
-    to the view    state, help, bins_text, bins, import, populate, sync, job,
-                   log, alert, toast
+    to the view    state, help, bins_text, bins, import, populate, sync, proxy,
+                   job, log, alert, toast
     from the view  tab, connect, refresh, bins_text, bins_reset, create_bins,
                    choose_folder, rescan, to_master, import_folder,
                    populate_recursive, add_to_timeline, sync_option, assemble,
-                   expand, align, sync_external, collapse, shift, cancel_job
+                   expand, align, sync_external, collapse, shift, cancel_job,
+                   proxy_option, proxy_go
 """
 
 from __future__ import annotations
@@ -45,12 +47,12 @@ from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
-from . import align_engine, bins, data_manager, importer, metadata, otio_engine, resolve_ext, sync_report
+from . import align_engine, bins, data_manager, importer, metadata, otio_engine, proxy, resolve_ext, sync_report
 from .ffmpeg_utils import find_ffmpeg
 from .settings_panel import ProjectSetupSettingsMixin
 from .worker import EngineWorker
 
-TABS = ("bins", "import", "populate", "sync", "metadata")
+TABS = ("bins", "import", "populate", "sync", "proxy", "metadata")
 POLL_MS = 1000
 SLOW_POLL_MS = 5000
 SLOW_POLL_SECONDS = 0.25
@@ -69,7 +71,7 @@ METHODS = (align_engine.METHOD_TIMECODE, align_engine.METHOD_WAVEFORM)
 
 # Actions that stay available while a job runs: they change nothing in
 # Resolve.
-_WHILE_BUSY = {"tab", "bins_text", "sync_option", "populate_recursive", "to_master", "cancel_job"}
+_WHILE_BUSY = {"tab", "bins_text", "sync_option", "proxy_option", "populate_recursive", "to_master", "cancel_job"}
 
 
 class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
@@ -92,6 +94,17 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         self._job = None            # {"action", "label", "stage", "done", "total"}
         self._job_finish = None
         self._job_title = ""
+
+        # Proxy tab: the choices that survive a restart live in settings;
+        # everything else is this session's.
+        self._proxy = {"scope": None, "bin": None, "can_select_timeline": False,
+                       "timeline": None, "pool_count": None, "error": ""}
+        self.proxy_options = {
+            "scope": self.data_mgr.settings.get("proxy_scope") or proxy.DEFAULT_SCOPE,
+            "resolution": self.data_mgr.settings.get("proxy_resolution") or proxy.DEFAULT_RESOLUTION,
+            "codec": self.data_mgr.settings.get("proxy_codec") or proxy.DEFAULT_CODEC,
+            "recursive": bool(self.data_mgr.settings.get("proxy_recursive", False)),
+        }
 
         folder =self.data_mgr.settings.get("last_import_folder") or ""
         self.import_folder = folder if folder and os.path.isdir(folder) else ""
@@ -116,7 +129,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
 
     def web_ready(self):
         self.emit("help", {"bins": bins.INFO_TEXT, "import": importer.INFO_TEXT,
-                           "sync": sync_report.INFO_TEXT})
+                           "sync": sync_report.INFO_TEXT, "proxy": proxy.INFO_TEXT})
         self.emit("bins_text", {"text": self.data_mgr.settings.get("bin_list", "")})
         for tab in TABS:
             self.emit("log", {"tab": tab, "entries": self._logs[tab]})
@@ -125,6 +138,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         self._push_import()
         self._push_populate()
         self._push_sync()
+        self._push_proxy()
         self._push_metadata()
         self.emit("job", self._job)
 
@@ -229,6 +243,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self._read_populate(controller)
         elif self.tab == "sync":
             self._read_sync(controller)
+        elif self.tab == "proxy":
+            self._read_proxy(controller)
         elif self.tab == "metadata":
             if self._metadata_signature is None:
                 self._read_metadata(controller)
@@ -611,9 +627,9 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self.sync_options[key] = value
         self._push_sync()
 
-    def _sync_log(self, lines):
+    def _sync_log(self, lines, tab="sync"):
         for text, kind in lines:
-            self._log("sync", text, kind)
+            self._log(tab, text, kind)
 
     def _sync_failed(self, title, exc, trace=""):
         """A step stopped before or after its work: say so plainly for the
@@ -655,17 +671,18 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self._sync_failed(title, error, trace)
         self._refresh_tab(connect=False)
 
-    def _start_job(self, action, label, prepare, job, finish, title):
+    def _start_job(self, action, label, prepare, job, finish, title, log_tab="sync"):
         """Runs `job(report)` on a worker, then `finish(result)` back here.
         prepare(controller) does the main-thread reading first and returns
-        the context job/finish need."""
+        the context job/finish need. log_tab is the tab whose Activity the
+        job reports in."""
         if self._worker is not None and self._worker.isRunning():
-            self._log("sync", "Something is already running – wait for it to finish.", "warn")
+            self._log(log_tab, "Something is already running – wait for it to finish.", "warn")
             return
         controller = self.ensure_connected()
         if controller is None:
             return
-        self.host.set_busy(True, "Reading the timeline…")
+        self.host.set_busy(True, "Reading the timeline…" if log_tab == "sync" else "Reading the clips…")
         try:
             context = prepare(controller)
         except Exception as exc:  # noqa: BLE001 - no timeline open, say
@@ -674,7 +691,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             return
         self.host.set_busy(False)
 
-        self._job = {"action": action, "label": label, "stage": "Starting", "done": 0, "total": 0}
+        self._job = {"action": action, "label": label, "stage": "Starting", "done": 0, "total": 0,
+                     "log_tab": log_tab}
         self._job_finish = lambda result: finish(controller, context, result)
         self._job_title = title
         try:
@@ -709,25 +727,30 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self.emit("job", self._job)
 
     def _on_job_cancelled(self):
+        log_tab = self._job.get("log_tab", "sync") if self._job else "sync"
         self._end_job()
-        self._log("sync", "Cancelled – nothing was changed.", "warn")
+        what = "nothing was changed" if log_tab == "sync" else "any unfinished renders were stopped"
+        self._log(log_tab, f"Cancelled – {what}.", "warn")
 
     def _on_job_failed(self, message, expected):
         title = self._job_title
+        log_tab = self._job.get("log_tab", "sync") if self._job else "sync"
         self._end_job()
         if expected:
-            self._log("sync", message, "error")
+            self._log(log_tab, message, "error")
             self._alert(title, message)
             return
         first, _, rest = message.partition("\n")
-        self._log("sync", f"Error: {first}", "error")
+        self._log(log_tab, f"Error: {first}", "error")
         for line in rest.rstrip().splitlines():
-            self._log("sync", f"    {line}", "error")
+            self._log(log_tab, f"    {line}", "error")
 
     def _on_job_done(self, result):
         finish, title = self._job_finish, self._job_title
+        log_tab = self._job.get("log_tab", "sync") if self._job else "sync"
         self._sync_busy = True
-        self.host.set_busy(True, "Importing the new timeline…")
+        self.host.set_busy(True, "Linking the proxies…" if log_tab == "proxy"
+                           else "Importing the new timeline…")
         lines, error, trace = [], None, ""
         try:
             if finish is not None:
@@ -739,7 +762,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self.host.set_busy(False)
             self._end_job()
         if error is None:
-            self._sync_log(lines)
+            self._sync_log(lines, log_tab)
         else:
             self._sync_failed(title, error, trace)
         self._refresh_tab(connect=False)
@@ -873,3 +896,216 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self._gap_targets.discard(key)
             return sync_report.shift(stats, True)
         self._run_step("Removing gaps…", "Couldn't remove gaps", work)
+
+    # -------------------------------------------------------------- Proxy --
+
+    PROXY_OPTIONS = {
+        "scope": "proxy_scope",
+        "resolution": "proxy_resolution",
+        "codec": "proxy_codec",
+        "recursive": "proxy_recursive",
+    }
+
+    def _push_proxy(self):
+        self.emit("proxy", {**self._proxy, **self.proxy_options,
+                            "codecs": proxy.codec_choices(),
+                            "ffmpeg": bool(self._ffmpeg()),
+                            "connected": self.controller is not None})
+
+    def _read_proxy(self, controller):
+        """The live bits the tab shows: the open bin's name, the open
+        timeline's name, and whether this Resolve can read a timeline
+        selection. Cheap by design - this runs on the page's 1-second
+        poll, so no per-clip walks here (GetClipProperty is the slowest
+        call in the API). Errors stay on the tab; a missing project is
+        not one (not connected yet)."""
+        info = {"scope": None, "bin": None, "can_select_timeline": False,
+                "timeline": None, "error": ""}
+        if controller is not None:
+            try:
+                folder, _root, timeline = self._current_bin_and_timeline(controller)
+                is_root = self._id_of(folder) == self._id_of(_root)
+                info["bin"] = "Master" if is_root else (folder.GetName() or "Master")
+                if proxy.timeline_can_select(timeline):
+                    info["can_select_timeline"] = True
+                    info["timeline"] = timeline.GetName() if timeline else None
+            except Exception as exc:  # noqa: BLE001 - the project went away, or the bridge hiccuped
+                info["error"] = str(exc) or "Couldn't read the Media Pool."
+        self._proxy = info
+        self._push_proxy()
+
+    def on_proxy_option(self, payload):
+        payload = payload or {}
+        key, value = payload.get("key"), payload.get("value")
+        if key not in self.PROXY_OPTIONS:
+            return
+        if key == "scope" and value not in proxy.SCOPES:
+            return
+        if key == "resolution" and value not in proxy.RESOLUTIONS:
+            return
+        if key == "codec" and value not in proxy.CODECS:
+            return
+        if key == "recursive":
+            value = bool(value)
+        self.data_mgr.settings[self.PROXY_OPTIONS[key]] = value
+        self.data_mgr.save_settings()
+        self.proxy_options[key] = value
+        self._push_proxy()
+
+    def _proxy_videos(self, controller, scope):
+        """The deduped video entries a scope covers, with the live
+        MediaPoolItem behind each entry (kept for the link pass, so it
+        never has to walk the pool a second time). Raises ProxyError with
+        the same wording the tab would show, so a scope with nothing in
+        it stops before ffmpeg is ever asked for anything."""
+        project = controller.get_project()
+        if scope == "selection":
+            selected, objects = proxy.selected_pool(project)
+            if not selected:
+                raise ProxyTabError("Select one or more clips in Resolve's Media Pool first.")
+            return selected, objects
+        if scope == "timeline":
+            timeline = controller.get_current_timeline()
+            selected, objects = proxy.selected_timeline(timeline)
+            if not selected:
+                raise ProxyTabError("Select one or more clips on the timeline in Resolve first.")
+            return selected, objects
+        if scope == "bin":
+            folder = controller.get_current_bin()
+            name = folder.GetName() or "Master"
+            clips = controller.get_bin_clips(folder, recursive=self.proxy_options["recursive"])
+            if not clips:
+                raise ProxyTabError(f"'{name}' has no clips in it.")
+            return proxy.entries(clips)
+        folder = project.GetMediaPool().GetRootFolder()
+        clips = controller.get_bin_clips(folder, recursive=True)
+        if not clips:
+            raise ProxyTabError("The Media Pool has no clips in it.")
+        return proxy.entries(clips)
+
+    def on_proxy_go(self, _payload):
+        scope = self.proxy_options["scope"]
+        ffmpeg_path = self._ffmpeg()
+        if not ffmpeg_path:
+            self._log("proxy", "ffmpeg not found – install it, or set its path in Settings.", "error")
+            self._alert("ffmpeg needed", "Making proxies needs ffmpeg installed, or its path set in Settings.")
+            return
+        controller = self.ensure_connected()
+        if controller is None:
+            return
+
+        # Read the scope on the main thread (Resolve's bridge is not
+        # thread-safe); only the ffmpeg renders run on the worker.
+        self.host.set_busy(True, "Reading the clips…")
+        try:
+            all_entries, objects = self._proxy_videos(controller, scope)
+            videos = [e for e in all_entries if proxy.is_video(e)]
+            if not videos:
+                self._log("proxy", "No video files in that scope – audio and stills don't need proxies.", "warn")
+                self.host.set_busy(False)
+                return
+            where = proxy.scope_label(scope, self._proxy.get("bin"), self._proxy.get("timeline"),
+                                      self.proxy_options["recursive"])
+            targets = proxy.plan(videos)
+        except proxy.ProxyError as exc:
+            self.host.set_busy(False)
+            self._log("proxy", str(exc), "error")
+            self._alert("No clips to proxy", str(exc))
+            return
+        except Exception as exc:  # noqa: BLE001
+            self.host.set_busy(False)
+            self._log("proxy", f"Couldn't read the clips: {exc}", "error")
+            return
+        self.host.set_busy(False)
+
+        if not targets["render"] and not targets["existing"]:
+            self._log("proxy", "Nothing to do – no video clips to render and none already have proxy files.", "warn")
+            return
+
+        for line in targets["skipped"]:
+            self._log("proxy", line, "warn")
+
+        resolution = self.proxy_options["resolution"]
+        codec = self.proxy_options["codec"]
+        plan_render, plan_existing = targets["render"], targets["existing"]
+        # The link pass runs after the worker finishes. It uses the
+        # MediaPoolItems captured when the scope was read: walking the
+        # pool again would be one slow GetClipProperty() round trip per
+        # clip, and a stale-but-live object beats a fresh walk that might
+        # land mid-pool-change. Resolve's own remote objects stay valid
+        # across calls in the same session.
+        by_id = {e["id"]: clip for e, clip in
+                 ((e, objects.get(e["id"])) for e in all_entries)
+                 if clip is not None}
+
+        def prepare(controller):
+            return plan_render, plan_existing, by_id, where, scope
+
+        def job(context, report):
+            render_list, existing_list, _by_id, _where, _scope = context
+            # A proxy file already there is only any use if its timecode
+            # matches the clip's - Resolve refuses one that doesn't (an
+            # older Buddy's, made without it). Those are rendered again.
+            stale = []
+            for index, target in enumerate(existing_list):
+                report(f"Checking {os.path.basename(target['dst'])}", index, len(existing_list))
+                if not proxy.same_timecode(proxy.file_timecode(ffmpeg_path, target["dst"]), target.get("tc")):
+                    stale.append(target["id"])
+            todo = render_list + [t for t in existing_list if t["id"] in stale]
+            results = []
+            for index, target in enumerate(todo):
+                report(f"Rendering {os.path.basename(target['path'])}", index, len(todo))
+                try:
+                    proxy.render_one(ffmpeg_path, target["path"], target["dst"],
+                                     resolution, codec, timecode=target.get("tc", ""))
+                    results.append({"id": target["id"], "ok": True})
+                except proxy.ProxyError as exc:
+                    results.append({"id": target["id"], "ok": False, "error": str(exc)})
+            return {"results": results, "stale": stale}
+
+        def finish(controller, context, payload):
+            render_list, existing_list, by_id, where, scope = context
+            results, stale = payload["results"], set(payload["stale"])
+            render_list = render_list + [t for t in existing_list if t["id"] in stale]
+            existing_list = [t for t in existing_list if t["id"] not in stale]
+            linked, refused, existing_linked, refused_existing = 0, [], 0, []
+            for target in render_list:
+                if not next((r["ok"] for r in results if r["id"] == target["id"]), False):
+                    continue
+                clip = by_id.get(target["id"])
+                if clip is None:
+                    refused.append(target["name"])
+                    continue
+                try:
+                    if clip.LinkProxyMedia(target["dst"]):
+                        linked += 1
+                    else:
+                        refused.append(target["name"])
+                except Exception:  # noqa: BLE001 - Resolve refused this one
+                    refused.append(target["name"])
+            for target in existing_list:
+                clip = by_id.get(target["id"])
+                if clip is None:
+                    continue
+                try:
+                    if clip.LinkProxyMedia(target["dst"]):
+                        linked += 1
+                        existing_linked += 1
+                    else:
+                        refused_existing.append(target["name"])
+                except Exception:  # noqa: BLE001 - Resolve refused this one
+                    refused_existing.append(target["name"])
+            lines = [(f"Proxy {where}: {len(render_list)} to render, {len(existing_list)} already have files.", "info")]
+            lines.extend(proxy.render_report(results))
+            lines.extend(proxy.link_report(linked, refused, existing_linked, redone=len(stale),
+                                           refused_existing=refused_existing))
+            return lines
+
+        self._start_job("proxy", f"Making proxies for {where}", prepare, job, finish,
+                        "Couldn't make proxies", log_tab="proxy")
+
+
+class ProxyTabError(proxy.ProxyError):
+    """Raised by _proxy_videos for an empty scope - same wording, kept as
+    its own class so page code never mistakes a code bug for the user's
+    scope being empty."""
