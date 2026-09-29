@@ -28,8 +28,12 @@ class FakeItem:
         return None
 
     def SetClipColor(self, color):
-        self.color = color
+        if not getattr(self, "title", False):   # a title says True and keeps nothing (measured)
+            self.color = color
         return True
+
+    def GetClipColor(self):
+        return self.color or ""
 
 
 class FakeTimeline:
@@ -223,6 +227,63 @@ class ClipIndexTests(unittest.TestCase):
                 "color": "Teal",
                 "clips": [{"track": "V1", "index": 1, "start": 99}],
             })
+
+
+class FakeResolve:
+    def __init__(self, page):
+        self.page, self.visited = page, []
+
+    def GetCurrentPage(self):
+        return self.page
+
+    def OpenPage(self, page):
+        self.page = page
+        self.visited.append(page)
+        return True
+
+
+class ResolveTrapTests(unittest.TestCase):
+    """What Resolve says isn't always what it did (both measured by
+    github.com/samuelgursky/davinci-resolve-mcp)."""
+
+    def setUp(self):
+        self.a, self.b = FakeItem("A", 86400), FakeItem("Lower third", 86410)
+        self.b.title = True
+        self.controller, _, self.timeline = _setup(tracks=[[self.a, self.b]])
+        self.resolve = self.controller.resolve = FakeResolve("fairlight")
+        track = self.timeline.tracks[0]
+
+        def delete(items, ripple=False):
+            if self.resolve.page != "edit":
+                return False                       # only on the Edit page
+            for item in items:
+                track.remove(item)
+            return True
+        self.timeline.DeleteClips = delete
+
+    def test_a_colour_that_didnt_stick_isnt_counted(self):
+        proposal = actions.preview(self.controller, "set_clip_colors", {
+            "color": "Teal", "clips": [{"track": "V1", "index": 1}, {"track": "V1", "index": 2}]})
+        log = []
+        result = actions.execute(self.controller, proposal, log=log.append)
+        self.assertIn("Coloured 1 of 2", result)
+        self.assertIn("titles and generators", result)
+        self.assertTrue(any("didn't stay" in line for line in log))
+
+    def test_delete_opens_the_edit_page_for_a_moment(self):
+        proposal = actions.preview(self.controller, "delete_timeline_clips", {"clips": [{"track": "V1", "index": 1}]})
+        self.assertTrue(any("linked" in w for w in proposal.warnings))
+        actions.execute(self.controller, proposal)
+        self.assertEqual(self.timeline.tracks[0], [self.b])
+        self.assertEqual(self.resolve.visited, ["edit", "fairlight"])   # and back where they were
+
+    def test_delete_refused_on_the_edit_page_is_an_error(self):
+        self.resolve.page = "edit"
+        self.timeline.DeleteClips = lambda items, ripple=False: False
+        proposal = actions.preview(self.controller, "delete_timeline_clips", {"clips": [{"track": "V1", "index": 1}]})
+        with self.assertRaises(actions.ActionError):
+            actions.execute(self.controller, proposal)
+        self.assertEqual(self.resolve.visited, [])
 
 
 class DeleteBinTests(unittest.TestCase):

@@ -404,14 +404,22 @@ def preview_set_clip_colors(controller, args) -> ProposedAction:
 
 
 def execute_set_clip_colors(controller, proposal, log=lambda m: None) -> str:
-    done = 0
+    """Read back, not trusted: on a title or generator SetClipColor says True and
+    nothing changes (measured by github.com/samuelgursky/davinci-resolve-mcp)."""
+    done = unstuck = 0
     for item, color in proposal.plan:
-        if item.SetClipColor(color):
-            done += 1
-            log(f"Coloured '{_safe(item.GetName, '')}' {color}.")
+        name = _safe(item.GetName, '')
+        if not item.SetClipColor(color):
+            log(f"Resolve refused to colour '{name}'.")
+        elif _safe(item.GetClipColor, color) != color:
+            unstuck += 1
+            log(f"Resolve said it coloured '{name}', but the colour didn't stay - titles and "
+                "generators can't take a clip colour. A marker on it would work instead.")
         else:
-            log(f"Resolve refused to colour '{_safe(item.GetName, '')}'.")
-    return f"Coloured {done} of {len(proposal.plan)} clip(s)."
+            done += 1
+            log(f"Coloured '{name}' {color}.")
+    tail = f" {unstuck} didn't keep the colour (titles and generators can't have one)." if unstuck else ""
+    return f"Coloured {done} of {len(proposal.plan)} clip(s).{tail}"
 
 
 # ==========================================================================
@@ -792,7 +800,8 @@ def preview_delete_timeline_clips(controller, args) -> ProposedAction:
         plan.append(item)
         details.append(f"{track} clip {index}: '{_safe(item.GetName, '')}'")
 
-    warnings = ["These clips are removed from the timeline."]
+    warnings = ["These clips are removed from the timeline.",
+                "Only these clips: any audio linked to them stays on its track."]
     if ripple:
         warnings.append(
             "Ripple delete is ON: everything after each removed clip SHIFTS "
@@ -814,10 +823,25 @@ def preview_delete_timeline_clips(controller, args) -> ProposedAction:
 
 
 def execute_delete_timeline_clips(controller, proposal, log=lambda m: None) -> str:
+    """On Resolve 21.0, DeleteClips says False on the Fairlight page however often
+    it's asked (measured by github.com/samuelgursky/davinci-resolve-mcp); 21.1
+    deletes from every page (checked here on all seven). So a refusal elsewhere
+    opens the Edit page, tries once more, and goes back to the page the user was on."""
     timeline = _require_timeline(controller)
     items, ripple = proposal.plan
     if not timeline.DeleteClips(items, ripple):
-        raise ActionError("Resolve refused to delete those timeline clips.")
+        resolve = getattr(controller, "resolve", None)
+        page = _safe(resolve.GetCurrentPage) if resolve is not None else None
+        if not page or page == "edit" or not _safe(lambda: resolve.OpenPage("edit"), False):
+            raise ActionError("Resolve refused to delete those timeline clips.")
+        try:
+            # Switching pages can leave the old timeline handle stale.
+            deleted = _require_timeline(controller).DeleteClips(items, ripple)
+        finally:
+            _safe(lambda: resolve.OpenPage(page))
+        if not deleted:
+            raise ActionError("Resolve refused to delete those timeline clips.")
+        log(f"Resolve only deletes clips on the Edit page, so Buddy opened it for a moment ({page} before).")
     log(f"Deleted {len(items)} timeline clip(s).")
     return f"Deleted {len(items)} clip(s) from the timeline."
 
