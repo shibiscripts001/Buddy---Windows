@@ -165,23 +165,33 @@ class NovaLayoutTests(unittest.TestCase):
             self.skipTest("this machine can't read a web view's pixels back")
 
         before = samples()
+
+        def settled(expected):
+            """The samples once they match - a slow machine (a release runner)
+            repaints well after the 80ms settle() gives it."""
+            deadline = time.monotonic() + 5
+            got = samples()
+            while got != expected and time.monotonic() < deadline:
+                self.settle()
+                got = samples()
+            return got
         self.assertTrue(max(before[0]) < 25, before)
         # Nebula's purple should be a faint glow, not the full-strength accent.
         self.assertTrue(all(max(rgb) < 80 for rgb in before), before)
         self.assertGreater(before[1][2], before[1][0] + 5, before)
         self.js("document.querySelector('main').scrollTop = 600; return true;")
         self.settle()
-        self.assertEqual(samples(), before)
+        self.assertEqual(settled(before), before)
         other = web_theme("Resolve", None, get_theme_tokens("Resolve"))
         self.js(f"Buddy.receive('theme', {json.dumps(other)}); return true;")
         self.theme("Nebula")
-        self.assertEqual(samples(), before)
+        self.assertEqual(settled(before), before)
         self.view.resize(1200, 800)
         self.settle()
         self.assertTrue(all(max(rgb) < 80 for rgb in samples()))
         self.view.resize(1000, 700)
         self.settle()
-        self.assertEqual(samples(), before)
+        self.assertEqual(settled(before), before)
 
     def test_native_stage_stays_inside_workspace_and_hides_under_dialog(self):
         self.theme()
