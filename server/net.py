@@ -35,6 +35,7 @@ import urllib.request
 from websockets.asyncio.server import serve
 from websockets.exceptions import ConnectionClosed
 
+from .bugs import BUG_REPORT_TIMEOUT
 from .common import network_of
 from .core import NetworkCore, Session
 
@@ -47,7 +48,7 @@ PURGE_EVERY_SECONDS = 3600
 MAX_CONNECTIONS = 2000
 MAX_CONNECTIONS_PER_NETWORK = 20     # a household or office shares one address
 HELLO_TIMEOUT = 15.0                 # seconds a new connection has to say hello...
-BUG_REPORT_TIMEOUT = 120.0           # ...or, sending a bug report instead (bugs.py), to finish it
+# ...or, sending a bug report instead, BUG_REPORT_TIMEOUT to finish it (bugs.py).
 # Requests per connection: a burst (signing in asks for a lot at once), then
 # a steady rate. Past it requests are refused; far past it, disconnected.
 FRAME_BURST, FRAME_RATE = 60, 10.0

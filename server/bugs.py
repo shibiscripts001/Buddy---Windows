@@ -37,6 +37,7 @@ BUG_DAYS = 90
 BUG_OPEN_MAX = 500                 # past this many waiting, new ones are turned away...
 BUG_STORE_MAX = 512 * 1024 ** 2    # ...and past this many bytes of screenshots
 PRE_HELLO = ("hello", "bug_part", "bug_report")
+BUG_REPORT_TIMEOUT = 120.0         # seconds a connection sending one without a hello has (net.py)
 _IMAGE_ID = re.compile(r"[0-9a-f]{32}")
 
 
