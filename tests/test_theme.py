@@ -24,6 +24,21 @@ class ThemeTests(unittest.TestCase):
         from core import theme
         cls.theme = theme
 
+    def test_novas_pane_card_is_the_colour_its_page_paints(self):
+        """Nova's page paints its own surface, so the card's 1px inset has
+        to match it - a gradient there showed as a grey ring inside the border."""
+        import re
+        t = self.theme
+
+        def card_background(theme, sub):
+            qss = t.get_app_theme(theme, sub)
+            block = re.search(r"QScrollArea#paneCard \{(.*?)\}", qss, re.S).group(1)
+            return re.search(r"background: ([^;]+);", block).group(1).strip()
+        for sub in t.list_subthemes("Nova"):
+            with self.subTest(sub=sub):
+                self.assertEqual(card_background("Nova", sub), t.get_theme_tokens("Nova", sub)["surface"])
+        self.assertIn("gradient", card_background("SaaS", None))   # Modern's page is see-through: its card shows
+
     def test_every_theme_and_subtheme_parses(self):
         t = self.theme
         problems = []

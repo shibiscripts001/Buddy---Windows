@@ -1,24 +1,31 @@
-/* Nova: soft glow orbs behind glass (core/web_theme.py _nova makes the
-   cards translucent). Gradients rather than blurred elements - identical
-   look, no compositing cost. */
-
-/* body > main, not body: body's own background is propagated straight to
-   the viewport canvas (a plain rectangle, border-radius or not - see
-   buddy.css's body > main rule) rather than painted as a normal box. */
-html[data-family="nova"] body > main {
+/* Nova's soft gradients live in one viewport-sized layer, independent of
+   scrolling content and card repainting. A solid base keeps their colour
+   consistent over Qt's transparent web view and when switching themes. */
+html[data-family="nova"] body { isolation: isolate; }
+html[data-family="nova"] body:not(.chrome)::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    /* The pane card's inner curve: the page sits inside its border line
+       (theme._pane_rules), so a full radius would leave a sliver at each
+       corner where the curves don't meet. */
+    border-radius: calc(var(--card-radius) - var(--bw));
     background:
+        url("../../assets/nova-grain.svg") 0 0 / 64px 64px repeat,
         radial-gradient(38% 45% at 8% 0%, var(--orb-1), transparent 70%),
         radial-gradient(45% 50% at 88% 100%, var(--orb-2), transparent 70%),
-        radial-gradient(30% 35% at 42% 55%, var(--orb-3), transparent 70%);
+        radial-gradient(30% 35% at 42% 55%, var(--orb-3), transparent 70%),
+        var(--surface);
 }
 
 /* The shell's header and rail are transparent views over the window. */
 html[data-family="nova"] body.chrome { background: transparent; }
 
-/* A window of its own has nothing behind it: orbs over the page colour. */
-html[data-family="nova"] body.window {
-    background:
-        radial-gradient(38% 45% at 8% 0%, var(--orb-1), transparent 70%),
-        radial-gradient(45% 50% at 88% 100%, var(--orb-2), transparent 70%),
-        var(--surface);
-}
+/* Standalone dialogs fill their own rectangular web view. */
+html[data-family="nova"] body.window::before { border-radius: 0; }
+
+/* The tint already separates the dialog; avoid another live capture of
+   the entire page underneath it in Qt's transparent compositor. */
+html[data-family="nova"] .modal-backdrop { backdrop-filter: none; }

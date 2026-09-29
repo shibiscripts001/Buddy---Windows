@@ -79,6 +79,17 @@ class PageMessageTests(unittest.TestCase):
         self.assertEqual(self.sent("state")[-1]["current"], "c1")
         self.assertNotIn("clips", self.sent("state")[-1])
 
+    def test_scrolling_crops_video_without_resizing_its_picture(self):
+        self.page.on_stage_geometry({"x": 20, "y": 100, "width": 400, "height": 150,
+                                     "stage": {"x": 20, "y": 50, "width": 400, "height": 200}})
+        self.assertEqual(self.page._video_rect.width(), 400)
+        self.assertEqual(self.page._video_rect.height(), 200)
+        clip = self.page._video_widget.mask().boundingRect()
+        self.assertEqual((clip.x(), clip.y(), clip.width(), clip.height()), (0, 50, 400, 150))
+        self.page.on_stage_geometry({"x": 20, "y": 100, "width": 0, "height": 0,
+                                     "stage": {"x": 20, "y": 50, "width": 400, "height": 200}})
+        self.assertTrue(self.page._video_rect.isEmpty())
+
     def test_nothing_is_resent_when_nothing_changed(self):
         self.page._push()
         self.assertEqual(self.events, [])

@@ -1925,6 +1925,11 @@ def _pane_rules(theme, tokens, shape, card_bg):
             # doesn't show.
             pad = _curve_inset(radius, shape["bw"])
         bg = card_bg if gradient else tokens['surface']
+        if THEMES[theme]["shape"] == "nova":
+            # Nova's page isn't see-through: it paints its own surface and
+            # glow (themes/nova.css), so the card's gradient would only ever
+            # show in the 1px inset - a grey ring inside the border.
+            bg = tokens['surface']
         edge = _blend(tokens['outline_variant'], tokens['primary'], 0.25) if gradient else tokens['outline_variant']
     return f"""
 QSplitter#paneSplitter {{

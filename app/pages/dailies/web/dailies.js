@@ -40,14 +40,19 @@ function syncStageGeometry() {
     stageFrame = 0;
     const stage = $("stage").getBoundingClientRect();
     const panel = document.querySelector(".player-panel").getBoundingClientRect();
-    const left = Math.max(0, stage.left, panel.left);
-    const top = Math.max(0, stage.top, panel.top);
-    const right = Math.min(innerWidth, stage.right, panel.right);
-    const bottom = Math.min(innerHeight, stage.bottom, panel.bottom);
+    // The native video surface does not inherit CSS overflow clipping.
+    // Keep it inside the scrolling workspace, clear of the source/footer bars.
+    const workspace = document.querySelector(".workspace").getBoundingClientRect();
+    const left = Math.max(0, stage.left, panel.left, workspace.left);
+    const top = Math.max(0, stage.top, panel.top, workspace.top);
+    const right = Math.min(innerWidth, stage.right, panel.right, workspace.right);
+    const bottom = Math.min(innerHeight, stage.bottom, panel.bottom, workspace.bottom);
     const covered = document.querySelector(".modal-backdrop, .dropdown-pop");
     const box = {x: Math.round(left), y: Math.round(top),
         width: covered ? 0 : Math.max(0, Math.round(right - left)),
-        height: covered ? 0 : Math.max(0, Math.round(bottom - top))};
+        height: covered ? 0 : Math.max(0, Math.round(bottom - top)),
+        stage: {x: Math.round(stage.left), y: Math.round(stage.top),
+            width: Math.round(stage.width), height: Math.round(stage.height)}};
     const key = JSON.stringify(box);
     if (key !== stageGeometry) { stageGeometry = key; send("stage_geometry", box); }
 }
@@ -56,6 +61,7 @@ function scheduleStageGeometry() {
 }
 new ResizeObserver(scheduleStageGeometry).observe($("stage"));
 new ResizeObserver(scheduleStageGeometry).observe(document.querySelector(".player-panel"));
+new ResizeObserver(scheduleStageGeometry).observe(document.querySelector(".workspace"));
 new MutationObserver(() => { scheduleStageGeometry(); syncSpaceShortcut(); }).observe(document.body, {childList: true});
 window.addEventListener("resize", scheduleStageGeometry);
 window.addEventListener("scroll", scheduleStageGeometry, true);

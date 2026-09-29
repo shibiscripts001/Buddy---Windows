@@ -169,7 +169,11 @@ body.dragging-palette .folder-head, body.dragging-palette .loose-head { border-s
 
 /* ------------------------------------------------------------- extract -- */
 
-.extract { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 12px; min-height: 280px; }
+/* Its own height, never squeezed: in a short window the page scrolls
+   instead - squeezed, the controls spilled out of their card and the
+   Extracted card below rode up over both. */
+#panel-extract { flex: none; }
+.extract { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 12px; min-height: 280px; flex: none; }
 .stage { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 280px; }
 .stage-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px; text-align: center; max-width: 420px; }
 .stage-icon { color: var(--emphasis); }

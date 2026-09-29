@@ -99,6 +99,18 @@ class WebThemeTests(unittest.TestCase):
         daylight = web_theme("SaaS", "Daylight", t.get_theme_tokens("SaaS", "Daylight"))
         self.assertTrue(daylight["light"])
 
+    def test_nova_accent_labels_read_in_normal_and_hover_states(self):
+        for sub in t.list_subthemes("Nova"):
+            v = web_theme("Nova", sub, t.get_theme_tokens("Nova", sub))["vars"]
+            for fg, bg in (("accent-fg", "accent-bg"), ("accent-hover-fg", "accent-hover-bg")):
+                self.assertGreaterEqual(t.contrast_ratio(v[fg], v[bg]), 4.5, (sub, fg, bg))
+
+    def test_nova_sticky_headers_cover_scrolling_rows(self):
+        for sub in t.list_subthemes("Nova"):
+            v = web_theme("Nova", sub, t.get_theme_tokens("Nova", sub))["vars"]
+            self.assertRegex(v["table-head-bg"], r"^#[0-9A-Fa-f]{6}$")
+            self.assertGreaterEqual(t.contrast_ratio(v["text-dim"], v["table-head-bg"]), 4.5, sub)
+
     def test_resolve_keeps_its_measured_greys(self):
         v = web_theme("Resolve", "DaVinci", t.get_theme_tokens("Resolve", "DaVinci"))["vars"]
         self.assertEqual(v["btn-bg"], t.RESOLVE["panel"])

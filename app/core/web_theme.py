@@ -107,6 +107,7 @@ def _common(tokens, shape):
         # Components a family may restyle without CSS of its own. Defaults
         # can name other variables: buddy.js sets them all on :root.
         "modal-bg": "var(--card-bg)",
+        "table-head-bg": "var(--raised-bg)",
         "tab-active-bg": "transparent", "tab-active-fg": "var(--text-strong)",
         "tab-active-line": "var(--accent-text)",
         # Emphasis that means neither focus nor trouble: a page's icons, a
@@ -216,33 +217,38 @@ def _saas(tokens, shape):
 
 
 def _nova(tokens, shape):
-    """Nova: Modern's structure as frosted glass - translucent cards blurred
-    over glow orbs (drawn by buddy.css from --orb-1/--orb-2), a glowing
+    """Nova: Modern's structure as glass - translucent cards
+    over soft glow orbs (drawn by themes/nova.css), a glowing
     accent. Web only; the Qt widgets get the gradient look (theme.py)."""
     t = tokens
     out = _saas(tokens, shape)
     light = _is_light(t["surface"])
     ink = "#000000" if light else "#FFFFFF"
+    accent = ensure_contrast(t["primary"], t["on_primary"], 4.5)
+    accent_hover = ensure_contrast(_blend(accent, "#FFFFFF", 0.15), t["on_primary"], 4.5)
     out.update({
         "glass": "1",
+        "text-dim": ensure_contrast(t["outline"], t["surface_container_high"], 4.5),
         "card-bg": _rgba(t["surface_container"], 0.62),
         "card-border": _rgba(_blend(t["outline_variant"], t["primary"], 0.35), 0.8),
         "card-shadow": "0 8px 32px rgba(0, 0, 0, 0.35)",
-        "card-blur": "blur(22px) saturate(140%)",
+        # The gradients are already soft. Re-capturing them behind every
+        # card adds live compositor surfaces to a transparent Qt web view.
+        "card-blur": "none",
         "btn-bg": _rgba(ink, 0.05), "btn-border": _rgba(ink, 0.12),
         "btn-hover-bg": _rgba(ink, 0.1), "btn-hover-fg": t["on_surface"],
         "btn-hover-border": _rgba(t["primary"], 0.6), "btn-press-bg": _rgba(t["primary"], 0.25),
-        "accent-bg": t["primary"], "accent-fg": t["on_primary"],
-        "accent-hover-bg": _blend(t["primary"], "#FFFFFF", 0.15), "accent-hover-fg": t["on_primary"],
+        "accent-bg": accent, "accent-fg": t["on_primary"],
+        "accent-hover-bg": accent_hover, "accent-hover-fg": t["on_primary"],
         "accent-glow": f"0 0 20px {_rgba(t['primary'], 0.45)}",
         "field-bg": _rgba("#000000", 0.22 if not light else 0.04), "field-border": _rgba(ink, 0.12),
         "field-focus-bg": _rgba("#000000", 0.3 if not light else 0.06), "field-focus-bw": shape["bw"],
         "raised-bg": _rgba(ink, 0.05),
         "scroll": _rgba(ink, 0.14), "scroll-hover": _rgba(t["primary"], 0.7), "scroll-width": "8px",
         "scroll-radius": "10px",
-        "orb-1": _rgba(t["primary"], 0.2),
-        "orb-2": _rgba(second_color(t), 0.15),
-        "orb-3": _rgba(t.get("surface_glow") or t["primary_container"], 0.5),
+        "orb-1": _rgba(t["primary"], 0.14),
+        "orb-2": _rgba(second_color(t), 0.1),
+        "orb-3": _rgba(t.get("surface_glow") or t["primary_container"], 0.3),
         "btn-radius": shape["r_lg"], "field-radius": shape["r_lg"],
         "btn-pad": "9px 18px", "field-pad": "10px 14px",
         "header-bg": _rgba(t["surface_container"], 0.62), "rail-bg": _rgba(t["surface_container"], 0.62),
@@ -251,9 +257,11 @@ def _nova(tokens, shape):
         "pop-border": _rgba(_blend(t["outline_variant"], t["primary"], 0.45), 0.9),
         "pop-hover-bg": _rgba(t["primary"], 0.2), "pop-hover-fg": t["on_surface"],
         "pop-shadow": f"0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px {_rgba(t['primary'], 0.18)}",
-        "pop-blur": "blur(24px) saturate(150%)",
+        "pop-blur": "none",
         # Glass needs something solid under a dialog, or the page shows through.
         "modal-bg": t["surface"],
+        # Sticky headers must cover the rows scrolling underneath the glass.
+        "table-head-bg": t["surface_container_high"],
     })
     return out
 

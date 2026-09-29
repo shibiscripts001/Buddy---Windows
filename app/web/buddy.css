@@ -331,7 +331,7 @@ body > main { border-radius: var(--card-radius); }
 .table th {
     position: sticky; top: 0; z-index: 1;
     text-align: left; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim);
-    padding: 8px 12px; background: var(--raised-bg);
+    padding: 8px 12px; background: var(--table-head-bg);
     border-bottom: var(--bw) solid var(--card-border);
 }
 .table td { padding: 6px 12px; border-bottom: var(--bw) solid color-mix(in srgb, var(--card-border) 60%, transparent); }
