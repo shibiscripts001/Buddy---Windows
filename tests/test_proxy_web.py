@@ -115,8 +115,8 @@ class ProxyWebTests(unittest.TestCase):
         self._js("document.querySelector('#proxy-resolution [data-resolution=quarter]').click()")
         self._until("document.querySelector('#proxy-resolution [data-resolution=quarter]').getAttribute('aria-pressed') === 'true'")
         self.assertEqual(self.page.proxy_options["resolution"], "quarter")
-        # Format: a dropdown of every one proxy.CODECS offers, with its hint.
-        self._until("document.getElementById('proxy-format').options.length === %d" % len(proxy.CODECS))
+        # Format: a dropdown of every format this platform offers, with its hint.
+        self._until("document.getElementById('proxy-format').options.length === %d" % len(proxy.codec_choices()))
         self._js("const f = document.getElementById('proxy-format'); f.value = 'dnxhr_lb'; f.dispatchEvent(new Event('change'))")
         self._until("document.getElementById('proxy-format-hint').textContent.includes('Avid')")
         self.assertEqual(self.page.proxy_options["codec"], "dnxhr_lb")

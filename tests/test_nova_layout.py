@@ -151,6 +151,19 @@ class NovaLayoutTests(unittest.TestCase):
             return [image.pixelColor(round(x * scale), round(y * scale)).getRgb()[:3]
                     for x, y in ((0, 0), (80, 8), (420, 385), (880, 680))]
 
+        # Some machines (GitHub's release runners among them) can't read a
+        # web view's pixels back at all: grab() gives a flat fill. Check with
+        # a solid red block first, and skip rather than fail on one of those.
+        self.js("""const probe = document.createElement('div'); probe.id = 'pixel-probe';
+            probe.style.cssText = 'position:fixed;inset:0;background:#ff0000;z-index:99999';
+            document.body.append(probe); return true;""")
+        self.settle()
+        readable = all(r > 200 and g < 60 and b < 60 for r, g, b in samples())
+        self.js("document.getElementById('pixel-probe').remove(); return true;")
+        self.settle()
+        if not readable:
+            self.skipTest("this machine can't read a web view's pixels back")
+
         before = samples()
         self.assertTrue(max(before[0]) < 25, before)
         # Nebula's purple should be a faint glow, not the full-strength accent.
