@@ -222,6 +222,7 @@
         "Runs on the GPU with an NVIDIA card and on the CPU on any other Windows PC or Mac; transcription sends nothing to the internet",
         "Models: Whisper Large v3 (most accurate, every language), Large v3 Turbo (fast, nearly as accurate), Distil-Whisper Large v3.5 (English only, about twice as fast), Small (fastest); NVIDIA Parakeet v3 (25 European languages, very fast even without a GPU, punctuates by itself); downloaded on the Setup tab, or a copy another app already downloaded reused",
         "Auto model choice: detects the language, then uses Parakeet for its 25 European languages and the best installed Whisper model for everything else",
+        "On DaVinci Resolve Studio 21.1 or later the Model menu also offers 'DaVinci Resolve (Studio)': Resolve transcribes the timeline itself (nothing to install or download), tells the speakers apart so no subtitle mixes two people's words, and can start each turn with the speaker's name ('Speaker 1:' or what they were named in Resolve); if Resolve already has a transcription of the timeline it asks whether to use it or transcribe again. One language per timeline; no spelling hints",
         "Language auto-detect, a chosen language, or Mixed languages (tick the ones spoken; each part is transcribed in its own language)",
         "A box for names and terms to spell right (Whisper models only), and characters-per-line / lines-per-subtitle limits",
         "Places the subtitles on subtitle track 1 and saves an SRT; Convert to Text+ goes straight to the Subtitle Conversion tab",

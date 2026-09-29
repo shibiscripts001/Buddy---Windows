@@ -2179,5 +2179,235 @@
   "中文": "无法转换字幕：{error}",
   "العربية": "تعذر تحويل الترجمات: {error}",
   "Tiếng Việt": "Không thể chuyển đổi phụ đề: {error}"
+ },
+ "Resolve Studio transcribes the timeline itself – nothing to install or download here, and it tells the speakers apart. The transcription stays with the timeline in Resolve too.": {
+  "日本語": "Resolve Studio がタイムラインを自ら文字起こしします – ここでインストールやダウンロードは不要で、話者も聞き分けます。文字起こしは Resolve のタイムラインにも残ります。",
+  "Español": "Resolve Studio transcribe la línea de tiempo por sí mismo: no hay nada que instalar ni descargar aquí, y distingue a los hablantes. La transcripción también queda con la línea de tiempo en Resolve.",
+  "Deutsch": "Resolve Studio transkribiert die Timeline selbst – hier muss nichts installiert oder heruntergeladen werden, und es unterscheidet die Sprecher. Die Transkription bleibt auch in Resolve bei der Timeline.",
+  "Français": "Resolve Studio transcrit lui-même la timeline – rien à installer ni à télécharger ici, et il distingue les intervenants. La transcription reste aussi avec la timeline dans Resolve.",
+  "한국어": "Resolve Studio가 타임라인을 직접 전사합니다 – 여기서 설치하거나 내려받을 것이 없고, 화자도 구분합니다. 전사 내용은 Resolve의 타임라인에도 남습니다.",
+  "中文": "Resolve Studio 自己转录时间线——这里无需安装或下载任何东西，而且能区分说话人。转录也会保留在 Resolve 的时间线中。",
+  "العربية": "يقوم Resolve Studio بنسخ الخط الزمني بنفسه – لا حاجة لتثبيت أو تنزيل أي شيء هنا، ويميّز بين المتحدثين. ويبقى النص المنسوخ مع الخط الزمني في Resolve أيضًا.",
+  "Tiếng Việt": "Resolve Studio tự chép lời dòng thời gian – không cần cài đặt hay tải gì ở đây, và nó phân biệt được người nói. Bản chép lời cũng được giữ cùng dòng thời gian trong Resolve."
+ },
+ "Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles go on subtitle track 1.": {
+  "日本語": "Resolve がタイムラインを自ら文字起こしして話者を聞き分け、字幕は字幕トラック 1 に配置されます。",
+  "Español": "Resolve transcribe la línea de tiempo por sí mismo, distinguiendo a los hablantes, y los subtítulos van a la pista de subtítulos 1.",
+  "Deutsch": "Resolve transkribiert die Timeline selbst, unterscheidet die Sprecher, und die Untertitel kommen auf Untertitelspur 1.",
+  "Français": "Resolve transcrit lui-même la timeline en distinguant les intervenants, et les sous-titres vont sur la piste de sous-titres 1.",
+  "한국어": "Resolve가 화자를 구분하며 타임라인을 직접 전사하고, 자막은 자막 트랙 1에 들어갑니다.",
+  "中文": "Resolve 自己转录时间线并区分说话人，字幕放到字幕轨道 1。",
+  "العربية": "يقوم Resolve بنسخ الخط الزمني بنفسه مع التمييز بين المتحدثين، وتوضع الترجمات على مسار الترجمة 1.",
+  "Tiếng Việt": "Resolve tự chép lời dòng thời gian, phân biệt người nói, và phụ đề được đặt trên rãnh phụ đề 1."
+ },
+ "Name who's speaking": {
+  "日本語": "話者名を入れる",
+  "Español": "Nombrar a quien habla",
+  "Deutsch": "Sprecher benennen",
+  "Français": "Nommer qui parle",
+  "한국어": "말하는 사람 이름 표시",
+  "中文": "标出说话人",
+  "العربية": "تسمية المتحدث",
+  "Tiếng Việt": "Ghi tên người nói"
+ },
+ "Each subtitle is one person's words either way. Ticked, the first line of each turn starts with their name – \"Speaker 1:\", or what you named them in Resolve.": {
+  "日本語": "いずれにしても 1 つの字幕は 1 人の発言だけです。オンにすると、発言の番ごとに最初の行が話者名で始まります – 「Speaker 1:」、または Resolve で付けた名前です。",
+  "Español": "En cualquier caso, cada subtítulo contiene las palabras de una sola persona. Si lo marcas, la primera línea de cada turno empieza con su nombre: «Speaker 1:» o el nombre que le diste en Resolve.",
+  "Deutsch": "Jeder Untertitel enthält so oder so nur die Worte einer Person. Angehakt beginnt die erste Zeile jedes Redebeitrags mit dem Namen – „Speaker 1:“ oder wie Sie die Person in Resolve genannt haben.",
+  "Français": "Chaque sous-titre ne contient de toute façon que les paroles d'une seule personne. Cochée, la première ligne de chaque prise de parole commence par son nom – « Speaker 1: », ou le nom que vous lui avez donné dans Resolve.",
+  "한국어": "어느 쪽이든 자막 하나에는 한 사람의 말만 들어갑니다. 켜면 각 발언의 첫 줄이 이름으로 시작합니다 – \"Speaker 1:\" 또는 Resolve에서 붙인 이름입니다.",
+  "中文": "无论如何，每条字幕都只含一个人的话。勾选后，每轮发言的第一行以其名字开头——\"Speaker 1:\"，或你在 Resolve 中给的名字。",
+  "العربية": "كل ترجمة تحوي كلام شخص واحد في الحالتين. عند التحديد، يبدأ السطر الأول من كل دور باسمه – \"Speaker 1:\" أو الاسم الذي أعطيته له في Resolve.",
+  "Tiếng Việt": "Dù thế nào mỗi phụ đề cũng chỉ là lời của một người. Khi đánh dấu, dòng đầu của mỗi lượt nói bắt đầu bằng tên người đó – \"Speaker 1:\", hoặc tên bạn đặt trong Resolve."
+ },
+ "Resolve already has a transcription": {
+  "日本語": "Resolve に文字起こしがすでにあります",
+  "Español": "Resolve ya tiene una transcripción",
+  "Deutsch": "Resolve hat schon eine Transkription",
+  "Français": "Resolve a déjà une transcription",
+  "한국어": "Resolve에 이미 전사가 있습니다",
+  "中文": "Resolve 已有转录",
+  "العربية": "لدى Resolve نسخ نصي بالفعل",
+  "Tiếng Việt": "Resolve đã có bản chép lời"
+ },
+ "Resolve already has a transcription of '{name}'.\n\nUse it as it is – with any speaker names you gave there – or transcribe the timeline again, which picks up edits made since and replaces Resolve's copy.": {
+  "日本語": "Resolve には「{name}」の文字起こしがすでにあります。\n\nそのまま使うか(Resolve で付けた話者名も含めて)、タイムラインをもう一度文字起こしするか選んでください。もう一度行うと、その後の編集が反映され、Resolve 側の文字起こしは置き換えられます。",
+  "Español": "Resolve ya tiene una transcripción de «{name}».\n\nÚsala tal cual, con los nombres de hablantes que le hayas dado allí, o vuelve a transcribir la línea de tiempo, lo que recoge las ediciones hechas desde entonces y reemplaza la copia de Resolve.",
+  "Deutsch": "Resolve hat schon eine Transkription von „{name}“.\n\nVerwenden Sie sie so, wie sie ist – mit den Sprechernamen, die Sie dort vergeben haben –, oder transkribieren Sie die Timeline erneut. Das übernimmt die Änderungen seitdem und ersetzt die Kopie in Resolve.",
+  "Français": "Resolve a déjà une transcription de « {name} ».\n\nUtilisez-la telle quelle – avec les noms d'intervenants que vous y avez donnés – ou transcrivez à nouveau la timeline, ce qui prend en compte les modifications faites depuis et remplace la copie de Resolve.",
+  "한국어": "Resolve에 '{name}'의 전사가 이미 있습니다.\n\n그대로 사용하거나(Resolve에서 붙인 화자 이름 포함) 타임라인을 다시 전사하세요. 다시 전사하면 그 뒤의 편집이 반영되고 Resolve의 전사는 바뀝니다.",
+  "中文": "Resolve 已有“{name}”的转录。\n\n可以直接使用（包括你在那里起的说话人名字），也可以重新转录时间线——这样会包含之后的修改，并替换 Resolve 中的那份。",
+  "العربية": "لدى Resolve بالفعل نسخ نصي لـ '{name}'.\n\nاستخدمه كما هو – مع أي أسماء متحدثين أعطيتها هناك – أو انسخ الخط الزمني من جديد، وهذا يلتقط التعديلات التي جرت منذ ذلك الحين ويستبدل نسخة Resolve.",
+  "Tiếng Việt": "Resolve đã có bản chép lời của '{name}'.\n\nDùng nguyên như vậy – kèm tên người nói bạn đã đặt ở đó – hoặc chép lời dòng thời gian lại, cách này lấy các chỉnh sửa từ đó đến nay và thay bản của Resolve."
+ },
+ "Use Resolve's transcription": {
+  "日本語": "Resolve の文字起こしを使う",
+  "Español": "Usar la transcripción de Resolve",
+  "Deutsch": "Transkription von Resolve verwenden",
+  "Français": "Utiliser la transcription de Resolve",
+  "한국어": "Resolve의 전사 사용",
+  "中文": "使用 Resolve 的转录",
+  "العربية": "استخدام نسخ Resolve",
+  "Tiếng Việt": "Dùng bản chép lời của Resolve"
+ },
+ "Transcribe again": {
+  "日本語": "もう一度文字起こし",
+  "Español": "Volver a transcribir",
+  "Deutsch": "Erneut transkribieren",
+  "Français": "Transcrire à nouveau",
+  "한국어": "다시 전사",
+  "中文": "重新转录",
+  "العربية": "النسخ من جديد",
+  "Tiếng Việt": "Chép lời lại"
+ },
+ "Resolve's transcription hears one language per timeline. For mixed languages, choose a Whisper model.": {
+  "日本語": "Resolve の文字起こしはタイムラインごとに 1 つの言語を聞き取ります。複数の言語が混ざる場合は Whisper モデルを選んでください。",
+  "Español": "La transcripción de Resolve oye un solo idioma por línea de tiempo. Para idiomas mezclados, elige un modelo Whisper.",
+  "Deutsch": "Die Transkription von Resolve hört eine Sprache pro Timeline. Für gemischte Sprachen wählen Sie ein Whisper-Modell.",
+  "Français": "La transcription de Resolve entend une seule langue par timeline. Pour des langues mélangées, choisissez un modèle Whisper.",
+  "한국어": "Resolve의 전사는 타임라인마다 한 언어만 듣습니다. 여러 언어가 섞였다면 Whisper 모델을 고르세요.",
+  "中文": "Resolve 的转录每条时间线只听一种语言。混合语言请选择 Whisper 模型。",
+  "العربية": "نسخ Resolve يسمع لغة واحدة لكل خط زمني. للغات المختلطة، اختر نموذج Whisper.",
+  "Tiếng Việt": "Bản chép lời của Resolve chỉ nghe một ngôn ngữ mỗi dòng thời gian. Với nhiều ngôn ngữ lẫn nhau, hãy chọn mô hình Whisper."
+ },
+ "Resolve's own transcription needs DaVinci Resolve Studio 21.1 or later.": {
+  "日本語": "Resolve 自身の文字起こしには DaVinci Resolve Studio 21.1 以降が必要です。",
+  "Español": "La transcripción propia de Resolve necesita DaVinci Resolve Studio 21.1 o posterior.",
+  "Deutsch": "Die eigene Transkription von Resolve braucht DaVinci Resolve Studio 21.1 oder neuer.",
+  "Français": "La transcription de Resolve lui-même nécessite DaVinci Resolve Studio 21.1 ou ultérieur.",
+  "한국어": "Resolve 자체 전사에는 DaVinci Resolve Studio 21.1 이상이 필요합니다.",
+  "中文": "Resolve 自带的转录需要 DaVinci Resolve Studio 21.1 或更高版本。",
+  "العربية": "يتطلب نسخ Resolve الخاص DaVinci Resolve Studio 21.1 أو أحدث.",
+  "Tiếng Việt": "Tính năng chép lời của chính Resolve cần DaVinci Resolve Studio 21.1 trở lên."
+ },
+ "Resolve is transcribing the timeline… {time}": {
+  "日本語": "Resolve がタイムラインを文字起こし中… {time}",
+  "Español": "Resolve está transcribiendo la línea de tiempo… {time}",
+  "Deutsch": "Resolve transkribiert die Timeline… {time}",
+  "Français": "Resolve transcrit la timeline… {time}",
+  "한국어": "Resolve가 타임라인을 전사하는 중… {time}",
+  "中文": "Resolve 正在转录时间线… {time}",
+  "العربية": "يقوم Resolve بنسخ الخط الزمني… {time}",
+  "Tiếng Việt": "Resolve đang chép lời dòng thời gian… {time}"
+ },
+ "{count} subtitles ({spoken}) – {audio} min of audio in {took} min, transcribed by Resolve.": {
+  "日本語": "字幕 {count} 件({spoken}) – {audio} 分の音声を {took} 分で、Resolve が文字起こし。",
+  "Español": "{count} subtítulos ({spoken}): {audio} min de audio en {took} min, transcritos por Resolve.",
+  "Deutsch": "{count} Untertitel ({spoken}) – {audio} Min. Audio in {took} Min., transkribiert von Resolve.",
+  "Français": "{count} sous-titres ({spoken}) – {audio} min d'audio en {took} min, transcrits par Resolve.",
+  "한국어": "자막 {count}개({spoken}) – 오디오 {audio}분을 {took}분 만에 Resolve가 전사.",
+  "中文": "{count} 条字幕（{spoken}）——{audio} 分钟音频，用时 {took} 分钟，由 Resolve 转录。",
+  "العربية": "{count} ترجمة ({spoken}) – {audio} دقيقة من الصوت في {took} دقيقة، نسخها Resolve.",
+  "Tiếng Việt": "{count} phụ đề ({spoken}) – {audio} phút âm thanh trong {took} phút, do Resolve chép lời."
+ },
+ "{count} subtitles ({spoken}) – {audio} min of audio in {took} min, transcribed by Resolve. Saved: {path}": {
+  "日本語": "字幕 {count} 件({spoken}) – {audio} 分の音声を {took} 分で、Resolve が文字起こし。保存先: {path}",
+  "Español": "{count} subtítulos ({spoken}): {audio} min de audio en {took} min, transcritos por Resolve. Guardado: {path}",
+  "Deutsch": "{count} Untertitel ({spoken}) – {audio} Min. Audio in {took} Min., transkribiert von Resolve. Gespeichert: {path}",
+  "Français": "{count} sous-titres ({spoken}) – {audio} min d'audio en {took} min, transcrits par Resolve. Enregistré : {path}",
+  "한국어": "자막 {count}개({spoken}) – 오디오 {audio}분을 {took}분 만에 Resolve가 전사. 저장됨: {path}",
+  "中文": "{count} 条字幕（{spoken}）——{audio} 分钟音频，用时 {took} 分钟，由 Resolve 转录。已保存：{path}",
+  "العربية": "{count} ترجمة ({spoken}) – {audio} دقيقة من الصوت في {took} دقيقة، نسخها Resolve. حُفظ: {path}",
+  "Tiếng Việt": "{count} phụ đề ({spoken}) – {audio} phút âm thanh trong {took} phút, do Resolve chép lời. Đã lưu: {path}"
+ },
+ "{count} subtitles ({spoken}, {n} speakers) – {audio} min of audio in {took} min, transcribed by Resolve.": {
+  "日本語": "字幕 {count} 件({spoken}、話者 {n} 人) – {audio} 分の音声を {took} 分で、Resolve が文字起こし。",
+  "Español": "{count} subtítulos ({spoken}, {n} hablantes): {audio} min de audio en {took} min, transcritos por Resolve.",
+  "Deutsch": "{count} Untertitel ({spoken}, {n} Sprecher) – {audio} Min. Audio in {took} Min., transkribiert von Resolve.",
+  "Français": "{count} sous-titres ({spoken}, {n} intervenants) – {audio} min d'audio en {took} min, transcrits par Resolve.",
+  "한국어": "자막 {count}개({spoken}, 화자 {n}명) – 오디오 {audio}분을 {took}분 만에 Resolve가 전사.",
+  "中文": "{count} 条字幕（{spoken}，{n} 位说话人）——{audio} 分钟音频，用时 {took} 分钟，由 Resolve 转录。",
+  "العربية": "{count} ترجمة ({spoken}، {n} متحدثين) – {audio} دقيقة من الصوت في {took} دقيقة، نسخها Resolve.",
+  "Tiếng Việt": "{count} phụ đề ({spoken}, {n} người nói) – {audio} phút âm thanh trong {took} phút, do Resolve chép lời."
+ },
+ "{count} subtitles ({spoken}, {n} speakers) – {audio} min of audio in {took} min, transcribed by Resolve. Saved: {path}": {
+  "日本語": "字幕 {count} 件({spoken}、話者 {n} 人) – {audio} 分の音声を {took} 分で、Resolve が文字起こし。保存先: {path}",
+  "Español": "{count} subtítulos ({spoken}, {n} hablantes): {audio} min de audio en {took} min, transcritos por Resolve. Guardado: {path}",
+  "Deutsch": "{count} Untertitel ({spoken}, {n} Sprecher) – {audio} Min. Audio in {took} Min., transkribiert von Resolve. Gespeichert: {path}",
+  "Français": "{count} sous-titres ({spoken}, {n} intervenants) – {audio} min d'audio en {took} min, transcrits par Resolve. Enregistré : {path}",
+  "한국어": "자막 {count}개({spoken}, 화자 {n}명) – 오디오 {audio}분을 {took}분 만에 Resolve가 전사. 저장됨: {path}",
+  "中文": "{count} 条字幕（{spoken}，{n} 位说话人）——{audio} 分钟音频，用时 {took} 分钟，由 Resolve 转录。已保存：{path}",
+  "العربية": "{count} ترجمة ({spoken}، {n} متحدثين) – {audio} دقيقة من الصوت في {took} دقيقة، نسخها Resolve. حُفظ: {path}",
+  "Tiếng Việt": "{count} phụ đề ({spoken}, {n} người nói) – {audio} phút âm thanh trong {took} phút, do Resolve chép lời. Đã lưu: {path}"
+ },
+ "The timeline changed in Resolve before it could be transcribed - start again.": {
+  "日本語": "文字起こしの前に Resolve でタイムラインが変わりました - もう一度始めてください。",
+  "Español": "La línea de tiempo cambió en Resolve antes de poder transcribirla; vuelve a empezar.",
+  "Deutsch": "Die Timeline hat sich in Resolve geändert, bevor sie transkribiert werden konnte – bitte neu starten.",
+  "Français": "La timeline a changé dans Resolve avant d'avoir pu être transcrite – recommencez.",
+  "한국어": "전사하기 전에 Resolve에서 타임라인이 바뀌었습니다 - 다시 시작하세요.",
+  "中文": "在转录之前 Resolve 中的时间线变了——请重新开始。",
+  "العربية": "تغيّر الخط الزمني في Resolve قبل أن يُنسخ - ابدأ من جديد.",
+  "Tiếng Việt": "Dòng thời gian trong Resolve đã đổi trước khi kịp chép lời - hãy bắt đầu lại."
+ },
+ "Resolve's transcription doesn't take that language - choose Auto-detect or another.": {
+  "日本語": "Resolve の文字起こしはその言語に対応していません - 自動検出か別の言語を選んでください。",
+  "Español": "La transcripción de Resolve no admite ese idioma; elige Detección automática u otro.",
+  "Deutsch": "Die Transkription von Resolve nimmt diese Sprache nicht – wählen Sie Automatisch erkennen oder eine andere.",
+  "Français": "La transcription de Resolve n'accepte pas cette langue – choisissez Détection automatique ou une autre.",
+  "한국어": "Resolve의 전사는 그 언어를 받지 않습니다 - 자동 감지나 다른 언어를 고르세요.",
+  "中文": "Resolve 的转录不支持该语言——请选择自动检测或其他语言。",
+  "العربية": "نسخ Resolve لا يقبل تلك اللغة - اختر الاكتشاف التلقائي أو لغة أخرى.",
+  "Tiếng Việt": "Bản chép lời của Resolve không nhận ngôn ngữ đó - hãy chọn Tự phát hiện hoặc ngôn ngữ khác."
+ },
+ "Resolve couldn't transcribe the timeline.": {
+  "日本語": "Resolve はタイムラインを文字起こしできませんでした。",
+  "Español": "Resolve no pudo transcribir la línea de tiempo.",
+  "Deutsch": "Resolve konnte die Timeline nicht transkribieren.",
+  "Français": "Resolve n'a pas pu transcrire la timeline.",
+  "한국어": "Resolve가 타임라인을 전사하지 못했습니다.",
+  "中文": "Resolve 无法转录时间线。",
+  "العربية": "لم يتمكن Resolve من نسخ الخط الزمني.",
+  "Tiếng Việt": "Resolve không chép lời được dòng thời gian."
+ },
+ "Resolve found no speech in the timeline's audio.": {
+  "日本語": "Resolve はタイムラインの音声に話し声を見つけませんでした。",
+  "Español": "Resolve no encontró voz en el audio de la línea de tiempo.",
+  "Deutsch": "Resolve hat im Ton der Timeline keine Sprache gefunden.",
+  "Français": "Resolve n'a trouvé aucune parole dans l'audio de la timeline.",
+  "한국어": "Resolve가 타임라인 오디오에서 말소리를 찾지 못했습니다.",
+  "中文": "Resolve 在时间线的音频中没有找到语音。",
+  "العربية": "لم يجد Resolve كلامًا في صوت الخط الزمني.",
+  "Tiếng Việt": "Resolve không tìm thấy lời nói trong âm thanh của dòng thời gian."
+ },
+ "Resolve didn't give Buddy the timeline to transcribe.": {
+  "日本語": "Resolve が文字起こしするタイムラインを Buddy に渡しませんでした。",
+  "Español": "Resolve no le dio a Buddy la línea de tiempo para transcribir.",
+  "Deutsch": "Resolve hat Buddy die Timeline zum Transkribieren nicht gegeben.",
+  "Français": "Resolve n'a pas donné à Buddy la timeline à transcrire.",
+  "한국어": "Resolve가 전사할 타임라인을 Buddy에 주지 않았습니다.",
+  "中文": "Resolve 没有把要转录的时间线交给 Buddy。",
+  "العربية": "لم يعطِ Resolve الخط الزمني لـ Buddy لنسخه.",
+  "Tiếng Việt": "Resolve không đưa cho Buddy dòng thời gian để chép lời."
+ },
+ "Resolve didn't answer.": {
+  "日本語": "Resolve が応答しませんでした。",
+  "Español": "Resolve no respondió.",
+  "Deutsch": "Resolve hat nicht geantwortet.",
+  "Français": "Resolve n'a pas répondu.",
+  "한국어": "Resolve가 응답하지 않았습니다.",
+  "中文": "Resolve 没有响应。",
+  "العربية": "لم يستجب Resolve.",
+  "Tiếng Việt": "Resolve không phản hồi."
+ },
+ "Buddy couldn't find the Python it runs on, so it can't ask Resolve to transcribe.": {
+  "日本語": "Buddy が動いている Python が見つからないため、Resolve に文字起こしを頼めません。",
+  "Español": "Buddy no encontró el Python con el que funciona, así que no puede pedirle a Resolve que transcriba.",
+  "Deutsch": "Buddy hat das Python, mit dem es läuft, nicht gefunden und kann Resolve deshalb nicht um die Transkription bitten.",
+  "Français": "Buddy n'a pas trouvé le Python sur lequel il tourne, il ne peut donc pas demander à Resolve de transcrire.",
+  "한국어": "Buddy가 실행 중인 Python을 찾지 못해 Resolve에 전사를 요청할 수 없습니다.",
+  "中文": "Buddy 找不到它运行所用的 Python，因此无法请 Resolve 转录。",
+  "العربية": "لم يجد Buddy بايثون الذي يعمل عليه، لذا لا يمكنه أن يطلب من Resolve النسخ.",
+  "Tiếng Việt": "Buddy không tìm thấy Python mà nó đang chạy, nên không thể nhờ Resolve chép lời."
+ },
+ "Resolve didn't finish transcribing the timeline in time.": {
+  "日本語": "Resolve は時間内にタイムラインの文字起こしを終えませんでした。",
+  "Español": "Resolve no terminó de transcribir la línea de tiempo a tiempo.",
+  "Deutsch": "Resolve hat die Timeline nicht rechtzeitig fertig transkribiert.",
+  "Français": "Resolve n'a pas fini de transcrire la timeline à temps.",
+  "한국어": "Resolve가 제시간에 타임라인 전사를 끝내지 못했습니다.",
+  "中文": "Resolve 没能及时完成时间线的转录。",
+  "العربية": "لم ينتهِ Resolve من نسخ الخط الزمني في الوقت المحدد.",
+  "Tiếng Việt": "Resolve không chép lời xong dòng thời gian kịp thời."
  }
 }

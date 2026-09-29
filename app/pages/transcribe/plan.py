@@ -46,8 +46,15 @@ AI_TIP = ("Uses the model Ask Buddy is set up with (Claude, Gemini, Ollama…). 
 
 MIXED = "mixed"   # the Language menu's "Mixed languages..." entry
 
+# The Model menu's entry for Resolve Studio's own transcription (21.1+,
+# resolve_transcript.py): nothing to install, and it tells speakers apart.
+RESOLVE_ID = "resolve"
+RESOLVE_LABEL = "DaVinci Resolve (Studio)"
+RESOLVE_TIP = ("Resolve Studio transcribes the timeline itself – nothing to install or download here, and it "
+               "tells the speakers apart. The transcription stays with the timeline in Resolve too.")
+
 DEFAULTS = {"model": "", "language": "", "mixed_languages": [], "hotwords": "", "max_chars": 42,
-            "max_lines": 2, "extra_models": {},
+            "max_lines": 2, "extra_models": {}, "speaker_names": True,
             "translate_model": "", "translate_targets": [], "translate_auto": False,
             "translate_dir": "", "translate_timeline": True, "last_transcript": None,
             "srt_language": "eng_Latn"}
@@ -80,9 +87,11 @@ class Settings:
 
 # ------------------------------------------------------------- menus --
 
-def model_options(models: dict, recommended: str, saved: str):
+def model_options(models: dict, recommended: str, saved: str, resolve: bool = False):
     """([{id, label, tip}], chosen id) for the Model menu: Auto first when
-    both Parakeet and a multilingual Whisper are installed."""
+    both Parakeet and a multilingual Whisper are installed; Resolve's own
+    last, when the Resolve connected can (resolve: Studio 21.1+) - chosen
+    by default only when nothing is installed here."""
     options = []
     if "parakeet-v3" in models and any(m in models for m in es.WHISPER_PREFERENCE):
         options.append({"id": "auto", "label": "Auto (Parakeet + Whisper)", "tip": AUTO_TIP})
@@ -90,6 +99,8 @@ def model_options(models: dict, recommended: str, saved: str):
         if m["id"] in models:
             options.append({"id": m["id"], "label": f"{SHORT_LABELS.get(m['id'], m['label'])} ({m['size_gb']:g} GB)",
                             "tip": m["fit"]})
+    if resolve:
+        options.append({"id": RESOLVE_ID, "label": RESOLVE_LABEL, "tip": RESOLVE_TIP})
     ids = [o["id"] for o in options]
     wanted = saved or ("auto" if "auto" in ids else recommended)
     return options, (wanted if wanted in ids else (ids[0] if ids else ""))
@@ -123,6 +134,11 @@ def plan_for(model_id: str, models: dict, language: str, mixed=()):
     whisper = next((models[m] for m in es.WHISPER_PREFERENCE if m in models), "")
     parakeet = models.get("parakeet-v3", "")
     info = es.MODEL_BY_ID.get(model_id, {})
+    if model_id == RESOLVE_ID:
+        if language == MIXED:
+            return None, ("Resolve's transcription hears one language per timeline. For mixed languages, "
+                          "choose a Whisper model.")
+        return {"engine": "resolve", "whisper": "", "parakeet": "", "language": language}, None
     if model_id != "auto" and model_id not in models:
         return None, "That model isn't installed – get it on the Setup tab."
     if language == MIXED:

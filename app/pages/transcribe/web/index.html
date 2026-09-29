@@ -72,11 +72,15 @@
                     </div>
                 </div>
             </div>
-            <label class="lbl">Names and terms to spell right
+            <label class="lbl" id="hotwords-row">Names and terms to spell right
                 <input class="field" id="hotwords" spellcheck="false" autocomplete="off"
                        placeholder="e.g. DaVinci Resolve, Buddy, your guests' names">
                 <span class="hint">Used by the Whisper models. Parakeet has no way to take hints.</span>
             </label>
+            <div id="speakers-row" hidden>
+                <label class="check"><input type="checkbox" id="speaker-names"> Name who's speaking</label>
+                <span class="hint">Each subtitle is one person's words either way. Ticked, the first line of each turn starts with their name – "Speaker 1:", or what you named them in Resolve.</span>
+            </div>
             <div class="run-row">
                 <button type="button" class="btn accent big" data-action="run" id="run">Transcribe timeline</button>
                 <span class="muted small" id="run-note">Renders the timeline's audio, transcribes it on this computer, and puts the subtitles on subtitle track 1.</span>

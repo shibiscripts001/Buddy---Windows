@@ -125,6 +125,11 @@ Buddy.on("options", o => {
     if (document.activeElement !== chars) chars.value = o.max_chars;
     for (const b of $("max-lines").children) b.setAttribute("aria-pressed", String(Number(b.dataset.value) === o.max_lines));
     if (document.activeElement !== $("hotwords")) $("hotwords").value = o.hotwords;
+    // Resolve's own transcription: no hints to give it, and it names the speakers.
+    $("hotwords-row").hidden = o.resolve;
+    $("speakers-row").hidden = !o.resolve;
+    $("speaker-names").checked = o.speaker_names;
+    $("run-note").textContent = o.run_note;
 
     $("not-ready").hidden = o.ready || !o.why;
     $("not-ready-why").textContent = o.why;
@@ -168,6 +173,7 @@ $("max-lines").onclick = e => {
     if (b) send("option", {key: "max_lines", value: Number(b.dataset.value)});
 };
 $("hotwords").addEventListener("change", e => send("option", {key: "hotwords", value: e.target.value}));
+$("speaker-names").onchange = e => send("option", {key: "speaker_names", value: e.target.checked});
 
 // ------------------------------------------------------------ results --
 
@@ -350,6 +356,17 @@ Buddy.on("ask", a => {
             buttons: [
                 {label: "Keep the SRT file only", onClick: close => { done = true; answer(false); close(); }},
                 {label: `Replace ${a.count} subtitle(s)`, kind: "danger", onClick: close => { done = true; answer(true); close(); }},
+            ],
+            onClose: () => { if (!done) answer(false); },
+        });
+    } else if (a.kind === "existing") {
+        let done = false;
+        Buddy.modal({
+            title: "Resolve already has a transcription",
+            body: el("p.modal-text", {text: `Resolve already has a transcription of '${a.name}'.\n\nUse it as it is – with any speaker names you gave there – or transcribe the timeline again, which picks up edits made since and replaces Resolve's copy.`}),
+            buttons: [
+                {label: "Use Resolve's transcription", onClick: close => { done = true; answer(true, "use"); close(); }},
+                {label: "Transcribe again", kind: "accent", onClick: close => { done = true; answer(true, "again"); close(); }},
             ],
             onClose: () => { if (!done) answer(false); },
         });

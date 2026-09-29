@@ -17,6 +17,12 @@ One button, three stages, all off the GUI thread (jobs.py):
   3. Cues     subtitles.py rebuilds readable cues from the word timings and
               writes an SRT to ~/.buddy/transcribe/output/.
 
+On Resolve Studio 21.1+ the Model menu also has "DaVinci Resolve (Studio)":
+Resolve transcribes the timeline itself in place of stages 1-2, speakers
+told apart (resolve_child.py, in a process of its own; resolve_transcript.py).
+Nothing needs setting up for it. If Resolve already has a transcription of
+the timeline, the user chooses: use it, or transcribe again (replacing it).
+
 Several languages spoken: Language > "Mixed languages" asks which ones,
 and the worker (--languages) gives each utterance its own - the subtitles
 then have every line in the language it was said in, each language cut by
@@ -130,6 +136,8 @@ class TranscribePage(WebToolPage):
         self._log = []
         self._asks = {}
         self.timeline_text, self.timeline_ok = "Not read yet.", False
+        # Resolve Studio 21.1+'s own transcription (TranscribeController.own_transcription).
+        self.own = {"available": False, "uid": "", "existing": False}
         # Subtitle Conversion: from which subtitle track onto which video track.
         self.sub_track, self.target_track = 1, 1
         self._target_chosen = False      # the user picked target_track: keep it (see _read_tracks)
@@ -217,6 +225,11 @@ class TranscribePage(WebToolPage):
 
     @property
     def ready(self):
+        """Something can transcribe: the engine here with a model, or Resolve Studio itself."""
+        return self.ready_here or self.own["available"]
+
+    @property
+    def ready_here(self):
         return bool(self.env and self.env.ready and self.models)
 
     # ------------------------------------------------------------ pushes --
@@ -251,20 +264,27 @@ class TranscribePage(WebToolPage):
             "ready": self.ready,
         })
 
+    def _model_options(self):
+        return plan.model_options(self.models, self.hw.recommended_model if self.hw else "",
+                                  self.settings.get("model"), resolve=self.own["available"])
+
     def _push_options(self):
         s = self.settings
-        options, chosen = plan.model_options(self.models, self.hw.recommended_model if self.hw else "", s.get("model"))
+        options, chosen = self._model_options()
         language = s.get("language", "")
         mixed = list(s.get("mixed_languages") or [])
         if language == plan.MIXED and len(mixed) < 2:
             language = ""
         why = ""
-        if self.env is None:
+        if self.ready:
+            pass
+        elif self.env is None:
             why = "Checking the transcription engine…"
         elif not self.env.ready:
             why = "Transcription isn't set up on this computer yet – it takes a one-time install of the engine and a model."
         elif not self.models:
             why = "The engine is installed. Get a model on the Setup tab to start."
+        own = chosen == plan.RESOLVE_ID
         self.emit("options", {
             "models": options, "model": chosen,
             "language": language, "mixed": mixed, "mixed_label": plan.mixed_label(mixed),
@@ -272,6 +292,11 @@ class TranscribePage(WebToolPage):
             "max_chars": int(s.get("max_chars", 42)), "max_lines": int(s.get("max_lines", 2)),
             "ready": self.ready, "why": why,
             "where": ("GPU" if self.hw and self.hw.nvidia else "CPU") if self.hw else "",
+            "resolve": own, "speaker_names": bool(s.get("speaker_names", True)),
+            "run_note": ("Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles "
+                         "go on subtitle track 1." if own else
+                         "Renders the timeline's audio, transcribes it on this computer, and puts the subtitles "
+                         "on subtitle track 1."),
         })
 
     def _push_translate(self):
@@ -352,9 +377,15 @@ class TranscribePage(WebToolPage):
 
     def _read_timeline(self):
         controller = self.host.controller if getattr(self.host, "connected", False) else None
+        available = self.own["available"]
         if controller is None:
             self.timeline_text, self.timeline_ok = "Not connected to Resolve.", False
+            self.own = {"available": False, "uid": "", "existing": False}
         else:
+            try:
+                self.own = TranscribeController(controller).own_transcription()
+            except Exception:  # noqa: BLE001 - then it just isn't offered
+                self.own = {"available": False, "uid": "", "existing": False}
             try:
                 info = TranscribeController(controller).timeline_info()
             except Exception as exc:  # noqa: BLE001 - shown inline
@@ -368,6 +399,9 @@ class TranscribePage(WebToolPage):
             self._read_tracks(controller)
         self._push_timeline()
         self._push_convert()
+        if self.own["available"] != available:   # the Model menu gains or loses Resolve's own
+            self._push_options()
+            self._push_setup()
 
     def _read_tracks(self, controller):
         """The timeline's tracks for Subtitle Conversion, and the video track to
@@ -418,6 +452,8 @@ class TranscribePage(WebToolPage):
                 pass
         elif key == "max_lines":
             s["max_lines"] = 1 if value in (1, "1") else 2
+        elif key == "speaker_names":
+            s["speaker_names"] = bool(value)
         else:
             return
         s.save()
@@ -435,7 +471,8 @@ class TranscribePage(WebToolPage):
 
     def _style(self):
         return st.Style(max_chars=int(self.settings.get("max_chars", 42)),
-                        max_lines=int(self.settings.get("max_lines", 2)))
+                        max_lines=int(self.settings.get("max_lines", 2)),
+                        speaker_names=bool(self.settings.get("speaker_names", True)))
 
     # --------------------------------------------------------------- jobs --
 
@@ -496,18 +533,39 @@ class TranscribePage(WebToolPage):
         except TranscribeResolveError as exc:
             return self._alert(str(exc), "No timeline")
         s = self.settings
-        options, model_id = plan.model_options(self.models, self.hw.recommended_model if self.hw else "", s.get("model"))
+        options, model_id = self._model_options()
         language = s.get("language", "")
         mixed = list(s.get("mixed_languages") or []) if language == plan.MIXED else []
         chosen_plan, problem = plan.plan_for(model_id, self.models, language, mixed)
         if problem:
             return self._alert(problem)
         label = next((o["label"] for o in options if o["id"] == model_id), model_id)
-        self._add_log(f"Transcribing '{info.name}' ({info.duration_seconds / 60:.1f} min) with {label}…")
-        self.result = None
-        self.emit("result", None)
-        self._begin("transcribe", jobs.TranscribeJob(resolve, info.name, chosen_plan, chosen_plan["language"],
-                                                     s.get("hotwords", ""), self._style(), mixed), self._on_done)
+
+        def start(fresh=True):
+            if self.job is not None:
+                return
+            self._add_log(f"Transcribing '{info.name}' ({info.duration_seconds / 60:.1f} min) with {label}…")
+            self.result = None
+            self.emit("result", None)
+            job_plan = dict(chosen_plan, timeline=self.own.get("uid", ""), fresh=fresh)
+            self._begin("transcribe", jobs.TranscribeJob(resolve, info.name, job_plan, chosen_plan["language"],
+                                                         s.get("hotwords", ""), self._style(), mixed), self._on_done)
+
+        if chosen_plan["engine"] != "resolve":
+            return start()
+        try:
+            self.own = resolve.own_transcription()
+        except (ResolveConnectionError, TranscribeResolveError) as exc:
+            return self._alert(str(exc))
+        if not self.own["available"]:
+            self._push_options()
+            return self._alert("Resolve's own transcription needs DaVinci Resolve Studio 21.1 or later.")
+        if not self.own["uid"]:
+            return self._alert("Open a timeline in Resolve first.", "No timeline")
+        if self.own["existing"]:
+            # Transcribing again replaces what Resolve has - speaker names given there included.
+            return self._ask("existing", {"name": info.name}, lambda choice: start(choice == "again"))
+        start()
 
     def _on_done(self, result):
         self.last_srt = result["srt"]
@@ -516,8 +574,14 @@ class TranscribePage(WebToolPage):
         spoken = (" + ".join(plan.spoken_name(c) for c in heard) if len(heard) > 1
                   else plan.language_name(result.get("language") or "") or "language not detected")
         where = "GPU" if result.get("device") == "cuda" else "CPU"
-        summary = (f"{result['cues']} subtitles ({spoken}) – {result['duration'] / 60:.1f} min of audio in "
-                   f"{result['seconds'] / 60:.1f} min with {engine} on the {where}.")
+        if result.get("engine") == "resolve":
+            speakers = len(result.get("speakers") or [])
+            who = f", {speakers} speakers" if speakers > 1 else ""
+            summary = (f"{result['cues']} subtitles ({spoken}{who}) – {result['duration'] / 60:.1f} min of audio "
+                       f"in {result['seconds'] / 60:.1f} min, transcribed by Resolve.")
+        else:
+            summary = (f"{result['cues']} subtitles ({spoken}) – {result['duration'] / 60:.1f} min of audio in "
+                       f"{result['seconds'] / 60:.1f} min with {engine} on the {where}.")
         self._add_log(f"{summary} Saved: {result['srt']}", "ok")
         self.settings["last_transcript"] = {
             "transcript": result["transcript"], "name": result["name"], "srt": result["srt"],

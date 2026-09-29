@@ -33,6 +33,15 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(([o["id"] for o in options], chosen), (["small"], "small"))
         self.assertEqual(plan.model_options({}, "large-v3", ""), ([], ""))
 
+    def test_resolve_studio_in_the_model_menu(self):
+        options, chosen = plan.model_options(ALL, "large-v3", "", resolve=True)
+        self.assertEqual((options[-1]["id"], chosen), (plan.RESOLVE_ID, "auto"))   # listed, not forced on anyone
+        self.assertEqual(plan.model_options({}, "large-v3", "", resolve=True)[1], plan.RESOLVE_ID)   # nothing else
+        self.assertEqual(plan.model_options(ALL, "large-v3", plan.RESOLVE_ID)[1], "auto")   # saved, but not here now
+        p, why = plan.plan_for(plan.RESOLVE_ID, {}, "de")
+        self.assertEqual((p["engine"], p["language"], why), ("resolve", "de", None))
+        self.assertIn("one language", plan.plan_for(plan.RESOLVE_ID, {}, plan.MIXED, ["en", "de"])[1])
+
     def test_plans(self):
         p, why = plan.plan_for("auto", ALL, "de")
         self.assertEqual((p["engine"], p["language"], why), ("auto", "de", None))
@@ -140,9 +149,13 @@ class FakeResolve:
     timeline, empty = "Interview", 4     # Subtitle Conversion's view of the timeline
     subtitles = 12
     converted = []
+    own = {"available": False, "uid": "", "existing": False}   # Resolve Studio 21.1+'s own transcription
 
     def __init__(self, controller):
         pass
+
+    def own_transcription(self):
+        return dict(FakeResolve.own)
 
     def timeline_info(self):
         return SimpleNamespace(name="Interview", duration_seconds=600, start_timecode="01:00:00:00",
@@ -206,6 +219,7 @@ class PageTests(unittest.TestCase):
         FakeJob.made.clear()
         FakeResolve.existing, FakeResolve.placed = 0, []
         FakeResolve.timeline, FakeResolve.empty, FakeResolve.subtitles, FakeResolve.converted = "Interview", 4, 12, []
+        FakeResolve.own = {"available": False, "uid": "", "existing": False}
         self._patch(page_mod.TranscribePage, "_settings_path", lambda s: tmp / "settings.json")
         self._patch(page_mod.jobs, "ProbeJob", FakeProbe)
         for name in ("TranscribeJob", "TranslateJob", "AITranslateJob", "SetupJob"):
@@ -252,6 +266,52 @@ class PageTests(unittest.TestCase):
                      "languages": {}, "device": "cuda", "engine": "whisper", "duration": 600, "seconds": 60,
                      "name": "out"})
         return job
+
+    def _with_resolve_studio(self, existing=False):
+        FakeResolve.own = {"available": True, "uid": "tl-1", "existing": existing}
+        self.page._read_timeline()
+        self.page.on_option({"key": "model", "value": plan.RESOLVE_ID})
+
+    def test_resolve_studio_transcribes_without_any_setup(self):
+        self.page._rescan()
+        self.page.env, self.page.models = es.EnvStatus(False, "Not installed.", {}), {}
+        self.page._push_options()
+        self.assertFalse(self.page.ready)
+        self._with_resolve_studio()
+        o = self.last("options")
+        self.assertTrue(o["ready"])
+        self.assertEqual((o["model"], o["resolve"], o["speaker_names"]), (plan.RESOLVE_ID, True, True))
+        self.assertIn("Resolve transcribes the timeline itself", o["run_note"])
+        self.page.on_run()
+        job = FakeJob.made[-1]
+        self.assertEqual({k: job.args[2][k] for k in ("engine", "timeline", "fresh")},
+                         {"engine": "resolve", "timeline": "tl-1", "fresh": True})
+        self.assertTrue(job.args[5].speaker_names)
+        self.page.on_option({"key": "speaker_names", "value": False})
+        self.assertFalse(self.page._style().speaker_names)
+
+    def test_resolves_own_copy_is_only_replaced_when_the_user_says(self):
+        self.page._rescan()
+        self._with_resolve_studio(existing=True)
+        self.page.on_run()
+        ask = self.last("ask")
+        self.assertEqual((ask["kind"], ask["name"]), ("existing", "Interview"))
+        self.assertEqual(FakeJob.made, [])
+        self.page.on_answer({"id": ask["id"], "ok": True, "value": "use"})
+        self.assertFalse(FakeJob.made[-1].args[2]["fresh"])         # Resolve's transcription as it is
+        FakeJob.made[-1].succeed({"srt": str(self.tmp / "a.srt"), "transcript": "", "cues": 3, "language": "en",
+                                  "languages": {}, "device": "resolve", "engine": "resolve", "duration": 30,
+                                  "seconds": 8, "name": "a", "speakers": ["Speaker 1", "Speaker 2"]})
+        self.assertIn("2 speakers", self.last("result")["summary"])
+        self.assertIn("transcribed by Resolve", self.last("result")["summary"])
+
+    def test_resolve_studio_leaving_takes_the_choice_away(self):
+        self.page._rescan()
+        self._with_resolve_studio()
+        FakeResolve.own = {"available": False, "uid": "", "existing": False}   # free Resolve, or 21.0
+        self.page._read_timeline()
+        self.assertNotIn(plan.RESOLVE_ID, [m["id"] for m in self.last("options")["models"]])
+        self.assertEqual(self.last("options")["model"], "auto")
 
     def test_transcribe_places_on_an_empty_track(self):
         job = self._run_and_finish()

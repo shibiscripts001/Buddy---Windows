@@ -71,8 +71,13 @@ class Project:
             return True
         return False
 
+    status_word = "Complete"   # what Resolve shows, in its own language
+    error = ""
+
     def GetRenderJobStatus(self, job):
-        return {"JobStatus": "Complete" if os.path.exists(self.out) else "Ready"}
+        done = os.path.exists(self.out)
+        return {"JobStatus": self.status_word if done else "Ready", "CompletionPercentage": 100 if done else 0,
+                **({"Error": self.error} if self.error else {})}
 
 
 class Controller:
@@ -115,6 +120,18 @@ class RenderStartTests(unittest.TestCase):
         project = Project(refusals=1, starts_anyway=True)
         self.assertTrue(os.path.isfile(self.render(project)))
         self.assertEqual(project.start_calls, 1)
+
+    def test_finished_in_any_language(self):
+        project = Project(refusals=0)
+        project.status_word = "Concluso"            # an Italian Resolve's "Complete"
+        self.assertTrue(os.path.isfile(self.render(project)))
+
+    def test_a_job_that_failed_says_why(self):
+        project = Project(refusals=0)
+        project.error = "Disk full"
+        with self.assertRaisesRegex(TranscribeResolveError, "Disk full"):
+            self.render(project)
+        self.assertEqual(project.jobs, [])
 
     def test_retries_stay_small(self):
         self.assertLessEqual(START_TRIES, 3)       # a first try plus at most two retries

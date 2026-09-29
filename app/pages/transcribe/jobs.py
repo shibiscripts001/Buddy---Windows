@@ -14,6 +14,7 @@ import json
 import os
 import re
 import subprocess
+import tempfile
 import time
 from datetime import datetime
 from pathlib import Path
@@ -23,6 +24,7 @@ from PySide6.QtCore import QThread, Signal
 from . import ai_translate as ai
 from . import env_setup as es
 from . import languages as L
+from . import resolve_transcript
 from . import subtitles as st
 from .resolve_ext import RenderCancelled, TranscribeController, TranscribeResolveError
 
@@ -33,6 +35,8 @@ OUTPUT_DIR = es.ROOT / "output"
 TRANSCRIPTS_DIR = es.ROOT / "transcripts"
 SETTINGS_PATH = es.ROOT / "settings.json"
 KEEP_TRANSCRIPTS = 20
+RESOLVE_CHILD = Path(__file__).with_name("resolve_child.py")
+RESOLVE_TIMEOUT = 3 * 3600   # seconds: Resolve took ~10 s for 2 minutes, so this is a very long timeline
 
 CJK_WHISPER = {"ja", "zh", "yue"}                          # see languages.CJK_CODES
 NO_SPACE_WHISPER = CJK_WHISPER | {"th", "lo", "my", "km"}  # see languages.NO_SPACE_CODES
@@ -168,29 +172,36 @@ class TranscribeJob(QThread):
         audio = None
         out_json = None
         try:
-            # 1. Render. Progress 0-25% of the bar: rendering audio is quick.
-            self.stage.emit("Rendering the timeline's audio…")
-            audio = self.resolve.render_timeline_audio(
-                str(RENDER_DIR), progress=lambda pct: self.progress.emit(int(pct * 0.25)),
-                cancelled=lambda: self._cancel)
-            if self._cancel:
-                raise RenderCancelled()
+            if self.plan["engine"] == "resolve":
+                # 1-2. Resolve Studio transcribes the timeline itself: no render.
+                result = self._transcribe_in_resolve()
+                RENDER_DIR.mkdir(parents=True, exist_ok=True)
+                out_json = RENDER_DIR / f"resolve {datetime.now().strftime('%H%M%S%f')}.json"
+                out_json.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+            else:
+                # 1. Render. Progress 0-25% of the bar: rendering audio is quick.
+                self.stage.emit("Rendering the timeline's audio…")
+                audio = self.resolve.render_timeline_audio(
+                    str(RENDER_DIR), progress=lambda pct: self.progress.emit(int(pct * 0.25)),
+                    cancelled=lambda: self._cancel)
+                if self._cancel:
+                    raise RenderCancelled()
 
-            # 2. Whisper. 25-98%.
-            self.stage.emit("Loading the model…")
-            out_json = RENDER_DIR / (Path(audio).stem + ".json")
-            error = self._worker.run(
-                ["transcribe", "--audio", audio, "--engine", self.plan["engine"],
-                 "--model", self.plan["whisper"], "--parakeet", self.plan["parakeet"], "--device", "auto",
-                 "--language", self.language, "--languages", ",".join(self.languages),
-                 "--hotwords", self.hotwords, "--out", str(out_json)],
-                self._on_message)
-            if error or not out_json.is_file():
-                raise RuntimeError(error or "The transcription engine stopped unexpectedly.")
+                # 2. Whisper. 25-98%.
+                self.stage.emit("Loading the model…")
+                out_json = RENDER_DIR / (Path(audio).stem + ".json")
+                error = self._worker.run(
+                    ["transcribe", "--audio", audio, "--engine", self.plan["engine"],
+                     "--model", self.plan["whisper"], "--parakeet", self.plan["parakeet"], "--device", "auto",
+                     "--language", self.language, "--languages", ",".join(self.languages),
+                     "--hotwords", self.hotwords, "--out", str(out_json)],
+                    self._on_message)
+                if error or not out_json.is_file():
+                    raise RuntimeError(error or "The transcription engine stopped unexpectedly.")
+                result = json.loads(out_json.read_text(encoding="utf-8"))
 
             # 3. Cues + SRT.
             self.stage.emit("Building subtitles…")
-            result = json.loads(out_json.read_text(encoding="utf-8"))
             if len(result.get("languages") or {}) > 1:
                 cues = st.build_cues_mixed(result["segments"], lambda lang: style_for(self.style, lang))
             else:
@@ -213,7 +224,7 @@ class TranscribeJob(QThread):
                 "device": result.get("device"),
                 "engine": result.get("engine", "whisper"),
                 "duration": result.get("duration", 0.0), "seconds": time.time() - t0,
-                "name": srt_path.stem,
+                "name": srt_path.stem, "speakers": result.get("speakers") or [],
             })
         except RenderCancelled:
             self.failed.emit("Stopped.")
@@ -229,6 +240,62 @@ class TranscribeJob(QThread):
                         os.remove(leftover)
                     except OSError:
                         pass
+
+
+    def _transcribe_in_resolve(self) -> dict:
+        """Resolve's own transcription of the timeline (resolve_child.py, in a
+        process of its own so Buddy doesn't freeze while Resolve works), as the
+        worker's result shape. Stop kills the child; Resolve may still finish
+        transcribing in the background, which changes nothing but its own copy."""
+        python = _child_python()
+        if not python:
+            raise RuntimeError("Buddy couldn't find the Python it runs on, so it can't ask Resolve to transcribe.")
+        fd, result_path = tempfile.mkstemp(prefix="buddy_transcribe_", suffix=".json")
+        os.close(fd)
+        try:
+            proc = subprocess.Popen([python, str(RESOLVE_CHILD), result_path], stdin=subprocess.PIPE,
+                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, **es._no_window())
+            proc.stdin.write(json.dumps({"timeline": self.plan.get("timeline", ""), "language": self.language,
+                                         "fresh": bool(self.plan.get("fresh", True))}).encode("utf-8"))
+            proc.stdin.close()
+            started = time.monotonic()
+            self.progress.emit(10)
+            while proc.poll() is None:
+                waited = time.monotonic() - started
+                if self._cancel:
+                    proc.kill()
+                    proc.wait()
+                    raise RenderCancelled()
+                if waited > RESOLVE_TIMEOUT:
+                    proc.kill()
+                    raise RuntimeError("Resolve didn't finish transcribing the timeline in time.")
+                self.stage.emit(f"Resolve is transcribing the timeline… {_clock(waited)}")
+                time.sleep(0.5)
+            try:
+                with open(result_path, encoding="utf-8") as f:
+                    out = json.load(f)
+            except (OSError, ValueError):
+                out = {"ok": False, "error": "Resolve didn't answer."}
+        finally:
+            try:
+                os.remove(result_path)
+            except OSError:
+                pass
+        if not out.get("ok"):
+            raise RuntimeError(out.get("error") or "Resolve didn't answer.")
+        got = out["result"]
+        result = resolve_transcript.to_segments(got["transcription"], got["fps"], got["start_frame"])
+        if not result["segments"]:
+            raise RuntimeError("No speech was found in the timeline's audio.")
+        self.progress.emit(95)
+        return {**result, "engine": "resolve", "device": "resolve"}
+
+
+def _child_python():
+    """The interpreter Audio Assistant runs its Resolve child with - Buddy's
+    own, not Resolve's script host (see audio_assistant.page.child_python)."""
+    from pages.audio_assistant.page import child_python
+    return child_python()
 
 
 def style_for(style: st.Style, language) -> st.Style:

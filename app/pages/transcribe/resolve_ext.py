@@ -70,6 +70,7 @@ from pages.text_animator.subtitle_engine import (
 )
 
 from . import drt
+from . import resolve_transcript
 from . import subtitles as st
 
 TRANSCRIPTS_BIN = "Buddy Transcripts"
@@ -77,6 +78,18 @@ PLACE_TRIES = 2            # the first can land after the timeline's end; the se
 PLACE_TOLERANCE = 1        # frames a cue may be off (rounding) and still be where it belongs
 START_TRIES = 3            # StartRendering: the first try plus two retries, never more
 START_RETRY_WAIT = 1.0     # seconds between them
+
+
+def _render_finished(status: dict) -> bool:
+    """A render job done without error. Not by its JobStatus: that's the words
+    Resolve shows, in its own language ("Concluso" in Italian - measured by
+    github.com/samuelgursky/davinci-resolve-mcp), so an English "Complete"
+    would fail every other language. The file is checked afterwards too."""
+    try:
+        done = float(status.get("CompletionPercentage") or 0) >= 100
+    except (TypeError, ValueError):
+        done = False
+    return done and not status.get("Error")
 
 
 class TranscribeResolveError(RuntimeError):
@@ -120,6 +133,33 @@ class TranscribeController:
         if timeline is None:
             raise TranscribeResolveError("Open a timeline in Resolve first.")
         return timeline
+
+    def own_transcription(self) -> dict:
+        """What Resolve's own transcription can do here (resolve_transcript.py):
+        {"available": Studio 21.1+, "uid": the current timeline's id,
+        "existing": whether Resolve already has a transcription of it}. Quick
+        reads only - the transcribing itself is resolve_child.py's."""
+        resolve = self.controller.resolve
+        version = None
+        try:
+            product, version = resolve.GetProductName(), resolve.GetVersion()
+        except Exception:
+            product = ""
+        out = {"available": resolve_transcript.available(product, version), "uid": "", "existing": False}
+        if not out["available"]:
+            return out
+        try:
+            tl = self._timeline()
+        except TranscribeResolveError:
+            return out   # offered all the same: there's just nothing to transcribe yet
+        out["uid"] = str(tl.GetUniqueId() or "")
+        item = tl.GetMediaPoolItem()
+        try:
+            got = item.GetTranscription(True) if item is not None else None
+        except Exception:
+            got = None
+        out["existing"] = bool(isinstance(got, dict) and got.get("segments"))
+        return out
 
     def timeline_info(self) -> TimelineInfo:
         project = self._project()
@@ -200,9 +240,9 @@ class TranscribeController:
                 progress(int(status.get("CompletionPercentage") or 0))
                 time.sleep(0.5)
             status = project.GetRenderJobStatus(job) or {}
-            if status.get("JobStatus") != "Complete":
+            if not _render_finished(status):
                 raise TranscribeResolveError(
-                    f"The audio render didn't complete ({status.get('JobStatus') or 'unknown status'}).")
+                    f"The audio render didn't complete ({status.get('Error') or status.get('JobStatus') or 'unknown status'}).")
             progress(100)
         finally:
             if job:

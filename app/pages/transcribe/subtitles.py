@@ -71,6 +71,7 @@ class Style:
     min_gap: float = 0.08     # between consecutive cues, ~2 frames
     cjk: bool = False         # no-space script: see the module docstring
     wide: bool = True         # with cjk: full-width characters (not Thai etc.)
+    speaker_names: bool = False   # "Speaker 1: ..." where a named speaker starts (build_cues)
 
     @property
     def narrow_lines(self) -> bool:
@@ -201,7 +202,7 @@ def _flatten_words(segments: list[dict]) -> list[dict] | None:
                 # sp: Whisper spelled a space before this word. Only CJK
                 # text uses it - elsewhere every word gets one anyway.
                 words.append({"start": float(w["start"]), "end": float(w["end"]), "text": text,
-                              "sp": raw[:1].isspace()})
+                              "sp": raw[:1].isspace(), "speaker": seg.get("speaker")})
     return words
 
 
@@ -239,16 +240,23 @@ def _cues_from_words(words: list[dict], style: Style) -> list[tuple[float, float
 
     def flush():
         if cur:
-            raw.append((cur[0]["start"], cur[-1]["end"], _join(cur, style.cjk)))
+            raw.append((cur[0]["start"], cur[-1]["end"], _join(cur, style.cjk), cur[0].get("speaker")))
             cur.clear()
 
     for i, w in enumerate(words):
         if cur:
+            # Another person speaking always starts a new cue (words carry a
+            # speaker only from Resolve's own transcription).
+            turn = w.get("speaker") != cur[-1].get("speaker")
             too_long = not _fits(_join(cur + [w], style.cjk), style)
             too_slow = w["end"] - cur[0]["start"] > style.max_duration
             paused = w["start"] - cur[-1]["end"] >= style.pause_gap
             sentence_done = (cur[-1]["text"].endswith(SENTENCE_END)
                              and len(_join(cur, style.cjk)) >= style.line_chars // 2)
+            if turn:
+                flush()
+                cur.append(w)
+                continue
             if too_long and not (too_slow or paused or sentence_done):
                 # Full mid-sentence: break at the last clause boundary in
                 # the cue's second half rather than wherever space ran out
@@ -279,19 +287,20 @@ ORPHAN_CHARS = 14
 
 def _merge_orphans(raw, style: Style):
     """Fold a tiny cue back into the one before it when they're contiguous
-    (no real pause between) and the result still fits on screen."""
+    (no real pause between), the same person said both, and the result still
+    fits on screen. raw: (start, end, text, speaker); the speaker goes."""
     orphan = round(ORPHAN_CHARS * CJK_WIDTH) if style.narrow_lines else ORPHAN_CHARS
     out = []
-    for start, end, text in raw:
-        if out and len(text) < orphan:
-            p_start, p_end, p_text = out[-1]
+    for start, end, text, speaker in raw:
+        if out and len(text) < orphan and out[-1][3] == speaker:
+            p_start, p_end, p_text, _ = out[-1]
             joined = p_text + text if style.cjk else f"{p_text} {text}"
             if (start - p_end < style.pause_gap and end - p_start <= style.max_duration
                     and _fits(joined, style)):
-                out[-1] = (p_start, end, joined)
+                out[-1] = (p_start, end, joined, speaker)
                 continue
-        out.append((start, end, text))
-    return out
+        out.append((start, end, text, speaker))
+    return [(start, end, text) for start, end, text, _speaker in out]
 
 
 def _cues_from_segments(segments: list[dict], style: Style) -> list[tuple[float, float, str]]:
@@ -342,11 +351,31 @@ def _finish(raw, style: Style) -> list[Cue]:
     return cues
 
 
+def _name_speakers(words: list[dict]) -> list[dict]:
+    """Each turn's first word led by who's speaking ("Speaker 2: Thanks") -
+    only when more than one person speaks. Part of the word, so the cue's
+    length checks count it."""
+    if len({w.get("speaker") for w in words if w.get("speaker")}) < 2:
+        return words
+    out, last = [], None
+    for w in words:
+        speaker = w.get("speaker")
+        if speaker and speaker != last:
+            w = dict(w, text=f"{speaker}: {w['text']}", sp=True)
+        last = speaker or last
+        out.append(w)
+    return out
+
+
 def build_cues(segments: list[dict], style: Style | None = None) -> list[Cue]:
-    """segments: [{start, end, text, words: [{start, end, word}]?}], in
-    seconds from the start of the audio."""
+    """segments: [{start, end, text, speaker?, words: [{start, end, word}]?}],
+    in seconds from the start of the audio. A segment's speaker (Resolve's
+    own transcription names them) always starts a new cue, and with
+    style.speaker_names leads its first one."""
     style = style or Style()
     words = _flatten_words(segments)
+    if words and style.speaker_names:
+        words = _name_speakers(words)
     raw = _cues_from_words(words, style) if words else _cues_from_segments(segments, style)
     return _finish(raw, style)
 
