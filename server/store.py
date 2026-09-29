@@ -35,7 +35,7 @@ import json
 import secrets
 import sqlite3
 
-SCHEMA_VERSION = 12
+SCHEMA_VERSION = 13
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -125,6 +125,12 @@ CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, room TEXT NOT NULL, auth
 CREATE INDEX IF NOT EXISTS images_by_time ON images (ts);
 CREATE INDEX IF NOT EXISTS images_by_room ON images (room);
 CREATE INDEX IF NOT EXISTS images_by_size ON images (size);
+-- Emoticon reactions (core.REACTIONS: "grin" for :D, "heart" for <3 ...): one
+-- row per person, message and emoticon. They go with the message, and with
+-- the person when they delete their account.
+CREATE TABLE IF NOT EXISTS reactions (message_id INTEGER NOT NULL, user_id TEXT NOT NULL, reaction TEXT NOT NULL,
+                                      ts REAL NOT NULL, PRIMARY KEY (message_id, user_id, reaction));
+CREATE INDEX IF NOT EXISTS reactions_by_user ON reactions (user_id);
 CREATE TABLE IF NOT EXISTS admin_log (id INTEGER PRIMARY KEY AUTOINCREMENT, ts REAL NOT NULL,
                                       actor TEXT NOT NULL, action TEXT NOT NULL, target TEXT NOT NULL DEFAULT '',
                                       detail TEXT NOT NULL DEFAULT '');
@@ -257,6 +263,7 @@ class Store:
         db = self.db
         db.execute("UPDATE messages SET author = '' WHERE author = ?", (user_id,))
         db.execute("UPDATE rooms SET former_owner = NULL WHERE former_owner = ?", (user_id,))
+        db.execute("DELETE FROM reactions WHERE user_id = ?", (user_id,))
         db.execute("DELETE FROM buddies WHERE a = ? OR b = ?", (user_id, user_id))
         db.execute("DELETE FROM buddy_requests WHERE sender = ? OR target = ?", (user_id, user_id))
         db.execute("DELETE FROM blocks WHERE blocker = ? OR blocked = ?", (user_id, user_id))
@@ -514,6 +521,7 @@ class Store:
 
     def delete_room(self, room_id: str):
         self.db.execute("DELETE FROM images WHERE room = ?", (room_id,))
+        self.db.execute("DELETE FROM reactions WHERE message_id IN (SELECT id FROM messages WHERE room = ?)", (room_id,))
         self.db.execute("DELETE FROM messages WHERE room = ?", (room_id,))
         self.db.execute("DELETE FROM rooms WHERE id = ?", (room_id,))
         self.db.commit()
@@ -593,6 +601,34 @@ class Store:
         more = len(rows) > limit
         return list(reversed(rows[:limit])), more
 
+    def react(self, message_id: int, user_id: str, reaction: str, on: bool, now: float) -> bool:
+        """Adds (on) or takes away one person's emoticon on a message;
+        whether anything changed."""
+        if on:
+            cur = self.db.execute("INSERT OR IGNORE INTO reactions VALUES (?, ?, ?, ?)",
+                                  (message_id, user_id, reaction, now))
+        else:
+            cur = self.db.execute("DELETE FROM reactions WHERE message_id = ? AND user_id = ? AND reaction = ?",
+                                  (message_id, user_id, reaction))
+        self.db.commit()
+        return cur.rowcount > 0
+
+    def reactions(self, message_ids) -> dict[int, list[dict]]:
+        """message id -> [{"r": emoticon, "people": [{"id", "name"}]}], each
+        emoticon in the order it was first used, its people in the order
+        they reacted. Messages without any aren't in it."""
+        ids = list(message_ids)
+        if not ids:
+            return {}
+        marks = ",".join("?" * len(ids))
+        rows = self.db.execute(
+            f"SELECT x.message_id, x.reaction, u.id, u.name FROM reactions x JOIN users u ON u.id = x.user_id "
+            f"WHERE x.message_id IN ({marks}) ORDER BY x.message_id, x.ts, x.rowid", ids)
+        out: dict[int, dict[str, list]] = {}
+        for message_id, reaction, user_id, name in rows:
+            out.setdefault(message_id, {}).setdefault(reaction, []).append({"id": user_id, "name": name})
+        return {m: [{"r": r, "people": people} for r, people in by.items()] for m, by in out.items()}
+
     def edit_message(self, message_id: int, text: str, enc: str | None, now: float):
         self.db.execute("UPDATE messages SET text = ?, enc = ?, edited = ? WHERE id = ?", (text, enc, now, message_id))
         self.db.commit()
@@ -638,6 +674,7 @@ class Store:
         chat can still show "message deleted" where it was."""
         with self.db:
             self.db.execute("DELETE FROM images WHERE id = (SELECT image FROM messages WHERE id = ?)", (message_id,))
+            self.db.execute("DELETE FROM reactions WHERE message_id = ?", (message_id,))
             self.db.execute("UPDATE messages SET text = '', enc = NULL, deleted = 1 WHERE id = ?", (message_id,))
 
     def purge_message(self, message_id: int):
@@ -646,11 +683,13 @@ class Store:
         with self.db:
             self.db.execute("DELETE FROM images WHERE id = (SELECT image FROM messages WHERE id = ?)", (message_id,))
             self.db.execute("DELETE FROM messages WHERE id = ?", (message_id,))
+            self.db.execute("DELETE FROM reactions WHERE message_id = ?", (message_id,))
             self.db.execute("UPDATE messages SET reply_to = NULL WHERE reply_to = ?", (message_id,))
             self.db.execute("DELETE FROM reports WHERE message_id = ?", (message_id,))
 
     def purge_before(self, cutoff: float) -> int:
         self.db.execute("DELETE FROM images WHERE ts < ?", (cutoff,))
+        self.db.execute("DELETE FROM reactions WHERE message_id IN (SELECT id FROM messages WHERE ts < ?)", (cutoff,))
         cur = self.db.execute("DELETE FROM messages WHERE ts < ?", (cutoff,))
         self.db.commit()
         return cur.rowcount
@@ -780,6 +819,7 @@ class Store:
             db.execute("UPDATE users SET id = ? WHERE id = ?", (new, old))
             db.execute("UPDATE rooms SET owner = ? WHERE owner = ?", (new, old))
             db.execute("UPDATE rooms SET former_owner = ? WHERE former_owner = ?", (new, old))
+            db.execute("UPDATE reactions SET user_id = ? WHERE user_id = ?", (new, old))
             db.execute("UPDATE messages SET author = ? WHERE author = ?", (new, old))
             db.execute("UPDATE images SET author = ? WHERE author = ?", (new, old))
             for room_id in self.dm_room_ids_of(old):

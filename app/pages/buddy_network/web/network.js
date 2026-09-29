@@ -459,8 +459,11 @@ Buddy.on("notice", n => {
 const menu = $("popup");
 function closeMenu() { menu.hidden = true; }
 Buddy.on("menu", m => {
-    menu.replaceChildren(...m.items.map(item => item.sep ? el("hr") : el(`button${item.danger ? ".danger" : ""}`, {
+    // grid: the emoticon picker - small buttons side by side, each named in its tooltip.
+    menu.classList.toggle("grid", !!m.grid);
+    menu.replaceChildren(...m.items.map(item => item.sep ? el("hr") : el(`button${item.danger ? ".danger" : ""}${item.on ? ".on" : ""}`, {
         type: "button", role: "menuitem", text: item.label, disabled: !item.enabled,
+        title: item.title || null, translate: m.grid ? "no" : null,
         onclick: () => { closeMenu(); send("menu_pick", {id: item.id}); },
     })));
     menu.hidden = false;

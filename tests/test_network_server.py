@@ -563,6 +563,91 @@ class DeleteAccountTests(Harness):
                          "bad_token")
 
 
+class ReactionTests(Harness):
+    def say(self, session, text, room="global"):
+        self.clock.now += 3
+        self.request(session, type="send", room=room, text=text)
+        return session.last("message")["message"]["id"]
+
+    def react(self, session, message_id, reaction, on=True):
+        return self.request(session, type="react", id=message_id, reaction=reaction, on=on)
+
+    def test_everyone_looking_sees_them_each_with_their_own(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        m = self.say(a, "the render finished")
+        shown = self.react(b, m, "grin")
+        self.assertEqual(shown["type"], "reactions")
+        self.assertEqual((shown["room"], shown["id"]), ("global", m))
+        self.assertEqual([(r["r"], r["count"], r["mine"]) for r in shown["reactions"]], [("grin", 1, True)])
+        self.assertEqual(shown["reactions"][0]["people"][0]["name"], "Bob")
+        self.assertFalse(a.last("reactions")["reactions"][0]["mine"])   # Alice sees it, not as hers
+        self.react(b, m, "heart")
+        self.react(a, m, "grin")
+        self.assertEqual([(r["r"], r["count"]) for r in a.last("reactions")["reactions"]],
+                         [("grin", 2), ("heart", 1)])   # in the order they were first used
+
+        cara = self.user("Cara")   # joining: history brings them
+        got = next(x for x in cara.last("history")["messages"] if x["id"] == m)
+        self.assertEqual([(r["r"], r["count"], r["mine"]) for r in got["reactions"]],
+                         [("grin", 2, False), ("heart", 1, False)])
+        self.assertEqual([p["name"] for p in got["reactions"][0]["people"]], ["Bob", "Alice"])
+
+        self.react(b, m, "grin", on=False)   # Alice's :D came after Bob's <3
+        self.assertEqual([(r["r"], r["count"]) for r in a.last("reactions")["reactions"]],
+                         [("heart", 1), ("grin", 1)])
+        before = len(a.inbox)
+        self.react(b, m, "grin", on=False)   # nothing changed: only Bob is answered
+        self.assertEqual(len(a.inbox), before)
+        self.assertEqual(b.last()["type"], "reactions")
+
+    def test_only_the_fixed_emoticons_where_you_can_see(self):
+        a, b = self.user("Alice"), self.user("Bob", join=None)
+        m = self.say(a, "hello")
+        self.assertEqual(self.react(a, m, ":D")["code"], "bad_request")      # a key, never the text
+        self.assertEqual(self.react(a, m, "<script>")["code"], "bad_request")
+        self.assertEqual(self.react(b, m, "grin")["code"], "not_joined")
+        self.assertEqual(self.react(a, 999_999, "grin")["code"], "no_message")
+        nameless = self.user(name=None, ip="10.0.0.2")
+        self.assertEqual(self.react(nameless, m, "grin")["code"], "no_name")
+        self.request(a, type="delete", id=m)
+        self.assertEqual(self.react(a, m, "grin")["code"], "no_message")
+        self.assertEqual(set(core.REACTIONS), {"smile", "grin", "heart", "wink", "tongue", "sad", "wow", "laugh",
+                                               "cool", "happy", "cheer", "shrug"})
+
+    def test_too_many_too_quickly(self):
+        a = self.user("Alice")
+        m = self.say(a, "spam me")
+        for i in range(core.REACT_LIMIT[0]):
+            self.react(a, m, "grin", on=i % 2 == 0)
+        self.assertEqual(self.react(a, m, "grin")["code"], "rate_limited")
+
+    def test_in_a_dm_only_its_two_people(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        cara = self.user("Cara", ip="10.0.0.2")
+        DirectMessageTests.buddies(self, a, b)
+        room = DirectMessageTests.open_dm(self, a, b)["id"]
+        m, _sealed = DirectMessageTests.dm(self, a, room)
+        self.assertEqual(self.react(cara, m["id"], "heart")["code"], "no_message")   # same as no message at all
+        self.assertEqual(self.react(b, m["id"], "heart")["reactions"][0]["count"], 1)
+        self.assertEqual(a.last("reactions")["room"], room)                          # Alice hears, room open or not
+        self.request(a, type="block", user=uid(b))
+        self.assertNotEqual(self.react(b, m["id"], "grin")["type"], "reactions")
+
+    def test_they_go_with_the_message_and_the_person(self):
+        a, b = self.user("Alice"), self.user("Bob")
+        gone, kept = self.say(a, "one"), self.say(a, "two")
+        self.react(b, gone, "sad")
+        self.react(b, kept, "cool")
+        self.react(a, kept, "cool")
+        self.request(a, type="delete", id=gone)
+        self.assertNotIn(gone, self.store.reactions([gone, kept]))
+        self.request(b, type="delete_account")
+        self.assertEqual([p["name"] for p in self.store.reactions([kept])[kept][0]["people"]], ["Alice"])
+        self.clock.now += (core.HISTORY_DAYS + 1) * 86400
+        self.core.purge()
+        self.assertEqual(self.store.db.execute("SELECT COUNT(*) FROM reactions").fetchone()[0], 0)
+
+
 class AdminTests(Harness):
     def setUp(self):
         super().setUp()

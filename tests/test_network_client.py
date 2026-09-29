@@ -11,7 +11,7 @@ import unittest
 
 import _paths
 from core import nav_layout
-from pages.buddy_network import render, safety
+from pages.buddy_network import reactions, render, safety
 from pages.buddy_network.identity import IdentityStore
 from server import core as server_core
 
@@ -152,6 +152,28 @@ class RenderTests(unittest.TestCase):
         out, _ = self.html([msg(3, "mine")])
         self.assertNotIn("bn-report:3", out)                    # nobody reports themselves
 
+    def test_reactions_under_a_message(self):
+        m = msg(1, "rendered!")
+        sam = {"id": "u2", "tag": "u2", "name": "<b>Sam</b>"}
+        m["reactions"] = [{"r": "heart", "count": 2, "mine": True, "people": [{"id": "u1", "tag": "u1", "name": "Jo"}, sam]},
+                          {"r": "grin", "count": 12, "mine": False, "people": [sam]},
+                          {"r": "made-up", "count": 1, "mine": False, "people": []},     # a newer server's: left out
+                          {"r": "sad", "count": 1, "mine": False, "people": [sam]}]
+        out = render.room_html([m], my_id="u1", room_name="#Global", more=False, links=[], colors=COLORS,
+                               now=1_750_000_000.0, can_reply=True, hidden={"u2"})
+        self.assertIn('class="react mine" href="bn-reaction:1:heart"', out)
+        self.assertIn('&lt;3<span class="n">1</span>', out)         # Sam is blocked: not counted or named
+        self.assertIn(':D<span class="n">11</span>', out)
+        self.assertIn('title=" +11"', out)                          # nobody named, 11 more
+        self.assertNotIn("Sam", out)
+        self.assertNotIn("made-up", out)
+        self.assertNotIn("bn-reaction:1:sad", out)                  # only Sam: nothing left to show
+        self.assertIn('href="bn-react:1"', out)
+        out, _ = self.html([m])                                     # offline: shown, but not clickable
+        self.assertNotIn("bn-reaction:", out)
+        self.assertNotIn("bn-react:", out)
+        self.assertIn("&lt;b&gt;Sam&lt;/b&gt;", out)                # a name in a tooltip is escaped too
+
     def test_top_of_room(self):
         self.assertIn('href="bn-more"', self.html([msg(1, "x")], more=True)[0])
         self.assertIn("Start of #Global", self.html([msg(1, "x")])[0])
@@ -212,6 +234,9 @@ class ProtocolTests(unittest.TestCase):
                   if isinstance(t, ast.Name) and isinstance(node.value, ast.Constant)}
         self.assertEqual(consts["PROTOCOL_VERSION"], server_core.PROTOCOL_VERSION)
         self.assertEqual(consts["MAX_MESSAGE_CHARS"], server_core.MAX_MESSAGE_CHARS)
+
+    def test_the_same_emoticons(self):
+        self.assertEqual(tuple(key for key, _text, _name in reactions.REACTIONS), server_core.REACTIONS)
 
 
 class Page:

@@ -115,6 +115,15 @@
 .messages .body { font-size: var(--fs-md); }
 .messages .quote { font-size: var(--fs-sm); margin-bottom: 2px; padding-left: 8px; border-left: 2px solid var(--card-border); }
 .messages .note { font-size: var(--fs-xs); }
+.messages .reacts { margin: 3px 0 0 28px; display: flex; flex-wrap: wrap; gap: 4px; }
+.messages .react { display: inline-flex; align-items: baseline; gap: 5px; padding: 1px 8px; border-radius: 999px;
+    font-family: Consolas, Menlo, ui-monospace, monospace; font-size: var(--fs-xs); color: var(--text) !important;
+    text-decoration: none !important; background: var(--raised-bg); border: var(--bw) solid var(--card-border); }
+.messages .react .n { font-family: var(--font, inherit); color: var(--text-dim); }
+.messages .react.mine { border-color: var(--accent-text); color: var(--accent-text) !important;
+    background: color-mix(in srgb, var(--accent-text) 12%, var(--raised-bg)); }
+.messages .react.mine .n { color: var(--accent-text); }
+.messages a.react:hover { border-color: var(--text-dim); }
 .messages a { cursor: pointer; }
 
 .compose { padding: 8px 12px 10px; border-top: var(--bw) solid var(--card-border); display: flex; flex-direction: column; gap: 6px;
@@ -207,6 +216,12 @@
 .popup-menu button:disabled { color: var(--text-dim); cursor: default; }
 .popup-menu button.danger { color: var(--danger-text); }
 .popup-menu hr { border: 0; border-top: var(--bw) solid var(--card-border); margin: 4px 6px; }
+/* The emoticon picker: two rows of seven, the shrug (last, and widest) in three. */
+.popup-menu.grid { min-width: 0; display: grid; grid-template-columns: repeat(7, 42px); gap: 2px; }
+.popup-menu.grid button { width: auto; text-align: center; padding: 6px 4px; font-family: Consolas, Menlo, ui-monospace, monospace;
+    white-space: nowrap; }
+.popup-menu.grid button:last-child { grid-column: span 3; }
+.popup-menu.grid button.on { box-shadow: inset 0 0 0 var(--bw) var(--accent-text); color: var(--accent-text); }
 
 .rules { max-height: 50vh; overflow-y: auto; line-height: 1.5; }
 .rules h3 { margin: 0 0 8px; color: var(--text-strong); }

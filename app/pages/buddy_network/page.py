@@ -68,8 +68,8 @@ from core.buddy_server import DEFAULT_SERVER_URL, OLD_TEST_DEFAULT
 from core.i18n import tr, tr_filter
 from core.web_page import WebToolPage
 
-from . import (archive, avatars, dialogs, e2e, export, mentions, panels, render, safety, transfer,
-               web_view)
+from . import (archive, avatars, dialogs, e2e, export, mentions, panels, reactions, render, safety,
+               transfer, web_view)
 from .attachments import ImageMixin
 from .gif_search import GifSearchMixin
 from .client import (CONNECTING, MAX_MESSAGE_CHARS, OFF, ONLINE, PROTOCOL_VERSION, WAITING, NetworkClient,
@@ -263,8 +263,10 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
     def _alert(self, title, text):
         self.emit("alert", {"title": title, "text": text})
 
-    def _show_menu(self, items, x=0, y=0):
-        """items: [(label, action, {"enabled", "danger"})] or None for a line."""
+    def _show_menu(self, items, x=0, y=0, grid=False):
+        """items: [(label, action, {"enabled", "danger", "title", "on"})] or
+        None for a line. grid: small buttons side by side (the emoticon
+        picker), each with its title as a tooltip; "on" marks one as chosen."""
         self._menu = {}
         out = []
         for index, item in enumerate(items):
@@ -275,8 +277,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             opts = rest[0] if rest else {}
             self._menu[str(index)] = action
             out.append({"id": str(index), "label": label, "enabled": opts.get("enabled", action is not None),
-                        "danger": bool(opts.get("danger"))})
-        self.emit("menu", {"items": out, "x": x, "y": y})
+                        "danger": bool(opts.get("danger")), "title": opts.get("title", ""),
+                        "on": bool(opts.get("on"))})
+        self.emit("menu", {"items": out, "x": x, "y": y, "grid": grid})
 
     def on_menu_pick(self, payload):
         action = self._menu.pop(str((payload or {}).get("id")), None)
@@ -1825,6 +1828,12 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                           lambda: self.client.send({"type": "purge_message", "id": int(arg)}), danger=True)
         elif kind == "bn-reply" and arg.isdigit():
             self._start_reply(int(arg))
+        elif kind == "bn-react" and arg.isdigit():
+            self._pick_reaction(int(arg), x, y)
+        elif kind == "bn-reaction":
+            message_id, _, key = arg.partition(":")
+            if message_id.isdigit() and key in reactions.TEXT:
+                self._toggle_reaction(int(message_id), key)
         elif kind == "bn-edit" and arg.isdigit():
             self._start_edit(int(arg))
         elif kind == "bn-user" and arg:
@@ -1837,6 +1846,29 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             for m in self._saved_before()[-50:]:   # the server has nothing older: this PC's copy
                 self.messages[m["id"]] = m
             self._render(keep_position=True)
+
+    def _can_react(self, message_id: int) -> dict | None:
+        """The message, if you can react to it right now."""
+        m = self.messages.get(message_id)
+        if (m is None or m["deleted"] or m.get("unreadable") or m.get("saved_only") or not self._online()
+                or not (self.me or {}).get("name")):
+            return None
+        return m
+
+    def _pick_reaction(self, message_id: int, x=0, y=0):
+        m = self._can_react(message_id)
+        if m is None:
+            return
+        self._show_menu([(text, lambda key=key: self._toggle_reaction(message_id, key),
+                          {"title": name, "on": reactions.is_mine(m.get("reactions"), key)})
+                         for key, text, name in reactions.REACTIONS], x, y, grid=True)
+
+    def _toggle_reaction(self, message_id: int, key: str):
+        """Yours on or off: the server answers with the message's reactions."""
+        m = self._can_react(message_id)
+        if m is not None:
+            self.admin({"type": "react", "id": message_id, "reaction": key,
+                        "on": not reactions.is_mine(m.get("reactions"), key)})
 
     def _open_link(self, raw_url: str):
         info = safety.describe_link(raw_url)
@@ -1986,7 +2018,14 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             m = self._open_message(msg["message"])
             self._keep(m["room"], [m])
             if m["room"] == self.room_id and m["id"] in self.messages:
+                # An edit doesn't come with the reactions: they stay as they were.
+                m.setdefault("reactions", self.messages[m["id"]].get("reactions"))
                 self.messages[m["id"]] = m
+                self._render()
+        elif kind == "reactions":
+            m = self.messages.get(msg.get("id")) if msg.get("room") == self.room_id else None
+            if m is not None:
+                m["reactions"] = reactions.known(msg.get("reactions"))
                 self._render()
         elif kind == "unread":
             for room_id, count in (msg.get("rooms") or {}).items():

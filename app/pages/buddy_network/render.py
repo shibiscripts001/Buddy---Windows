@@ -17,7 +17,9 @@ always shows the link warning first. Other anchors: "bn-delete:<id>",
 "bn-more" (load earlier messages), "bn-user:<id>" (someone's name: the
 add-buddy / block menu), "bn-report:<id>", "bn-reply:<id>", "bn-edit:<id>"
 and, for the owner only, "bn-purge:<id>" (delete forever - no "message
-deleted" left behind; offered on deleted messages too).
+deleted" left behind; offered on deleted messages too). "bn-react:<id>"
+opens the emoticon picker, and "bn-reaction:<id>:<key>" is one of the
+reactions under a message (reactions.py) - clicked, it adds or takes away yours.
 
 The actions on a message each have their own shade - "reply", "edit",
 "delete", "report" and "purge" in `colors` (the page mixes them from the
@@ -53,7 +55,7 @@ from datetime import datetime
 
 from core.i18n import format_when
 
-from . import avatars, images, mentions, safety
+from . import avatars, images, mentions, reactions, safety
 
 LINK_NOTE = "Contains a link – only open links from people you trust."
 UNREADABLE_NOTE = ("This message can't be read on this PC – it was encrypted before Buddy Network "
@@ -164,6 +166,29 @@ def _image_html(m: dict, c: dict, image_days: int) -> str:
     return shot
 
 
+def _reactions_html(m: dict, can_react: bool, hidden) -> str:
+    """The emoticons under a message, each with how many used it; yours
+    stand out ("mine"). Clicking one ("bn-reaction:<id>:<key>") adds or
+    takes away yours. Nobody you've blocked is counted or named."""
+    chips = []
+    for r in reactions.known(m.get("reactions")):
+        people = [p for p in r["people"] if p["id"] not in hidden]
+        count = r["count"] - (len(r["people"]) - len(people))
+        if count <= 0:
+            continue
+        names = ", ".join(display_name(p) for p in people)
+        if count > len(people):
+            names += f" +{count - len(people)}"
+        cls = "react mine" if r["mine"] else "react"
+        inner = f'{html.escape(reactions.TEXT[r["r"]])}<span class="n">{count}</span>'
+        if can_react:
+            chips.append(f'<a class="{cls}" href="bn-reaction:{int(m["id"])}:{r["r"]}" '
+                         f'title="{html.escape(names)}">{inner}</a>')
+        else:
+            chips.append(f'<span class="{cls}" title="{html.escape(names)}">{inner}</span>')
+    return f'<div class="reacts" translate="no">{"".join(chips)}</div>' if chips else ""
+
+
 def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, links: list[str],
               colors: dict, now: float, history_days: int = 30, hidden=frozenset(),
               admin: bool = False, more_saved: bool = False, saved_copy: bool = False,
@@ -242,6 +267,8 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
             readable = not m.get("unreadable")
             if can_reply and readable:
                 acts += action("reply", "reply")
+            if can_reply and readable and not m.get("saved_only"):
+                acts += action("react", "react")
             if mine and readable and not m.get("saved_only"):
                 acts += action("edit", "edit")
             if (mine or admin) and not m.get("saved_only"):
@@ -271,6 +298,7 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
                 body += f'<div class="note" style="color:{c["warning"]}">&#9888; {LINK_NOTE}</div>'
             if m.get("unverified"):
                 body += f'<div class="note" style="color:{c["warning"]}">&#9888; {UNVERIFIED_NOTE}</div>'
+            body += _reactions_html(m, can_reply and not m.get("saved_only"), hidden)
         mentioned = not mine and not m["deleted"] and mentions.mentions_me(m.get("text", ""), me)
         tint = f' background-color:{c["mention"]};' if mentioned else ""
         classes = "msg" + (" mine" if mine else "") + (" mentioned" if mentioned else "")

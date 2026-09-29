@@ -35,6 +35,9 @@ them.</li>
 buddy can read them – not the server, and not the people who run it. Your
 buddy can still copy or share what you send, so the rules above apply to
 DMs too.</li>
+<li><b>Reactions aren't end-to-end encrypted</b>, even in direct messages:
+the server can see which emoticon you put on which message – never the
+message itself.</li>
 <li><b>Messages are kept for 30 days</b>, then deleted. You can delete your
 own messages at any time.</li>
 <li>Other users never see your IP address, and the server doesn't store it.</li>

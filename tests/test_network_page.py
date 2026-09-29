@@ -337,6 +337,36 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.page.room_id, "r1")
         self.assertIn("r1", self.page._saved_ids())
 
+    def test_reactions(self):
+        self.welcome()
+        self.assertIn('href="bn-react:1"', self.last("messages")["html"])
+        self.page.on_anchor({"href": "bn-react:1", "x": 5, "y": 6})
+        picker = self.last("menu")
+        self.assertTrue(picker["grid"])
+        self.assertEqual([i["label"] for i in picker["items"]][:3], [":)", ":D", "<3"])
+        self.assertEqual(picker["items"][1]["title"], "grin")
+        self.page.on_menu_pick({"id": picker["items"][2]["id"]})
+        self.assertEqual(self.client.sent[-1], {"type": "react", "id": 1, "reaction": "heart", "on": True})
+
+        mine = [{"r": "heart", "count": 2, "mine": True, "people": [ME, SAM]}]
+        self.page._on_received({"type": "reactions", "room": "global", "id": 1, "reactions": mine})
+        html = self.last("messages")["html"]
+        self.assertIn('class="react mine" href="bn-reaction:1:heart"', html)
+        self.page.on_anchor({"href": "bn-reaction:1:heart"})               # yours: clicking takes it away
+        self.assertEqual(self.client.sent[-1], {"type": "react", "id": 1, "reaction": "heart", "on": False})
+        self.page.on_anchor({"href": "bn-react:1"})
+        self.assertTrue(self.last("menu")["items"][2]["on"])               # the picker shows it's yours
+        count = len(self.client.sent)
+        self.page.on_anchor({"href": "bn-reaction:1:<script>"})            # not one of the emoticons
+        self.page.on_anchor({"href": "bn-reaction:99:grin"})               # not a message here
+        self.assertEqual(len(self.client.sent), count)
+
+        self.page._on_received({"type": "edited", "message": {
+            "id": 1, "room": "global", "ts": 1_750_000_000.0, "deleted": False, "author": SAM, "text": "edited"}})
+        self.assertIn("bn-reaction:1:heart", self.last("messages")["html"])   # an edit keeps them
+        self.page._on_received({"type": "reactions", "room": "help", "id": 1, "reactions": []})   # another room's
+        self.assertIn("bn-reaction:1:heart", self.last("messages")["html"])
+
     def test_the_owner_makes_a_room_public(self):
         self.welcome()
         self.page.on_browse()

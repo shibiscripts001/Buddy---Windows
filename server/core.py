@@ -27,6 +27,10 @@ GIFs: an image can be animated (an animated WebP - Buddy turns any GIF into
 one). GIF search goes through this server to GIPHY (gifs.py), and the GIF
 picked comes back to the sender's Buddy to be sent like any other image.
 
+Reactions: old-school emoticons (REACTIONS - :D, <3 and the rest) on any
+message, rooms and DMs alike. History carries each message's, and a react
+request tells everyone looking what the message's reactions are now.
+
 The client's IP address arrives on the session only for the per-IP limit
 on new accounts. It's held in memory and never stored, logged or sent to
 anyone.
@@ -91,6 +95,11 @@ MAX_SAVED_AVATARS = 6
 # from, never shown - so nothing a person types.
 _AVATAR_SEED = re.compile(r"[0-9a-f]{8,16}")
 MAX_MENTIONS = 5           # people one message can notify
+# Reactions: old-school emoticons from one fixed list, so nobody can type
+# their own text into one. Keep in step with app/pages/buddy_network/reactions.py
+# (tests check). In a DM they aren't encrypted: the server sees which one.
+REACTIONS = ("smile", "grin", "heart", "wink", "tongue", "sad", "wow", "laugh", "cool", "happy", "cheer", "shrug")
+REACTION_PEOPLE = 10       # names sent with each emoticon (its count covers everyone)
 # "@Name#tag", as Buddy's name completion writes it: the name, then the tag
 # from the ID (6 hex characters, or a staff number: #1).
 MENTION = re.compile(r"@([^@#\n]{2,24}?)#([0-9a-f]{6}|[1-9][0-9]?)(?![0-9a-z])")
@@ -98,6 +107,7 @@ MENTION = re.compile(r"@([^@#\n]{2,24}?)#([0-9a-f]{6}|[1-9][0-9]?)(?![0-9a-z])")
 # (limit, window seconds)
 SEND_LIMIT = (5, 10.0)
 EDIT_LIMIT = (10, 60.0)
+REACT_LIMIT = (30, 60.0)
 NAME_CHANGE_LIMIT = (5, 86400.0)
 AVATAR_LIMIT = (30, 3600.0)
 ACCOUNTS_PER_IP_LIMIT = (3, 86400.0)
@@ -625,8 +635,12 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
 
     def _send_history(self, session: Session, room_id: str, before, nonce=None):
         rows, more = self.store.history(room_id, before, HISTORY_PAGE)
-        payload = {"type": "history", "room": room_id, "before": before,
-                   "messages": [public_message(r) for r in rows], "more": more}
+        messages = [public_message(r) for r in rows]
+        reactions = self.store.reactions(m["id"] for m in messages)
+        for m in messages:
+            if m["id"] in reactions:
+                m["reactions"] = shown_reactions(reactions[m["id"]], session.user_id)
+        payload = {"type": "history", "room": room_id, "before": before, "messages": messages, "more": more}
         if isinstance(nonce, (int, str)):
             payload["nonce"] = nonce   # an export collecting pages, not the chat view
         session.send(payload)
@@ -822,6 +836,33 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         edited = public_message(self.store.message(row["id"]))
         for other in self._audience(room):
             other.send({"type": "edited", "message": edited})
+
+    def _react(self, session: Session, msg: dict):
+        """Adds (on, the default) or takes away one of REACTIONS on a message
+        this person can see - in a room they've joined, or a DM of theirs.
+        Everyone looking at it is told its reactions as they are now, each
+        with whether they're theirs."""
+        row, room = self._visible_message(session, msg.get("id"))
+        if row["deleted"]:
+            raise RequestError("no_message", "That message isn't there any more.")
+        reaction = msg.get("reaction")
+        if reaction not in REACTIONS:
+            raise RequestError("bad_request", "That isn't one of Buddy Network's reactions - update Buddy.")
+        if not self.store.user(session.user_id)["name"]:
+            raise RequestError("no_name", "Choose a name before reacting.")
+        if room["kind"] == "dm":
+            self._check_can_dm(session.user_id, room["other"]["id"])
+        elif room["id"] not in session.rooms:
+            raise RequestError("not_joined", "Join the room first.")
+        wait = self.limits.check(("react", session.user_id), *REACT_LIMIT)
+        if wait:
+            raise RequestError("rate_limited", "That's a lot of reactions - wait a moment.",
+                               retry_after=round(wait, 1))
+        changed = self.store.react(row["id"], session.user_id, reaction, bool(msg.get("on", True)), self.clock())
+        now = self.store.reactions([row["id"]]).get(row["id"], [])
+        for other in (self._audience(room) | {session}) if changed else {session}:
+            other.send({"type": "reactions", "room": row["room"], "id": row["id"],
+                        "reactions": shown_reactions(now, other.user_id)})
 
     def _watch(self, session: Session, msg: dict):
         """The rooms and DMs in this Buddy's sidebar, each with the last
@@ -1095,6 +1136,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         "history": _history,
         "send": _send,
         "edit": _edit,
+        "react": _react,
         "watch": _watch,
         "set_slow": _set_slow,
         "delete": _delete,
@@ -1118,6 +1160,15 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         **AdminMixin._ADMIN_HANDLERS,
         **GifMixin._GIF_HANDLERS,
     }
+
+
+def shown_reactions(entries: list[dict], viewer: str | None) -> list[dict]:
+    """A message's reactions (Store.reactions) as one person is sent them:
+    each emoticon, how many used it, whether they did, and the first
+    REACTION_PEOPLE of who."""
+    return [{"r": e["r"], "count": len(e["people"]), "mine": any(p["id"] == viewer for p in e["people"]),
+             "people": [{"id": p["id"], "tag": tag_of(p["id"]), "name": p["name"]}
+                        for p in e["people"][:REACTION_PEOPLE]]} for e in entries]
 
 
 def _error(code: str, message: str, re_type, **extra) -> dict:

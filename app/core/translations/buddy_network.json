@@ -4669,5 +4669,155 @@
   "中文": "公开——在所有人的聊天室列表中",
   "العربية": "عامة – في قائمة غرف الجميع",
   "Tiếng Việt": "Công khai – có trong danh sách phòng của mọi người"
+ },
+ "react": {
+  "日本語": "リアクション",
+  "Español": "reaccionar",
+  "Deutsch": "reagieren",
+  "Français": "réagir",
+  "한국어": "반응",
+  "中文": "回应",
+  "العربية": "تفاعل",
+  "Tiếng Việt": "bày tỏ"
+ },
+ "smile": {
+  "日本語": "笑顔",
+  "Español": "sonrisa",
+  "Deutsch": "Lächeln",
+  "Français": "sourire",
+  "한국어": "미소",
+  "中文": "微笑",
+  "العربية": "ابتسامة",
+  "Tiếng Việt": "mỉm cười"
+ },
+ "grin": {
+  "日本語": "にっこり",
+  "Español": "sonrisa amplia",
+  "Deutsch": "Grinsen",
+  "Français": "grand sourire",
+  "한국어": "활짝 웃음",
+  "中文": "咧嘴笑",
+  "العربية": "ابتسامة عريضة",
+  "Tiếng Việt": "cười toe toét"
+ },
+ "heart": {
+  "日本語": "ハート",
+  "Español": "corazón",
+  "Deutsch": "Herz",
+  "Français": "cœur",
+  "한국어": "하트",
+  "中文": "爱心",
+  "العربية": "قلب",
+  "Tiếng Việt": "trái tim"
+ },
+ "wink": {
+  "日本語": "ウインク",
+  "Español": "guiño",
+  "Deutsch": "Zwinkern",
+  "Français": "clin d'œil",
+  "한국어": "윙크",
+  "中文": "眨眼",
+  "العربية": "غمزة",
+  "Tiếng Việt": "nháy mắt"
+ },
+ "tongue out": {
+  "日本語": "あっかんべー",
+  "Español": "sacar la lengua",
+  "Deutsch": "Zunge raus",
+  "Français": "tirer la langue",
+  "한국어": "메롱",
+  "中文": "吐舌头",
+  "العربية": "إخراج اللسان",
+  "Tiếng Việt": "lè lưỡi"
+ },
+ "sad": {
+  "日本語": "悲しい",
+  "Español": "triste",
+  "Deutsch": "traurig",
+  "Français": "triste",
+  "한국어": "슬픔",
+  "中文": "难过",
+  "العربية": "حزين",
+  "Tiếng Việt": "buồn"
+ },
+ "wow": {
+  "日本語": "びっくり",
+  "Español": "asombro",
+  "Deutsch": "staunen",
+  "Français": "waouh",
+  "한국어": "놀람",
+  "中文": "哇",
+  "العربية": "واو",
+  "Tiếng Việt": "ồ"
+ },
+ "laughing": {
+  "日本語": "大笑い",
+  "Español": "carcajada",
+  "Deutsch": "lachen",
+  "Français": "mort de rire",
+  "한국어": "폭소",
+  "中文": "大笑",
+  "العربية": "ضحك",
+  "Tiếng Việt": "cười lớn"
+ },
+ "cool": {
+  "日本語": "クール",
+  "Español": "genial",
+  "Deutsch": "cool",
+  "Français": "cool",
+  "한국어": "멋짐",
+  "中文": "酷",
+  "العربية": "رائع",
+  "Tiếng Việt": "ngầu"
+ },
+ "happy": {
+  "日本語": "うれしい",
+  "Español": "feliz",
+  "Deutsch": "fröhlich",
+  "Français": "content",
+  "한국어": "기쁨",
+  "中文": "开心",
+  "العربية": "سعيد",
+  "Tiếng Việt": "vui"
+ },
+ "cheer": {
+  "日本語": "ばんざい",
+  "Español": "celebrar",
+  "Deutsch": "jubeln",
+  "Français": "hourra",
+  "한국어": "만세",
+  "中文": "欢呼",
+  "العربية": "هتاف",
+  "Tiếng Việt": "hoan hô"
+ },
+ "shrug": {
+  "日本語": "肩をすくめる",
+  "Español": "encogerse de hombros",
+  "Deutsch": "Schulterzucken",
+  "Français": "haussement d'épaules",
+  "한국어": "어깨 으쓱",
+  "中文": "耸肩",
+  "العربية": "هز الكتفين",
+  "Tiếng Việt": "nhún vai"
+ },
+ "Reactions aren't end-to-end encrypted": {
+  "日本語": "リアクションはエンドツーエンド暗号化されません",
+  "Español": "Las reacciones no tienen cifrado de extremo a extremo",
+  "Deutsch": "Reaktionen sind nicht Ende-zu-Ende-verschlüsselt",
+  "Français": "Les réactions ne sont pas chiffrées de bout en bout",
+  "한국어": "반응은 종단 간 암호화되지 않습니다",
+  "中文": "回应不是端到端加密的",
+  "العربية": "التفاعلات ليست مشفرة من طرف إلى طرف",
+  "Tiếng Việt": "Lượt bày tỏ không được mã hóa đầu cuối"
+ },
+ ", even in direct messages: the server can see which emoticon you put on which message – never the message itself.": {
+  "日本語": "。ダイレクトメッセージでも同じです: どのメッセージにどの顔文字を付けたかはサーバーから見えますが、メッセージそのものは見えません。",
+  "Español": ", ni siquiera en los mensajes directos: el servidor puede ver qué emoticono pusiste en cada mensaje, pero nunca el mensaje en sí.",
+  "Deutsch": ", auch nicht in Direktnachrichten: Der Server sieht, welches Emoticon Sie an welche Nachricht gehängt haben – nie die Nachricht selbst.",
+  "Français": ", même dans les messages directs : le serveur peut voir quelle émoticône vous avez mise sur quel message – jamais le message lui-même.",
+  "한국어": ". 다이렉트 메시지에서도 마찬가지입니다: 서버는 어떤 메시지에 어떤 이모티콘을 달았는지 볼 수 있지만, 메시지 자체는 절대 볼 수 없습니다.",
+  "中文": "，私信中也是如此：服务器能看到你在哪条消息上用了哪个表情符号——但绝不会看到消息本身。",
+  "العربية": "، حتى في الرسائل المباشرة: يمكن للخادم أن يرى أي رمز تعبيري وضعته على أي رسالة – لكن لا يرى الرسالة نفسها أبدًا.",
+  "Tiếng Việt": ", kể cả trong tin nhắn trực tiếp: máy chủ có thể thấy bạn đặt biểu tượng cảm xúc nào lên tin nhắn nào – nhưng không bao giờ thấy chính tin nhắn."
  }
 }
