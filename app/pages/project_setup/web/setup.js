@@ -16,6 +16,8 @@ let imp = null;
 let pop = null;
 let binRows = [];
 let job = null;
+let metadata = null;
+const metadataInputs = new Map();
 
 const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}`;
 
@@ -57,6 +59,8 @@ function applyEnabled() {
     for (const b of document.querySelectorAll("[data-needs-timeline]")) {
         b.disabled = noTimeline || (b.hasAttribute("data-needs-ffmpeg") && !sync.ffmpeg);
     }
+    $("remove-gaps").disabled = noTimeline || !sync.can_remove_gaps;
+    applyMetadataEnabled();
     if (state.busy) {
         for (const b of document.querySelectorAll("[data-action], #choose-folder, #rescan, #bins-reset")) {
             b.disabled = true;
@@ -282,6 +286,7 @@ Buddy.on("sync", d => {
     $("close-gaps").checked = d.close_gaps;
     $("steps").hidden = !d.steps_open;
     $("steps-toggle").setAttribute("aria-expanded", String(!!d.steps_open));
+    $("remove-gaps").hidden = !d.can_remove_gaps;
 
     const needsFfmpeg = d.method === "waveform" || d.sync_audio;
     const note = $("ffmpeg-note");
@@ -308,6 +313,78 @@ Buddy.on("job", j => {
 });
 
 // ------------------------------------------------------------- activity
+
+function metadataChanges() {
+    const changes = {};
+    for (const [key, {check, input}] of metadataInputs) {
+        if (check && check.checked) changes[key] = input.value;
+    }
+    return changes;
+}
+
+function applyMetadataEnabled() {
+    const count = Object.keys(metadataChanges()).length;
+    $("metadata-load").disabled = state.busy;
+    $("metadata-apply").disabled = state.busy || !metadata || !metadata.count || !count;
+    $("metadata-changes").textContent = count ? `${plural(count, "field")} to apply to ${plural(metadata.count, "clip")}` : "No fields chosen";
+    for (const {check, input} of metadataInputs.values()) {
+        if (check) {
+            check.disabled = state.busy;
+            input.disabled = state.busy;
+        }
+    }
+}
+
+$("metadata-load").onclick = async () => {
+    if (Object.keys(metadataChanges()).length && !await Buddy.confirm({
+        title: "Reload selected clips?", text: "This replaces the metadata edits you have not applied yet.", ok: "Reload",
+    })) return;
+    send("metadata_load");
+};
+$("metadata-apply").onclick = () => {
+    if (!metadata || state.busy) return;
+    send("metadata_apply", {revision: metadata.revision, changes: metadataChanges()});
+};
+
+Buddy.on("metadata", d => {
+    if (metadata && d.revision === metadata.revision) return; // Preserve drafts across tab switches.
+    metadata = d;
+    metadataInputs.clear();
+    $("metadata-count").textContent = d.count ? `${plural(d.count, "clip")} loaded` : "No clips loaded";
+    $("metadata-names").textContent = (d.names || []).join(" · ");
+    $("metadata-error").textContent = d.error || "";
+    $("metadata-fields").replaceChildren(...(d.fields || []).map((field, index) => {
+        const id = `metadata-field-${index}`;
+        const editable = field.kind !== "readonly";
+        const check = editable ? el("input", {type: "checkbox", title: `Apply ${field.label} to all loaded clips`,
+            "aria-label": `Apply ${field.label}`, onchange: applyMetadataEnabled}) : null;
+        let input;
+        if (field.kind === "tag" || field.kind === "color") {
+            const options = field.kind === "tag"
+                ? [["1", "Good Take"], ["0", "Untagged"], ["-1", "Rejected"]]
+                : [["", "No color"], ...(d.colors || []).map(color => [color, color])];
+            input = el("select.field", {id}, [
+                ...(field.mixed ? [el("option", {value: "", text: "Mixed — choose a value", disabled: true, selected: true})] : []),
+                ...options.map(([value, label]) => el("option", {value, text: label, selected: !field.mixed && field.value === value})),
+            ]);
+            // A mixed placeholder must not become an accidental clearing edit.
+            check.onchange = () => {
+                if (check.checked && input.selectedOptions[0].disabled) check.checked = false;
+                applyMetadataEnabled();
+            };
+        } else {
+            input = el(field.kind === "multiline" ? "textarea.field" : "input.field", {
+                id, value: field.value, readOnly: !editable, translate: "no",
+                placeholder: field.mixed ? "Mixed" : "", rows: field.kind === "multiline" ? 3 : undefined,
+            });
+            input.value = field.value;
+        }
+        if (check) input.oninput = input.onchange = () => { check.checked = true; applyMetadataEnabled(); };
+        metadataInputs.set(field.key, {check, input});
+        return el("div.metadata-row", {}, [check || el("span"), el("label", {for: id, text: field.label}), input]);
+    }));
+    applyMetadataEnabled();
+});
 
 Buddy.on("log", d => {
     const box = document.querySelector(`[data-log="${d.tab}"]`);

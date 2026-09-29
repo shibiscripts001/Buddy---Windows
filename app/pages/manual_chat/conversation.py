@@ -293,6 +293,7 @@ class _Chat:
         # What is on screen, oldest first. The only source the view is
         # drawn from, and what Export writes.
         self.blocks: list[dict] = []
+        self.offer: dict | None = None
 
 
 class ChatSessions:
@@ -384,7 +385,7 @@ class ChatSessions:
         """Save only the small preview images, never full model uploads."""
         return {"version": 1, "index": self.index, "chats": [
             {"title": c.title, "updated": c.updated, "history": c.history,
-             "blocks": c.blocks}
+             "blocks": c.blocks, "offer": c.offer}
             for c in self.chats]}
 
     @classmethod
@@ -399,6 +400,12 @@ class ChatSessions:
             chat = _Chat()
             chat.title = str(entry.get("title") or "New chat")[:100]
             chat.updated = str(entry.get("updated") or "")[:40]
+            offer = entry.get("offer")
+            if (isinstance(offer, dict) and isinstance(offer.get("tool_id"), str)
+                    and offer["tool_id"] and isinstance(offer.get("label"), str)
+                    and isinstance(offer.get("reason", ""), str)):
+                chat.offer = {"tool_id": offer["tool_id"], "label": offer["label"],
+                              "reason": offer.get("reason", "")}
             chat.history = [m for m in entry["history"] if isinstance(m, dict)
                             and m.get("role") in ("user", "assistant") and isinstance(m.get("content"), str)]
             chat.blocks = []

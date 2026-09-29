@@ -21,6 +21,7 @@
         <button type="button" role="tab" data-tab="import">Import folder</button>
         <button type="button" role="tab" data-tab="populate">Populate timeline</button>
         <button type="button" role="tab" data-tab="sync">Sync</button>
+        <button type="button" role="tab" data-tab="metadata">Metadata</button>
     </nav>
 
     <!-- ------------------------------------------------------------ Bins -->
@@ -115,6 +116,28 @@
         <details class="activity" data-log="populate" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
     </section>
 
+    <section class="panel scroll" id="panel-metadata" hidden>
+        <p class="intro muted">Select one or more clips in Resolve's Media Pool, then load the selection. No separate bin is needed.</p>
+        <div class="card metadata-card">
+            <div class="card-head">
+                <h2 class="section-title" id="metadata-count">No clips loaded</h2>
+                <div class="spacer"></div>
+                <button type="button" class="btn" id="metadata-load">Load selected clips</button>
+            </div>
+            <div class="muted small metadata-names" id="metadata-names" translate="no"></div>
+            <div class="warn metadata-note" id="metadata-error"></div>
+            <p class="muted small metadata-note">Check the fields to apply to every loaded clip. Unchecked fields keep each clip's existing value. Mixed means the selected clips have different values.</p>
+            <div class="metadata-fields" id="metadata-fields"></div>
+            <p class="muted small metadata-note">Date Created is read-only in Resolve's scripting API. An applied empty field clears its value. Name changes the clip name in Resolve, not the filename on disk.</p>
+        </div>
+        <footer class="row footer">
+            <span class="muted small" id="metadata-changes">No fields chosen</span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent big" id="metadata-apply" disabled>Apply metadata</button>
+        </footer>
+        <details class="activity" data-log="metadata" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
+    </section>
+
     <!-- ------------------------------------------------------------ Sync -->
     <section class="panel scroll" id="panel-sync" hidden>
         <div class="card timeline-card">
@@ -155,6 +178,8 @@
             <div class="note warn-note" id="ffmpeg-note" hidden></div>
             <div class="row">
                 <div class="spacer"></div>
+                <button type="button" class="btn big" id="remove-gaps" data-action="remove_gaps" data-needs-timeline hidden
+                        title="Pull footage to the start and close empty gaps between blocks, preserving sync within each block. Creates a new timeline.">Remove gaps</button>
                 <button type="button" class="btn accent big" data-action="assemble" data-needs-timeline>Sync everything</button>
             </div>
         </div>

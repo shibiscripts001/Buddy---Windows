@@ -765,7 +765,15 @@ def align_document(document, frames_by_id, clips):
     ordered = sorted(clips, key=lambda c: c.clip_id not in frames_by_id)
     for clip in ordered:
         target = frames_by_id.get(clip.clip_id)
-        shift = 0.0 if target is None else target - clip.record_frame
+        # Whole frames only. Targets arrive from seconds (a waveform offset,
+        # timecode at the media's rate) and are fractional, and each track is
+        # written as its own chain of gaps: Resolve snaps every gap to a frame
+        # on import, so a video track and an audio track holding different
+        # gaps before the same clip accumulate different rounding - its
+        # picture and sound landed a frame or two apart. One integer shift
+        # per logical clip keeps its items exactly as they were relative to
+        # each other.
+        shift = 0.0 if target is None else float(round(target - clip.record_frame))
         if target is not None:
             moved += 1
         for entry in clip.entries:

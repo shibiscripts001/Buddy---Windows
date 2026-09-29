@@ -71,6 +71,39 @@ class RenderTests(unittest.TestCase):
 
 
 class SessionTests(unittest.TestCase):
+    def test_tool_recommendations_stay_with_saved_chats(self):
+        chats = ChatSessions()
+        first = {"tool_id": "media_relink", "label": "Open Media Relink", "reason": "Offline clips"}
+        second = {"tool_id": "transcribe", "label": "Open Transcribe", "reason": "Make subtitles"}
+        chats.add(YOU, "Fix my media")
+        chats.current.offer = first
+        chats.new_chat()
+        self.assertIsNone(chats.current.offer)
+        chats.add(YOU, "Make subtitles")
+        chats.current.offer = second
+        chats.go(0)
+        self.assertEqual(chats.current.offer, first)
+        with tempfile.TemporaryDirectory() as folder:
+            chat_store.save(folder, chats)
+            restored, warnings = chat_store.load(folder)
+        self.assertEqual(warnings, [])
+        self.assertEqual(restored.current.offer, first)
+        restored.go(1)
+        self.assertEqual(restored.current.offer, second)
+        restored.delete(0)
+        self.assertEqual(restored.current.offer, second)
+        restored.delete_all()
+        self.assertIsNone(restored.current.offer)
+
+    def test_old_chats_and_malformed_offers_still_load(self):
+        data = ChatSessions().to_data()
+        del data["chats"][0]["offer"]
+        self.assertIsNone(ChatSessions.from_data(data).current.offer)
+        for offer in (None, [], "media_relink", {"tool_id": 123},
+                      {"tool_id": "media_relink", "label": [], "reason": "test"}):
+            data["chats"][0]["offer"] = offer
+            self.assertIsNone(ChatSessions.from_data(data).current.offer)
+
     def test_saved_chats_restore_search_and_small_picture_previews(self):
         chats = ChatSessions()
         chats.add(YOU, "How do I fix a soft shot?", images=["data:image/jpeg;base64,YQ=="])

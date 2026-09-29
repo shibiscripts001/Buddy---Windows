@@ -136,6 +136,37 @@ class NoAvailableRangeTests(unittest.TestCase):
         self.assertTrue(any('"A"' in w for w in warnings))
 
 
+class WholeFramePlacementTests(unittest.TestCase):
+    """Waveform offsets are seconds, so targets come out fractional. Resolve
+    snaps each gap to a frame on import, and a clip's video and audio tracks
+    hold different gaps before it - so a fractional layout put its picture
+    and sound a frame or two apart."""
+
+    def test_waveform_layout_is_whole_frames_and_pairs_stay_together(self):
+        doc = document(
+            track("Video", clip("A", 1000, "a.mp4", link=1),
+                  clip("B", 900, "b.mp4", link=2), clip("C", 500, "c.mp4", link=3)),
+            track("Audio", clip("A", 1000, "a.mp4", link=1),
+                  clip("B", 900, "b.mp4", link=2), clip("C", 500, "c.mp4", link=3)),
+            track("Audio", clip("R", 3000, "r.wav")),
+        )
+        ids = {c.name: c.clip_id for c in oe.logical_clips(doc)}
+        groups = [{ids["R"]: 0.0, ids["A"]: 12.337, ids["B"]: 61.913}]
+        with mock.patch.object(oe, "build_sync_groups", return_value=(groups, 4)):
+            result, _stats, _warnings = oe.assemble_document(
+                doc, "waveform", ffmpeg_path="ffmpeg")
+
+        for tr in result["tracks"]["children"]:
+            for child in tr["children"]:
+                self.assertEqual(oe._duration(child), round(oe._duration(child)),
+                                 f'{tr["name"]}: {child.get("name") or "gap"}')
+        starts = {}
+        for entry in oe.read_entries(result):
+            starts.setdefault(entry["name"], set()).add(entry["start"])
+        for name in ("A", "B", "C"):
+            self.assertEqual(len(starts[name]), 1, f"{name}: {starts[name]}")
+
+
 class SilentAudioTests(unittest.TestCase):
     """is_silent is mocked to report silence whenever it is asked about only
     part of a file's channels - which is what used to happen to every loose

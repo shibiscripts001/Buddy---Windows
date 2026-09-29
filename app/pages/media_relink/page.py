@@ -20,7 +20,7 @@ page, search progress with Cancel, and selecting by checkbox.
 
 Protocol:
     to the view    state, rows, search, log, alert, toast
-    from the view  mode, connect, scan, search, cancel_search, pick,
+    from the view  mode, scope, connect, scan, search, cancel_search, pick,
                    browse, relink_selected, relink_all
 """
 
@@ -88,7 +88,7 @@ class MediaRelinkPage(WebToolPage):
     def build_state(self):
         self.mode = MODE_FIX
         self._lists = {m: {"rows": [], "skipped": 0, "scanned": False, "summary": "", "generation": 0,
-                           "project_id": None}
+                           "project_id": None, "scope": resolve_ext.SCOPE_PROJECT}
                        for m in MODES}
         self._log = []
         self._worker = None
@@ -119,7 +119,8 @@ class MediaRelinkPage(WebToolPage):
         return getattr(self.host, "connected", False) and self.host.controller is not None
 
     def _push_state(self):
-        self.emit("state", {"mode": self.mode, "connected": self._connected(), "busy": bool(self._search)})
+        self.emit("state", {"mode": self.mode, "scope": self._lists[self.mode]["scope"],
+                            "connected": self._connected(), "busy": bool(self._search)})
 
     def _push_rows(self, mode):
         data = self._lists[mode]
@@ -182,6 +183,18 @@ class MediaRelinkPage(WebToolPage):
             pass
         self._push_state()
 
+    def on_scope(self, payload):
+        scope = (payload or {}).get("scope")
+        data = self._lists[self.mode]
+        if self._search or scope not in resolve_ext.SCOPES or scope == data["scope"]:
+            return
+        # Never let matches or selections from the old scope be relinked.
+        data.update(scope=scope, rows=[], skipped=0, scanned=False, summary="",
+                    summary_parts=[], project_id=None, generation=data["generation"] + 1)
+        self._push_state()
+        self._push_rows(self.mode)
+        self.on_scan(None)
+
     def on_scan(self, _payload):
         mode = self.mode
         try:
@@ -192,7 +205,9 @@ class MediaRelinkPage(WebToolPage):
         self.host.set_busy(True, "Scanning the Media Pool…")
         error = None
         try:
-            entries = resolve_ext.scan_all_clips(controller)
+            entries = (resolve_ext.scan_current_bin(controller)
+                       if self._lists[mode]["scope"] == resolve_ext.SCOPE_BIN
+                       else resolve_ext.scan_all_clips(controller))
             rows, skipped = relink_rows.make_rows(
                 entries, resolve_ext.get_clip_file_path,
                 lambda clip: clip.GetClipProperty("Clip Name") or clip.GetName())

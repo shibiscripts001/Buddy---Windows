@@ -4,6 +4,7 @@ Media Pool - never a real Resolve, and never the real
 ~/.resolve_bin_generator settings."""
 
 import os
+import json
 import tempfile
 import time
 import unittest
@@ -14,8 +15,9 @@ from pages.project_setup import bins, importer, sync_report
 
 try:
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-    from PySide6.QtCore import QCoreApplication, Qt
+    from PySide6.QtCore import QCoreApplication, QEventLoop, QTimer, Qt
     from PySide6.QtWidgets import QApplication
+    from shiboken6 import delete
     HAVE_QT = True
 except ImportError:  # pragma: no cover
     HAVE_QT = False
@@ -57,6 +59,10 @@ class Pool:
         self.current = self.root
         self.refuse = set()
         self.imported = []
+        self.selected = []
+
+    def GetSelectedClips(self):
+        return self.selected
 
     def GetRootFolder(self):
         return self.root
@@ -107,10 +113,16 @@ class Timeline:
     def GetUniqueId(self):
         return "tl-" + self.name
 
+    def GetTrackCount(self, kind):
+        return 1
+
 
 class Project:
     def __init__(self, pool):
         self.pool, self.timeline = pool, None
+
+    def GetUniqueId(self):
+        return f"project-{id(self)}"
 
     def GetMediaPool(self):
         return self.pool
@@ -272,7 +284,7 @@ class PageTests(unittest.TestCase):
         self.pool = self.host.controller.pool
         self.page = ProjectSetupPage(self.host)
         self.page._poll.stop()
-        self.addCleanup(self.page.deleteLater)
+        self.addCleanup(delete, self.page)
         self.events = []
         self.page.emit = lambda name, payload=None: self.events.append((name, payload))
 
@@ -374,6 +386,91 @@ class PageTests(unittest.TestCase):
         sync = self.last("sync")
         self.assertEqual((sync["method"], sync["close_gaps"]), ("waveform", True))
         self.assertTrue(self.page.data_mgr.settings["shift_close_gaps"])
+
+    def test_bulk_metadata_and_selection_change_guard(self):
+        from test_project_metadata import MetadataClip
+        a, b, other = MetadataClip("A"), MetadataClip("B"), MetadataClip("Other")
+        self.pool.selected = [a, b]
+        self.page.on_tab({"tab": "metadata"})
+        revision = self.last("metadata")["revision"]
+        self.assertEqual(self.last("metadata")["count"], 2)
+        self.pool.selected = [other]
+        self.page.on_metadata_apply({"revision": revision, "changes": {"Scene": "4"}})
+        self.assertIn("selected clips changed", self.last("alert")["text"])
+        self.assertEqual(a.writes + b.writes + other.writes, [])
+        self.pool.selected = [b, a]  # Same selection in a different order is fine.
+        self.page.on_metadata_apply({"revision": revision, "changes": {"Scene": "4"}})
+        self.assertEqual((a.meta["Scene"], b.meta["Scene"]), ("4", "4"))
+        self.assertEqual(other.writes, [])
+        self.page.on_metadata_apply({"revision": revision, "changes": {"Scene": "5"}})
+        self.assertEqual(a.meta["Scene"], "4")  # Old/repeated apply messages are refused.
+
+    def test_metadata_rejects_project_change_and_empty_selection(self):
+        from test_project_metadata import MetadataClip
+        clip = MetadataClip("A")
+        self.pool.selected = [clip]
+        self.page.on_metadata_load(None)
+        revision = self.last("metadata")["revision"]
+        with mock.patch.object(Project, "GetUniqueId", return_value="different-project"):
+            self.page.on_metadata_apply({"revision": revision, "changes": {"Take": "2"}})
+        self.assertEqual(clip.writes, [])
+        self.pool.selected = []
+        self.page.on_metadata_load(None)
+        self.assertEqual(self.last("metadata")["count"], 0)
+        self.assertIn("Select one or more", self.last("metadata")["error"])
+
+    def test_remove_gaps_is_offered_after_both_sync_methods_and_uses_shift(self):
+        from pages.project_setup import otio_engine
+        project = self.host.controller.project
+        for method in ("timecode", "waveform"):
+            with self.subTest(method=method):
+                source = Timeline("Original " + method)
+                synced = Timeline("Synced " + method)
+                project.timeline = source
+                self.page.tab = "sync"
+                self.page.sync_options["method"] = method
+
+                def imported(*args):
+                    project.timeline = synced
+                    return synced
+
+                with mock.patch.object(otio_engine, "read_current_timeline", return_value=({}, [], self._tmp.name)), \
+                        mock.patch.object(otio_engine, "assemble_document", return_value=({}, {"aligned": 2, "total": 2}, [])), \
+                        mock.patch.object(otio_engine, "import_rebuilt", side_effect=imported):
+                    self.page._read_sync(self.page.controller)
+                    self.assertFalse(self.last("sync")["can_remove_gaps"])
+                    self.page.on_assemble(None)
+                    deadline = time.monotonic() + 5
+                    while self.page._worker is not None and time.monotonic() < deadline:
+                        self.app.processEvents()
+                    self.assertIsNone(self.page._worker)
+                    self.assertTrue(self.last("sync")["can_remove_gaps"])
+                    project.timeline = source
+                    self.page._read_sync(self.page.controller)
+                    self.assertFalse(self.last("sync")["can_remove_gaps"])
+                    with mock.patch.object(otio_engine, "shift_timeline") as shift:
+                        self.page.on_remove_gaps(None)
+                        shift.assert_not_called()
+                    project.timeline = synced
+                    stats = {"clips": 2, "lead_in_removed": 0, "gaps": 1, "gap_frames_removed": 20, "name": "Shifted"}
+                    with mock.patch.object(otio_engine, "shift_timeline", return_value=(Timeline("Shifted"), stats)) as shift:
+                        self.page.on_remove_gaps(None)
+                        self.assertTrue(shift.call_args.kwargs["close_gaps"])
+                    self.assertFalse(self.last("sync")["can_remove_gaps"])
+                    self.assertFalse(self.page.data_mgr.settings.get("shift_close_gaps", False))
+
+    def test_failed_sync_does_not_offer_remove_gaps(self):
+        from pages.project_setup import otio_engine
+        self.host.controller.project.timeline = Timeline("Original")
+        self.page.tab = "sync"
+        with mock.patch.object(otio_engine, "read_current_timeline", return_value=({}, [], self._tmp.name)), \
+                mock.patch.object(otio_engine, "assemble_document", side_effect=otio_engine.OtioError("No usable audio")):
+            self.page.on_assemble(None)
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+            self.page._read_sync(self.page.controller)
+        self.assertFalse(self.last("sync")["can_remove_gaps"])
 
 
 if __name__ == "__main__":

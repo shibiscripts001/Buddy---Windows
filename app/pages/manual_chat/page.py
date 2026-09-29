@@ -135,7 +135,6 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         # offer with one click - but Discard still works).
         self._proposal_state = "ready"
         self._proposal_note = ""
-        self._offer = None
         self._chat_query = ""
         self._chat_store_error = ""
         try:
@@ -391,7 +390,6 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if self._retriever is None:
             self.on_shown()
 
-        self._set_offer(None)
         self._pending_question = question
         sent, self.pictures = self.pictures, []
         self._pending_pictures = len(sent)
@@ -463,11 +461,12 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
                              "reason": reason})
 
     def _set_offer(self, offer):
-        self._offer = offer
+        self.chats.current.offer = offer
+        self._persist_chats()
         self._push_offer()
 
     def _push_offer(self):
-        self.emit("offer", self._offer)
+        self.emit("offer", self.chats.current.offer)
 
     def on_open_tool(self, payload):
         tool_id = (payload or {}).get("tool_id")
@@ -517,7 +516,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         project state."""
         self._pending_question = ""
         self._hide_proposal()
-        self._set_offer(None)
+        self._push_offer()
         self._push_transcript()
         self._push_controls()
         self._push_status()
@@ -540,7 +539,6 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if self._sending:
             return
         self._hide_proposal()
-        self._set_offer(None)
         if self.chats.new_chat():
             self._switched()
 
@@ -611,7 +609,6 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if controller is None:
             self._toast("Connect Buddy to Resolve to check the open project.")
             return
-        self._set_offer(None)
         self._append(YOU, "Check my project", raw=True)
         self._set_sending(True)
         self._checkup_worker = _CheckupWorker(controller)

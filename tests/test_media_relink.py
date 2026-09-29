@@ -3,20 +3,22 @@ and the web page driven against fake Media Pool clips pointing at files in
 a temp folder - never a real Resolve."""
 
 import os
+import json
 import tempfile
 import time
 import unittest
 from unittest import mock
 
 import _paths  # noqa: F401
-from pages.media_relink import relink_rows
+from pages.media_relink import relink_rows, resolve_ext
 from pages.media_relink.relink_engine import MatchStatus, SearchCancelled, build_file_index
 from pages.media_relink.relink_rows import MODE_FIX, MODE_RELOCATE
 
 try:
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-    from PySide6.QtCore import QCoreApplication, Qt
+    from PySide6.QtCore import QCoreApplication, QEventLoop, QTimer, Qt
     from PySide6.QtWidgets import QApplication
+    from shiboken6 import delete
     HAVE_QT = True
 except ImportError:  # pragma: no cover
     HAVE_QT = False
@@ -149,13 +151,36 @@ class Folder:
 
 class Controller:
     def __init__(self, root):
-        pool = type("Pool", (), {"GetRootFolder": lambda s: root})()
+        pool = type("Pool", (), {"GetRootFolder": lambda s: root,
+                                  "GetCurrentFolder": lambda s: s.current})()
+        pool.current = root
         self.project = type("Project", (), {"GetMediaPool": lambda s: pool,
                                             "GetUniqueId": lambda s: s._id})()
         self.project._id = "project-a"
 
     def current_project(self):
         return self.project
+
+
+class ScopeTests(unittest.TestCase):
+    def test_current_bin_excludes_siblings_sub_bins_and_timelines(self):
+        clip = Clip("Current", "current.mov")
+        child_clip = Clip("Child", "child.mov")
+        sibling_clip = Clip("Sibling", "sibling.mov")
+        current = Folder("Footage", [clip, Clip("Edit", "", kind="Timeline")],
+                         [Folder("Child", [child_clip])])
+        root = Folder("Master", [], [current, Folder("Sibling", [sibling_clip])])
+        controller = Controller(root)
+        controller.project.GetMediaPool().current = current
+        self.assertEqual(resolve_ext.scan_current_bin(controller), [(clip, "Footage")])
+        self.assertEqual([c for c, _ in resolve_ext.scan_all_clips(controller)],
+                         [clip, child_clip, sibling_clip])
+
+    def test_current_bin_never_falls_back_to_entire_project(self):
+        controller = Controller(Folder("Master", [Clip("Clip", "clip.mov")]))
+        controller.project.GetMediaPool().current = None
+        with self.assertRaises(resolve_ext.ResolveConnectionError):
+            resolve_ext.scan_current_bin(controller)
 
 
 class Host:
@@ -187,12 +212,66 @@ class PageTests(Base):
         root = Folder("Master", [timeline], [Folder("Footage", self.clips)])
         self.host = Host(Controller(root))
         self.page = page_mod.MediaRelinkPage(self.host)
-        self.addCleanup(self.page.deleteLater)
+        self.addCleanup(delete, self.page)
         self.events = []
         self.page.emit = lambda name, payload=None: self.events.append((name, payload))
 
     def last(self, name):
         return [p for n, p in self.events if n == name][-1]
+
+    def js(self, code):
+        loop, result = QEventLoop(), {}
+        self.page.view.page().runJavaScript(code, 0, lambda value: (result.update(value=value), loop.quit()))
+        QTimer.singleShot(5000, loop.quit)
+        loop.exec()
+        return result.get("value")
+
+    def test_shift_click_ranges_use_visible_rows_and_reset_after_rescan(self):
+        self.page.show()
+        deadline = time.monotonic() + 10
+        while not self.js("typeof selectRow === 'function'"):
+            self.app.processEvents()
+            if time.monotonic() > deadline:
+                self.fail("Media Relink web view did not load")
+        self.page.on_scan(None)
+        rows = self.last("rows")
+        # Online A001 (id 0) is hidden; the three visible ids are 1, 2, 3.
+        self.js(f"Buddy.receive('state', {json.dumps(self.last('state'))});"
+                f"Buddy.receive('rows', {json.dumps(rows)});")
+        self.assertEqual(self.js("document.querySelectorAll('tbody tr').length"), 3)
+
+        def click(index, shift=False):
+            self.js("document.querySelectorAll('tbody input')[" + str(index) + "]"
+                    ".dispatchEvent(new MouseEvent('click', {bubbles: true, shiftKey: "
+                    + str(shift).lower() + "}));")
+
+        def picked():
+            return self.js("JSON.stringify([...selected.fix].sort())")
+
+        click(0)
+        click(2, True)
+        self.assertEqual(picked(), "[1,2,3]")
+        click(2, True)  # Shift-uncheck clears the same range.
+        self.assertEqual(picked(), "[]")
+        click(2)
+        click(0, True)  # Reverse range.
+        self.assertEqual(picked(), "[1,2,3]")
+        self.js("document.getElementById('only-offline').click()")
+        click(0, True)  # Filter change discarded the old anchor.
+        self.assertEqual(picked(), "[0,1,2,3]")
+        self.page.on_scan(None)
+        self.js(f"Buddy.receive('rows', {json.dumps(self.last('rows'))});")
+        self.assertEqual(picked(), "[]")
+        click(3, True)
+        self.assertEqual(picked(), "[3]")
+        self.page.on_mode({"mode": MODE_RELOCATE})
+        self.page.on_scan(None)
+        self.js(f"Buddy.receive('state', {json.dumps(self.last('state'))});"
+                f"Buddy.receive('rows', {json.dumps(self.last('rows'))});")
+        click(0)
+        click(2, True)
+        self.assertEqual(self.js("JSON.stringify([...selected.relocate].sort())"), "[0,1,2]")
+        self.assertEqual(picked(), "[3]")  # Each mode keeps its own selection.
 
     def search(self, folder):
         with mock.patch.object(self.page_mod.QFileDialog, "getExistingDirectory", return_value=folder):
@@ -236,6 +315,35 @@ class PageTests(Base):
     def test_search_needs_a_scan_first(self):
         self.page.on_search(None)
         self.assertEqual(self.last("alert")["title"], "Scan first")
+
+    def test_scope_switch_rescans_and_clears_matches_in_both_modes(self):
+        pool = self.host.controller.project.GetMediaPool()
+        pool.current = Folder("Only B", [self.clips[1]])
+        for mode in (MODE_FIX, MODE_RELOCATE):
+            with self.subTest(mode=mode):
+                self.page.on_mode({"mode": mode})
+                self.page.on_scan(None)
+                self.search(self.new)
+                old_generation = self.last("rows")["generation"]
+                self.page.on_scope({"scope": "bin"})
+                rows = self.last("rows")
+                self.assertEqual([r["name"] for r in rows["rows"]], ["B002"])
+                self.assertFalse(rows["rows"][0]["new_path"])
+                self.assertGreater(rows["generation"], old_generation)
+                self.assertEqual(self.last("state")["scope"], "bin")
+                self.page.on_scope({"scope": "project"})
+                self.assertEqual(len(self.last("rows")["rows"]), 4)
+
+    def test_scope_is_remembered_per_mode_and_locked_during_search(self):
+        self.page.on_scope({"scope": "bin"})
+        self.page.on_mode({"mode": MODE_RELOCATE})
+        self.assertEqual(self.last("state")["scope"], "project")
+        self.page.on_mode({"mode": MODE_FIX})
+        self.assertEqual(self.last("state")["scope"], "bin")
+        self.page._search = {"mode": MODE_FIX}
+        self.page.on_scope({"scope": "project"})
+        self.assertEqual(self.page._lists[MODE_FIX]["scope"], "bin")
+        self.page._search = None
 
     def test_project_change_requires_new_scan(self):
         self.page.on_scan(None)

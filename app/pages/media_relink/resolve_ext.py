@@ -11,6 +11,22 @@ the one call that actually changes a clip's linked media.
 
 from core.resolve_bridge import ResolveConnectionError
 
+SCOPE_PROJECT = "project"
+SCOPE_BIN = "bin"
+SCOPES = (SCOPE_PROJECT, SCOPE_BIN)
+
+
+def scan_current_bin(controller):
+    """Only the clips directly in the bin currently open in Resolve."""
+    project = controller.current_project()
+    if not project:
+        raise ResolveConnectionError("No project is open in Resolve!")
+    folder = project.GetMediaPool().GetCurrentFolder()
+    if not folder:
+        raise ResolveConnectionError("No Media Pool bin is open in Resolve!")
+    return [(clip, folder.GetName()) for clip in (folder.GetClipList() or [])
+            if _is_real_media_clip(clip)]
+
 
 def _is_real_media_clip(clip):
     """A Media Pool bin's own GetClipList() includes the project's own

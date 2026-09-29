@@ -26,6 +26,10 @@
             <p class="muted" id="intro-text"></p>
         </div>
         <div class="row intro-actions">
+            <div class="segmented" id="scope" role="group" aria-label="Which clips">
+                <button type="button" data-scope="bin" title="Only clips directly in the Media Pool bin open in Resolve; excludes sub-bins">Current bin</button>
+                <button type="button" data-scope="project" title="Clips in every bin in the project">Entire project</button>
+            </div>
             <button type="button" class="btn" data-action="scan" id="scan">Scan project</button>
             <button type="button" class="btn" data-action="search" id="search">Search a folder…</button>
         </div>
@@ -52,6 +56,7 @@
 
     <footer class="row footer">
         <button type="button" class="btn" id="select-all">Select all</button>
+        <span class="muted small">Shift-click to select a range</span>
         <span class="muted small" id="selection"></span>
         <div class="spacer"></div>
         <button type="button" class="btn" id="relink-selected" disabled>Relink selected</button>

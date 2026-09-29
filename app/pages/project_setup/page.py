@@ -4,11 +4,12 @@ Project Setup - bins from a saved list, a folder on disk imported as bins,
 a bin dropped onto the timeline, and multicam sync. A web page
 (core/web_page.py): the view is web/index.html + setup.js.
 
-Four tabs, each backed by a Qt-free module:
+Five tabs, each backed by a Qt-free module:
     Bins      bins.py        the typed list -> a tree (previewed live) -> bins
     Import    importer.py    a folder's tree -> bins, its media imported
     Populate  resolve_ext    the bin open in Resolve -> the timeline
     Sync      otio_engine    export -> transform offline -> import a NEW timeline
+    Metadata  metadata.py   edit chosen fields on selected Media Pool clips
 
 The Sync tab's discipline: every operation
 writes a new timeline and never edits the current one, so a failure at any
@@ -44,12 +45,12 @@ from core.i18n import tr
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
-from . import align_engine, bins, data_manager, importer, otio_engine, resolve_ext, sync_report
+from . import align_engine, bins, data_manager, importer, metadata, otio_engine, resolve_ext, sync_report
 from .ffmpeg_utils import find_ffmpeg
 from .settings_panel import ProjectSetupSettingsMixin
 from .worker import EngineWorker
 
-TABS = ("bins", "import", "populate", "sync")
+TABS = ("bins", "import", "populate", "sync", "metadata")
 POLL_MS = 1000
 SLOW_POLL_MS = 5000
 SLOW_POLL_SECONDS = 0.25
@@ -102,6 +103,10 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
 
         self.sync_options = {"method": align_engine.METHOD_TIMECODE, "sync_audio": True, "steps_open": False}
         self._sync = {}
+        self._gap_targets = set()
+        self._metadata = {"count": 0, "fields": [], "names": [], "error": ""}
+        self._metadata_signature = None
+        self._metadata_revision = 0
 
         self._signature = None
         self._poll = QTimer(self)
@@ -120,6 +125,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         self._push_import()
         self._push_populate()
         self._push_sync()
+        self._push_metadata()
         self.emit("job", self._job)
 
     def on_shown(self):
@@ -190,7 +196,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         """While the page is on screen, follow what's open in Resolve: the
         selected bin (Import's destination, Populate's source) and the open
         timeline (Populate's target, Sync's source)."""
-        if not self.isVisible() or self._sync_busy or self._job or self.tab == "bins":
+        if not self.isVisible() or self._sync_busy or self._job or self.tab in ("bins", "metadata"):
             return
         controller = self.controller
         if controller is None:
@@ -223,6 +229,11 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             self._read_populate(controller)
         elif self.tab == "sync":
             self._read_sync(controller)
+        elif self.tab == "metadata":
+            if self._metadata_signature is None:
+                self._read_metadata(controller)
+            else:
+                self._push_metadata()
         self._push_state()
 
     # --------------------------------------------------------------- view --
@@ -258,6 +269,72 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         if self.tab == "import":
             self._scan()
         self._refresh_tab(connect=True)
+
+    # ------------------------------------------------------------ Metadata --
+
+    def _push_metadata(self):
+        self.emit("metadata", {**self._metadata, "revision": self._metadata_revision})
+
+    def _read_metadata(self, controller):
+        self._metadata_revision += 1
+        self._metadata_signature = None
+        self._metadata = {"count": 0, "fields": [], "names": [], "error": ""}
+        try:
+            if controller is None:
+                raise metadata.MetadataError("Connect to Resolve and select clips in the Media Pool.")
+            project = controller.get_project()
+            clips = metadata.selected_clips(project)
+            if not clips:
+                raise metadata.MetadataError("Select one or more media clips in Resolve's Media Pool, then load the selection.")
+            self._metadata = {**metadata.snapshot(clips), "error": ""}
+            self._metadata_signature = metadata.signature(project, clips)
+        except Exception as exc:
+            self._metadata["error"] = str(exc)
+            self._metadata["count"] = 0
+        self._push_metadata()
+
+    def on_metadata_load(self, _payload):
+        self._read_metadata(self.ensure_connected())
+
+    def on_metadata_apply(self, payload):
+        payload = payload or {}
+        if (self._metadata_signature is None or payload.get("revision") != self._metadata_revision
+                or self._sync_busy or self._job):
+            self._alert("Load selected clips", "Load the Media Pool selection before applying metadata.")
+            return
+        controller = self.ensure_connected()
+        if controller is None:
+            return
+        try:
+            changes = metadata.validate(payload.get("changes"))
+            project = controller.get_project()
+            clips = metadata.selected_clips(project)
+            if metadata.signature(project, clips) != self._metadata_signature:
+                raise metadata.MetadataError("The project or selected clips changed. Load the selection again before applying.")
+        except Exception as exc:
+            self._alert("Couldn't apply metadata", str(exc))
+            return
+        self._sync_busy = True
+        self._push_state()
+        self.host.set_busy(True, "Applying metadata…")
+        try:
+            updated, failures = metadata.apply(clips, changes)
+            self._log("metadata", f"Applied the chosen fields to {updated} of {len(clips)} clips.",
+                      "warn" if failures else "success")
+            for message in failures:
+                self._log("metadata", message, "error")
+            if failures:
+                self._alert("Some metadata could not be applied",
+                            "Some fields were updated, but Resolve refused others. See Activity for the clip and field details.")
+            else:
+                self.emit("toast", {"text": f"Updated metadata on {updated} clips"})
+        except Exception as exc:
+            self._alert("Couldn't apply metadata", str(exc))
+        finally:
+            self._sync_busy = False
+            self.host.set_busy(False)
+        self._read_metadata(controller)
+        self._push_state()
 
     def _set_setting(self, key, value):
         """Saves one of the settings shared with the Settings dialog, and
@@ -484,11 +561,12 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
     def _read_sync(self, controller):
         """Reads the open timeline by exporting it (the API walk was
         thousands of round trips on an expanded timeline). Changes nothing."""
-        info = {"timeline": None, "summary": None, "error": ""}
+        info = {"timeline": None, "summary": None, "error": "", "can_remove_gaps": False}
         if controller is not None:
             try:
                 timeline = controller.get_current_timeline()
                 info["timeline"] = timeline.GetName()
+                info["can_remove_gaps"] = self._sync_key(controller, timeline) in self._gap_targets
                 _document, clips, _workdir = otio_engine.read_current_timeline(controller)
                 info["summary"] = sync_report.timeline_summary(clips)
             except (otio_engine.OtioError, ResolveConnectionError) as exc:
@@ -497,6 +575,9 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
                 info["error"] = f"Couldn't read the timeline ({exc})."
         self._sync = info
         self._push_sync()
+
+    def _sync_key(self, controller, timeline):
+        return metadata.identity(controller.get_project()), metadata.identity(timeline)
 
     def _ffmpeg(self):
         return find_ffmpeg(self.data_mgr.settings.get("ffmpeg_path"))
@@ -696,6 +777,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             result, stats, warnings = payload
             timeline = otio_engine.import_rebuilt(controller, result, workdir, base_name,
                                                   "(Synced)", "assembled.otio")
+            self._gap_targets.add(self._sync_key(controller, timeline))
             return sync_report.assemble(stats, method, timeline.GetTrackCount("video"),
                                         timeline.GetTrackCount("audio"), timeline.GetName(), warnings)
 
@@ -721,6 +803,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
                 offsets, fps, snap_to_start=False, anchor_id=anchor_id,
                 anchor_frame=anchor.record_frame if anchor else 0)
             _timeline, stats = otio_engine.apply_alignment(controller, document, clips, frames, workdir)
+            self._gap_targets.add(self._sync_key(controller, _timeline))
             return sync_report.align(stats, anchor.name if anchor else None,
                                      anchor.record_frame if anchor else 0, shifted, warnings)
         self._run_step("Aligning clips…", "Couldn't align", work)
@@ -780,3 +863,13 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             _timeline, stats = otio_engine.shift_timeline(controller, close_gaps=close_gaps, progress_cb=progress)
             return sync_report.shift(stats, close_gaps)
         self._run_step("Shifting timeline…", "Couldn't shift", work)
+
+    def on_remove_gaps(self, _payload):
+        def work(controller, progress):
+            key = self._sync_key(controller, controller.get_current_timeline())
+            if key not in self._gap_targets:
+                raise otio_engine.OtioError("Open a timeline successfully synced or aligned in this session first.")
+            _timeline, stats = otio_engine.shift_timeline(controller, close_gaps=True, progress_cb=progress)
+            self._gap_targets.discard(key)
+            return sync_report.shift(stats, True)
+        self._run_step("Removing gaps…", "Couldn't remove gaps", work)

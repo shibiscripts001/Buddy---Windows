@@ -9,17 +9,18 @@ const {el, send} = Buddy;
 
 const INTRO = {
     fix: ["Fix offline media",
-          "Scan the project for clips whose files have gone missing, then search a folder to find them. " +
+          "Scan for clips whose files have gone missing, then search a folder to find them. " +
           "Clips that already work are never touched, even if a file with the same name turns up."],
     relocate: ["Move to a new location",
                "Point clips at a copy of their media somewhere else – a new drive, or off a server onto a local SSD - " +
                "even clips that work now. Scan, search the new location, tick the clips to move, then relink."],
 };
 
-let state = {mode: "fix", connected: false, busy: false};
+let state = {mode: "fix", scope: "project", connected: false, busy: false};
 const lists = {fix: null, relocate: null};
 const selected = {fix: new Set(), relocate: new Set()};
 const generation = {fix: -1, relocate: -1};
+const selectionAnchor = {fix: null, relocate: null};
 const onlyOffline = $("only-offline");
 
 const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}`;
@@ -30,11 +31,27 @@ const visibleRows = list => state.mode === "fix" && onlyOffline.checked
     ? list.rows.filter(needsAttention) : list.rows;
 
 for (const b of document.querySelectorAll("#mode [data-mode]")) {
-    b.onclick = () => { state.mode = b.dataset.mode; draw(); send("mode", {mode: state.mode}); };
+    b.onclick = () => send("mode", {mode: b.dataset.mode});
+}
+for (const b of document.querySelectorAll("#scope [data-scope]")) {
+    b.onclick = () => send("scope", {scope: b.dataset.scope});
 }
 for (const b of document.querySelectorAll("[data-action]")) b.addEventListener("click", () => send(b.dataset.action));
 $("cancel-search").onclick = () => send("cancel_search");
-onlyOffline.onchange = () => draw();
+onlyOffline.onchange = () => { selectionAnchor[state.mode] = null; draw(); };
+
+function selectRow(id, checked, shiftKey, rows) {
+    const mode = state.mode;
+    const set = selected[mode];
+    const anchor = rows.findIndex(r => r.id === selectionAnchor[mode]);
+    const end = rows.findIndex(r => r.id === id);
+    if (end < 0) return;
+    const range = shiftKey && anchor >= 0
+        ? rows.slice(Math.min(anchor, end), Math.max(anchor, end) + 1) : [rows[end]];
+    for (const r of range) checked ? set.add(r.id) : set.delete(r.id);
+    if (!shiftKey || anchor < 0) selectionAnchor[mode] = id;
+    draw();
+}
 
 $("select-all").onclick = () => {
     const list = lists[state.mode];
@@ -43,6 +60,7 @@ $("select-all").onclick = () => {
     const rows = visibleRows(list);
     const every = rows.length && rows.every(r => set.has(r.id));
     for (const r of rows) every ? set.delete(r.id) : set.add(r.id);
+    selectionAnchor[state.mode] = null;
     draw();
 };
 $("relink-selected").onclick = () => send("relink_selected", {ids: [...selected[state.mode]]});
@@ -91,15 +109,17 @@ function drawTable(list) {
         return;
     }
     if (!list.scanned) {
-        box.replaceChildren(emptyState("Scan the project to list its clips",
+        box.replaceChildren(emptyState(state.scope === "bin" ? "Scan the current bin to list its clips" : "Scan the project to list its clips",
+            state.scope === "bin" ? "Only clips directly in the bin open in Resolve are included; sub-bins are excluded." :
             state.mode === "fix" ? "Buddy checks every clip's file and lists the ones that are missing." :
                                    "Buddy lists every clip in the Media Pool with the file it points at.",
-            el("button.btn.accent", {text: "Scan project", onclick: () => send("scan")})));
+            el("button.btn.accent", {text: state.scope === "bin" ? "Scan current bin" : "Scan project", onclick: () => send("scan")})));
         return;
     }
     const rows = visibleRows(list);
     if (!list.rows.length) {
-        box.replaceChildren(emptyState("No clips with files", "The Media Pool has no clips that link to a file."));
+        box.replaceChildren(emptyState("No clips with files", state.scope === "bin"
+            ? "The current bin has no clips that link to a file." : "The Media Pool has no clips that link to a file."));
         return;
     }
     if (!rows.length) {
@@ -112,15 +132,24 @@ function drawTable(list) {
     const allTicked = rows.every(r => set.has(r.id));
     const head = el("tr", {}, [
         el("th.sel", {}, el("input", {type: "checkbox", checked: allTicked, title: "Select all shown",
-            onchange: e => { for (const r of rows) e.target.checked ? set.add(r.id) : set.delete(r.id); draw(); }})),
+            onchange: e => {
+                for (const r of rows) e.target.checked ? set.add(r.id) : set.delete(r.id);
+                selectionAnchor[state.mode] = null;
+                draw();
+            }})),
         el("th.name", {text: "Clip"}), el("th.bin", {text: "Bin"}), el("th.status", {text: "Status"}),
         el("th.file", {text: "File"}), el("th.act"),
     ]);
     const body = rows.map(r => el(`tr${set.has(r.id) ? ".selected" : ""}`, {
+        onmousedown: e => { if (e.shiftKey && !e.target.closest("button, input")) e.preventDefault(); },
+        onclick: e => {
+            if (e.shiftKey && !e.target.closest("button, input")) selectRow(r.id, true, true, rows);
+        },
         ondblclick: () => r.status === "ambiguous" ? pickDialog(r) : (r.status !== "online" || state.mode !== "fix") && send("browse", {id: r.id}),
     }, [
         el("td.sel", {}, el("input", {type: "checkbox", checked: set.has(r.id),
-            onchange: e => { e.target.checked ? set.add(r.id) : set.delete(r.id); draw(); }})),
+            title: "Shift-click to select a range", "aria-label": r.name,
+            onclick: e => { e.stopPropagation(); selectRow(r.id, e.target.checked, e.shiftKey, rows); }})),
         el("td.name", {text: r.name, title: r.name, translate: "no"}),
         el("td.bin", {text: r.bin, title: r.bin, translate: "no"}),
         el("td.status", {}, statusChip(r)),
@@ -146,6 +175,10 @@ function drawCounts(list) {
 function draw() {
     const mode = state.mode;
     for (const b of document.querySelectorAll("#mode [data-mode]")) b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+    for (const b of document.querySelectorAll("#scope [data-scope]")) {
+        b.setAttribute("aria-pressed", String(b.dataset.scope === state.scope));
+        b.disabled = state.busy;
+    }
     const [title, text] = INTRO[mode];
     $("intro-title").textContent = title;
     $("intro-text").textContent = text;
@@ -159,7 +192,7 @@ function draw() {
 
     const scan = $("scan");
     scan.classList.toggle("accent", !list.scanned);
-    scan.textContent = list.scanned ? "Scan again" : "Scan project";
+    scan.textContent = list.scanned ? "Scan again" : state.scope === "bin" ? "Scan current bin" : "Scan project";
     const search = $("search");
     search.classList.toggle("accent", list.scanned && !list.counts.matched && !list.counts.ambiguous);
 
@@ -216,9 +249,11 @@ Buddy.on("rows", d => {
     if (d.generation !== generation[d.mode]) {
         generation[d.mode] = d.generation;
         selected[d.mode].clear();
+        selectionAnchor[d.mode] = null;
     }
     const ids = new Set(d.rows.map(r => r.id));
     for (const id of [...selected[d.mode]]) if (!ids.has(id)) selected[d.mode].delete(id);
+    if (!ids.has(selectionAnchor[d.mode])) selectionAnchor[d.mode] = null;
     lists[d.mode] = d;
     if (d.mode === state.mode) draw();
 });
