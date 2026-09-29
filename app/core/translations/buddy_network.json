@@ -4589,5 +4589,85 @@
   "中文": "GIF 来自 GIPHY",
   "العربية": "GIF عبر GIPHY",
   "Tiếng Việt": "GIF qua GIPHY"
+ },
+ "Make public for everyone…": {
+  "日本語": "全員に公開…",
+  "Español": "Hacer pública para todos…",
+  "Deutsch": "Für alle öffentlich machen…",
+  "Français": "Rendre publique pour tous…",
+  "한국어": "모두에게 공개…",
+  "中文": "对所有人公开…",
+  "العربية": "جعلها عامة للجميع…",
+  "Tiếng Việt": "Công khai cho mọi người…"
+ },
+ "Make a regular room again…": {
+  "日本語": "通常のルームに戻す…",
+  "Español": "Volver a hacerla una sala normal…",
+  "Deutsch": "Wieder zu einem normalen Raum machen…",
+  "Français": "Refaire un salon normal…",
+  "한국어": "일반 방으로 되돌리기…",
+  "中文": "改回普通聊天室…",
+  "العربية": "إعادتها غرفة عادية…",
+  "Tiếng Việt": "Chuyển lại thành phòng thường…"
+ },
+ "Make public": {
+  "日本語": "公開する",
+  "Español": "Hacer pública",
+  "Deutsch": "Öffentlich machen",
+  "Français": "Rendre publique",
+  "한국어": "공개하기",
+  "中文": "公开",
+  "العربية": "جعلها عامة",
+  "Tiếng Việt": "Công khai"
+ },
+ "Put #{room} in everyone's room list, with Global and Help? It won't expire, and its maker can't change or delete it any more – you and your staff look after it. You can make it a regular room again from this menu.": {
+  "日本語": "#{room} を Global と Help と一緒に、全員のルーム一覧に追加しますか? 期限切れにならず、作成者は変更も削除もできなくなります – あなたとスタッフが管理します。このメニューからいつでも通常のルームに戻せます。",
+  "Español": "¿Poner #{room} en la lista de salas de todos, junto a Global y Help? No caducará, y quien la creó ya no podrá cambiarla ni eliminarla: tú y tu equipo se encargan de ella. Puedes volver a hacerla una sala normal desde este menú.",
+  "Deutsch": "#{room} zusammen mit Global und Help in die Raumliste aller aufnehmen? Er läuft nicht ab, und wer ihn erstellt hat, kann ihn nicht mehr ändern oder löschen – du und dein Team kümmert euch darum. Über dieses Menü kannst du ihn wieder zu einem normalen Raum machen.",
+  "Français": "Ajouter #{room} à la liste des salons de tout le monde, avec Global et Help ? Il n'expirera pas, et la personne qui l'a créé ne pourra plus le modifier ni le supprimer – vous et votre équipe vous en occupez. Vous pouvez en refaire un salon normal depuis ce menu.",
+  "한국어": "#{room}을(를) Global, Help와 함께 모든 사람의 방 목록에 넣을까요? 만료되지 않으며, 만든 사람은 더 이상 변경하거나 삭제할 수 없습니다 – 당신과 스태프가 관리합니다. 이 메뉴에서 다시 일반 방으로 되돌릴 수 있습니다.",
+  "中文": "要把 #{room} 和 Global、Help 一起放进所有人的聊天室列表吗？它不会过期，创建者也不能再修改或删除它——由你和你的管理团队负责。你可以在此菜单中把它改回普通聊天室。",
+  "العربية": "هل تريد وضع #{room} في قائمة غرف الجميع مع Global وHelp؟ لن تنتهي صلاحيتها، ولن يتمكن منشئها من تغييرها أو حذفها بعد الآن – أنت وفريقك تتولون أمرها. يمكنك إعادتها غرفة عادية من هذه القائمة.",
+  "Tiếng Việt": "Đưa #{room} vào danh sách phòng của mọi người, cùng Global và Help? Phòng sẽ không hết hạn, và người tạo không thể thay đổi hay xóa nữa – bạn và đội ngũ của bạn quản lý nó. Bạn có thể chuyển lại thành phòng thường từ menu này."
+ },
+ "Make a regular room": {
+  "日本語": "通常のルームにする",
+  "Español": "Hacerla una sala normal",
+  "Deutsch": "Zu einem normalen Raum machen",
+  "Français": "En faire un salon normal",
+  "한국어": "일반 방으로 만들기",
+  "中文": "改为普通聊天室",
+  "العربية": "جعلها غرفة عادية",
+  "Tiếng Việt": "Chuyển thành phòng thường"
+ },
+ "Take #{room} out of everyone's room list? It goes back to the person who made it, and people who haven't saved it will have to find it with Browse again.": {
+  "日本語": "#{room} を全員のルーム一覧から外しますか? 作成者のルームに戻り、保存していない人は「ルームを見る」でもう一度探す必要があります。",
+  "Español": "¿Quitar #{room} de la lista de salas de todos? Volverá a ser de quien la creó, y quienes no la hayan guardado tendrán que buscarla de nuevo con Explorar.",
+  "Deutsch": "#{room} aus der Raumliste aller entfernen? Er gehört dann wieder der Person, die ihn erstellt hat, und wer ihn nicht gespeichert hat, muss ihn über Durchsuchen neu finden.",
+  "Français": "Retirer #{room} de la liste des salons de tout le monde ? Il revient à la personne qui l'a créé, et celles et ceux qui ne l'ont pas enregistré devront le retrouver avec Parcourir.",
+  "한국어": "#{room}을(를) 모든 사람의 방 목록에서 뺄까요? 만든 사람에게 다시 돌아가며, 저장하지 않은 사람은 방 둘러보기로 다시 찾아야 합니다.",
+  "中文": "要把 #{room} 从所有人的聊天室列表中移除吗？它会归还给创建者，没有保存它的人需要再用“浏览”找到它。",
+  "العربية": "هل تريد إزالة #{room} من قائمة غرف الجميع؟ ستعود إلى من أنشأها، ومن لم يحفظها سيضطر إلى إيجادها مجددًا عبر التصفح.",
+  "Tiếng Việt": "Gỡ #{room} khỏi danh sách phòng của mọi người? Phòng sẽ trở về với người đã tạo, và ai chưa lưu sẽ phải tìm lại bằng Duyệt."
+ },
+ "Make regular": {
+  "日本語": "通常に戻す",
+  "Español": "Hacer normal",
+  "Deutsch": "Normal machen",
+  "Français": "Rendre normal",
+  "한국어": "일반으로",
+  "中文": "改为普通",
+  "العربية": "جعلها عادية",
+  "Tiếng Việt": "Chuyển về thường"
+ },
+ "Public – in everyone's room list": {
+  "日本語": "公開 – 全員のルーム一覧にあります",
+  "Español": "Pública: en la lista de salas de todos",
+  "Deutsch": "Öffentlich – in der Raumliste aller",
+  "Français": "Public – dans la liste des salons de tout le monde",
+  "한국어": "공개 – 모든 사람의 방 목록에 있음",
+  "中文": "公开——在所有人的聊天室列表中",
+  "العربية": "عامة – في قائمة غرف الجميع",
+  "Tiếng Việt": "Công khai – có trong danh sách phòng của mọi người"
  }
 }

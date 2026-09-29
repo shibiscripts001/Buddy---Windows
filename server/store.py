@@ -35,7 +35,7 @@ import json
 import secrets
 import sqlite3
 
-SCHEMA_VERSION = 11
+SCHEMA_VERSION = 12
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -59,7 +59,9 @@ CREATE TABLE IF NOT EXISTS rooms (
     last_active REAL,
     announcement TEXT NOT NULL DEFAULT '',
     slow INTEGER NOT NULL DEFAULT 0,    -- slow mode: seconds between one person's messages
-    permanent INTEGER NOT NULL DEFAULT 0   -- never deleted for being idle (see ROOM_IDLE_DAYS)
+    permanent INTEGER NOT NULL DEFAULT 0,  -- never deleted for being idle (see ROOM_IDLE_DAYS)
+    made_public REAL,       -- a user room the owner made public (kind 'system' since): when
+    former_owner TEXT       -- who made it: theirs again if it's made a regular room again
 );
 CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -184,6 +186,9 @@ class Store:
             self.db.execute("ALTER TABLE rooms ADD COLUMN slow INTEGER NOT NULL DEFAULT 0")
         if "permanent" not in columns:        # older databases
             self.db.execute("ALTER TABLE rooms ADD COLUMN permanent INTEGER NOT NULL DEFAULT 0")
+        for column, kind in (("made_public", "REAL"), ("former_owner", "TEXT")):   # older databases
+            if column not in columns:
+                self.db.execute(f"ALTER TABLE rooms ADD COLUMN {column} {kind}")
         columns = {row[1] for row in self.db.execute("PRAGMA table_info(reports)")}
         if "claimed" not in columns:          # older databases
             self.db.execute("ALTER TABLE reports ADD COLUMN claimed INTEGER NOT NULL DEFAULT 0")
@@ -251,6 +256,7 @@ class Store:
         and DM conversations must already be gone (delete_room)."""
         db = self.db
         db.execute("UPDATE messages SET author = '' WHERE author = ?", (user_id,))
+        db.execute("UPDATE rooms SET former_owner = NULL WHERE former_owner = ?", (user_id,))
         db.execute("DELETE FROM buddies WHERE a = ? OR b = ?", (user_id, user_id))
         db.execute("DELETE FROM buddy_requests WHERE sender = ? OR target = ?", (user_id, user_id))
         db.execute("DELETE FROM blocks WHERE blocker = ? OR blocked = ?", (user_id, user_id))
@@ -405,7 +411,7 @@ class Store:
     # ------------------------------------------------------------- rooms
 
     _ROOM_SELECT = """
-        SELECT r.id, r.name, r.topic, r.kind, r.announcement, r.slow, r.permanent,
+        SELECT r.id, r.name, r.topic, r.kind, r.announcement, r.slow, r.permanent, r.made_public,
                r.owner AS owner_id, u.name AS owner_name
         FROM rooms r LEFT JOIN users u ON u.id = r.owner
     """
@@ -426,7 +432,29 @@ class Store:
         return dict(row) if row else None
 
     def system_rooms(self) -> list[dict]:
-        return self._rooms(" WHERE r.kind = 'system' ORDER BY r.created, r.name")
+        """Everyone's rooms: Global and Help first (never made public - they
+        always were), then the rooms the owner made public, oldest first."""
+        return self._rooms(" WHERE r.kind = 'system' ORDER BY r.made_public IS NOT NULL, r.made_public, "
+                           "r.created, r.name")
+
+    def make_public(self, room_id: str, now: float):
+        """A user room becomes everyone's: listed with Global and Help,
+        looked after by staff, and no longer its maker's (nor counted in
+        their rooms) - former_owner remembers them for make_regular."""
+        self.db.execute("UPDATE rooms SET kind = 'system', made_public = ?, former_owner = owner, owner = NULL "
+                        "WHERE id = ? AND kind = 'user'", (now, room_id))
+        self.db.commit()
+
+    def make_regular(self, room_id: str, owner: str, now: float):
+        """Undoes make_public: a user room of `owner`'s again, counted as
+        active from now so the idle purge doesn't take it straight away."""
+        self.db.execute("UPDATE rooms SET kind = 'user', made_public = NULL, former_owner = NULL, owner = ?, "
+                        "last_active = ? WHERE id = ? AND made_public IS NOT NULL", (owner, now, room_id))
+        self.db.commit()
+
+    def former_owner(self, room_id: str) -> str | None:
+        row = self.db.execute("SELECT former_owner FROM rooms WHERE id = ?", (room_id,)).fetchone()
+        return row[0] if row else None
 
     def rooms_owned_by(self, user_id: str) -> list[dict]:
         return self._rooms(" WHERE r.owner = ? ORDER BY r.created", (user_id,))
@@ -751,6 +779,7 @@ class Store:
         with db:
             db.execute("UPDATE users SET id = ? WHERE id = ?", (new, old))
             db.execute("UPDATE rooms SET owner = ? WHERE owner = ?", (new, old))
+            db.execute("UPDATE rooms SET former_owner = ? WHERE former_owner = ?", (new, old))
             db.execute("UPDATE messages SET author = ? WHERE author = ?", (new, old))
             db.execute("UPDATE images SET author = ? WHERE author = ?", (new, old))
             for room_id in self.dm_room_ids_of(old):

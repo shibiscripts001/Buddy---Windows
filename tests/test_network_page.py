@@ -337,6 +337,38 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.page.room_id, "r1")
         self.assertIn("r1", self.page._saved_ids())
 
+    def test_the_owner_makes_a_room_public(self):
+        self.welcome()
+        self.page.on_browse()
+        room = {"id": "r1", "name": "Grading", "kind": "user", "topic": "", "owner": SAM, "here": 3}
+        self.page._on_received({"type": "found_rooms", "rooms": [room], "query": "", "permanent_only": False})
+        self.page.on_open_found({"id": "r1"})
+        labels = lambda: [i.get("label") for i in self.last("menu")["items"]]   # noqa: E731
+        self.page.on_chat_menu({})
+        self.assertNotIn("Make public for everyone…", labels())    # the owner's alone
+        self.page.me["role"] = "owner"
+        self.page.on_chat_menu({})
+        pick = next(i for i in self.last("menu")["items"] if i.get("label") == "Make public for everyone…")
+        self.page.on_menu_pick({"id": pick["id"]})
+        self.answer("ok", kind="choice")
+        self.assertEqual(self.client.sent[-1], {"type": "set_public", "room": "r1", "value": True})
+
+        sidebar = lambda: {s["heading"]: [i["label"] for i in s["items"]] for s in self.last("sidebar")}  # noqa: E731
+        self.page._on_received({"type": "room_updated", "room": dict(room, kind="system", owner=None,
+                                                                     made_public=True)})
+        self.assertEqual(sidebar(), {"": ["Global", "Help", "Grading"]})   # not in Saved as well
+        self.assertIn("Public – in everyone's room list", self.last("room")["facts"])
+        self.page._on_received({"type": "room_updated", "room": {"id": "r2", "name": "Sound", "kind": "system",
+                                                                 "topic": "", "owner": None, "made_public": True}})
+        self.assertEqual(sidebar()[""], ["Global", "Help", "Grading", "Sound"])   # one you'd never opened
+        self.page.on_chat_menu({})
+        self.assertIn("Make a regular room again…", labels())
+        self.page._on_received({"type": "room_updated", "room": dict(room, made_public=False)})
+        self.assertEqual(sidebar(), {"": ["Global", "Help", "Sound"], "Saved": ["Grading"]})
+        self.page.on_open({"key": "help"})
+        self.page.on_chat_menu({})
+        self.assertNotIn("Make a regular room again…", labels())   # Global and Help always stay
+
     def panels(self):
         return [p["kind"] for p in self.last("panels") or []]
 

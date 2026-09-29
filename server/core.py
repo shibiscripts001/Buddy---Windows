@@ -980,6 +980,31 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         self._log_if_not_theirs(session, room, "set_permanent", "on" if value else "off")
         self._room_updated(room["id"])
 
+    def _set_public(self, session: Session, msg: dict):
+        """The owner makes a user room everyone's (value true): it's listed
+        in every Buddy with Global and Help, never expires, and staff look
+        after it rather than its maker. value false makes it a regular room
+        again - its maker's, or the owner's if the maker has gone. Global and
+        Help themselves are always everyone's."""
+        self._require_owner(session)
+        room = self._room_or_error(msg.get("room"), session)
+        if room["kind"] == "dm":
+            raise RequestError("not_allowed", "Only rooms can be made public.")
+        if room["kind"] == "system" and not room["made_public"]:
+            raise RequestError("not_allowed", f"#{room['name']} is always everyone's.")
+        value = bool(msg.get("value"))
+        if value == (room["kind"] == "system"):
+            session.send({"type": "room_updated", "room": public_room(room)})
+            return
+        if value:
+            self.store.make_public(room["id"], self.clock())
+        else:
+            maker = self.store.former_owner(room["id"])
+            owner = maker if maker and self.store.user(maker) else session.user_id
+            self.store.make_regular(room["id"], owner, self.clock())
+        self._log(session, "make_public" if value else "make_regular", room["id"], room["name"])
+        self._room_updated(room["id"])
+
     def _rename_room(self, session: Session, msg: dict):
         room = self._own_room_or_error(session, msg.get("room"))
         self._require_staff(session)
@@ -1080,6 +1105,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         "delete_room": _delete_room,
         "set_topic": _set_topic,
         "set_permanent": _set_permanent,
+        "set_public": _set_public,
         "find_rooms": _find_rooms,
         "get_rooms": _get_rooms,
         "rename_room": _rename_room,

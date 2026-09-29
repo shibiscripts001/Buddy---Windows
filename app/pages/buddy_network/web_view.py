@@ -63,7 +63,9 @@ def sidebar(*, system: list[dict], mine: list[dict], saved: list[dict], buddies:
     puts it in with textContent."""
     def room_item(room):
         return {"key": room["id"], "room": room["id"], "label": room["name"], "sub": room.get("topic", ""),
-                "avatar": None, "online": None, "pinned": bool(room.get("permanent")), "kind": "room"}
+                "avatar": None, "online": None, "kind": "room",
+                # Everyone's rooms never expire anyway: no pin for a room made public.
+                "pinned": bool(room.get("permanent")) and room.get("kind") != "system"}
 
     def buddy_item(person):
         room_id = dm_id(me_id, person["id"]) if me_id else ""

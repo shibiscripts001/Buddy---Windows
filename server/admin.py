@@ -8,8 +8,9 @@ delete any message, rename/delete any room, pin room announcements, ban
 and unban, and work through reports. Bans only reach down: a mod bans
 users, an admin bans mods too, only the owner bans admins, and nobody bans
 the owner. Admins make and remove mods; only the owner makes admins, reads
-the admin log, posts app announcements and deletes a message forever -
-leaving no "message deleted" behind (core.py).
+the admin log, posts app announcements, makes a room public (in everyone's
+list, with Global and Help - core.py _set_public) and deletes a message
+forever - leaving no "message deleted" behind (core.py).
 
 What admins can see: reported messages (the text as it was when reported,
 the room, who reported it) and nothing else - they never browse DMs. DMs

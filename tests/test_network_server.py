@@ -608,6 +608,51 @@ class AdminTests(Harness):
         self.assertIsNone(self.store.room(room))
         self.assertEqual(self.request(self.admin, type="delete_room", room="global")["code"], "not_allowed")
 
+    def test_the_owner_makes_a_room_public_and_back(self):
+        room = self.request(self.bob, type="create_room", name="Fusion Tips")["room"]["id"]
+        cara = self.user("Cara")
+        for who in (self.bob, self.admin):
+            self.assertEqual(self.request(who, type="set_public", room=room, value=True)["code"], "not_allowed")
+        public = self.request(self.owner, type="set_public", room=room, value=True)["room"]
+        self.assertEqual((public["kind"], public["owner"], public["made_public"]), ("system", None, True))
+        self.assertEqual(cara.last("room_updated")["room"]["kind"], "system")   # everyone is told
+        again = FakeSession()
+        welcome = self.request(again, type="hello", v=core.PROTOCOL_VERSION, token=cara.token)
+        self.assertEqual([r["id"] for r in welcome["rooms"]], ["global", "help", room])
+        self.assertFalse(welcome["rooms"][0]["made_public"])
+        self.assertEqual(self.store.rooms_owned_by(uid(self.bob)), [])   # no longer counts as Bob's
+        self.assertEqual(self.request(self.bob, type="delete_room", room=room)["code"], "not_allowed")
+        self.assertEqual(self.request(self.bob, type="set_topic", room=room, topic="mine")["code"], "not_allowed")
+        self.request(self.admin, type="set_topic", room=room, topic="Staff look after it")
+        self.assertEqual(self.store.room(room)["topic"], "Staff look after it")
+        self.assertEqual(self.request(cara, type="find_rooms", query="fusion")["rooms"], [])   # it's listed anyway
+        self.clock.now += (core.ROOM_IDLE_DAYS + 1) * 86400
+        self.core.purge()
+        self.assertIsNotNone(self.store.room(room))   # everyone's rooms never expire
+        self.assertEqual(self.request(self.owner, type="set_public", room="global", value=False)["code"],
+                         "not_allowed")
+        self.assertEqual(self.request(self.owner, type="set_public", room=room, value=True)["type"],
+                         "room_updated")   # already public: just the room again
+
+        regular = self.request(self.owner, type="set_public", room=room, value=False)["room"]
+        self.assertEqual((regular["kind"], regular["owner"]["name"], regular["made_public"]), ("user", "Bob", False))
+        self.core.purge()
+        self.assertIsNotNone(self.store.room(room))   # idle from now, not from its last message
+        self.assertEqual([r["id"] for r in self.request(cara, type="find_rooms", query="fusion")["rooms"]], [room])
+        self.assertEqual(self.request(self.bob, type="delete_room", room=room)["type"], "room_removed")
+        actions = [e["action"] for e in self.request(self.owner, type="admin_log")["entries"]]
+        self.assertIn("make_public", actions)
+        self.assertIn("make_regular", actions)
+
+    def test_a_public_room_outlives_its_maker(self):
+        room = self.request(self.bob, type="create_room", name="Colour Club")["room"]["id"]
+        self.request(self.owner, type="set_public", room=room, value=True)
+        self.request(self.bob, type="delete_account")
+        self.assertIsNotNone(self.store.room(room))
+        self.assertIsNone(self.store.former_owner(room))   # nothing of Bob's kept
+        regular = self.request(self.owner, type="set_public", room=room, value=False)["room"]
+        self.assertEqual(regular["owner"]["id"], uid(self.owner))   # the maker's gone: the owner's
+
     def test_reports_reach_admins_with_a_snapshot(self):
         m = self.say(self.bob, "buy followers at scam.example")
         cara = self.user("Cara")

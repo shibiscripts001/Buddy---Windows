@@ -34,6 +34,12 @@ Stop the server with Ctrl+C.
 
 `python -m server set-role <ID> user` takes a role away again.
 
+As the owner you can also make anyone's room public: open it, then choose
+**Make public for everyone…** from its menu. It joins Global and Help in
+every Buddy's room list, never expires, and from then on staff look after it
+rather than the person who made it. **Make a regular room again…** in the
+same menu gives it back to them.
+
 ## Files
 
 | File | What it does |

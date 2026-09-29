@@ -445,7 +445,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self.emit("sidebar", [])
             return
         mine = [r for r in self.rooms.values() if self._is_mine(r) and r["kind"] != "dm"]
-        saved = [self.rooms[i] for i in self._saved_ids() if i in self.rooms and not self._is_mine(self.rooms[i])]
+        # A saved room the owner has since made public is listed with Global and Help instead.
+        saved = [self.rooms[i] for i in self._saved_ids()
+                 if i in self.rooms and not self._is_mine(self.rooms[i]) and i not in self.system_ids]
         sections = web_view.sidebar(
             system=[self.rooms[i] for i in self.system_ids if i in self.rooms], mine=mine, saved=saved,
             buddies=self.buddy_state.get("buddies", []), me_id=self.me["id"], current=self.room_id,
@@ -484,7 +486,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                 facts.append(f"Made by {render.display_name(room['owner'])}")
             if room.get("slow"):
                 facts.append(f"Slow mode: one message every {self._slow_label(room['slow'])}")
-            if room.get("permanent"):
+            if room.get("made_public"):
+                facts.append("Public – in everyone's room list")
+            elif room.get("permanent"):
                 facts.append("Kept permanently")
             if room.get("announcement"):
                 banner, tone = room["announcement"], "pin"
@@ -561,6 +565,21 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self._notify(gone, "warning")
         self._push_sidebar()
 
+    def _public_changed(self, room: dict):
+        """The owner made a room everyone's (it joins Global and Help in the
+        list) or a regular room again. One you're in stays in your list
+        either way, saved."""
+        self.rooms[room["id"]] = room
+        if room["kind"] == "system":
+            self.system_ids.append(room["id"])
+        else:
+            self.system_ids.remove(room["id"])
+            if room["id"] == self.room_id and not self._is_mine(room) and room["id"] not in self._saved_ids():
+                self._set_saved(self._saved_ids() + [room["id"]])
+        self._push_sidebar()
+        if room["id"] == self.room_id:
+            self._push_room()
+
     def on_new_room(self, _payload=None):
         if not self._online():
             return
@@ -629,6 +648,24 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         if not room or room["kind"] != "user" or not (self._is_mine(room) or self._am_staff()):
             return
         self.client.send({"type": "set_permanent", "room": room["id"], "value": not room.get("permanent")})
+
+    def _toggle_public(self):
+        """The owner's: a user room into everyone's list, with Global and
+        Help - or a room made public back to a regular one (server/core.py
+        _set_public)."""
+        room = self.rooms.get(self.room_id)
+        if not room or not self._am_owner() or not (room["kind"] == "user" or room.get("made_public")):
+            return
+        send = lambda value: self.admin({"type": "set_public", "room": room["id"], "value": value})  # noqa: E731
+        if room["kind"] == "user":
+            self._confirm("Make public", f"Put #{room['name']} in everyone's room list, with Global and Help? "
+                          "It won't expire, and its maker can't change or delete it any more – you and your "
+                          "staff look after it. You can make it a regular room again from this menu.",
+                          "Make public", lambda: send(True))
+        else:
+            self._confirm("Make a regular room", f"Take #{room['name']} out of everyone's room list? It goes "
+                          "back to the person who made it, and people who haven't saved it will have to find "
+                          "it with Browse again.", "Make regular", lambda: send(False))
 
     def _rename_room(self):
         room = self.rooms.get(self.room_id)
@@ -880,6 +917,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                 items += [("Let this room expire normally" if permanent else "Keep this room permanently",
                            self._toggle_permanent),
                           ("Delete room…", self._delete_room, {"danger": True})]
+            if self._am_owner() and (user_room or room.get("made_public")):
+                items += [None, ("Make public for everyone…" if user_room else "Make a regular room again…",
+                                 self._toggle_public)]
             if user_room and not mine and room["id"] in self._saved_ids():
                 items += [None, ("Remove from list", self._unsave_room)]
         self._show_menu(items, payload.get("x", 0), payload.get("y", 0))
@@ -1998,7 +2038,10 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                 self._push_sidebar()
         elif kind == "room_updated":
             room = msg["room"]
-            if room["id"] in self.rooms:
+            public = room.get("kind") == "system"
+            if public != (room["id"] in self.system_ids):
+                self._public_changed(room)
+            elif room["id"] in self.rooms:
                 self.rooms[room["id"]] = room
                 self._push_sidebar()
                 if room["id"] == self.room_id:

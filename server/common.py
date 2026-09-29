@@ -86,12 +86,14 @@ def public_user(user: dict) -> dict:
 
 
 def public_room(row: dict, here: int | None = None) -> dict:
+    # made_public: a user room the owner made everyone's ("system" since) -
+    # unlike Global and Help, it can be made a regular room again.
     owner = None
     if row.get("owner_id"):
         owner = {"id": row["owner_id"], "tag": tag_of(row["owner_id"]), "name": row["owner_name"]}
     room = {"id": row["id"], "name": row["name"], "topic": row["topic"], "kind": row["kind"], "owner": owner,
             "announcement": row.get("announcement") or "", "slow": row.get("slow") or 0,
-            "permanent": bool(row.get("permanent"))}
+            "permanent": bool(row.get("permanent")), "made_public": bool(row.get("made_public"))}
     if here is not None:
         room["here"] = here
     return room
