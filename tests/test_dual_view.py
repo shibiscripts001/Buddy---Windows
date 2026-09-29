@@ -81,11 +81,26 @@ class DualViewTests(unittest.TestCase):
         """The header's right-hand tool dropdown."""
         self.win.header.on_side({"id": tool_id})
 
-    def test_single_page_stops_growing_past_the_cap(self):
-        self.assertEqual(self.win._panes_holder.width(), shell_window.PANE_MAX_WIDTH)
-        self.win.apply_theme()   # a stylesheet swap must not undo the cap
+    def test_one_page_takes_the_whole_width_and_dual_view_is_capped(self):
+        def room():
+            """The width beside the rail: all of it, for one page."""
+            return self.win.width() - self.win.rail.width()
+
+        self.assertGreater(self.win._panes_holder.width(), shell_window.PANE_MAX_WIDTH)
+        self.assertGreater(self.win._panes_holder.width(), room() - 80)   # only the margins and gap left
+        self.win.resize(2600, 1000)   # made wider by hand: the page follows
         self.app.processEvents()
-        self.assertEqual(self.win._panes_holder.width(), shell_window.PANE_MAX_WIDTH)
+        self.assertGreater(self.win._panes_holder.width(), room() - 80)
+        self.win.apply_theme()   # a stylesheet swap must not bring a cap back
+        self.app.processEvents()
+        self.assertGreater(self.win._panes_holder.width(), room() - 80)
+        self.win.resize(3400, 1000)   # wider than two panes' cap
+        self.toggle()   # dual view: two panes, each capped
+        self.app.processEvents()
+        self.assertEqual(self.win._panes_holder.width(), 2 * shell_window.PANE_MAX_WIDTH + shell_window.PANE_GAP)
+        self.toggle()
+        self.app.processEvents()
+        self.assertGreater(self.win._panes_holder.width(), room() - 80)
 
     def test_toggle_shows_a_second_tool_and_remembers_it(self):
         self.toggle()

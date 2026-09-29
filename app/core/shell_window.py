@@ -56,10 +56,12 @@ from core.settings_dialog import SettingsDialog
 from core.shell_web import HeaderView, RailView
 from core.message_dialog import alert
 
-# Widest a tool page grows. Full screen on a big monitor used to stretch
-# every page edge to edge, rows of controls miles apart; past this the
-# space is simply left empty on the right. Dual view gets two of these.
+# Widest each pane grows in dual view, so two tools side by side on a big
+# monitor stay near each other; past that the space is left empty on the
+# right. One tool on its own takes the whole width, however wide the
+# window is made.
 PANE_MAX_WIDTH = 1280
+QWIDGETSIZE_MAX = (1 << 24) - 1   # Qt's "no maximum" (PySide6 doesn't export it)
 # Gap between the two panes in dual view - the same as between rail and page.
 PANE_GAP = 16
 
@@ -705,7 +707,7 @@ class ShellWindow(QMainWindow):
         body.addWidget(self._panes_holder, stretch=1)
         # The desk has no width cap: windows are the user's to place.
         body.addWidget(self.desktop, stretch=1)
-        # Whatever is left past PANE_MAX_WIDTH stays empty, on the right.
+        # In dual view, whatever is left past the panes' cap stays empty, on the right.
         body.addStretch(0)
         root.addLayout(body, stretch=1)
         # The desktop layout's taskbar, in place of the header and the rail;
@@ -834,8 +836,8 @@ class ShellWindow(QMainWindow):
         self._balance_panes()
 
     def _fit_panes(self):
-        panes = 2 if self._split_on else 1
-        self._panes_holder.setMaximumWidth(panes * PANE_MAX_WIDTH + (panes - 1) * PANE_GAP)
+        """One tool: the whole width. Dual view: two capped panes."""
+        self._panes_holder.setMaximumWidth(2 * PANE_MAX_WIDTH + PANE_GAP if self._split_on else QWIDGETSIZE_MAX)
 
     # ------------------------------------------------------------ desktop --
     def _apply_layout(self, mode):
