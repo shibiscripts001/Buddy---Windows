@@ -51,9 +51,11 @@ class Clip:
         self.path = path
         self.tc = tc
         self.linked = []
+        self.proxy_path = ""
 
     def GetClipProperty(self, key=None):
-        props = {"Type": self.kind, "Clip Name": self.name, "Start TC": self.tc}
+        props = {"Type": self.kind, "Clip Name": self.name, "Start TC": self.tc,
+                 "Proxy": "960x540" if self.proxy_path else "None", "Proxy Media Path": self.proxy_path}
         if self.path is not None:
             props["File Path"] = self.path
         return props if key is None else props.get(key)
@@ -68,6 +70,11 @@ class Clip:
         if self.kind == "Timeline" or self.path is None:
             return False
         self.linked.append(path)
+        self.proxy_path = path
+        return True
+
+    def UnlinkProxyMedia(self):
+        self.proxy_path = ""
         return True
 
 
@@ -604,6 +611,69 @@ class PageTests(unittest.TestCase):
         self.assertEqual(rendered, [])   # nothing rendered: the file was linked as-is
         self.assertEqual(clip.linked, [existing])
         self.assertTrue(any("already had a proxy file" in t for t in self.logs("proxy")), self.logs("proxy"))
+
+    def _proxy_clips(self):
+        """Three selected clips: one linked, one whose proxy file has gone, one with none."""
+        media = os.path.join(self._tmp.name, "media")
+        os.makedirs(os.path.join(media, "Proxy"))
+        clips = []
+        for name in ("A001", "B001", "C001"):
+            open(os.path.join(media, f"{name}.mp4"), "w").close()
+            clips.append(Clip(name, path=os.path.join(media, f"{name}.mp4")))
+        clips[0].proxy_path = os.path.join(media, "Proxy", "A001_proxy.mov")
+        open(clips[0].proxy_path, "w").close()
+        clips[1].proxy_path = os.path.join(self._tmp.name, "old drive", "Proxy", "B001_proxy.mov")
+        self.pool.selected = clips
+        self.page.on_proxy_option({"key": "scope", "value": "selection"})
+        return clips
+
+    def test_proxy_status_says_which_are_offline(self):
+        self._proxy_clips()
+        self.page.on_proxy_status()
+        status = self.last("proxy_status")
+        self.assertEqual(status["counts"], {"linked": 1, "offline": 1, "none": 1})
+        self.assertEqual([r["name"] for r in status["rows"]], ["B001", "C001", "A001"])
+        self.assertIn("Proxies: 1 linked, 1 offline, 1 without one.", self.logs("proxy"))
+
+    def test_unlink_takes_the_proxies_off_and_leaves_the_files(self):
+        clips = self._proxy_clips()
+        kept = clips[0].proxy_path
+        self.page.on_proxy_unlink()
+        self.assertEqual([c.proxy_path for c in clips], ["", "", ""])
+        self.assertTrue(os.path.isfile(kept))
+        self.assertIn("Took the proxies off 2 clips – the files are still on disk.", self.logs("proxy"))
+        self.assertEqual(self.last("proxy_status")["counts"]["none"], 3)   # the view is brought up to date
+
+    def test_relink_finds_offline_proxies_in_a_folder(self):
+        clips = self._proxy_clips()
+        new = os.path.join(self._tmp.name, "new drive", "B001_proxy.mov")
+        os.makedirs(os.path.dirname(new))
+        open(new, "w").close()
+        with mock.patch("pages.project_setup.page.QFileDialog.getExistingDirectory",
+                        return_value=os.path.dirname(new)):
+            self.page.on_proxy_relink()
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+        self.assertEqual(clips[1].linked, [new])
+        self.assertIn("Relinked 1 offline proxy.", self.logs("proxy"))
+
+    def test_a_gpu_format_without_nvenc_says_it_used_the_cpu(self):
+        media = os.path.join(self._tmp.name, "media")
+        os.makedirs(media)
+        open(os.path.join(media, "A001.mp4"), "w").close()
+        self.pool.selected = [Clip("A001", path=os.path.join(media, "A001.mp4"))]
+        self.page.on_proxy_option({"key": "scope", "value": "selection"})
+        self.page.on_proxy_option({"key": "codec", "value": "h264_nvenc"})
+        used = []
+        with mock.patch.object(self.page, "_ffmpeg", return_value="ffmpeg.exe"),                 mock.patch("pages.project_setup.proxy.gpu_available", return_value=False),                 mock.patch("pages.project_setup.proxy.render_one",
+                           side_effect=lambda ff, src, dst, res, codec, **k: used.append(codec) or dst):
+            self.page.on_proxy_go(None)
+            deadline = time.monotonic() + 5
+            while self.page._worker is not None and time.monotonic() < deadline:
+                self.app.processEvents()
+        self.assertEqual(used, ["h264"])
+        self.assertTrue(any("needs an NVIDIA graphics card" in t for t in self.logs("proxy")), self.logs("proxy"))
 
     def test_proxy_refuses_empty_selection(self):
         self.pool.selected = []

@@ -282,6 +282,28 @@
                 <button type="button" class="btn accent big" data-action="proxy_go" id="proxy-go" disabled>Make proxies</button>
             </div>
         </div>
+        <div class="card proxy-card">
+            <div class="card-head">
+                <h2 class="section-title">Check proxies</h2>
+            </div>
+            <p class="muted desc">For the clips chosen above: which have a proxy, which have one whose file has gone missing (offline), and which have none.</p>
+            <div class="row wrap">
+                <button type="button" class="btn" id="proxy-check" disabled>Check proxies</button>
+                <button type="button" class="btn" id="proxy-relink" disabled title="Find the offline proxy files in a folder and link them again">Relink offline…</button>
+                <div class="spacer"></div>
+                <button type="button" class="btn ghost" id="proxy-unlink" disabled title="Take the proxies off these clips – the files stay on disk">Unlink proxies</button>
+            </div>
+            <div id="proxy-status" hidden>
+                <div class="proxy-counts" id="proxy-counts"></div>
+                <div class="proxy-status-box">
+                    <table class="table">
+                        <thead><tr><th>Clip</th><th>Proxy</th><th>File</th></tr></thead>
+                        <tbody id="proxy-status-rows"></tbody>
+                    </table>
+                </div>
+                <p class="muted small" id="proxy-status-more" hidden></p>
+            </div>
+        </div>
         <details class="activity" data-log="proxy" hidden><summary class="muted small">Activity</summary><ol class="log"></ol></details>
     </section>
 </main>

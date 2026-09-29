@@ -332,6 +332,30 @@ for (const b of document.querySelectorAll("#proxy-resolution [data-resolution]")
 }
 $("proxy-format").onchange = e => send("proxy_option", {key: "codec", value: e.target.value});
 $("proxy-recursive").onchange = e => send("proxy_option", {key: "recursive", value: e.target.checked});
+$("proxy-check").onclick = () => send("proxy_status");
+$("proxy-relink").onclick = () => send("proxy_relink");
+$("proxy-unlink").onclick = async () => {
+    if (await Buddy.confirm({title: "Unlink proxies",
+                             text: "Take the proxies off the clips chosen above? The proxy files stay on disk – Make proxies links them again without rendering.",
+                             ok: "Unlink"})) send("proxy_unlink");
+};
+
+const PROXY_STATES = {linked: "Linked", offline: "Offline", none: "None"};
+Buddy.on("proxy_status", s => {
+    $("proxy-status").hidden = false;
+    const c = s.counts;
+    $("proxy-counts").replaceChildren(
+        el("span.chip.ok", {text: `${c.linked} linked`}),
+        el("span.chip.bad", {text: `${c.offline} offline`}),
+        el("span.chip", {text: `${c.none} without a proxy`}));
+    $("proxy-status-rows").replaceChildren(...s.rows.map(r => el("tr", {"data-state": r.state}, [
+        el("td", {text: r.name, translate: "no"}),
+        el("td.proxy-state", {text: PROXY_STATES[r.state] || r.state}),
+        el("td.muted.small.proxy-path", {text: r.detail, translate: "no"}),
+    ])));
+    $("proxy-status-more").hidden = !s.more;
+    $("proxy-status-more").textContent = s.more ? `And ${s.more.toLocaleString()} more, not listed.` : "";
+});
 
 Buddy.on("proxy", d => {
     proxy = d;
@@ -363,6 +387,8 @@ function applyProxyEnabled() {
     const go = $("proxy-go");
     if (!proxy) return;
     go.disabled = !(proxy.connected && proxy.ffmpeg && !state.busy);
+    // Checking, relinking and unlinking need Resolve, not ffmpeg.
+    for (const id of ["proxy-check", "proxy-relink", "proxy-unlink"]) $(id).disabled = !(proxy.connected && !state.busy);
 }
 
 // ------------------------------------------------------------- activity

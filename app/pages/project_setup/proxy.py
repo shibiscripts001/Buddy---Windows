@@ -38,6 +38,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import threading
 
 from .ffmpeg_utils import _ffprobe_path, _no_feedback_cursor_kwargs
@@ -53,10 +54,14 @@ PART_EXT = ".buddy-part.mov"
 # touched (a proxy must match its source's rate to be linkable), so
 # "original" is simply no scale filter at all. The trunc()*2 forms force
 # even dimensions, which libx264 requires.
+# cuda_vf: the same on the graphics card (the GPU formats), which also
+# turns the picture into the 8-bit 4:2:0 NVENC takes.
 RESOLUTIONS = {
-    "original": {"label": "Original", "vf": None},
-    "half": {"label": "Half", "vf": "scale=trunc(iw/4)*2:trunc(ih/4)*2"},
-    "quarter": {"label": "Quarter", "vf": "scale=trunc(iw/8)*2:trunc(ih/8)*2"},
+    "original": {"label": "Original", "vf": None, "cuda_vf": "scale_cuda=format=yuv420p"},
+    "half": {"label": "Half", "vf": "scale=trunc(iw/4)*2:trunc(ih/4)*2",
+             "cuda_vf": "scale_cuda=trunc(iw/4)*2:trunc(ih/4)*2:format=yuv420p"},
+    "quarter": {"label": "Quarter", "vf": "scale=trunc(iw/8)*2:trunc(ih/8)*2",
+                "cuda_vf": "scale_cuda=trunc(iw/8)*2:trunc(ih/8)*2:format=yuv420p"},
 }
 # The formats offered, in the order the dropdown lists them. The long-GOP
 # ones (H.264, H.265) make small files but take more work to decode while
@@ -89,12 +94,60 @@ CODECS = {
                  "args": _DNXHR + ["dnxhr_hq"]},
     "cineform": {"label": "CineForm", "hint": "GoPro's intra-frame format: light to play, between LB and SQ in size.",
                  "args": ["-c:v", "cfhd", "-quality", "medium", "-pix_fmt", "yuv422p10le"]},
+    # NVIDIA's encoders (Windows, an NVIDIA card). The clip is decoded,
+    # scaled and encoded on the graphics card, so the CPU stays free for
+    # Resolve: a minute of 4K on an RTX 5080 took 1-3 s of CPU time, not
+    # 100-230 s, and a drone's H.265 rendered 4x faster (2026-09-30). A source the card can't decode (ProRes, DNxHR, BRAW, 4:2:2
+    # on older cards) is decoded on the CPU and still encoded on the card; a
+    # PC without NVENC renders the "cpu" format instead (render_plan).
+    "h264_nvenc": {"label": "H.264 (NVIDIA GPU)",
+                   "hint": "Rendered on the graphics card – much faster, and leaves the CPU free for Resolve.",
+                   "args": ["-c:v", "h264_nvenc", "-preset", "p4", "-rc", "vbr", "-cq", "28", "-b:v", "0"],
+                   "gpu": "h264_nvenc", "cpu": "h264"},
+    "hevc_nvenc": {"label": "H.265 (NVIDIA GPU)",
+                   "hint": "Smaller files than H.264, rendered on the graphics card.",
+                   "args": ["-c:v", "hevc_nvenc", "-preset", "p4", "-rc", "vbr", "-cq", "30", "-b:v", "0",
+                            "-tag:v", "hvc1"],
+                   "gpu": "hevc_nvenc", "cpu": "h265"},
 }
 
 
-def codec_choices():
-    """The dropdown's entries, in order: [{id, label, hint}]."""
-    return [{"id": key, "label": c["label"], "hint": c["hint"]} for key, c in CODECS.items()]
+def codec_choices(platform=None):
+    """The dropdown's entries, in order: [{id, label, hint}]. NVIDIA's
+    only on Windows - there are no NVIDIA cards in today's Macs."""
+    platform = platform or sys.platform
+    return [{"id": key, "label": c["label"], "hint": c["hint"]} for key, c in CODECS.items()
+            if platform == "win32" or not c.get("gpu")]
+
+
+_GPU_CHECKED = {}   # (ffmpeg path, encoder) -> whether it works here
+
+
+def gpu_available(ffmpeg_path, encoder, run=None):
+    """Whether this ffmpeg can encode with `encoder` on this PC - a build
+    can include NVENC with no NVIDIA card to run it, so it's tried on a
+    tenth of a second of black. Asked once per ffmpeg and encoder."""
+    key = (ffmpeg_path, encoder)
+    if key not in _GPU_CHECKED:
+        try:
+            result = (run or subprocess.run)([ffmpeg_path, "-hide_banner", "-v", "error", "-f", "lavfi",
+                          "-i", "color=black:s=256x144:d=0.1", "-c:v", encoder, "-f", "null", "-"],
+                         capture_output=True, timeout=30, **_no_feedback_cursor_kwargs())
+            _GPU_CHECKED[key] = result.returncode == 0
+        except (subprocess.SubprocessError, OSError):
+            _GPU_CHECKED[key] = False
+    return _GPU_CHECKED[key]
+
+
+def render_plan(ffmpeg_path, codec):
+    """(the format a run really renders, what to tell the user or ""): a
+    GPU format this PC can't encode becomes its CPU one."""
+    gpu = CODECS.get(codec, {}).get("gpu")
+    if not gpu or gpu_available(ffmpeg_path, gpu):
+        return codec, ""
+    fallback = CODECS[codec]["cpu"]
+    return fallback, (f"This PC can't encode {CODECS[codec]['label']} (it needs an NVIDIA graphics card) – "
+                      f"rendered as {CODECS[fallback]['label']} on the CPU instead.")
 DEFAULT_RESOLUTION = "half"
 DEFAULT_CODEC = "h264"
 
@@ -232,7 +285,10 @@ def _entry(clip):
         clip_id = name or path
     return {"id": clip_id, "name": name or os.path.basename(path) or "Untitled",
             "path": path, "type": str(props.get("Type") or ""),
-            "tc": clean_timecode(props.get("Start TC"))}
+            "tc": clean_timecode(props.get("Start TC")),
+            # Its proxy as Resolve has it: "None", or the proxy's size.
+            "proxy": str(props.get("Proxy") or ""),
+            "proxy_path": str(props.get("Proxy Media Path") or "")}
 
 
 def entries(clips):
@@ -389,19 +445,29 @@ def terminate_active():
     return len(running)
 
 
-def build_command(ffmpeg_path, src, out_path, resolution, codec, timecode=""):
+def build_command(ffmpeg_path, src, out_path, resolution, codec, timecode="", gpu_decode=False):
     """The ffmpeg invocation that renders one proxy. No -r anywhere: the
     frame rate is left exactly as the source plays it, and -timecode
     stamps the clip's start timecode - both are what make a proxy
     linkable. -map 0:a? keeps every audio stream (a multicam angle's
     tracks all survive) and is optional, so a video with no sound at all
-    still renders."""
+    still renders.
+
+    gpu_decode (a GPU format only): decode and scale on the graphics card
+    too; without it the CPU decodes and scales, and hands NVENC 8-bit
+    4:2:0 frames."""
     try:
-        vf = RESOLUTIONS[resolution]["vf"]
-        codec_args = CODECS[codec]["args"]
+        codec_args = list(CODECS[codec]["args"])
+        gpu = bool(CODECS[codec].get("gpu"))
+        vf = RESOLUTIONS[resolution]["cuda_vf" if gpu and gpu_decode else "vf"]
     except KeyError as exc:
         raise ProxyError("Unknown proxy resolution or codec.") from exc
-    cmd = [ffmpeg_path, "-hide_banner", "-nostdin", "-v", "error", "-y", "-i", src]
+    cmd = [ffmpeg_path, "-hide_banner", "-nostdin", "-v", "error", "-y"]
+    if gpu and gpu_decode:
+        cmd += ["-hwaccel", "cuda", "-hwaccel_output_format", "cuda"]
+    elif gpu:
+        codec_args += ["-pix_fmt", "yuv420p"]
+    cmd += ["-i", src]
     if vf:
         cmd += ["-vf", vf]
     cmd += ["-map", "0:v:0", "-map", "0:a?", "-c:a", "copy"]
@@ -461,8 +527,14 @@ def render_one(ffmpeg_path, src, dst, resolution, codec, run=None, timecode=""):
             f"Couldn't create the 'Proxy' folder beside \"{os.path.basename(src)}\": {exc}"
         ) from exc
     part = dst + PART_EXT
-    cmd = build_command(ffmpeg_path, src, part, resolution, codec, timecode)
-    code, err = (run or _run_process)(cmd)
+    run = run or _run_process
+    code, err = 1, b""
+    if CODECS.get(codec, {}).get("gpu"):
+        # All on the graphics card first; a source it can't decode fails
+        # at once, and goes again decoded on the CPU.
+        code, err = run(build_command(ffmpeg_path, src, part, resolution, codec, timecode, gpu_decode=True))
+    if code != 0:
+        code, err = run(build_command(ffmpeg_path, src, part, resolution, codec, timecode))
     if code != 0:
         _unlink(part)
         detail = _last_error_line(err)
@@ -470,6 +542,87 @@ def render_one(ffmpeg_path, src, dst, resolution, codec, run=None, timecode=""):
                          + (f": {detail}" if detail else ""))
     os.replace(part, dst)
     return dst
+
+
+# ------------------------------------------------------------ status
+
+STATUS_ROWS_MAX = 500   # rows the status table lists; the counts cover them all
+
+
+def proxy_state(entry):
+    """"linked", "offline" or "none". Resolve goes on reporting a proxy
+    whose file has gone as linked (tested: 21.1), so Buddy looks for the
+    file itself."""
+    path = entry.get("proxy_path") or ""
+    if not path and entry.get("proxy", "None") in ("", "None"):
+        return "none"
+    return "linked" if path and os.path.isfile(path) else "offline"
+
+
+def status_report(videos):
+    """What the status view shows for a scope's video clips:
+    {"counts": {linked, offline, none}, "rows": [{name, state, detail}],
+    "more": how many rows weren't listed}. Offline first, then none, then
+    linked - the ones that need something done at the top."""
+    order = {"offline": 0, "none": 1, "linked": 2}
+    rows = []
+    for entry in videos:
+        state = proxy_state(entry)
+        detail = {"linked": f"{entry.get('proxy') or ''}  {entry.get('proxy_path') or ''}".strip(),
+                  "offline": entry.get("proxy_path") or "", "none": ""}[state]
+        rows.append({"name": entry["name"], "state": state, "detail": detail})
+    rows.sort(key=lambda r: (order[r["state"]], r["name"].lower()))
+    counts = {state: sum(1 for r in rows if r["state"] == state) for state in order}
+    return {"counts": counts, "rows": rows[:STATUS_ROWS_MAX], "more": max(0, len(rows) - STATUS_ROWS_MAX)}
+
+
+def status_line(counts):
+    """The Activity log's one-line summary of a status check."""
+    return (f"Proxies: {counts['linked']} linked, {counts['offline']} offline, "
+            f"{counts['none']} without one.")
+
+
+RELINK_WALK_MAX = 200_000   # files looked at in the chosen folder before giving up
+
+
+def find_relinks(offline, folder, walk=os.walk):
+    """Where each offline proxy has gone: [(entry, new path)] for the ones
+    found in `folder` or below, by the proxy's own file name (or, failing
+    that, the name Buddy would give it). Runs on the worker - a big drive
+    takes a while to walk."""
+    wanted = {}
+    for entry in offline:
+        names = {os.path.basename(entry.get("proxy_path") or "")}
+        stem = os.path.splitext(os.path.basename(entry.get("path") or ""))[0]
+        if stem:
+            names.add(f"{stem}{PROXY_SUFFIX}{PROXY_EXT}")
+        for name in names - {""}:
+            wanted.setdefault(name.lower(), []).append(entry)
+    found, seen = {}, 0
+    for root, dirs, files in walk(folder):
+        dirs[:] = [d for d in dirs if not d.startswith(".")]
+        for name in files:
+            seen += 1
+            for entry in wanted.get(name.lower(), ()):
+                found.setdefault(entry["id"], (entry, os.path.join(root, name)))
+        if seen >= RELINK_WALK_MAX or len(found) == len(offline):
+            break
+    return list(found.values())
+
+
+def relink_report(relinked, refused, missing):
+    lines = []
+    if relinked == 1:
+        lines.append(("Relinked 1 offline proxy.", "success"))
+    elif relinked:
+        lines.append((f"Relinked {relinked} offline proxies.", "success"))
+    for name in refused:
+        lines.append((f"Resolve wouldn't link the proxy found for \"{name}\".", "error"))
+    if missing == 1:
+        lines.append(("1 offline proxy wasn't in that folder.", "warn"))
+    elif missing:
+        lines.append((f"{missing} offline proxies weren't in that folder.", "warn"))
+    return lines
 
 
 # --------------------------------------------------------------- reporting

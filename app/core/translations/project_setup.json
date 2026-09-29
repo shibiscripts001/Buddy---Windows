@@ -3159,5 +3159,355 @@
   "中文": "使用 ffmpeg 渲染项目视频片段的轻量副本，并在 Resolve 中将其链接为代理媒体——与 Resolve 自带的“生成代理媒体”工作流程相同，适用于电脑难以流畅播放原始素材的情况。\n\n代理是写入每个源文件旁 “Proxy” 文件夹中的 .mov 文件（Resolve 自己的惯例），并通过与手动重新链接相同的调用进行链接。源文件从不改动，每个片段的音频按流复制，因此唯一变化的是播放负担。\n\n哪些片段：媒体池中的选择、时间线上的选择（Resolve 21.0.4 或更高版本）、当前打开的媒体夹（可选包含其子媒体夹），或项目中的所有片段。只转码视频文件——纯音频片段从不通过代理播放。\n\n分辨率和格式在此选择。H.264 和 H.265 文件最小，但拖动浏览时解码负担更重；ProRes、DNxHR 和 CineForm 占用更多磁盘空间，但播放轻快得多。每个代理都带有其片段的时间码，Resolve 需要它才能链接。已有代理文件的片段会直接链接而不重新渲染——除非文件的时间码不对，那时会重新渲染；若仍想重新渲染，请删除该文件。需要 ffmpeg——请安装它，或在设置中指定其路径。",
   "العربية": "يصيّر نسخًا خفيفة من مقاطع الفيديو في المشروع باستخدام ffmpeg ويربطها في Resolve كوسائط وكيلة – سير العمل نفسه لميزة «إنشاء وسائط وكيلة» في Resolve، لحين يعجز الجهاز عن تشغيل الأصول بسلاسة.\n\nالوكلاء ملفات .mov تُكتب في مجلد «Proxy» بجانب كل مصدر (اصطلاح Resolve نفسه)، ثم تُربط بالاستدعاء نفسه الذي تستخدمه إعادة الربط اليدوية. لا تُلمس الملفات المصدر أبدًا، ويُنسخ صوت كل مقطع كما هو، فلا يتغير سوى عبء التشغيل.\n\nأي المقاطع: التحديد في Media Pool، أو التحديد على الخط الزمني (Resolve 21.0.4 أو أحدث)، أو الحاوية المفتوحة (مع حاوياتها الفرعية اختياريًا)، أو كل مقاطع المشروع. تُحوَّل ملفات الفيديو فقط – المقاطع الصوتية وحدها لا تُشغَّل أبدًا من وكيل.\n\nتختار الدقة والصيغة هنا. تعطي H.264 وH.265 أصغر الملفات لكنها تتطلب جهدًا أكبر في فك الترميز أثناء التمرير؛ أما ProRes وDNxHR وCineForm فأكبر حجمًا على القرص وأخف كثيرًا في التشغيل. يحمل كل وكيل الرمز الزمني لمقطعه، وهو ما يحتاجه Resolve لربطه. المقطع الذي يوجد ملف وكيله مسبقًا يُربط دون إعادة تصيير – إلا إذا كان رمزه الزمني خاطئًا، فيُصيَّر من جديد؛ احذف الملف لتصييره من جديد على أي حال. يلزم ffmpeg – ثبّته أو حدّد مساره في الإعدادات.",
   "Tiếng Việt": "Render các bản sao nhẹ của clip video trong dự án bằng ffmpeg và liên kết chúng trong Resolve làm proxy media – cùng quy trình với tính năng Generate Proxy Media của chính Resolve, dành cho khi máy khó phát mượt các tệp gốc.\n\nProxy là các tệp .mov được ghi vào thư mục 'Proxy' bên cạnh mỗi tệp nguồn (quy ước của chính Resolve), rồi được liên kết bằng cùng lệnh mà thao tác liên kết lại thủ công dùng. Tệp nguồn không bao giờ bị động đến, và âm thanh của mỗi clip được sao chép nguyên luồng, nên chỉ có tải phát lại thay đổi.\n\nNhững clip nào: phần chọn trong Media Pool, phần chọn trên timeline (Resolve 21.0.4 trở lên), bin đang mở (có thể kèm các bin con), hoặc mọi clip trong dự án. Chỉ tệp video được chuyển mã – clip chỉ có âm thanh không bao giờ phát từ proxy.\n\nĐộ phân giải và định dạng được chọn ở đây. H.264 và H.265 cho tệp nhỏ nhất nhưng giải mã nặng hơn khi tua; ProRes, DNxHR và CineForm chiếm nhiều dung lượng hơn nhưng phát nhẹ hơn nhiều. Mỗi proxy mang timecode của clip, thứ Resolve cần để liên kết. Clip đã có tệp proxy sẽ được liên kết mà không render lại – trừ khi timecode của tệp sai, khi đó tệp được render lại; hãy xóa tệp nếu vẫn muốn render lại. Cần có ffmpeg – hãy cài đặt hoặc đặt đường dẫn của nó trong Cài đặt."
+ },
+ "Rendered on the graphics card – much faster, and leaves the CPU free for Resolve.": {
+  "日本語": "グラフィックカードでレンダリング – はるかに速く、CPU は Resolve のために空いたままです。",
+  "Español": "Se renderiza en la tarjeta gráfica: mucho más rápido, y deja la CPU libre para Resolve.",
+  "Deutsch": "Auf der Grafikkarte gerendert – viel schneller, und die CPU bleibt für Resolve frei.",
+  "Français": "Rendu sur la carte graphique – bien plus rapide, et le processeur reste libre pour Resolve.",
+  "한국어": "그래픽 카드에서 렌더링 – 훨씬 빠르고 CPU는 Resolve를 위해 비워 둡니다.",
+  "中文": "在显卡上渲染——快得多，并让 CPU 留给 Resolve。",
+  "العربية": "يُصيَّر على بطاقة الرسوميات – أسرع بكثير، ويترك المعالج متاحًا لـ Resolve.",
+  "Tiếng Việt": "Render trên card đồ họa – nhanh hơn nhiều, và để CPU rảnh cho Resolve."
+ },
+ "Smaller files than H.264, rendered on the graphics card.": {
+  "日本語": "H.264 より小さいファイルで、グラフィックカードでレンダリングします。",
+  "Español": "Archivos más pequeños que H.264, renderizados en la tarjeta gráfica.",
+  "Deutsch": "Kleinere Dateien als H.264, auf der Grafikkarte gerendert.",
+  "Français": "Des fichiers plus légers que H.264, rendus sur la carte graphique.",
+  "한국어": "H.264보다 작은 파일, 그래픽 카드에서 렌더링.",
+  "中文": "文件比 H.264 更小，在显卡上渲染。",
+  "العربية": "ملفات أصغر من H.264، تُصيَّر على بطاقة الرسوميات.",
+  "Tiếng Việt": "Tệp nhỏ hơn H.264, render trên card đồ họa."
+ },
+ "This PC can't encode {label} (it needs an NVIDIA graphics card) – rendered as {fallback} on the CPU instead.": {
+  "日本語": "この PC では {label} をエンコードできません（NVIDIA のグラフィックカードが必要です） – 代わりに CPU で {fallback} としてレンダリングしました。",
+  "Español": "Este PC no puede codificar {label} (necesita una tarjeta gráfica NVIDIA): se ha renderizado como {fallback} en la CPU.",
+  "Deutsch": "Dieser PC kann {label} nicht kodieren (dafür braucht es eine NVIDIA-Grafikkarte) – stattdessen als {fallback} auf der CPU gerendert.",
+  "Français": "Ce PC ne peut pas encoder en {label} (il faut une carte graphique NVIDIA) – rendu en {fallback} sur le processeur à la place.",
+  "한국어": "이 PC에서는 {label}(으)로 인코딩할 수 없습니다(NVIDIA 그래픽 카드 필요) – 대신 CPU에서 {fallback}(으)로 렌더링했습니다.",
+  "中文": "此电脑无法编码 {label}（需要 NVIDIA 显卡）——已改为在 CPU 上以 {fallback} 渲染。",
+  "العربية": "لا يستطيع هذا الحاسوب الترميز بـ {label} (يحتاج إلى بطاقة رسوميات NVIDIA) – صُيِّر بدلاً من ذلك بصيغة {fallback} على المعالج.",
+  "Tiếng Việt": "Máy này không mã hóa được {label} (cần card đồ họa NVIDIA) – đã render thành {fallback} trên CPU thay thế."
+ },
+ "Checking the graphics card": {
+  "日本語": "グラフィックカードを確認しています",
+  "Español": "Comprobando la tarjeta gráfica",
+  "Deutsch": "Grafikkarte wird geprüft",
+  "Français": "Vérification de la carte graphique",
+  "한국어": "그래픽 카드 확인 중",
+  "中文": "正在检查显卡",
+  "العربية": "جارٍ فحص بطاقة الرسوميات",
+  "Tiếng Việt": "Đang kiểm tra card đồ họa"
+ },
+ "Looking for the proxy files": {
+  "日本語": "プロキシファイルを探しています",
+  "Español": "Buscando los archivos de proxy",
+  "Deutsch": "Proxy-Dateien werden gesucht",
+  "Français": "Recherche des fichiers de proxy",
+  "한국어": "프록시 파일 찾는 중",
+  "中文": "正在查找代理文件",
+  "العربية": "جارٍ البحث عن ملفات الوكيل",
+  "Tiếng Việt": "Đang tìm các tệp proxy"
+ },
+ "Relinking offline proxies": {
+  "日本語": "オフラインのプロキシを再リンクしています",
+  "Español": "Revinculando proxies sin conexión",
+  "Deutsch": "Offline-Proxys werden neu verlinkt",
+  "Français": "Reliaison des proxys hors ligne",
+  "한국어": "오프라인 프록시 다시 연결 중",
+  "中文": "正在重新链接离线代理",
+  "العربية": "جارٍ إعادة ربط الوكلاء غير المتصلين",
+  "Tiếng Việt": "Đang liên kết lại các proxy ngoại tuyến"
+ },
+ "Couldn't relink the proxies": {
+  "日本語": "プロキシを再リンクできませんでした",
+  "Español": "No se pudieron revincular los proxies",
+  "Deutsch": "Die Proxys konnten nicht neu verlinkt werden",
+  "Français": "Impossible de relier les proxys",
+  "한국어": "프록시를 다시 연결할 수 없습니다",
+  "中文": "无法重新链接代理",
+  "العربية": "تعذّرت إعادة ربط الوكلاء",
+  "Tiếng Việt": "Không thể liên kết lại các proxy"
+ },
+ "Check proxies": {
+  "日本語": "プロキシを確認",
+  "Español": "Comprobar proxies",
+  "Deutsch": "Proxys prüfen",
+  "Français": "Vérifier les proxys",
+  "한국어": "프록시 확인",
+  "中文": "检查代理",
+  "العربية": "فحص الوكلاء",
+  "Tiếng Việt": "Kiểm tra proxy"
+ },
+ "For the clips chosen above: which have a proxy, which have one whose file has gone missing (offline), and which have none.": {
+  "日本語": "上で選んだクリップについて: どれにプロキシがあるか、どれのプロキシファイルが見つからないか（オフライン）、どれにプロキシがないかを表示します。",
+  "Español": "Para los clips elegidos arriba: cuáles tienen proxy, cuáles tienen uno cuyo archivo ha desaparecido (sin conexión) y cuáles no tienen.",
+  "Deutsch": "Für die oben gewählten Clips: welche einen Proxy haben, bei welchen die Proxy-Datei fehlt (offline) und welche keinen haben.",
+  "Français": "Pour les clips choisis ci-dessus : lesquels ont un proxy, lesquels en ont un dont le fichier a disparu (hors ligne), et lesquels n'en ont pas.",
+  "한국어": "위에서 고른 클립 중 프록시가 있는 것, 프록시 파일이 사라진 것(오프라인), 프록시가 없는 것을 보여 줍니다.",
+  "中文": "针对上面选择的片段：哪些有代理，哪些的代理文件已丢失（离线），哪些没有代理。",
+  "العربية": "للمقاطع المختارة أعلاه: أيها لديه وكيل، وأيها لديه وكيل فُقد ملفه (غير متصل)، وأيها بلا وكيل.",
+  "Tiếng Việt": "Với các clip đã chọn ở trên: clip nào có proxy, clip nào có proxy bị mất tệp (ngoại tuyến), và clip nào không có."
+ },
+ "Relink offline": {
+  "日本語": "オフラインを再リンク",
+  "Español": "Revincular sin conexión",
+  "Deutsch": "Offline neu verlinken",
+  "Français": "Relier les hors ligne",
+  "한국어": "오프라인 다시 연결",
+  "中文": "重新链接离线",
+  "العربية": "إعادة ربط غير المتصل",
+  "Tiếng Việt": "Liên kết lại ngoại tuyến"
+ },
+ "Find the offline proxy files in a folder and link them again": {
+  "日本語": "フォルダー内でオフラインのプロキシファイルを探して、もう一度リンクします",
+  "Español": "Busca los archivos de proxy sin conexión en una carpeta y vuelve a vincularlos",
+  "Deutsch": "Die Offline-Proxy-Dateien in einem Ordner suchen und neu verlinken",
+  "Français": "Chercher les fichiers de proxy hors ligne dans un dossier et les relier",
+  "한국어": "폴더에서 오프라인 프록시 파일을 찾아 다시 연결합니다",
+  "中文": "在文件夹中查找离线的代理文件并重新链接",
+  "العربية": "ابحث عن ملفات الوكيل غير المتصلة في مجلد واربطها من جديد",
+  "Tiếng Việt": "Tìm các tệp proxy ngoại tuyến trong một thư mục và liên kết lại"
+ },
+ "Unlink proxies": {
+  "日本語": "プロキシのリンクを解除",
+  "Español": "Desvincular proxies",
+  "Deutsch": "Proxy-Verlinkung aufheben",
+  "Français": "Délier les proxys",
+  "한국어": "프록시 연결 해제",
+  "中文": "取消链接代理",
+  "العربية": "فك ربط الوكلاء",
+  "Tiếng Việt": "Hủy liên kết proxy"
+ },
+ "Take the proxies off these clips – the files stay on disk": {
+  "日本語": "これらのクリップからプロキシを外します – ファイルはディスクに残ります",
+  "Español": "Quita los proxies de estos clips: los archivos se quedan en el disco",
+  "Deutsch": "Die Proxys von diesen Clips entfernen – die Dateien bleiben auf der Festplatte",
+  "Français": "Retirer les proxys de ces clips – les fichiers restent sur le disque",
+  "한국어": "이 클립들에서 프록시를 뗍니다 – 파일은 디스크에 남습니다",
+  "中文": "从这些片段上移除代理——文件仍保留在磁盘上",
+  "العربية": "أزل الوكلاء عن هذه المقاطع – تبقى الملفات على القرص",
+  "Tiếng Việt": "Gỡ proxy khỏi các clip này – tệp vẫn nằm trên ổ đĩa"
+ },
+ "Clip": {
+  "日本語": "クリップ",
+  "Español": "Clip",
+  "Deutsch": "Clip",
+  "Français": "Clip",
+  "한국어": "클립",
+  "中文": "片段",
+  "العربية": "المقطع",
+  "Tiếng Việt": "Clip"
+ },
+ "Linked": {
+  "日本語": "リンク済み",
+  "Español": "Vinculado",
+  "Deutsch": "Verlinkt",
+  "Français": "Lié",
+  "한국어": "연결됨",
+  "中文": "已链接",
+  "العربية": "مرتبط",
+  "Tiếng Việt": "Đã liên kết"
+ },
+ "Offline": {
+  "日本語": "オフライン",
+  "Español": "Sin conexión",
+  "Deutsch": "Offline",
+  "Français": "Hors ligne",
+  "한국어": "오프라인",
+  "中文": "离线",
+  "العربية": "غير متصل",
+  "Tiếng Việt": "Ngoại tuyến"
+ },
+ "{count} linked": {
+  "日本語": "{count} 件リンク済み",
+  "Español": "{count} vinculados",
+  "Deutsch": "{count} verlinkt",
+  "Français": "{count} liés",
+  "한국어": "{count}개 연결됨",
+  "中文": "{count} 个已链接",
+  "العربية": "{count} مرتبط",
+  "Tiếng Việt": "{count} đã liên kết"
+ },
+ "{count} offline": {
+  "日本語": "{count} 件オフライン",
+  "Español": "{count} sin conexión",
+  "Deutsch": "{count} offline",
+  "Français": "{count} hors ligne",
+  "한국어": "{count}개 오프라인",
+  "中文": "{count} 个离线",
+  "العربية": "{count} غير متصل",
+  "Tiếng Việt": "{count} ngoại tuyến"
+ },
+ "{count} without a proxy": {
+  "日本語": "{count} 件プロキシなし",
+  "Español": "{count} sin proxy",
+  "Deutsch": "{count} ohne Proxy",
+  "Français": "{count} sans proxy",
+  "한국어": "{count}개 프록시 없음",
+  "中文": "{count} 个没有代理",
+  "العربية": "{count} بلا وكيل",
+  "Tiếng Việt": "{count} không có proxy"
+ },
+ "And {count} more, not listed.": {
+  "日本語": "ほかに {count} 件（一覧には表示していません）。",
+  "Español": "Y {count} más, sin listar.",
+  "Deutsch": "Und {count} weitere, nicht aufgeführt.",
+  "Français": "Et {count} de plus, non listés.",
+  "한국어": "그 외 {count}개는 목록에 표시하지 않았습니다.",
+  "中文": "另有 {count} 个未列出。",
+  "العربية": "و{count} أخرى غير مدرجة.",
+  "Tiếng Việt": "Và {count} clip khác, không được liệt kê."
+ },
+ "Unlink": {
+  "日本語": "リンク解除",
+  "Español": "Desvincular",
+  "Deutsch": "Verlinkung aufheben",
+  "Français": "Délier",
+  "한국어": "연결 해제",
+  "中文": "取消链接",
+  "العربية": "فك الربط",
+  "Tiếng Việt": "Hủy liên kết"
+ },
+ "Take the proxies off the clips chosen above? The proxy files stay on disk – Make proxies links them again without rendering.": {
+  "日本語": "上で選んだクリップからプロキシを外しますか？ プロキシファイルはディスクに残ります – 「プロキシを作成」でレンダリングせずにもう一度リンクできます。",
+  "Español": "¿Quitar los proxies de los clips elegidos arriba? Los archivos de proxy se quedan en el disco: Crear proxies los vuelve a vincular sin renderizar.",
+  "Deutsch": "Die Proxys von den oben gewählten Clips entfernen? Die Proxy-Dateien bleiben auf der Festplatte – „Proxys erstellen“ verlinkt sie ohne neues Rendern wieder.",
+  "Français": "Retirer les proxys des clips choisis ci-dessus ? Les fichiers de proxy restent sur le disque – Créer les proxys les relie à nouveau sans rendu.",
+  "한국어": "위에서 고른 클립들에서 프록시를 뗄까요? 프록시 파일은 디스크에 남으며, 프록시 만들기로 렌더링 없이 다시 연결할 수 있습니다.",
+  "中文": "要从上面选择的片段上移除代理吗？代理文件仍保留在磁盘上——“创建代理”可在不重新渲染的情况下再次链接它们。",
+  "العربية": "هل تريد إزالة الوكلاء عن المقاطع المختارة أعلاه؟ تبقى ملفات الوكيل على القرص – يعيد «إنشاء الوكلاء» ربطها دون تصيير.",
+  "Tiếng Việt": "Gỡ proxy khỏi các clip đã chọn ở trên? Tệp proxy vẫn nằm trên ổ đĩa – Tạo proxy sẽ liên kết lại mà không cần render."
+ },
+ "Where are the proxy files now?": {
+  "日本語": "プロキシファイルは今どこにありますか？",
+  "Español": "¿Dónde están ahora los archivos de proxy?",
+  "Deutsch": "Wo liegen die Proxy-Dateien jetzt?",
+  "Français": "Où sont les fichiers de proxy maintenant ?",
+  "한국어": "프록시 파일은 지금 어디에 있나요?",
+  "中文": "代理文件现在在哪里？",
+  "العربية": "أين ملفات الوكيل الآن؟",
+  "Tiếng Việt": "Các tệp proxy hiện ở đâu?"
+ },
+ "No clips to check": {
+  "日本語": "確認するクリップがありません",
+  "Español": "No hay clips que comprobar",
+  "Deutsch": "Keine Clips zu prüfen",
+  "Français": "Aucun clip à vérifier",
+  "한국어": "확인할 클립이 없습니다",
+  "中文": "没有要检查的片段",
+  "العربية": "لا توجد مقاطع لفحصها",
+  "Tiếng Việt": "Không có clip nào để kiểm tra"
+ },
+ "Proxies: {linked} linked, {offline} offline, {none} without one.": {
+  "日本語": "プロキシ: {linked} 件リンク済み、{offline} 件オフライン、{none} 件なし。",
+  "Español": "Proxies: {linked} vinculados, {offline} sin conexión, {none} sin proxy.",
+  "Deutsch": "Proxys: {linked} verlinkt, {offline} offline, {none} ohne.",
+  "Français": "Proxys : {linked} liés, {offline} hors ligne, {none} sans.",
+  "한국어": "프록시: {linked}개 연결됨, {offline}개 오프라인, {none}개 없음.",
+  "中文": "代理：{linked} 个已链接，{offline} 个离线，{none} 个没有。",
+  "العربية": "الوكلاء: {linked} مرتبط، {offline} غير متصل، {none} بلا وكيل.",
+  "Tiếng Việt": "Proxy: {linked} đã liên kết, {offline} ngoại tuyến, {none} không có."
+ },
+ "Took the proxy off 1 clip – the file is still on disk.": {
+  "日本語": "1 件のクリップからプロキシを外しました – ファイルはディスクに残っています。",
+  "Español": "Se ha quitado el proxy de 1 clip: el archivo sigue en el disco.",
+  "Deutsch": "Proxy von 1 Clip entfernt – die Datei ist noch auf der Festplatte.",
+  "Français": "Proxy retiré de 1 clip – le fichier est toujours sur le disque.",
+  "한국어": "클립 1개에서 프록시를 뗐습니다 – 파일은 디스크에 그대로 있습니다.",
+  "中文": "已从 1 个片段上移除代理——文件仍在磁盘上。",
+  "العربية": "أُزيل الوكيل عن مقطع واحد – لا يزال الملف على القرص.",
+  "Tiếng Việt": "Đã gỡ proxy khỏi 1 clip – tệp vẫn còn trên ổ đĩa."
+ },
+ "Took the proxies off {count} clips – the files are still on disk.": {
+  "日本語": "{count} 件のクリップからプロキシを外しました – ファイルはディスクに残っています。",
+  "Español": "Se han quitado los proxies de {count} clips: los archivos siguen en el disco.",
+  "Deutsch": "Proxys von {count} Clips entfernt – die Dateien sind noch auf der Festplatte.",
+  "Français": "Proxys retirés de {count} clips – les fichiers sont toujours sur le disque.",
+  "한국어": "클립 {count}개에서 프록시를 뗐습니다 – 파일은 디스크에 그대로 있습니다.",
+  "中文": "已从 {count} 个片段上移除代理——文件仍在磁盘上。",
+  "العربية": "أُزيل الوكلاء عن {count} مقاطع – لا تزال الملفات على القرص.",
+  "Tiếng Việt": "Đã gỡ proxy khỏi {count} clip – các tệp vẫn còn trên ổ đĩa."
+ },
+ "No clips in {where} have a proxy.": {
+  "日本語": "{where} のクリップにはプロキシがありません。",
+  "Español": "Ningún clip de {where} tiene proxy.",
+  "Deutsch": "Kein Clip in {where} hat einen Proxy.",
+  "Français": "Aucun clip de {where} n'a de proxy.",
+  "한국어": "{where}의 클립에는 프록시가 없습니다.",
+  "中文": "{where} 中没有片段带有代理。",
+  "العربية": "لا يوجد وكيل لأي مقطع في {where}.",
+  "Tiếng Việt": "Không clip nào trong {where} có proxy."
+ },
+ "Resolve wouldn't take the proxy off \"{name}\".": {
+  "日本語": "Resolve は「{name}」からプロキシを外しませんでした。",
+  "Español": "Resolve no quiso quitar el proxy de \"{name}\".",
+  "Deutsch": "Resolve wollte den Proxy von „{name}“ nicht entfernen.",
+  "Français": "Resolve n'a pas voulu retirer le proxy de « {name} ».",
+  "한국어": "Resolve가 \"{name}\"에서 프록시를 떼지 않았습니다.",
+  "中文": "Resolve 无法移除“{name}”的代理。",
+  "العربية": "رفض Resolve إزالة الوكيل عن \"{name}\".",
+  "Tiếng Việt": "Resolve không chịu gỡ proxy khỏi \"{name}\"."
+ },
+ "No offline proxies in {where}.": {
+  "日本語": "{where} にオフラインのプロキシはありません。",
+  "Español": "No hay proxies sin conexión en {where}.",
+  "Deutsch": "Keine Offline-Proxys in {where}.",
+  "Français": "Aucun proxy hors ligne dans {where}.",
+  "한국어": "{where}에 오프라인 프록시가 없습니다.",
+  "中文": "{where} 中没有离线代理。",
+  "العربية": "لا توجد وكلاء غير متصلة في {where}.",
+  "Tiếng Việt": "Không có proxy ngoại tuyến nào trong {where}."
+ },
+ "Relinked 1 offline proxy.": {
+  "日本語": "オフラインのプロキシを 1 件再リンクしました。",
+  "Español": "Se ha revinculado 1 proxy sin conexión.",
+  "Deutsch": "1 Offline-Proxy neu verlinkt.",
+  "Français": "1 proxy hors ligne relié.",
+  "한국어": "오프라인 프록시 1개를 다시 연결했습니다.",
+  "中文": "已重新链接 1 个离线代理。",
+  "العربية": "أُعيد ربط وكيل واحد غير متصل.",
+  "Tiếng Việt": "Đã liên kết lại 1 proxy ngoại tuyến."
+ },
+ "Relinked {count} offline proxies.": {
+  "日本語": "オフラインのプロキシを {count} 件再リンクしました。",
+  "Español": "Se han revinculado {count} proxies sin conexión.",
+  "Deutsch": "{count} Offline-Proxys neu verlinkt.",
+  "Français": "{count} proxys hors ligne reliés.",
+  "한국어": "오프라인 프록시 {count}개를 다시 연결했습니다.",
+  "中文": "已重新链接 {count} 个离线代理。",
+  "العربية": "أُعيد ربط {count} وكلاء غير متصلة.",
+  "Tiếng Việt": "Đã liên kết lại {count} proxy ngoại tuyến."
+ },
+ "Resolve wouldn't link the proxy found for \"{name}\".": {
+  "日本語": "Resolve は「{name}」で見つかったプロキシをリンクしませんでした。",
+  "Español": "Resolve no quiso vincular el proxy encontrado para \"{name}\".",
+  "Deutsch": "Resolve wollte den für „{name}“ gefundenen Proxy nicht verlinken.",
+  "Français": "Resolve n'a pas voulu lier le proxy trouvé pour « {name} ».",
+  "한국어": "Resolve가 \"{name}\"에 대해 찾은 프록시를 연결하지 않았습니다.",
+  "中文": "Resolve 无法链接为“{name}”找到的代理。",
+  "العربية": "رفض Resolve ربط الوكيل الذي عُثر عليه لـ \"{name}\".",
+  "Tiếng Việt": "Resolve không chịu liên kết proxy tìm được cho \"{name}\"."
+ },
+ "1 offline proxy wasn't in that folder.": {
+  "日本語": "オフラインのプロキシ 1 件はそのフォルダーにありませんでした。",
+  "Español": "1 proxy sin conexión no estaba en esa carpeta.",
+  "Deutsch": "1 Offline-Proxy war nicht in diesem Ordner.",
+  "Français": "1 proxy hors ligne n'était pas dans ce dossier.",
+  "한국어": "오프라인 프록시 1개는 그 폴더에 없었습니다.",
+  "中文": "有 1 个离线代理不在该文件夹中。",
+  "العربية": "لم يكن وكيل واحد غير متصل في ذلك المجلد.",
+  "Tiếng Việt": "1 proxy ngoại tuyến không có trong thư mục đó."
+ },
+ "{count} offline proxies weren't in that folder.": {
+  "日本語": "オフラインのプロキシ {count} 件はそのフォルダーにありませんでした。",
+  "Español": "{count} proxies sin conexión no estaban en esa carpeta.",
+  "Deutsch": "{count} Offline-Proxys waren nicht in diesem Ordner.",
+  "Français": "{count} proxys hors ligne n'étaient pas dans ce dossier.",
+  "한국어": "오프라인 프록시 {count}개는 그 폴더에 없었습니다.",
+  "中文": "有 {count} 个离线代理不在该文件夹中。",
+  "العربية": "لم تكن {count} وكلاء غير متصلة في ذلك المجلد.",
+  "Tiếng Việt": "{count} proxy ngoại tuyến không có trong thư mục đó."
  }
 }

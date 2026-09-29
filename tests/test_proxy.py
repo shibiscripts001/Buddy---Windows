@@ -45,7 +45,8 @@ class EntryTests(unittest.TestCase):
     def test_entry_reads_path_name_and_type(self):
         clip = self._clip(props={"File Path": "C:/media/A001.mp4", "Type": "video"})
         entry = proxy._entry(clip)
-        self.assertEqual(entry, {"id": "u1", "name": "A001", "path": "C:/media/A001.mp4", "type": "video", "tc": ""})
+        self.assertEqual(entry, {"id": "u1", "name": "A001", "path": "C:/media/A001.mp4", "type": "video", "tc": "",
+                                 "proxy": "", "proxy_path": ""})
 
     def test_entry_survives_a_dead_bridge(self):
         self.assertIsNone(proxy._entry(self._clip(fail_props=True)))
@@ -337,13 +338,104 @@ class FormatTests(unittest.TestCase):
             cmd = proxy.build_command("ffmpeg", "in.mp4", "out.mov", "half", key)
             self.assertIn("-c:v", cmd, key)
             self.assertTrue(codec["label"] and codec["hint"], key)
-        self.assertEqual([c["id"] for c in proxy.codec_choices()], list(proxy.CODECS))
+        self.assertEqual([c["id"] for c in proxy.codec_choices("win32")], list(proxy.CODECS))
+        # No NVIDIA cards in today's Macs.
+        self.assertNotIn("h264_nvenc", [c["id"] for c in proxy.codec_choices("darwin")])
 
     def test_dnxhr_and_prores_profiles(self):
         cmd = proxy.build_command("ffmpeg", "in.mp4", "out.mov", "half", "dnxhr_sq")
         self.assertEqual(cmd[cmd.index("-profile:v") + 1], "dnxhr_sq")
         cmd = proxy.build_command("ffmpeg", "in.mp4", "out.mov", "half", "prores_lt")
         self.assertEqual(cmd[cmd.index("-profile:v") + 1], "1")
+
+
+class GpuTests(unittest.TestCase):
+    def test_the_gpu_command_decodes_and_scales_on_the_card(self):
+        cmd = proxy.build_command("ffmpeg", "in.mp4", "out.mov", "half", "h264_nvenc", "01:00:00:00", gpu_decode=True)
+        self.assertEqual(cmd[cmd.index("-hwaccel") + 1], "cuda")
+        self.assertLess(cmd.index("-hwaccel"), cmd.index("-i"))
+        self.assertIn("scale_cuda=trunc(iw/4)*2:trunc(ih/4)*2:format=yuv420p", cmd)
+        self.assertNotIn("-pix_fmt", cmd)
+        self.assertEqual(cmd[cmd.index("-c:v") + 1], "h264_nvenc")
+        self.assertEqual(cmd[cmd.index("-timecode") + 1], "01:00:00:00")
+        original = proxy.build_command("ffmpeg", "in.mp4", "out.mov", "original", "hevc_nvenc", gpu_decode=True)
+        self.assertIn("scale_cuda=format=yuv420p", original)
+
+    def test_without_gpu_decode_the_cpu_hands_nvenc_420(self):
+        cmd = proxy.build_command("ffmpeg", "in.mov", "out.mov", "quarter", "h264_nvenc")
+        self.assertNotIn("-hwaccel", cmd)
+        self.assertIn("scale=trunc(iw/8)*2:trunc(ih/8)*2", cmd)
+        self.assertEqual(cmd[cmd.index("-pix_fmt") + 1], "yuv420p")
+
+    def test_a_source_the_card_cant_decode_goes_again_on_the_cpu(self):
+        with tempfile.TemporaryDirectory() as folder:
+            dst = os.path.join(folder, "Proxy", "A_proxy.mov")
+            calls = []
+
+            def run(cmd):
+                calls.append(cmd)
+                if "-hwaccel" in cmd:
+                    return 1, b"Impossible to convert between the formats"
+                open(cmd[-1], "wb").close()
+                return 0, b""
+            proxy.render_one("ffmpeg", "A.mov", dst, "half", "h264_nvenc", run=run)
+            self.assertEqual(["-hwaccel" in c for c in calls], [True, False])
+            self.assertTrue(os.path.isfile(dst))
+            # A CPU format is only ever tried once.
+            calls.clear()
+            proxy.render_one("ffmpeg", "A.mov", dst, "half", "h264", run=run)
+            self.assertEqual(len(calls), 1)
+
+    def test_no_nvenc_renders_the_cpu_format_and_says_so(self):
+        proxy._GPU_CHECKED.clear()
+        run = mock.Mock(return_value=mock.Mock(returncode=1))
+        with mock.patch.object(proxy.subprocess, "run", run):
+            used, note = proxy.render_plan("ffmpeg", "hevc_nvenc")
+            self.assertEqual(used, "h265")
+            self.assertIn("NVIDIA", note)
+            proxy.render_plan("ffmpeg", "hevc_nvenc")
+        self.assertEqual(run.call_count, 1)   # asked once per ffmpeg and encoder
+        self.assertEqual(proxy.render_plan("ffmpeg", "prores"), ("prores", ""))
+        proxy._GPU_CHECKED.clear()
+        with mock.patch.object(proxy.subprocess, "run", return_value=mock.Mock(returncode=0)):
+            self.assertEqual(proxy.render_plan("ffmpeg", "h264_nvenc"), ("h264_nvenc", ""))
+        proxy._GPU_CHECKED.clear()
+
+
+class StatusTests(_Tmp):
+    def entry(self, name, proxy_value="None", proxy_path="", path=""):
+        return {"id": name, "name": name, "path": path or f"C:/m/{name}", "type": "Video", "tc": "",
+                "proxy": proxy_value, "proxy_path": proxy_path}
+
+    def test_linked_offline_and_none(self):
+        there = self.touch("Proxy/A_proxy.mov")
+        linked = self.entry("A.mp4", "1920x1080", there)
+        offline = self.entry("B.mp4", "1920x1080", os.path.join(self.dir, "Proxy", "gone.mov"))
+        none = self.entry("C.mp4")
+        # Resolve still says "1920x1080" for a proxy whose file has gone.
+        self.assertEqual([proxy.proxy_state(e) for e in (linked, offline, none)], ["linked", "offline", "none"])
+        report = proxy.status_report([linked, none, offline])
+        self.assertEqual(report["counts"], {"linked": 1, "offline": 1, "none": 1})
+        self.assertEqual([r["state"] for r in report["rows"]], ["offline", "none", "linked"])   # to fix first
+        self.assertIn(there, report["rows"][2]["detail"])
+        self.assertEqual(proxy.status_line(report["counts"]), "Proxies: 1 linked, 1 offline, 1 without one.")
+
+    def test_a_long_list_is_capped_but_counted(self):
+        with mock.patch.object(proxy, "STATUS_ROWS_MAX", 2):
+            report = proxy.status_report([self.entry(f"{i}.mp4") for i in range(5)])
+        self.assertEqual((len(report["rows"]), report["more"], report["counts"]["none"]), (2, 3, 5))
+
+    def test_offline_proxies_are_found_by_name(self):
+        moved = self.touch("new drive/day 1/A_proxy.mov")
+        renamed = self.touch("new drive/B_proxy.mov")
+        a = self.entry("A.mp4", "960x540", "D:/old/Proxy/A_proxy.mov")
+        b = self.entry("B.mp4", "960x540", "D:/old/Proxy/B_custom.mov", path="D:/old/B.mp4")   # found by Buddy's name
+        c = self.entry("C.mp4", "960x540", "D:/old/Proxy/C_proxy.mov")
+        found = dict((e["id"], path) for e, path in proxy.find_relinks([a, b, c], os.path.join(self.dir, "new drive")))
+        self.assertEqual(found, {"A.mp4": moved, "B.mp4": renamed})
+        texts = [t for t, _ in proxy.relink_report(2, ["X.mp4"], 1)]
+        self.assertEqual(texts, ["Relinked 2 offline proxies.", "Resolve wouldn't link the proxy found for \"X.mp4\".",
+                                 "1 offline proxy wasn't in that folder."])
 
 
 if __name__ == "__main__":

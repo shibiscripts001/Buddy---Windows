@@ -25,13 +25,13 @@ timeline it will append to (or create); the Sync tab showing the open
 timeline and following it; and Cancel for the long audio jobs.
 
 Protocol:
-    to the view    state, help, bins_text, bins, import, populate, sync, proxy,
+    to the view    state, help, bins_text, bins, import, populate, sync, proxy, proxy_status,
                    job, log, alert, toast
     from the view  tab, connect, refresh, bins_text, bins_reset, create_bins,
                    choose_folder, rescan, to_master, import_folder,
                    populate_recursive, add_to_timeline, sync_option, assemble,
                    expand, align, sync_external, collapse, shift, cancel_job,
-                   proxy_option, proxy_go
+                   proxy_option, proxy_go, proxy_status, proxy_unlink, proxy_relink
 """
 
 from __future__ import annotations
@@ -983,6 +983,113 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
             raise ProxyTabError("The Media Pool has no clips in it.")
         return proxy.entries(clips)
 
+    def _read_proxy_scope(self):
+        """(where, video entries, their MediaPoolItems) for the scope chosen
+        above, read on the main thread - or None, having said why."""
+        controller = self.ensure_connected()
+        if controller is None:
+            return None
+        scope = self.proxy_options["scope"]
+        self.host.set_busy(True, "Reading the clips…")
+        try:
+            all_entries, objects = self._proxy_videos(controller, scope)
+            videos = [e for e in all_entries if proxy.is_video(e)]
+            where = proxy.scope_label(scope, self._proxy.get("bin"), self._proxy.get("timeline"),
+                                      self.proxy_options["recursive"])
+        except proxy.ProxyError as exc:
+            self._log("proxy", str(exc), "error")
+            self._alert("No clips to check", str(exc))
+            return None
+        except Exception as exc:  # noqa: BLE001 - the project went away, or the bridge hiccuped
+            self._log("proxy", f"Couldn't read the clips: {exc}", "error")
+            return None
+        finally:
+            self.host.set_busy(False)
+        if not videos:
+            self._log("proxy", "No video files in that scope – audio and stills don't need proxies.", "warn")
+            return None
+        return where, videos, objects
+
+    def on_proxy_status(self, _payload=None):
+        """Which of the scope's clips have a proxy, which have one whose file
+        has gone (offline), and which have none."""
+        read = self._read_proxy_scope()
+        if read is None:
+            return
+        where, videos, _objects = read
+        report = proxy.status_report(videos)
+        self.emit("proxy_status", {**report, "where": where})
+        self._log("proxy", proxy.status_line(report["counts"]), "info")
+
+    def on_proxy_unlink(self, _payload=None):
+        """Takes the proxies off the scope's clips. The files stay on disk -
+        Make proxies links them again without rendering."""
+        read = self._read_proxy_scope()
+        if read is None:
+            return
+        where, videos, objects = read
+        unlinked, refused = 0, []
+        for entry in videos:
+            if proxy.proxy_state(entry) == "none":
+                continue
+            try:
+                if objects[entry["id"]].UnlinkProxyMedia():
+                    unlinked += 1
+                else:
+                    refused.append(entry["name"])
+            except Exception:  # noqa: BLE001 - Resolve refused this one
+                refused.append(entry["name"])
+        if unlinked == 1:
+            self._log("proxy", "Took the proxy off 1 clip – the file is still on disk.", "success")
+        elif unlinked:
+            self._log("proxy", f"Took the proxies off {unlinked} clips – the files are still on disk.", "success")
+        elif not refused:
+            self._log("proxy", f"No clips in {where} have a proxy.", "info")
+        for name in refused:
+            self._log("proxy", f"Resolve wouldn't take the proxy off \"{name}\".", "error")
+        self.on_proxy_status()
+
+    def on_proxy_relink(self, _payload=None):
+        """Finds the scope's offline proxies in a folder the user picks (and
+        the folders inside it) and links each clip to it again."""
+        read = self._read_proxy_scope()
+        if read is None:
+            return
+        where, videos, objects = read
+        offline = [e for e in videos if proxy.proxy_state(e) == "offline"]
+        if not offline:
+            self._log("proxy", f"No offline proxies in {where}.", "info")
+            return
+        start = os.path.dirname(os.path.dirname(offline[0]["proxy_path"] or offline[0]["path"]))
+        folder = QFileDialog.getExistingDirectory(self, tr("Where are the proxy files now?"),
+                                                  start if os.path.isdir(start) else "")
+        if not folder:
+            return
+
+        def prepare(controller):
+            return offline, objects, folder
+
+        def job(context, report):
+            report("Looking for the proxy files", 0, 1)
+            return proxy.find_relinks(context[0], context[2])
+
+        def finish(controller, context, found):
+            relinked, refused = 0, []
+            for entry, path in found:
+                try:
+                    if context[1][entry["id"]].LinkProxyMedia(path):
+                        relinked += 1
+                    else:
+                        refused.append(entry["name"])
+                except Exception:  # noqa: BLE001 - Resolve refused this one
+                    refused.append(entry["name"])
+            lines = proxy.relink_report(relinked, refused, len(context[0]) - len(found))
+            QTimer.singleShot(0, self.on_proxy_status)
+            return lines
+
+        self._start_job("proxy", "Relinking offline proxies", prepare, job, finish,
+                        "Couldn't relink the proxies", log_tab="proxy")
+
     def on_proxy_go(self, _payload):
         scope = self.proxy_options["scope"]
         ffmpeg_path = self._ffmpeg()
@@ -1043,6 +1150,9 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
 
         def job(context, report):
             render_list, existing_list, _by_id, _where, _scope = context
+            # Tried here, off the UI thread: it runs ffmpeg once.
+            report("Checking the graphics card", 0, 1)
+            used, note = proxy.render_plan(ffmpeg_path, codec)
             # A proxy file already there is only any use if its timecode
             # matches the clip's - Resolve refuses one that doesn't (an
             # older Buddy's, made without it). Those are rendered again.
@@ -1057,11 +1167,11 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
                 report(f"Rendering {os.path.basename(target['path'])}", index, len(todo))
                 try:
                     proxy.render_one(ffmpeg_path, target["path"], target["dst"],
-                                     resolution, codec, timecode=target.get("tc", ""))
+                                     resolution, used, timecode=target.get("tc", ""))
                     results.append({"id": target["id"], "ok": True})
                 except proxy.ProxyError as exc:
                     results.append({"id": target["id"], "ok": False, "error": str(exc)})
-            return {"results": results, "stale": stale}
+            return {"results": results, "stale": stale, "note": note}
 
         def finish(controller, context, payload):
             render_list, existing_list, by_id, where, scope = context
@@ -1096,6 +1206,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
                 except Exception:  # noqa: BLE001 - Resolve refused this one
                     refused_existing.append(target["name"])
             lines = [(f"Proxy {where}: {len(render_list)} to render, {len(existing_list)} already have files.", "info")]
+            if payload.get("note"):
+                lines.append((payload["note"], "warn"))
             lines.extend(proxy.render_report(results))
             lines.extend(proxy.link_report(linked, refused, existing_linked, redone=len(stale),
                                            refused_existing=refused_existing))

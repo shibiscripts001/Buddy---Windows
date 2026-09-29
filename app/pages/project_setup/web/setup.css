@@ -177,3 +177,13 @@
 .log .k-success { color: var(--text-strong); }
 .log .k-warn { color: var(--second-text); }
 .log .k-error { color: var(--danger-text); }
+
+/* Proxy tab: the status check's counts and table. */
+.proxy-counts { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 8px; }
+.proxy-counts .chip.ok { color: var(--success); }
+.proxy-counts .chip.bad { color: var(--danger-text); }
+.proxy-status-box { max-height: 320px; overflow: auto; border: var(--bw) solid var(--card-border); border-radius: var(--r-sm); }
+.proxy-status-box .table th { position: sticky; top: 0; background: var(--table-head-bg); }
+.proxy-status-box tr[data-state="offline"] .proxy-state { color: var(--danger-text); font-weight: 700; }
+.proxy-status-box tr[data-state="linked"] .proxy-state { color: var(--success); }
+.proxy-path { overflow-wrap: anywhere; user-select: text; }
