@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Asset Manager's audio/video preview, without a widget: Qt Multimedia plays
-the file (its FFmpeg backend reads every format the library takes -
-QtWebEngine's Chromium can't play H.264 or AAC, so a web <video> would fail
-on most footage), and the page is sent what to draw:
+Asset Manager's audio/video preview. Qt Multimedia plays the file (its FFmpeg
+backend reads formats that QtWebEngine's Chromium cannot, including much
+H.264/AAC footage). By default, the web page is sent what to draw:
 
     frame(asset_id, data_url)       a video frame, as a small JPEG
     waveform(asset_id, dict)        {"bars": [...], "progress": 0-1, "done"}
@@ -18,6 +17,10 @@ only way this backend produces a first frame - then paused on that frame
 with audio reattached; a waveform is decoded on a worker thread and grows
 left to right while it does; seeking never changes whether it's playing;
 anything still arriving for an asset you've clicked away from is dropped.
+Dailies instead passes a video surface of its own (pages/dailies/
+video_surface.py) that playback draws into directly, sparing a JPEG encode
+and a web-channel transfer for every frame; only the first frame of each clip
+still comes to the page, as the still shown until Play.
 """
 
 import base64
@@ -77,11 +80,14 @@ class MediaPreview(QObject):
     playing = Signal(bool)
     failed = Signal(str, str)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, video_output=None):
         super().__init__(parent)
         self.player = QMediaPlayer(self)
         self.audio_output = QAudioOutput(self)
         self.player.setAudioOutput(self.audio_output)
+        # A surface playback draws into directly (Dailies). Both modes prime
+        # through the sink so Dailies can show a still before playback starts.
+        self._video_output = video_output
         self.sink = QVideoSink(self)
         self.player.setVideoOutput(self.sink)
         self.player.positionChanged.connect(self._on_position)
@@ -121,11 +127,21 @@ class MediaPreview(QObject):
             # there's no route for sound. Reattached once paused on frame 1.
             self.player.setAudioOutput(None)
             self.player.setSource(QUrl.fromLocalFile(path))
-            self.player.setVideoOutput(self.sink)   # some backends drop it across a source change
+            # Prime into the sink, never the visible surface. The brief
+            # decoder play must not appear in Dailies before the user presses Play.
+            self.player.setVideoOutput(self.sink)
 
     def stop(self):
         """Stops and forgets the current media (the page shows something else)."""
         self._pending_id = self._pending_path = self._current_id = self._kind = self._priming_id = None
+        if self._video_output is not None:
+            # Detached first: stopping clears the output's picture, while an
+            # output the player has let go of keeps its last frame - which is
+            # what stays on screen while the next clip loads. Moved to the
+            # sink rather than to None: setVideoOutput(None) mid-play hangs
+            # Qt's FFmpeg backend (6.11.2). The sink is handed the frame on
+            # screen as it's attached - _on_video_frame drops that one.
+            self.player.setVideoOutput(self.sink)
         self.player.stop()
         self.player.setSource(QUrl())
         self.player.setAudioOutput(self.audio_output)
@@ -149,7 +165,19 @@ class MediaPreview(QObject):
             return
         duration = self.player.duration()
         if duration > 0:
-            self.player.setPosition(int(max(0.0, min(1.0, float(fraction))) * duration))
+            self.seek_ms(int(max(0.0, min(1.0, float(fraction))) * duration), asset_id)
+
+    def seek_ms(self, position_ms, asset_id=None):
+        """Moves the playhead to a time, without starting playback. A stopped
+        player is paused first: this backend draws nothing for a seek while
+        stopped, but shows the exact frame for one while paused."""
+        if self._current_id is None or (asset_id is not None and asset_id != self._current_id):
+            return
+        if self.player.playbackState() == QMediaPlayer.StoppedState:
+            self.player.pause()
+        duration = self.player.duration()
+        position = max(0, int(position_ms))
+        self.player.setPosition(min(position, duration - 1) if duration > 0 else position)
 
     def set_volume(self, value):
         self.audio_output.setVolume(max(0.0, min(1.0, float(value))))
@@ -217,20 +245,34 @@ class MediaPreview(QObject):
         if self._kind != "video" or self._pending_id is None or not frame.isValid():
             return
         first = self._current_id != self._pending_id
-        now = monotonic()
-        playing = self.player.playbackState() == QMediaPlayer.PlayingState
-        if not first and playing and (now - self._last_frame_at) * 1000 < FRAME_INTERVAL_MS:
+        if first and self._priming_id != self._pending_id:
+            # Not this clip's yet: only the priming play decodes one, so
+            # anything earlier is the previous clip's, still in the pipe.
             return
-        image = frame.toImage()
-        if image.isNull():
-            return
-        self._last_frame_at = now
-        self.frame.emit(self._pending_id, image_data_url(image))
+        if self._video_output is not None and first:
+            image = frame.toImage()
+            if not image.isNull():
+                self.frame.emit(self._pending_id, image_data_url(image, max_side=1280))
+        elif self._video_output is None:
+            now = monotonic()
+            playing = self.player.playbackState() == QMediaPlayer.PlayingState
+            if not first and playing and (now - self._last_frame_at) * 1000 < FRAME_INTERVAL_MS:
+                return
+            image = frame.toImage()
+            if image.isNull():
+                return
+            self._last_frame_at = now
+            self.frame.emit(self._pending_id, image_data_url(image))
         if first:
-            # The first real frame: stop the priming play, and give it its
-            # sound back - everything from here is the user's own doing.
+            # The first real frame: hand control back to the user. With a
+            # surface, stop resets the playhead to zero before attaching it;
+            # the selected clip stays a still until Play.
             self._current_id = self._pending_id
-            self.player.pause()
+            if self._video_output is not None:
+                self.player.stop()
+                self.player.setVideoOutput(self._video_output)
+            else:
+                self.player.pause()
             self.player.setAudioOutput(self.audio_output)
             self.ready.emit(self._current_id, "video")
 

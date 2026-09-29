@@ -10,7 +10,7 @@ script and has been ported into the shell.
 
 ## Status
 
-All 13 tools are working (12 ported, plus the new Transcribe), and Audio Assistant is on its way:
+Buddy's integrated tools include the following. Audit and parts of Audio Assistant are still in progress:
 
 - Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Transcribe)
 - Ask Buddy (chat agent)
@@ -19,14 +19,14 @@ All 13 tools are working (12 ported, plus the new Transcribe), and Audio Assista
 - Asset Manager
 - Batch Clip Renamer
 - Color Palette Manager
+- Dailies (named source tapes, continuous Media Pool review, notes and metadata)
 - Image Importer
 - Media Relink
 - Project Setup
-- Stills Exporter
+- Marker Manager (Stills Exporter and YouTube Chapters tabs)
 - SVG Importer
 - Time Tracker
 - Transcribe (Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
-- YouTube Chapters
 
 ## Background behavior (Time Tracker)
 

@@ -47,6 +47,9 @@ class YouTubeChaptersPage(WebToolPage):
     category = "Export & Delivery"
     web_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
 
+    def on_switch_tab(self, payload):
+        self._marker_manager.show_tab((payload or {}).get("tab"))
+
     def build_state(self):
         self.settings = self.host.tool_settings(self.tool_id, DEFAULTS)
         self.color = chapters.ALL

@@ -22,7 +22,7 @@ import sys
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication
 
-from core import crash_log, gpu_adapter, gui_gc, startup_manager, web_flags
+from core import crash_log, ffmpeg_log, gpu_adapter, gui_gc, startup_manager, web_flags
 from core.i18n import tr
 from core.settings_store import BUDDY_DIR
 from core.shell_window import ShellWindow
@@ -49,6 +49,9 @@ def main(start_hidden=False):
     # Web tool pages (core/web_page.py) share GPU contexts with each other;
     # QtWebEngine needs this set before the QApplication exists.
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
+    # Before any preview opens a file: Qt's FFmpeg otherwise prints every
+    # clip's stream dump and warnings to the console (core/ffmpeg_log.py).
+    ffmpeg_log.silence()
     app = QApplication(sys.argv)
     # Cyclic garbage is freed on this thread only, never inside a worker
     # where a web view's destruction crashes QtWebEngine (core/gui_gc.py).

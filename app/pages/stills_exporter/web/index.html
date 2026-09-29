@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
-    <title>Stills Exporter</title>
+    <title>Marker Manager - Stills Exporter</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
     <link rel="stylesheet" href="stills.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
@@ -13,10 +13,15 @@
 <body>
 <main class="page">
     <header class="page-head">
-        <h1 class="page-title">Stills Exporter</h1>
+        <h1 class="page-title">Marker Manager</h1>
         <span class="timeline" id="timeline"></span>
         <button type="button" class="btn ghost" data-action="refresh" id="refresh" title="Read the timeline's markers again"></button>
     </header>
+
+    <nav class="tabs" role="tablist" id="marker-tabs" aria-label="Marker Manager tools">
+        <button type="button" role="tab" data-tab="stills" aria-selected="true">Stills Exporter</button>
+        <button type="button" role="tab" data-tab="chapters" aria-selected="false">YouTube Chapters</button>
+    </nav>
 
     <section class="card colour-card">
         <div class="row">
@@ -80,5 +85,6 @@
     </details>
 </main>
 <script src="stills.js"></script>
+<script src="../../marker_manager/web/tabs.js"></script>
 </body>
 </html>

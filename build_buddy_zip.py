@@ -41,7 +41,8 @@ SKIP_FILE_SUFFIXES = (".pyc", ".pyo", ".log")
 # Everything the app reads at runtime, source or not.
 INCLUDE_SUFFIXES = (".py", ".json", ".qss", ".svg", ".png", ".ico", ".txt", ".md", ".ttf",
                     ".drb",   # the Text+ template (a Resolve bin, text_animator/)
-                    ".html", ".css", ".js")   # the web tool pages (core/web_page.py)
+                    ".html", ".css", ".js",   # the web tool pages (core/web_page.py)
+                    ".qml")   # Dailies' video surface (pages/dailies/video_surface.py)
 
 
 def iter_source_files():

@@ -130,6 +130,16 @@
   "العربية": "إعادة تسمية المقاطع دفعةً واحدة",
   "Tiếng Việt": "Đổi tên clip hàng loạt"
  },
+ "Dailies": {
+  "日本語": "デイリーズ",
+  "Español": "Diarios",
+  "Deutsch": "Dailies",
+  "Français": "Rushes",
+  "한국어": "데일리스",
+  "中文": "每日素材",
+  "العربية": "اللقطات اليومية",
+  "Tiếng Việt": "Dailies"
+ },
  "Transcribe": {
   "日本語": "文字起こし",
   "Español": "Transcribir",
@@ -139,6 +149,16 @@
   "中文": "转录",
   "العربية": "التفريغ النصي",
   "Tiếng Việt": "Phiên âm"
+ },
+ "Marker Manager": {
+  "日本語": "マーカーマネージャー",
+  "Español": "Gestor de marcadores",
+  "Deutsch": "Markerverwaltung",
+  "Français": "Gestionnaire de marqueurs",
+  "한국어": "마커 관리자",
+  "中文": "标记管理器",
+  "العربية": "مدير العلامات",
+  "Tiếng Việt": "Trình quản lý dấu mốc"
  },
  "Stills Exporter": {
   "日本語": "スチル書き出し",

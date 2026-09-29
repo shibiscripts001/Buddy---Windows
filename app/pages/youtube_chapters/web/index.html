@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
-    <title>YouTube Chapters</title>
+    <title>Marker Manager - YouTube Chapters</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
     <link rel="stylesheet" href="chapters.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
@@ -13,10 +13,15 @@
 <body>
 <main class="page">
     <header class="page-head">
-        <h1 class="page-title">YouTube Chapters</h1>
+        <h1 class="page-title">Marker Manager</h1>
         <span class="timeline" id="timeline"></span>
         <button type="button" class="btn ghost" data-action="refresh" id="refresh" title="Read the timeline's markers again"></button>
     </header>
+
+    <nav class="tabs" role="tablist" id="marker-tabs" aria-label="Marker Manager tools">
+        <button type="button" role="tab" data-tab="stills" aria-selected="false">Stills Exporter</button>
+        <button type="button" role="tab" data-tab="chapters" aria-selected="true">YouTube Chapters</button>
+    </nav>
 
     <section class="card filter-card">
         <div class="row">
@@ -75,5 +80,6 @@
     </details>
 </main>
 <script src="chapters.js"></script>
+<script src="../../marker_manager/web/tabs.js"></script>
 </body>
 </html>

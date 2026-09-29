@@ -1,0 +1,115 @@
+/* Dailies uses the shared theme controls, cards and tabs. */
+.page { gap: 10px; overflow: hidden; }
+.page-head { flex-wrap: wrap; }
+.source-bar { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; padding: 10px 12px; }
+.source-bar .lbl { min-width: 170px; }
+.source-bar select { min-width: 170px; }
+.workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(200px, 22%) minmax(320px, 1fr) minmax(270px, 30%); gap: 10px; }
+.workspace > .card { min-width: 0; min-height: 0; }
+.panel-title { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 12px; border-bottom: var(--bw) solid var(--card-border); }
+.tape-panel, .player-panel, .notes-panel { display: flex; flex-direction: column; overflow: hidden; }
+.tape { flex: 1; overflow-y: auto; min-height: 0; }
+.tape-row { display: flex; flex-direction: column; gap: 3px; width: 100%; text-align: left; font: inherit; color: var(--text); background: transparent; border: 0; border-bottom: var(--bw) solid var(--card-border); border-left: 3px solid var(--clip-color); padding: 9px 12px 9px 9px; cursor: pointer; }
+/* A clip's colour, set on the element from the page (CLIP_COLORS). */
+.tape-row {
+    --clip-color: transparent;
+}
+.tape-row:hover { background: var(--raised-bg); }
+.tape-row[aria-current="true"] { background: var(--selection-bg); color: var(--selection-fg); }
+.tape-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; font-weight: 600; }
+.tape-row .detail { font-size: var(--fs-xs); opacity: .75; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tape-row .pending { color: var(--accent-text); }
+.tape-row[aria-current="true"] .pending { color: inherit; }
+.tape-empty { padding: 18px 12px; color: var(--text-dim); line-height: 1.5; }
+.player-head { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 12px; min-height: 48px; }
+.player-head b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-head .btn { margin-left: auto; }
+.stage { flex: 1; min-height: 150px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; background: #101010; color: #ddd; text-align: center; padding: 16px; }
+.stage img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+/* Edge to edge, like the video surface laid over the stage - so the still
+   and the first frame of playback are the same size, not a jump apart. */
+.stage:has(img) { padding: 0; }
+/* The previous clip's picture, held while the next one's still decodes.
+   Fades out, but the new still comes in at full strength: a fade-in is
+   half done when the video surface over it lets go, and reads as a flicker. */
+.stage img.stale { opacity: .35; transition: opacity .12s; }
+.stage .audio-symbol { font-size: calc(var(--fs-2xl) * 2); opacity: .7; }
+.stage .error { color: var(--danger-text); max-width: 380px; }
+/* Both labels are always laid out in the same cell, one of them hidden, so
+   the button is as wide as the longer one (in any language) and switching
+   between Play source and Pause never moves the transport around it. */
+#play { display: inline-grid; justify-items: center; }
+#play > span { grid-area: 1 / 1; }
+#play:not(.playing) .when-playing, #play.playing .when-stopped { visibility: hidden; }
+.transport { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 12px; }
+.transport .time { font-variant-numeric: tabular-nums; }
+.transport .volume { display: flex; align-items: center; gap: 5px; }
+.transport .volume input { width: 75px; accent-color: var(--primary); }
+/* Under the player: which view, the strip, and the transcript. */
+.viewer-bar { display: flex; align-items: center; gap: 10px; padding: 0 12px 6px; }
+.viewer-bar .strip-hint { opacity: .7; }
+.strip { position: relative; flex: none; height: 58px; margin: 0 12px; background: var(--field-bg); border: var(--bw) solid var(--field-border); border-radius: var(--r-sm); overflow: hidden; cursor: pointer; user-select: none; touch-action: none; }
+.strip .ruler { position: absolute; inset: 0 0 auto 0; height: 16px; border-bottom: var(--bw) solid var(--card-border); pointer-events: none; }
+.strip .tick { position: absolute; top: 0; height: 16px; padding-left: 3px; border-left: var(--bw) solid var(--card-border); font-size: var(--fs-xs); line-height: 16px; color: var(--text-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.strip .blocks { position: absolute; inset: 19px 0 4px 0; pointer-events: none; }
+.strip .block { position: absolute; top: 0; bottom: 0; box-sizing: border-box; padding: 3px 6px; overflow: hidden; background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-top: 3px solid var(--clip-color); border-radius: 3px; }
+.strip .block {
+    --clip-color: var(--card-border);
+}
+.strip .block.current {
+    --clip-color: var(--primary);
+}
+.strip .block.current { border-color: var(--primary); border-top-color: var(--clip-color); box-shadow: 0 0 0 1px var(--primary); z-index: 1; }
+.strip .block-name { display: block; font-size: var(--fs-xs); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.strip .block.narrow { padding: 0; }
+.strip .block.narrow .block-name { display: none; }
+.strip .playhead { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--primary); pointer-events: none; z-index: 2; }
+.transcript { flex: none; display: flex; flex-direction: column; height: 132px; margin: 8px 12px 12px; border: var(--bw) solid var(--card-border); border-radius: var(--r-sm); overflow: hidden; }
+.transcript-head { display: flex; align-items: center; gap: 8px; padding: 4px 6px 4px 10px; border-bottom: var(--bw) solid var(--card-border); }
+.transcript-head .btn { padding: 2px 8px; font-size: var(--fs-xs); }
+.transcript-body { flex: 1; min-height: 0; overflow-y: auto; padding: 6px 10px; line-height: 1.6; }
+.transcript-empty { padding: 4px 0; line-height: 1.5; }
+.transcript .word { cursor: pointer; border-radius: 3px; }
+.transcript .word:hover { text-decoration: underline; }
+.transcript .word.ahead { color: var(--text-dim); }
+.transcript .word.spoken { color: var(--text); }
+.transcript .word.now { color: var(--selection-fg); background: var(--selection-bg); }
+.notes-content { flex: 1; overflow-y: auto; min-height: 0; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.tag-buttons { display: flex; gap: 3px; }
+.tag-buttons button { flex: 1; min-width: 0; font: inherit; font-size: var(--fs-xs); color: var(--text); background: var(--raised-bg); border: var(--bw) solid var(--card-border); padding: 6px 3px; cursor: pointer; }
+.tag-buttons button:first-child { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.tag-buttons button:last-child { border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.tag-buttons button[aria-pressed="true"] { background: var(--selection-bg); color: var(--selection-fg); }
+/* Resolve's Clip Color picker: no colour, then its sixteen in two rows. */
+.color-swatches { display: grid; grid-template-columns: repeat(9, 22px); grid-auto-rows: 22px; gap: 4px 6px; }
+.color-swatches button { width: 18px; height: 18px; margin: 2px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: var(--swatch); }
+.color-swatches button {
+    --swatch: transparent;
+}
+.color-swatches button[data-color=""] { grid-row: span 2; align-self: center; background: transparent; box-shadow: none; color: var(--text-dim); font: inherit; font-size: var(--fs-md); line-height: 1; }
+.color-swatches button[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text-strong); }
+.color-swatches button[data-color=""][aria-pressed="true"] { box-shadow: none; color: var(--text-strong); font-weight: 700; }
+.color-swatches button:disabled { opacity: .4; cursor: default; }
+.notes-content .lbl { display: flex; flex-direction: column; gap: 4px; }
+#log { width: 100%; min-height: 130px; resize: vertical; line-height: 1.45; }
+.metadata-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.metadata-grid .field { min-width: 0; width: 100%; }
+.review-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.source-form { display: flex; flex-direction: column; gap: 12px; }
+.source-form .lbl { display: flex; flex-direction: column; gap: 5px; }
+.clip-picker { max-height: 350px; overflow: auto; margin-top: 10px; border: var(--bw) solid var(--card-border); border-radius: var(--r-sm); }
+.clip-picker label { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-bottom: var(--bw) solid var(--card-border); cursor: pointer; }
+.clip-picker label:hover { background: var(--raised-bg); }
+.clip-picker label:last-child { border-bottom: 0; }
+.clip-picker input { accent-color: var(--primary); }
+.clip-picker small { display: block; color: var(--text-dim); }
+@media (max-width: 1100px) {
+    .workspace { grid-template-columns: minmax(190px, 30%) minmax(320px, 1fr); grid-template-rows: minmax(320px, 1fr) minmax(250px, .65fr); overflow-y: auto; }
+    .notes-panel { grid-column: 1 / -1; }
+}
+@media (max-width: 650px) {
+    .workspace { display: flex; flex-direction: column; overflow-y: auto; }
+    .tape-panel { min-height: 180px; max-height: 260px; }
+    .player-panel { min-height: 340px; }
+    .notes-panel { min-height: 320px; }
+}

@@ -51,6 +51,17 @@ def reconcile(saved, registry) -> list[dict]:
     if not isinstance(saved, list) or not saved:
         return default_layout(registry)
 
+    # Existing sidebar layouts placed these tools separately. Keep the new
+    # combined entry at their first saved position and visible when either
+    # old entry was visible.
+    old_marker_ids = {"stills_exporter", "youtube_chapters"}
+    migrate_markers = "marker_manager" in known
+    marker_visible = any(
+        isinstance(entry, dict) and entry.get("type") == TOOL
+        and entry.get("id") in old_marker_ids and bool(entry.get("visible", True))
+        for entry in saved
+    )
+
     out: list[dict] = []
     seen: set[str] = set()
     for entry in saved:
@@ -60,10 +71,13 @@ def reconcile(saved, registry) -> list[dict]:
             out.append({"type": DIVIDER, "label": str(entry.get("label") or "")})
         elif entry.get("type") == TOOL:
             tool_id = entry.get("id")
+            if migrate_markers and tool_id in old_marker_ids:
+                tool_id = "marker_manager"
             if tool_id in known and tool_id not in seen:
                 seen.add(tool_id)
                 out.append({"type": TOOL, "id": tool_id,
-                            "visible": bool(entry.get("visible", True))})
+                            "visible": marker_visible if migrate_markers and entry.get("id") in old_marker_ids
+                            else bool(entry.get("visible", True))})
 
     # A tool added after the layout was saved goes at the bottom. It brings
     # its registry divider along when the layout has no heading of that name

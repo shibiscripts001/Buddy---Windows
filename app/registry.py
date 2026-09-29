@@ -20,16 +20,16 @@ from pages.audit.page import AuditPage
 from pages.batch_clip_renamer.page import BatchClipRenamerPage
 from pages.buddy_network.page import BuddyNetworkPage
 from pages.color_palette.page import ColorPalettePage
+from pages.dailies.page import DailiesPage
 from pages.image_importer.page import ImageImporterPage
 from pages.manual_chat.page import ManualChatPage
 from pages.media_relink.page import MediaRelinkPage
+from pages.marker_manager.page import MarkerManagerPage
 from pages.project_setup.page import ProjectSetupPage
-from pages.stills_exporter.page import StillsExporterPage
 from pages.svg_importer.page import SVGImporterPage
 from pages.text_animator.page import AnimationPage
 from pages.time_tracker.page import TimeTrackerPage
 from pages.transcribe.page import TranscribePage
-from pages.youtube_chapters.page import YouTubeChaptersPage
 
 
 def _placeholder(tool_id, display_name, category):
@@ -50,13 +50,13 @@ REGISTRY = [
     ("Media & Assets", MediaRelinkPage),
 
     ("Editing Tools", BatchClipRenamerPage),
+    ("Editing Tools", DailiesPage),
     ("Editing Tools", AnimationPage),
     ("Editing Tools", TranscribePage),
     ("Editing Tools", AudioAssistantPage),
     ("Editing Tools", ColorPalettePage),
 
-    ("Export & Delivery", StillsExporterPage),
-    ("Export & Delivery", YouTubeChaptersPage),
+    ("Export & Delivery", MarkerManagerPage),
 
     ("Business", TimeTrackerPage),
 

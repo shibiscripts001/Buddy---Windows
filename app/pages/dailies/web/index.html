@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Dailies</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="dailies.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page">
+    <header class="page-head">
+        <h1 class="page-title">Dailies</h1>
+        <span class="muted small" id="project"></span>
+        <div class="spacer"></div>
+        <button type="button" class="btn ghost" id="refresh">Refresh Media Pool</button>
+    </header>
+
+    <div class="source-bar card">
+        <label class="lbl">Source tape
+            <select class="field" id="source"></select>
+        </label>
+        <button type="button" class="btn" id="new-source">New source…</button>
+        <button type="button" class="btn ghost custom-only" id="rename-source" hidden>Rename</button>
+        <button type="button" class="btn ghost custom-only" id="delete-source" hidden>Delete</button>
+        <button type="button" class="btn ghost custom-only" id="add-clips" hidden>Add clips…</button>
+        <div class="spacer"></div>
+        <label class="lbl">Media type
+            <select class="field" id="type-filter">
+                <option value="All">All media</option>
+                <option value="Video">Video only</option>
+                <option value="Audio">Audio only</option>
+                <option value="Image">Images only</option>
+                <option value="Other">Other</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="workspace">
+        <section class="card tape-panel">
+            <div class="panel-title"><b>Source tape</b><span class="muted small" id="tape-count"></span></div>
+            <div class="tape" id="tape"></div>
+        </section>
+
+        <section class="card player-panel">
+            <div class="player-head">
+                <b id="clip-name">Choose a clip</b>
+                <span class="muted small" id="clip-bin"></span>
+                <button type="button" class="btn ghost" id="remove-from-source" hidden>Remove from source</button>
+            </div>
+            <div class="stage" id="stage"><span class="muted">Choose a clip to review.</span></div>
+            <div class="transport">
+                <button type="button" class="btn ghost" id="previous" title="Previous clip">◀ Previous</button>
+                <button type="button" class="btn accent" id="play" title="Clips play one after another. Images show for five seconds."><span class="when-stopped">Play source</span><span class="when-playing">Pause</span></button>
+                <button type="button" class="btn ghost" id="next" title="Next clip">Next ▶</button>
+                <span class="small muted time" id="time">00:00 / 00:00</span>
+                <div class="spacer"></div>
+                <label class="small muted volume">Volume <input type="range" id="volume" min="0" max="100" value="100" aria-label="Volume"></label>
+            </div>
+            <div class="viewer-bar">
+                <div class="segmented" role="group" aria-label="Viewer">
+                    <button type="button" data-viewer="clip" aria-pressed="true">Clip viewer</button>
+                    <button type="button" data-viewer="source" aria-pressed="false">Source viewer</button>
+                </div>
+                <span class="muted small" id="strip-info"></span>
+                <div class="spacer"></div>
+                <span class="muted small strip-hint">Alt+scroll zooms · Scroll pans</span>
+            </div>
+            <div class="strip" id="strip" aria-label="Playback position">
+                <div class="ruler" id="ruler"></div>
+                <div class="blocks" id="blocks"></div>
+                <div class="playhead" id="playhead"></div>
+            </div>
+            <div class="transcript">
+                <div class="transcript-head">
+                    <b class="small">Transcript</b>
+                    <span class="muted small" id="transcript-status"></span>
+                    <div class="spacer"></div>
+                    <button type="button" class="btn ghost" id="transcript-to-log" title="Add this clip's transcript to its review log">Add to log</button>
+                    <label class="check small"><input type="checkbox" id="transcribe-on"> Transcribe clips</label>
+                </div>
+                <div class="transcript-body" id="transcript-body"></div>
+            </div>
+        </section>
+
+        <section class="card notes-panel">
+            <div class="panel-title"><b>Review notes</b><span class="muted small" id="save-status">Saved as you type</span></div>
+            <div class="notes-content">
+                <div class="small muted">Tag in Resolve</div>
+                <div class="tag-buttons" role="group" aria-label="Take tag">
+                    <button type="button" data-tag="1">Good Take</button>
+                    <button type="button" data-tag="0">Untagged</button>
+                    <button type="button" data-tag="-1">Rejected</button>
+                </div>
+                <div class="small muted">Clip color</div>
+                <div class="color-swatches" id="colors" role="group" aria-label="Clip color"></div>
+                <label class="lbl">Free-form log
+                    <textarea class="field" id="log" placeholder="Write as you watch. For example: s1 sh2 t3 — great performance, use the close-up." spellcheck="true"></textarea>
+                </label>
+                <div class="small muted" id="quick-hint">s1 → Scene 1, sh2 → Shot 2, t3 → Take 3. Your original text is kept in Comments.</div>
+                <div class="metadata-grid">
+                    <label class="lbl">Scene<input class="field" data-field="Scene"></label>
+                    <label class="lbl">Shot<input class="field" data-field="Shot"></label>
+                    <label class="lbl">Take<input class="field" data-field="Take"></label>
+                    <label class="lbl">Camera<input class="field" data-field="Camera #"></label>
+                    <label class="lbl">Reel<input class="field" data-field="Reel Number"></label>
+                </div>
+                <p class="small muted">Drafts are saved in Buddy, then written to Resolve when the source finishes or you press Apply.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="review-bar">
+        <span id="status" class="muted small"></span>
+        <div class="spacer"></div>
+        <span id="pending" class="muted small"></span>
+        <button type="button" class="btn accent" id="apply">Apply notes to Resolve</button>
+    </footer>
+</main>
+<script src="strip.js"></script>
+<script src="dailies.js"></script>
+</body>
+</html>

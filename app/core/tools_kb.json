@@ -116,6 +116,21 @@
       ],
       "notes": "Scope deliberately resets to the safer 'All Clips' default each launch, because which clips are selected changes every session."
     },
+    "dailies": {
+      "name": "Dailies",
+      "summary": "Review Media Pool clips as a continuous source tape, make clip-by-clip notes, then apply the notes and tags to Resolve metadata.",
+      "needs_resolve": true,
+      "capabilities": [
+        "Review all Media Pool clips, clips in the current bin, or a named source tape assembled from chosen clips",
+        "Filter a tape to all media, video, audio, images or other media",
+        "Play video and audio clips back to back; images stay on screen for five seconds; unsupported local formats can be skipped",
+        "Keep free-form per-clip review notes as drafts saved in Buddy while typing",
+        "Recognize s1, sh2 and t3 in notes as Scene 1, Shot 2 and Take 3 while keeping the original notes in Comments",
+        "Set Resolve's Good Take, Untagged or Rejected tag and edit Scene, Shot, Take, Camera and Reel fields",
+        "Automatically apply pending notes to Resolve Media Pool metadata at the end of continuous playback, or apply earlier with a button"
+      ],
+      "notes": "Named source tapes and drafts are kept per Resolve project. Playback uses local files through Qt Multimedia, so formats the decoder cannot read require manual skip; the Media Pool contents themselves are not changed until Apply."
+    },
     "text_animator": {
       "name": "Animation",
       "summary": "The page for animating things in Resolve. Its top row of tabs is the kind of animation - only Text+ so far, and that tab is empty for now: the Text+ tools (font styling, layout, animation) are tabs on Transcribe, after Subtitle Conversion. Formerly Text Animator.",
@@ -161,9 +176,9 @@
       ],
       "notes": "Works with Resolve closed. Never claim it reads or changes a Resolve project. Its own options (language, focus overlay, mini palette transparency, backup/restore) are in Settings while this tool is open."
     },
-    "stills_exporter": {
-      "name": "Stills Exporter",
-      "summary": "Places markers, grabs stills from them on the Color page, and exports those stills as image files.",
+    "marker_manager": {
+      "name": "Marker Manager",
+      "summary": "Stills Exporter and YouTube Chapters in separate tabs: export marker-based stills or turn timeline markers into a YouTube chapter list.",
       "needs_resolve": true,
       "capabilities": [
         "Shows the open timeline's markers live, with how many there are of each of Resolve's 16 marker colours",
@@ -171,15 +186,7 @@
         "Grab stills for one marker colour: switches to the Color page, visits every marker of that colour in frame order, grabbing a still at each",
         "Reusing one colour across several frames groups them so they can all be grabbed in a single pass",
         "Lists the grabbed stills; one can be taken off the list (the gallery keeps it)",
-        "Export the grabbed stills as JPEG, PNG or TIFF with a filename prefix, optionally deleting them from Resolve's gallery afterwards (asks first)"
-      ],
-      "notes": "The grabbed-stills list only lives in memory for the current session. Format, prefix and export folder are remembered."
-    },
-    "youtube_chapters": {
-      "name": "YouTube Chapters",
-      "summary": "Turns timeline markers into a YouTube chapter list and saves it as a .txt file.",
-      "needs_resolve": true,
-      "capabilities": [
+        "Export the grabbed stills as JPEG, PNG or TIFF with a filename prefix, optionally deleting them from Resolve's gallery afterwards (asks first)",
         "Reads the open timeline's markers live while the page is open (Refresh reads them again), optionally filtered to one of the 16 marker colours",
         "Converts each marker's frame position into HH:MM:SS past an hour, or MM:SS before that, using the timeline's own frame rate; marker names become the chapter titles",
         "Enforces YouTube's first chapter at 00:00: a first marker under 10 seconds in is moved to 00:00 keeping its name, otherwise '00:00 - Intro' is added",
@@ -187,7 +194,7 @@
         "Copy puts the chapter list on the clipboard to paste into the video description; the text can be edited first",
         "Save .txt to a remembered folder, with the file name filled in from the timeline name"
       ],
-      "notes": "Read-only: it never changes the Resolve project."
+      "notes": "The Stills Exporter tab can add markers and grab stills; its grabbed-stills list lasts for this session. The YouTube Chapters tab is read-only in Resolve. Each tab remembers its own export options."
     },
     "time_tracker": {
       "name": "Time Tracker",
