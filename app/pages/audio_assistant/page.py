@@ -51,9 +51,17 @@ froze Buddy for all 15 s of a NormalizeAudioLevel when it was tried there.
 
 Protocol:
     to the view    state, timeline, levels, playhead, selection, peaks, peaks_progress,
-                   options, undo, curve, toast, alert
+                   options, undo, curve, toast, alert, tidy, tidy_done
     from the view  refresh, select, seek, set_levels, match, crossfade, curve,
-                   remove_curve, undo
+                   remove_curve, undo, tidy_scan, tidy_remove
+
+Tidy up (the header's button, tidy.js): what Buddy made that no timeline uses any
+more - curve timelines left in the "Buddy Audio" bin when a curve clip was deleted in
+Resolve, processed WAVs likewise, and this project's WAVs on disk gone from its media
+pool (resolve_ext.tidy_scan). Removing deletes the timelines from the project and
+takes the WAVs out of the media pool; a WAV's file goes to the Recycle Bin once no
+project is left on its sidecar (render.release, core/recycle.py). Asked first, as
+there's no Undo for it.
 """
 
 import base64
@@ -67,6 +75,7 @@ import time
 import numpy as np
 from PySide6.QtCore import QTimer
 
+from core import recycle
 from core.resolve_bridge import ResolveConnectionError
 from core.resolve_worker import ResolveWorker
 from core.web_page import WebToolPage
@@ -77,8 +86,26 @@ from . import keys as K
 from . import levels as mixer
 from . import resolve_ext
 from .peaks import FLOOR_DB, LOUD_BLOCK_S, PEAK_RATE, PeakLoader
+from .peaks import fold as peaks_fold
 
 CHILD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resolve_child.py")
+_SCRIPT_HOSTS = ("fuscript.exe", "resolve.exe", "fuscript")
+
+
+def child_python():
+    """The interpreter to run resolve_child.py with, or None. Not
+    sys.executable: started from Resolve's Scripts menu that's fuscript.exe,
+    Resolve's script host, which runs a .py with no __file__ - the child died
+    on its first line, and every click on the ruler said "Resolve didn't
+    answer." The python of the install Buddy runs on is the one with the
+    same packages (startup_manager.running_python_exe)."""
+    from core.startup_manager import running_python_exe
+    found = running_python_exe()
+    if found:
+        return found
+    if os.path.basename(sys.executable).lower() not in _SCRIPT_HOSTS:
+        return sys.executable
+    return None
 CHILD_POLL_MS = 40
 # Normalising a long clip takes Resolve a while; a child still going after this is stopped.
 CHILD_TIMEOUT_S = 180
@@ -118,14 +145,17 @@ class AudioAssistantPage(WebToolPage):
         self.undo_stack = []
         self._select_next = None     # a clip id to select once a full read has it (a new curve clip)
         self._media_cache = {}
-        self._peaks = {}             # file key -> (peaks, loudness) bytes | None (no waveform)
+        # file key -> peaks.decode()'s (peaks, loudness, channels), every channel apart | None (no waveform)
+        self._peaks = {}
         self._peak_errors = {}
+        self._shown = set()          # clip["peaks"] keys (a file's, for a channel set) the view has been sent
         self._full_due = 0.0         # time.monotonic() the next full read is due
         self._full_took = 0.0
         self._seek = None            # the latest ruler frame not yet sent to Resolve
         self._seek_quiet_until = 0.0
         self._child = None           # {"proc", "result", "done", "started"} running now
-        self._audio = {}             # file key -> its peaks and loudness as arrays, for Match
+        self._python = None          # child_python()'s answer, once asked ("" = none found)
+        self._audio = {}             # clip["peaks"] key -> those channels' peaks and loudness as arrays, for Match
         self._child_timer = QTimer(self)
         self._child_timer.setInterval(CHILD_POLL_MS)
         self._child_timer.timeout.connect(self._check_child)
@@ -150,8 +180,8 @@ class AudioAssistantPage(WebToolPage):
         self._push_state()
         if self.timeline:
             self.emit("timeline", self.timeline)
-            for key, result in self._peaks.items():
-                self._emit_peaks(key, result)
+            self._shown = set()
+            self._send_waveforms()
         self._push_selection()
         self._push_undo()
         self.emit("playhead", {"frame": self.playhead})
@@ -247,6 +277,7 @@ class AudioAssistantPage(WebToolPage):
                 media = clip.get("media")
                 if media and media["key"] not in self._peaks:
                     self._loader.want(media["key"], media["path"])
+        self._send_waveforms()           # a file already decoded, for channels no clip played before
 
     def _on_live(self, result, error):
         if error is not None:
@@ -292,11 +323,16 @@ class AudioAssistantPage(WebToolPage):
     def _run_child(self, command, done):
         """Runs resolve_child.py with command; done(result, error) when it ends.
         One at a time: the caller checks self._child first."""
+        if self._python is None:
+            self._python = child_python() or ""
+        if not self._python:
+            return done(None, ResolveConnectionError(
+                "Buddy couldn't find the Python it runs on, so it can't move Resolve's playhead."))
         fd, result_path = tempfile.mkstemp(prefix="buddy_audio_", suffix=".json")
         os.close(fd)
         try:
             proc = subprocess.Popen(
-                [sys.executable, CHILD, result_path], stdin=subprocess.PIPE,
+                [self._python, CHILD, result_path], stdin=subprocess.PIPE,
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             proc.stdin.write(json.dumps(command).encode("utf-8"))
@@ -358,15 +394,36 @@ class AudioAssistantPage(WebToolPage):
         self._peaks[key] = result
         if error:
             self._peak_errors[key] = error
-        self._emit_peaks(key, result)
+        # peaks keys are "<file key>" or "<file key>:<channels>" (resolve_ext.peaks_key).
+        self._shown = {k for k in self._shown if k.split(":")[0] != key}
+        self._audio = {k: v for k, v in self._audio.items() if k.split(":")[0] != key}
+        self._send_waveforms()
 
-    def _emit_peaks(self, key, result):
-        codes, loud = result if result else (None, None)
+    def _send_waveforms(self):
+        """Each clip's waveform the view hasn't had - its file's, for the channels
+        it plays (peaks.fold) - once that file is decoded."""
+        for track in (self.timeline or {}).get("tracks", []):
+            for clip in track["clips"]:
+                media, pk = clip.get("media"), clip.get("peaks")
+                if media and pk and pk not in self._shown and media["key"] in self._peaks:
+                    self._shown.add(pk)
+                    self._emit_peaks(pk, media["key"], clip.get("channels"))
+
+    def _folded(self, file_key, channels):
+        """(peak bytes, loudness bytes) for those channels of the file, or (None, why)."""
+        result = self._peaks.get(file_key)
+        if not result:
+            return None, self._peak_errors.get(file_key, "") or "No waveform"
+        return peaks_fold(result, channels)
+
+    def _emit_peaks(self, pk, file_key, channels):
+        folded, why = self._folded(file_key, channels)
+        codes, loud = folded if folded else (None, None)
         self.emit("peaks", {
-            "key": key, "rate": PEAK_RATE, "floor": FLOOR_DB, "left": self._loader.pending(),
+            "key": pk, "rate": PEAK_RATE, "floor": FLOOR_DB, "left": self._loader.pending(),
             "data": base64.b64encode(codes).decode("ascii") if codes else None,
             "loud": base64.b64encode(loud).decode("ascii") if loud else None,
-            "error": self._peak_errors.get(key, ""),
+            "error": "" if folded else why,
         })
 
     # --------------------------------------------------------------- view --
@@ -393,10 +450,11 @@ class AudioAssistantPage(WebToolPage):
 
     # ------------------------------------------------------------ writing --
 
-    def _writable(self):
-        """The controller, once no read is waiting on Resolve - or None, having said why."""
+    def _writable(self, need_timeline=True):
+        """The controller, once no read is waiting on Resolve - or None, having said
+        why. need_timeline False: for the whole project (Tidy up), no timeline needed."""
         controller = self._controller(connect=True)
-        if controller is None or self.timeline is None:
+        if controller is None or (need_timeline and self.timeline is None):
             self.emit("alert", {"title": "Not connected", "text": self.problem or "Open a timeline in Resolve first."})
             return None
         # A call while the child has Resolve busy would freeze Buddy until it's done
@@ -430,8 +488,16 @@ class AudioAssistantPage(WebToolPage):
     # ------------------------------------------------------------ actions --
 
     def on_refresh(self, _payload=None):
+        """Read everything again - not only the tracks. What Buddy remembers of
+        the files goes too: a clip relinked in Resolve keeps its media pool item
+        (and so the old path, from the cache), and a file changed on disk kept its
+        old waveform for the rest of the session. Unchanged files come back from
+        the waveform cache on disk at once."""
         self._full_due = 0.0
         self.problem = ""
+        self._media_cache.clear()
+        self._peaks, self._peak_errors, self._audio, self._shown = {}, {}, {}, set()
+        self._loader.forget()
         self._poll(connect=True)
 
     def on_select(self, payload):
@@ -521,16 +587,17 @@ class AudioAssistantPage(WebToolPage):
 
     def _audio_of(self, clip):
         """A clip's file's decoded peaks and loudness, for levels.match - or None."""
-        media = clip.get("media")
-        result = self._peaks.get(media["key"]) if media else None
-        if not result:
+        media, pk = clip.get("media"), clip.get("peaks")
+        if not media or not pk:
             return None
-        key = media["key"]
-        if key not in self._audio:
-            self._audio[key] = {"codes": np.frombuffer(result[0], dtype=np.uint8),
-                                "loud": np.frombuffer(result[1], dtype=np.float32),
-                                "rate": PEAK_RATE, "floor": FLOOR_DB, "block": LOUD_BLOCK_S}
-        return self._audio[key]
+        if pk not in self._audio:
+            folded, _why = self._folded(media["key"], clip.get("channels"))
+            if folded is None:
+                return None          # not decoded yet, or a channel Buddy can't read: Match skips it
+            self._audio[pk] = {"codes": np.frombuffer(folded[0], dtype=np.uint8),
+                               "loud": np.frombuffer(folded[1], dtype=np.float32),
+                               "rate": PEAK_RATE, "floor": FLOOR_DB, "block": LOUD_BLOCK_S}
+        return self._audio[pk]
 
     def on_crossfade(self, payload):
         """A crossfade on every cut between the selected clips. The view has
@@ -628,6 +695,44 @@ class AudioAssistantPage(WebToolPage):
                                              "volume": result["volume"], "outer": result["outer"]})
             self._select_next = result["original"]
         self.emit("curve", {"id": uid, "done": True, "new": result["original"] or None})
+
+    # ------------------------------------------------------------- Tidy up --
+
+    def on_tidy_scan(self, _payload=None):
+        """What Buddy made that nothing uses any more, for the view to list
+        (resolve_ext.tidy_scan - it only reads)."""
+        controller = self._writable(need_timeline=False)
+        if controller is None:
+            return
+        self._worker.start(lambda: resolve_ext.tidy_scan(controller), self._on_tidy_scan)
+
+    def _on_tidy_scan(self, result, error):
+        if error is not None:
+            return self.emit("alert", {"title": "Couldn't look for unused audio", "text": str(error)})
+        self.emit("tidy", result)
+
+    def on_tidy_remove(self, payload):
+        """The ones the view kept ticked: timelines deleted from the project, WAVs
+        out of the media pool and - if no other project has them - to the
+        Recycle Bin. There's no Undo for this, so the view asks first."""
+        ids = [str(i) for i in ((payload or {}).get("ids") or [])]
+        if not ids:
+            return
+        controller = self._writable(need_timeline=False)
+        if controller is None:
+            return
+        self._worker.start(lambda: resolve_ext.tidy_remove(controller, ids), self._on_tidy_removed)
+
+    def _on_tidy_removed(self, result, error):
+        self._full_due = 0.0
+        if error is not None:
+            return self.emit("alert", {"title": "Couldn't tidy up", "text": str(error)})
+        note = ""
+        try:
+            recycle.to_recycle_bin(result["recycle"])     # here, not on the worker: Windows may ask first
+        except OSError as exc:
+            note = f"The audio files stayed where they are: {exc}"
+        self.emit("tidy_done", {"removed": len(result["removed"]), "failed": len(result["failed"]), "note": note})
 
     def _keep_undo(self, label, curve):
         self.undo_stack.append({"label": label, "timeline": self.timeline["id"], "curve": curve})

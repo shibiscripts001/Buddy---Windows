@@ -303,6 +303,36 @@ class KeysTests(unittest.TestCase):
         self.assertLess(abs(near[0] - near[2]), 0.05)                # hardly moving as it arrives
         self.assertLess(K.curve_db(keys, 0.5), -10.0)                 # so ahead of the straight line mid-way
 
+    def test_ease_in_flattens_arriving_and_ease_out_leaving(self):
+        arrive = [{"t": 0.0, "db": 0.0, "ease": False}, {"t": 1.0, "db": -20.0, "ease": "in"}]
+        leave = [{"t": 0.0, "db": 0.0, "ease": "out"}, {"t": 1.0, "db": -20.0, "ease": False}]
+        a = K.curve_db(arrive, [0.0, 0.01, 0.99, 1.0])
+        self.assertLess(abs(a[2] - a[3]), 0.05)                       # flat into the eased key...
+        self.assertGreater(abs(a[1] - a[0]), 0.15)                    # ...not out of the linear one (0.2: its slope)
+        b = K.curve_db(leave, [0.0, 0.01, 0.99, 1.0])
+        self.assertLess(abs(b[1] - b[0]), 0.05)
+        self.assertGreater(abs(b[3] - b[2]), 0.15)
+        # Mirror images, and "in and out" (True) is both at once.
+        self.assertAlmostEqual(float(K.curve_db(arrive, 0.3)), -20.0 - float(K.curve_db(leave, 0.7)), places=6)
+        both = [{"t": 0.0, "db": 0.0, "ease": True}, {"t": 1.0, "db": -20.0, "ease": True}]
+        self.assertAlmostEqual(float(K.curve_db(both, 0.5)), -10.0, places=6)
+
+    def test_an_ease_only_bends_its_own_side(self):
+        # A key easing in bends the stretch before it, not the one after.
+        keys = [{"t": 0.0, "db": 0.0}, {"t": 1.0, "db": -10.0, "ease": "in"}, {"t": 2.0, "db": -20.0}]
+        self.assertAlmostEqual(float(K.curve_db(keys, 1.5)), -15.0, places=6)
+        self.assertNotAlmostEqual(float(K.curve_db(keys, 0.5)), -5.0, places=2)
+        straight_after = K.expand(keys, 24.0)
+        self.assertEqual([k["t"] for k in straight_after if k["t"] > 1.0], [2.0])   # nothing added after it
+        self.assertGreater(len([k for k in straight_after if 0.0 < k["t"] < 1.0]), 2)
+
+    def test_eases_are_cleaned_and_old_curves_read_as_before(self):
+        got = K.clean([{"t": 0, "db": 0, "ease": True}, {"t": 1, "db": 0, "ease": "both"}, {"t": 2, "db": 0, "ease": "in"},
+                       {"t": 3, "db": 0, "ease": "out"}, {"t": 4, "db": 0, "ease": "sideways"}, {"t": 5, "db": 0}])
+        self.assertEqual([k["ease"] for k in got], [True, True, "in", "out", False, False])
+        noted = K.read_note(K.note([{"t": 1.0, "db": -3.0, "ease": "out"}], "clip-1"))
+        self.assertEqual(noted["keys"][0]["ease"], "out")
+
     def test_expand_writes_eases_as_short_straight_pieces_on_frames(self):
         keys = [{"t": 1.0, "db": 0.0, "ease": True}, {"t": 3.0, "db": -20.0, "ease": True}, {"t": 4.0, "db": -20.0}]
         out = K.expand(keys, 24.0, origin=0.5)
@@ -345,6 +375,29 @@ class KeysTests(unittest.TestCase):
         self.assertEqual(root.find(".//asset").get("name"), "C1.MP4")
         self.assertEqual(K.file_url("/Volumes/SSD/a b.wav"), "file://localhost/Volumes/SSD/a%20b.wav")
 
+    def test_a_lone_key_goes_as_two_at_its_level(self):
+        # Resolve drops a keyframeAnimation with one keyframe (read back as none).
+        self.assertEqual(K.expand([{"t": 5.0, "db": -6.0}], 24.0, 2.0),
+                         [{"t": 2.0, "db": -6.0, "ease": False}, {"t": 5.0, "db": -6.0, "ease": False}])
+        on_start = K.expand([{"t": 2.0, "db": -6.0, "ease": True}], 24.0, 2.0)
+        self.assertEqual([k["t"] for k in on_start], [2.0, round(2.0 + 1 / 24, 6)])
+        self.assertEqual({k["db"] for k in on_start}, {-6.0})
+        self.assertEqual(len(K.expand([], 24.0)), 0)
+
+    def test_a_clip_from_the_files_first_frame_isnt_moved_before_the_file(self):
+        # A camera MXF (start TC 23:34:38:20, 23.976) from its first frame on a 24 fps
+        # timeline: a quarter frame early was before the file, Resolve clamped it,
+        # and the curve came in 1268 frames of 1269 ("didn't line the curve up").
+        import xml.etree.ElementTree as ET
+        from fractions import Fraction
+        media_frame = K.frame_duration(23.976)
+        media_start = 2035516 * media_frame
+        xml = K.nested_fcpxml("265_0119.MXF (Buddy curve)", r"F:\FX6\265_0119.MXF", 24.0, 86400, 1269,
+                              media_start, Fraction(0), 8, [], media_frame=media_frame)
+        clip = ET.fromstring(xml).find(".//asset-clip")
+        self.assertEqual(Fraction(clip.get("start")[:-1]), media_start)
+        self.assertEqual(Fraction(clip.get("duration")[:-1]), Fraction(1269, 24))
+
     def test_ntsc_rates_are_exact(self):
         from fractions import Fraction
         self.assertEqual(K.frame_duration(23.976), Fraction(1001, 24000))
@@ -358,6 +411,83 @@ class KeysTests(unittest.TestCase):
         keys = [{"t": 1.0, "db": -3.0, "ease": True}]
         self.assertEqual(K.read_note(K.note(keys, "c9")), {"original": "c9", "keys": keys})
         self.assertIsNone(K.read_note("my own comment"))
+
+
+class TrackTimeline:
+    """Audio tracks as Resolve 21.1 treats them: AddTrack with {"index"} inserts
+    there and moves the rest down (measured), or appends (inserts=False: an
+    older Resolve); default names follow position."""
+
+    def __init__(self, tracks, inserts=True):
+        # tracks: [(name or None for Resolve's default, [(uid, start, end)], enabled)]
+        self.tracks = [{"name": n, "items": [Item(u, u, s, e) for u, s, e in clips], "enabled": on}
+                       for n, clips, on in tracks]
+        self.inserts = inserts
+
+    def GetTrackCount(self, kind): return len(self.tracks)
+    def GetItemListInTrack(self, kind, i): return self.tracks[i - 1]["items"]
+    def GetTrackName(self, kind, i): return self.tracks[i - 1]["name"] or f"Audio {i}"
+    def SetTrackName(self, kind, i, name): self.tracks[i - 1]["name"] = name; return True
+    def GetTrackSubType(self, kind, i): return "mono"
+    def GetIsTrackEnabled(self, kind, i): return self.tracks[i - 1]["enabled"]
+    def GetIsTrackLocked(self, kind, i): return False
+
+    def AddTrack(self, kind, options=None):
+        new = {"name": None, "items": [], "enabled": True}
+        if self.inserts and isinstance(options, dict):
+            self.tracks.insert(options["index"] - 1, new)
+        else:
+            self.tracks.append(new)
+        return True
+
+    def DeleteTrack(self, kind, i):
+        del self.tracks[i - 1]
+        return True
+
+    def names(self):
+        return [self.GetTrackName("audio", i) for i in range(1, len(self.tracks) + 1)]
+
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class BuddyTrackTests(unittest.TestCase):
+    def test_a_new_buddy_track_goes_right_under_the_clips_track(self):
+        tl = TrackTimeline([("Dialogue", [("d", 0, 100)], True), ("Music", [("m", 200, 300)], True),
+                            ("SFX", [("s", 0, 50)], True)])
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 100), (2, True))
+        self.assertEqual(tl.names(), ["Dialogue", "Buddy", "Music", "SFX"])
+        # not the music's gap at 0-100, which is where the old rule put it
+        self.assertEqual([i.GetUniqueId() for i in tl.tracks[2]["items"]], ["m"])
+
+    def test_the_same_buddy_track_is_reused_while_nothing_overlaps(self):
+        tl = TrackTimeline([("Dialogue", [], True), ("Buddy", [("c1", 0, 100)], True), ("Music", [], True)])
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 100, 200), (2, False))       # touching, not overlapping
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 50, 150), (3, True))         # overlaps: a second one
+        self.assertEqual(tl.names(), ["Dialogue", "Buddy", "Buddy", "Music"])
+        tl.tracks[2]["items"] = [Item("c2", "c2", 50, 150)]
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 400, 500), (2, False))        # the first with room
+
+    def test_a_turned_off_buddy_track_is_passed_over(self):
+        tl = TrackTimeline([("Dialogue", [], True), ("Buddy", [], False)])
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 10), (3, True))
+
+    def test_another_tracks_buddy_run_is_not_this_ones(self):
+        tl = TrackTimeline([("Dialogue", [], True), ("Music", [], True), ("Buddy", [], True)])
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 10), (2, True))
+        self.assertEqual(tl.names(), ["Dialogue", "Buddy", "Music", "Buddy"])
+
+    def test_a_resolve_that_appends_gets_it_at_the_bottom(self):
+        tl = TrackTimeline([("Dialogue", [("d", 0, 100)], True), ("Music", [("m", 0, 300)], True)], inserts=False)
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 100), (3, True))
+        self.assertEqual(tl.names(), ["Dialogue", "Music", "Buddy"])            # Music keeps its name
+
+    def test_only_an_empty_buddy_track_is_dropped(self):
+        tl = TrackTimeline([("Dialogue", [], True), ("Buddy", [("c", 0, 1)], True), ("Buddy", [], True),
+                            (None, [], True)])
+        for index in (1, 2, 4):
+            resolve_ext._drop_empty_buddy_track(tl, index)
+        self.assertEqual(len(tl.tracks), 4)
+        resolve_ext._drop_empty_buddy_track(tl, 3)
+        self.assertEqual(tl.names(), ["Dialogue", "Buddy", "Audio 3"])
 
 
 @unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
@@ -423,6 +553,22 @@ class WriteTests(unittest.TestCase):
             self.assertEqual(resolve_child.main(path, {"do": "nope"}, connect=lambda: self.controller), 2)
         finally:
             os.remove(path)
+
+    def test_the_child_never_runs_on_resolves_script_host(self):
+        # From Resolve's Scripts menu sys.executable is fuscript.exe, which runs
+        # a .py with no __file__: the child died and every seek "didn't answer".
+        from unittest import mock
+        from pages.audio_assistant import page
+        host = r"C:\Program Files\Blackmagic Design\DaVinci Resolve\fuscript.exe"
+        real = r"C:\Python314\python.exe"
+        with mock.patch.object(page.sys, "executable", host):
+            with mock.patch("core.startup_manager.running_python_exe", return_value=real):
+                self.assertEqual(page.child_python(), real)
+            with mock.patch("core.startup_manager.running_python_exe", return_value=None):
+                self.assertIsNone(page.child_python())
+        with mock.patch.object(page.sys, "executable", real), \
+                mock.patch("core.startup_manager.running_python_exe", return_value=None):
+            self.assertEqual(page.child_python(), real)       # run from source: that python is fine
 
 
 @unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
@@ -615,10 +761,172 @@ class PeakTests(unittest.TestCase):
                 f.write(b"RIFF")
             try:
                 self.assertIsNone(peaks.load_cached(media))
-                peaks.save_cached(media, (b"\x01\x02", b"\x00" * 8))
-                self.assertEqual(peaks.load_cached(media), (b"\x01\x02", b"\x00" * 8))
+                peaks.save_cached(media, (b"\x01\x02", b"\x00" * 8, 2))
+                self.assertEqual(peaks.load_cached(media), (b"\x01\x02", b"\x00" * 8, 2))
             finally:
                 peaks.CACHE_DIR = real
+
+
+# ------------------------------------------------ the audit's five findings --
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class ChannelTests(unittest.TestCase):
+    """A clip is drawn and measured by the channels Resolve maps to it."""
+
+    def decoded(self, samples, rate=48000):
+        acc, loud = peaks.PeakAccumulator(), peaks.LoudnessAccumulator()
+        for start in range(0, len(samples), 1000):
+            acc.add(samples[start:start + 1000], rate)
+            loud.add(samples[start:start + 1000], rate)
+        return acc.per_channel().tobytes(), loud.per_channel().tobytes(), acc.channels
+
+    def lufs(self, folded):
+        return peaks.integrated_lufs(np.frombuffer(folded[1], dtype=np.float32))
+
+    def test_a_clip_on_one_channel_is_measured_by_that_channel(self):
+        # The audit's case: a loud left, a quiet right, a clip mapped to the right.
+        rate = 48000
+        t = np.arange(rate * 4) / rate
+        sine = np.sin(2 * np.pi * 997 * t)
+        result = self.decoded(np.stack([sine, sine * 0.01], axis=1), rate)
+        whole, _ = peaks.fold(result)
+        left, _ = peaks.fold(result, [0])
+        right, _ = peaks.fold(result, [1])
+        self.assertAlmostEqual(self.lufs(left), -3.01, delta=0.05)
+        self.assertAlmostEqual(self.lufs(right), -43.01, delta=0.05)
+        self.assertGreater(self.lufs(whole), self.lufs(left))           # both summed: louder still
+        full = np.frombuffer(right[0], dtype=np.uint8)
+        self.assertTrue(np.all(np.abs(full[5:-5].astype(int) - peaks.to_codes([0.01])[0]) <= 1))
+
+    def test_all_channels_fold_as_before(self):
+        rate = 48000
+        stereo = np.stack([np.full(rate, 0.5), np.full(rate, 0.25)], axis=1)
+        acc = peaks.PeakAccumulator()
+        acc.add(stereo, rate)
+        result = self.decoded(stereo, rate)
+        self.assertEqual(peaks.fold(result)[0][0], acc.codes())          # what codes() gave before
+        self.assertEqual(acc.per_channel().shape, (peaks.PEAK_RATE, 2))
+
+    def test_a_channel_the_decoder_did_not_give_is_said_not_guessed(self):
+        mono = self.decoded(np.full((4800, 1), 0.5))                     # a camera MXF: one stream decoded
+        self.assertEqual(peaks.fold(mono, [1]),
+                         (None, "Buddy can read only the first channel of this file, and the clip plays channel 2."))
+        self.assertIsNotNone(peaks.fold(mono, [0])[0])
+
+    def test_the_clip_carries_its_channels_and_waveform_key(self):
+        media = {"key": "abc", "channels": 2}
+
+        def item(mapping):
+            return type("Item", (), {"GetSourceAudioChannelMapping": lambda self: mapping})()
+
+        right = {}
+        resolve_ext._play(right, item('{"track_mapping":{"1":{"channel_idx":[2],"type":"mono"}}}'), media)
+        self.assertEqual((right["channels"], right["peaks"]), ([1], "abc:1"))
+        both = {}
+        resolve_ext._play(both, item('{"track_mapping":{"1":{"channel_idx":[1,2],"type":"stereo"}}}'), media)
+        self.assertEqual((both["channels"], both["peaks"]), (None, "abc"))    # all of them: the same as none
+        none = {}
+        resolve_ext._play(none, object(), media)                               # no mapping to read
+        self.assertEqual((none["channels"], none["peaks"]), (None, "abc"))
+
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class AppendingResolveTests(unittest.TestCase):
+    """A Resolve that appends the track asked for at an index: no user track is renamed."""
+
+    def test_the_audits_case(self):
+        tl = TrackTimeline([("Dialogue", [("d", 0, 100)], True), ("Music", [], True), ("SFX", [], True)],
+                           inserts=False)
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 100), (4, True))
+        self.assertEqual(tl.names(), ["Dialogue", "Music", "SFX", "Buddy"])
+
+    def test_inserting_under_default_named_tracks_is_still_seen(self):
+        tl = TrackTimeline([("Dialogue", [("d", 0, 100)], True), (None, [("m", 0, 50)], True), (None, [], True)])
+        self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 100), (2, True))
+        self.assertEqual(tl.names(), ["Dialogue", "Buddy", "Audio 3", "Audio 4"])
+
+    def test_empty_default_tracks_either_way_take_the_place_asked_for(self):
+        for inserts in (True, False):
+            tl = TrackTimeline([("Dialogue", [("d", 0, 100)], True), (None, [], True)], inserts=inserts)
+            self.assertEqual(resolve_ext._buddy_track(tl, 1, 0, 100), (2, True))
+            self.assertEqual(tl.names()[:2], ["Dialogue", "Buddy"])
+
+    def test_the_new_track_is_found_by_names_and_clips(self):
+        d, m = (("named", "Dialogue"), ("d",)), (("named", "Music"), ())
+        new = (("default", "Audio"), ())
+        self.assertEqual(resolve_ext._new_track([d, m], [d, new, m], 2), 2)      # inserted
+        self.assertEqual(resolve_ext._new_track([d, m], [d, m, new], 2), 3)      # appended
+        self.assertIsNone(resolve_ext._new_track([d, m], [d, m, m], 2))          # nothing new: no guess
+
+
+@unittest.skipUnless(HAVE_DEPS, "numpy / PySide6 not installed")
+class RefreshAndQuitTests(unittest.TestCase):
+    def test_refresh_forgets_the_files(self):
+        from types import SimpleNamespace
+        from unittest import mock
+        from pages.audio_assistant.page import AudioAssistantPage
+        loader = mock.Mock()
+        page = SimpleNamespace(_full_due=5.0, problem="x", _media_cache={"mpi-1": {"path": "old.wav"}},
+                               _peaks={"k": None}, _peak_errors={"k": "offline"}, _audio={"k": {}}, _shown={"k"},
+                               _loader=loader, _poll=mock.Mock())
+        AudioAssistantPage.on_refresh(page)
+        self.assertEqual((page._media_cache, page._peaks, page._peak_errors, page._audio, page._shown),
+                         ({}, {}, {}, {}, set()))
+        loader.forget.assert_called_once_with()
+        page._poll.assert_called_once_with(connect=True)
+
+    def test_forget_keeps_what_is_queued_or_decoding(self):
+        loader = peaks.PeakLoader()
+        loader._asked = {"a", "b", "c"}
+        loader._queue = [("b", "b.wav")]
+        loader._thread = type("T", (), {"key": "c"})()
+        loader.forget()
+        self.assertEqual(loader._asked, {"b", "c"})
+        loader._thread = None
+
+    def test_a_decode_that_will_not_stop_is_kept_not_destroyed(self):
+        from unittest import mock
+        loader = peaks.PeakLoader()
+        stuck = mock.Mock()
+        stuck.wait.return_value = False
+        stuck.isRunning.return_value = True
+        loader._thread = stuck
+        before = len(peaks._STILL_RUNNING)
+        loader.shutdown()
+        self.assertTrue(loader._stop.is_set())
+        stuck.setParent.assert_called_once_with(None)
+        self.assertIs(peaks._STILL_RUNNING[-1], stuck)
+        del peaks._STILL_RUNNING[before:]
+
+    def test_a_stalled_decode_stops_when_asked_not_after_the_stall(self):
+        import os
+        import tempfile
+        import time
+        from unittest import mock
+        from PySide6.QtCore import QCoreApplication, QObject, Signal
+
+        app = QCoreApplication.instance() or QCoreApplication([])     # noqa: F841 - _stream's event loop needs one
+
+        class Stalled(QObject):
+            """A decoder that starts and then sends nothing at all."""
+            bufferReady, finished, durationChanged = Signal(), Signal(), Signal(int)
+            error = Signal(object)
+            def setSource(self, url): pass
+            def start(self): pass
+            def stop(self): pass
+            def position(self): return 0
+            def errorString(self): return ""
+
+        fd, path = tempfile.mkstemp(suffix=".wav")
+        os.close(fd)
+        began = time.monotonic()
+        try:
+            with mock.patch("PySide6.QtMultimedia.QAudioDecoder", Stalled):
+                why = peaks._stream(path, lambda s, r: None, cancelled=lambda: time.monotonic() - began > 0.2)
+        finally:
+            os.remove(path)
+        self.assertEqual(why, "Stopped.")
+        self.assertLess(time.monotonic() - began, 1.5)          # not STALL_MS (20 s)
 
 
 if __name__ == "__main__":

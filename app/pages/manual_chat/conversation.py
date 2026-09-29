@@ -136,7 +136,7 @@ def help_text(writes_on: bool) -> str:
     lines += [
         "",
         "**Buttons:** New chat starts a fresh conversation; Chats searches "
-        "saved conversations and lets you rename them. Check project reviews "
+        "saved conversations and lets you rename or delete them. Check project reviews "
         "the current timeline's video formats. Explain clip reads the "
         "selected timeline clip or clip at the playhead.",
         "",
@@ -296,8 +296,8 @@ class _Chat:
 
 
 class ChatSessions:
-    """Every conversation this session, oldest first. The live one is
-    `current`; switching never discards anything while Buddy is open."""
+    """Every saved conversation, oldest first. The live one is `current`;
+    switching never discards anything - only delete() and delete_all() do."""
 
     def __init__(self):
         self.chats = [_Chat()]
@@ -357,6 +357,28 @@ class ChatSessions:
         self.chats[index].title = title
         self.chats[index].updated = datetime.now().isoformat(timespec="seconds")
         return True
+
+    def delete(self, index) -> bool:
+        """Remove one conversation for good. The live one stays live unless
+        it's the one deleted - then the next one down takes its place (the
+        one before, when it was the last). Deleting the only conversation
+        leaves a fresh empty one, never none. False when there's no such
+        conversation."""
+        if not isinstance(index, int) or not 0 <= index < len(self.chats):
+            return False
+        if len(self.chats) == 1:
+            self.delete_all()
+            return True
+        del self.chats[index]
+        if index < self.index or self.index >= len(self.chats):
+            self.index -= 1
+        return True
+
+    def delete_all(self):
+        """Every conversation gone; a fresh empty one to start from."""
+        self.chats = [_Chat()]
+        self.index = 0
+        self.add(BUDDY, WELCOME)
 
     def to_data(self) -> dict:
         """Save only the small preview images, never full model uploads."""

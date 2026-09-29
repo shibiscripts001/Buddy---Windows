@@ -1979,5 +1979,75 @@
   "中文": "DaVinci Resolve 手册 PDF 在哪里？",
   "العربية": "أين ملف PDF لدليل DaVinci Resolve؟",
   "Tiếng Việt": "PDF hướng dẫn sử dụng DaVinci Resolve ở đâu?"
+ },
+ "Delete all": {
+  "日本語": "すべて削除",
+  "Español": "Eliminar todo",
+  "Deutsch": "Alle löschen",
+  "Français": "Tout supprimer",
+  "한국어": "모두 삭제",
+  "中文": "全部删除",
+  "العربية": "حذف الكل",
+  "Tiếng Việt": "Xóa tất cả"
+ },
+ "Delete every saved conversation": {
+  "日本語": "保存されたすべての会話を削除",
+  "Español": "Eliminar todas las conversaciones guardadas",
+  "Deutsch": "Alle gespeicherten Unterhaltungen löschen",
+  "Français": "Supprimer toutes les conversations enregistrées",
+  "한국어": "저장된 모든 대화 삭제",
+  "中文": "删除所有已保存的对话",
+  "العربية": "حذف كل المحادثات المحفوظة",
+  "Tiếng Việt": "Xóa mọi cuộc trò chuyện đã lưu"
+ },
+ "Delete this conversation": {
+  "日本語": "この会話を削除",
+  "Español": "Eliminar esta conversación",
+  "Deutsch": "Diese Unterhaltung löschen",
+  "Français": "Supprimer cette conversation",
+  "한국어": "이 대화 삭제",
+  "中文": "删除此对话",
+  "العربية": "حذف هذه المحادثة",
+  "Tiếng Việt": "Xóa cuộc trò chuyện này"
+ },
+ "Delete all conversations?": {
+  "日本語": "すべての会話を削除しますか?",
+  "Español": "¿Eliminar todas las conversaciones?",
+  "Deutsch": "Alle Unterhaltungen löschen?",
+  "Français": "Supprimer toutes les conversations ?",
+  "한국어": "모든 대화를 삭제할까요?",
+  "中文": "删除所有对话？",
+  "العربية": "حذف كل المحادثات؟",
+  "Tiếng Việt": "Xóa tất cả cuộc trò chuyện?"
+ },
+ "Every saved conversation is removed from this PC. This can't be undone.": {
+  "日本語": "保存されたすべての会話がこの PC から削除されます。元に戻すことはできません。",
+  "Español": "Todas las conversaciones guardadas se eliminan de este PC. No se puede deshacer.",
+  "Deutsch": "Alle gespeicherten Unterhaltungen werden von diesem PC entfernt. Das lässt sich nicht rückgängig machen.",
+  "Français": "Toutes les conversations enregistrées sont supprimées de ce PC. Cette action est irréversible.",
+  "한국어": "저장된 모든 대화가 이 PC에서 삭제됩니다. 되돌릴 수 없습니다.",
+  "中文": "所有已保存的对话都将从这台电脑中删除。此操作无法撤销。",
+  "العربية": "ستُحذف كل المحادثات المحفوظة من هذا الكمبيوتر. لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Mọi cuộc trò chuyện đã lưu sẽ bị xóa khỏi máy tính này. Không thể hoàn tác."
+ },
+ "This conversation is removed from this PC. This can't be undone.": {
+  "日本語": "この会話はこの PC から削除されます。元に戻すことはできません。",
+  "Español": "Esta conversación se elimina de este PC. No se puede deshacer.",
+  "Deutsch": "Diese Unterhaltung wird von diesem PC entfernt. Das lässt sich nicht rückgängig machen.",
+  "Français": "Cette conversation est supprimée de ce PC. Cette action est irréversible.",
+  "한국어": "이 대화가 이 PC에서 삭제됩니다. 되돌릴 수 없습니다.",
+  "中文": "此对话将从这台电脑中删除。此操作无法撤销。",
+  "العربية": "ستُحذف هذه المحادثة من هذا الكمبيوتر. لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Cuộc trò chuyện này sẽ bị xóa khỏi máy tính này. Không thể hoàn tác."
+ },
+ "(current)": {
+  "日本語": "(現在)",
+  "Español": "(actual)",
+  "Deutsch": "(aktuell)",
+  "Français": "(actuelle)",
+  "한국어": "(현재)",
+  "中文": "(当前)",
+  "العربية": "(الحالية)",
+  "Tiếng Việt": "(hiện tại)"
  }
 }

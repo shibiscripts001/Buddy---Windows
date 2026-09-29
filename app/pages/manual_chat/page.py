@@ -6,10 +6,12 @@ view is web/index.html + chat.js; everything it shows is decided here.
 
 Protocol (see core/web_page.py for the mechanism):
     to the view    transcript, append, controls, status, thinking,
-                   proposal, offer, toast, pictures
+                   proposal, offer, toast, pictures, chat_list
     from the view  send, copy, new_chat, prev_chat, next_chat, export,
                    apply_proposal, discard_proposal, open_tool, open_manual,
-                   attach_image, paste_image, remove_picture
+                   attach_image, paste_image, remove_picture,
+                   search_chats, select_chat, rename_chat, delete_chat,
+                   delete_all_chats, run_checkup, explain_clip
 
 Pictures (pictures.py) can go with a question - picked, pasted or dropped -
 for a model that can see them; only that question carries them.
@@ -249,11 +251,11 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self.emit("append", block_view(len(self.chats.blocks) - 1, block))
         self._persist_chats()
 
-    def _persist_chats(self):
+    def _persist_chats(self, forget_backup=False):
         if self._chat_store_error and "Saving is disabled" in self._chat_store_error:
             return
         try:
-            chat_store.save(self.ask_folder, self.chats)
+            chat_store.save(self.ask_folder, self.chats, forget_backup=forget_backup)
         except OSError as exc:
             self._toast(f"Could not save conversations: {exc}")
 
@@ -507,7 +509,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._push_controls()
         self._push_status()
 
-    def _switched(self):
+    def _switched(self, forget_backup=False):
         """After the live conversation changes. Any pending proposal is
         dropped: it belongs to the conversation that produced it, and an
         Apply button left live while the transcript explaining it has been
@@ -519,7 +521,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         self._push_transcript()
         self._push_controls()
         self._push_status()
-        self._persist_chats()
+        self._persist_chats(forget_backup=forget_backup)
 
     def on_prev_chat(self, _payload):
         if not self._sending and self.chats.go(self.chats.index - 1):
@@ -562,6 +564,40 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         if self.chats.rename(self.chats.index, (payload or {}).get("title") or ""):
             self._persist_chats()
             self._push_controls()
+
+    def on_delete_chat(self, payload):
+        """One conversation, from Chats (the view has already confirmed).
+        Deleting the open one swaps in the next, like switching does."""
+        if self._sending:
+            return
+        try:
+            index = int((payload or {}).get("index"))
+        except (TypeError, ValueError):
+            return
+        was = self.chats.current
+        if not self.chats.delete(index):
+            return
+        if self.chats.current is not was:
+            self._switched(forget_backup=True)
+        else:
+            self._persist_chats(forget_backup=True)
+            self._push_controls()
+
+    def on_delete_all_chats(self, _payload):
+        """Every conversation, from Chats (the view has already confirmed).
+        The files go first - including a damaged one that disabled saving -
+        so nothing is left on disk to come back at the next launch."""
+        if self._sending:
+            return
+        try:
+            chat_store.erase(self.ask_folder)
+        except OSError as exc:
+            self._toast(f"Could not delete the saved conversations: {exc}")
+            return
+        self._chat_store_error = ""
+        self._chat_query = ""
+        self.chats.delete_all()
+        self._switched()
 
     def on_explain_clip(self, _payload):
         if not self._sending:

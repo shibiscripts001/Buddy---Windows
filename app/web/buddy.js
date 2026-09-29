@@ -258,6 +258,7 @@ const Buddy = (() => {
         plus: '<path d="M12 5v14M5 12h14"/>',
         left: '<path d="M15 5l-7 7 7 7"/>',
         right: '<path d="M9 5l7 7-7 7"/>',
+        trash: '<path d="M4 7h16M9 7V4.5h6V7"/><path d="M6.5 7l.9 12a2 2 0 0 0 2 1.8h5.2a2 2 0 0 0 2-1.8l.9-12"/><path d="M10 11v6M14 11v6"/>',
         download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
         warning: '<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/>',
         tool: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>',
@@ -401,18 +402,25 @@ const Buddy = (() => {
     /* A popup menu at (x, y) - a right-click or a "more" button:
        menu({x, y, items: [{label, onClick, danger, disabled, swatch: "#hex",
        raw: true for a label people named - a folder, a palette - so it isn't
-       translated} | {sep: true} | {heading: "text"}]}). Escape, a click
-       elsewhere or a pick closes it; Up/Down/Enter work. Returns close. */
+       translated, checked: true/false for a choice of which one is current -
+       a tick, and room for one on the rest} | {sep: true} | {heading: "text"}]}).
+       Escape, a click elsewhere or a pick closes it; Up/Down/Enter work.
+       Returns close. */
     function menu({x, y, items}) {
         closeMenu();
         const node = el("div.menu-pop", {role: "menu"});
+        const ticks = items.some(item => item && "checked" in item);
         for (const item of items) {
             if (item.sep) { node.append(el("hr")); continue; }
             if (item.heading) { node.append(el("div.menu-heading", {text: item.heading})); continue; }
             node.append(el(`button${item.danger ? ".danger" : ""}`, {
-                type: "button", role: "menuitem", disabled: !!item.disabled,
+                type: "button", role: ticks && "checked" in item ? "menuitemradio" : "menuitem",
+                "aria-checked": ticks && "checked" in item ? String(!!item.checked) : undefined,
+                disabled: !!item.disabled,
                 onclick: () => { closeMenu(); if (item.onClick) item.onClick(); },
-            }, [item.swatch ? el("i.menu-swatch", {style: `background:${item.swatch}`}) : null, el("span", {text: item.label, translate: item.raw ? "no" : undefined})]));
+            }, [ticks ? el("span.menu-tick", {}, item.checked ? [icon("check")] : []) : null,
+                item.swatch ? el("i.menu-swatch", {style: `background:${item.swatch}`}) : null,
+                el("span", {text: item.label, translate: item.raw ? "no" : undefined})]));
         }
         document.body.append(node);
         menuNode = node;

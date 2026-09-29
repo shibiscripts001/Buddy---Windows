@@ -277,7 +277,7 @@ class WebPageContractTests(unittest.TestCase):
     def test_every_event_a_page_emits_is_drawn(self):
         for name, js, py, _html, _web in self.each():
             if not js.strip():
-                continue                # a view with no script (Animation's empty Text+ tab)
+                continue                # a view with no script (Animation's empty Text+ tab, Audit)
             emitted = set(re.findall(r"self\.emit\(\"(\w+)\"", py))
             self.assertTrue(emitted, name)
             handled = set(re.findall(r"\b(?:Buddy\.)?on\(\"(\w+)\"", js))

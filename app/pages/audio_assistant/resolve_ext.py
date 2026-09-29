@@ -34,6 +34,7 @@ one twice a second and the full one every few seconds.
 
 import hashlib
 import os
+import re
 import tempfile
 import uuid
 import xml.etree.ElementTree as ET
@@ -44,6 +45,7 @@ from core.resolve_bridge import ResolveConnectionError
 from pages.stills_exporter.resolve_ext import timecode_to_frames
 
 from . import keys as K
+from . import render
 
 # Resolve's 16 clip colours, for display (close to its swatches). "" = none set.
 CLIP_COLORS = {
@@ -123,6 +125,23 @@ def _media(item, cache):
     return media
 
 
+def peaks_key(key, channels):
+    """The waveform a clip is drawn and measured with: its file's (`key`) for the
+    channels it plays - peaks.fold()'s, one per file and channel set."""
+    return key if not channels else f"{key}:{'.'.join(str(c) for c in channels)}"
+
+
+def _play(clip, item, media):
+    """The file's channels the clip plays (Resolve's mapping, 0-based; None: all
+    of them) and the waveform that goes with them, onto the clip. A clip mapped to
+    every channel of its file in order is 'all' - the same waveform."""
+    channels = render.channels_from_mapping(_call(item, "GetSourceAudioChannelMapping", default=""))
+    if channels and channels == list(range(int(media.get("channels") or 0))):
+        channels = None
+    clip["channels"] = channels
+    clip["peaks"] = peaks_key(media["key"], channels)
+
+
 def _levels(item):
     """A clip's own audio settings - what the live read refreshes."""
     props = _call(item, "GetProperties", default={}) or {}
@@ -170,7 +189,11 @@ def _clip(item, fps, cache):
         # Seconds into the file where the clip starts.
         "offset": (_float(_call(item, "GetSourceStartFrame"), 0.0) or 0.0) / src_fps if src_fps else 0.0,
         "media": media,
+        "channels": None,
+        "peaks": None,
     }
+    if media is not None:
+        _play(clip, item, media)
     clip.update(_levels(item))
     return clip
 
@@ -309,6 +332,7 @@ def _read_curve(controller, clip, item, timelines, fps, cache):
     src_fps = media.get("fps") or fps
     inner_offset = (_float(_call(inner, "GetSourceStartFrame"), 0.0) or 0.0) / src_fps
     clip["media"] = media
+    _play(clip, inner, media)            # the channels the clip in it plays, not the nested clip's mix
     # A nested clip's source start counts frames into its timeline: a trim.
     clip["offset"] = inner_offset + (_float(_call(item, "GetSourceStartFrame"), 0.0) or 0.0) / fps
     got = K.match_keys(_exported(controller, tl), [{
@@ -474,17 +498,84 @@ def _bin(media_pool):
     return made
 
 
-def _free_track(timeline, below, start, end):
-    """The first audio track under track `below` with nothing in [start, end),
-    on and unlocked - or None."""
-    for index in range(below + 1, int(timeline.GetTrackCount("audio") or 0) + 1):
-        if not _call(timeline, "GetIsTrackEnabled", "audio", index, default=True) \
-                or _call(timeline, "GetIsTrackLocked", "audio", index, default=False):
-            continue
-        if not any(_call(i, "GetStart", default=0) < end and _call(i, "GetEnd", default=0) > start
-                   for i in _call(timeline, "GetItemListInTrack", "audio", index, default=[]) or []):
-            return index
-    return None
+BUDDY_TRACK = "Buddy"
+
+
+def _track_ids(timeline, index):
+    return [_call(i, "GetUniqueId", default="") for i in _call(timeline, "GetItemListInTrack", "audio", index,
+                                                                    default=[]) or []]
+
+
+_NUMBERED = re.compile(r"(.*\S) (\d+)")
+
+
+def _track_sig(timeline, index):
+    """What tells a track apart from the others: its name and its clips. A name
+    Resolve made ("Audio 3" - numbered by position, renumbered when a track goes
+    in above it) counts only as a default, not by its number."""
+    name = str(_call(timeline, "GetTrackName", "audio", index, default="") or "")
+    numbered = _NUMBERED.fullmatch(name)
+    label = ("default", numbered.group(1)) if numbered and int(numbered.group(2)) == index else ("named", name)
+    return label, tuple(_track_ids(timeline, index))
+
+
+def _new_track(before, after, wanted):
+    """Which of `after` (the tracks' _track_sig()s once one was added) is the
+    new one: a default-named, empty track whose removal gives `before` back.
+    `wanted` if it can be (the insert asked for, as Resolve 21.1 does it), else
+    the last that can (appended); None if none can. When several can - the
+    tracks from `wanted` down are all empty and default-named - they can't be
+    told apart, and `wanted` is taken: no clip or name of anyone's is changed."""
+    fresh = [p for p in range(1, len(after) + 1)
+             if after[p - 1][0][0] == "default" and not after[p - 1][1] and after[:p - 1] + after[p:] == before]
+    if wanted in fresh:
+        return wanted
+    return fresh[-1] if fresh else None
+
+
+def _buddy_track(timeline, below, start, end):
+    """(index, added) - the audio track a clip of track `below` gets its curve
+    clip on. Buddy's own tracks, all named BUDDY_TRACK, sit in a run directly
+    under the track whose clips they stand in for (the user's choice: not
+    whatever track below has a gap there, which could be the music). The
+    first of that run with nothing in [start, end), on and unlocked, is
+    reused; if there's none, a new one goes in at the end of the run.
+
+    Resolve 21.1 inserts a track where asked with AddTrack("audio",
+    {"audioType", "index"}) - undocumented; the tracks under it move down
+    (measured). A Resolve that appends it instead gets it at the bottom,
+    which is checked by the tracks' names and clips (_new_track), so no track
+    of the user's is ever the one named Buddy.
+    (index, added) with added True when a track was made; None if Resolve
+    made none."""
+    count = int(_call(timeline, "GetTrackCount", "audio", default=0) or 0)
+    index = below + 1
+    while index <= count and _call(timeline, "GetTrackName", "audio", index, default="") == BUDDY_TRACK:
+        usable = _call(timeline, "GetIsTrackEnabled", "audio", index, default=True) \
+            and not _call(timeline, "GetIsTrackLocked", "audio", index, default=False)
+        if usable and not any(_call(i, "GetStart", default=0) < end and _call(i, "GetEnd", default=0) > start
+                              for i in _call(timeline, "GetItemListInTrack", "audio", index, default=[]) or []):
+            return index, False
+        index += 1
+    subtype = _call(timeline, "GetTrackSubType", "audio", below, default="mono") or "mono"
+    before = [_track_sig(timeline, i) for i in range(1, count + 1)]
+    if not _call(timeline, "AddTrack", "audio", {"audioType": subtype, "index": index}, default=False):
+        return None
+    if int(_call(timeline, "GetTrackCount", "audio", default=0) or 0) != count + 1:
+        return None
+    # Where it went: asked for `index`, a Resolve that appends puts it at the bottom.
+    index = _new_track(before, [_track_sig(timeline, i) for i in range(1, count + 2)], index)
+    if index is None:
+        return None
+    _call(timeline, "SetTrackName", "audio", index, BUDDY_TRACK)
+    return index, True
+
+
+def _drop_empty_buddy_track(timeline, index):
+    """A Buddy track left with nothing on it goes (after a failed Apply, or a
+    curve taken off) - never a track that isn't Buddy's, or has clips."""
+    if _call(timeline, "GetTrackName", "audio", index, default="") == BUDDY_TRACK and not _track_ids(timeline, index):
+        _call(timeline, "DeleteTrack", "audio", index)
 
 
 def _place(media_pool, mpi, track, start, frames):
@@ -507,8 +598,9 @@ def apply_curve(controller, clip_id, keys, fps, volume, outer=None):
     keys: the curve's own keys (file time), heard with the nested clip's
     `volume` on top. On a clip that's already a Buddy curve, the new one
     replaces it, on its track, taking over its settings; on any other clip it
-    goes on the first free track under it (or a new one), the clip's settings
-    come with it, and the clip is turned off. outer: _outer()'s settings to
+    goes on a "Buddy" track directly under the clip's track (_buddy_track:
+    one there with room, or a new one), the clip's settings come with it, and
+    the clip is turned off. outer: _outer()'s settings to
     give it instead (an undone Remove).
 
     Everything is checked - the clip in the new timeline is the same file,
@@ -577,7 +669,7 @@ def apply_curve(controller, clip_id, keys, fps, volume, outer=None):
             pass
     if new_tl is None:
         raise ResolveConnectionError("Resolve didn't take the curve.")
-    placed, disabled, removed = None, False, False
+    placed, disabled, removed, added, spot = None, False, False, False, None
     try:
         inner = next(iter(_call(new_tl, "GetItemListInTrack", "audio", 1, default=[]) or []), None)
         if inner is None or _call(_call(inner, "GetMediaPoolItem"), "GetUniqueId") != _call(mpi, "GetUniqueId") \
@@ -599,12 +691,10 @@ def apply_curve(controller, clip_id, keys, fps, volume, outer=None):
             removed = True
             spot = int(track)
         else:
-            spot = _free_track(timeline, int(track), start, end)
-            if spot is None:
-                if not _call(timeline, "AddTrack", "audio", _call(timeline, "GetTrackSubType", "audio", int(track),
-                                                                  default="mono") or "mono", default=False):
-                    raise ResolveConnectionError("Resolve didn't add a track for the curve.")
-                spot = int(timeline.GetTrackCount("audio"))
+            got_track = _buddy_track(timeline, int(track), start, end)
+            if got_track is None:
+                raise ResolveConnectionError("Resolve didn't add a track for the curve.")
+            spot, added = got_track
         placed = _place(media_pool, new_mpi, spot, start, frames)
         if placed is None:
             raise ResolveConnectionError("Resolve didn't place the curve on the timeline.")
@@ -622,6 +712,8 @@ def apply_curve(controller, clip_id, keys, fps, volume, outer=None):
                 _set_outer(back, before)
         if disabled:
             _call(item, "SetClipEnabled", True)
+        if added:                         # the Buddy track made for it goes too
+            _drop_empty_buddy_track(timeline, spot)
         _call(media_pool, "DeleteTimelines", [new_tl])
         raise
     if curve:
@@ -644,6 +736,7 @@ def remove_curve(controller, clip_id):
     tl, note, _inner, _mpi = curve
     outer = _outer(item)
     original = items.get(note["original"])
+    track = (_call(item, "GetTrackTypeAndIndex", default=["audio", 0]) or ["audio", 0])[1]
     if original is not None:
         _call(original, "SetClipEnabled", True)
     if not _call(timeline, "DeleteClips", [item], default=False):
@@ -651,8 +744,133 @@ def remove_curve(controller, clip_id):
             _call(original, "SetClipEnabled", False)
         raise ResolveConnectionError("Resolve didn't take the curve clip off.")
     _call(media_pool, "DeleteTimelines", [tl])
+    if track:
+        _drop_empty_buddy_track(timeline, int(track))
     return {"original": note["original"] if original is not None else "", "keys": note["keys"],
             "volume": outer["props"]["AudioVolume"], "outer": outer}
+
+
+# --------------------------------------------------------------- Tidy up --
+# What Buddy made that nothing uses any more: curve timelines in the "Buddy
+# Audio" bin no timeline has on it (a curve clip deleted in Resolve leaves its
+# timeline behind), processed WAVs likewise, and this project's WAVs on disk
+# that are gone from its media pool. Resolve's "Usage" clip property says how
+# often a clip is on a timeline - a nested one too - and it's live (measured
+# on 21.1: 1 while a curve clip is placed, 0 the moment it's deleted).
+
+def _usage(mpi):
+    try:
+        return int(_call(mpi, "GetClipProperty", "Usage", default=0) or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _find_bin(media_pool):
+    root = media_pool.GetRootFolder()
+    return next((s for s in _call(root, "GetSubFolderList", default=[]) or []
+                 if _call(s, "GetName", default="") == K.BIN_NAME), None)
+
+
+def _scan(project):
+    """(curves, wavs, files, timelines): the unused curve timelines' and WAVs'
+    media pool items and on-disk orphans, as the Tidy up list's entries."""
+    media_pool = project.GetMediaPool()
+    pid = str(_call(project, "GetUniqueId", default="") or "")
+    bin_ = _find_bin(media_pool)
+    timelines = _timelines(project)
+    curves, wavs = [], []
+    for _folder, clip in _walk(bin_) if bin_ is not None else []:
+        props = _call(clip, "GetClipProperty", default={}) or {}
+        name = str(props.get("Clip Name") or _call(clip, "GetName", default="") or "")
+        path = str(props.get("File Path") or "")
+        # Buddy's own only: its note in the Comments, as _curve_of() asks - a
+        # timeline someone named "... (Buddy curve)" and filed here isn't Buddy's to delete.
+        if props.get("Type") == "Timeline" and K.is_curve_name(name) and name in timelines \
+                and K.read_note(_call(clip, "GetMetadata", "Comments", default="")) is not None:
+            curves.append({"mpi": clip, "name": name, "usage": _usage(clip), "timeline": timelines[name]})
+        elif path.lower().endswith(".wav") and render.read_sidecar(path) is not None:
+            wavs.append({"mpi": clip, "name": name, "path": path, "usage": _usage(clip)})
+    unused_curves = [c for c in curves if c["usage"] <= 0]
+    # A WAV used only inside an unused curve timeline goes with it.
+    inside = {}
+    for curve in unused_curves:
+        tl = curve["timeline"]
+        for index in range(1, int(_call(tl, "GetTrackCount", "audio", default=0) or 0) + 1):
+            for item in _call(tl, "GetItemListInTrack", "audio", index, default=[]) or []:
+                uid = _call(_call(item, "GetMediaPoolItem"), "GetUniqueId", default="")
+                inside[uid] = inside.get(uid, 0) + 1
+    for wav in wavs:
+        wav["usage"] -= inside.get(_call(wav["mpi"], "GetUniqueId", default=""), 0)
+    # On disk: this project's WAVs beside its media (or in the fallback) that
+    # aren't in its media pool any more.
+    in_pool, folders = {os.path.normcase(w["path"]) for w in wavs}, {render.FALLBACK_DIR}
+    for _folder, clip in _walk(media_pool.GetRootFolder()):
+        path = str(_call(clip, "GetClipProperty", "File Path", default="") or "")
+        if path:
+            folders.add(os.path.join(os.path.dirname(path), render.FOLDER_NAME))
+            in_pool.add(os.path.normcase(path))
+    files = [{"path": path, "name": os.path.basename(path)}
+             for folder in sorted(folders) for path, side in render.buddy_wavs_in(folder).items()
+             if pid and pid in (side.get("projects") or []) and os.path.normcase(path) not in in_pool]
+    return unused_curves, [w for w in wavs if w["usage"] <= 0], files, pid
+
+
+def _size(path):
+    try:
+        return os.path.getsize(path)
+    except OSError:
+        return 0
+
+
+def tidy_scan(controller):
+    """What Tidy up would remove: {"items": [{"id", "kind" ("curve" | "wav" |
+    "file"), "name", "size" (bytes, 0 for a timeline), "path"}]}. Reads only."""
+    curves, wavs, files, _pid = _scan(controller.current_project())
+    items = [{"id": "curve:" + str(_call(c["mpi"], "GetUniqueId", default="")), "kind": "curve",
+              "name": c["name"], "size": 0, "path": ""} for c in curves]
+    items += [{"id": "wav:" + str(_call(w["mpi"], "GetUniqueId", default="")), "kind": "wav",
+               "name": w["name"], "size": _size(w["path"]), "path": w["path"]} for w in wavs]
+    items += [{"id": "file:" + f["path"], "kind": "file", "name": f["name"], "size": _size(f["path"]),
+               "path": f["path"]} for f in files]
+    return {"items": items}
+
+
+def tidy_remove(controller, ids):
+    """Removes what's asked for of what tidy_scan() lists - scanned again first,
+    so nothing that got used meanwhile goes. Curve timelines are deleted from
+    the project, then WAVs leave the media pool (a WAV that was only in those
+    timelines is free now). A WAV file no other project has is handed back to
+    go to the Recycle Bin - that's the page's to do, on the GUI thread
+    (core/recycle.py). Returns {"removed": ids, "failed": ids, "recycle":
+    [paths]}."""
+    wanted = set(ids or [])
+    project = controller.current_project()
+    media_pool = project.GetMediaPool()
+    removed, failed, recycle = [], [], []
+    curves, _wavs, _files, pid = _scan(project)
+    for curve in curves:
+        cid = "curve:" + str(_call(curve["mpi"], "GetUniqueId", default=""))
+        if cid in wanted:
+            (removed if _call(media_pool, "DeleteTimelines", [curve["timeline"]], default=False) else failed).append(cid)
+    _curves, wavs, files, pid = _scan(project)          # again: the curves' WAVs may be free now
+    for wav in wavs:
+        wid = "wav:" + str(_call(wav["mpi"], "GetUniqueId", default=""))
+        if wid not in wanted:
+            continue
+        if not _call(media_pool, "DeleteClips", [wav["mpi"]], default=False):
+            failed.append(wid)
+            continue
+        removed.append(wid)
+        if render.release(wav["path"], pid):
+            recycle += render.with_its_sidecar(wav["path"])
+    for f in files:
+        fid = "file:" + f["path"]
+        if fid in wanted:
+            removed.append(fid)
+            if render.release(f["path"], pid):
+                recycle += render.with_its_sidecar(f["path"])
+    failed += [i for i in wanted if i not in removed and i not in failed]      # used again, or gone
+    return {"removed": removed, "failed": failed, "recycle": recycle}
 
 
 def seek(controller, timecode):

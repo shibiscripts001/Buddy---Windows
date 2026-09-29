@@ -131,6 +131,7 @@ Buddy.on("controls", c => {
     $("explain").disabled = sending || !c.connected;
     $("history").disabled = sending;
     $("rename-chat").disabled = sending;
+    $("delete-all-chats").disabled = sending;
     $("switcher").hidden = c.total < 2;
     $("position").textContent = `Chat ${c.index + 1} of ${c.total}`;
     currentChatTitle = c.title || "New chat";
@@ -178,15 +179,38 @@ function saveTitle() {
 $("save-title").onclick = saveTitle;
 $("cancel-rename").onclick = () => { $("rename-row").hidden = true; };
 $("chat-title").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); saveTitle(); } };
+$("delete-all-chats").onclick = async () => {
+    if (sending) return;
+    if (await Buddy.confirm({title: "Delete all conversations?", ok: "Delete all", danger: true,
+                             text: "Every saved conversation is removed from this PC. This can't be undone."})) {
+        $("chat-search").value = "";
+        send("delete_all_chats");
+    }
+};
+async function deleteChat(item) {
+    if (sending) return;
+    if (await Buddy.confirm({title: `Delete "${item.title}"?`, ok: "Delete", danger: true,
+                             text: "This conversation is removed from this PC. This can't be undone."})) {
+        send("delete_chat", {index: item.index});
+    }
+}
 Buddy.on("chat_list", data => {
     $("chat-results").replaceChildren(...data.items.map(item =>
-        el("button.chat-result", {type: "button", onclick: () => {
-            send("select_chat", {index: item.index});
-            $("chat-browser").hidden = true;
-        }}, [
-            el("span.strong", {text: item.title + (item.index === data.current ? " (current)" : "")}),
-            el("span.muted.small", {text: item.updated || ""}),
-            item.preview ? el("span.small", {text: item.preview}) : null,
+        el("div.chat-row", {}, [
+            el("button.chat-result", {type: "button", onclick: () => {
+                send("select_chat", {index: item.index});
+                $("chat-browser").hidden = true;
+            }}, [
+                el("span.strong", {}, [
+                    el("span", {text: item.title, translate: "no"}),   // what people named or asked
+                    item.index === data.current ? el("span.muted", {text: " (current)"}) : null,
+                ]),
+                el("span.muted.small", {text: item.updated || ""}),
+                item.preview ? el("span.small", {text: item.preview, translate: "no"}) : null,
+            ]),
+            el("button.btn.icon.ghost.chat-delete", {type: "button", title: "Delete this conversation",
+                                                    disabled: sending, onclick: () => deleteChat(item)},
+               [icon("trash")]),
         ])));
     if (!data.items.length) $("chat-results").append(el("div.muted", {text: "No matching conversations."}));
 });

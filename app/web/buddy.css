@@ -445,6 +445,8 @@ body > main { border-radius: var(--card-radius); }
 .menu-pop button.danger:hover { color: var(--selection-fg); }
 .menu-pop hr { border: 0; border-top: var(--bw) solid var(--card-border); margin: 4px 6px; }
 .menu-heading { padding: 6px 12px 2px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim); }
+.menu-tick { flex: none; width: 14px; display: inline-flex; justify-content: center; color: var(--accent-text); }
+.menu-pop button .menu-tick { overflow: visible; }
 .menu-swatch {
     flex: none; width: 14px; height: 14px; border-radius: var(--r-xs);
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 25%, transparent);

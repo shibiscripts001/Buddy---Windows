@@ -16,6 +16,7 @@ for the real import - the category/order here don't need to change.
 from pages.placeholder import make_placeholder_page
 from pages.asset_manager.page import AssetManagerPage
 from pages.audio_assistant.page import AudioAssistantPage
+from pages.audit.page import AuditPage
 from pages.batch_clip_renamer.page import BatchClipRenamerPage
 from pages.buddy_network.page import BuddyNetworkPage
 from pages.color_palette.page import ColorPalettePage
@@ -38,6 +39,8 @@ def _placeholder(tool_id, display_name, category):
 # List of (category, page_cls), in nav order.
 REGISTRY = [
     ("Ask", ManualChatPage),
+
+    ("Audit", AuditPage),
 
     ("Setup", ProjectSetupPage),
 

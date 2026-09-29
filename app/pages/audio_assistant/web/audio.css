@@ -105,3 +105,14 @@
 .range { flex: 1; min-width: 80px; accent-color: var(--primary); cursor: pointer; }
 .range:disabled, .check input:disabled { cursor: default; opacity: .45; }
 .group .segmented button { padding: 3px 8px; }
+
+/* Tidy up's list (tidy.js) */
+.tidy-list { display: flex; flex-direction: column; gap: 2px; max-height: 320px; overflow-y: auto; margin-top: 8px; }
+.tidy-row { display: flex; align-items: baseline; gap: 10px; padding: 5px 6px; border-radius: var(--r-sm); cursor: pointer; }
+.tidy-row:hover { background: var(--raised-bg); }
+.tidy-row input { flex: none; align-self: center; }
+.tidy-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-strong); }
+.tidy-size { flex: none; font-variant-numeric: tabular-nums; }
+
+/* The selected keys' ease (the Curve panel): wide enough for "Ease in and out". */
+.ctl-body select.ease-pick { flex: none; min-width: 136px; }

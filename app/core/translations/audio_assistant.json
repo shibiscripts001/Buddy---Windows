@@ -50,25 +50,25 @@
   "العربية": "التكبير",
   "Tiếng Việt": "Thu phóng"
  },
- "Zoom out (Ctrl + scroll)": {
-  "日本語": "縮小（Ctrl + スクロール）",
-  "Español": "Alejar (Ctrl + rueda)",
-  "Deutsch": "Verkleinern (Strg + Scrollen)",
-  "Français": "Dézoomer (Ctrl + molette)",
-  "한국어": "축소 (Ctrl + 스크롤)",
-  "中文": "缩小（Ctrl + 滚轮）",
-  "العربية": "تصغير (Ctrl + التمرير)",
-  "Tiếng Việt": "Thu nhỏ (Ctrl + cuộn)"
+ "Zoom out (Alt + scroll)": {
+  "日本語": "縮小（Alt + スクロール）",
+  "Español": "Alejar (Alt + rueda)",
+  "Deutsch": "Verkleinern (Alt + Scrollen)",
+  "Français": "Dézoomer (Alt + molette)",
+  "한국어": "축소 (Alt + 스크롤)",
+  "中文": "缩小（Alt + 滚轮）",
+  "العربية": "تصغير (Alt + التمرير)",
+  "Tiếng Việt": "Thu nhỏ (Alt + cuộn)"
  },
- "Zoom in (Ctrl + scroll)": {
-  "日本語": "拡大（Ctrl + スクロール）",
-  "Español": "Acercar (Ctrl + rueda)",
-  "Deutsch": "Vergrößern (Strg + Scrollen)",
-  "Français": "Zoomer (Ctrl + molette)",
-  "한국어": "확대 (Ctrl + 스크롤)",
-  "中文": "放大（Ctrl + 滚轮）",
-  "العربية": "تكبير (Ctrl + التمرير)",
-  "Tiếng Việt": "Phóng to (Ctrl + cuộn)"
+ "Zoom in (Alt + scroll)": {
+  "日本語": "拡大（Alt + スクロール）",
+  "Español": "Acercar (Alt + rueda)",
+  "Deutsch": "Vergrößern (Alt + Scrollen)",
+  "Français": "Zoomer (Alt + molette)",
+  "한국어": "확대 (Alt + 스크롤)",
+  "中文": "放大（Alt + 滚轮）",
+  "العربية": "تكبير (Alt + التمرير)",
+  "Tiếng Việt": "Phóng to (Alt + cuộn)"
  },
  "Fit the whole timeline": {
   "日本語": "タイムライン全体を表示",
@@ -1100,16 +1100,6 @@
   "العربية": "طبّق منحنى المقطع الآخر أو تجاهله أولاً",
   "Tiếng Việt": "Hãy áp dụng hoặc bỏ đường cong trên clip kia trước"
  },
- "Straight, no ease": {
-  "日本語": "直線（イーズなし）",
-  "Español": "Recta, sin suavizado",
-  "Deutsch": "Gerade, ohne Glättung",
-  "Français": "Droite, sans lissage",
-  "한국어": "직선, 이즈 없음",
-  "中文": "直线，无缓动",
-  "العربية": "مستقيم، بلا تنعيم",
-  "Tiếng Việt": "Thẳng, không làm mượt"
- },
  "Ease in and out": {
   "日本語": "イーズイン・アウト",
   "Español": "Suavizar entrada y salida",
@@ -1159,16 +1149,6 @@
   "中文": "放弃曲线",
   "العربية": "تجاهل المنحنى",
   "Tiếng Việt": "Bỏ đường cong"
- },
- "Picked key": {
-  "日本語": "選択中のキー",
-  "Español": "Clave elegida",
-  "Deutsch": "Gewählter Key",
-  "Français": "Clé choisie",
-  "한국어": "선택한 키",
-  "中文": "选中的关键帧",
-  "العربية": "المفتاح المحدد",
-  "Tiếng Việt": "Key đã chọn"
  },
  "Take the curve off": {
   "日本語": "カーブを外す",
@@ -1329,16 +1309,6 @@
   "中文": "在这里修改线条并应用即可替换它们——原片段会保留并关闭。",
   "العربية": "غيّر الخط هنا وطبّق لاستبدالها – يُحتفظ بالمقطع معطَّلاً.",
   "Tiếng Việt": "Đổi đường ở đây rồi Áp dụng để thay chúng – clip vẫn được giữ, ở trạng thái tắt."
- },
- "Double-click the line on the clip to add a key, then drag it. Right-click a key to ease it.": {
-  "日本語": "クリップ上のラインをダブルクリックしてキーを追加し、ドラッグします。キーを右クリックするとイーズできます。",
-  "Español": "Haz doble clic en la línea del clip para añadir una clave y arrástrala. Clic derecho en una clave para suavizarla.",
-  "Deutsch": "Doppelklicke auf die Linie im Clip, um einen Key zu setzen, und ziehe ihn. Rechtsklick auf einen Key glättet ihn.",
-  "Français": "Double-cliquez sur la ligne du clip pour ajouter une clé, puis faites-la glisser. Clic droit sur une clé pour la lisser.",
-  "한국어": "클립의 선을 더블클릭해 키를 추가하고 드래그하세요. 키를 우클릭하면 이즈를 줄 수 있습니다.",
-  "中文": "双击片段上的线添加关键帧，然后拖动它。右键单击关键帧可设置缓动。",
-  "العربية": "انقر نقرًا مزدوجًا على الخط في المقطع لإضافة مفتاح، ثم اسحبه. انقر بزر الفأرة الأيمن على مفتاح لتنعيمه.",
-  "Tiếng Việt": "Nhấp đúp vào đường trên clip để thêm key, rồi kéo nó. Nhấp chuột phải vào key để làm mượt."
  },
  "Apply makes the keys Resolve keyframes.": {
   "日本語": "適用するとキーが Resolve のキーフレームになります。",
@@ -1569,5 +1539,275 @@
   "中文": "Resolve 未移除曲线片段。",
   "العربية": "لم يُزل Resolve مقطع المنحنى.",
   "Tiếng Việt": "Resolve không gỡ clip đường cong."
+ },
+ "Tidy up": {
+  "日本語": "整理",
+  "Español": "Ordenar",
+  "Deutsch": "Aufräumen",
+  "Français": "Faire le ménage",
+  "한국어": "정리",
+  "中文": "整理",
+  "العربية": "ترتيب",
+  "Tiếng Việt": "Dọn dẹp"
+ },
+ "Find the audio Buddy made that nothing uses any more": {
+  "日本語": "Buddy が作成し、もう使われていないオーディオを探す",
+  "Español": "Buscar el audio creado por Buddy que ya no se usa",
+  "Deutsch": "Von Buddy erstelltes Audio finden, das nichts mehr verwendet",
+  "Français": "Trouver l'audio créé par Buddy qui n'est plus utilisé",
+  "한국어": "Buddy가 만들었지만 더 이상 쓰이지 않는 오디오 찾기",
+  "中文": "查找 Buddy 创建但已不再使用的音频",
+  "العربية": "البحث عن الصوت الذي أنشأه Buddy ولم يعد مستخدمًا",
+  "Tiếng Việt": "Tìm âm thanh Buddy đã tạo mà không còn được dùng"
+ },
+ "Nothing to tidy": {
+  "日本語": "整理するものはありません",
+  "Español": "No hay nada que ordenar",
+  "Deutsch": "Nichts aufzuräumen",
+  "Français": "Rien à nettoyer",
+  "한국어": "정리할 항목이 없습니다",
+  "中文": "没有需要整理的内容",
+  "العربية": "لا يوجد ما يلزم ترتيبه",
+  "Tiếng Việt": "Không có gì để dọn"
+ },
+ "Everything Buddy made is still in use.": {
+  "日本語": "Buddy が作成したものはすべて使用中です。",
+  "Español": "Todo lo que creó Buddy sigue en uso.",
+  "Deutsch": "Alles, was Buddy erstellt hat, wird noch verwendet.",
+  "Français": "Tout ce que Buddy a créé est encore utilisé.",
+  "한국어": "Buddy가 만든 항목은 모두 사용 중입니다.",
+  "中文": "Buddy 创建的所有内容仍在使用中。",
+  "العربية": "كل ما أنشأه Buddy لا يزال قيد الاستخدام.",
+  "Tiếng Việt": "Mọi thứ Buddy tạo vẫn đang được dùng."
+ },
+ "Curve timeline": {
+  "日本語": "カーブのタイムライン",
+  "Español": "Línea de tiempo de curva",
+  "Deutsch": "Kurven-Timeline",
+  "Français": "Timeline de courbe",
+  "한국어": "커브 타임라인",
+  "中文": "曲线时间线",
+  "العربية": "مخطط زمني للمنحنى",
+  "Tiếng Việt": "Timeline đường cong"
+ },
+ "Processed audio": {
+  "日本語": "処理済みオーディオ",
+  "Español": "Audio procesado",
+  "Deutsch": "Bearbeitetes Audio",
+  "Français": "Audio traité",
+  "한국어": "처리된 오디오",
+  "中文": "处理后的音频",
+  "العربية": "صوت معالَج",
+  "Tiếng Việt": "Âm thanh đã xử lý"
+ },
+ "Processed audio file, not in the media pool": {
+  "日本語": "処理済みオーディオファイル（メディアプールにはありません）",
+  "Español": "Archivo de audio procesado, fuera del Media Pool",
+  "Deutsch": "Bearbeitete Audiodatei, nicht im Media Pool",
+  "Français": "Fichier audio traité, absent du Media Pool",
+  "한국어": "처리된 오디오 파일(미디어 풀에 없음)",
+  "中文": "处理后的音频文件，不在媒体池中",
+  "العربية": "ملف صوتي معالَج، غير موجود في Media Pool",
+  "Tiếng Việt": "Tệp âm thanh đã xử lý, không có trong Media Pool"
+ },
+ "Nothing on any timeline uses these any more. Curve timelines are deleted from the project. Processed audio leaves the media pool, and its file goes to the Recycle Bin once no other project uses it. There's no Undo for this.": {
+  "日本語": "これらはもうどのタイムラインでも使われていません。カーブのタイムラインはプロジェクトから削除されます。処理済みオーディオはメディアプールから外され、ほかのプロジェクトで使われていなければファイルはごみ箱に移動します。この操作は元に戻せません。",
+  "Español": "Ninguna línea de tiempo los usa ya. Las líneas de tiempo de curva se eliminan del proyecto. El audio procesado sale del Media Pool y su archivo va a la Papelera de reciclaje cuando ningún otro proyecto lo usa. No se puede deshacer.",
+  "Deutsch": "Keine Timeline verwendet diese noch. Kurven-Timelines werden aus dem Projekt gelöscht. Bearbeitetes Audio verlässt den Media Pool, und seine Datei kommt in den Papierkorb, sobald kein anderes Projekt sie verwendet. Das lässt sich nicht rückgängig machen.",
+  "Français": "Plus aucune timeline ne les utilise. Les timelines de courbe sont supprimées du projet. L'audio traité quitte le Media Pool, et son fichier va dans la Corbeille dès qu'aucun autre projet ne l'utilise. Cette action est irréversible.",
+  "한국어": "이제 어떤 타임라인도 이 항목을 사용하지 않습니다. 커브 타임라인은 프로젝트에서 삭제됩니다. 처리된 오디오는 미디어 풀에서 빠지고, 다른 프로젝트에서 쓰지 않으면 파일은 휴지통으로 이동합니다. 되돌릴 수 없습니다.",
+  "中文": "已没有任何时间线使用这些内容。曲线时间线会从项目中删除。处理后的音频会移出媒体池，若没有其他项目使用，其文件会移到回收站。此操作无法撤销。",
+  "العربية": "لم يعد أي مخطط زمني يستخدم هذه العناصر. تُحذف المخططات الزمنية للمنحنيات من المشروع. ويخرج الصوت المعالَج من Media Pool، ويُنقل ملفه إلى سلة المحذوفات عندما لا يستخدمه أي مشروع آخر. لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Không còn timeline nào dùng các mục này. Timeline đường cong sẽ bị xóa khỏi dự án. Âm thanh đã xử lý được gỡ khỏi Media Pool, và tệp của nó vào Thùng rác khi không còn dự án nào khác dùng. Không thể hoàn tác."
+ },
+ "Some weren't removed": {
+  "日本語": "一部は削除されませんでした",
+  "Español": "Algunos no se quitaron",
+  "Deutsch": "Einige wurden nicht entfernt",
+  "Français": "Certains n'ont pas été retirés",
+  "한국어": "일부 항목은 제거되지 않았습니다",
+  "中文": "部分内容未被移除",
+  "العربية": "لم تتم إزالة بعض العناصر",
+  "Tiếng Việt": "Một số mục chưa được gỡ"
+ },
+ "One is in use again, or Resolve refused it.": {
+  "日本語": "1 件が再び使用されているか、Resolve に拒否されました。",
+  "Español": "Uno vuelve a estar en uso, o Resolve lo rechazó.",
+  "Deutsch": "Eines wird wieder verwendet, oder Resolve hat es abgelehnt.",
+  "Français": "Un élément est de nouveau utilisé, ou Resolve l'a refusé.",
+  "한국어": "1개 항목이 다시 사용 중이거나 Resolve가 거부했습니다.",
+  "中文": "有 1 项再次被使用，或被 Resolve 拒绝。",
+  "العربية": "عنصر واحد قيد الاستخدام مجددًا، أو رفضه Resolve.",
+  "Tiếng Việt": "Một mục đang được dùng lại, hoặc Resolve đã từ chối."
+ },
+ "{count} are in use again, or Resolve refused them.": {
+  "日本語": "{count} 件が再び使用されているか、Resolve に拒否されました。",
+  "Español": "{count} vuelven a estar en uso, o Resolve los rechazó.",
+  "Deutsch": "{count} werden wieder verwendet, oder Resolve hat sie abgelehnt.",
+  "Français": "{count} éléments sont de nouveau utilisés, ou Resolve les a refusés.",
+  "한국어": "{count}개 항목이 다시 사용 중이거나 Resolve가 거부했습니다.",
+  "中文": "有 {count} 项再次被使用，或被 Resolve 拒绝。",
+  "العربية": "{count} عناصر قيد الاستخدام مجددًا، أو رفضها Resolve.",
+  "Tiếng Việt": "{count} mục đang được dùng lại, hoặc Resolve đã từ chối."
+ },
+ "Tidied up 1 item": {
+  "日本語": "1 件を整理しました",
+  "Español": "Se ordenó 1 elemento",
+  "Deutsch": "1 Element aufgeräumt",
+  "Français": "1 élément nettoyé",
+  "한국어": "1개 항목을 정리했습니다",
+  "中文": "已整理 1 项",
+  "العربية": "تم ترتيب عنصر واحد",
+  "Tiếng Việt": "Đã dọn 1 mục"
+ },
+ "Tidied up {count} items": {
+  "日本語": "{count} 件を整理しました",
+  "Español": "Se ordenaron {count} elementos",
+  "Deutsch": "{count} Elemente aufgeräumt",
+  "Français": "{count} éléments nettoyés",
+  "한국어": "{count}개 항목을 정리했습니다",
+  "中文": "已整理 {count} 项",
+  "العربية": "تم ترتيب {count} عناصر",
+  "Tiếng Việt": "Đã dọn {count} mục"
+ },
+ "Couldn't look for unused audio": {
+  "日本語": "未使用のオーディオを探せませんでした",
+  "Español": "No se pudo buscar el audio sin usar",
+  "Deutsch": "Ungenutztes Audio konnte nicht gesucht werden",
+  "Français": "Impossible de rechercher l'audio inutilisé",
+  "한국어": "사용하지 않는 오디오를 찾지 못했습니다",
+  "中文": "无法查找未使用的音频",
+  "العربية": "تعذّر البحث عن الصوت غير المستخدم",
+  "Tiếng Việt": "Không thể tìm âm thanh không dùng"
+ },
+ "Couldn't tidy up": {
+  "日本語": "整理できませんでした",
+  "Español": "No se pudo ordenar",
+  "Deutsch": "Aufräumen fehlgeschlagen",
+  "Français": "Impossible de faire le ménage",
+  "한국어": "정리하지 못했습니다",
+  "中文": "无法整理",
+  "العربية": "تعذّر الترتيب",
+  "Tiếng Việt": "Không thể dọn dẹp"
+ },
+ "The audio files stayed where they are: {error}": {
+  "日本語": "オーディオファイルは元の場所に残っています: {error}",
+  "Español": "Los archivos de audio siguen donde estaban: {error}",
+  "Deutsch": "Die Audiodateien sind geblieben, wo sie sind: {error}",
+  "Français": "Les fichiers audio sont restés à leur place : {error}",
+  "한국어": "오디오 파일은 그대로 남아 있습니다: {error}",
+  "中文": "音频文件仍在原处：{error}",
+  "العربية": "بقيت الملفات الصوتية في مكانها: {error}",
+  "Tiếng Việt": "Các tệp âm thanh vẫn ở chỗ cũ: {error}"
+ },
+ "Ease in": {
+  "日本語": "イーズイン",
+  "Español": "Suavizar entrada",
+  "Deutsch": "Weich einblenden",
+  "Français": "Lissage entrant",
+  "한국어": "이즈 인",
+  "中文": "缓入",
+  "العربية": "تخفيف الدخول",
+  "Tiếng Việt": "Ease vào"
+ },
+ "Ease out": {
+  "日本語": "イーズアウト",
+  "Español": "Suavizar salida",
+  "Deutsch": "Weich ausblenden",
+  "Français": "Lissage sortant",
+  "한국어": "이즈 아웃",
+  "中文": "缓出",
+  "العربية": "تخفيف الخروج",
+  "Tiếng Việt": "Ease ra"
+ },
+ "Ease": {
+  "日本語": "イーズ",
+  "Español": "Suavizado",
+  "Deutsch": "Übergang",
+  "Français": "Lissage",
+  "한국어": "이즈",
+  "中文": "缓动",
+  "العربية": "التخفيف",
+  "Tiếng Việt": "Ease"
+ },
+ "Selected key": {
+  "日本語": "選択したキー",
+  "Español": "Clave seleccionada",
+  "Deutsch": "Ausgewählter Key",
+  "Français": "Clé sélectionnée",
+  "한국어": "선택한 키",
+  "中文": "所选关键帧",
+  "العربية": "المفتاح المحدد",
+  "Tiếng Việt": "Keyframe đã chọn"
+ },
+ "{count} selected keys": {
+  "日本語": "選択した {count} 個のキー",
+  "Español": "{count} claves seleccionadas",
+  "Deutsch": "{count} ausgewählte Keys",
+  "Français": "{count} clés sélectionnées",
+  "한국어": "선택한 키 {count}개",
+  "中文": "已选 {count} 个关键帧",
+  "العربية": "{count} مفاتيح محددة",
+  "Tiếng Việt": "{count} keyframe đã chọn"
+ },
+ "{count} keys": {
+  "日本語": "{count} 個のキー",
+  "Español": "{count} claves",
+  "Deutsch": "{count} Keys",
+  "Français": "{count} clés",
+  "한국어": "키 {count}개",
+  "中文": "{count} 个关键帧",
+  "العربية": "{count} مفاتيح",
+  "Tiếng Việt": "{count} keyframe"
+ },
+ "Delete {count} keys": {
+  "日本語": "{count} 個のキーを削除",
+  "Español": "Eliminar {count} claves",
+  "Deutsch": "{count} Keys löschen",
+  "Français": "Supprimer {count} clés",
+  "한국어": "키 {count}개 삭제",
+  "中文": "删除 {count} 个关键帧",
+  "العربية": "حذف {count} مفاتيح",
+  "Tiếng Việt": "Xóa {count} keyframe"
+ },
+ "Double-click the line on the clip to add a key, then drag it.": {
+  "日本語": "クリップ上のラインをダブルクリックしてキーを追加し、ドラッグします。",
+  "Español": "Haz doble clic en la línea del clip para añadir una clave y arrástrala.",
+  "Deutsch": "Doppelklicken Sie auf die Linie im Clip, um einen Key hinzuzufügen, und ziehen Sie ihn dann.",
+  "Français": "Double-cliquez sur la ligne du clip pour ajouter une clé, puis faites-la glisser.",
+  "한국어": "클립의 라인을 더블클릭해 키를 추가한 다음 드래그하세요.",
+  "中文": "双击片段上的线条添加关键帧，然后拖动它。",
+  "العربية": "انقر نقرًا مزدوجًا على الخط في المقطع لإضافة مفتاح، ثم اسحبه.",
+  "Tiếng Việt": "Nhấp đúp vào đường trên clip để thêm keyframe, rồi kéo nó."
+ },
+ "Ctrl-click keys to select several; right-click one to ease or delete them.": {
+  "日本語": "Ctrl を押しながらキーをクリックすると複数選択できます。右クリックでイーズの設定や削除ができます。",
+  "Español": "Ctrl+clic en las claves para seleccionar varias; clic derecho en una para suavizarlas o eliminarlas.",
+  "Deutsch": "Mit Strg-Klick wählen Sie mehrere Keys aus; ein Rechtsklick auf einen stellt ihren Übergang ein oder löscht sie.",
+  "Français": "Ctrl-clic sur les clés pour en sélectionner plusieurs ; clic droit sur l'une pour les lisser ou les supprimer.",
+  "한국어": "Ctrl 키를 누른 채 키를 클릭하면 여러 개를 선택할 수 있고, 하나를 오른쪽 클릭하면 이즈를 지정하거나 삭제할 수 있습니다.",
+  "中文": "按住 Ctrl 单击关键帧可多选；右键单击其中一个可设置缓动或删除。",
+  "العربية": "انقر مع Ctrl على المفاتيح لتحديد عدة مفاتيح؛ وانقر بزر الماوس الأيمن على أحدها لتخفيفها أو حذفها.",
+  "Tiếng Việt": "Ctrl-nhấp các keyframe để chọn nhiều; nhấp chuột phải vào một cái để đặt ease hoặc xóa chúng."
+ },
+ "Buddy can read only the first channel of this file, and the clip plays channel {channel}.": {
+  "日本語": "Buddy はこのファイルの最初のチャンネルしか読み込めませんが、クリップはチャンネル {channel} を再生しています。",
+  "Español": "Buddy solo puede leer el primer canal de este archivo, y el clip reproduce el canal {channel}.",
+  "Deutsch": "Buddy kann nur den ersten Kanal dieser Datei lesen, und der Clip spielt Kanal {channel}.",
+  "Français": "Buddy ne peut lire que le premier canal de ce fichier, et le clip joue le canal {channel}.",
+  "한국어": "Buddy는 이 파일의 첫 번째 채널만 읽을 수 있는데, 클립은 채널 {channel}을(를) 재생합니다.",
+  "中文": "Buddy 只能读取此文件的第一个声道，而该片段播放的是声道 {channel}。",
+  "العربية": "لا يستطيع Buddy قراءة سوى القناة الأولى من هذا الملف، والمقطع يشغّل القناة {channel}.",
+  "Tiếng Việt": "Buddy chỉ đọc được kênh đầu tiên của tệp này, còn clip phát kênh {channel}."
+ },
+ "Buddy can read only the first {count} channels of this file, and the clip plays channel {channel}.": {
+  "日本語": "Buddy はこのファイルの最初の {count} チャンネルしか読み込めませんが、クリップはチャンネル {channel} を再生しています。",
+  "Español": "Buddy solo puede leer los primeros {count} canales de este archivo, y el clip reproduce el canal {channel}.",
+  "Deutsch": "Buddy kann nur die ersten {count} Kanäle dieser Datei lesen, und der Clip spielt Kanal {channel}.",
+  "Français": "Buddy ne peut lire que les {count} premiers canaux de ce fichier, et le clip joue le canal {channel}.",
+  "한국어": "Buddy는 이 파일의 처음 {count}개 채널만 읽을 수 있는데, 클립은 채널 {channel}을(를) 재생합니다.",
+  "中文": "Buddy 只能读取此文件的前 {count} 个声道，而该片段播放的是声道 {channel}。",
+  "العربية": "لا يستطيع Buddy قراءة سوى أول {count} قنوات من هذا الملف، والمقطع يشغّل القناة {channel}.",
+  "Tiếng Việt": "Buddy chỉ đọc được {count} kênh đầu tiên của tệp này, còn clip phát kênh {channel}."
  }
 }

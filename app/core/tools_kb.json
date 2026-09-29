@@ -16,13 +16,22 @@
       "needs_resolve": false,
       "capabilities": [
         "Hybrid semantic + keyword search over the DaVinci Resolve 21 Reference Manual, citing chapter and page for every claim",
-        "Click a citation to open the manual PDF at that page; save, search and rename local conversations",
+        "Click a citation to open the manual PDF at that page; save, search, rename and delete local conversations (one at a time, or all of them)",
         "Reads the currently open Resolve project read-only: timeline frame rate and resolution, colour management settings, track counts, selected clip properties",
         "Checks the current timeline for format mismatches and missing local media paths, and explains the selected clip or clip under the playhead",
         "Uses the detected Free or Studio edition for every question when connected to Resolve",
         "Points you at whichever other Buddy tool automates what you are asking about",
         "Runs on the AI model you choose in Settings > Ask Buddy: Google Gemini, Anthropic Claude, OpenAI, OpenRouter, Groq or Azure OpenAI in the cloud; Ollama, llama.cpp's llama-server (started with --jinja) or LM Studio on your own computer or network; or any other OpenAI-compatible endpoint. Test connection checks the key, the model and that it can call tools"
       ]
+    },
+    "audit": {
+      "name": "Audit",
+      "summary": "A new main tab of its own. Only the page is there so far - what it checks is still being built.",
+      "needs_resolve": false,
+      "capabilities": [
+        "Nothing yet - the page is in place and its tools are still being built"
+      ],
+      "notes": "Until it has tools, point people wanting their timeline checked at Ask Buddy's Check project button."
     },
     "project_setup": {
       "name": "Project Setup",
@@ -123,7 +132,7 @@
       "capabilities": [
         "Timeline tab: mirrors the open timeline's audio tracks - each clip where it sits, named, in its clip colour, with disabled clips and tracks dimmed, crossfades shown, and the track's name, type (mono, stereo, adaptive) and lock shown",
         "Draws each clip's waveform from its media file in grey, and over it in blue the same wave through the clip's volume and fades - red where it would go over 0 dBFS",
-        "Zoom (buttons or Ctrl + scroll) and scroll along the timeline; the playhead and markers are shown, and clicking or dragging on the ruler moves Resolve's playhead",
+        "Zoom (buttons or Alt + scroll, as in Resolve) and scroll along the timeline; the playhead and markers are shown, and clicking or dragging on the ruler moves Resolve's playhead",
         "Select clips by clicking them (Ctrl/Shift for several), clicking a track's name for all its clips, or selecting them in Resolve",
         "Levels: set the clip volume (or change several clips' by the same amount), pan and fade in/out - with the controls, or by dragging the selected clip's yellow volume line and fade handles on the timeline (Shift for fine steps)",
         "Loudness: integrated LUFS (BS.1770, measured by Buddy from the files, through the clip volume and fades) and peak level, live as the volume changes",

@@ -30,6 +30,11 @@
 .browser-row[hidden] { display: none; }
 .browser-row .field { flex: 1; min-width: 0; }
 .chat-results { display: flex; flex-direction: column; gap: 4px; }
+.chat-row { display: flex; align-items: flex-start; gap: 4px; }
+.chat-row .chat-result { flex: 1; min-width: 0; }
+.chat-row .chat-delete { flex: none; opacity: .55; }
+.chat-row:hover .chat-delete, .chat-row .chat-delete:focus { opacity: 1; }
+.chat-row .chat-delete:hover:not(:disabled) { background: var(--danger-bg); color: var(--danger-fg); }
 .chat-result { width: 100%; display: flex; flex-wrap: wrap; gap: 6px 12px;
     align-items: baseline; text-align: left; padding: 6px 8px; border: 0;
     border-radius: var(--r-sm); background: transparent; color: var(--text-strong); cursor: pointer; }

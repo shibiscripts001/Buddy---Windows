@@ -3,6 +3,7 @@ conversation.py) - what the web view draws and what the model is re-sent.
 No Qt."""
 
 import json
+import os
 import random
 import tempfile
 import unittest
@@ -86,6 +87,80 @@ class SessionTests(unittest.TestCase):
         self.assertEqual(restored.summaries("resolution")[0]["title"], "Soft footage")
         self.assertEqual(restored.chats[0].blocks[1]["images"], ["data:image/jpeg;base64,YQ=="])
         self.assertEqual(restored.chats[0].history[0]["content"], "How do I fix a soft shot?")
+
+    def _three_chats(self):
+        chats = ChatSessions()
+        for question in ("first", "second", "third"):
+            chats.add(YOU, question)
+            chats.new_chat()
+        chats.go(1)                     # on "second"; an empty fourth is last
+        return chats
+
+    def test_deleting_another_chat_keeps_the_open_one(self):
+        chats = self._three_chats()
+        self.assertTrue(chats.delete(0))
+        self.assertEqual(chats.current.title, "second")
+        self.assertEqual([c.title for c in chats.chats], ["second", "third", "New chat"])
+        self.assertTrue(chats.delete(2))
+        self.assertEqual(chats.current.title, "second")
+
+    def test_deleting_the_open_chat_opens_the_next_or_the_one_before(self):
+        chats = self._three_chats()
+        chats.delete(1)
+        self.assertEqual(chats.current.title, "third")
+        chats.go(len(chats.chats) - 1)
+        chats.delete(chats.index)       # the last one: the one before takes over
+        self.assertEqual(chats.current.title, "third")
+
+    def test_deleting_the_only_chat_leaves_a_fresh_one(self):
+        chats = ChatSessions()
+        chats.add(YOU, "only")
+        self.assertTrue(chats.delete(0))
+        self.assertEqual((len(chats.chats), chats.index), (1, 0))
+        self.assertTrue(chats.is_empty())
+        self.assertEqual([b["body"] for b in chats.blocks], [WELCOME])
+
+    def test_deleting_a_chat_that_isnt_there_does_nothing(self):
+        chats = self._three_chats()
+        for index in (-1, 4, "1", None):
+            self.assertFalse(chats.delete(index))
+        self.assertEqual(len(chats.chats), 4)
+
+    def test_delete_all_leaves_one_empty_chat(self):
+        chats = self._three_chats()
+        chats.delete_all()
+        self.assertEqual((len(chats.chats), chats.index), (1, 0))
+        self.assertTrue(chats.is_empty())
+        self.assertEqual(chats.summaries("first"), [])
+
+    def test_a_deleted_chat_does_not_live_on_in_the_backup(self):
+        chats = self._three_chats()
+        with tempfile.TemporaryDirectory() as folder:
+            chat_store.save(folder, chats)
+            chat_store.save(folder, chats)          # a .bak now holds all three
+            chats.delete(0)
+            chat_store.save(folder, chats, forget_backup=True)
+            names = os.listdir(folder)
+            restored, _warnings = chat_store.load(folder)
+            with open(os.path.join(folder, chat_store.FILE_NAME), encoding="utf-8") as fh:
+                saved = fh.read()
+        self.assertEqual(names, [chat_store.FILE_NAME])
+        self.assertNotIn('"first"', saved)
+        self.assertEqual([c.title for c in restored.chats], ["second", "third", "New chat"])
+
+    def test_erase_removes_the_file_its_backup_and_damaged_copies(self):
+        with tempfile.TemporaryDirectory() as folder:
+            chat_store.save(folder, self._three_chats())
+            chat_store.save(folder, self._three_chats())
+            with open(os.path.join(folder, chat_store.FILE_NAME + ".corrupt-1"), "w") as fh:
+                fh.write("{")
+            with open(os.path.join(folder, "instructions.md"), "w") as fh:
+                fh.write("keep me")
+            chat_store.erase(folder)
+            self.assertEqual(os.listdir(folder), ["instructions.md"])
+            restored, _warnings = chat_store.load(folder)
+        self.assertTrue(restored.is_empty())
+        chat_store.erase(os.path.join(folder, "gone"))     # no folder: nothing to do
 
     def test_starts_with_the_welcome(self):
         chats = ChatSessions()

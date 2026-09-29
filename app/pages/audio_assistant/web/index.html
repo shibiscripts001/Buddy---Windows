@@ -16,6 +16,8 @@
         <h1 class="page-title">Audio Assistant</h1>
         <span class="timeline" id="timeline"></span>
         <button type="button" class="btn ghost icon" data-action="refresh" id="refresh" title="Read the timeline again"></button>
+        <button type="button" class="btn ghost" data-action="tidy_scan" id="tidy"
+                title="Find the audio Buddy made that nothing uses any more">Tidy up…</button>
     </header>
 
     <nav class="tabs" role="tablist" id="tabs">
@@ -32,9 +34,9 @@
         <section class="card tl-card" id="tl-card" hidden>
             <div class="row tl-bar">
                 <div class="segmented" role="group" aria-label="Zoom">
-                    <button type="button" id="zoom-out" title="Zoom out (Ctrl + scroll)">−</button>
+                    <button type="button" id="zoom-out" title="Zoom out (Alt + scroll)">−</button>
                     <button type="button" id="zoom-fit" title="Fit the whole timeline">Fit</button>
-                    <button type="button" id="zoom-in" title="Zoom in (Ctrl + scroll)">+</button>
+                    <button type="button" id="zoom-in" title="Zoom in (Alt + scroll)">+</button>
                 </div>
                 <span class="legend"><i class="swatch file"></i>File</span>
                 <span class="legend"><i class="swatch mixed"></i>As heard, with the volume and fades</span>
@@ -55,5 +57,6 @@
     </section>
 </main>
 <script src="timeline.js"></script>
+<script src="tidy.js"></script>
 </body>
 </html>

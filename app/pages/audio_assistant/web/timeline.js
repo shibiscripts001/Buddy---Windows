@@ -20,7 +20,12 @@
  *
  * A volume curve is keys on the selected clip's line: double-click to add
  * one, drag a key (Shift: one way only) or a stretch between two, the grip to
- * move the whole line; right-click a key to ease it or delete it. The keys
+ * move the whole line. Click a key to select it, Ctrl-click for more (Shift
+ * stays the drag's axis lock), Ctrl+A for all: a drag moves the selected keys
+ * together, and the right-click
+ * menu, the Curve panel and Delete act on all of them. Each key has its own
+ * ease, as Resolve names them: Linear, Ease in, Ease out, Ease in and out (the
+ * key's shape shows which). The keys
  * are a draft (DRAFT, as heard) until Apply sends them - page.py makes them
  * Resolve keyframes. A clip's keys (keys.py) are file times: {t, db, ease};
  * curveDb() is keys.py's curve_db(). A Buddy curve clip is heard at its keys
@@ -45,7 +50,8 @@ let ppf = 0, fit = true, LOADING = 0;
 const HOLD = {};                      // clip id -> performance.now() until which live reads leave it alone
 const GEOM = {};                      // clip id -> where it was last drawn, for the handles
 // The curve being drawn: {id, keys (as heard), applying, applied: the new clip's id}, or null.
-let DRAFT = null, KEYSEL = null;      // KEYSEL: the key picked, {id: its clip, i: in shownKeys()}
+// KEYSEL: the selected keys, {id: their clip, picked: Set of indices in shownKeys()}, or null.
+let DRAFT = null, KEYSEL = null;
 
 $("refresh").append(icon("refresh"));
 for (const node of document.querySelectorAll("[data-action]")) {
@@ -125,8 +131,16 @@ function peakCode(peak, clip, fa, fb) {
 
 // --------------------------------------------------------------- curve --
 
+/* A key's ease (keys.py's): false Linear, "in" Ease in (flat arriving), "out"
+   Ease out (flat leaving), true Ease in and out - what older curves saved. */
+const EASES = [{value: false, label: "Linear"}, {value: "in", label: "Ease in"},
+               {value: "out", label: "Ease out"}, {value: true, label: "Ease in and out"}];
+const easeOf = v => v === true || v === "in" || v === "out" ? v : false;
+const easesIn = k => k.ease === true || k.ease === "in";
+const easesOut = k => k.ease === true || k.ease === "out";
+
 /* keys.py's curve_db: the dB the keys give at file time t. Straight between
-   two keys, curving to flat next to an eased one. */
+   two keys, curving to flat on a side where a key eases. */
 function curveDb(keys, t) {
     const n = keys.length;
     if (!n) return 0;
@@ -136,7 +150,7 @@ function curveDb(keys, t) {
     while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (keys[mid].t <= t) lo = mid; else hi = mid; }
     const a = keys[lo], b = keys[hi];
     const u = clamp((t - a.t) / Math.max(b.t - a.t, 1e-9), 0, 1), u2 = u * u, u3 = u2 * u;
-    const chord = b.db - a.db, ma = a.ease ? 0 : chord, mb = b.ease ? 0 : chord;
+    const chord = b.db - a.db, ma = easesOut(a) ? 0 : chord, mb = easesIn(b) ? 0 : chord;
     return (2 * u3 - 3 * u2 + 1) * a.db + (u3 - 2 * u2 + u) * ma + (-2 * u3 + 3 * u2) * b.db + (u3 - u2) * mb;
 }
 
@@ -172,7 +186,7 @@ function fadeAt(clip, frame) {
    the -70 gate reads raw, so a clip turned right down still measures}.
    levels.py's clip_blocks() is the same sum. */
 function gatingBlocks(clip) {
-    const peak = clip.media ? PEAKS[clip.media.key] : null;
+    const peak = clip.peaks ? PEAKS[clip.peaks] : null;      // its file, for the channels it plays
     if (!peak || !peak.loud) return null;
     const block = OPTIONS.loud_block || 0.1;
     const first = Math.max(0, Math.floor(clip.offset / block));
@@ -210,7 +224,7 @@ function lufs(clips) {
 function peakDb(clips) {
     let best = null;
     for (const clip of clips) {
-        const peak = clip.media ? PEAKS[clip.media.key] : null;
+        const peak = clip.peaks ? PEAKS[clip.peaks] : null;      // its file, for the channels it plays
         if (!peak || !peak.codes) continue;
         const keys = heardKeys(clip);
         if (!keys) {
@@ -264,9 +278,12 @@ function placeHead() {
 $("zoom-in").onclick = () => setZoom(ppf * 1.6, scroller.clientWidth / 2);
 $("zoom-out").onclick = () => setZoom(ppf / 1.6, scroller.clientWidth / 2);
 $("zoom-fit").onclick = () => setZoom(0, 0);
+// Alt + scroll zooms around the mouse, as on Resolve's own timeline. Ctrl + scroll
+// (what zoomed before) is still swallowed here, so it can't zoom the whole page.
 scroller.addEventListener("wheel", e => {
-    if (!e.ctrlKey || !TL) return;
+    if (!TL || !(e.altKey || e.ctrlKey)) return;
     e.preventDefault();
+    if (!e.altKey) return;
     setZoom(ppf * Math.pow(1.0015, -e.deltaY), e.clientX - scroller.getBoundingClientRect().left);
 }, {passive: false});
 scroller.addEventListener("scroll", () => requestDraw());
@@ -398,7 +415,7 @@ function drawClip(c, clip, x0, x1, top, height, w) {
     // The waveform, under the name.
     const wTop = top + 16, wBottom = top + height - 3;
     const mid = (wTop + wBottom) / 2, half = (wBottom - wTop) / 2;
-    const peak = clip.media ? PEAKS[clip.media.key] : null;
+    const peak = clip.peaks ? PEAKS[clip.peaks] : null;      // its file, for the channels it plays
     if (peak && peak.codes && cw > 0) {
         // One outline per wave, filled once: a canvas call per pixel column
         // cost ~30 ms a frame to paint on 11on12.
@@ -484,15 +501,7 @@ function drawClip(c, clip, x0, x1, top, height, w) {
                 const f = frameOfT(clip, k.t), x = xOf(f), y = lineY(f);
                 if (x < x0 - 1 || x > x1 + 1) continue;
                 g.keys.push({i, x, y});
-                const picked = KEYSEL && KEYSEL.id === clip.id && KEYSEL.i === i;
-                ctx.beginPath();
-                if (k.ease) ctx.arc(x, y, KEY_R, 0, 2 * Math.PI);
-                else { ctx.moveTo(x, y - KEY_R - 1); ctx.lineTo(x + KEY_R + 1, y); ctx.lineTo(x, y + KEY_R + 1); ctx.lineTo(x - KEY_R - 1, y); ctx.closePath(); }
-                ctx.fillStyle = picked ? "#FFFFFF" : LINE;
-                ctx.fill();
-                ctx.strokeStyle = "rgba(0,0,0,.55)";
-                ctx.lineWidth = 1;
-                ctx.stroke();
+                drawKey(x, y, k.ease, isPicked(clip, i));
             }
             if (xOut - xIn > 70) {
                 const gx = Math.round(Math.min(xOut, w) - 18), gy = Math.round(lineY(frameAt(gx)));
@@ -548,6 +557,45 @@ function commit(label, ids, request) {
     send("set_levels", Object.assign({label, ids: [...ids]}, request));
 }
 
+/* A key, its shape its ease: a diamond Linear, a circle Ease in and out, and
+   round on one side only - the side it eases - for Ease in (left, arriving)
+   or Ease out (right, leaving). A selected one is bigger, white with an
+   orange ring, on a glow, so a few picked among many stand out. */
+function drawKey(x, y, ease, picked) {
+    const r = picked ? KEY_R + 1.5 : KEY_R;
+    ctx.save();
+    if (picked) {
+        ctx.beginPath();
+        ctx.arc(x, y, r + 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(242,163,58,.35)";
+        ctx.fill();
+    }
+    ctx.beginPath();
+    ease = easeOf(ease);
+    if (ease === true) {
+        ctx.arc(x, y, r, 0, 2 * Math.PI);
+    } else if (ease === "in") {
+        ctx.moveTo(x, y - r);
+        ctx.arc(x, y, r, -Math.PI / 2, Math.PI / 2, true);      // round through the left
+        ctx.lineTo(x + r + 1, y);
+        ctx.closePath();
+    } else if (ease === "out") {
+        ctx.moveTo(x, y - r);
+        ctx.arc(x, y, r, -Math.PI / 2, Math.PI / 2, false);     // round through the right
+        ctx.lineTo(x - r - 1, y);
+        ctx.closePath();
+    } else {
+        ctx.moveTo(x, y - r - 1); ctx.lineTo(x + r + 1, y); ctx.lineTo(x, y + r + 1); ctx.lineTo(x - r - 1, y);
+        ctx.closePath();
+    }
+    ctx.fillStyle = picked ? "#FFFFFF" : LINE;
+    ctx.fill();
+    ctx.strokeStyle = picked ? SELECTED : "rgba(0,0,0,.55)";
+    ctx.lineWidth = picked ? 2 : 1;
+    ctx.stroke();
+    ctx.restore();
+}
+
 /* The draft for a clip, started from the keys it's heard at - or null, having
    said why (another clip's curve isn't applied yet). */
 function draftFor(clip) {
@@ -557,13 +605,41 @@ function draftFor(clip) {
         return null;
     }
     // The same keys in the same order, so a key picked before stays picked.
-    DRAFT = {id: clip.id, keys: (heardKeys(clip) || []).map(k => ({t: k.t, db: k.db, ease: !!k.ease}))};
+    DRAFT = {id: clip.id, keys: (heardKeys(clip) || []).map(k => ({t: k.t, db: k.db, ease: easeOf(k.ease)}))};
     return DRAFT;
 }
 
 /* The keys drawn on a clip, in the order KEYSEL counts them. */
 const shownKeys = clip => DRAFT && DRAFT.id === clip.id ? DRAFT.keys : heardKeys(clip) || [];
-const pickedKey = clip => KEYSEL && KEYSEL.id === clip.id ? shownKeys(clip)[KEYSEL.i] || null : null;
+
+/* The selected keys' indices on a clip, in order (only ones it still has). */
+function pickedOf(clip) {
+    if (!KEYSEL || KEYSEL.id !== clip.id) return [];
+    const n = shownKeys(clip).length;
+    return [...KEYSEL.picked].filter(i => i >= 0 && i < n).sort((a, b) => a - b);
+}
+const isPicked = (clip, i) => !!KEYSEL && KEYSEL.id === clip.id && KEYSEL.picked.has(i);
+const pickOnly = (clip, indices) => { KEYSEL = indices.length ? {id: clip.id, picked: new Set(indices)} : null; };
+
+/* A key clicked with Ctrl/Shift: in or out of the selection. */
+function togglePick(clip, i) {
+    const picked = new Set(pickedOf(clip));
+    if (picked.has(i)) picked.delete(i); else picked.add(i);
+    pickOnly(clip, [...picked]);
+}
+
+/* One ease for the selected keys (the right-click menu, the Curve panel). */
+function setEase(clip, value) {
+    const which = pickedOf(clip);
+    if (which.length) editKeys(clip, keys => { for (const i of which) keys[i].ease = value; });
+}
+
+/* What the selected keys share - their ease, their level - or undefined where they differ. */
+function commonKey(clip, field) {
+    const keys = shownKeys(clip), which = pickedOf(clip);
+    const values = which.map(i => field === "ease" ? easeOf(keys[i].ease) : keys[i][field]);
+    return values.length && values.every(v => v === values[0]) ? values[0] : undefined;
+}
 
 /* fn(keys) on a clip's draft, started now if need be: false if it can't be. */
 function editKeys(clip, fn) {
@@ -583,13 +659,18 @@ function addKey(clip, frame) {
     editKeys(clip, keys => {
         keys.push({t, db, ease: false});
         keys.sort((a, b) => a.t - b.t);
-        KEYSEL = {id: clip.id, i: keys.findIndex(k => k.t === t)};
+        pickOnly(clip, [keys.findIndex(k => k.t === t)]);
     });
 }
 
-function deleteKey(clip, i) {
-    if (!shownKeys(clip)[i]) return;
-    editKeys(clip, keys => { keys.splice(i, 1); KEYSEL = null; });
+/* The selected keys go. */
+function deleteKeys(clip) {
+    const which = pickedOf(clip);
+    if (!which.length) return;
+    editKeys(clip, keys => {
+        for (const i of which.slice().reverse()) keys.splice(i, 1);
+        KEYSEL = null;
+    });
 }
 
 function draftChanged() {
@@ -687,9 +768,19 @@ canvas.addEventListener("mousedown", e => {
         const clip = CLIPS[handle.id];
         if (handle.kind === "grip") handle.kind = lineDrag(clip);
         if (["key", "segment", "shift"].includes(handle.kind)) {
-            // The draft starts with the first move: a click only picks a key.
-            if (handle.kind === "key") KEYSEL = {id: clip.id, i: handle.index};
-            DRAG = Object.assign(handle, {ids: [clip.id], x0: x, y0: y, g: GEOM[clip.id],
+            // The draft starts with the first move: a click only picks. Ctrl-click (Cmd on a
+            // Mac) adds a key to the selection or takes it out - Shift is the drag's axis lock.
+            if (handle.kind === "key") {
+                if (e.ctrlKey || e.metaKey) {
+                    togglePick(clip, handle.index);
+                    requestDraw();
+                    syncInspector();
+                    e.preventDefault();
+                    return;
+                }
+                if (!isPicked(clip, handle.index)) pickOnly(clip, [handle.index]);
+            }
+            DRAG = Object.assign(handle, {ids: [clip.id], x0: x, y0: y, g: GEOM[clip.id], picked: pickedOf(clip),
                                           keys0: shownKeys(clip).map(k => Object.assign({}, k))});
             requestDraw();
             syncInspector();
@@ -704,6 +795,10 @@ canvas.addEventListener("mousedown", e => {
     }
     const clip = clipAt(x, y);
     const add = e.ctrlKey || e.shiftKey || e.metaKey;
+    if (KEYSEL && !add) {               // a click off the keys lets them go
+        KEYSEL = null;
+        syncInspector();
+    }
     if (clip && add) {
         if (SEL.has(clip.id)) SEL.delete(clip.id); else SEL.add(clip.id);
     } else if (clip) {
@@ -769,17 +864,27 @@ function dragKeys(clip, x, y, lock) {
     const dy = dbAtY(y, g.wTop, g.wBottom) - dbAtY(d.y0, g.wTop, g.wBottom);
     const step = v => Math.round(clamp(v, -100, 30) * 10) / 10;
     if (d.kind === "key") {
+        // Every selected key moves as the one held does. In time, as far as the
+        // tightest of them can go: none passes a key that isn't selected, or the clip's ends.
         if (lock && !d.axis && Math.hypot(x - d.x0, y - d.y0) > 4) d.axis = Math.abs(x - d.x0) > Math.abs(y - d.y0) ? "x" : "y";
-        const k0 = d.keys0[d.index], k = keys[d.index];
-        if (!lock || d.axis !== "x") k.db = step(k0.db + dy);
-        else k.db = k0.db;
+        const moving = d.picked.length ? d.picked : [d.index], set = new Set(moving);
+        const frameOf = i => Math.round(frameOfT(clip, d.keys0[i].t));
+        let shift = 0;
         if (!lock || d.axis !== "y") {
-            const frame = Math.round(frameOfT(clip, k0.t) + (x - d.x0) / ppf);
-            const lo = d.index > 0 ? Math.round(frameOfT(clip, d.keys0[d.index - 1].t)) + 1 : clip.start;
-            const hi = d.index < keys.length - 1 ? Math.round(frameOfT(clip, d.keys0[d.index + 1].t)) - 1 : clip.end;
-            k.t = +tOf(clip, clamp(frame, lo, hi)).toFixed(6);
-        } else {
-            k.t = k0.t;
+            let lo = -Infinity, hi = Infinity;
+            for (const i of moving) {
+                let before = i - 1, after = i + 1;
+                while (before >= 0 && set.has(before)) before--;
+                while (after < keys.length && set.has(after)) after++;
+                lo = Math.max(lo, (before >= 0 ? frameOf(before) + 1 : clip.start) - frameOf(i));
+                hi = Math.min(hi, (after < keys.length ? frameOf(after) - 1 : clip.end) - frameOf(i));
+            }
+            shift = clamp(Math.round((x - d.x0) / ppf), Math.min(0, lo), Math.max(0, hi));
+        }
+        for (const i of moving) {
+            const k0 = d.keys0[i], k = keys[i];
+            k.db = !lock || d.axis !== "x" ? step(k0.db + dy) : k0.db;
+            k.t = shift ? +tOf(clip, frameOf(i) + shift).toFixed(6) : k0.t;
         }
     } else {
         // The keys either side of the stretch (only the one, before the first or after the last), or all.
@@ -809,14 +914,15 @@ canvas.addEventListener("contextmenu", e => {
     if (handle && handle.kind === "key") {
         e.preventDefault();
         const c = CLIPS[handle.id], i = handle.index;
-        KEYSEL = {id: c.id, i};
+        if (!isPicked(c, i)) pickOnly(c, [i]);          // a key outside the selection: just that one
         draftChanged();
-        const eased = !!shownKeys(c)[i].ease;
+        const n = pickedOf(c).length, now = commonKey(c, "ease");
         Buddy.menu({x: e.clientX, y: e.clientY, items: [
-            {label: eased ? "Straight, no ease" : "Ease in and out", onClick: () => editKeys(c, keys => { keys[i].ease = !eased; })},
+            n > 1 ? {heading: `${n} keys`} : null,
+            ...EASES.map(ease => ({label: ease.label, checked: now === ease.value, onClick: () => setEase(c, ease.value)})),
             {sep: true},
-            {label: "Delete key", danger: true, onClick: () => deleteKey(c, i)},
-        ]});
+            {label: n > 1 ? `Delete ${n} keys` : "Delete key", danger: true, onClick: () => deleteKeys(c)},
+        ].filter(Boolean)});
     } else if (clip && SEL.size === 1 && SEL.has(clip.id)) {
         e.preventDefault();
         const frame = frameAt(e.offsetX);
@@ -839,7 +945,17 @@ addEventListener("keydown", e => {
     if (e.target.closest("input, select, textarea")) return;
     if ((e.key === "Delete" || e.key === "Backspace") && KEYSEL && CLIPS[KEYSEL.id]) {
         e.preventDefault();
-        return deleteKey(CLIPS[KEYSEL.id], KEYSEL.i);
+        return deleteKeys(CLIPS[KEYSEL.id]);
+    }
+    // Ctrl+A (Cmd+A): every key on the clip whose line is shown.
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "a" && SEL.size === 1) {
+        const clip = CLIPS[[...SEL][0]];
+        const n = clip ? shownKeys(clip).length : 0;
+        if (n) {
+            e.preventDefault();
+            pickOnly(clip, [...Array(n).keys()]);
+            return draftChanged();
+        }
     }
     if (e.key === "Escape" && KEYSEL) {
         KEYSEL = null;
@@ -1100,23 +1216,27 @@ function renderInspector() {
     syncInspector(true);
 }
 
-/* The Curve group: what the clip's keys are, and - while there's a draft - the
-   picked key's level and ease, Apply and Discard. */
+/* The Curve group: what the clip's keys are, and - for the selected keys - their
+   level and ease, and Apply and Discard. With several selected, a level typed
+   sets them all; the field is blank (and the ease "Mixed") where they differ. */
 function curveGroup(I, clip) {
     I.curveText = el("p.muted.small.hint");
+    I.keyLabel = el("span.ctl-label");
     I.keyDb = number(0.1, -100, 30);
-    I.keyEase = el("input", {type: "checkbox"});
-    I.keyRow = el("div.ctl", {}, [el("span.ctl-label", {text: "Picked key"}), el("div.ctl-body", {}, [
-        I.keyDb, el("span.unit", {text: "dB"}), el("label.check", {}, [I.keyEase, " Ease in and out"]),
-        el("button.btn.ghost", {type: "button", text: "Delete", onclick: () => KEYSEL && deleteKey(clip, KEYSEL.i)})])]);
+    I.keyEase = el("select.field.ease-pick", {"aria-label": "Ease"}, [
+        el("option", {value: "mixed", text: "Mixed", disabled: true}),
+        ...EASES.map((ease, i) => el("option", {value: String(i), text: ease.label}))]);
+    I.keyRow = el("div.ctl", {}, [I.keyLabel, el("div.ctl-body", {}, [
+        I.keyDb, el("span.unit", {text: "dB"}), I.keyEase,
+        el("button.btn.ghost", {type: "button", text: "Delete", onclick: () => deleteKeys(clip)})])]);
     I.keyDb.addEventListener("change", () => {
-        const v = Number(I.keyDb.value), i = KEYSEL && KEYSEL.i;
-        if (!pickedKey(clip) || !isFinite(v) || I.keyDb.value === "") return syncInspector(true);
-        editKeys(clip, keys => { keys[i].db = clamp(Math.round(v * 10) / 10, -100, 30); });
+        const v = Number(I.keyDb.value), which = pickedOf(clip);
+        if (!which.length || !isFinite(v) || I.keyDb.value === "") return syncInspector(true);
+        editKeys(clip, keys => { for (const i of which) keys[i].db = clamp(Math.round(v * 10) / 10, -100, 30); });
     });
     I.keyEase.addEventListener("change", () => {
-        const i = KEYSEL && KEYSEL.i, on = I.keyEase.checked;
-        if (pickedKey(clip)) editKeys(clip, keys => { keys[i].ease = on; });
+        const ease = EASES[Number(I.keyEase.value)];
+        if (ease) setEase(clip, ease.value);
         syncInspector(true);
     });
     I.apply = el("button.btn.accent", {type: "button", text: "Apply", onclick: applyDraft});
@@ -1148,15 +1268,21 @@ function syncCurve(I, clip) {
         text = [n === 1 ? "1 keyframe from Resolve sets this clip's volume." : `${n} keyframes from Resolve set this clip's volume.`,
                 "Change the line here and Apply to replace them – the clip is kept, turned off."];
     } else {
-        text = ["Double-click the line on the clip to add a key, then drag it. Right-click a key to ease it.",
+        text = ["Double-click the line on the clip to add a key, then drag it.",
+                "Ctrl-click keys to select several; right-click one to ease or delete them.",
                 "Apply makes the keys Resolve keyframes."];
     }
     I.curveText.replaceChildren(...text.filter(Boolean).flatMap((s, i) => i ? [" ", el("span", {text: s})] : [el("span", {text: s})]));
-    const key = pickedKey(clip);
-    I.keyRow.hidden = !key;
-    if (key) {
-        if (document.activeElement !== I.keyDb) I.keyDb.value = key.db.toFixed(1);
-        I.keyEase.checked = !!key.ease;
+    const picked = pickedOf(clip).length;
+    I.keyRow.hidden = !picked;
+    if (picked) {
+        I.keyLabel.textContent = picked === 1 ? "Selected key" : `${picked} selected keys`;
+        const db = commonKey(clip, "db"), ease = commonKey(clip, "ease");
+        if (document.activeElement !== I.keyDb) {
+            I.keyDb.value = db === undefined ? "" : db.toFixed(1);
+            I.keyDb.placeholder = db === undefined ? "Mixed" : "";
+        }
+        I.keyEase.value = ease === undefined ? "mixed" : String(EASES.findIndex(e => e.value === ease));
     }
     I.apply.hidden = I.discard.hidden = !draft;
     I.apply.disabled = I.discard.disabled = !!(draft && draft.applying);

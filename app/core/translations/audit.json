@@ -1,0 +1,33 @@
+{
+ "_comment": "Audit. English -> each language; see core/i18n.py.",
+ "Audit": {
+  "日本語": "監査",
+  "Español": "Auditoría",
+  "Deutsch": "Prüfung",
+  "Français": "Audit",
+  "한국어": "감사",
+  "中文": "审核",
+  "العربية": "تدقيق",
+  "Tiếng Việt": "Kiểm tra"
+ },
+ "Coming soon": {
+  "日本語": "近日公開",
+  "Español": "Próximamente",
+  "Deutsch": "Demnächst verfügbar",
+  "Français": "Bientôt disponible",
+  "한국어": "곧 제공 예정",
+  "中文": "即将推出",
+  "العربية": "قريبًا",
+  "Tiếng Việt": "Sắp ra mắt"
+ },
+ "This tab is in place; what it checks is still being built.": {
+  "日本語": "このタブは用意できました。何をチェックするかは現在作成中です。",
+  "Español": "Esta pestaña ya está lista; lo que comprobará aún se está creando.",
+  "Deutsch": "Dieser Tab ist schon da; was er prüft, wird noch gebaut.",
+  "Français": "Cet onglet est en place ; ce qu'il vérifie est encore en préparation.",
+  "한국어": "이 탭은 준비되었습니다. 무엇을 검사할지는 아직 만드는 중입니다.",
+  "中文": "此标签页已就位；它要检查的内容仍在开发中。",
+  "العربية": "هذا التبويب جاهز؛ وما سيفحصه لا يزال قيد الإنشاء.",
+  "Tiếng Việt": "Thẻ này đã có; những gì nó kiểm tra vẫn đang được xây dựng."
+ }
+}

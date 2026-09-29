@@ -86,6 +86,26 @@ def db_to_gain(db):
 
 
 # ------------------------------------------------------------- the curve --
+# A key's "ease" says which side of it the line flattens into it, as Resolve
+# names them: False Linear, "in" Ease in (arriving), "out" Ease out (leaving),
+# True Ease in and out. True/False are what every curve before the two
+# one-sided eases saved, so they keep meaning just that.
+
+def ease_of(value):
+    if value in ("in", "out"):
+        return value
+    if isinstance(value, str):
+        return value == "both"
+    return bool(value)            # as before the one-sided eases: anything truthy eases both sides
+
+
+def eases_in(key):
+    return key.get("ease") in (True, "in")
+
+
+def eases_out(key):
+    return key.get("ease") in (True, "out")
+
 
 def clean(keys):
     """keys as the view sends them -> sorted, one per time, values in range."""
@@ -96,15 +116,16 @@ def clean(keys):
         except (KeyError, TypeError, ValueError):
             continue
         if np.isfinite(t) and np.isfinite(db):
-            out[round(t, 6)] = {"t": round(t, 6), "db": round(clamp_db(db), 2), "ease": bool(key.get("ease"))}
+            out[round(t, 6)] = {"t": round(t, 6), "db": round(clamp_db(db), 2), "ease": ease_of(key.get("ease"))}
     return [out[t] for t in sorted(out)]
 
 
 def curve_db(keys, t):
     """The volume (dB) the keys give at file time(s) t: the first key's before
     it, the last's after. Between two keys a cubic in dB whose slope at each end
-    is the straight line's - or flat, at an eased key - so with no eased key
-    it's the straight line itself."""
+    is the straight line's - or flat, where the key eases on that side (the
+    first eases out, the second eases in) - so with no ease it's the straight
+    line itself."""
     t = np.asarray(t, dtype=np.float64)
     if not keys:
         return np.zeros_like(t)
@@ -112,13 +133,14 @@ def curve_db(keys, t):
     kd = np.array([k["db"] for k in keys], dtype=np.float64)
     if len(keys) == 1:
         return np.full_like(t, kd[0])
-    ease = np.array([bool(k.get("ease")) for k in keys])
+    leaving = np.array([eases_out(k) for k in keys])
+    arriving = np.array([eases_in(k) for k in keys])
     i = np.clip(np.searchsorted(kt, t, side="right") - 1, 0, len(kt) - 2)
     h = np.maximum(kt[i + 1] - kt[i], 1e-9)
     u = np.clip((t - kt[i]) / h, 0.0, 1.0)
     chord = kd[i + 1] - kd[i]
-    ma = np.where(ease[i], 0.0, chord)            # slopes, per unit of u
-    mb = np.where(ease[i + 1], 0.0, chord)
+    ma = np.where(leaving[i], 0.0, chord)         # slopes, per unit of u
+    mb = np.where(arriving[i + 1], 0.0, chord)
     u2, u3 = u * u, u * u * u
     out = ((2 * u3 - 3 * u2 + 1) * kd[i] + (u3 - 2 * u2 + u) * ma
            + (-2 * u3 + 3 * u2) * kd[i + 1] + (u3 - u2) * mb)
@@ -139,14 +161,24 @@ EXPAND_MAX = 32
 def expand(keys, fps, origin=0.0):
     """keys with no eases: every eased stretch as straight pieces on frame
     boundaries (a frame being 1/fps s from origin - the clip's start in the
-    file), which is what Buddy asks of Resolve."""
+    file), which is what Buddy asks of Resolve.
+
+    A lone key goes as two at its level - at the clip's start and at the
+    key (or a frame after, for a key on the start): Resolve drops a
+    keyframeAnimation with one keyframe (read back as none, so Apply said
+    Resolve "didn't keep the curve's keys"), and one key is a flat line
+    anyway."""
     keys = clean(keys)
+    if len(keys) == 1:
+        key = keys[0]
+        other = origin if abs(key["t"] - origin) >= 0.5 / fps else origin + 1.0 / fps
+        return clean([dict(key, ease=False), {"t": round(other, 6), "db": key["db"], "ease": False}])
     if not any(k["ease"] for k in keys):
         return keys
     out = []
     for a, b in zip(keys, keys[1:]):
         out.append({"t": a["t"], "db": a["db"], "ease": False})
-        if not (a["ease"] or b["ease"]):
+        if not (eases_out(a) or eases_in(b)):
             continue
         frames = int(np.floor((b["t"] - a["t"]) * fps + 1e-6))
         n = min(EXPAND_MAX, frames, max(2, int(np.ceil(abs(b["db"] - a["db"]) / EXPAND_DB))))
@@ -314,7 +346,11 @@ def nested_fcpxml(name, path, fps, timeline_start, frames, media_start, source_i
     decimals just short of their frame came in a frame early)."""
     fd = frame_duration(fps)
     clip_in = media_start + source_in
-    if media_frame and source_in + media_start >= Fraction(media_frame) / 4:
+    # Not at the file's first frame: a quarter early there is before the file,
+    # which Resolve clamps - and the clip came in a frame short (1268 of 1269,
+    # a camera MXF from its first frame). The file starts at media_start, so
+    # only source_in says how far in the clip is.
+    if media_frame and source_in >= Fraction(media_frame) / 4:
         clip_in -= Fraction(media_frame) / 4
     start = timeline_start * fd
     length = frames * fd
