@@ -142,13 +142,15 @@ class AdminMixin:
         session.send(self._reports_payload())
 
     def _resolve_report(self, session, msg: dict):
-        """Closes every report of that message; delete=True deletes it too."""
+        """Closes every report of that message; delete=True deletes it too.
+        Staff leave reports about themselves to someone else - except the
+        owner, who has nobody above them to leave them to."""
         self._require_staff(session)
         report_id = msg.get("id")
         report = self.store.report(report_id) if is_id(report_id) else None
         if report is None:
             raise RequestError("no_report", "That report isn't there any more.")
-        if report["reported"] == session.user_id:
+        if report["reported"] == session.user_id and self._role(session.user_id) != "owner":
             raise RequestError("not_allowed", "That report is about you - leave it for another mod or admin.")
         if msg.get("delete"):
             row = self.store.message(report["message_id"])

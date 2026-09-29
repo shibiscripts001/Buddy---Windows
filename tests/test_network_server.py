@@ -1172,6 +1172,20 @@ class SecurityTests(Harness):
         report = self.request(mod, type="list_reports")["reports"][0]
         self.assertEqual(self.request(mod, type="resolve_report", id=report["id"])["code"], "not_allowed")
 
+    def test_the_owner_can_close_reports_about_themselves(self):
+        owner, bob = self.user("Olive"), self.user("Bob")
+        self.store.set_role(uid(owner), "owner")
+        for text in ("one", "two"):
+            self.clock.now += 3
+            self.request(owner, type="send", room="global", text=text)
+            self.request(bob, type="report", id=owner.last("message")["message"]["id"], reason="nope")
+        kept, deleted = self.request(owner, type="list_reports")["reports"]
+        self.assertEqual(self.request(owner, type="resolve_report", id=kept["id"])["type"], "reports")
+        self.request(owner, type="resolve_report", id=deleted["id"], delete=True)
+        self.assertEqual(owner.last("reports")["reports"], [])
+        self.assertTrue(self.store.message(deleted["message_id"])["deleted"])
+        self.assertFalse(self.store.message(kept["message_id"])["deleted"])
+
     def test_odd_input_gets_an_error_not_a_crash(self):
         a = self.user("Alice")
         for frame in ('{"type":"history","room":"global","before":%d}' % 2 ** 70,
