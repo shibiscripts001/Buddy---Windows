@@ -1,5 +1,6 @@
 /* The shell's header and nav rail (core/shell_web.py), and its windows -
-   Settings, Organize sidebar, announcements, the write consent. */
+   Settings, Organize sidebar, announcements, the write consent, the bug
+   report. */
 
 /* The header and rail are transparent views over the shell window, so
    each draws its own card. */
@@ -226,3 +227,37 @@ body.window { background: var(--surface); }
 .news h2 { margin: 0; font-size: var(--fs-lg); font-weight: 700; color: var(--text-strong); overflow-wrap: anywhere; }
 .news .new { color: var(--accent-text); font-size: var(--fs-sm); font-weight: 700; margin-left: 6px; }
 .news p { margin: 4px 0 0; line-height: 1.5; white-space: pre-wrap; user-select: text; overflow-wrap: anywhere; }
+
+/* -------------------------------------------------------- bug report -- */
+
+.bug-dialog { position: relative; }
+.bug-text { resize: vertical; min-height: 120px; font: inherit; line-height: 1.45; }
+.bug-count { text-align: right; margin-top: -8px; }
+.bug-count:empty { display: none; }
+.bug-shots-head { display: flex; align-items: center; gap: 10px; }
+.bug-shots-head .grow { flex: 1; }
+.bug-shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.bug-shots[hidden] { display: none; }
+.bug-shot {
+    position: relative; margin: 0; padding: 6px; display: flex; flex-direction: column; gap: 4px;
+    background: var(--card-bg); border: var(--bw) solid var(--card-border); border-radius: var(--r-sm, 8px);
+}
+.bug-shot img { width: 100%; height: 96px; object-fit: contain; border-radius: var(--r-xs, 4px); }
+.bug-shot figcaption { text-align: center; font-variant-numeric: tabular-nums; }
+.bug-remove { position: absolute; top: 4px; right: 4px; width: 28px; height: 28px; padding: 0;
+              background: var(--card-bg); }
+.bug-remove svg { width: 16px; height: 16px; }
+.bug-details { display: flex; flex-direction: column; gap: 6px; padding-top: 10px;
+               border-top: var(--bw) solid var(--card-border); }
+.bug-details dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; font-size: var(--fs-sm); }
+.bug-details dt { color: var(--text-dim); }
+.bug-details dd { margin: 0; user-select: text; overflow-wrap: anywhere; }
+.bug-status { min-width: 0; }
+.bug-status.danger { color: var(--danger-text); }
+.bug-status.success { color: var(--success); font-weight: 700; }
+.bug-drop {
+    position: absolute; inset: 10px; display: flex; align-items: center; justify-content: center;
+    border: 2px dashed var(--primary); border-radius: var(--card-radius); pointer-events: none;
+    background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--text-strong); font-weight: 700;
+}
+.bug-drop[hidden] { display: none; }

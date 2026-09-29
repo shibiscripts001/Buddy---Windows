@@ -70,6 +70,10 @@ def build():
             arcname = os.path.join(PACKAGE_DIR_NAME, relative)
             archive.write(full_path, arcname)
             written.append(arcname.replace("\\", "/"))
+        # Which Buddy this is, for bug reports (core/app_version.py).
+        with open(os.path.join(REPO_ROOT, "VERSION"), encoding="utf-8") as f:
+            archive.writestr(f"{PACKAGE_DIR_NAME}/VERSION", f.read().strip() + "\n")
+        written.append(f"{PACKAGE_DIR_NAME}/VERSION")
 
     size_mb = os.path.getsize(OUTPUT_ZIP) / 1e6
     print(f"Wrote {OUTPUT_ZIP} ({len(written)} files, {size_mb:.2f} MB)")

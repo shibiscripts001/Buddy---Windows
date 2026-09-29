@@ -871,7 +871,7 @@ const PANELS = {
         const panes = {};
         const lists = {};
         const hint = text => el("p.note", {text});
-        for (const id of ["reports", "bans", "admins", "log", "app"]) {
+        for (const id of ["reports", "bans", "admins", "log", "app", "bugs"]) {
             lists[id] = el("div.plist.tall");
             panes[id] = el("div.admin-pane", {hidden: true});
         }
@@ -892,6 +892,7 @@ const PANELS = {
         panes.app.append(hint("Announcements for every Buddy, chat users or not, behind the glowing dot next to \"Buddy\". Buddys check once a day, so a new one can take up to a day to show. Plain text only; the 10 newest are shown."),
                          lists.app, title, text,
                          el("div.prow", {}, [count, button("Post to every Buddy", () => act("post", {title: title.value, text: text.value}), "accent")]));
+        panes.bugs.append(hint("Bug reports from the bug button in Buddy's header – from anyone, signed in to Buddy Network or not. Oldest first, kept for 90 days unless you delete them."), lists.bugs);
         const error = el("div.field-error");
         let tab = d.tab, sent = d.sent;
         const showTab = id => {
@@ -937,6 +938,17 @@ const PANELS = {
                 lists.app.replaceChildren(...listOrNote(d.app, "None posted.", a => el("div.prow.pitem", {}, [
                     el("div.grow", {translate: "no"}, [el("div.strong", {text: a.head}), el("div.note.pre", {text: a.text})]),
                     button("Remove", () => act("delete_announcement", {id: a.id}), "ghost"),
+                ])));
+                lists.bugs.replaceChildren(...listOrNote(d.bugs, "No bug reports.", b => el("div.pitem.report", {}, [
+                    el("div.strong", {}, [el("span", {text: b.when}), " – ",
+                        b.who ? el("span", {text: b.who, translate: "no"}) : el("span", {text: "Not signed in to Buddy Network"})]),
+                    b.text ? el("blockquote", {text: b.text, translate: "no"}) : null,
+                    b.details.length ? el("div.note.bug-meta", {}, b.details.map(x => el("div", {}, [
+                        el("span", {text: x.label}), ": ", el("span", {text: x.value, translate: "no"})]))) : null,
+                    el("div.prow", {}, [
+                        ...b.shots.map(s => button(`Screenshot ${s.number}`, () => act("view_bug_image", {id: b.id, image: s.id}))),
+                        button("Delete", () => act("delete_bug", {id: b.id}), "danger"),
+                    ]),
                 ])));
                 error.textContent = d.error;
                 if (d.sent !== sent) {   // a role given or an announcement posted: clear what was typed

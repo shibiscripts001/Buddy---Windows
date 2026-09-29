@@ -83,7 +83,9 @@ class PanelViewTests(unittest.TestCase):
 
     def test_admin_by_role(self):
         self.assertEqual([t["id"] for t in panels.admin_tabs("mod")], ["reports", "bans"])
-        self.assertEqual([t["id"] for t in panels.admin_tabs("owner")], ["reports", "bans", "admins", "log", "app"])
+        self.assertEqual([t["id"] for t in panels.admin_tabs("owner")],
+                         ["reports", "bans", "admins", "log", "app", "bugs"])
+        self.assertNotIn("list_bug_reports", [a["type"] for a in panels.admin_requests("admin")])
         self.assertEqual([a["type"] for a in panels.admin_requests("admin")], ["list_reports", "list_bans", "list_admins"])
         staff = {"admins": [dict(SAM, role="mod"), dict(ME, role="admin")]}
         view = panels.admin("admin", {"admins": staff}, "log")
@@ -99,6 +101,21 @@ class PanelViewTests(unittest.TestCase):
         self.assertEqual(row["text"], "<b>hi</b>")              # text; the view never renders it as HTML
         self.assertIn("(2 reports)", row["head"])
         self.assertEqual(row["by"], "Reported by Tess #aaaaaa: rude")
+
+    def test_bug_reports_tab(self):
+        reports = {"reports": [
+            {"id": 3, "created": 0, "text": "<b>broke</b>", "reporter": None, "images": [],
+             "details": {"buddy": "1.1.27", "tool": "Transcribe", "odd": "dropped"}},
+            {"id": 4, "created": 0, "text": "", "reporter": SAM, "details": "not a dict",
+             "images": [{"id": "c" * 32, "w": 10, "h": 10}, {"id": "d" * 32, "w": 10, "h": 10}]}]}
+        rows = panels.admin("owner", {"bugs": reports}, "bugs")["bugs"]
+        self.assertEqual(rows[0]["who"], "")                     # not signed in: the view says so
+        self.assertEqual(rows[0]["text"], "<b>broke</b>")        # text; the view never renders it as HTML
+        self.assertEqual(rows[0]["details"], [{"label": "Buddy", "value": "1.1.27"},
+                                              {"label": "Tool", "value": "Transcribe"}])
+        self.assertEqual((rows[1]["who"], rows[1]["details"]), ("Sam #bbbbbb", []))
+        self.assertEqual([s["number"] for s in rows[1]["shots"]], [1, 2])
+        self.assertIsNone(panels.admin("owner", {}, "bugs")["bugs"])   # not arrived yet
 
     def test_checks(self):
         self.assertTrue(panels.role_problem("abc"))
@@ -475,6 +492,36 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.panel("admin")["error"], "Not allowed.")
         self.page.on_turn_off()
         self.assertEqual(self.panels(), [])
+
+    def test_bug_reports_for_the_owner(self):
+        self.welcome()
+        self.page.me["role"] = "owner"
+        self.page._on_received({"type": "bug_reports_waiting", "count": 2})
+        self.assertEqual(self.host.notes, ["A bug report came in – see Admin."])
+        self.page._on_received({"type": "reports_waiting", "count": 1})
+        self.assertEqual(self.last("state")["reports"], 3)      # the Admin button counts both
+        self.page.on_admin()
+        self.assertIn({"type": "list_bug_reports"}, self.client.sent)
+        shot = "c" * 32
+        self.page._on_received({"type": "bug_reports", "reports": [
+            {"id": 5, "created": 0, "text": "hi", "reporter": None, "details": {}, "images": [{"id": shot, "w": 9, "h": 9}]}]})
+        self.act("admin", "tab", tab="bugs")
+        self.assertEqual(self.panel("admin")["tab"], "bugs")
+        self.act("admin", "view_bug_image", id=5, image="e" * 32)   # not one of its screenshots
+        self.act("admin", "delete_bug", id=6)                     # not a report it was sent
+        self.assertNotIn({"type": "get_image", "id": "e" * 32}, self.client.sent)
+        self.act("admin", "view_bug_image", id=5, image=shot)
+        self.assertEqual(self.client.sent[-1], {"type": "get_image", "id": shot})
+        self.act("admin", "delete_bug", id=5)
+        self.answer("ok", kind="choice")
+        self.assertEqual(self.client.sent[-1], {"type": "delete_bug_report", "id": 5})
+        # The bug report window's own errors aren't the chat's to show.
+        self.page._on_received({"type": "error", "re": "bug_report", "message": "Slow down."})
+        self.assertNotEqual((self.last("notice") or {}).get("text"), "Slow down.")
+        # Only the owner's count reaches the Admin button.
+        self.page.me["role"] = "mod"
+        self.page._push_state()
+        self.assertEqual(self.last("state")["reports"], 1)
 
     def test_transfer_panel_checks_the_password(self):
         self.welcome()

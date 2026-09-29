@@ -7,6 +7,7 @@ import base64
 import json
 import os
 import unittest
+from unittest import mock
 
 import _paths  # noqa: F401
 from server import core, gifs
@@ -1718,6 +1719,136 @@ class GifTests(ImageTests):
         odd = gifs.GiphySettings.from_environment({"GIPHY_API_KEY": "k", "GIPHY_RATING": "nc-17",
                                                     "GIPHY_CALLS_PER_HOUR": "lots"})
         self.assertEqual((odd.rating, odd.calls_per_hour), (gifs.DEFAULT_RATING, gifs.DEFAULT_CALLS_PER_HOUR))
+
+class BugReportTests(Harness):
+    """The header's "Report a bug": from anyone, for the owner (server/bugs.py)."""
+
+    def setUp(self):
+        super().setUp()
+        self.core.limit_new_accounts = False
+        self.owner, self.admin = self.user("Olive"), self.user("Adam")
+        self.store.set_role(uid(self.owner), "owner")
+        self.store.set_role(uid(self.admin), "admin")
+
+    def shots(self, session, *datas):
+        """Sends screenshots up in parts, as Buddy does; returns what the report says of them."""
+        named = []
+        for data in datas:
+            image_id = os.urandom(16).hex()
+            text = base64.b64encode(data).decode("ascii")
+            pieces = [text[i:i + core.IMAGE_PART_CHARS] for i in range(0, len(text), core.IMAGE_PART_CHARS)]
+            for seq, piece in enumerate(pieces):
+                answer = self.request(session, type="bug_part", id=image_id, seq=seq, data=piece,
+                                      last=seq == len(pieces) - 1)
+                self.assertIsNone(answer, answer)
+            named.append({"id": image_id, "w": 800, "h": 600})
+        return named
+
+    def reports(self):
+        return self.request(self.owner, type="list_bug_reports")["reports"]
+
+    def test_someone_not_signed_in_sends_one_with_screenshots(self):
+        s = FakeSession("10.5.5.5")
+        shot = b"RIFF\x00\x00\x00\x00WEBPVP8 " + os.urandom(50_000)
+        images = self.shots(s, shot, WEBP)
+        self.assertTrue(s.bug_started)   # net.py gives it longer than a hello
+        details = {"buddy": "1.1.27", "windows": "Windows 11 (build 26200)",
+                   "resolve": "DaVinci Resolve Studio 20.1", "tool": "Transcribe", "project": "never kept"}
+        answer = self.request(s, type="bug_report", text="The timeline\njumps  ", details=details, images=images)
+        self.assertEqual(answer, {"type": "bug_reported"})
+        self.assertTrue(s.close_requested)   # it only came for the report
+        self.assertIsNone(s.user_id)
+        self.assertEqual(self.owner.last("bug_reports_waiting")["count"], 1)
+        [report] = self.reports()
+        self.assertEqual(report["text"], "The timeline\njumps")
+        self.assertIsNone(report["reporter"])
+        self.assertEqual(report["details"], {k: v for k, v in details.items() if k != "project"})
+        self.assertEqual([i["id"] for i in report["images"]], [i["id"] for i in images])
+        got = self.request(self.owner, type="get_image", id=images[0]["id"])
+        self.assertEqual(base64.b64decode(got["data"]), shot)
+        # Nobody else can fetch a screenshot - not even an admin.
+        self.assertEqual(self.request(self.admin, type="get_image", id=images[0]["id"])["code"], "no_image")
+        self.assertNotIn("10.5.5.5", json.dumps(report))
+
+    def test_a_signed_in_buddy_says_who_sent_it(self):
+        bob = self.user("Bob")
+        self.assertEqual(self.request(bob, type="bug_report", text="Crashes on export")["type"], "bug_reported")
+        self.assertFalse(bob.close_requested)   # still chatting
+        [report] = self.reports()
+        self.assertEqual((report["reporter"]["id"], report["reporter"]["name"]), (uid(bob), "Bob"))
+        self.assertEqual((report["images"], report["details"]), ([], {}))
+
+    def test_only_the_owner_reads_and_deletes_them(self):
+        self.request(FakeSession(), type="bug_report", text="broken")
+        for who in (self.admin, self.user("Bob")):
+            self.assertEqual(self.request(who, type="list_bug_reports")["code"], "not_allowed")
+        report_id = self.reports()[0]["id"]
+        self.assertEqual(self.request(self.admin, type="delete_bug_report", id=report_id)["code"], "not_allowed")
+        self.assertEqual(self.request(self.owner, type="delete_bug_report", id=report_id)["reports"], [])
+        self.assertEqual(self.owner.last("bug_reports_waiting")["count"], 0)
+        self.assertEqual(self.request(self.owner, type="delete_bug_report", id=report_id)["code"], "no_report")
+        # The owner hears how many are waiting when they sign in.
+        self.request(FakeSession(), type="bug_report", text="again")
+        again = FakeSession()
+        self.request(again, type="hello", v=core.PROTOCOL_VERSION, token=self.owner.token)
+        self.assertEqual(again.last("bug_reports_waiting")["count"], 1)
+
+    def test_nothing_else_is_allowed_without_a_hello(self):
+        s = FakeSession()
+        for kind in ("list_bug_reports", "delete_bug_report", "join", "get_image"):
+            self.assertEqual(self.request(s, type=kind, id=1)["code"], "not_authenticated")
+
+    def test_what_a_report_must_be(self):
+        s = FakeSession()
+        self.assertEqual(self.request(s, type="bug_report", text="   ")["code"], "bad_message")
+        self.assertEqual(self.request(s, type="bug_report", text="x" * 4001)["code"], "too_long")
+        # Screenshots: only the ones this connection sent, all of them, pictures.
+        self.assertEqual(self.request(s, type="bug_report", text="hi",
+                                      images=[{"id": os.urandom(16).hex(), "w": 5, "h": 5}])["code"], "bad_image")
+        self.shots(s, WEBP)
+        self.assertEqual(self.request(s, type="bug_report", text="hi", images=[])["code"], "bad_image")
+        images = self.shots(s, b"MZ\x90\x00 not a picture")
+        self.assertEqual(self.request(s, type="bug_report", text="hi", images=images)["code"], "bad_image")
+        self.shots(s, *[WEBP] * 6)
+        answer = self.request(s, type="bug_part", id=os.urandom(16).hex(), seq=0, data=b64(30), last=True)
+        self.assertEqual(answer["code"], "too_many")
+        # A screenshot alone needs no words.
+        images = self.shots(s, WEBP)
+        self.assertEqual(self.request(s, type="bug_report", text="", images=images)["type"], "bug_reported")
+        self.assertEqual(self.reports()[0]["text"], "")
+
+    def test_limited_per_network_and_per_person(self):
+        for _ in range(5):
+            self.assertEqual(self.request(FakeSession("10.7.7.7"), type="bug_report", text="x")["type"],
+                             "bug_reported")
+        self.assertEqual(self.request(FakeSession("10.7.7.7"), type="bug_report", text="x")["code"], "rate_limited")
+        self.assertEqual(self.request(FakeSession("10.7.7.8"), type="bug_report", text="x")["type"], "bug_reported")
+        bob = self.user("Bob", ip="10.1.1.1")
+        for _ in range(5):
+            self.request(bob, type="bug_report", text="x")
+        bob.ip = "10.2.2.2"   # somewhere else, still the same person
+        self.assertEqual(self.request(bob, type="bug_report", text="x")["code"], "rate_limited")
+        self.clock.now += 3601
+        self.assertEqual(self.request(bob, type="bug_report", text="x")["type"], "bug_reported")
+
+    def test_a_banned_network_cant_and_a_full_server_says_so(self):
+        self.store.ban_network(self.store.ip_hash("10.6.6.6"), "someone", None, self.clock())
+        s = FakeSession("10.6.6.6")
+        self.assertEqual(self.request(s, type="bug_report", text="let me in")["code"], "banned")
+        with mock.patch("server.bugs.BUG_OPEN_MAX", 0):
+            self.assertEqual(self.request(FakeSession(), type="bug_report", text="x")["code"], "server_full")
+
+    def test_old_ones_go_and_so_does_a_deleted_accounts_name(self):
+        bob = self.user("Bob")
+        images = self.shots(bob, WEBP)
+        self.request(bob, type="bug_report", text="old", images=images)
+        self.request(bob, type="delete_account")
+        self.assertIsNone(self.reports()[0]["reporter"])
+        self.clock.now += 91 * 86400
+        self.core.purge()
+        self.assertEqual(self.reports(), [])
+        self.assertIsNone(self.store.bug_image(images[0]["id"]))
+
 
 if __name__ == "__main__":
     unittest.main()

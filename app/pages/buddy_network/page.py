@@ -16,7 +16,9 @@ The Buddy System: buddies (with online dots and unread counts), direct
 messages with them only, blocking (their messages are hidden here too),
 appear offline, tray notifications, the recovery code and deleting the
 account. Admin tools for mods, admins and the owner (roles come from the
-server; the Admin panel in panels.py). Everyone gets "report" on other
+server; the Admin panel in panels.py), and the bug reports sent from
+Buddy's header, for the owner (core/bug_report.py sends them - over this
+page's connection when it's signed in). Everyone gets "report" on other
 people's messages. Every link opens through a warning; messages that look
 like they hold private details (or your own API key, which is never sent)
 are checked before sending - see safety.py. Direct messages are
@@ -165,6 +167,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         self._opening_dm = None        # a buddy's id whose DM was asked for
         self._trying_code = None       # a recovery code being tried (the saved identity kept until it works)
         self.reports_waiting = 0
+        self.bugs_waiting = 0          # bug reports for the owner (server/bugs.py)
         self.reply_to = None           # the message the composer is replying to
         self.editing = None            # the id of your message the composer is changing
         self.mentioned = set()         # rooms where someone mentioned you since you looked
@@ -412,7 +415,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             "placeholder": placeholder, "me": me,
             "appear_offline": bool(self.buddy_state.get("appear_offline")),
             "buddies_waiting": len(self.buddy_state.get("incoming", [])),
-            "staff": self._am_staff(), "reports": self.reports_waiting,
+            "staff": self._am_staff(),
+            "reports": self.reports_waiting + (self.bugs_waiting if self._am_owner() else 0),
             "max_chars": MAX_MESSAGE_CHARS, "counter_from": COUNTER_FROM,
             "images": self.images_allowed(), "gifs": self.gifs_allowed(),
         })
@@ -1527,6 +1531,16 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             item = panels.find(answers.get("app"), "announcements", payload.get("id"))
             if item:
                 self.admin({"type": "delete_app_announcement", "id": item["id"]})
+        elif action in ("view_bug_image", "delete_bug") and self._am_owner():
+            report = panels.find(answers.get("bugs"), "reports", payload.get("id"))
+            if report and action == "view_bug_image":
+                shot = panels.find(report, "images", payload.get("image"))
+                if shot:
+                    self.show_image(shot["id"], "")   # the server hands the owner a bug report's screenshots
+            elif report:
+                self._confirm("Delete bug report", "Delete this bug report and its screenshots? This can't be "
+                              "undone.", "Delete", lambda: self.admin({"type": "delete_bug_report", "id": report["id"]}),
+                              danger=True)
         self._push_panels()
 
     # --------------------------------------------------------- admin tools
@@ -2114,6 +2128,11 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             if msg.get("count", 0) > self.reports_waiting:
                 self._tray("A message was reported – see Admin.")
             self.reports_waiting = msg.get("count", 0)
+        elif kind == "bug_reports_waiting":
+            count = msg.get("count") if isinstance(msg.get("count"), int) else 0
+            if count > self.bugs_waiting:
+                self._tray("A bug report came in – see Admin.")
+            self.bugs_waiting = count
         elif kind in panels.ADMIN_ANSWERS:
             if self._panel("admin") is not None:
                 self._panel("admin")["answers"][panels.ADMIN_ANSWERS[kind]] = msg
@@ -2146,6 +2165,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         code, text = msg.get("code"), msg.get("message", "Something went wrong.")
         if self._image_error(msg) or self._gif_error(msg):
             pass
+        elif msg.get("re") in ("bug_part", "bug_report"):
+            pass   # the bug report window's (core/bug_report.py) - it says what went wrong
         elif self._export is not None and msg.get("nonce") == self._export["nonce"]:
             self._export = None
             self._notify(f"The export stopped: {text}")

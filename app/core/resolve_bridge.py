@@ -89,9 +89,21 @@ class ResolveController:
                 "Make sure Resolve is running with a project open."
             )
         self.project_manager = self.resolve.GetProjectManager()
+        # Which Resolve this is, read once here (off the UI thread) for bug
+        # reports (core/bug_report.py): "DaVinci Resolve Studio 20.1.0.21".
+        self.about = _about(self.resolve)
 
     def current_project(self):
         return self.project_manager.GetCurrentProject()
+
+
+def _about(resolve) -> str:
+    try:
+        product = " ".join(str(resolve.GetProductName() or "").split())
+        version = " ".join(str(resolve.GetVersionString() or "").split())
+    except Exception:   # an older Resolve without one of them
+        return ""
+    return f"{product} {version}".strip()[:120]
 
 
 def connect():

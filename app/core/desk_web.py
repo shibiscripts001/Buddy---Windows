@@ -6,7 +6,8 @@ The desktop layout's taskbar and its popup menu, as web views
 
 The taskbar runs along the bottom of the shell window in place of the
 header and the nav rail: a Programs button, the pinned and open tools, and
-a tray - the Resolve connection, Cascade / Tile, the news orb, Settings.
+a tray - the Resolve connection, the bug report, Cascade / Tile, the news
+orb, Settings.
 
 The menu - Programs, or a taskbar button's right-click - is a popup window
 of its own rather than part of the taskbar's page: the tool windows are
@@ -15,7 +16,7 @@ draw over them.
 
 Protocol (taskbar):
     to the view    taskbar
-    from the view  programs, task, task_menu, reconnect, arrange, orb, settings, size
+    from the view  programs, task, task_menu, reconnect, arrange, orb, bug, settings, size
 Protocol (menu):
     to the view    menu
     from the view  open, pin, act, settings, size
@@ -79,6 +80,9 @@ class TaskbarView(_ChromeView):
 
     def on_orb(self, _payload=None):
         self.shell.open_announcements()
+
+    def on_bug(self, _payload=None):
+        self.shell.open_bug_report()
 
     def on_settings(self, _payload=None):
         self.shell.open_settings()

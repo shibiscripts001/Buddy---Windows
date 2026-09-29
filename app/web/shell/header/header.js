@@ -1,5 +1,5 @@
-/* The shell header's view: title, the news orb, the Resolve connection, dual
-   view and Settings. The shell (core/shell_window.py) decides everything. */
+/* The shell header's view: title, the news orb, the Resolve connection, the
+   bug report, dual view and Settings. The shell (core/shell_window.py) decides everything. */
 "use strict";
 
 const {el, icon, send} = Buddy;
@@ -7,6 +7,8 @@ const $ = id => document.getElementById(id);
 
 $("split").append(icon("split"));
 $("settings").append(icon("gear"));
+$("bug").append(icon("bug"));
+$("bug").onclick = () => send("bug");
 for (const b of document.querySelectorAll("[data-action]")) b.onclick = () => send(b.dataset.action);
 $("settings").onclick = () => send("settings");
 $("orb").onclick = () => send("orb");

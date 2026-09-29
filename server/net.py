@@ -10,6 +10,9 @@ per network and in all, a few seconds to say hello, a steady rate of
 requests per connection, and a cap on what's queued for a client that
 isn't reading (it's dropped).
 
+A connection may also send a bug report without saying hello (bugs.py),
+and gets BUG_REPORT_TIMEOUT to finish it.
+
 It also answers one plain HTTP request, GET /announcements.json - what
 every Buddy checks once a day for the orb next to "Buddy" (chat users or
 not). That request carries nothing about who's asking.
@@ -43,7 +46,8 @@ MAX_QUEUED_BYTES = 4 * 1024 * 1024   # ...or this many bytes behind
 PURGE_EVERY_SECONDS = 3600
 MAX_CONNECTIONS = 2000
 MAX_CONNECTIONS_PER_NETWORK = 20     # a household or office shares one address
-HELLO_TIMEOUT = 15.0                 # seconds a new connection has to say hello
+HELLO_TIMEOUT = 15.0                 # seconds a new connection has to say hello...
+BUG_REPORT_TIMEOUT = 120.0           # ...or, sending a bug report instead (bugs.py), to finish it
 # Requests per connection: a burst (signing in asks for a lot at once), then
 # a steady rate. Past it requests are refused; far past it, disconnected.
 FRAME_BURST, FRAME_RATE = 60, 10.0
@@ -153,10 +157,19 @@ def make_handler(core: NetworkCore, behind_proxy: bool, connections: set):
         session = WsSession(ip, ws)
         writer = asyncio.create_task(_writer(ws, session))
         connections.add(session)
-        # Nothing but a hello is any use before signing in: a connection that
-        # never says it is only holding a place.
-        hello_timer = asyncio.get_running_loop().call_later(
-            HELLO_TIMEOUT, lambda: session.user_id is None and asyncio.ensure_future(ws.close(1008, "no hello")))
+        # Nothing but a hello (or a bug report) is any use before signing in:
+        # a connection that sends neither is only holding a place.
+        loop = asyncio.get_running_loop()
+        timers = []
+
+        def no_hello():
+            if session.user_id is not None:
+                return
+            if session.bug_started and len(timers) == 1:
+                timers.append(loop.call_later(BUG_REPORT_TIMEOUT - HELLO_TIMEOUT, no_hello))
+                return
+            asyncio.ensure_future(ws.close(1008, "no hello"))
+        timers.append(loop.call_later(HELLO_TIMEOUT, no_hello))
         try:
             async for frame in ws:
                 if not session.allow_frame():
@@ -181,7 +194,8 @@ def make_handler(core: NetworkCore, behind_proxy: bool, connections: set):
         except (ConnectionClosed, asyncio.TimeoutError):
             pass
         finally:
-            hello_timer.cancel()
+            for timer in timers:
+                timer.cancel()
             core.disconnect(session)
             connections.discard(session)
             per_network[network] -= 1

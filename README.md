@@ -28,6 +28,12 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Time Tracker
 - Transcribe (Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
 
+The bug button in the header (and on the desktop layout's taskbar) sends a
+bug report - what went wrong, up to six screenshots, and Buddy's, the
+system's and Resolve's versions - to the Buddy Network server, with Buddy
+Network on or off. The owner reads them in Buddy Network's Admin panel
+(Bugs tab). See `core/bug_report.py` and `server/bugs.py`.
+
 ## Background behavior (Time Tracker)
 
 Time Tracker's port made Buddy itself a background app, not just a one-shot

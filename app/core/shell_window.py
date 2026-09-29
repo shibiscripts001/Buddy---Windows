@@ -39,6 +39,7 @@ from core import nav_layout
 from core.announcements_window import AnnouncementsDialog
 from core.announcements import SEEN_KEY, AnnouncementChecker
 from core.buddy_server import DEFAULT_SERVER_URL
+from core.bug_report import BugReportDialog
 from core.nav_organizer import NavOrganizerDialog
 from core.settings_store import SharedSettings, ToolSettings
 from core.resolve_bridge import (
@@ -517,6 +518,35 @@ class ShellWindow(QMainWindow):
     def check_announcements_now(self):
         """Buddy Network's Admin panel, right after an admin posts one."""
         self.announcements.check_now()
+
+    # --------------------------------------------------------- bug report --
+    def open_bug_report(self):
+        """The bug button in the header or the taskbar (core/bug_report.py)."""
+        dialog = BugReportDialog(self)
+        dialog.exec()
+        dialog.deleteLater()   # a child of this window: freed, like Settings
+
+    def network_server_url(self) -> str:
+        return self._network_server_url()
+
+    def network_connection(self):
+        """(client, me): Buddy Network's connection while it's signed in with
+        a name - a bug report goes over it, saying who sent it - else (None, None)."""
+        page = self.pages.get("buddy_network")
+        client, me = getattr(page, "client", None), getattr(page, "me", None)
+        if client is not None and client.state == "online" and me and me.get("name"):
+            return client, me
+        return None, None
+
+    def pages_on_screen(self) -> list:
+        """The tools in view: the one in front - and in dual view, the one beside it."""
+        if self._layout == "desktop":
+            front = self.desktop.front()
+            return [self.pages[front]] if front in self.pages else []
+        shown = [self.stack.currentWidget()]
+        if self._split_on and self._side_tool_id in self.pages:
+            shown.append(self.pages[self._side_tool_id])
+        return [page for page in shown if getattr(page, "display_name", None)]
 
     def notify(self, title: str, message: str):
         """A tray balloon (Windows notification) - see ShellHost in pages/base.py."""

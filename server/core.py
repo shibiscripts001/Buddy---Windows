@@ -31,9 +31,13 @@ Reactions: old-school emoticons (REACTIONS - :D, <3 and the rest) on any
 message, rooms and DMs alike. History carries each message's, and a react
 request tells everyone looking what the message's reactions are now.
 
-The client's IP address arrives on the session only for the per-IP limit
-on new accounts. It's held in memory and never stored, logged or sent to
-anyone.
+Bug reports: anyone's Buddy can send one, signed in or not - the only
+requests besides hello taken before a hello (bugs.py). The owner reads
+them in the Admin panel.
+
+The client's IP address arrives on the session only for the per-IP limits
+on new accounts and bug reports. It's held in memory and never stored,
+logged or sent to anyone.
 """
 
 from __future__ import annotations
@@ -52,6 +56,7 @@ import unicodedata
 from .common import (STAFF_PREFIX, TAG_CHARS, RequestError, device_id, key_bytes, network_of,  # noqa: F401
                      new_user_id, public_message, public_room, public_user, tag_of)
 from .admin import STAFF_ROLES, AdminMixin, one_line
+from .bugs import PRE_HELLO, BugMixin
 from .gifs import GifMixin
 from .social import DEVICE_IDLE_DAYS, MAX_DEVICES, SocialMixin, dm_room
 from .store import Store, dm_people
@@ -177,6 +182,9 @@ class Session:
         self.gif_search: tuple | None = None      # (key, nonce) of the GIF search it's waiting for (gifs.py)
         self.gif_wanted: set[str] = set()         # the GIFs whose previews it still wants
         self.gif_fetched = collections.OrderedDict()   # GIPHY id -> its creator: GIFs it may send
+        self.bug_started = False                  # it's sending a bug report (bugs.py) - maybe with no hello
+        self.bug_upload: dict | None = None       # a screenshot arriving in parts, like upload
+        self.bug_images: list = []                # (id, bytes) of the ones that arrived, until the report
 
     def send(self, payload: dict):
         raise NotImplementedError
@@ -291,18 +299,19 @@ def clean_topic(raw) -> str:
     return topic
 
 
-def clean_text(raw) -> str:
+def clean_text(raw, limit: int = MAX_MESSAGE_CHARS, what: str = "message") -> str:
     """A message's text as it will be stored: control and bidi characters
-    removed (newlines and tabs kept), long runs of blank lines shortened."""
+    removed (newlines and tabs kept), long runs of blank lines shortened.
+    limit and what: for other text kept the same way (a bug report)."""
     if not isinstance(raw, str):
-        raise RequestError("bad_message", "Messages are text.")
+        raise RequestError("bad_message", f"{what.capitalize()}s are text.")
     text = "".join(ch for ch in raw if ch in "\n\t" or unicodedata.category(ch) != "Cc")
     text = _BIDI_CONTROLS.sub("", text).replace("\r", "")
     text = _EXTRA_BLANK_LINES.sub("\n\n\n", text).strip()
     if not text:
-        raise RequestError("bad_message", "The message is empty.")
-    if len(text) > MAX_MESSAGE_CHARS:
-        raise RequestError("too_long", f"Messages are at most {MAX_MESSAGE_CHARS:,} characters.")
+        raise RequestError("bad_message", f"The {what} is empty.")
+    if len(text) > limit:
+        raise RequestError("too_long", f"{what.capitalize()}s are at most {limit:,} characters.")
     return text
 
 
@@ -375,7 +384,7 @@ APP_ANNOUNCEMENTS_SHOWN = 10
 APP_TITLE_MAX, APP_TEXT_MAX = 80, 1000
 
 
-class NetworkCore(SocialMixin, AdminMixin, GifMixin):
+class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
     def __init__(self, store: Store, clock=time.time, limit_new_accounts=True, giphy=None, fetch=None):
         """limit_new_accounts=False (python -m server --dev) is for testing on
         one PC, where every test identity comes from the same address.
@@ -425,6 +434,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
             self._keys_changed(user_id)
         self.store.purge_nameless(now - NAMELESS_DAYS * 86400, set(self._by_user))
         self.purge_admin()
+        self.purge_bugs()
         self.limits.prune()
         if now - self._compacted >= COMPACT_EVERY:
             # Deleted and edited text otherwise lingers in the file's free
@@ -469,7 +479,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         try:
             if handler is None:
                 raise RequestError("bad_request", "Unknown request type.")
-            if kind != "hello" and session.user_id is None:
+            if kind not in PRE_HELLO and session.user_id is None:
                 raise RequestError("not_authenticated", "Say hello first.")
             try:
                 handler(self, session, msg)
@@ -549,6 +559,8 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
             self._presence_changed(user["id"])
         if user["role"] in STAFF_ROLES:
             self._tell_admins_about_reports([session])
+        if user["role"] == "owner":
+            self._tell_owner_about_bugs([session])
 
     def _set_name(self, session: Session, msg: dict):
         name = clean_name(msg.get("name"))
@@ -777,6 +789,8 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
                 self._room_or_error(row["room"], session)
             except RequestError:
                 row = None   # someone else's DM: the same answer as no image at all
+        else:
+            row = self.bug_image_for(session, image_id)   # a bug report's screenshot (bugs.py)
         if row is None:
             raise RequestError("no_image", f"That image has expired - images are kept for {IMAGE_DAYS} days.",
                                id=image_id)
@@ -1159,6 +1173,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin):
         **SocialMixin._SOCIAL_HANDLERS,
         **AdminMixin._ADMIN_HANDLERS,
         **GifMixin._GIF_HANDLERS,
+        **BugMixin._BUG_HANDLERS,
     }
 
 

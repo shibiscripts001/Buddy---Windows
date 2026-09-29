@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Report a bug</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog bug-dialog">
+    <div class="dialog-body">
+        <p class="set-hint">What went wrong? Say what you did, what you expected, and what happened instead.
+            It goes straight to Buddy's developer.</p>
+        <textarea class="field bug-text" id="text" rows="7" maxlength="4000"
+                  placeholder="When I click Transcribe with two timelines open, Buddy…"></textarea>
+        <div class="bug-count set-hint" id="count"></div>
+
+        <div class="bug-shots-head">
+            <span class="strong">Screenshots</span>
+            <span class="set-hint grow" id="shots-hint">Paste (Ctrl+V) or drop them here too.</span>
+            <button type="button" class="btn" id="add">Add screenshots…</button>
+        </div>
+        <div class="bug-shots" id="shots"></div>
+        <div class="set-hint" id="preparing" hidden></div>
+
+        <div class="bug-details">
+            <div class="strong">Sent with it</div>
+            <dl id="details"></dl>
+            <p class="set-hint" id="who"></p>
+        </div>
+    </div>
+    <div class="dialog-foot">
+        <span class="set-hint bug-status" id="status" role="status"></span>
+        <span class="spacer"></span>
+        <button type="button" class="btn" id="close">Cancel</button>
+        <button type="button" class="btn accent" id="send">Send report</button>
+    </div>
+    <div class="bug-drop" id="drop" hidden>Drop screenshots to add them</div>
+</main>
+<script src="bugreport.js"></script>
+</body>
+</html>

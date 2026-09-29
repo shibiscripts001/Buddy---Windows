@@ -11,6 +11,8 @@ $("programs").prepend(icon("programs"));
 $("cascade").append(icon("cascade"));
 $("tile").append(icon("tile"));
 $("settings").append(icon("gear"));
+$("bug").append(icon("bug"));
+$("bug").onclick = () => send("bug");
 $("programs").onclick = () => send("programs", {left: left($("programs"))});
 $("cascade").onclick = () => send("arrange", {how: "cascade"});
 $("tile").onclick = () => send("arrange", {how: "tile"});

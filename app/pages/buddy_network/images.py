@@ -198,8 +198,10 @@ def is_animated(data: bytes) -> bool:
         return False
 
 
-def shrink(data: bytes) -> Shrunk:
-    """The picture as it will be sent. Raises ImageError."""
+def shrink(data: bytes, max_side: int = MAX_SIDE) -> Shrunk:
+    """The picture as it will be sent. Raises ImageError. max_side: what
+    it's scaled to fit (a bug report's screenshots keep more of their
+    detail - core/bug_report.py)."""
     if not AVAILABLE:
         raise ImageError("Sending images needs the Pillow package – reinstalling Buddy adds it.")
     opened = _open(data)
@@ -211,7 +213,7 @@ def shrink(data: bytes) -> Shrunk:
         except Exception:   # a frame Pillow can't read
             raise ImageError("That animation couldn't be read – try another file.") from None
     image = _flatten(opened)
-    side = MAX_SIDE
+    side = max_side
     while True:
         fitted = _fit(image, side)
         for quality in QUALITIES:

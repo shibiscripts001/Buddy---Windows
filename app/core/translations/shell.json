@@ -1229,5 +1229,275 @@
   "中文": "十六进制颜色",
   "العربية": "اللون السداسي العشري",
   "Tiếng Việt": "Mã màu hex"
+ },
+ "Report a bug": {
+  "日本語": "バグを報告",
+  "Español": "Informar de un error",
+  "Deutsch": "Fehler melden",
+  "Français": "Signaler un bug",
+  "한국어": "버그 신고",
+  "中文": "报告错误",
+  "العربية": "الإبلاغ عن خطأ",
+  "Tiếng Việt": "Báo lỗi"
+ },
+ "What went wrong? Say what you did, what you expected, and what happened instead. It goes straight to Buddy's developer.": {
+  "日本語": "何が起きましたか？ 行った操作、期待していた結果、実際に起きたことを書いてください。Buddy の開発者に直接届きます。",
+  "Español": "¿Qué ha fallado? Cuenta qué hiciste, qué esperabas y qué pasó en su lugar. Llega directamente al desarrollador de Buddy.",
+  "Deutsch": "Was ist schiefgelaufen? Beschreiben Sie, was Sie getan haben, was Sie erwartet haben und was stattdessen passiert ist. Die Meldung geht direkt an den Entwickler von Buddy.",
+  "Français": "Qu'est-ce qui n'a pas fonctionné ? Dites ce que vous avez fait, ce que vous attendiez et ce qui s'est passé à la place. Le signalement va directement au développeur de Buddy.",
+  "한국어": "무엇이 잘못되었나요? 무엇을 했는지, 무엇을 기대했는지, 대신 무슨 일이 일어났는지 적어 주세요. Buddy 개발자에게 바로 전달됩니다.",
+  "中文": "出了什么问题？请说明您做了什么、预期是什么，以及实际发生了什么。报告会直接发送给 Buddy 的开发者。",
+  "العربية": "ما الذي حدث بشكل خاطئ؟ اذكر ما فعلته، وما كنت تتوقعه، وما حدث بدلاً من ذلك. يصل التقرير مباشرة إلى مطوّر Buddy.",
+  "Tiếng Việt": "Đã xảy ra lỗi gì? Hãy cho biết bạn đã làm gì, bạn mong đợi điều gì và điều gì đã xảy ra thay vào đó. Báo cáo sẽ được gửi thẳng đến nhà phát triển Buddy."
+ },
+ "When I click Transcribe with two timelines open, Buddy…": {
+  "日本語": "2 つのタイムラインを開いた状態で「文字起こし」をクリックすると、Buddy が…",
+  "Español": "Cuando hago clic en Transcribir con dos líneas de tiempo abiertas, Buddy…",
+  "Deutsch": "Wenn ich bei zwei geöffneten Timelines auf „Transkribieren“ klicke, …",
+  "Français": "Quand je clique sur Transcrire avec deux timelines ouvertes, Buddy…",
+  "한국어": "타임라인 두 개를 연 상태에서 전사를 클릭하면 Buddy가…",
+  "中文": "当我打开两条时间线并点击“转录”时，Buddy…",
+  "العربية": "عندما أنقر على «تفريغ» مع فتح خطين زمنيين، فإن Buddy…",
+  "Tiếng Việt": "Khi tôi bấm Phiên âm lúc đang mở hai timeline, Buddy…"
+ },
+ "Screenshots": {
+  "日本語": "スクリーンショット",
+  "Español": "Capturas de pantalla",
+  "Deutsch": "Screenshots",
+  "Français": "Captures d'écran",
+  "한국어": "스크린샷",
+  "中文": "屏幕截图",
+  "العربية": "لقطات الشاشة",
+  "Tiếng Việt": "Ảnh chụp màn hình"
+ },
+ "Add screenshots": {
+  "日本語": "スクリーンショットを追加",
+  "Español": "Añadir capturas de pantalla",
+  "Deutsch": "Screenshots hinzufügen",
+  "Français": "Ajouter des captures d'écran",
+  "한국어": "스크린샷 추가",
+  "中文": "添加屏幕截图",
+  "العربية": "إضافة لقطات شاشة",
+  "Tiếng Việt": "Thêm ảnh chụp màn hình"
+ },
+ "Paste (Ctrl+V) or drop them here too.": {
+  "日本語": "ここに貼り付け (Ctrl+V) やドロップもできます。",
+  "Español": "También puedes pegarlas (Ctrl+V) o soltarlas aquí.",
+  "Deutsch": "Sie können sie auch hier einfügen (Strg+V) oder ablegen.",
+  "Français": "Vous pouvez aussi les coller (Ctrl+V) ou les déposer ici.",
+  "한국어": "여기에 붙여넣기(Ctrl+V)하거나 끌어다 놓을 수도 있습니다.",
+  "中文": "也可以在此粘贴 (Ctrl+V) 或拖放。",
+  "العربية": "يمكنك أيضًا لصقها (Ctrl+V) أو إفلاتها هنا.",
+  "Tiếng Việt": "Bạn cũng có thể dán (Ctrl+V) hoặc thả chúng vào đây."
+ },
+ "Paste (Ctrl+V) or drop them here too – up to {count}.": {
+  "日本語": "ここに貼り付け (Ctrl+V) やドロップもできます – 最大 {count} 枚。",
+  "Español": "También puedes pegarlas (Ctrl+V) o soltarlas aquí – hasta {count}.",
+  "Deutsch": "Sie können sie auch hier einfügen (Strg+V) oder ablegen – bis zu {count}.",
+  "Français": "Vous pouvez aussi les coller (Ctrl+V) ou les déposer ici – jusqu'à {count}.",
+  "한국어": "여기에 붙여넣기(Ctrl+V)하거나 끌어다 놓을 수도 있습니다 – 최대 {count}개.",
+  "中文": "也可以在此粘贴 (Ctrl+V) 或拖放——最多 {count} 张。",
+  "العربية": "يمكنك أيضًا لصقها (Ctrl+V) أو إفلاتها هنا – حتى {count}.",
+  "Tiếng Việt": "Bạn cũng có thể dán (Ctrl+V) hoặc thả chúng vào đây – tối đa {count}."
+ },
+ "Sent with it": {
+  "日本語": "一緒に送信される情報",
+  "Español": "Se envía con él",
+  "Deutsch": "Wird mitgesendet",
+  "Français": "Envoyé avec",
+  "한국어": "함께 전송되는 정보",
+  "中文": "随报告发送",
+  "العربية": "يُرسل معه",
+  "Tiếng Việt": "Được gửi kèm"
+ },
+ "Send report": {
+  "日本語": "報告を送信",
+  "Español": "Enviar informe",
+  "Deutsch": "Meldung senden",
+  "Français": "Envoyer le signalement",
+  "한국어": "신고 보내기",
+  "中文": "发送报告",
+  "العربية": "إرسال التقرير",
+  "Tiếng Việt": "Gửi báo cáo"
+ },
+ "Drop screenshots to add them": {
+  "日本語": "ドロップしてスクリーンショットを追加",
+  "Español": "Suelta las capturas para añadirlas",
+  "Deutsch": "Screenshots zum Hinzufügen ablegen",
+  "Français": "Déposez les captures pour les ajouter",
+  "한국어": "스크린샷을 놓아서 추가",
+  "中文": "拖放屏幕截图以添加",
+  "العربية": "أفلت لقطات الشاشة لإضافتها",
+  "Tiếng Việt": "Thả ảnh chụp màn hình để thêm"
+ },
+ "Screenshot {number}": {
+  "日本語": "スクリーンショット {number}",
+  "Español": "Captura {number}",
+  "Deutsch": "Screenshot {number}",
+  "Français": "Capture {number}",
+  "한국어": "스크린샷 {number}",
+  "中文": "屏幕截图 {number}",
+  "العربية": "لقطة الشاشة {number}",
+  "Tiếng Việt": "Ảnh chụp {number}"
+ },
+ "Preparing a screenshot…": {
+  "日本語": "スクリーンショットを準備しています…",
+  "Español": "Preparando una captura…",
+  "Deutsch": "Screenshot wird vorbereitet…",
+  "Français": "Préparation d'une capture…",
+  "한국어": "스크린샷 준비 중…",
+  "中文": "正在准备屏幕截图…",
+  "العربية": "جارٍ تجهيز لقطة شاشة…",
+  "Tiếng Việt": "Đang chuẩn bị ảnh chụp màn hình…"
+ },
+ "Preparing {count} screenshots…": {
+  "日本語": "{count} 枚のスクリーンショットを準備しています…",
+  "Español": "Preparando {count} capturas…",
+  "Deutsch": "{count} Screenshots werden vorbereitet…",
+  "Français": "Préparation de {count} captures…",
+  "한국어": "스크린샷 {count}개 준비 중…",
+  "中文": "正在准备 {count} 张屏幕截图…",
+  "العربية": "جارٍ تجهيز {count} لقطات شاشة…",
+  "Tiếng Việt": "Đang chuẩn bị {count} ảnh chụp màn hình…"
+ },
+ "Tool": {
+  "日本語": "ツール",
+  "Español": "Herramienta",
+  "Deutsch": "Tool",
+  "Français": "Outil",
+  "한국어": "도구",
+  "中文": "工具",
+  "العربية": "الأداة",
+  "Tiếng Việt": "Công cụ"
+ },
+ "Sent as {name} on Buddy Network, so you can get a reply there.": {
+  "日本語": "Buddy Network の {name} として送信されるため、そこで返信を受け取れます。",
+  "Español": "Se envía como {name} en Buddy Network, así que puedes recibir una respuesta allí.",
+  "Deutsch": "Wird als {name} über Buddy Network gesendet – so können Sie dort eine Antwort bekommen.",
+  "Français": "Envoyé en tant que {name} sur Buddy Network : vous pourrez y recevoir une réponse.",
+  "한국어": "Buddy Network의 {name}(으)로 전송되므로 그곳에서 답장을 받을 수 있습니다.",
+  "中文": "以 Buddy Network 上的 {name} 身份发送，因此您可以在那里收到回复。",
+  "العربية": "يُرسل باسم {name} على Buddy Network، لذا يمكنك تلقي رد هناك.",
+  "Tiếng Việt": "Được gửi dưới tên {name} trên Buddy Network, nên bạn có thể nhận phản hồi ở đó."
+ },
+ "Sent without a name – you're not signed in to Buddy Network.": {
+  "日本語": "名前なしで送信されます – Buddy Network にサインインしていません。",
+  "Español": "Se envía sin nombre: no has iniciado sesión en Buddy Network.",
+  "Deutsch": "Wird ohne Namen gesendet – Sie sind nicht bei Buddy Network angemeldet.",
+  "Français": "Envoyé sans nom : vous n'êtes pas connecté à Buddy Network.",
+  "한국어": "이름 없이 전송됩니다 – Buddy Network에 로그인하지 않았습니다.",
+  "中文": "将匿名发送——您尚未登录 Buddy Network。",
+  "العربية": "يُرسل دون اسم – لم تسجّل الدخول إلى Buddy Network.",
+  "Tiếng Việt": "Được gửi không kèm tên – bạn chưa đăng nhập Buddy Network."
+ },
+ "Thanks – your report was sent.": {
+  "日本語": "ありがとうございます – 報告を送信しました。",
+  "Español": "Gracias: tu informe se ha enviado.",
+  "Deutsch": "Danke – Ihre Meldung wurde gesendet.",
+  "Français": "Merci : votre signalement a été envoyé.",
+  "한국어": "감사합니다 – 신고를 보냈습니다.",
+  "中文": "谢谢——您的报告已发送。",
+  "العربية": "شكرًا – تم إرسال تقريرك.",
+  "Tiếng Việt": "Cảm ơn – báo cáo của bạn đã được gửi."
+ },
+ "Sending… {percent}%": {
+  "日本語": "送信中… {percent}%",
+  "Español": "Enviando… {percent} %",
+  "Deutsch": "Wird gesendet… {percent} %",
+  "Français": "Envoi… {percent} %",
+  "한국어": "보내는 중… {percent}%",
+  "中文": "正在发送… {percent}%",
+  "العربية": "جارٍ الإرسال… {percent}٪",
+  "Tiếng Việt": "Đang gửi… {percent}%"
+ },
+ "Say what went wrong, or add a screenshot.": {
+  "日本語": "何が起きたかを書くか、スクリーンショットを追加してください。",
+  "Español": "Cuenta qué ha fallado o añade una captura.",
+  "Deutsch": "Beschreiben Sie, was schiefgelaufen ist, oder fügen Sie einen Screenshot hinzu.",
+  "Français": "Dites ce qui n'a pas fonctionné, ou ajoutez une capture.",
+  "한국어": "무엇이 잘못되었는지 적거나 스크린샷을 추가하세요.",
+  "中文": "请说明出了什么问题，或添加一张屏幕截图。",
+  "العربية": "اذكر ما حدث بشكل خاطئ، أو أضف لقطة شاشة.",
+  "Tiếng Việt": "Hãy cho biết lỗi gì đã xảy ra, hoặc thêm một ảnh chụp màn hình."
+ },
+ "Wait a moment – a screenshot is still being prepared.": {
+  "日本語": "少々お待ちください – スクリーンショットをまだ準備しています。",
+  "Español": "Espera un momento: todavía se está preparando una captura.",
+  "Deutsch": "Einen Moment – ein Screenshot wird noch vorbereitet.",
+  "Français": "Un instant : une capture est encore en préparation.",
+  "한국어": "잠시 기다려 주세요 – 스크린샷을 아직 준비 중입니다.",
+  "中文": "请稍候——仍在准备屏幕截图。",
+  "العربية": "انتظر لحظة – لا تزال لقطة شاشة قيد التجهيز.",
+  "Tiếng Việt": "Vui lòng đợi – một ảnh chụp màn hình vẫn đang được chuẩn bị."
+ },
+ "A report is at most {count} characters.": {
+  "日本語": "報告は最大 {count} 文字です。",
+  "Español": "Un informe tiene como máximo {count} caracteres.",
+  "Deutsch": "Eine Meldung hat höchstens {count} Zeichen.",
+  "Français": "Un signalement fait au plus {count} caractères.",
+  "한국어": "신고는 최대 {count}자입니다.",
+  "中文": "报告最多 {count} 个字符。",
+  "العربية": "الحد الأقصى للتقرير {count} حرف.",
+  "Tiếng Việt": "Một báo cáo tối đa {count} ký tự."
+ },
+ "A report can have {count} screenshots at most.": {
+  "日本語": "報告に添付できるスクリーンショットは最大 {count} 枚です。",
+  "Español": "Un informe puede tener como máximo {count} capturas.",
+  "Deutsch": "Eine Meldung kann höchstens {count} Screenshots haben.",
+  "Français": "Un signalement peut contenir au plus {count} captures.",
+  "한국어": "신고에는 스크린샷을 최대 {count}개까지 첨부할 수 있습니다.",
+  "中文": "一份报告最多可包含 {count} 张屏幕截图。",
+  "العربية": "يمكن أن يحتوي التقرير على {count} لقطات شاشة كحد أقصى.",
+  "Tiếng Việt": "Một báo cáo có tối đa {count} ảnh chụp màn hình."
+ },
+ "Only pictures can go with a report – PNG, JPEG, WebP, GIF, BMP or TIFF.": {
+  "日本語": "報告に添付できるのは画像だけです – PNG、JPEG、WebP、GIF、BMP、TIFF。",
+  "Español": "Solo se pueden adjuntar imágenes a un informe: PNG, JPEG, WebP, GIF, BMP o TIFF.",
+  "Deutsch": "Einer Meldung können nur Bilder beigefügt werden – PNG, JPEG, WebP, GIF, BMP oder TIFF.",
+  "Français": "Seules des images peuvent accompagner un signalement : PNG, JPEG, WebP, GIF, BMP ou TIFF.",
+  "한국어": "신고에는 이미지만 첨부할 수 있습니다 – PNG, JPEG, WebP, GIF, BMP 또는 TIFF.",
+  "中文": "报告只能附带图片——PNG、JPEG、WebP、GIF、BMP 或 TIFF。",
+  "العربية": "لا يمكن إرفاق سوى الصور بالتقرير – PNG أو JPEG أو WebP أو GIF أو BMP أو TIFF.",
+  "Tiếng Việt": "Chỉ có thể đính kèm hình ảnh vào báo cáo – PNG, JPEG, WebP, GIF, BMP hoặc TIFF."
+ },
+ "Couldn't reach the Buddy Network server – check the internet connection and try again.": {
+  "日本語": "Buddy Network サーバーに接続できませんでした – インターネット接続を確認して、もう一度お試しください。",
+  "Español": "No se pudo conectar con el servidor de Buddy Network: comprueba la conexión a internet y vuelve a intentarlo.",
+  "Deutsch": "Der Buddy-Network-Server war nicht erreichbar – prüfen Sie die Internetverbindung und versuchen Sie es erneut.",
+  "Français": "Impossible de joindre le serveur Buddy Network : vérifiez la connexion Internet et réessayez.",
+  "한국어": "Buddy Network 서버에 연결할 수 없습니다 – 인터넷 연결을 확인하고 다시 시도하세요.",
+  "中文": "无法连接到 Buddy Network 服务器——请检查网络连接后重试。",
+  "العربية": "تعذّر الوصول إلى خادم Buddy Network – تحقّق من الاتصال بالإنترنت وحاول مرة أخرى.",
+  "Tiếng Việt": "Không thể kết nối tới máy chủ Buddy Network – hãy kiểm tra kết nối internet và thử lại."
+ },
+ "The connection dropped before the report was in – try again.": {
+  "日本語": "報告が届く前に接続が切れました – もう一度お試しください。",
+  "Español": "La conexión se cortó antes de que llegara el informe: vuelve a intentarlo.",
+  "Deutsch": "Die Verbindung brach ab, bevor die Meldung ankam – versuchen Sie es erneut.",
+  "Français": "La connexion a été coupée avant l'arrivée du signalement : réessayez.",
+  "한국어": "신고가 전송되기 전에 연결이 끊겼습니다 – 다시 시도하세요.",
+  "中文": "报告送达前连接已断开——请重试。",
+  "العربية": "انقطع الاتصال قبل وصول التقرير – حاول مرة أخرى.",
+  "Tiếng Việt": "Kết nối bị ngắt trước khi báo cáo được gửi đến – hãy thử lại."
+ },
+ "The server didn't answer in time – try again.": {
+  "日本語": "サーバーが時間内に応答しませんでした – もう一度お試しください。",
+  "Español": "El servidor no respondió a tiempo: vuelve a intentarlo.",
+  "Deutsch": "Der Server hat nicht rechtzeitig geantwortet – versuchen Sie es erneut.",
+  "Français": "Le serveur n'a pas répondu à temps : réessayez.",
+  "한국어": "서버가 제때 응답하지 않았습니다 – 다시 시도하세요.",
+  "中文": "服务器未及时响应——请重试。",
+  "العربية": "لم يستجب الخادم في الوقت المناسب – حاول مرة أخرى.",
+  "Tiếng Việt": "Máy chủ không phản hồi kịp – hãy thử lại."
+ },
+ "System": {
+  "日本語": "システム",
+  "Español": "Sistema",
+  "Deutsch": "System",
+  "Français": "Système",
+  "한국어": "시스템",
+  "中文": "系统",
+  "العربية": "النظام",
+  "Tiếng Việt": "Hệ thống"
  }
 }

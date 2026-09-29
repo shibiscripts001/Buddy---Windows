@@ -24,6 +24,11 @@ wrapped keys); a room's is a plain WebP, JPEG or PNG. Deleting a message
 deletes its image straight away. `credit` says where a GIF from the GIF
 picker came from (GIPHY, and whose it is - server/gifs.py).
 
+Bug reports (server/bugs.py): what someone wrote, the details their Buddy
+added and up to a few screenshots, kept for the owner until they delete
+one (or BUG_DAYS pass). Reports from people not signed in to Buddy Network
+have no reporter.
+
 Plain sqlite3 calls from the event loop: every query here is an indexed
 lookup on a small database, far quicker than a network round-trip.
 """
@@ -35,7 +40,7 @@ import json
 import secrets
 import sqlite3
 
-SCHEMA_VERSION = 13
+SCHEMA_VERSION = 14
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -134,6 +139,16 @@ CREATE INDEX IF NOT EXISTS reactions_by_user ON reactions (user_id);
 CREATE TABLE IF NOT EXISTS admin_log (id INTEGER PRIMARY KEY AUTOINCREMENT, ts REAL NOT NULL,
                                       actor TEXT NOT NULL, action TEXT NOT NULL, target TEXT NOT NULL DEFAULT '',
                                       detail TEXT NOT NULL DEFAULT '');
+-- Bug reports from Buddy's header (server/bugs.py), for the owner. reporter:
+-- who sent it, when they were signed in to Buddy Network (NULL: someone who
+-- wasn't). details: what their Buddy added (JSON - versions, the tool open).
+-- Their screenshots are in bug_images, deleted with the report.
+CREATE TABLE IF NOT EXISTS bug_reports (id INTEGER PRIMARY KEY AUTOINCREMENT, created REAL NOT NULL,
+                                        reporter TEXT, text TEXT NOT NULL, details TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS bug_images (id TEXT PRIMARY KEY, report INTEGER NOT NULL, seq INTEGER NOT NULL,
+                                       w INTEGER NOT NULL, h INTEGER NOT NULL, size INTEGER NOT NULL,
+                                       data BLOB NOT NULL);
+CREATE INDEX IF NOT EXISTS bug_images_by_report ON bug_images (report);
 """
 
 
@@ -268,6 +283,7 @@ class Store:
         db.execute("DELETE FROM buddy_requests WHERE sender = ? OR target = ?", (user_id, user_id))
         db.execute("DELETE FROM blocks WHERE blocker = ? OR blocked = ?", (user_id, user_id))
         db.execute("DELETE FROM devices WHERE user_id = ?", (user_id,))
+        db.execute("UPDATE bug_reports SET reporter = NULL WHERE reporter = ?", (user_id,))
         db.execute("DELETE FROM users WHERE id = ?", (user_id,))
         db.commit()
 
@@ -805,6 +821,56 @@ class Store:
                                (limit,))
         return [dict(r) for r in rows]
 
+    # -------------------------------------------------------- bug reports
+
+    def add_bug_report(self, reporter: str | None, text: str, details: dict, now: float,
+                       images: list[dict]) -> int:
+        """images: [{"id", "w", "h", "data"}], in the order they were added."""
+        with self.db:
+            cur = self.db.execute("INSERT INTO bug_reports (created, reporter, text, details) VALUES (?, ?, ?, ?)",
+                                  (now, reporter, text, json.dumps(details, ensure_ascii=False)))
+            for seq, image in enumerate(images):
+                self.db.execute("INSERT INTO bug_images (id, report, seq, w, h, size, data) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                (image["id"], cur.lastrowid, seq, image["w"], image["h"], len(image["data"]),
+                                 image["data"]))
+        return cur.lastrowid
+
+    def bug_reports(self) -> list[dict]:
+        """Oldest first, each with its images' ids and sizes (not their bytes)."""
+        rows = [dict(r) for r in self.db.execute(
+            "SELECT b.id, b.created, b.reporter, b.text, b.details, u.name AS reporter_name "
+            "FROM bug_reports b LEFT JOIN users u ON u.id = b.reporter ORDER BY b.id")]
+        shots: dict[int, list] = {}
+        for r in self.db.execute("SELECT id, report, w, h FROM bug_images ORDER BY report, seq"):
+            shots.setdefault(r["report"], []).append({"id": r["id"], "w": r["w"], "h": r["h"]})
+        for row in rows:
+            row["details"] = json.loads(row["details"])
+            row["images"] = shots.get(row["id"], [])
+        return rows
+
+    def bug_report_count(self) -> int:
+        return self.db.execute("SELECT COUNT(*) FROM bug_reports").fetchone()[0]
+
+    def bug_images_size(self) -> int:
+        return self.db.execute("SELECT COALESCE(SUM(size), 0) FROM bug_images").fetchone()[0]
+
+    def bug_image(self, image_id: str) -> dict | None:
+        row = self.db.execute("SELECT id, data FROM bug_images WHERE id = ?", (image_id,)).fetchone()
+        return dict(row) if row else None
+
+    def delete_bug_report(self, report_id: int) -> bool:
+        with self.db:
+            self.db.execute("DELETE FROM bug_images WHERE report = ?", (report_id,))
+            cur = self.db.execute("DELETE FROM bug_reports WHERE id = ?", (report_id,))
+        return cur.rowcount == 1
+
+    def purge_bug_reports(self, cutoff: float) -> int:
+        with self.db:
+            self.db.execute("DELETE FROM bug_images WHERE report IN (SELECT id FROM bug_reports WHERE created < ?)",
+                            (cutoff,))
+            cur = self.db.execute("DELETE FROM bug_reports WHERE created < ?", (cutoff,))
+        return cur.rowcount
+
     # ---------------------------------------------------------- staff tags
 
     def change_user_id(self, old: str, new: str):
@@ -839,6 +905,7 @@ class Store:
                                    ("bans", ("user_id", "by")), ("network_bans", ("user_id",)),
                                    ("devices", ("user_id",)),
                                    ("reports", ("reporter", "reported", "resolved_by")),
-                                   ("admin_log", ("actor", "target")), ("app_announcements", ("by",))):
+                                   ("admin_log", ("actor", "target")), ("app_announcements", ("by",)),
+                                   ("bug_reports", ("reporter",))):
                 for column in columns:
                     db.execute(f"UPDATE {table} SET {column} = ? WHERE {column} = ?", (new, old))

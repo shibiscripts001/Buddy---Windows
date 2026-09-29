@@ -1,6 +1,6 @@
 """What Buddy Network's windows show - your account, a DM's safety code,
 avatars, saving a transfer file, the direct messages saved on this PC,
-banning someone and the Admin panel - as plain data for the web page
+banning someone and the Admin panel (with the owner's bug reports) - as plain data for the web page
 (web/network.js draws each one as a modal). No Qt here, so it's tested
 directly; the page (page.py) keeps which are open and does what they ask.
 
@@ -26,10 +26,13 @@ ANNOUNCEMENT_MAX = 1000
 
 # The Admin panel's lists, by the server answer that fills each.
 ADMIN_ANSWERS = {"reports": "reports", "bans": "bans", "admins": "admins", "admin_log": "log",
-                 "app_announcements": "app"}
+                 "app_announcements": "app", "bug_reports": "bugs"}
 # The requests whose errors show in the Admin panel (not as a notice).
 ADMIN_REQUESTS = ("list_reports", "resolve_report", "ban", "unban", "list_bans", "set_role", "list_admins",
-                  "admin_log", "post_app_announcement", "delete_app_announcement", "list_app_announcements")
+                  "admin_log", "post_app_announcement", "delete_app_announcement", "list_app_announcements",
+                  "list_bug_reports", "delete_bug_report")
+# What each detail a Buddy sends with a bug report is (core/bug_report.py).
+BUG_DETAILS = (("buddy", "Buddy"), ("windows", "System"), ("resolve", "Resolve"), ("tool", "Tool"))
 
 
 def when(ts) -> str:
@@ -156,7 +159,7 @@ def admin_tabs(role: str) -> list[dict]:
     if role in ("admin", "owner"):
         tabs.append({"id": "admins", "label": "Staff"})
     if role == "owner":
-        tabs += [{"id": "log", "label": "Log"}, {"id": "app", "label": "App"}]
+        tabs += [{"id": "log", "label": "Log"}, {"id": "app", "label": "App"}, {"id": "bugs", "label": "Bugs"}]
     return tabs
 
 
@@ -166,7 +169,7 @@ def admin_requests(role: str) -> list[dict]:
     if role in ("admin", "owner"):
         asks.append({"type": "list_admins"})
     if role == "owner":
-        asks += [{"type": "admin_log"}, {"type": "list_app_announcements"}]
+        asks += [{"type": "admin_log"}, {"type": "list_app_announcements"}, {"type": "list_bug_reports"}]
     return asks
 
 
@@ -183,13 +186,28 @@ def _report_row(r: dict) -> dict:
     }
 
 
+def _bug_row(r: dict) -> dict:
+    """A bug report from the header's bug button (server/bugs.py)."""
+    reporter = r.get("reporter")
+    details = r.get("details") if isinstance(r.get("details"), dict) else {}
+    shots = [i for i in r.get("images", []) if isinstance(i, dict) and isinstance(i.get("id"), str)]
+    return {
+        "id": r["id"], "when": when(r.get("created")),
+        "who": render.display_name(reporter) if reporter else "",   # "" - not signed in to Buddy Network
+        "details": [{"label": label, "value": str(details[key])} for key, label in BUG_DETAILS if details.get(key)],
+        "text": r.get("text") or "",
+        "shots": [{"id": i["id"], "number": n} for n, i in enumerate(shots, 1)],
+    }
+
+
 def admin(role: str, answers: dict, tab: str, error: str = "") -> dict:
     """answers: the server's latest answer for each list (ADMIN_ANSWERS),
     None until it arrives."""
     tabs = admin_tabs(role)
     if tab not in {t["id"] for t in tabs}:
         tab = "reports"
-    reports, bans, staff, log, app = (answers.get(k) for k in ("reports", "bans", "admins", "log", "app"))
+    reports, bans, staff, log, app, bugs = (answers.get(k) for k in ("reports", "bans", "admins", "log", "app",
+                                                                      "bugs"))
     owner = role == "owner"
     return {
         "tabs": tabs, "tab": tab, "error": error,
@@ -216,6 +234,7 @@ def admin(role: str, answers: dict, tab: str, error: str = "") -> dict:
             {"id": a["id"], "head": f"{a['title']}  ({when(a['ts'])})", "text": a["text"]}
             for a in app.get("announcements", [])],
         "max_announcement": ANNOUNCEMENT_MAX,
+        "bugs": None if bugs is None else [_bug_row(r) for r in bugs.get("reports", [])],
     }
 
 

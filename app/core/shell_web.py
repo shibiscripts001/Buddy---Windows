@@ -17,7 +17,7 @@ anything.
 
 Protocol (header):
     to the view    header
-    from the view  reconnect, split, side, settings, orb, size, overlay
+    from the view  reconnect, split, side, settings, orb, bug, size, overlay
 Protocol (rail):
     to the view    rail
     from the view  switch, size
@@ -108,6 +108,9 @@ class HeaderView(_ChromeView):
 
     def on_orb(self, _payload=None):
         self.shell.open_announcements()
+
+    def on_bug(self, _payload=None):
+        self.shell.open_bug_report()
 
 
 class RailView(_ChromeView):

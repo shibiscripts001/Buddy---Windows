@@ -4819,5 +4819,75 @@
   "中文": "，私信中也是如此：服务器能看到你在哪条消息上用了哪个表情符号——但绝不会看到消息本身。",
   "العربية": "، حتى في الرسائل المباشرة: يمكن للخادم أن يرى أي رمز تعبيري وضعته على أي رسالة – لكن لا يرى الرسالة نفسها أبدًا.",
   "Tiếng Việt": ", kể cả trong tin nhắn trực tiếp: máy chủ có thể thấy bạn đặt biểu tượng cảm xúc nào lên tin nhắn nào – nhưng không bao giờ thấy chính tin nhắn."
+ },
+ "Bugs": {
+  "日本語": "バグ",
+  "Español": "Errores",
+  "Deutsch": "Fehler",
+  "Français": "Bugs",
+  "한국어": "버그",
+  "中文": "错误报告",
+  "العربية": "الأخطاء",
+  "Tiếng Việt": "Lỗi"
+ },
+ "Bug reports from the bug button in Buddy's header – from anyone, signed in to Buddy Network or not. Oldest first, kept for 90 days unless you delete them.": {
+  "日本語": "Buddy のヘッダーにあるバグボタンから届いた報告です – Buddy Network にサインインしているかどうかに関係なく、誰からでも届きます。古い順に表示され、削除しない限り 90 日間保存されます。",
+  "Español": "Informes de error del botón de errores de la cabecera de Buddy, de cualquier persona, haya iniciado sesión en Buddy Network o no. Los más antiguos primero; se guardan 90 días salvo que los borres.",
+  "Deutsch": "Fehlermeldungen über die Fehler-Schaltfläche in der Kopfzeile von Buddy – von allen, ob bei Buddy Network angemeldet oder nicht. Älteste zuerst, 90 Tage aufbewahrt, sofern Sie sie nicht löschen.",
+  "Français": "Signalements de bugs envoyés depuis le bouton bug de l'en-tête de Buddy – par n'importe qui, connecté à Buddy Network ou non. Les plus anciens d'abord, conservés 90 jours sauf si vous les supprimez.",
+  "한국어": "Buddy 헤더의 버그 버튼으로 보낸 버그 신고입니다 – Buddy Network 로그인 여부와 관계없이 누구나 보낼 수 있습니다. 오래된 순서로 표시되며, 삭제하지 않으면 90일간 보관됩니다.",
+  "中文": "来自 Buddy 顶栏错误按钮的错误报告——任何人都可以发送，无论是否登录 Buddy Network。最早的在前，除非您删除，否则保留 90 天。",
+  "العربية": "تقارير الأخطاء من زر الأخطاء في رأس Buddy – من أي شخص، سواء سجّل الدخول إلى Buddy Network أم لا. الأقدم أولاً، وتُحفظ 90 يومًا ما لم تحذفها.",
+  "Tiếng Việt": "Báo cáo lỗi từ nút báo lỗi ở đầu Buddy – từ bất kỳ ai, dù có đăng nhập Buddy Network hay không. Cũ nhất trước, được lưu 90 ngày trừ khi bạn xóa."
+ },
+ "No bug reports.": {
+  "日本語": "バグ報告はありません。",
+  "Español": "No hay informes de errores.",
+  "Deutsch": "Keine Fehlermeldungen.",
+  "Français": "Aucun signalement de bug.",
+  "한국어": "버그 신고가 없습니다.",
+  "中文": "没有错误报告。",
+  "العربية": "لا توجد تقارير أخطاء.",
+  "Tiếng Việt": "Không có báo cáo lỗi nào."
+ },
+ "Not signed in to Buddy Network": {
+  "日本語": "Buddy Network 未サインイン",
+  "Español": "Sin sesión en Buddy Network",
+  "Deutsch": "Nicht bei Buddy Network angemeldet",
+  "Français": "Non connecté à Buddy Network",
+  "한국어": "Buddy Network 미로그인",
+  "中文": "未登录 Buddy Network",
+  "العربية": "غير مسجّل الدخول إلى Buddy Network",
+  "Tiếng Việt": "Chưa đăng nhập Buddy Network"
+ },
+ "Delete bug report": {
+  "日本語": "バグ報告を削除",
+  "Español": "Eliminar informe de error",
+  "Deutsch": "Fehlermeldung löschen",
+  "Français": "Supprimer le signalement de bug",
+  "한국어": "버그 신고 삭제",
+  "中文": "删除错误报告",
+  "العربية": "حذف تقرير الخطأ",
+  "Tiếng Việt": "Xóa báo cáo lỗi"
+ },
+ "Delete this bug report and its screenshots? This can't be undone.": {
+  "日本語": "このバグ報告とスクリーンショットを削除しますか？ 元に戻すことはできません。",
+  "Español": "¿Eliminar este informe de error y sus capturas? No se puede deshacer.",
+  "Deutsch": "Diese Fehlermeldung und ihre Screenshots löschen? Das lässt sich nicht rückgängig machen.",
+  "Français": "Supprimer ce signalement de bug et ses captures ? Cette action est irréversible.",
+  "한국어": "이 버그 신고와 스크린샷을 삭제할까요? 되돌릴 수 없습니다.",
+  "中文": "删除此错误报告及其屏幕截图？此操作无法撤销。",
+  "العربية": "هل تريد حذف تقرير الخطأ هذا ولقطات الشاشة الخاصة به؟ لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Xóa báo cáo lỗi này cùng các ảnh chụp màn hình? Không thể hoàn tác."
+ },
+ "A bug report came in – see Admin.": {
+  "日本語": "バグ報告が届きました – 「管理」を確認してください。",
+  "Español": "Ha llegado un informe de error: consulta Administración.",
+  "Deutsch": "Eine Fehlermeldung ist eingegangen – siehe Admin.",
+  "Français": "Un signalement de bug est arrivé – voir Admin.",
+  "한국어": "버그 신고가 도착했습니다 – 관리를 확인하세요.",
+  "中文": "收到一份错误报告——请查看“管理”。",
+  "العربية": "وصل تقرير خطأ – راجع الإدارة.",
+  "Tiếng Việt": "Có báo cáo lỗi mới – xem Quản trị."
  }
 }
