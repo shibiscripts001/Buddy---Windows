@@ -37,6 +37,9 @@ SETTINGS_PATH = es.ROOT / "settings.json"
 KEEP_TRANSCRIPTS = 20
 RESOLVE_CHILD = Path(__file__).with_name("resolve_child.py")
 RESOLVE_TIMEOUT = 3 * 3600   # seconds: Resolve took ~10 s for 2 minutes, so this is a very long timeline
+# A process of Buddy's own reaches Resolve Studio only with its external scripting allowed.
+UNREACHABLE = ("Buddy's helper couldn't reach Resolve. In Resolve, set Preferences > System > General > "
+               "\"External scripting using\" to Local, then try again.")
 
 CJK_WHISPER = {"ja", "zh", "yue"}                          # see languages.CJK_CODES
 NO_SPACE_WHISPER = CJK_WHISPER | {"th", "lo", "my", "km"}  # see languages.NO_SPACE_CODES
@@ -282,6 +285,8 @@ class TranscribeJob(QThread):
             except OSError:
                 pass
         if not out.get("ok"):
+            if str(out.get("error", "")).startswith("Couldn't reach Resolve"):
+                raise RuntimeError(UNREACHABLE)
             raise RuntimeError(out.get("error") or "Resolve didn't answer.")
         got = out["result"]
         result = resolve_transcript.to_segments(got["transcription"], got["fps"], got["start_frame"])

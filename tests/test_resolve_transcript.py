@@ -230,6 +230,11 @@ class JobTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "couldn't transcribe"):
             job._transcribe_in_resolve()
 
+    def test_unreachable_says_which_preference(self):
+        job = self.job({"ok": False, "error": "Couldn't reach Resolve: Could not connect"})
+        with self.assertRaisesRegex(RuntimeError, "External scripting using"):
+            job._transcribe_in_resolve()
+
 
 if __name__ == "__main__":
     unittest.main()

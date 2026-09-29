@@ -2409,5 +2409,15 @@
   "中文": "Resolve 没能及时完成时间线的转录。",
   "العربية": "لم ينتهِ Resolve من نسخ الخط الزمني في الوقت المحدد.",
   "Tiếng Việt": "Resolve không chép lời xong dòng thời gian kịp thời."
+ },
+ "Buddy's helper couldn't reach Resolve. In Resolve, set Preferences > System > General > \"External scripting using\" to Local, then try again.": {
+  "日本語": "Buddy の補助プロセスが Resolve に接続できませんでした。Resolve で「環境設定」>「システム」>「一般」>「外部スクリプトに使用」を「ローカル」にしてから、もう一度お試しください。",
+  "Español": "El asistente de Buddy no pudo conectar con Resolve. En Resolve, ajusta Preferencias > Sistema > General > «Scripting externo mediante» a Local y vuelve a intentarlo.",
+  "Deutsch": "Buddys Hilfsprozess hat Resolve nicht erreicht. Stellen Sie in Resolve Einstellungen > System > Allgemein > „Externes Scripting über“ auf Lokal und versuchen Sie es erneut.",
+  "Français": "Le processus d'aide de Buddy n'a pas pu joindre Resolve. Dans Resolve, réglez Préférences > Système > Général > « Scripts externes via » sur Local, puis réessayez.",
+  "한국어": "Buddy의 보조 프로세스가 Resolve에 연결하지 못했습니다. Resolve에서 환경설정 > 시스템 > 일반 > \"외부 스크립팅 사용\"을 로컬로 설정한 뒤 다시 시도하세요.",
+  "中文": "Buddy 的辅助进程无法连接 Resolve。请在 Resolve 中把 偏好设置 > 系统 > 常规 >“外部脚本使用”设为“本地”，然后重试。",
+  "العربية": "تعذّر على العملية المساعدة في Buddy الوصول إلى Resolve. في Resolve، اضبط التفضيلات > النظام > عام > \"External scripting using\" على Local، ثم حاول مرة أخرى.",
+  "Tiếng Việt": "Tiến trình phụ của Buddy không kết nối được Resolve. Trong Resolve, đặt Preferences > System > General > \"External scripting using\" thành Local rồi thử lại."
  }
 }
