@@ -1,20 +1,13 @@
-"""Fusion modifier animation engine for Text+ nodes using Follower."""
+"""The Text+ animations: whole-clip presets keyframed on the TextPlus tool itself,
+and letter-by-letter ones on Fusion's text Follower modifier."""
 import sys
 import traceback
 from typing import Any, Dict, List, Optional, Tuple
 
 
-class DelayType:
-    CHARACTER = 0
-    WORD = 1
-
-
 class FusionAnimationEngine:
-    """Injects Follower modifier onto Text+ nodes and applies animation keyframe presets.
-
-    Note: DO NOT split Python strings programmatically for per-character/word animations.
-    Use native Fusion Follower modifier and toggle DelayType (Character vs Word).
-    """
+    """Keyframes Text+ animations. Per-letter ones never split the text into clips or
+    tools: the Follower animates each letter of one Text+ (see LETTER_PRESETS)."""
 
     # An UNSET Style is not the same as "Regular" to Fusion: its Inspector shows "--" for
     # Style, and leaving Style untouched on a freshly-created/never-styled TextPlus tool
@@ -723,10 +716,9 @@ class FusionAnimationEngine:
     # scalar connect-then-bracket-index mechanism used for LayoutSize/Opacity1 -
     # _create_and_connect_spline() is reused unmodified.
     #
-    # The attachment call, `tool.AddModifier(input_name, "XYPath")`, has the SAME shape that
-    # fails for "Follower" - but that failure is specifically "'Follower' cannot be created
-    # as a standalone tool", not a blanket "AddModifier never works", so XYPath is attempted
-    # on its own merits.
+    # The attachment call, `tool.AddModifier(input_name, "XYPath")`, is the same one the
+    # letter presets use for the text Follower (by its registry ID, "StyledTextFollower" -
+    # see LETTER_PRESETS below).
     #
     # STATUS: EXPERIMENTAL - not yet verified against a live project. The log plus a
     # "Dump Selected Node Settings" capture of the Template tool show whether it took effect.
@@ -772,13 +764,9 @@ class FusionAnimationEngine:
         compound "PolyLine" write that PolyPath depends on.
 
         `AddModifier('Pivot', 'XYPath')` can return a bare `True` rather than the modifier
-        tool itself - the same "succeeds per return code, but the return value itself is
-        useless" pattern seen for "Follower" in apply_follower_modifier() (its H1). That
-        code's H5 probes candidate Input-object methods for locating a connected tool after
-        an AddModifier call whose return value can't be trusted, and finds
-        "GetConnectedOutput" present (unverified there, since Follower's AddModifier never
-        returns anything useful at all). Here, with a genuine `True` in hand, it's worth
-        actually calling it: `tool.<input_name>.GetConnectedOutput()` should return the
+        tool itself, as it does for the text Follower (see follower_of()). So the
+        modifier is found through the input's connection instead:
+        `tool.<input_name>.GetConnectedOutput()` should return the
         Output the input is now connected to, and `.GetTool()` on that Output should return
         the modifier tool owning it - both individually standard, commonly-documented Fusion
         scripting methods (Input:GetConnectedOutput(), Output:GetTool()), not fabricated ones.
@@ -805,8 +793,7 @@ class FusionAnimationEngine:
 
         # AddModifier returned True/False/None rather than a usable tool - try to
         # locate the attached modifier via the input's own connection instead of trusting the
-        # return value, same discipline as apply_follower_modifier()'s own multi-hypothesis
-        # cascade when a return value alone isn't enough.
+        # return value, as follower_of() does.
         if result is False:
             log_msgs.append("  - [XYPath Warning] AddModifier returned False – modifier likely not attached.")
             return None, log_msgs
@@ -958,7 +945,8 @@ class FusionAnimationEngine:
 
     @staticmethod
     def remove_animations_from_clip(text_tool: Any, comp: Optional[Any] = None) -> Tuple[bool, List[str]]:
-        """Reverses whatever Pop/Bounce/Fade/Slide did to ONE TextPlus tool - disconnects the
+        """Reverses whatever Pop/Bounce/Fade/Slide or a letter preset did to ONE TextPlus
+        tool - takes off a Follower (remove_follower: its text goes back first), disconnects the
         inputs those presets
         ever connect something to ("LayoutSize" for Pop/Bounce, "Opacity1" for Fade/Slide, and
         legacy "Center"/"LineOffset"/"CharacterOffset" cleanup - see below) and resets what it
@@ -1003,7 +991,9 @@ class FusionAnimationEngine:
         if text_tool is None:
             return False, ["  - [Remove Animations Error] TextPlus tool is None."]
 
-        any_success = False
+        # A letter-by-letter preset's Follower first: it holds the clip's text.
+        any_success, follower_logs = FusionAnimationEngine.remove_follower(text_tool)
+        log_msgs.extend(follower_logs)
         for input_name, neutral_value in (
             ("LayoutSize", 1.0),
             ("Opacity1", 1.0),
@@ -1080,348 +1070,136 @@ class FusionAnimationEngine:
             log_msgs.append("  - Removed animation keyframes and reset LayoutSize/Opacity1/LineOffset/CharacterOffset to their neutral values.")
         return any_success, log_msgs
 
-    @staticmethod
-    def apply_follower_modifier(text_plus_node: Any, comp: Optional[Any] = None) -> Tuple[Optional[Any], List[str]]:
-        """Adds or finds a Follower modifier on the Text+ node. Returns (follower_node, log_messages).
-
-        The plain `text_plus_node.AddModifier("StyledText", "Follower")` call silently fails
-        against a real Resolve project - no exception, just never returns anything usable.
-        So several plausible mechanisms for reaching Fusion's actual modifier-attachment API
-        are tried in sequence, each logged with the type/repr of what it returns, so a single
-        run's log shows which one (if any) works.
-        """
-        log_msgs: List[str] = []
-        if text_plus_node is None:
-            return None, ["  - [Follower Error] TextPlus node is None."]
-
-        follower = None
-        styled_text_input_obj = None  # populated by H5 if found; referenced by H6 regardless of outcome
-
-        # hasattr() is unreliable here - Resolve's PyRemoteObject proxies return None for undefined attributes rather than raising, so hasattr() always
-        # reports True on them. Check for a non-None resolved value instead.
-        diag_candidates = ["AddModifier", "GetInput", "SetInput", "StyledText", "FindMainInput", "GetAttrs", "GetInputList"]
-        present = [n for n in diag_candidates if getattr(text_plus_node, n, None) is not None]
-        log_msgs.append(f"  - [Follower Diagnostic] TextPlus tool attributes resolving to non-None: {present}")
-
-        # H1 (the plain call): AddModifier called on the tool with the input name as an arg.
-        add_modifier_on_tool = getattr(text_plus_node, "AddModifier", None)
-        if callable(add_modifier_on_tool):
-            try:
-                res = add_modifier_on_tool("StyledText", "Follower")
-                log_msgs.append(f"  - [Follower H1] AddModifier('StyledText', 'Follower') returned {res!r}")
-                if res is not None and not isinstance(res, bool):
-                    follower = res
-            except Exception as err:
-                log_msgs.append(f"  - [Follower H1 Exception] {err}")
-
-        # H2: attribute-style access to the StyledText input, then AddModifier on THAT object -
-        # matches Fusion's Lua convention of `tool.StyledText:AddModifier(type)`. Note: Resolve's
-        # PyRemoteObject proxies return None for undefined attributes rather than raising
-        # AttributeError, so hasattr() always reports True on them - use
-        # callable(getattr(obj, name, None)) instead wherever a remote object is probed.
-        if follower is None:
-            try:
-                styled_text_input = text_plus_node.StyledText
-                log_msgs.append(
-                    f"  - [Follower H2] text_plus_node.StyledText = {styled_text_input!r} "
-                    f"(type {type(styled_text_input).__name__})"
-                )
-                add_modifier_fn = getattr(styled_text_input, "AddModifier", None)
-                if callable(add_modifier_fn):
-                    res = add_modifier_fn("Follower")
-                    log_msgs.append(f"  - [Follower H2] StyledText.AddModifier('Follower') returned {res!r}")
-                    if res is not None and not isinstance(res, bool):
-                        follower = res
-                else:
-                    log_msgs.append("  - [Follower H2] StyledText object has no callable AddModifier.")
-            except Exception as err:
-                log_msgs.append(f"  - [Follower H2 Exception] {err}")
-
-        # H3: AddModifier on the tool with only the modifier type (no input name argument).
-        if follower is None and callable(add_modifier_on_tool):
-            try:
-                res = add_modifier_on_tool("Follower")
-                log_msgs.append(f"  - [Follower H3] AddModifier('Follower') returned {res!r}")
-                if res is not None and not isinstance(res, bool):
-                    follower = res
-            except Exception as err:
-                log_msgs.append(f"  - [Follower H3 Exception] {err}")
-
-        # H4: GetInput("StyledText") might return an Input wrapper object (not just its resolved
-        # value) that itself supports AddModifier.
-        if follower is None:
-            try:
-                input_obj = text_plus_node.GetInput("StyledText")
-                log_msgs.append(
-                    f"  - [Follower H4] GetInput('StyledText') = {input_obj!r} (type {type(input_obj).__name__})"
-                )
-                add_modifier_fn = getattr(input_obj, "AddModifier", None)
-                if callable(add_modifier_fn):
-                    res = add_modifier_fn("Follower")
-                    log_msgs.append(f"  - [Follower H4] input_obj.AddModifier('Follower') returned {res!r}")
-                    if res is not None and not isinstance(res, bool):
-                        follower = res
-            except Exception as err:
-                log_msgs.append(f"  - [Follower H4 Exception] {err}")
-
-        # H5: GetInputList() may expose genuine per-input reference objects, distinct from both
-        # GetInput() (returns the plain resolved value) and attribute-style access (returns an
-        # object with no real AddModifier).
-        if follower is None:
-            try:
-                input_list = text_plus_node.GetInputList()
-                keys_preview = list(input_list.keys())[:20] if hasattr(input_list, "keys") else None
-                log_msgs.append(
-                    f"  - [Follower H5] GetInputList() = {type(input_list).__name__}, keys: {keys_preview!r}"
-                )
-                styled_text_input_obj = None
-                if input_list and hasattr(input_list, "values"):
-                    for candidate in input_list.values():
-                        if getattr(candidate, "ID", None) == "StyledText":
-                            styled_text_input_obj = candidate
-                            break
-                    if styled_text_input_obj is None and hasattr(input_list, "get"):
-                        styled_text_input_obj = input_list.get("StyledText")
-
-                if styled_text_input_obj is not None:
-                    log_msgs.append(f"  - [Follower H5] Found StyledText input object: {styled_text_input_obj!r}")
-                    add_modifier_fn = getattr(styled_text_input_obj, "AddModifier", None)
-                    if callable(add_modifier_fn):
-                        res = add_modifier_fn("Follower")
-                        log_msgs.append(f"  - [Follower H5] StyledText input.AddModifier('Follower') returned {res!r}")
-                        if res is not None and not isinstance(res, bool):
-                            follower = res
-                    else:
-                        log_msgs.append("  - [Follower H5] StyledText input object has no callable AddModifier.")
-
-                        # AddModifier is unavailable on every object tried so far (tool, attribute-
-                        # style input, GetInputList input) - probe this genuine Input object (its
-                        # .ID matched "StyledText") for whatever methods it DOES have, rather than
-                        # trying more AddModifier call shapes blind.
-                        probe_names = [
-                            "ConnectTo", "GetConnectedOutput", "GetSourceTool", "GetAttrs",
-                            "SetSource", "GetModifiers", "AddSource", "GetSource", "Modifiers",
-                            "GetExpression", "SetExpression",
-                        ]
-                        probe_present = [n for n in probe_names if getattr(styled_text_input_obj, n, None) is not None]
-                        log_msgs.append(f"  - [Follower H5 Probe] StyledText input object methods/attrs present: {probe_present}")
-                else:
-                    log_msgs.append("  - [Follower H5] Could not locate a 'StyledText' entry in GetInputList().")
-            except Exception as err:
-                log_msgs.append(f"  - [Follower H5 Exception] {err}")
-
-        # H6: create a Follower tool directly in the composition, then wire it to the StyledText
-        # input via ConnectTo - Fusion modifiers may need to be created as standalone tools and
-        # connected, rather than attached via any AddModifier call (which doesn't work on the
-        # attribute/GetInput/GetInputList-obtained objects above).
-        if follower is None and comp is not None:
-            add_tool_fn = getattr(comp, "AddTool", None)
-            if callable(add_tool_fn):
-                try:
-                    new_follower = add_tool_fn("Follower")
-                    log_msgs.append(f"  - [Follower H6] comp.AddTool('Follower') returned {new_follower!r}")
-                except Exception as err:
-                    new_follower = None
-                    log_msgs.append(f"  - [Follower H6 Exception] comp.AddTool('Follower'): {err}")
-
-                if new_follower is not None and not isinstance(new_follower, bool):
-                    connected = False
-                    for obj_desc, get_input_obj in [
-                        ("StyledText attribute", lambda: text_plus_node.StyledText),
-                        ("GetInputList('StyledText')", lambda: styled_text_input_obj),
-                    ]:
-                        try:
-                            target_input = get_input_obj()
-                            connect_fn = getattr(target_input, "ConnectTo", None)
-                            if callable(connect_fn):
-                                res = connect_fn(new_follower)
-                                log_msgs.append(f"  - [Follower H6] {obj_desc}.ConnectTo(new_follower) returned {res!r}")
-                                if res:
-                                    connected = True
-                                    break
-                            else:
-                                log_msgs.append(f"  - [Follower H6] {obj_desc} has no callable ConnectTo.")
-                        except Exception as err:
-                            log_msgs.append(f"  - [Follower H6 Exception] {obj_desc}.ConnectTo: {err}")
-
-                    if connected:
-                        follower = new_follower
-                    else:
-                        # Leave the orphaned tool in place rather than also relying on an
-                        # unverified deletion API here.
-                        log_msgs.append(
-                            "  - [Follower H6 Warning] Created a 'Follower' tool but could not connect it to "
-                            "StyledText – it may be left orphaned in the composition."
-                        )
-
-        # 2. Composition-level tool discovery fallback (find tool with ID == 'Follower')
-        if follower is None and comp is not None:
-            if hasattr(comp, "GetToolList"):
-                try:
-                    tools = comp.GetToolList(False, "Follower")
-                    if tools:
-                        follower = list(tools.values())[0] if isinstance(tools, dict) else tools[0]
-                        log_msgs.append("  - Located existing Follower modifier tool in composition tool list.")
-                    else:
-                        all_tools = comp.GetToolList(False)
-                        if all_tools:
-                            tool_list = list(all_tools.values()) if isinstance(all_tools, dict) else all_tools
-                            for t in tool_list:
-                                if hasattr(t, "ID") and t.ID == "Follower":
-                                    follower = t
-                                    log_msgs.append(f"  - Located Follower node '{t.Name if hasattr(t, 'Name') else 'Follower'}' via comp tool list.")
-                                    break
-                except Exception as err:
-                    log_msgs.append(f"  - [Comp ToolList Exception]: {err}")
-
-        # 3. Direct node attribute / input discovery fallback
-        if follower is None and hasattr(text_plus_node, "GetInput"):
-            for input_name in ["StyledTextFollower", "Follower", "StyledText.Follower"]:
-                try:
-                    res = text_plus_node.GetInput(input_name)
-                    if res is not None and not isinstance(res, bool):
-                        follower = res
-                        log_msgs.append(f"  - Located Follower node via GetInput('{input_name}').")
-                        break
-                except Exception:
-                    pass
-
-        if follower is None:
-            log_msgs.append("  - [Follower Warning] Follower modifier could not be added or located on node.")
-
-        return follower, log_msgs
+    # ---------------------------------------------------- letter by letter
+    # The per-letter presets run on Fusion's text Follower, the modifier Resolve's own
+    # "Rise Fade", "Scale Up" and "Drop In" titles are built on (Templates.drfx). Its
+    # registry ID is "StyledTextFollower": AddModifier("StyledText", "Follower") attaches
+    # nothing, which is why an earlier attempt here gave up (the fix measured by
+    # github.com/samuelgursky/davinci-resolve-mcp; checked again on Studio 21.1). Once
+    # attached, the words live on the Follower's "Text" and the Text+ "StyledText" reads
+    # them from it - so taking it off puts them back first (remove_follower). Its own
+    # inputs animate each letter, the next one "Delay" frames after the last: "Opacity1",
+    # or "CharacterSizeX" and "CharacterSizeY" together, each connected to a BezierSpline
+    # like the whole-clip presets above.
+    FOLLOWER_ID = "StyledTextFollower"
+    LETTER_PRESETS = ("Typewriter (Letters)", "Letter Fade (Letters)", "Letter Pop (Letters)")
+    # Frames from one letter to the next at each speed - squeezed for a long line, so the
+    # whole of it has arrived within _LETTER_REVEAL_FRAMES.
+    _LETTER_DELAY = {"Fast": 1.0, "Medium": 2.0, "Slow": 3.0}
+    _LETTER_REVEAL_FRAMES = {"Fast": 12, "Medium": 20, "Slow": 30}
+    _LETTER_POP_OVERSHOOT = 1.15
 
     @staticmethod
-    def _set_input_value(node: Any, param: str, value: Any, time: Optional[int] = None) -> bool:
-        """Sets input value on Fusion tool node using SetInput or direct indexing/property assignment."""
-        if node is None:
-            return False
-
-        # Try SetInput with time argument
-        if time is not None and hasattr(node, "SetInput"):
-            try:
-                node.SetInput(param, value, time)
-                return True
-            except Exception:
-                pass
-
-        # Try SetInput without time argument
-        if hasattr(node, "SetInput"):
-            try:
-                node.SetInput(param, value)
-                return True
-            except Exception:
-                pass
-
-        # Try direct bracket indexing: node[param][time] = value or node[param] = value
+    def follower_of(text_tool: Any) -> Optional[Any]:
+        """The Follower driving this Text+'s text, or None."""
         try:
-            param_obj = getattr(node, param, None) or node[param]
-            if param_obj is not None:
-                if time is not None and hasattr(param_obj, "__setitem__"):
-                    param_obj[time] = value
-                else:
-                    setattr(node, param, value)
-                return True
+            output = text_tool.StyledText.GetConnectedOutput()
+            tool = output.GetTool() if output is not None else None
         except Exception:
-            pass
-
-        return False
+            return None
+        if tool is None or getattr(tool, "ID", None) != FusionAnimationEngine.FOLLOWER_ID:
+            return None
+        return tool
 
     @staticmethod
-    def set_delay_type(follower_node: Any, delay_type: int = DelayType.CHARACTER, delay_amount: float = 2.0) -> Tuple[bool, List[str]]:
-        """Sets DelayType (0 = Character, 1 = Word) and Delay amount on Follower node."""
-        log_msgs: List[str] = []
-        if follower_node is None:
-            return False, ["  - [Delay Error] Follower node is None."]
-
+    def attach_follower(text_tool: Any) -> Tuple[Optional[Any], List[str]]:
+        """The Text+'s Follower - attached now if it has none. AddModifier's return isn't
+        trusted: the StyledText input's connection says whether one is there."""
+        existing = FusionAnimationEngine.follower_of(text_tool)
+        if existing is not None:
+            return existing, []
         try:
-            s1 = FusionAnimationEngine._set_input_value(follower_node, "DelayType", delay_type)
-            s2 = FusionAnimationEngine._set_input_value(follower_node, "Delay", delay_amount)
-            if s1 and s2:
-                log_msgs.append(f"  - Set Follower DelayType={delay_type}, Delay={delay_amount}.")
-                return True, log_msgs
-            else:
-                log_msgs.append(f"  - [Delay Warning] Partial failure setting DelayType/Delay.")
-                return s1 or s2, log_msgs
+            text = text_tool.GetInput("StyledText")
+            result = text_tool.AddModifier("StyledText", FusionAnimationEngine.FOLLOWER_ID)
         except Exception as err:
-            log_msgs.append(f"  - [Delay Exception]: {err}")
-            return False, log_msgs
+            return None, [f"  - [Follower Exception] AddModifier('StyledText', 'StyledTextFollower'): {err}"]
+        follower = FusionAnimationEngine.follower_of(text_tool)
+        logs = [f"  - [Follower] AddModifier('StyledText', 'StyledTextFollower') returned {result!r}; "
+                f"{'attached' if follower is not None else 'nothing attached'}."]
+        if follower is not None and isinstance(text, str) and text and not follower.GetInput("Text"):
+            follower.SetInput("Text", text)
+        return follower, logs
 
     @staticmethod
-    def apply_pop_preset(follower_node: Any, start_frame: int = 0, duration: int = 15) -> Tuple[bool, List[str]]:
-        """Applies Pop animation preset (Size: 0.0 -> 1.2 -> 1.0)."""
-        log_msgs: List[str] = []
-        if follower_node is None:
-            return False, ["  - [Pop Error] Follower node is None."]
+    def remove_follower(text_tool: Any) -> Tuple[bool, List[str]]:
+        """Takes a per-letter animation off: the Follower's text goes back on the Text+
+        itself, then the Follower and its splines are deleted. False if there wasn't one."""
+        follower = FusionAnimationEngine.follower_of(text_tool)
+        if follower is None:
+            return False, []
+        logs: List[str] = []
+        try:
+            text = follower.GetInput("Text")
+            if not isinstance(text, str):
+                text = text_tool.GetInput("StyledText")
+        except Exception:
+            text = None
+        for input_name in ("Opacity1", "CharacterSizeX", "CharacterSizeY"):
+            logs.extend(FusionAnimationEngine._delete_connected_tool(follower, input_name))
+        try:
+            text_tool.StyledText.ConnectTo(None)
+            if isinstance(text, str):
+                text_tool.SetInput("StyledText", text)
+            follower.Delete()
+            logs.append("  - [Cleanup] Put the text back on the Text+ and deleted its Follower.")
+        except Exception as err:
+            logs.append(f"  - [Remove Follower Exception] {err}")
+            return False, logs
+        return True, logs
 
+    @staticmethod
+    def letter_delay(text: str, speed: str) -> float:
+        """Frames between one letter and the next: the speed's own pace, or less for a line
+        too long to arrive in time at it."""
+        steps = max(1, len(text or "") - 1)
+        pace = FusionAnimationEngine._LETTER_DELAY.get(speed, FusionAnimationEngine._LETTER_DELAY["Slow"])
+        reveal = FusionAnimationEngine._LETTER_REVEAL_FRAMES.get(speed, FusionAnimationEngine._LETTER_REVEAL_FRAMES["Slow"])
+        return round(min(pace, reveal / steps), 3)
+
+    @staticmethod
+    def apply_letter_preset_to_clip(text_tool: Any, comp: Any, preset: str, speed: str = "Medium",
+                                    start_frame: int = 0) -> Tuple[bool, List[str]]:
+        """Typewriter (each letter appears, one after another), Letter Fade (each fades in)
+        or Letter Pop (each grows from nothing with a little overshoot), on the Text+'s
+        Follower."""
+        if text_tool is None or comp is None:
+            return False, ["  - [Letters Error] TextPlus tool or comp missing."]
+        follower, logs = FusionAnimationEngine.attach_follower(text_tool)
+        if follower is None:
+            logs.append("  - [Letters Warning] The Follower modifier could not be attached.")
+            return False, logs
+        try:
+            text = follower.GetInput("Text")
+        except Exception:
+            text = ""
+        delay = FusionAnimationEngine.letter_delay(text if isinstance(text, str) else "", speed)
+        try:
+            follower.SetInput("Delay", delay)
+        except Exception as err:
+            logs.append(f"  - [Letters Exception] SetInput('Delay', {delay}): {err}")
+            return False, logs
         t0 = start_frame
-        t1 = start_frame + int(duration * 0.6)
-        t2 = start_frame + duration
-
-        try:
-            k1 = FusionAnimationEngine._set_input_value(follower_node, "Size", 0.0, time=t0)
-            k2 = FusionAnimationEngine._set_input_value(follower_node, "Size", 1.2, time=t1)
-            k3 = FusionAnimationEngine._set_input_value(follower_node, "Size", 1.0, time=t2)
-            if k1 and k2 and k3:
-                log_msgs.append(f"  - Applied Pop preset keyframes for Size at t={t0}, {t1}, {t2}.")
-                return True, log_msgs
-            else:
-                log_msgs.append("  - [Pop Warning] Some Pop preset keyframes failed to set.")
-                return k1 or k2 or k3, log_msgs
-        except Exception as err:
-            log_msgs.append(f"  - [Pop Exception]: {err}")
-            return False, log_msgs
-
-    @staticmethod
-    def apply_fade_preset(follower_node: Any, start_frame: int = 0, duration: int = 15, y_offset: float = -0.1) -> Tuple[bool, List[str]]:
-        """Applies Fade animation preset (Opacity: 0.0 -> 1.0, Y-axis offset)."""
-        log_msgs: List[str] = []
-        if follower_node is None:
-            return False, ["  - [Fade Error] Follower node is None."]
-
-        t0 = start_frame
-        t1 = start_frame + duration
-
-        try:
-            o1 = FusionAnimationEngine._set_input_value(follower_node, "Opacity", 0.0, time=t0)
-            o2 = FusionAnimationEngine._set_input_value(follower_node, "Opacity", 1.0, time=t1)
-
-            y1 = FusionAnimationEngine._set_input_value(follower_node, "OffsetY", y_offset, time=t0)
-            y2 = FusionAnimationEngine._set_input_value(follower_node, "OffsetY", 0.0, time=t1)
-
-            if o1 and o2:
-                log_msgs.append(f"  - Applied Fade preset keyframes for Opacity and OffsetY at t={t0}, {t1}.")
-                return True, log_msgs
-            else:
-                log_msgs.append("  - [Fade Warning] Some Fade preset keyframes failed to set.")
-                return o1 or o2 or y1 or y2, log_msgs
-        except Exception as err:
-            log_msgs.append(f"  - [Fade Exception]: {err}")
-            return False, log_msgs
-
-    @staticmethod
-    def apply_slide_preset(follower_node: Any, start_frame: int = 0, duration: int = 15, x_offset: float = -0.3) -> Tuple[bool, List[str]]:
-        """Applies Slide animation preset (X-axis offset ramp: x_offset -> 0.0, Opacity: 0.0 -> 1.0)."""
-        log_msgs: List[str] = []
-        if follower_node is None:
-            return False, ["  - [Slide Error] Follower node is None."]
-
-        t0 = start_frame
-        t1 = start_frame + duration
-
-        try:
-            x1 = FusionAnimationEngine._set_input_value(follower_node, "OffsetX", x_offset, time=t0)
-            x2 = FusionAnimationEngine._set_input_value(follower_node, "OffsetX", 0.0, time=t1)
-
-            o1 = FusionAnimationEngine._set_input_value(follower_node, "Opacity", 0.0, time=t0)
-            o2 = FusionAnimationEngine._set_input_value(follower_node, "Opacity", 1.0, time=t1)
-
-            if x1 and x2:
-                log_msgs.append(f"  - Applied Slide preset keyframes for OffsetX and Opacity at t={t0}, {t1}.")
-                return True, log_msgs
-            else:
-                log_msgs.append("  - [Slide Warning] Some Slide preset keyframes failed to set.")
-                return x1 or x2 or o1 or o2, log_msgs
-        except Exception as err:
-            log_msgs.append(f"  - [Slide Exception]: {err}")
-            return False, log_msgs
+        if preset.startswith("Letter Pop"):
+            duration = FusionAnimationEngine.scaled_duration(10, speed)
+            try:
+                follower.SetInput("TransformSize", 1)   # the size group on, as Resolve's Scale Up has it
+            except Exception:
+                pass
+            keys = {t0: FusionAnimationEngine._START_SCALE,
+                    t0 + max(1, int(duration * 0.6)): FusionAnimationEngine._LETTER_POP_OVERSHOOT,
+                    t0 + duration: 1.0}
+            ok = True
+            # Width and height each get the curve: an expression tying Y to X (as Scale Up
+            # has) set through the scripting API left every letter full height and thin.
+            for axis in ("CharacterSizeX", "CharacterSizeY"):
+                axis_ok, spline_logs = FusionAnimationEngine._create_and_connect_spline(follower, comp, axis, keys)
+                logs.extend(spline_logs)
+                ok = ok and axis_ok
+        else:
+            duration = 1 if preset.startswith("Typewriter") else FusionAnimationEngine.scaled_duration(12, speed)
+            ok, spline_logs = FusionAnimationEngine._create_and_connect_spline(follower, comp, "Opacity1", {
+                t0: 0.0, t0 + duration: 1.0, t0 + duration + FusionAnimationEngine._FADE_HOLD_GAP_FRAMES: 1.0})
+            logs.extend(spline_logs)
+        if ok:
+            logs.append(f"  - Applied {preset}: {delay} frame(s) between letters, {duration} frame(s) each.")
+        return ok, logs

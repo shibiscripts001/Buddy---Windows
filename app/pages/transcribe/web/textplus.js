@@ -169,6 +169,9 @@ const ANIMATIONS = [
     {id: "Bounce (Extra Rebound)", title: "Bounce", text: "Like Pop, with an extra rebound."},
     {id: "Fade (Opacity)", title: "Fade", text: "Fades in and out."},
     {id: "Slide (Direction + Fade)", title: "Slide", text: "Slides in from a side while fading."},
+    {id: "Typewriter (Letters)", title: "Typewriter", text: "Types the text on, one letter at a time."},
+    {id: "Letter Fade (Letters)", title: "Letter Fade", text: "Each letter fades in, one after another."},
+    {id: "Letter Pop (Letters)", title: "Letter Pop", text: "Each letter pops up from nothing, one after another."},
 ];
 const LAYOUTS = [
     {id: "Hero + Stack", title: "Hero + Stack", text: "One big word, the rest above and below it.",

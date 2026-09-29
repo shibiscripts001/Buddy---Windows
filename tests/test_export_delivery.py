@@ -126,18 +126,53 @@ class StillsRuleTests(unittest.TestCase):
         self.assertEqual([tc for tc, _still in grabbed], ["01:00:00:00", "01:01:35:00"])
         self.assertTrue(any("failed to move the playhead" in line for line in log))
 
+    def folder(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        return tmp.name
+
     def test_failed_gallery_delete_does_not_turn_export_into_failure(self):
         controller = Controller()
         album = controller.project.album
         album.delete_ok = False
         log = []
-        self.assertFalse(stills_ext.export_stills(controller, ["still"], "folder", "Shot_", "png",
+        folder = self.folder()
+        self.assertFalse(stills_ext.export_stills(controller, ["still"], folder, "Shot_", "png",
                                                   delete_after=True, log=log.append))
         self.assertIsNotNone(album.exported)
         self.assertTrue(any("deletion failed" in line for line in log))
         album.delete_raises = True
-        self.assertFalse(stills_ext.export_stills(controller, ["still"], "folder", "Shot_", "png",
-                                                  delete_after=True))
+        self.assertFalse(stills_ext.export_stills(controller, ["still"], folder, "Shot_", "png",
+                                                  delete_after=True))   # the same file written again counts
+
+    def test_a_closed_gallery_says_so(self):
+        controller = Controller()
+        album = controller.project.album
+        album.export_ok = False   # what ExportStills does while the Gallery panel is closed
+        with self.assertRaises(stills_ext.ResolveConnectionError) as caught:
+            stills_ext.export_stills(controller, ["still"], self.folder(), "Shot_", "png")
+        self.assertIn("Gallery is open on the Color page", str(caught.exception))
+        album.export_ok, album.writes = True, 0   # True, but nothing written
+        with self.assertRaises(stills_ext.ResolveConnectionError):
+            stills_ext.export_stills(controller, ["still"], self.folder(), "Shot_", "png", delete_after=True)
+        self.assertIsNone(album.deleted)
+
+    def test_nothing_is_deleted_unless_every_file_appeared(self):
+        controller = Controller()
+        album = controller.project.album
+        album.writes = 1
+        folder = self.folder()
+        with open(os.path.join(folder, "Other.png"), "wb") as fh:   # already there: not counted
+            fh.write(b"x")
+        log = []
+        self.assertFalse(stills_ext.export_stills(controller, ["a", "b"], folder, "Shot_", "png",
+                                                  delete_after=True, log=log.append))
+        self.assertIsNone(album.deleted)
+        self.assertTrue(any("only 1 of 2" in line for line in log))
+        album.writes = None
+        self.assertTrue(stills_ext.export_stills(controller, ["a", "b"], folder, "Shot_", "png",
+                                                 delete_after=True))
+        self.assertEqual(album.deleted, ["a", "b"])
 
 
 # ------------------------------------------------------------ fake Resolve --
@@ -185,9 +220,20 @@ class Album:
         self.exported = self.deleted = None
         self.delete_ok = True
         self.delete_raises = False
+        self.export_ok = True
+        self.writes = None   # how many files an export writes (None: one per still)
+        self.runs = 0
 
     def ExportStills(self, stills, folder, prefix, fmt):
         self.exported = (list(stills), folder, prefix, fmt)
+        if not self.export_ok:
+            return False
+        self.runs += 1
+        count = len(stills) if self.writes is None else self.writes
+        for i in range(count):   # named like Resolve's (prefix + still number); rewritten on a repeat
+            path = os.path.join(folder, f"{prefix}1.1.{i + 1}.{fmt}")
+            with open(path, "wb") as fh:
+                fh.write(b"image" * self.runs)
         return True
 
     def DeleteStills(self, stills):

@@ -1469,5 +1469,65 @@
   "中文": "“所选片段”需要 DaVinci Resolve 21.0.4 或更高版本。",
   "العربية": "«المقاطع المحددة» يتطلب DaVinci Resolve 21.0.4 أو أحدث.",
   "Tiếng Việt": "Clip đã chọn cần DaVinci Resolve 21.0.4 trở lên."
+ },
+ "Typewriter": {
+  "日本語": "タイプライター",
+  "Español": "Máquina de escribir",
+  "Deutsch": "Schreibmaschine",
+  "Français": "Machine à écrire",
+  "한국어": "타자기",
+  "中文": "打字机",
+  "العربية": "آلة كاتبة",
+  "Tiếng Việt": "Máy đánh chữ"
+ },
+ "Types the text on, one letter at a time.": {
+  "日本語": "文字を 1 文字ずつ打ち込むように表示します。",
+  "Español": "Escribe el texto letra a letra.",
+  "Deutsch": "Tippt den Text Buchstabe für Buchstabe ein.",
+  "Français": "Tape le texte lettre par lettre.",
+  "한국어": "글자를 한 자씩 타이핑하듯 나타냅니다.",
+  "中文": "逐个字母打出文字。",
+  "العربية": "يكتب النص حرفًا حرفًا.",
+  "Tiếng Việt": "Gõ chữ hiện ra từng ký tự một."
+ },
+ "Letter Fade": {
+  "日本語": "文字フェード",
+  "Español": "Fundido por letras",
+  "Deutsch": "Buchstaben einblenden",
+  "Français": "Fondu lettre par lettre",
+  "한국어": "글자 페이드",
+  "中文": "逐字淡入",
+  "العربية": "تلاشي الحروف",
+  "Tiếng Việt": "Mờ dần từng chữ"
+ },
+ "Each letter fades in, one after another.": {
+  "日本語": "1 文字ずつ順番にフェードインします。",
+  "Español": "Cada letra aparece con un fundido, una tras otra.",
+  "Deutsch": "Jeder Buchstabe blendet nacheinander ein.",
+  "Français": "Chaque lettre apparaît en fondu, l'une après l'autre.",
+  "한국어": "글자가 하나씩 차례로 페이드인됩니다.",
+  "中文": "每个字母依次淡入。",
+  "العربية": "يظهر كل حرف تدريجيًا، واحدًا تلو الآخر.",
+  "Tiếng Việt": "Từng chữ lần lượt hiện dần lên."
+ },
+ "Letter Pop": {
+  "日本語": "文字ポップ",
+  "Español": "Pop por letras",
+  "Deutsch": "Buchstaben-Pop",
+  "Français": "Pop lettre par lettre",
+  "한국어": "글자 팝",
+  "中文": "逐字弹出",
+  "العربية": "انبثاق الحروف",
+  "Tiếng Việt": "Bật từng chữ"
+ },
+ "Each letter pops up from nothing, one after another.": {
+  "日本語": "1 文字ずつ順番に、何もないところから飛び出します。",
+  "Español": "Cada letra surge de la nada, una tras otra.",
+  "Deutsch": "Jeder Buchstabe springt nacheinander aus dem Nichts hervor.",
+  "Français": "Chaque lettre surgit de nulle part, l'une après l'autre.",
+  "한국어": "글자가 하나씩 차례로 튀어나옵니다.",
+  "中文": "每个字母依次从无到有弹出。",
+  "العربية": "يبرز كل حرف من العدم، واحدًا تلو الآخر.",
+  "Tiếng Việt": "Từng chữ lần lượt bật ra từ hư không."
  }
 }

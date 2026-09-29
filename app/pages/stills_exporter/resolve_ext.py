@@ -15,6 +15,7 @@ can delete them from the gallery afterward. Every such call is behind an
 explicit button.
 """
 
+import os
 import time
 
 from core.marker_colors import numeric_markers
@@ -179,6 +180,21 @@ def grab_stills_for_color(controller, color, log=lambda msg: None):
     return grabbed
 
 
+GALLERY_CLOSED = ("Resolve didn't export the stills. It only exports them while the Gallery is open "
+                  "on the Color page - click Gallery at the top left of the Color page, then try again.")
+
+
+def _images_in(folder, fmt):
+    """name -> (size, modified) of the folder's .fmt files ({} if it can't be read)."""
+    ext = "." + fmt.lower()
+    try:
+        with os.scandir(folder) as entries:
+            return {e.name: (e.stat().st_size, e.stat().st_mtime_ns) for e in entries
+                    if e.is_file() and e.name.lower().endswith(ext)}
+    except OSError:
+        return {}
+
+
 def export_stills(controller, stills, folder, prefix, fmt,
                   delete_after=False, log=lambda msg: None):
     """Write the grabbed stills out as image files.
@@ -187,6 +203,13 @@ def export_stills(controller, stills, folder, prefix, fmt,
     destructive thing this tool can do, and why the page confirms first.
     Returns False only when the files exported but gallery deletion failed;
     export failures raise instead.
+
+    ExportStills writes nothing and returns False unless the Gallery panel
+    is open on the Color page - which a script can neither see nor change
+    (measured by github.com/samuelgursky/davinci-resolve-mcp) - so a failure
+    says to open it. And its True isn't taken on trust: the stills are only
+    deleted from the gallery once as many new or rewritten image files as
+    there were stills are in the folder.
     """
     if not stills:
         raise ResolveConnectionError("No stills have been grabbed yet.")
@@ -198,12 +221,21 @@ def export_stills(controller, stills, folder, prefix, fmt,
     if album is None:
         raise ResolveConnectionError("Could not access the current still album.")
 
+    before = _images_in(folder, fmt)
     if not album.ExportStills(stills, folder, prefix, fmt):
-        raise ResolveConnectionError("Resolve reported the export failed.")
-    log(f"Exported {len(stills)} still(s) to {folder} as .{fmt}")
+        raise ResolveConnectionError(GALLERY_CLOSED)
+    after = _images_in(folder, fmt)
+    written = sum(1 for name, stamp in after.items() if before.get(name) != stamp)
+    if not written:
+        raise ResolveConnectionError(GALLERY_CLOSED)
+    log(f"Exported {written} still(s) to {folder} as .{fmt}")
 
     if not delete_after:
         return True
+    if written < len(stills):
+        log(f"WARNING: only {written} of {len(stills)} image files appeared, so nothing was deleted "
+            "from the Resolve gallery.")
+        return False
     try:
         deleted = bool(album.DeleteStills(stills))
     except Exception:

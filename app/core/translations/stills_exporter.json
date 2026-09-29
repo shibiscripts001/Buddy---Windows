@@ -769,5 +769,25 @@
   "中文": "请使用不含斜杠或特殊字符的前缀。",
   "العربية": "استخدم بادئة دون شرطات مائلة أو أحرف خاصة.",
   "Tiếng Việt": "Dùng tiền tố không có dấu gạch chéo hoặc ký tự đặc biệt."
+ },
+ "Resolve didn't export the stills. It only exports them while the Gallery is open on the Color page - click Gallery at the top left of the Color page, then try again.": {
+  "日本語": "Resolve はスチルを書き出しませんでした。カラーページでギャラリーが開いているときにしか書き出せません - カラーページ左上の「ギャラリー」をクリックしてから、もう一度お試しください。",
+  "Español": "Resolve no exportó los fotogramas. Solo los exporta mientras la Galería está abierta en la página Color: haz clic en Galería, arriba a la izquierda de la página Color, y vuelve a intentarlo.",
+  "Deutsch": "Resolve hat die Standbilder nicht exportiert. Das geht nur, solange die Galerie auf der Color-Seite geöffnet ist – klicken Sie oben links auf der Color-Seite auf „Galerie“ und versuchen Sie es erneut.",
+  "Français": "Resolve n'a pas exporté les images fixes. Il ne les exporte que lorsque la Galerie est ouverte sur la page Étalonnage – cliquez sur Galerie en haut à gauche de la page Étalonnage, puis réessayez.",
+  "한국어": "Resolve가 스틸을 내보내지 않았습니다. 컬러 페이지에서 갤러리가 열려 있을 때만 내보낼 수 있습니다 - 컬러 페이지 왼쪽 위의 갤러리를 클릭한 다음 다시 시도하세요.",
+  "中文": "Resolve 没有导出静帧。只有在调色页面打开画廊时它才会导出——请点击调色页面左上角的“画廊”，然后重试。",
+  "العربية": "لم يُصدِّر Resolve اللقطات الثابتة. فهو لا يُصدِّرها إلا عندما يكون المعرض مفتوحًا في صفحة Color - انقر على Gallery أعلى يسار صفحة Color، ثم حاول مرة أخرى.",
+  "Tiếng Việt": "Resolve không xuất ảnh tĩnh. Nó chỉ xuất khi Gallery đang mở trên trang Color - hãy bấm Gallery ở góc trên bên trái trang Color rồi thử lại."
+ },
+ "The image files were exported, but the stills weren't deleted from Resolve's gallery – the log says why. They remain in this list.": {
+  "日本語": "画像ファイルは書き出されましたが、スチルは Resolve のギャラリーから削除されませんでした – 理由はログに記載されています。スチルはこのリストに残ります。",
+  "Español": "Los archivos de imagen se exportaron, pero los fotogramas no se eliminaron de la galería de Resolve; el registro explica por qué. Siguen en esta lista.",
+  "Deutsch": "Die Bilddateien wurden exportiert, aber die Standbilder wurden nicht aus der Galerie von Resolve gelöscht – das Protokoll nennt den Grund. Sie bleiben in dieser Liste.",
+  "Français": "Les fichiers image ont été exportés, mais les images fixes n'ont pas été supprimées de la galerie de Resolve – le journal indique pourquoi. Elles restent dans cette liste.",
+  "한국어": "이미지 파일은 내보냈지만 스틸은 Resolve 갤러리에서 삭제되지 않았습니다 – 이유는 로그에 있습니다. 스틸은 이 목록에 남아 있습니다.",
+  "中文": "图像文件已导出，但静帧没有从 Resolve 的画廊中删除——原因见日志。它们仍保留在此列表中。",
+  "العربية": "صُدِّرت ملفات الصور، لكن اللقطات الثابتة لم تُحذف من معرض Resolve – السجل يوضح السبب. تبقى في هذه القائمة.",
+  "Tiếng Việt": "Các tệp ảnh đã được xuất, nhưng ảnh tĩnh chưa bị xóa khỏi thư viện của Resolve – nhật ký cho biết lý do. Chúng vẫn còn trong danh sách này."
  }
 }

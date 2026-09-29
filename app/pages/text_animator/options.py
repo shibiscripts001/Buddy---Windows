@@ -17,7 +17,8 @@ from .animation_engine import FusionAnimationEngine
 from .overlays import GRID_TYPES, SAFE_ZONE_TYPES
 from .layout_presets import LAYOUT_PRESETS
 
-ANIM_PRESETS = ["Pop (Scale)", "Bounce (Extra Rebound)", "Fade (Opacity)", "Slide (Direction + Fade)"]
+ANIM_PRESETS = ["Pop (Scale)", "Bounce (Extra Rebound)", "Fade (Opacity)", "Slide (Direction + Fade)",
+                "Typewriter (Letters)", "Letter Fade (Letters)", "Letter Pop (Letters)"]
 # Which Text+ clips an Apply works on - each tab's "Apply to" dropdown (Font Styling, Timeline
 # Layout, Timeline Animation). "selected" is the clips selected on Resolve's timeline.
 SCOPES = ("timeline", "selected", "playhead", "track")

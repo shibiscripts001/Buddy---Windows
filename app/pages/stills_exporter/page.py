@@ -320,7 +320,7 @@ class StillsExporterPage(WebToolPage):
         if delete_after:
             if not gallery_deleted:
                 self.emit("alert", {"title": "Exported, but gallery cleanup failed",
-                                    "text": "The image files were exported, but Resolve did not delete the gallery stills. They remain in this list."})
+                                    "text": "The image files were exported, but the stills weren't deleted from Resolve's gallery – the log says why. They remain in this list."})
                 return
             self.grabbed = []
             self._push_grabbed()

@@ -1113,7 +1113,10 @@ class TextPlusTools(QObject):
         if direction is None:
             direction = self.opts.anim_direction
         FusionAnimationEngine.remove_animations_from_clip(text_tool, comp)
-        if "Bounce" in preset_choice:
+        if preset_choice in FusionAnimationEngine.LETTER_PRESETS:   # before "Pop": "Letter Pop" has it too
+            success, preset_logs = FusionAnimationEngine.apply_letter_preset_to_clip(
+                text_tool, comp, preset_choice, speed=speed)
+        elif "Bounce" in preset_choice:
             duration = FusionAnimationEngine.scaled_duration(20, speed)
             success, preset_logs = FusionAnimationEngine.apply_bounce_preset_to_clip(text_tool, comp, duration=duration)
         elif "Pop" in preset_choice:
