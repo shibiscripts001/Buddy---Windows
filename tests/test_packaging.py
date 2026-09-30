@@ -23,7 +23,8 @@ PROVIDED_BY = {"PySide6": "pyside6", "PIL": "pillow", "fitz": "pymupdf", "pymupd
 # inside the transcription engine's private environment, which Buddy's own
 # Setup window installs (pages/transcribe/env_setup.py).
 NOT_FROM_PIP = {"DaVinciResolveScript", "faster_whisper", "ctranslate2", "onnx_asr",
-                "tokenizers", "huggingface_hub", "env_setup"}
+                "tokenizers", "huggingface_hub", "env_setup",
+                "av"}   # PyAV, which faster-whisper brings: worker.py decodes with it
 
 
 def third_party_imports():

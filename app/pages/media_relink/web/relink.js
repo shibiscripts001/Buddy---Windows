@@ -23,6 +23,22 @@ const generation = {fix: -1, relocate: -1};
 const selectionAnchor = {fix: null, relocate: null};
 const onlyOffline = $("only-offline");
 
+// Per scope: the scan button, and what the empty table says before a scan.
+const SCOPES = {
+    bin: {scan: "Scan current bin", title: "Scan the current bin to list its clips",
+          detail: "Only clips directly in the bin open in Resolve are included; sub-bins are excluded.",
+          none: "The current bin has no clips that link to a file."},
+    timeline: {scan: "Scan timeline", title: "Scan the current timeline to list its clips",
+               detail: "Every clip used on the timeline open in Resolve, once each.",
+               none: "The current timeline has no clips that link to a file."},
+    selected: {scan: "Scan selected clips", title: "Select clips in Resolve, then scan them",
+               detail: "The clips selected in the Media Pool – or on the timeline, when none are selected in the Media Pool.",
+               none: "None of the selected clips link to a file."},
+    project: {scan: "Scan project", title: "Scan the project to list its clips",
+              none: "The Media Pool has no clips that link to a file."},
+};
+const scopeInfo = () => SCOPES[state.scope] || SCOPES.project;
+
 const plural = (n, word, many) => `${n} ${n === 1 ? word : (many || word + "s")}`;
 // Whole sentences, one text node each, so each is translated on its own.
 const sentences = parts => parts.flatMap((p, i) => i ? [" ", el("span", {text: p})] : [el("span", {text: p})]);
@@ -108,18 +124,17 @@ function drawTable(list) {
             el("button.btn.accent", {text: "Connect", onclick: () => send("connect")})));
         return;
     }
+    const scope = scopeInfo();
     if (!list.scanned) {
-        box.replaceChildren(emptyState(state.scope === "bin" ? "Scan the current bin to list its clips" : "Scan the project to list its clips",
-            state.scope === "bin" ? "Only clips directly in the bin open in Resolve are included; sub-bins are excluded." :
-            state.mode === "fix" ? "Buddy checks every clip's file and lists the ones that are missing." :
-                                   "Buddy lists every clip in the Media Pool with the file it points at.",
-            el("button.btn.accent", {text: state.scope === "bin" ? "Scan current bin" : "Scan project", onclick: () => send("scan")})));
+        box.replaceChildren(emptyState(scope.title,
+            scope.detail || (state.mode === "fix" ? "Buddy checks every clip's file and lists the ones that are missing." :
+                                                    "Buddy lists every clip in the Media Pool with the file it points at."),
+            el("button.btn.accent", {text: scope.scan, onclick: () => send("scan")})));
         return;
     }
     const rows = visibleRows(list);
     if (!list.rows.length) {
-        box.replaceChildren(emptyState("No clips with files", state.scope === "bin"
-            ? "The current bin has no clips that link to a file." : "The Media Pool has no clips that link to a file."));
+        box.replaceChildren(emptyState("No clips with files", scope.none));
         return;
     }
     if (!rows.length) {
@@ -192,7 +207,7 @@ function draw() {
 
     const scan = $("scan");
     scan.classList.toggle("accent", !list.scanned);
-    scan.textContent = list.scanned ? "Scan again" : state.scope === "bin" ? "Scan current bin" : "Scan project";
+    scan.textContent = list.scanned ? "Scan again" : scopeInfo().scan;
     const search = $("search");
     search.classList.toggle("accent", list.scanned && !list.counts.matched && !list.counts.ambiguous);
 

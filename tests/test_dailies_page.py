@@ -238,6 +238,33 @@ class TranscriptCacheTests(unittest.TestCase):
                 handle.write(b"changed")   # re-recorded / replaced: a different file
             self.assertIsNone(transcripts.cached(media, cache))
 
+    def test_mixed_languages_are_kept_apart_from_one_language(self):
+        from pages.dailies import transcripts
+        with tempfile.TemporaryDirectory() as folder:
+            media = os.path.join(folder, "clip.mov")
+            with open(media, "wb") as handle:
+                handle.write(b"one")
+            cache = os.path.join(folder, "cache")
+            transcripts.save(media, {"segments": [{"text": "Hi"}]}, cache)                          # one language
+            self.assertIsNone(transcripts.cached(media, cache, languages=["en", "ja"]))            # not reused
+            transcripts.save(media, {"segments": [{"text": "Hi はい"}]}, cache, languages=["ja", "en"])
+            self.assertEqual(transcripts.cached(media, cache, languages=["en", "ja"])["segments"][0]["text"], "Hi はい")
+            self.assertEqual(transcripts.cached(media, cache)["segments"][0]["text"], "Hi")
+
+    def test_the_transcribe_tools_mixed_languages_reach_the_worker(self):
+        from pages.dailies import transcripts
+        from pathlib import Path
+        whisper = {"large-v3": "C:/models/large-v3"}
+        with mock.patch("pages.transcribe.env_setup.venv_python", return_value=Path(__file__)),                 mock.patch("pages.transcribe.env_setup.installed_models", return_value=whisper):
+            plan, why = transcripts.engine_plan(["en", "ja"])
+            self.assertEqual((plan["engine"], plan["languages"]), ("whisper", ["en", "ja"]))
+            # A model that can't be told each part's language still transcribes - one language.
+            with mock.patch("pages.transcribe.plan.plan_for",
+                            side_effect=lambda m, ms, lang, mixed=(): (None, "no") if mixed else
+                            ({"engine": "parakeet", "whisper": "", "parakeet": "p", "language": lang}, None)):
+                plan, why = transcripts.engine_plan(["en", "ja"])
+            self.assertEqual((plan["engine"], plan["languages"]), ("parakeet", []))
+
     def test_no_engine_installed_is_explained(self):
         from pages.dailies import transcripts
         from pathlib import Path

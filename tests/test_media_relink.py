@@ -31,19 +31,53 @@ def touch(path):
 
 
 class Clip:
-    def __init__(self, name, path, kind="Video", accept=True):
-        self.name, self.path, self.kind, self.accept = name, path, kind, accept
+    """keeps: ReplaceClip answers True and leaves the file as it was - what
+    a real Resolve did to a whole project's worth of relinks."""
+
+    def __init__(self, name, path, kind="Video", accept=True, keeps=False):
+        self.name, self.path, self.kind, self.accept, self.keeps = name, path, kind, accept, keeps
 
     def GetName(self):
         return self.name
+
+    def GetUniqueId(self):
+        return "id-" + self.name
 
     def GetClipProperty(self, key):
         return {"Clip Name": self.name, "File Path": self.path, "Type": self.kind}[key]
 
     def ReplaceClip(self, path):
-        if self.accept:
+        if self.accept and not self.keeps:
             self.path = path
         return self.accept
+
+
+class Item:
+    """A timeline item: not itself a Media Pool clip."""
+
+    def __init__(self, clip):
+        self.clip = clip
+
+    def GetMediaPoolItem(self):
+        return self.clip
+
+
+class Timeline:
+    def __init__(self, tracks, selected=None):
+        self.tracks, self.selected = tracks, selected   # {kind: [[items]]}; selected None = pre-21.0.4
+
+    def GetTrackCount(self, kind):
+        return len(self.tracks.get(kind, []))
+
+    def GetItemListInTrack(self, kind, index):
+        return self.tracks[kind][index - 1]
+
+    def __dir__(self):
+        names = ["GetTrackCount", "GetItemListInTrack"]
+        return names + (["GetSelectedClips"] if self.selected is not None else [])
+
+    def GetSelectedClips(self):
+        return self.selected
 
 
 class Base(unittest.TestCase):
@@ -111,6 +145,37 @@ class RuleTests(Base):
         self.assertEqual(self.clips[1].path, os.path.join(self.new, "Day1", "B002.mov"))
         self.assertEqual(rows[1]["status"], MatchStatus.ONLINE)
 
+    def test_the_same_clip_twice_is_one_row(self):
+        rows, _ = relink_rows.make_rows([(c, "Bin") for c in self.clips[:2] + self.clips[:1]],
+                                        lambda c: c.path, lambda c: c.name, get_id=lambda c: c.GetUniqueId())
+        self.assertEqual([r["name"] for r in rows], ["A001", "B002"])
+
+    def test_image_sequences_are_checked_and_found_by_first_frame(self):
+        # Resolve records a sequence as R[0010-0012].jpg; the files are R0010.jpg...
+        touch(os.path.join(self.old, "Stills", "R0010.jpg"))
+        touch(os.path.join(self.new, "Photos", "S0005.jpg"))
+        online = Clip("R", os.path.join(self.old, "Stills", "R[0010-0012].jpg"))
+        moved = Clip("S", os.path.join(self.old, "Stills", "S[0005-0009].jpg"))
+        rows, _ = relink_rows.make_rows([(online, "Bin"), (moved, "Bin")], lambda c: c.path, lambda c: c.name)
+        self.assertEqual([r["status"] for r in rows], [MatchStatus.ONLINE, MatchStatus.NOT_FOUND])
+        relink_rows.apply_search(rows, build_file_index(self.new), MODE_FIX)
+        self.assertEqual(rows[1]["resolved"], os.path.join(self.new, "Photos", "S[0005-0009].jpg"))
+
+    def test_confirm_puts_back_what_resolve_kept(self):
+        rows, _ = relink_rows.make_rows([(c, "Bin") for c in self.clips], lambda c: c.path, lambda c: c.name,
+                                        get_id=lambda c: c.GetUniqueId())
+        relink_rows.apply_search(rows, build_file_index(self.new), MODE_FIX)
+        relink_rows.pick(rows[2], rows[2]["candidates"][0])
+        self.clips[2].keeps = True
+        self.assertEqual(relink_rows.relink(rows, lambda clip, path: clip.ReplaceClip(path)), (2, 1, 0))
+        unchanged = relink_rows.confirm(rows, {c.GetUniqueId(): c.path for c in self.clips})
+        self.assertEqual(unchanged, 1)
+        self.assertEqual(rows[1]["status"], MatchStatus.ONLINE)            # B002 really moved
+        self.assertEqual(rows[2]["status"], MatchStatus.MATCH_FOUND)       # C003 back as it was, still picked
+        self.assertEqual(rows[2]["old_path"], os.path.join(self.old, "c003.mov"))
+        self.assertTrue(rows[2]["resolved"])
+        self.assertFalse(any("before" in r for r in rows))
+
     def test_index_can_stop(self):
         with self.assertRaises(SearchCancelled):
             build_file_index(self.new, should_stop=lambda: True)
@@ -152,11 +217,14 @@ class Folder:
 class Controller:
     def __init__(self, root):
         pool = type("Pool", (), {"GetRootFolder": lambda s: root,
-                                  "GetCurrentFolder": lambda s: s.current})()
-        pool.current = root
+                                  "GetCurrentFolder": lambda s: s.current,
+                                  "GetSelectedClips": lambda s: s.selected})()
+        pool.current, pool.selected = root, []
         self.project = type("Project", (), {"GetMediaPool": lambda s: pool,
-                                            "GetUniqueId": lambda s: s._id})()
+                                            "GetUniqueId": lambda s: s._id,
+                                            "GetCurrentTimeline": lambda s: s.timeline})()
         self.project._id = "project-a"
+        self.project.timeline = None
 
     def current_project(self):
         return self.project
@@ -175,6 +243,36 @@ class ScopeTests(unittest.TestCase):
         self.assertEqual(resolve_ext.scan_current_bin(controller), [(clip, "Footage")])
         self.assertEqual([c for c, _ in resolve_ext.scan_all_clips(controller)],
                          [clip, child_clip, sibling_clip])
+
+    def test_timeline_scan_is_each_pool_clip_once_with_its_bin(self):
+        a, b, loose = Clip("A", "a.mov"), Clip("B", "b.wav", kind="Audio"), Clip("Loose", "loose.mov")
+        nested = Clip("Nest", "", kind="Timeline")
+        root = Folder("Master", [], [Folder("Footage", [a]), Folder("SFX", [b])])
+        controller = Controller(root)
+        with self.assertRaises(resolve_ext.NothingToScan):
+            resolve_ext.scan_timeline(controller)
+        controller.project.timeline = Timeline({
+            "video": [[Item(a), Item(None), Item(nested)], [Item(a)]],
+            "audio": [[Item(b), Item(loose)]],
+        })
+        self.assertEqual(resolve_ext.scan_timeline(controller),
+                         [(a, "Master/Footage"), (b, "Master/SFX"), (loose, "")])
+
+    def test_selected_scan_takes_the_pool_then_the_timeline(self):
+        a, b = Clip("A", "a.mov"), Clip("B", "b.mov")
+        root = Folder("Master", [a, b, Clip("Edit", "", kind="Timeline")])
+        controller = Controller(root)
+        pool = controller.project.GetMediaPool()
+        with self.assertRaises(resolve_ext.NothingToScan):
+            resolve_ext.scan_selected(controller)
+        controller.project.timeline = Timeline({}, selected=[Item(b)])
+        self.assertEqual(resolve_ext.scan_selected(controller), [(b, "Master")])
+        pool.selected = [a, root.clips[2]]      # the pool's selection wins; timelines left out
+        self.assertEqual(resolve_ext.scan_selected(controller), [(a, "Master")])
+        controller.project.timeline = Timeline({})   # a Resolve that can't read the timeline's
+        pool.selected = []
+        with self.assertRaises(resolve_ext.NothingToScan):
+            resolve_ext.scan_selected(controller)
 
     def test_current_bin_never_falls_back_to_entire_project(self):
         controller = Controller(Folder("Master", [Clip("Clip", "clip.mov")]))
@@ -311,6 +409,45 @@ class PageTests(Base):
         self.assertEqual(self.clips[0].path, os.path.join(self.new, "Day1", "A001.mov"))
         self.assertEqual(self.clips[1].path, os.path.join(self.old, "B002.mov"))
         self.assertEqual(self.page._lists[MODE_FIX]["rows"], [])   # the other mode's list is its own
+
+    def test_a_relink_resolve_keeps_is_not_counted(self):
+        self.clips[1].keeps = True
+        self.page.on_scan(None)
+        self.search(self.new)
+        self.page.on_relink_all(None)
+        rows = self.last("rows")
+        self.assertEqual(self.clips[1].path, os.path.join(self.old, "B002.mov"))
+        self.assertEqual(rows["rows"][1]["status"], "match_found")      # still there to try again
+        self.assertIn("Relinked 0 clips.", rows["summary_parts"])
+        self.assertIn("kept their old files", rows["summary"])
+        self.assertNotIn("toast", [n for n, _ in self.events])
+
+    def test_image_sequences_are_left_for_resolves_own_relink(self):
+        touch(os.path.join(self.new, "Photos", "R0010.jpg"))
+        sequence = Clip("R", os.path.join(self.old, "R[0010-0012].jpg"))
+        self.clips.append(sequence)
+        self.page.on_scan(None)
+        self.search(self.new)
+        self.page.on_relink_all(None)
+        self.assertEqual(sequence.path, os.path.join(self.old, "R[0010-0012].jpg"))   # never sent to Resolve
+        self.assertEqual(self.clips[1].path, os.path.join(self.new, "Day1", "B002.mov"))
+        self.assertIn("Relink Selected Clips", self.last("rows")["summary"])
+
+    def test_timeline_and_selected_scopes(self):
+        project = self.host.controller.project
+        self.page.on_scope({"scope": "selected"})
+        self.assertEqual(self.last("alert")["title"], "Select clips first")
+        self.assertFalse(self.last("rows")["scanned"])
+        project.GetMediaPool().selected = [self.clips[1]]
+        self.page.on_scan(None)
+        self.assertEqual([r["name"] for r in self.last("rows")["rows"]], ["B002"])
+        self.page.on_scope({"scope": "timeline"})
+        self.assertEqual(self.last("alert")["title"], "No timeline open")
+        project.timeline = Timeline({"video": [[Item(self.clips[2]), Item(self.clips[1])]]})
+        self.page.on_scan(None)
+        rows = self.last("rows")
+        self.assertEqual([(r["name"], r["bin"]) for r in rows["rows"]],
+                         [("C003", "Master/Footage"), ("B002", "Master/Footage")])
 
     def test_search_needs_a_scan_first(self):
         self.page.on_search(None)

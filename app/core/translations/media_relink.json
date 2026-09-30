@@ -829,5 +829,175 @@
   "中文": "搜索或重新链接之前，请扫描当前的 Resolve 项目。",
   "العربية": "افحص مشروع Resolve الحالي قبل البحث أو إعادة الربط.",
   "Tiếng Việt": "Hãy quét dự án Resolve hiện tại trước khi tìm kiếm hoặc liên kết lại."
+ },
+ "Current timeline": {
+  "日本語": "現在のタイムライン",
+  "Español": "Línea de tiempo actual",
+  "Deutsch": "Aktuelle Timeline",
+  "Français": "Timeline actuelle",
+  "한국어": "현재 타임라인",
+  "中文": "当前时间线",
+  "العربية": "الخط الزمني الحالي",
+  "Tiếng Việt": "Timeline hiện tại"
+ },
+ "Every clip used on the timeline open in Resolve": {
+  "日本語": "Resolve で開いているタイムラインで使われているすべてのクリップ",
+  "Español": "Todos los clips usados en la línea de tiempo abierta en Resolve",
+  "Deutsch": "Alle Clips, die in der in Resolve geöffneten Timeline verwendet werden",
+  "Français": "Tous les clips utilisés dans la timeline ouverte dans Resolve",
+  "한국어": "Resolve에서 열려 있는 타임라인에 쓰인 모든 클립",
+  "中文": "Resolve 中打开的时间线上用到的所有片段",
+  "العربية": "كل مقطع مستخدم على الخط الزمني المفتوح في Resolve",
+  "Tiếng Việt": "Mọi clip được dùng trên timeline đang mở trong Resolve"
+ },
+ "The clips selected in Resolve's Media Pool – or on the timeline, when none are selected in the Media Pool": {
+  "日本語": "Resolve のメディアプールで選択したクリップ – メディアプールで何も選択していないときはタイムラインで選択したクリップ",
+  "Español": "Los clips seleccionados en el Media Pool de Resolve, o en la línea de tiempo cuando no hay ninguno seleccionado en el Media Pool",
+  "Deutsch": "Die im Media Pool von Resolve ausgewählten Clips – oder die in der Timeline, wenn im Media Pool keine ausgewählt sind",
+  "Français": "Les clips sélectionnés dans le Media Pool de Resolve – ou dans la timeline, quand aucun n'est sélectionné dans le Media Pool",
+  "한국어": "Resolve 미디어 풀에서 선택한 클립 – 미디어 풀에서 선택한 것이 없으면 타임라인에서 선택한 클립",
+  "中文": "在 Resolve 媒体池中选中的片段——媒体池中没有选中任何片段时，则为时间线上选中的片段",
+  "العربية": "المقاطع المحددة في Media Pool في Resolve – أو على الخط الزمني عندما لا يكون أي منها محددًا في Media Pool",
+  "Tiếng Việt": "Các clip được chọn trong Media Pool của Resolve – hoặc trên timeline, khi không có clip nào được chọn trong Media Pool"
+ },
+ "Scan timeline": {
+  "日本語": "タイムラインをスキャン",
+  "Español": "Escanear línea de tiempo",
+  "Deutsch": "Timeline scannen",
+  "Français": "Analyser la timeline",
+  "한국어": "타임라인 스캔",
+  "中文": "扫描时间线",
+  "العربية": "فحص الخط الزمني",
+  "Tiếng Việt": "Quét timeline"
+ },
+ "Scan selected clips": {
+  "日本語": "選択したクリップをスキャン",
+  "Español": "Escanear clips seleccionados",
+  "Deutsch": "Ausgewählte Clips scannen",
+  "Français": "Analyser les clips sélectionnés",
+  "한국어": "선택한 클립 스캔",
+  "中文": "扫描选中的片段",
+  "العربية": "فحص المقاطع المحددة",
+  "Tiếng Việt": "Quét các clip đã chọn"
+ },
+ "Scan the current timeline to list its clips": {
+  "日本語": "現在のタイムラインをスキャンしてクリップを一覧表示します",
+  "Español": "Escanea la línea de tiempo actual para ver sus clips",
+  "Deutsch": "Scannen Sie die aktuelle Timeline, um ihre Clips aufzulisten",
+  "Français": "Analysez la timeline actuelle pour lister ses clips",
+  "한국어": "현재 타임라인을 스캔해 클립 목록을 표시하세요",
+  "中文": "扫描当前时间线以列出其中的片段",
+  "العربية": "افحص الخط الزمني الحالي لعرض مقاطعه",
+  "Tiếng Việt": "Quét timeline hiện tại để liệt kê các clip của nó"
+ },
+ "Every clip used on the timeline open in Resolve, once each.": {
+  "日本語": "Resolve で開いているタイムラインで使われているすべてのクリップを、1 つにつき 1 回ずつ。",
+  "Español": "Todos los clips usados en la línea de tiempo abierta en Resolve, una vez cada uno.",
+  "Deutsch": "Jeder Clip, der in der in Resolve geöffneten Timeline verwendet wird – jeder einmal.",
+  "Français": "Chaque clip utilisé dans la timeline ouverte dans Resolve, une fois chacun.",
+  "한국어": "Resolve에서 열려 있는 타임라인에 쓰인 모든 클립을 하나씩 한 번만.",
+  "中文": "Resolve 中打开的时间线上用到的每个片段，每个只列一次。",
+  "العربية": "كل مقطع مستخدم على الخط الزمني المفتوح في Resolve، مرة واحدة لكل مقطع.",
+  "Tiếng Việt": "Mọi clip được dùng trên timeline đang mở trong Resolve, mỗi clip một lần."
+ },
+ "The current timeline has no clips that link to a file.": {
+  "日本語": "現在のタイムラインには、ファイルにリンクしているクリップがありません。",
+  "Español": "La línea de tiempo actual no tiene clips vinculados a un archivo.",
+  "Deutsch": "Die aktuelle Timeline hat keine Clips, die mit einer Datei verknüpft sind.",
+  "Français": "La timeline actuelle n'a aucun clip lié à un fichier.",
+  "한국어": "현재 타임라인에는 파일에 연결된 클립이 없습니다.",
+  "中文": "当前时间线上没有链接到文件的片段。",
+  "العربية": "لا يحتوي الخط الزمني الحالي على مقاطع مرتبطة بملف.",
+  "Tiếng Việt": "Timeline hiện tại không có clip nào liên kết với tệp."
+ },
+ "Select clips in Resolve, then scan them": {
+  "日本語": "Resolve でクリップを選択してから、スキャンしてください",
+  "Español": "Selecciona clips en Resolve y luego escanéalos",
+  "Deutsch": "Wählen Sie Clips in Resolve aus und scannen Sie sie dann",
+  "Français": "Sélectionnez des clips dans Resolve, puis analysez-les",
+  "한국어": "Resolve에서 클립을 선택한 다음 스캔하세요",
+  "中文": "在 Resolve 中选中片段，然后扫描",
+  "العربية": "حدد مقاطع في Resolve، ثم افحصها",
+  "Tiếng Việt": "Chọn clip trong Resolve, rồi quét chúng"
+ },
+ "The clips selected in the Media Pool – or on the timeline, when none are selected in the Media Pool.": {
+  "日本語": "メディアプールで選択したクリップ – メディアプールで何も選択していないときはタイムラインで選択したクリップ。",
+  "Español": "Los clips seleccionados en el Media Pool, o en la línea de tiempo cuando no hay ninguno seleccionado en el Media Pool.",
+  "Deutsch": "Die im Media Pool ausgewählten Clips – oder die in der Timeline, wenn im Media Pool keine ausgewählt sind.",
+  "Français": "Les clips sélectionnés dans le Media Pool – ou dans la timeline, quand aucun n'est sélectionné dans le Media Pool.",
+  "한국어": "미디어 풀에서 선택한 클립 – 미디어 풀에서 선택한 것이 없으면 타임라인에서 선택한 클립.",
+  "中文": "媒体池中选中的片段——媒体池中没有选中任何片段时，则为时间线上选中的片段。",
+  "العربية": "المقاطع المحددة في Media Pool – أو على الخط الزمني عندما لا يكون أي منها محددًا في Media Pool.",
+  "Tiếng Việt": "Các clip được chọn trong Media Pool – hoặc trên timeline, khi không có clip nào được chọn trong Media Pool."
+ },
+ "None of the selected clips link to a file.": {
+  "日本語": "選択したクリップはどれもファイルにリンクしていません。",
+  "Español": "Ninguno de los clips seleccionados está vinculado a un archivo.",
+  "Deutsch": "Keiner der ausgewählten Clips ist mit einer Datei verknüpft.",
+  "Français": "Aucun des clips sélectionnés n'est lié à un fichier.",
+  "한국어": "선택한 클립 중 파일에 연결된 것이 없습니다.",
+  "中文": "选中的片段都没有链接到文件。",
+  "العربية": "لا يرتبط أي من المقاطع المحددة بملف.",
+  "Tiếng Việt": "Không clip nào đã chọn liên kết với tệp."
+ },
+ "Checking the relinked clips…": {
+  "日本語": "再リンクしたクリップを確認しています…",
+  "Español": "Comprobando los clips revinculados…",
+  "Deutsch": "Neu verknüpfte Clips werden geprüft…",
+  "Français": "Vérification des clips reliés…",
+  "한국어": "다시 연결한 클립을 확인하는 중…",
+  "中文": "正在检查重新链接的片段…",
+  "العربية": "جارٍ التحقق من المقاطع المعاد ربطها…",
+  "Tiếng Việt": "Đang kiểm tra các clip đã liên kết lại…"
+ },
+ "Open a timeline in Resolve, then scan again.": {
+  "日本語": "Resolve でタイムラインを開いてから、もう一度スキャンしてください。",
+  "Español": "Abre una línea de tiempo en Resolve y vuelve a escanear.",
+  "Deutsch": "Öffnen Sie eine Timeline in Resolve und scannen Sie dann erneut.",
+  "Français": "Ouvrez une timeline dans Resolve, puis relancez l'analyse.",
+  "한국어": "Resolve에서 타임라인을 연 다음 다시 스캔하세요.",
+  "中文": "在 Resolve 中打开一条时间线，然后重新扫描。",
+  "العربية": "افتح خطًا زمنيًا في Resolve، ثم افحص مرة أخرى.",
+  "Tiếng Việt": "Mở một timeline trong Resolve, rồi quét lại."
+ },
+ "Select the clips in Resolve's Media Pool (or on the timeline), then scan again.": {
+  "日本語": "Resolve のメディアプール（またはタイムライン）でクリップを選択してから、もう一度スキャンしてください。",
+  "Español": "Selecciona los clips en el Media Pool de Resolve (o en la línea de tiempo) y vuelve a escanear.",
+  "Deutsch": "Wählen Sie die Clips im Media Pool von Resolve (oder in der Timeline) aus und scannen Sie dann erneut.",
+  "Français": "Sélectionnez les clips dans le Media Pool de Resolve (ou dans la timeline), puis relancez l'analyse.",
+  "한국어": "Resolve 미디어 풀(또는 타임라인)에서 클립을 선택한 다음 다시 스캔하세요.",
+  "中文": "在 Resolve 的媒体池（或时间线）中选中片段，然后重新扫描。",
+  "العربية": "حدد المقاطع في Media Pool في Resolve (أو على الخط الزمني)، ثم افحص مرة أخرى.",
+  "Tiếng Việt": "Chọn các clip trong Media Pool của Resolve (hoặc trên timeline), rồi quét lại."
+ },
+ "Resolve accepted {count} more but kept their old files, so they're still listed – try them again.": {
+  "日本語": "さらに {count} 個を Resolve が受け付けましたが、元のファイルのままなので、一覧に残しています – もう一度お試しください。",
+  "Español": "Resolve aceptó {count} más, pero mantuvo sus archivos anteriores, así que siguen en la lista: vuelve a intentarlo.",
+  "Deutsch": "Resolve hat {count} weitere angenommen, aber ihre alten Dateien behalten – sie bleiben daher in der Liste. Versuchen Sie es erneut.",
+  "Français": "Resolve en a accepté {count} de plus mais a gardé leurs anciens fichiers, ils restent donc dans la liste – réessayez.",
+  "한국어": "Resolve가 {count}개를 더 받아들였지만 이전 파일을 그대로 유지해 목록에 남겨 두었습니다 – 다시 시도하세요.",
+  "中文": "Resolve 又接受了 {count} 个，但仍保留了原来的文件，因此它们仍在列表中——请再试一次。",
+  "العربية": "قبل Resolve {count} أخرى لكنه أبقى ملفاتها القديمة، لذا ما زالت في القائمة – أعد المحاولة.",
+  "Tiếng Việt": "Resolve đã chấp nhận thêm {count} clip nhưng vẫn giữ tệp cũ, nên chúng vẫn nằm trong danh sách – hãy thử lại."
+ },
+ "Couldn't read the Media Pool back to check them: {error}": {
+  "日本語": "確認のためにメディアプールを読み直せませんでした: {error}",
+  "Español": "No se pudo volver a leer el Media Pool para comprobarlos: {error}",
+  "Deutsch": "Der Media Pool konnte zur Prüfung nicht erneut gelesen werden: {error}",
+  "Français": "Impossible de relire le Media Pool pour les vérifier : {error}",
+  "한국어": "확인을 위해 미디어 풀을 다시 읽지 못했습니다: {error}",
+  "中文": "无法重新读取媒体池来检查它们：{error}",
+  "العربية": "تعذّرت إعادة قراءة Media Pool للتحقق منها: {error}",
+  "Tiếng Việt": "Không thể đọc lại Media Pool để kiểm tra: {error}"
+ },
+ "Resolve won't let Buddy relink image sequences ({count}) – relink those in Resolve: right-click them › Relink Selected Clips.": {
+  "日本語": "Resolve では Buddy から画像シーケンス（{count}）を再リンクできません – Resolve で右クリックして › Relink Selected Clips で再リンクしてください。",
+  "Español": "Resolve no deja que Buddy revincule secuencias de imágenes ({count}): revincúlalas en Resolve con clic derecho › Relink Selected Clips.",
+  "Deutsch": "Resolve lässt Buddy keine Bildsequenzen neu verknüpfen ({count}) – verknüpfen Sie diese in Resolve: Rechtsklick › Relink Selected Clips.",
+  "Français": "Resolve ne laisse pas Buddy relier les séquences d'images ({count}) – reliez-les dans Resolve : clic droit › Relink Selected Clips.",
+  "한국어": "Resolve에서는 Buddy가 이미지 시퀀스({count})를 다시 연결할 수 없습니다 – Resolve에서 마우스 오른쪽 버튼 › Relink Selected Clips로 다시 연결하세요.",
+  "中文": "Resolve 不允许 Buddy 重新链接图像序列（{count}）——请在 Resolve 中右键点击它们 › Relink Selected Clips 重新链接。",
+  "العربية": "لا يسمح Resolve لـ Buddy بإعادة ربط تسلسلات الصور ({count}) – أعد ربطها في Resolve: انقر بزر الماوس الأيمن › Relink Selected Clips.",
+  "Tiếng Việt": "Resolve không cho Buddy liên kết lại chuỗi ảnh ({count}) – hãy liên kết lại trong Resolve: nhấp chuột phải › Relink Selected Clips."
  }
 }

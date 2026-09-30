@@ -151,23 +151,24 @@ def render_plan(ffmpeg_path, codec):
 DEFAULT_RESOLUTION = "half"
 DEFAULT_CODEC = "h264"
 
-# What a run can target. "timeline" needs Resolve 21.0.4's
-# Timeline.GetSelectedClips; the tab hides it when the open Resolve
-# can't (the page checks with timeline_can_select).
+# What a run can target. "timeline" is the clips selected on the open
+# timeline, or every clip on it when none are (or when this Resolve can't
+# say - Timeline.GetSelectedClips is 21.0.4 and later).
 SCOPES = ("selection", "timeline", "bin", "all")
 DEFAULT_SCOPE = "selection"
 
 SCOPE_LABELS = {
     "selection": "the Media Pool selection",
-    "timeline": "the timeline selection",
+    "timeline": "the current timeline",
     "bin": "the open bin",
     "all": "every clip in the project",
 }
 
 
-def scope_label(scope, bin_name=None, timeline_name=None, recursive=False):
+def scope_label(scope, bin_name=None, timeline_name=None, recursive=False, timeline_selection=False):
     """How to name the scope in the log and the job label: a plain phrase,
-    with the live bin or timeline name when there is one."""
+    with the live bin or timeline name when there is one.
+    timeline_selection: the timeline run took only its selected clips."""
     if scope == "bin":
         name = (bin_name or "").strip()
         if not name:
@@ -177,7 +178,7 @@ def scope_label(scope, bin_name=None, timeline_name=None, recursive=False):
             what += " and its sub-bins"
         return what
     if scope == "timeline" and timeline_name:
-        return f"the selection on '{timeline_name}'"
+        return f"the selection on '{timeline_name}'" if timeline_selection else f"every clip on '{timeline_name}'"
     return SCOPE_LABELS.get(scope, scope)
 
 
@@ -190,9 +191,9 @@ INFO_TEXT = (
     "(Resolve's own convention), then linked with the same call the manual "
     "relink uses. Source files are never touched, and each clip's audio is "
     "stream-copied, so nothing changes but the playback load.\n\n"
-    "Which clips: the Media Pool selection, the timeline selection (Resolve "
-    "21.0.4 or later), the open bin (optionally with its sub-bins), or every "
-    "clip in the project. Only video files are transcoded - audio-only clips "
+    "Which clips: the Media Pool selection, the current timeline (the clips "
+    "selected on it, or all of them when none are), the open bin (optionally "
+    "with its sub-bins), or every clip in the project. Only video files are transcoded - audio-only clips "
     "never play from a proxy.\n\n"
     "Resolution and format are chosen here. H.264 and H.265 make the smallest "
     "files but take more work to decode while scrubbing; ProRes, DNxHR and "
@@ -335,29 +336,31 @@ def selected_pool(project):
     return entries(clips)
 
 
-def selected_timeline(timeline):
-    """The open timeline's selection (Resolve 21.0.4 or later), mapped
-    back to their Media Pool items - a timeline item is not itself a
-    MediaPoolItem, and items with none (titles, generators) have nothing
-    to proxy."""
-    if "GetSelectedClips" not in dir(timeline):
-        raise ProxyError("Selected on the timeline needs DaVinci Resolve 21.0.4 or later.")
+def timeline_clips(timeline):
+    """The current timeline's clips: the ones selected on it, or every
+    clip on its video tracks when none are - or when this Resolve can't
+    read a timeline selection (GetSelectedClips is 21.0.4+; dir() is the
+    truth on Resolve's wrapper objects - hasattr always answers yes).
+    Mapped back to their Media Pool items - a timeline item is not itself
+    a MediaPoolItem, and items with none (titles, generators) have nothing
+    to proxy. Returns (entries, objects, from_selection)."""
     items = []
-    for item in timeline.GetSelectedClips() or []:
+    if "GetSelectedClips" in dir(timeline):
+        items = list(timeline.GetSelectedClips() or [])
+    from_selection = bool(items)
+    if not items:
+        for index in range(1, int(timeline.GetTrackCount("video") or 0) + 1):
+            items.extend(timeline.GetItemListInTrack("video", index) or [])
+    media = []
+    for item in items:
         try:
-            media = item.GetMediaPoolItem()
+            clip = item.GetMediaPoolItem()
         except Exception:
-            media = None
-        if media is not None:
-            items.append(media)
-    return entries(items)
-
-
-def timeline_can_select(timeline):
-    """Whether this Resolve's Timeline objects expose GetSelectedClips
-    (21.0.4+). dir() is the truth on Resolve's wrapper objects - hasattr
-    dispatches and always answers yes."""
-    return timeline is not None and "GetSelectedClips" in dir(timeline)
+            clip = None
+        if clip is not None:
+            media.append(clip)
+    found, objects = entries(media)
+    return found, objects, from_selection
 
 
 # ------------------------------------------------------------------ plan

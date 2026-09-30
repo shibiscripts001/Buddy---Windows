@@ -14,8 +14,12 @@ where the surface draws, so it is a frozen picture while it runs:
 
  - A deck is a fresh QMediaPlayer for every clip. setSource() on a new
    player takes 0.2 ms; on one that already has a file, 98 ms - it tears the
-   old file down first. Deleting a used player on the UI thread is 109 ms,
-   so a finished deck is retired to a thread of its own and deleted there.
+   old file down first. A finished deck is paused and deleted on the UI
+   thread, which costs ~100 ms there. Deleting it on a thread of its own
+   (moveToThread, then deleteLater) was tried and CRASHES: FFmpeg's decode
+   threads are still running while the player is taken apart from the
+   other thread - access violations in avcodec/avformat/avutil, in 5 of 5
+   runs on a 24 GB camera clip (2026-09-30), and a user's Buddy with it.
  - A player is paused before anything else is done to it. Moving the video
    output of a PLAYING player costs 44 ms and stopping it 49 ms; paused or
    ended, both are free. (Never setVideoOutput(None) mid-play: that hangs.)
@@ -40,7 +44,7 @@ Signals are about the ACTIVE deck, except still(), which comes for either
 
 import base64
 
-from PySide6.QtCore import QBuffer, QByteArray, QCoreApplication, QIODevice, QObject, Qt, QThread, QUrl, Signal
+from PySide6.QtCore import QBuffer, QByteArray, QCoreApplication, QIODevice, QObject, Qt, QUrl, Signal
 from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer, QVideoSink
 
 STILL_MAX = 1280
@@ -65,8 +69,8 @@ def _still_url(frame):
 
 class _Deck(QObject):
     """One clip on its own player, audio output and sink - the sink is where
-    it draws whenever it doesn't have the surface. Parentless, so it can be
-    moved to the retiring thread whole."""
+    it draws whenever it doesn't have the surface. Parentless: it is deleted
+    when it's retired, not with the page."""
 
     def __init__(self, clip_id, path, kind, volume):
         super().__init__()
@@ -99,11 +103,8 @@ class TapePlayer(QObject):
         self.surface = surface_output
         self.active = self.spare = None
         self._volume = 1.0
-        self._retiring = QThread(self)
-        self._retiring.setObjectName("dailies-retire")
-        self._retiring.start()
-        # A QThread destroyed while running aborts the process, so it's ended
-        # before anything can be torn down - on quitting, whoever quits.
+        # Both decks are let go of before anything can be torn down - on
+        # quitting, whoever quits.
         app = QCoreApplication.instance()
         if app is not None:
             app.aboutToQuit.connect(self.shutdown)
@@ -202,11 +203,7 @@ class TapePlayer(QObject):
         self.active = self.spare = None
 
     def shutdown(self):
-        if not self._retiring.isRunning():
-            return
         self.stop_all()
-        self._retiring.quit()
-        self._retiring.wait(3000)
 
     # ------------------------------------------------------------ internals --
 
@@ -225,7 +222,8 @@ class TapePlayer(QObject):
 
     def _retire(self, deck):
         """Done with this deck: paused (free, where stopping a playing player
-        isn't), off the surface, and deleted on the retiring thread."""
+        isn't), off the surface, and deleted - on this thread, see the
+        module."""
         if deck is None or deck.state == "retired":
             return
         deck.state = "retired"
@@ -233,7 +231,6 @@ class TapePlayer(QObject):
         self._detach(deck)
         for obj in (deck.player, deck.sink):
             obj.blockSignals(True)
-        deck.moveToThread(self._retiring)
         deck.deleteLater()
 
     def _live(self, deck):

@@ -730,7 +730,8 @@ class DailiesPage(WebToolPage):
                                               "message": "The source file is unavailable on this computer."}
                 self._push_transcript()
             return False
-        saved = transcripts.cached(path)
+        languages = transcripts.mixed_languages()
+        saved = transcripts.cached(path, languages=languages)
         if saved is not None:
             self._transcripts[clip_id] = {"status": "done", "segments": saved["segments"], "message": ""}
             if clip_id == self.current_id:
@@ -741,14 +742,14 @@ class DailiesPage(WebToolPage):
             if job.clip_id == clip_id or quiet:
                 return False
             self._cancel_transcript()    # for a clip that's no longer on screen
-        plan, why = transcripts.engine_plan()
+        plan, why = transcripts.engine_plan(languages)
         if plan is None:
             if not quiet:
                 # Not remembered: installing the engine fixes it without a restart.
                 self._send("transcript", {"id": clip_id, "on": True, "status": "unavailable",
                                           "segments": [], "message": why})
             return False
-        job = transcripts.TranscriptJob(clip_id, path, plan, self)
+        job = transcripts.TranscriptJob(clip_id, path, plan, self, languages=languages)
         job.segment.connect(self._on_transcript_segment)
         job.done.connect(self._on_transcript_done)
         job.failed.connect(self._on_transcript_failed)

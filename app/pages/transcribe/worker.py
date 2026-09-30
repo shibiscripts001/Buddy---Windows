@@ -107,12 +107,14 @@ PRIMERS = {
 }
 
 
-def _whisper_segments(model, audio, language, hotwords, total, offset=0.0, tag=False, vad=True):
+def _whisper_segments(model, audio, language, hotwords, total, offset=0.0, tag=False, vad=True, primer=True):
     """offset: where this audio starts in the timeline's (a piece of it, in
-    mixed mode); tag: mark each segment with its language."""
+    mixed mode); tag: mark each segment with its language; primer: False
+    for a short piece - a second of audio can come back as the primer
+    itself ("Here's what happened." between Japanese sentences)."""
     # The primer is English, and an English prompt can pull non-English
     # speech toward English - so it's only used when the audio IS English.
-    hotwords = " ".join(x for x in (PRIMERS.get(language, ""), hotwords.strip()) if x) or None
+    hotwords = " ".join(x for x in (PRIMERS.get(language, "") if primer else "", hotwords.strip()) if x) or None
     segments, _info = model.transcribe(
         audio,
         language=language,
@@ -155,6 +157,24 @@ def _whisper_segments(model, audio, language, hotwords, total, offset=0.0, tag=F
 MIXED_VAD = dict(min_silence_duration_ms=300, speech_pad_ms=150, max_speech_duration_s=30)
 MIXED_SURE = 0.75       # an utterance less sure than this takes its neighbours' language
 MIXED_SHORT_RUN = 2.0   # seconds: a run this short skips Whisper's own VAD (it can drop it)
+# Inside a sentence: an utterance is transcribed in one language, and
+# Whisper told "ja" leaves an English phrase in it out - no text, no gap in
+# the timing either side. So after each run, speech no word covers is
+# listened to again, and transcribed in its own language if it's another
+# one (or if the utterance came out with no words at all). Measured on
+# Japanese sentences with English phrases inside and no pause around them
+# ("今日の撮影は really went well と思います。"): every dropped phrase back, 1.5 s
+# extra for 22 s. On 23 min of English it added nothing false and got back
+# 16 s of speech the first pass had dropped (8 s extra). A word Whisper
+# stretches over the other language's (one-word switches) still hides it.
+GAP_MIN = 0.4           # seconds of speech with no word on it
+GAP_PAD = 0.05
+GAP_SPEECH = 0.3        # of it that VAD calls speech
+# ...and it has to sound like one of the named languages: their detection
+# scores together at least this. Real phrases scored 0.87-1.0; a burst of
+# background noise that came back as "Papa!" scored 0.18 (Whisper's own
+# no_speech_prob didn't tell them apart - a real one scored 0.62).
+GAP_LANGUAGE = 0.5
 
 
 def decide_languages(scores: list[dict], languages: list[str]) -> list[str]:
@@ -214,9 +234,54 @@ def _mixed_segments(model, device, audio, languages, hotwords, total):
     result = []
     for lang, first, last in runs:
         piece = audio[first:last]
+        long_enough = (last - first) / rate >= MIXED_SHORT_RUN
         result += _whisper_segments(model, piece, lang, hotwords, total, offset=first / rate, tag=True,
-                                    vad=(last - first) / rate >= MIXED_SHORT_RUN)
+                                    vad=long_enough, primer=long_enough)
+    result += _fill_gaps(model, audio, spans, picks, languages, result, hotwords, total)
+    result.sort(key=lambda seg: seg["start"])
     return result, spoken
+
+
+def uncovered(words: list[tuple[float, float]], first: float, last: float, least: float = GAP_MIN):
+    """The stretches of [first, last] no word's (start, end) covers, at
+    least `least` seconds long."""
+    gaps, at = [], first
+    for start, end in sorted(words):
+        if start - at >= least:
+            gaps.append((at, start))
+        at = max(at, end)
+    if last - at >= least:
+        gaps.append((at, last))
+    return gaps
+
+
+def _fill_gaps(model, audio, spans, picks, languages, result, hotwords, total):
+    """What the runs left out inside each utterance: another language's
+    phrase (see GAP_MIN), or all of an utterance that came out empty."""
+    from faster_whisper.vad import VadOptions, get_speech_timestamps
+
+    rate = 16000
+    words = [(w["start"], w["end"]) for seg in result for w in seg["words"]]
+    added = []
+    for span, lang in zip(spans, picks):
+        first, last = span["start"] / rate, span["end"] / rate
+        inside = [w for w in words if w[1] > first and w[0] < last]
+        for start, end in uncovered(inside, first, last):
+            a, b = max(0, int((start - GAP_PAD) * rate)), min(len(audio), int((end + GAP_PAD) * rate))
+            piece = audio[a:b]
+            speech = get_speech_timestamps(piece, VadOptions(min_silence_duration_ms=100, speech_pad_ms=30))
+            if sum(x["end"] - x["start"] for x in speech) / rate < GAP_SPEECH:
+                continue
+            _lang, _prob, probs = model.detect_language(piece)
+            probs = dict(probs)
+            if sum(float(probs.get(code, 0.0)) for code in languages) < GAP_LANGUAGE:
+                continue
+            heard = decide_languages([probs], languages)[0]
+            if heard == lang and inside:
+                continue        # its own language, left out on purpose (a cough, a filler)
+            added += _whisper_segments(model, piece, heard, hotwords, total, offset=a / rate, tag=True,
+                                       vad=False, primer=False)
+    return [seg for seg in added if seg["text"]]
 
 
 # Parakeet stamps each token with the frame (80 ms) it was emitted in, and
@@ -302,16 +367,50 @@ def _parakeet_segments(model_dir, audio, total, language=None):
     return result
 
 
+def decode_audio(path: str, rate: int = 16000):
+    """faster_whisper.decode_audio, reading only the audio. Every other
+    stream is marked discard=all first, so the demuxer skips a video's
+    bytes instead of reading them: a camera file is mostly video, and
+    Dailies hands this the camera file itself. On a 24 GB Sony MP4, two
+    minutes of audio read 29 MB instead of 2.2 GB - the whole clip went
+    from ~10 minutes of reading to seconds. Anything the shortcut can't do
+    falls back to faster-whisper's own, which reads everything."""
+    import gc
+
+    import av
+    import numpy as np
+    from faster_whisper import decode_audio as decode_everything
+    try:
+        from av.stream import Discard
+        from faster_whisper.audio import _group_frames, _ignore_invalid_frames, _resample_frames
+        resampler = av.audio.resampler.AudioResampler(format="s16", layout="mono", rate=rate)
+        chunks = []
+        with av.open(path, mode="r", metadata_errors="ignore") as container:
+            wanted = container.streams.audio[0]
+            for stream in container.streams:
+                if stream.index != wanted.index:
+                    stream.discard = Discard.all
+            frames = _resample_frames(_group_frames(_ignore_invalid_frames(container.decode(wanted)), 500000),
+                                      resampler)
+            chunks = [frame.to_ndarray().reshape(-1) for frame in frames]
+        del resampler
+        gc.collect()        # faster-whisper does the same: the resampler leaks otherwise
+    except Exception:  # noqa: BLE001 - an older PyAV, an odd file: the slow way still works
+        return decode_everything(path, sampling_rate=rate)
+    if not chunks:
+        return np.zeros(0, dtype=np.float32)
+    return np.concatenate(chunks).astype(np.float32) / 32768.0
+
+
 def transcribe(args) -> int:
     """--engine whisper: --model is the Whisper model. parakeet: --parakeet
     is the model, and --model (optional) a Whisper model used only to
     detect the language. auto: Parakeet when the language is one of its
     25, else Whisper."""
-    from faster_whisper import decode_audio
     from env_setup import PARAKEET_LANGS
 
     emit("status", message="Reading the audio…")
-    audio = decode_audio(args.audio, sampling_rate=16000)
+    audio = decode_audio(args.audio, rate=16000)
     total = len(audio) / 16000.0
     engine, language, probability = args.engine, args.language or None, None
     mixed = [c for c in (args.languages or "").split(",") if c.strip()]

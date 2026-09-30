@@ -122,11 +122,12 @@ class ProxyWebTests(unittest.TestCase):
         self.assertEqual(self.page.proxy_options["codec"], "dnxhr_lb")
         self.assertEqual(self.page.data_mgr.settings["proxy_codec"], "dnxhr_lb")
 
-    def test_the_timeline_scope_hides_when_resolve_cant(self):
+    def test_the_current_timeline_scope_is_always_offered(self):
         self._until("document.querySelector('[data-tab=proxy]') !== null")
         self._js("document.querySelector('[data-tab=proxy]').click()")
-        # Not connected -> no timeline scope offered (nothing says it can).
-        self._until("document.querySelector('#proxy-scope [data-scope=timeline]').hidden === true")
+        # Any Resolve can do it: with nothing selected it takes the whole timeline.
+        self._until("document.querySelector('#proxy-scope [data-scope=timeline]').textContent === 'Current timeline'")
+        self.assertFalse(self._js("document.querySelector('#proxy-scope [data-scope=timeline]').hidden"))
 
 
 if __name__ == "__main__":

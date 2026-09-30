@@ -97,8 +97,7 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
 
         # Proxy tab: the choices that survive a restart live in settings;
         # everything else is this session's.
-        self._proxy = {"scope": None, "bin": None, "can_select_timeline": False,
-                       "timeline": None, "pool_count": None, "error": ""}
+        self._proxy = {"scope": None, "bin": None, "timeline": None, "pool_count": None, "error": ""}
         self.proxy_options = {
             "scope": self.data_mgr.settings.get("proxy_scope") or proxy.DEFAULT_SCOPE,
             "resolution": self.data_mgr.settings.get("proxy_resolution") or proxy.DEFAULT_RESOLUTION,
@@ -913,22 +912,18 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
                             "connected": self.controller is not None})
 
     def _read_proxy(self, controller):
-        """The live bits the tab shows: the open bin's name, the open
-        timeline's name, and whether this Resolve can read a timeline
-        selection. Cheap by design - this runs on the page's 1-second
+        """The live bits the tab shows: the open bin's name and the open
+        timeline's name. Cheap by design - this runs on the page's 1-second
         poll, so no per-clip walks here (GetClipProperty is the slowest
         call in the API). Errors stay on the tab; a missing project is
         not one (not connected yet)."""
-        info = {"scope": None, "bin": None, "can_select_timeline": False,
-                "timeline": None, "error": ""}
+        info = {"scope": None, "bin": None, "timeline": None, "error": ""}
         if controller is not None:
             try:
                 folder, _root, timeline = self._current_bin_and_timeline(controller)
                 is_root = self._id_of(folder) == self._id_of(_root)
                 info["bin"] = "Master" if is_root else (folder.GetName() or "Master")
-                if proxy.timeline_can_select(timeline):
-                    info["can_select_timeline"] = True
-                    info["timeline"] = timeline.GetName() if timeline else None
+                info["timeline"] = timeline.GetName() if timeline else None
             except Exception as exc:  # noqa: BLE001 - the project went away, or the bridge hiccuped
                 info["error"] = str(exc) or "Couldn't read the Media Pool."
         self._proxy = info
@@ -955,33 +950,40 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
     def _proxy_videos(self, controller, scope):
         """The deduped video entries a scope covers, with the live
         MediaPoolItem behind each entry (kept for the link pass, so it
-        never has to walk the pool a second time). Raises ProxyError with
-        the same wording the tab would show, so a scope with nothing in
-        it stops before ffmpeg is ever asked for anything."""
+        never has to walk the pool a second time), and how to name the
+        scope in the log. Raises ProxyError with the same wording the tab
+        would show, so a scope with nothing in it stops before ffmpeg is
+        ever asked for anything."""
         project = controller.get_project()
+        recursive = self.proxy_options["recursive"]
+
+        def where(**extra):
+            return proxy.scope_label(scope, self._proxy.get("bin"), self._proxy.get("timeline"),
+                                     recursive, **extra)
+
         if scope == "selection":
             selected, objects = proxy.selected_pool(project)
             if not selected:
                 raise ProxyTabError("Select one or more clips in Resolve's Media Pool first.")
-            return selected, objects
+            return selected, objects, where()
         if scope == "timeline":
             timeline = controller.get_current_timeline()
-            selected, objects = proxy.selected_timeline(timeline)
-            if not selected:
-                raise ProxyTabError("Select one or more clips on the timeline in Resolve first.")
-            return selected, objects
+            found, objects, from_selection = proxy.timeline_clips(timeline)
+            if not found:
+                raise ProxyTabError("The current timeline has no clips on its video tracks.")
+            return found, objects, where(timeline_selection=from_selection)
         if scope == "bin":
             folder = controller.get_current_bin()
             name = folder.GetName() or "Master"
-            clips = controller.get_bin_clips(folder, recursive=self.proxy_options["recursive"])
+            clips = controller.get_bin_clips(folder, recursive=recursive)
             if not clips:
                 raise ProxyTabError(f"'{name}' has no clips in it.")
-            return proxy.entries(clips)
+            return (*proxy.entries(clips), where())
         folder = project.GetMediaPool().GetRootFolder()
         clips = controller.get_bin_clips(folder, recursive=True)
         if not clips:
             raise ProxyTabError("The Media Pool has no clips in it.")
-        return proxy.entries(clips)
+        return (*proxy.entries(clips), where())
 
     def _read_proxy_scope(self):
         """(where, video entries, their MediaPoolItems) for the scope chosen
@@ -992,10 +994,8 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         scope = self.proxy_options["scope"]
         self.host.set_busy(True, "Reading the clips…")
         try:
-            all_entries, objects = self._proxy_videos(controller, scope)
+            all_entries, objects, where = self._proxy_videos(controller, scope)
             videos = [e for e in all_entries if proxy.is_video(e)]
-            where = proxy.scope_label(scope, self._proxy.get("bin"), self._proxy.get("timeline"),
-                                      self.proxy_options["recursive"])
         except proxy.ProxyError as exc:
             self._log("proxy", str(exc), "error")
             self._alert("No clips to check", str(exc))
@@ -1105,14 +1105,12 @@ class ProjectSetupPage(ProjectSetupSettingsMixin, WebToolPage):
         # thread-safe); only the ffmpeg renders run on the worker.
         self.host.set_busy(True, "Reading the clips…")
         try:
-            all_entries, objects = self._proxy_videos(controller, scope)
+            all_entries, objects, where = self._proxy_videos(controller, scope)
             videos = [e for e in all_entries if proxy.is_video(e)]
             if not videos:
                 self._log("proxy", "No video files in that scope – audio and stills don't need proxies.", "warn")
                 self.host.set_busy(False)
                 return
-            where = proxy.scope_label(scope, self._proxy.get("bin"), self._proxy.get("timeline"),
-                                      self.proxy_options["recursive"])
             targets = proxy.plan(videos)
         except proxy.ProxyError as exc:
             self.host.set_busy(False)

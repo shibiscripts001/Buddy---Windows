@@ -2,7 +2,8 @@
 """
 Media Relink - finds this project's clips a new file to point at: offline
 clips from a folder you choose, or any clips when media moves to a new
-drive. A web page (core/web_page.py): the view is web/index.html +
+drive - from the open bin, the open timeline, the selected clips or the
+whole project. A web page (core/web_page.py): the view is web/index.html +
 relink.js.
 
 Nothing is relinked until you say so: a folder search only proposes a
@@ -13,6 +14,9 @@ rules for which clips each mode may touch are in relink_rows.py.
 The folder search runs on a worker thread (walking a big network share can
 take minutes), with its progress and a Cancel in the page. Every Resolve
 call - the scan and ReplaceClip - stays on the main thread.
+
+A relink is believed only once the Media Pool, read again afterwards, says
+so: Resolve has answered ReplaceClip with True and kept the old file.
 
 Features: a count of what the scan and search found, the
 proposed path next to the recorded one, picking among duplicates in the
@@ -37,7 +41,7 @@ from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
 
 from . import relink_rows, resolve_ext
-from .relink_engine import SearchCancelled, build_file_index
+from .relink_engine import SearchCancelled, build_file_index, sequence_first_frame
 from .relink_rows import MODE_FIX, MODE_RELOCATE, MODES
 
 LOG_LIMIT = 60
@@ -202,20 +206,24 @@ class MediaRelinkPage(WebToolPage):
         except ResolveConnectionError:
             self._push_state()
             return
-        self.host.set_busy(True, "Scanning the Media Pool…")
+        scope = self._lists[mode]["scope"]
+        self.host.set_busy(True, "Reading the timeline…" if scope == resolve_ext.SCOPE_TIMELINE
+                           else "Scanning the Media Pool…")
         error = None
         try:
-            entries = (resolve_ext.scan_current_bin(controller)
-                       if self._lists[mode]["scope"] == resolve_ext.SCOPE_BIN
-                       else resolve_ext.scan_all_clips(controller))
+            entries = resolve_ext.SCANS[scope](controller)
             rows, skipped = relink_rows.make_rows(
                 entries, resolve_ext.get_clip_file_path,
-                lambda clip: clip.GetClipProperty("Clip Name") or clip.GetName())
+                lambda clip: clip.GetClipProperty("Clip Name") or clip.GetName(),
+                get_id=resolve_ext.clip_id)
         except Exception as exc:  # noqa: BLE001 - no project, or the connection dropped
             error = exc
         finally:
             self.host.set_busy(False)
         self._push_state()
+        if isinstance(error, resolve_ext.NothingToScan):
+            self._alert(error.title, error.text)
+            return
         if error is not None:
             self._add_log(f"Couldn't scan the Media Pool: {error}", "error")
             return
@@ -343,9 +351,24 @@ class MediaRelinkPage(WebToolPage):
             return
         if not self._check_scanned_project(mode, controller):
             return
+        # Resolve's scripting won't relink an image sequence (ReplaceClip
+        # refuses it; RelinkClips says yes and changes nothing), so those
+        # are left for Resolve's own Relink.
+        is_sequence = lambda row: row["resolved"] and sequence_first_frame(row["old_path"])
+        sequences = sum(1 for r in rows if is_sequence(r))
+        rows = [r for r in rows if not is_sequence(r)]
         self.host.set_busy(True, "Relinking 1 clip…" if len(rows) == 1 else f"Relinking {len(rows)} clips…")
+        unchanged, error = 0, None
         try:
             relinked, skipped, failed = relink_rows.relink(rows, resolve_ext.replace_clip)
+            if relinked:
+                self.host.set_busy(True, "Checking the relinked clips…")
+                try:
+                    paths = resolve_ext.current_paths(controller, [r["uid"] for r in rows if r.get("before")])
+                except Exception as exc:  # noqa: BLE001 - the connection dropped mid-check
+                    paths, error = {}, exc
+                unchanged = relink_rows.confirm(rows, paths)
+                relinked -= unchanged
         finally:
             self.host.set_busy(False)
         parts = ["Relinked 1 clip." if relinked == 1 else f"Relinked {relinked} clips."]
@@ -353,7 +376,15 @@ class MediaRelinkPage(WebToolPage):
             parts.append(f"{skipped} had no file chosen yet and were skipped.")
         if failed:
             parts.append(f"Resolve refused {failed} (a different kind of media, or no access to the file).")
-        self._summary(mode, parts, "error" if failed else "success" if relinked else "warn")
+        if sequences:
+            parts.append(f"Resolve won't let Buddy relink image sequences ({sequences}) – "
+                         "relink those in Resolve: right-click them › Relink Selected Clips.")
+        if unchanged:
+            parts.append(f"Resolve accepted {unchanged} more but kept their old files, "
+                         "so they're still listed – try them again.")
+        if error is not None:
+            parts.append(f"Couldn't read the Media Pool back to check them: {error}")
+        self._summary(mode, parts, "error" if failed or unchanged else "success" if relinked else "warn")
         if relinked:
             self.emit("toast", {"text": "Relinked 1 clip" if relinked == 1 else f"Relinked {relinked} clips"})
         self._push_rows(mode)

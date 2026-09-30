@@ -14,10 +14,41 @@ overridden) before anything is actually relinked.
 """
 
 import os
+import re
 
 # Case-insensitive filename comparison everywhere below - Resolve projects
 # routinely move between Windows and macOS/network-share workflows where a
 # clip's recorded path and the file's real path may disagree only in case.
+
+
+# Resolve records an image sequence as one path with its frame range in
+# brackets: "R[5207310-5207311].jpg" is R5207310.jpg and R5207311.jpg on
+# disk. No file has the bracketed name, so a sequence is checked - and
+# found in a search - by its first frame.
+_SEQUENCE = re.compile(r"^(.*)\[(\d+)-(\d+)\]([^\[\]]*)$")
+
+
+def sequence_first_frame(path):
+    """The first frame's own path for an image sequence's recorded path,
+    or None when the path isn't a sequence's."""
+    folder, name = os.path.split(path or "")
+    match = _SEQUENCE.match(name)
+    if not match:
+        return None
+    return os.path.join(folder, match.group(1) + match.group(2) + match.group(4))
+
+
+def media_exists(path):
+    """Whether a clip's recorded path is on disk - a sequence by its first
+    frame (a file really named with brackets counts as itself too)."""
+    if os.path.exists(path):
+        return True
+    first = sequence_first_frame(path)
+    return bool(first) and os.path.exists(first)
+
+
+def same_path(a, b):
+    return os.path.normcase(os.path.normpath(a)) == os.path.normcase(os.path.normpath(b))
 
 
 class SearchCancelled(Exception):
@@ -62,11 +93,21 @@ def find_candidates(old_path, file_index):
     candidate replacement paths found in file_index by exact (case
     -insensitive) filename match. Empty list means no match found. A
     candidate list of length 1 is an unambiguous match; length > 1 means
-    the caller should surface a choice rather than silently picking one."""
+    the caller should surface a choice rather than silently picking one.
+
+    An image sequence is found by its first frame, and proposed as the
+    same bracketed name in the folder that frame is in."""
     if not old_path:
         return []
-    filename = os.path.basename(old_path).lower()
-    return list(file_index.get(filename, []))
+    name = os.path.basename(old_path)
+    candidates = list(file_index.get(name.lower(), []))
+    first = sequence_first_frame(old_path)
+    if first:
+        for frame in file_index.get(os.path.basename(first).lower(), []):
+            path = os.path.join(os.path.dirname(frame), name)
+            if not any(same_path(path, c) for c in candidates):
+                candidates.append(path)
+    return candidates
 
 
 class MatchStatus:

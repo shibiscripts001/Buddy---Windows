@@ -10,9 +10,7 @@ Two modes, each with its own list:
               only the clips the user selected are relinked
 """
 
-import os
-
-from .relink_engine import MatchStatus, classify_match, find_candidates
+from .relink_engine import MatchStatus, classify_match, find_candidates, media_exists, same_path
 
 MODE_FIX = "fix"
 MODE_RELOCATE = "relocate"
@@ -26,18 +24,25 @@ STATUS_LABELS = {
 }
 
 
-def make_rows(entries, get_path, get_name, exists=os.path.exists):
+def make_rows(entries, get_path, get_name, exists=media_exists, get_id=lambda clip: None):
     """Rows for scanned (clip, bin_path) entries. Returns (rows, skipped):
     clips with no single file path (generated media) are skipped - there's
-    nothing to check or relink."""
-    rows, skipped = [], 0
+    nothing to check or relink. The same clip twice (a scan that reaches
+    it two ways) is one row."""
+    rows, skipped, seen = [], 0, set()
     for clip, bin_path in entries:
+        uid = get_id(clip)
+        if uid is not None:
+            if uid in seen:
+                continue
+            seen.add(uid)
         path = get_path(clip)
         if not path:
             skipped += 1
             continue
         rows.append({
             "id": len(rows),
+            "uid": uid,
             "clip": clip,
             "name": get_name(clip),
             "bin": bin_path,
@@ -59,9 +64,8 @@ def apply_search(rows, index, mode):
             continue
         # The clip's own file isn't somewhere new to go (a relocate search
         # of the folder it already lives in).
-        here = os.path.normcase(os.path.normpath(row["old_path"]))
         candidates = [c for c in find_candidates(row["old_path"], index)
-                      if os.path.normcase(os.path.normpath(c)) != here]
+                      if not same_path(c, row["old_path"])]
         if not candidates:
             continue
         if row["status"] == MatchStatus.MATCH_FOUND and len(candidates) > 1:
@@ -91,7 +95,8 @@ def matched_rows(rows):
 
 def relink(rows, replace):
     """Relinks each row that has a file to go to. replace(clip, path) ->
-    bool. Returns (relinked, skipped, failed)."""
+    bool. Returns (relinked, skipped, failed). A relinked row remembers
+    how it was, for confirm()."""
     relinked = skipped = failed = 0
     for row in rows:
         if row["status"] == MatchStatus.ONLINE:
@@ -100,11 +105,29 @@ def relink(rows, replace):
             skipped += 1
             continue
         if replace(row["clip"], row["resolved"]):
+            row["before"] = {k: row[k] for k in ("old_path", "status", "candidates", "resolved")}
             row.update(old_path=row["resolved"], status=MatchStatus.ONLINE, candidates=[], resolved=None)
             relinked += 1
         else:
             failed += 1
     return relinked, skipped, failed
+
+
+def confirm(rows, current_paths):
+    """Resolve can answer yes to a relink and keep the old file. With the
+    paths read afresh afterwards ({uid: path}), each relinked row whose
+    clip doesn't point at its new file goes back to how it was. Returns
+    how many didn't take; a clip that can't be found again is taken on
+    Resolve's word."""
+    unchanged = 0
+    for row in rows:
+        before = row.pop("before", None)
+        now = current_paths.get(row["uid"]) if before else None
+        if now is None or same_path(now, row["old_path"]):
+            continue
+        row.update(before)
+        unchanged += 1
+    return unchanged
 
 
 def counts(rows):

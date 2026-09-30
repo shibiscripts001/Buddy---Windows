@@ -2480,26 +2480,6 @@
   "العربية": "تحديد مجمع الوسائط",
   "Tiếng Việt": "Vùng chọn Media Pool"
  },
- "The clips selected on the open timeline": {
-  "日本語": "開いているタイムラインで選択されているクリップ",
-  "Español": "Los clips seleccionados en la línea de tiempo abierta",
-  "Deutsch": "Die auf der offenen Timeline ausgewählten Clips",
-  "Français": "Les clips sélectionnés sur la timeline ouverte",
-  "한국어": "열려 있는 타임라인에서 선택한 클립",
-  "中文": "打开的时间线上选中的剪辑",
-  "العربية": "المقاطع المحددة على الخط الزمني المفتوح",
-  "Tiếng Việt": "Các clip được chọn trên timeline đang mở"
- },
- "Timeline selection": {
-  "日本語": "タイムラインの選択",
-  "Español": "Selección de la línea de tiempo",
-  "Deutsch": "Timeline-Auswahl",
-  "Français": "Sélection de la timeline",
-  "한국어": "타임라인 선택",
-  "中文": "时间线选择",
-  "العربية": "تحديد الخط الزمني",
-  "Tiếng Việt": "Vùng chọn timeline"
- },
  "The bin open in Resolve's Media Pool, and its sub-bins if ticked below": {
   "日本語": "Resolveのメディアプールで開いているビン（下のチェックでサブビンも含む）",
   "Español": "La bandeja abierta en la piscina de medios de Resolve, y sus subbandejas si se marca abajo",
@@ -2709,16 +2689,6 @@
   "中文": "请先在 Resolve 的媒体池中选择一个或多个剪辑。",
   "العربية": "حدّد أولًا مقطعًا واحدًا أو أكثر في مجمع الوسائط في Resolve.",
   "Tiếng Việt": "Trước tiên hãy chọn một hoặc nhiều clip trong Media Pool của Resolve."
- },
- "Select one or more clips on the timeline in Resolve first.": {
-  "日本語": "先にResolveのタイムラインで1つ以上のクリップを選択してください。",
-  "Español": "Selecciona primero uno o más clips en la línea de tiempo de Resolve.",
-  "Deutsch": "Wähle zuerst einen oder mehrere Clips auf der Timeline in Resolve.",
-  "Français": "Sélectionnez d'abord un ou plusieurs clips sur la timeline de Resolve.",
-  "한국어": "먼저 Resolve 타임라인에서 클립을 하나 이상 선택하세요.",
-  "中文": "请先在 Resolve 的时间线上选择一个或多个剪辑。",
-  "العربية": "حدّد أولًا مقطعًا واحدًا أو أكثر على الخط الزمني في Resolve.",
-  "Tiếng Việt": "Trước tiên hãy chọn một hoặc nhiều clip trên timeline của Resolve."
  },
  "The Media Pool has no clips in it.": {
   "日本語": "メディアプールにクリップがありません。",
@@ -2940,16 +2910,6 @@
   "العربية": "تحديد مجمع الوسائط",
   "Tiếng Việt": "vùng chọn Media Pool"
  },
- "the timeline selection": {
-  "日本語": "タイムラインの選択",
-  "Español": "la selección de la línea de tiempo",
-  "Deutsch": "die Timeline-Auswahl",
-  "Français": "la sélection de la timeline",
-  "한국어": "타임라인 선택",
-  "中文": "时间线选择",
-  "العربية": "تحديد الخط الزمني",
-  "Tiếng Việt": "vùng chọn timeline"
- },
  "the open bin": {
   "日本語": "開いているビン",
   "Español": "la bandeja abierta",
@@ -3009,16 +2969,6 @@
   "中文": "此 Resolve 版本无法读取媒体池选择。请更新 Resolve 以在此使用所选剪辑。",
   "العربية": "لم يستطع إصدار Resolve هذا قراءة تحديد مجمع الوسائط. حدّث Resolve لاستخدام المقاطع المحددة هنا.",
   "Tiếng Việt": "Phiên bản Resolve này không thể đọc vùng chọn Media Pool. Hãy cập nhật Resolve để dùng các clip đã chọn tại đây."
- },
- "Selected on the timeline needs DaVinci Resolve 21.0.4 or later.": {
-  "日本語": "タイムラインでの選択にはDaVinci Resolve 21.0.4以降が必要です。",
-  "Español": "La selección en la línea de tiempo necesita DaVinci Resolve 21.0.4 o posterior.",
-  "Deutsch": "Die Auswahl auf der Timeline braucht DaVinci Resolve 21.0.4 oder neuer.",
-  "Français": "La sélection sur la timeline exige DaVinci Resolve 21.0.4 ou ultérieur.",
-  "한국어": "타임라인에서 선택하려면 DaVinci Resolve 21.0.4 이상이 필요합니다.",
-  "中文": "在时间线上选择需要 DaVinci Resolve 21.0.4 或更高版本。",
-  "العربية": "التحديد على الخط الزمني يتطلب DaVinci Resolve 21.0.4 أو أحدث.",
-  "Tiếng Việt": "Chọn trên timeline cần DaVinci Resolve 21.0.4 trở lên."
  },
  "Checking {file}": {
   "日本語": "{file} を確認しています",
@@ -3149,16 +3099,6 @@
   "中文": "Resolve 无法链接“{name}”已有的代理文件——请从 Proxy 文件夹中删除它以重新渲染。",
   "العربية": "رفض Resolve ربط ملف الوكيل الموجود لـ \"{name}\" – احذفه من مجلد Proxy لتصييره مرة أخرى.",
   "Tiếng Việt": "Resolve không chịu liên kết tệp proxy có sẵn cho \"{name}\" – hãy xóa nó khỏi thư mục Proxy để render lại."
- },
- "Renders lightweight copies of the project's video clips with ffmpeg and links them in Resolve as proxy media - the same workflow as Resolve's own Generate Proxy Media, for when a machine struggles to play the originals back.\n\nProxies are .mov files written into a 'Proxy' folder beside each source (Resolve's own convention), then linked with the same call the manual relink uses. Source files are never touched, and each clip's audio is stream-copied, so nothing changes but the playback load.\n\nWhich clips: the Media Pool selection, the timeline selection (Resolve 21.0.4 or later), the open bin (optionally with its sub-bins), or every clip in the project. Only video files are transcoded - audio-only clips never play from a proxy.\n\nResolution and format are chosen here. H.264 and H.265 make the smallest files but take more work to decode while scrubbing; ProRes, DNxHR and CineForm are larger on disk and much lighter to play. Each proxy carries its clip's timecode, which Resolve needs to link it. A clip whose proxy file already exists is linked, not re-rendered - unless the file's timecode is wrong, when it's rendered again; delete the file to render it again anyway. ffmpeg is needed - install it or set its path in Settings.": {
-  "日本語": "プロジェクトのビデオクリップの軽量なコピーを ffmpeg でレンダリングし、Resolve でプロキシメディアとしてリンクします – Resolve 自身の「プロキシメディアを生成」と同じワークフローで、マシンが元のメディアをスムーズに再生できないときに使います。\n\nプロキシは各ソースの横にある「Proxy」フォルダーに書き出される .mov ファイルで（Resolve 自身の慣例）、手動の再リンクと同じ呼び出しでリンクされます。ソースファイルには一切手を加えず、各クリップの音声はストリームコピーされるため、変わるのは再生の負荷だけです。\n\n対象のクリップ: メディアプールの選択、タイムラインの選択（Resolve 21.0.4 以降）、開いているビン（サブビンも含めることができます）、またはプロジェクト内のすべてのクリップ。変換されるのはビデオファイルだけです – 音声だけのクリップがプロキシから再生されることはありません。\n\n解像度と形式はここで選びます。H.264 と H.265 はファイルが最も小さくなりますが、スクラブ時のデコード負荷が大きくなります。ProRes、DNxHR、CineForm はディスク上では大きくなりますが、再生ははるかに軽くなります。各プロキシにはクリップのタイムコードが入ります – Resolve がリンクするのに必要です。プロキシファイルがすでにあるクリップは、レンダリングし直さずにリンクされます – ただしファイルのタイムコードが違う場合はレンダリングし直されます。それでもレンダリングし直したい場合はファイルを削除してください。ffmpeg が必要です – インストールするか、設定でパスを指定してください。",
-  "Español": "Renderiza copias ligeras de los clips de vídeo del proyecto con ffmpeg y las vincula en Resolve como medios proxy: el mismo flujo de trabajo que el propio Generar medios proxy de Resolve, para cuando un equipo no consigue reproducir bien los originales.\n\nLos proxies son archivos .mov escritos en una carpeta 'Proxy' junto a cada original (la convención del propio Resolve) y se vinculan con la misma llamada que usa la revinculación manual. Los archivos originales nunca se tocan, y el audio de cada clip se copia sin recodificar, así que solo cambia la carga de reproducción.\n\nQué clips: la selección del Media Pool, la selección de la línea de tiempo (Resolve 21.0.4 o posterior), el bin abierto (opcionalmente con sus sub-bins) o todos los clips del proyecto. Solo se transcodifican los archivos de vídeo: los clips solo de audio nunca se reproducen desde un proxy.\n\nLa resolución y el formato se eligen aquí. H.264 y H.265 generan los archivos más pequeños, pero cuesta más decodificarlos al desplazarse; ProRes, DNxHR y CineForm ocupan más en disco y son mucho más ligeros de reproducir. Cada proxy lleva el timecode de su clip, que Resolve necesita para vincularlo. Un clip cuyo archivo de proxy ya existe se vincula, sin volver a renderizar, salvo que el timecode del archivo sea incorrecto: entonces se renderiza de nuevo. Borra el archivo para renderizarlo de nuevo igualmente. Hace falta ffmpeg: instálalo o indica su ruta en Ajustes.",
-  "Deutsch": "Rendert mit ffmpeg schlanke Kopien der Videoclips des Projekts und verlinkt sie in Resolve als Proxy-Medien – derselbe Ablauf wie Resolves eigenes „Proxy-Medien generieren“, für Rechner, die die Originale nicht flüssig abspielen.\n\nProxys sind .mov-Dateien in einem Ordner „Proxy“ neben jeder Quelle (Resolves eigene Konvention) und werden mit demselben Aufruf verlinkt wie beim manuellen Neuverlinken. Quelldateien werden nie angerührt, und der Ton jedes Clips wird unverändert kopiert – es ändert sich nur die Last beim Abspielen.\n\nWelche Clips: die Auswahl im Media Pool, die Auswahl in der Timeline (Resolve 21.0.4 oder neuer), der geöffnete Bin (auf Wunsch mit seinen Unter-Bins) oder alle Clips im Projekt. Umgewandelt werden nur Videodateien – reine Audioclips werden nie von einem Proxy abgespielt.\n\nAuflösung und Format wählen Sie hier. H.264 und H.265 ergeben die kleinsten Dateien, sind beim Scrubben aber aufwendiger zu dekodieren; ProRes, DNxHR und CineForm brauchen mehr Speicherplatz und spielen viel leichter ab. Jeder Proxy trägt den Timecode seines Clips, den Resolve zum Verlinken braucht. Ein Clip, dessen Proxy-Datei schon vorhanden ist, wird verlinkt statt neu gerendert – außer der Timecode der Datei stimmt nicht, dann wird sie neu gerendert. Löschen Sie die Datei, um sie trotzdem neu zu rendern. ffmpeg wird benötigt – installieren Sie es oder legen Sie seinen Pfad in den Einstellungen fest.",
-  "Français": "Rend avec ffmpeg des copies légères des clips vidéo du projet et les lie dans Resolve comme médias proxy – le même flux de travail que la fonction Générer des médias proxy de Resolve, pour une machine qui peine à lire les originaux.\n\nLes proxys sont des fichiers .mov écrits dans un dossier « Proxy » à côté de chaque source (la convention de Resolve lui-même), puis liés par le même appel que la reliaison manuelle. Les fichiers sources ne sont jamais modifiés, et l'audio de chaque clip est copié tel quel : seule la charge de lecture change.\n\nQuels clips : la sélection du Media Pool, la sélection de la timeline (Resolve 21.0.4 ou plus récent), le chutier ouvert (avec ses sous-chutiers si vous le souhaitez) ou tous les clips du projet. Seuls les fichiers vidéo sont transcodés – un clip uniquement audio n'est jamais lu depuis un proxy.\n\nLa résolution et le format se choisissent ici. H.264 et H.265 donnent les fichiers les plus légers, mais demandent plus de travail de décodage en navigation ; ProRes, DNxHR et CineForm prennent plus de place sur le disque et sont bien plus légers à lire. Chaque proxy porte le timecode de son clip, dont Resolve a besoin pour le lier. Un clip dont le fichier de proxy existe déjà est lié sans nouveau rendu – sauf si le timecode du fichier est faux : il est alors rendu à nouveau. Supprimez le fichier pour le rendre à nouveau quand même. ffmpeg est nécessaire – installez-le ou indiquez son chemin dans les Réglages.",
-  "한국어": "프로젝트의 비디오 클립을 ffmpeg로 가볍게 복사해 렌더링하고, Resolve에서 프록시 미디어로 연결합니다 – Resolve 자체의 프록시 미디어 생성과 같은 작업 흐름으로, 컴퓨터가 원본을 원활하게 재생하지 못할 때 사용합니다.\n\n프록시는 각 소스 옆의 'Proxy' 폴더에 기록되는 .mov 파일이며(Resolve 자체의 관례), 수동 재연결과 같은 호출로 연결됩니다. 소스 파일은 절대 건드리지 않고 각 클립의 오디오는 스트림 복사되므로, 바뀌는 것은 재생 부담뿐입니다.\n\n대상 클립: 미디어 풀 선택, 타임라인 선택(Resolve 21.0.4 이상), 열려 있는 빈(원하면 하위 빈 포함), 또는 프로젝트의 모든 클립. 비디오 파일만 변환합니다 – 오디오만 있는 클립은 프록시로 재생되지 않습니다.\n\n해상도와 형식은 여기서 고릅니다. H.264와 H.265는 파일이 가장 작지만 스크러빙할 때 디코딩 부담이 큽니다. ProRes, DNxHR, CineForm은 디스크 용량은 더 크지만 훨씬 가볍게 재생됩니다. 각 프록시에는 클립의 타임코드가 들어갑니다 – Resolve가 연결하는 데 필요합니다. 프록시 파일이 이미 있는 클립은 다시 렌더링하지 않고 연결합니다 – 단, 파일의 타임코드가 다르면 다시 렌더링합니다. 그래도 다시 렌더링하려면 파일을 삭제하세요. ffmpeg가 필요합니다 – 설치하거나 설정에서 경로를 지정하세요.",
-  "中文": "使用 ffmpeg 渲染项目视频片段的轻量副本，并在 Resolve 中将其链接为代理媒体——与 Resolve 自带的“生成代理媒体”工作流程相同，适用于电脑难以流畅播放原始素材的情况。\n\n代理是写入每个源文件旁 “Proxy” 文件夹中的 .mov 文件（Resolve 自己的惯例），并通过与手动重新链接相同的调用进行链接。源文件从不改动，每个片段的音频按流复制，因此唯一变化的是播放负担。\n\n哪些片段：媒体池中的选择、时间线上的选择（Resolve 21.0.4 或更高版本）、当前打开的媒体夹（可选包含其子媒体夹），或项目中的所有片段。只转码视频文件——纯音频片段从不通过代理播放。\n\n分辨率和格式在此选择。H.264 和 H.265 文件最小，但拖动浏览时解码负担更重；ProRes、DNxHR 和 CineForm 占用更多磁盘空间，但播放轻快得多。每个代理都带有其片段的时间码，Resolve 需要它才能链接。已有代理文件的片段会直接链接而不重新渲染——除非文件的时间码不对，那时会重新渲染；若仍想重新渲染，请删除该文件。需要 ffmpeg——请安装它，或在设置中指定其路径。",
-  "العربية": "يصيّر نسخًا خفيفة من مقاطع الفيديو في المشروع باستخدام ffmpeg ويربطها في Resolve كوسائط وكيلة – سير العمل نفسه لميزة «إنشاء وسائط وكيلة» في Resolve، لحين يعجز الجهاز عن تشغيل الأصول بسلاسة.\n\nالوكلاء ملفات .mov تُكتب في مجلد «Proxy» بجانب كل مصدر (اصطلاح Resolve نفسه)، ثم تُربط بالاستدعاء نفسه الذي تستخدمه إعادة الربط اليدوية. لا تُلمس الملفات المصدر أبدًا، ويُنسخ صوت كل مقطع كما هو، فلا يتغير سوى عبء التشغيل.\n\nأي المقاطع: التحديد في Media Pool، أو التحديد على الخط الزمني (Resolve 21.0.4 أو أحدث)، أو الحاوية المفتوحة (مع حاوياتها الفرعية اختياريًا)، أو كل مقاطع المشروع. تُحوَّل ملفات الفيديو فقط – المقاطع الصوتية وحدها لا تُشغَّل أبدًا من وكيل.\n\nتختار الدقة والصيغة هنا. تعطي H.264 وH.265 أصغر الملفات لكنها تتطلب جهدًا أكبر في فك الترميز أثناء التمرير؛ أما ProRes وDNxHR وCineForm فأكبر حجمًا على القرص وأخف كثيرًا في التشغيل. يحمل كل وكيل الرمز الزمني لمقطعه، وهو ما يحتاجه Resolve لربطه. المقطع الذي يوجد ملف وكيله مسبقًا يُربط دون إعادة تصيير – إلا إذا كان رمزه الزمني خاطئًا، فيُصيَّر من جديد؛ احذف الملف لتصييره من جديد على أي حال. يلزم ffmpeg – ثبّته أو حدّد مساره في الإعدادات.",
-  "Tiếng Việt": "Render các bản sao nhẹ của clip video trong dự án bằng ffmpeg và liên kết chúng trong Resolve làm proxy media – cùng quy trình với tính năng Generate Proxy Media của chính Resolve, dành cho khi máy khó phát mượt các tệp gốc.\n\nProxy là các tệp .mov được ghi vào thư mục 'Proxy' bên cạnh mỗi tệp nguồn (quy ước của chính Resolve), rồi được liên kết bằng cùng lệnh mà thao tác liên kết lại thủ công dùng. Tệp nguồn không bao giờ bị động đến, và âm thanh của mỗi clip được sao chép nguyên luồng, nên chỉ có tải phát lại thay đổi.\n\nNhững clip nào: phần chọn trong Media Pool, phần chọn trên timeline (Resolve 21.0.4 trở lên), bin đang mở (có thể kèm các bin con), hoặc mọi clip trong dự án. Chỉ tệp video được chuyển mã – clip chỉ có âm thanh không bao giờ phát từ proxy.\n\nĐộ phân giải và định dạng được chọn ở đây. H.264 và H.265 cho tệp nhỏ nhất nhưng giải mã nặng hơn khi tua; ProRes, DNxHR và CineForm chiếm nhiều dung lượng hơn nhưng phát nhẹ hơn nhiều. Mỗi proxy mang timecode của clip, thứ Resolve cần để liên kết. Clip đã có tệp proxy sẽ được liên kết mà không render lại – trừ khi timecode của tệp sai, khi đó tệp được render lại; hãy xóa tệp nếu vẫn muốn render lại. Cần có ffmpeg – hãy cài đặt hoặc đặt đường dẫn của nó trong Cài đặt."
  },
  "Rendered on the graphics card – much faster, and leaves the CPU free for Resolve.": {
   "日本語": "グラフィックカードでレンダリング – はるかに速く、CPU は Resolve のために空いたままです。",
@@ -3509,5 +3449,65 @@
   "中文": "有 {count} 个离线代理不在该文件夹中。",
   "العربية": "لم تكن {count} وكلاء غير متصلة في ذلك المجلد.",
   "Tiếng Việt": "{count} proxy ngoại tuyến không có trong thư mục đó."
+ },
+ "Current timeline": {
+  "日本語": "現在のタイムライン",
+  "Español": "Línea de tiempo actual",
+  "Deutsch": "Aktuelle Timeline",
+  "Français": "Timeline actuelle",
+  "한국어": "현재 타임라인",
+  "中文": "当前时间线",
+  "العربية": "الخط الزمني الحالي",
+  "Tiếng Việt": "Timeline hiện tại"
+ },
+ "The clips selected on the open timeline – or every clip on it, when none are selected": {
+  "日本語": "開いているタイムラインで選択したクリップ – 何も選択していないときはタイムライン上のすべてのクリップ",
+  "Español": "Los clips seleccionados en la línea de tiempo abierta, o todos sus clips cuando no hay ninguno seleccionado",
+  "Deutsch": "Die in der geöffneten Timeline ausgewählten Clips – oder alle Clips darauf, wenn keine ausgewählt sind",
+  "Français": "Les clips sélectionnés dans la timeline ouverte – ou tous ses clips, quand aucun n'est sélectionné",
+  "한국어": "열려 있는 타임라인에서 선택한 클립 – 선택한 것이 없으면 타임라인의 모든 클립",
+  "中文": "打开的时间线上选中的片段——没有选中任何片段时，则为时间线上的所有片段",
+  "العربية": "المقاطع المحددة على الخط الزمني المفتوح – أو كل مقاطعه عندما لا يكون أي منها محددًا",
+  "Tiếng Việt": "Các clip được chọn trên timeline đang mở – hoặc mọi clip trên đó, khi không có clip nào được chọn"
+ },
+ "the current timeline": {
+  "日本語": "現在のタイムライン",
+  "Español": "la línea de tiempo actual",
+  "Deutsch": "die aktuelle Timeline",
+  "Français": "la timeline actuelle",
+  "한국어": "현재 타임라인",
+  "中文": "当前时间线",
+  "العربية": "الخط الزمني الحالي",
+  "Tiếng Việt": "timeline hiện tại"
+ },
+ "every clip on '{name}'": {
+  "日本語": "「{name}」のすべてのクリップ",
+  "Español": "todos los clips de '{name}'",
+  "Deutsch": "alle Clips auf '{name}'",
+  "Français": "tous les clips de '{name}'",
+  "한국어": "'{name}'의 모든 클립",
+  "中文": "“{name}”上的所有片段",
+  "العربية": "كل المقاطع على '{name}'",
+  "Tiếng Việt": "mọi clip trên '{name}'"
+ },
+ "The current timeline has no clips on its video tracks.": {
+  "日本語": "現在のタイムラインのビデオトラックにはクリップがありません。",
+  "Español": "La línea de tiempo actual no tiene clips en sus pistas de vídeo.",
+  "Deutsch": "Die aktuelle Timeline hat keine Clips auf ihren Videospuren.",
+  "Français": "La timeline actuelle n'a aucun clip sur ses pistes vidéo.",
+  "한국어": "현재 타임라인의 비디오 트랙에 클립이 없습니다.",
+  "中文": "当前时间线的视频轨道上没有片段。",
+  "العربية": "لا توجد مقاطع على مسارات الفيديو في الخط الزمني الحالي.",
+  "Tiếng Việt": "Timeline hiện tại không có clip nào trên các track video."
+ },
+ "Renders lightweight copies of the project's video clips with ffmpeg and links them in Resolve as proxy media - the same workflow as Resolve's own Generate Proxy Media, for when a machine struggles to play the originals back.\n\nProxies are .mov files written into a 'Proxy' folder beside each source (Resolve's own convention), then linked with the same call the manual relink uses. Source files are never touched, and each clip's audio is stream-copied, so nothing changes but the playback load.\n\nWhich clips: the Media Pool selection, the current timeline (the clips selected on it, or all of them when none are), the open bin (optionally with its sub-bins), or every clip in the project. Only video files are transcoded - audio-only clips never play from a proxy.\n\nResolution and format are chosen here. H.264 and H.265 make the smallest files but take more work to decode while scrubbing; ProRes, DNxHR and CineForm are larger on disk and much lighter to play. Each proxy carries its clip's timecode, which Resolve needs to link it. A clip whose proxy file already exists is linked, not re-rendered - unless the file's timecode is wrong, when it's rendered again; delete the file to render it again anyway. ffmpeg is needed - install it or set its path in Settings.": {
+  "日本語": "プロジェクトのビデオクリップの軽量なコピーを ffmpeg でレンダリングし、Resolve でプロキシメディアとしてリンクします – Resolve 自身の「プロキシメディアを生成」と同じワークフローで、マシンが元のメディアをスムーズに再生できないときに使います。\n\nプロキシは各ソースの横にある「Proxy」フォルダーに書き出される .mov ファイルで（Resolve 自身の慣例）、手動の再リンクと同じ呼び出しでリンクされます。ソースファイルには一切手を加えず、各クリップの音声はストリームコピーされるため、変わるのは再生の負荷だけです。\n\n対象のクリップ: メディアプールの選択、現在のタイムライン（選択したクリップ、何も選択していないときはすべてのクリップ）、開いているビン（サブビンも含めることができます）、またはプロジェクト内のすべてのクリップ。変換されるのはビデオファイルだけです – 音声だけのクリップがプロキシから再生されることはありません。\n\n解像度と形式はここで選びます。H.264 と H.265 はファイルが最も小さくなりますが、スクラブ時のデコード負荷が大きくなります。ProRes、DNxHR、CineForm はディスク上では大きくなりますが、再生ははるかに軽くなります。各プロキシにはクリップのタイムコードが入ります – Resolve がリンクするのに必要です。プロキシファイルがすでにあるクリップは、レンダリングし直さずにリンクされます – ただしファイルのタイムコードが違う場合はレンダリングし直されます。それでもレンダリングし直したい場合はファイルを削除してください。ffmpeg が必要です – インストールするか、設定でパスを指定してください。",
+  "Español": "Renderiza copias ligeras de los clips de vídeo del proyecto con ffmpeg y las vincula en Resolve como medios proxy: el mismo flujo de trabajo que el propio Generar medios proxy de Resolve, para cuando un equipo no consigue reproducir bien los originales.\n\nLos proxies son archivos .mov escritos en una carpeta 'Proxy' junto a cada original (la convención del propio Resolve) y se vinculan con la misma llamada que usa la revinculación manual. Los archivos originales nunca se tocan, y el audio de cada clip se copia sin recodificar, así que solo cambia la carga de reproducción.\n\nQué clips: la selección del Media Pool, la línea de tiempo actual (sus clips seleccionados, o todos cuando no hay ninguno seleccionado), el bin abierto (opcionalmente con sus sub-bins) o todos los clips del proyecto. Solo se transcodifican los archivos de vídeo: los clips solo de audio nunca se reproducen desde un proxy.\n\nLa resolución y el formato se eligen aquí. H.264 y H.265 generan los archivos más pequeños, pero cuesta más decodificarlos al desplazarse; ProRes, DNxHR y CineForm ocupan más en disco y son mucho más ligeros de reproducir. Cada proxy lleva el timecode de su clip, que Resolve necesita para vincularlo. Un clip cuyo archivo de proxy ya existe se vincula, sin volver a renderizar, salvo que el timecode del archivo sea incorrecto: entonces se renderiza de nuevo. Borra el archivo para renderizarlo de nuevo igualmente. Hace falta ffmpeg: instálalo o indica su ruta en Ajustes.",
+  "Deutsch": "Rendert mit ffmpeg schlanke Kopien der Videoclips des Projekts und verlinkt sie in Resolve als Proxy-Medien – derselbe Ablauf wie Resolves eigenes „Proxy-Medien generieren“, für Rechner, die die Originale nicht flüssig abspielen.\n\nProxys sind .mov-Dateien in einem Ordner „Proxy“ neben jeder Quelle (Resolves eigene Konvention) und werden mit demselben Aufruf verlinkt wie beim manuellen Neuverlinken. Quelldateien werden nie angerührt, und der Ton jedes Clips wird unverändert kopiert – es ändert sich nur die Last beim Abspielen.\n\nWelche Clips: die Auswahl im Media Pool, die aktuelle Timeline (die darin ausgewählten Clips oder alle, wenn keine ausgewählt sind), der geöffnete Bin (auf Wunsch mit seinen Unter-Bins) oder alle Clips im Projekt. Umgewandelt werden nur Videodateien – reine Audioclips werden nie von einem Proxy abgespielt.\n\nAuflösung und Format wählen Sie hier. H.264 und H.265 ergeben die kleinsten Dateien, sind beim Scrubben aber aufwendiger zu dekodieren; ProRes, DNxHR und CineForm brauchen mehr Speicherplatz und spielen viel leichter ab. Jeder Proxy trägt den Timecode seines Clips, den Resolve zum Verlinken braucht. Ein Clip, dessen Proxy-Datei schon vorhanden ist, wird verlinkt statt neu gerendert – außer der Timecode der Datei stimmt nicht, dann wird sie neu gerendert. Löschen Sie die Datei, um sie trotzdem neu zu rendern. ffmpeg wird benötigt – installieren Sie es oder legen Sie seinen Pfad in den Einstellungen fest.",
+  "Français": "Rend avec ffmpeg des copies légères des clips vidéo du projet et les lie dans Resolve comme médias proxy – le même flux de travail que la fonction Générer des médias proxy de Resolve, pour une machine qui peine à lire les originaux.\n\nLes proxys sont des fichiers .mov écrits dans un dossier « Proxy » à côté de chaque source (la convention de Resolve lui-même), puis liés par le même appel que la reliaison manuelle. Les fichiers sources ne sont jamais modifiés, et l'audio de chaque clip est copié tel quel : seule la charge de lecture change.\n\nQuels clips : la sélection du Media Pool, la timeline actuelle (ses clips sélectionnés, ou tous quand aucun ne l'est), le chutier ouvert (avec ses sous-chutiers si vous le souhaitez) ou tous les clips du projet. Seuls les fichiers vidéo sont transcodés – un clip uniquement audio n'est jamais lu depuis un proxy.\n\nLa résolution et le format se choisissent ici. H.264 et H.265 donnent les fichiers les plus légers, mais demandent plus de travail de décodage en navigation ; ProRes, DNxHR et CineForm prennent plus de place sur le disque et sont bien plus légers à lire. Chaque proxy porte le timecode de son clip, dont Resolve a besoin pour le lier. Un clip dont le fichier de proxy existe déjà est lié sans nouveau rendu – sauf si le timecode du fichier est faux : il est alors rendu à nouveau. Supprimez le fichier pour le rendre à nouveau quand même. ffmpeg est nécessaire – installez-le ou indiquez son chemin dans les Réglages.",
+  "한국어": "프로젝트의 비디오 클립을 ffmpeg로 가볍게 복사해 렌더링하고, Resolve에서 프록시 미디어로 연결합니다 – Resolve 자체의 프록시 미디어 생성과 같은 작업 흐름으로, 컴퓨터가 원본을 원활하게 재생하지 못할 때 사용합니다.\n\n프록시는 각 소스 옆의 'Proxy' 폴더에 기록되는 .mov 파일이며(Resolve 자체의 관례), 수동 재연결과 같은 호출로 연결됩니다. 소스 파일은 절대 건드리지 않고 각 클립의 오디오는 스트림 복사되므로, 바뀌는 것은 재생 부담뿐입니다.\n\n대상 클립: 미디어 풀 선택, 현재 타임라인(선택한 클립, 선택한 것이 없으면 모든 클립), 열려 있는 빈(원하면 하위 빈 포함), 또는 프로젝트의 모든 클립. 비디오 파일만 변환합니다 – 오디오만 있는 클립은 프록시로 재생되지 않습니다.\n\n해상도와 형식은 여기서 고릅니다. H.264와 H.265는 파일이 가장 작지만 스크러빙할 때 디코딩 부담이 큽니다. ProRes, DNxHR, CineForm은 디스크 용량은 더 크지만 훨씬 가볍게 재생됩니다. 각 프록시에는 클립의 타임코드가 들어갑니다 – Resolve가 연결하는 데 필요합니다. 프록시 파일이 이미 있는 클립은 다시 렌더링하지 않고 연결합니다 – 단, 파일의 타임코드가 다르면 다시 렌더링합니다. 그래도 다시 렌더링하려면 파일을 삭제하세요. ffmpeg가 필요합니다 – 설치하거나 설정에서 경로를 지정하세요.",
+  "中文": "使用 ffmpeg 渲染项目视频片段的轻量副本，并在 Resolve 中将其链接为代理媒体——与 Resolve 自带的“生成代理媒体”工作流程相同，适用于电脑难以流畅播放原始素材的情况。\n\n代理是写入每个源文件旁 “Proxy” 文件夹中的 .mov 文件（Resolve 自己的惯例），并通过与手动重新链接相同的调用进行链接。源文件从不改动，每个片段的音频按流复制，因此唯一变化的是播放负担。\n\n哪些片段：媒体池中的选择、当前时间线（其中选中的片段，没有选中时为全部片段）、当前打开的媒体夹（可选包含其子媒体夹），或项目中的所有片段。只转码视频文件——纯音频片段从不通过代理播放。\n\n分辨率和格式在此选择。H.264 和 H.265 文件最小，但拖动浏览时解码负担更重；ProRes、DNxHR 和 CineForm 占用更多磁盘空间，但播放轻快得多。每个代理都带有其片段的时间码，Resolve 需要它才能链接。已有代理文件的片段会直接链接而不重新渲染——除非文件的时间码不对，那时会重新渲染；若仍想重新渲染，请删除该文件。需要 ffmpeg——请安装它，或在设置中指定其路径。",
+  "العربية": "يصيّر نسخًا خفيفة من مقاطع الفيديو في المشروع باستخدام ffmpeg ويربطها في Resolve كوسائط وكيلة – سير العمل نفسه لميزة «إنشاء وسائط وكيلة» في Resolve، لحين يعجز الجهاز عن تشغيل الأصول بسلاسة.\n\nالوكلاء ملفات .mov تُكتب في مجلد «Proxy» بجانب كل مصدر (اصطلاح Resolve نفسه)، ثم تُربط بالاستدعاء نفسه الذي تستخدمه إعادة الربط اليدوية. لا تُلمس الملفات المصدر أبدًا، ويُنسخ صوت كل مقطع كما هو، فلا يتغير سوى عبء التشغيل.\n\nأي المقاطع: التحديد في Media Pool، أو الخط الزمني الحالي (المقاطع المحددة عليه، أو كلها عندما لا يكون أي منها محددًا)، أو الحاوية المفتوحة (مع حاوياتها الفرعية اختياريًا)، أو كل مقاطع المشروع. تُحوَّل ملفات الفيديو فقط – المقاطع الصوتية وحدها لا تُشغَّل أبدًا من وكيل.\n\nتختار الدقة والصيغة هنا. تعطي H.264 وH.265 أصغر الملفات لكنها تتطلب جهدًا أكبر في فك الترميز أثناء التمرير؛ أما ProRes وDNxHR وCineForm فأكبر حجمًا على القرص وأخف كثيرًا في التشغيل. يحمل كل وكيل الرمز الزمني لمقطعه، وهو ما يحتاجه Resolve لربطه. المقطع الذي يوجد ملف وكيله مسبقًا يُربط دون إعادة تصيير – إلا إذا كان رمزه الزمني خاطئًا، فيُصيَّر من جديد؛ احذف الملف لتصييره من جديد على أي حال. يلزم ffmpeg – ثبّته أو حدّد مساره في الإعدادات.",
+  "Tiếng Việt": "Render các bản sao nhẹ của clip video trong dự án bằng ffmpeg và liên kết chúng trong Resolve làm proxy media – cùng quy trình với tính năng Generate Proxy Media của chính Resolve, dành cho khi máy khó phát mượt các tệp gốc.\n\nProxy là các tệp .mov được ghi vào thư mục 'Proxy' bên cạnh mỗi tệp nguồn (quy ước của chính Resolve), rồi được liên kết bằng cùng lệnh mà thao tác liên kết lại thủ công dùng. Tệp nguồn không bao giờ bị động đến, và âm thanh của mỗi clip được sao chép nguyên luồng, nên chỉ có tải phát lại thay đổi.\n\nNhững clip nào: phần chọn trong Media Pool, timeline hiện tại (các clip được chọn trên đó, hoặc tất cả khi không chọn clip nào), bin đang mở (có thể kèm các bin con), hoặc mọi clip trong dự án. Chỉ tệp video được chuyển mã – clip chỉ có âm thanh không bao giờ phát từ proxy.\n\nĐộ phân giải và định dạng được chọn ở đây. H.264 và H.265 cho tệp nhỏ nhất nhưng giải mã nặng hơn khi tua; ProRes, DNxHR và CineForm chiếm nhiều dung lượng hơn nhưng phát nhẹ hơn nhiều. Mỗi proxy mang timecode của clip, thứ Resolve cần để liên kết. Clip đã có tệp proxy sẽ được liên kết mà không render lại – trừ khi timecode của tệp sai, khi đó tệp được render lại; hãy xóa tệp nếu vẫn muốn render lại. Cần có ffmpeg – hãy cài đặt hoặc đặt đường dẫn của nó trong Cài đặt."
  }
 }

@@ -361,8 +361,6 @@ Buddy.on("proxy", d => {
     proxy = d;
     const scope = d.scope || "selection";
     for (const b of document.querySelectorAll("#proxy-scope [data-scope]")) {
-        const usable = b.dataset.scope !== "timeline" || !!d.can_select_timeline;
-        b.hidden = !usable;
         b.setAttribute("aria-pressed", String(b.dataset.scope === scope));
     }
     $("proxy-recursive-box").hidden = scope !== "bin";

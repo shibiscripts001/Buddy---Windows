@@ -48,7 +48,7 @@
         "Proxy tab can target the Media Pool selection, the clips selected on the open timeline (Resolve 21.0.4 or later), the open bin (optionally with its sub-bins), or every clip in the project - only video files, since audio-only clips never play from a proxy",
         "Proxy tab: Original/Half/Quarter resolution and a Format dropdown - H.264, H.265 (HEVC), ProRes 422 Proxy/LT/422, DNxHR LB/SQ/HQ or CineForm; each proxy carries its clip's start timecode, which Resolve needs to link it; a clip whose proxy file already exists is linked, not re-rendered (unless its timecode is wrong, when it's rendered again); audio is stream-copied so multicam tracks survive; each render writes to a .buddy-part file and only moves into place on success, so a cancelled run leaves nothing half-written"
       ],
-      "notes": "Formerly called Resolve Bin Generator, then Media Pool Organizer. Waveform sync and silent-audio detection need ffmpeg installed (path settable in Settings); the Proxy tab needs it for every render. Timeline selection needs Resolve 21.0.4 or later; older Resolves hide that choice."
+      "notes": "Formerly called Resolve Bin Generator, then Media Pool Organizer. Waveform sync and silent-audio detection need ffmpeg installed (path settable in Settings); the Proxy tab needs it for every render. The Proxy tab's Current timeline takes the clips selected on the open timeline, or every clip on it when none are selected."
     },
     "asset_manager": {
       "name": "Asset Manager",
@@ -100,7 +100,9 @@
         "Fix offline media: scans the project for clips whose files have gone missing and relinks them from a chosen search folder - clips that work are never touched",
         "Move to a new location: points clips at copies somewhere else even when nothing is broken; only the clips you tick are relinked",
         "Shows each clip's recorded folder and the proposed new one before anything changes; the folder search shows progress and can be cancelled",
-        "When a search finds several files with a clip's name, you pick which one (or browse for another) in the page"
+        "When a search finds several files with a clip's name, you pick which one (or browse for another) in the page",
+        "Which clips: the current bin, the current timeline (every clip used on it), the selected clips (Media Pool selection, or the timeline's when none), or the entire project",
+        "Checks every relink by reading the Media Pool again afterwards, and image sequences (R[0001-0100].jpg) are found by their first frame"
       ],
       "notes": "PROTOTYPE. The core loop works but the tool's own README warns against relying on it for anything irreplaceable. Say so when recommending it."
     },

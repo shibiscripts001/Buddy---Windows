@@ -399,7 +399,9 @@ body > main { border-radius: var(--card-radius); }
     display: flex; align-items: center; justify-content: center;
     padding: 16px;
     background: var(--overlay-tint);
-    backdrop-filter: blur(3px);
+    /* No backdrop-filter: blurring the live page under a modal made Qt's
+       compositor re-capture all of it, and with GIFs animating below
+       (Buddy Network) frames came out without the modal - it flashed. */
     animation: buddy-fade .12s ease-out;
 }
 .modal {

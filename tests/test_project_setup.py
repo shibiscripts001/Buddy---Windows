@@ -504,7 +504,6 @@ class PageTests(unittest.TestCase):
         self.page.on_tab({"tab": "proxy"})
         state = self.last("proxy")
         self.assertEqual(state["bin"], "Footage")
-        self.assertFalse(state["can_select_timeline"])   # the fake Timeline predates 21.0.4
         self.page.on_proxy_option({"key": "scope", "value": "bin"})
         self.page.on_proxy_option({"key": "scope", "value": "nonsense"})   # refused
         self.page.on_proxy_option({"key": "resolution", "value": "quarter"})

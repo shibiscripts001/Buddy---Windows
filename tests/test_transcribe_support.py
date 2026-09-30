@@ -82,6 +82,14 @@ class WorkerTextTests(unittest.TestCase):
         self.assertEqual(worker._collapse_repeat(f"{s} {s}"), s)
         self.assertEqual(worker._collapse_repeat("I know I know it."), "I know I know it.")
 
+    def test_speech_no_word_covers_is_found(self):
+        # 今日の撮影は (0-0.9) [really went well - left out] と思います (1.86-2.28)
+        words = [(0.0, 0.14), (0.14, 0.9), (1.86, 2.28)]
+        self.assertEqual(worker.uncovered(words, 0.0, 2.3), [(0.9, 1.86)])
+        self.assertEqual(worker.uncovered([], 1.0, 3.0), [(1.0, 3.0)])            # nothing came out
+        self.assertEqual(worker.uncovered([(1.0, 1.5), (1.2, 2.9)], 1.0, 3.0), [])  # overlapping words
+        self.assertEqual(worker.uncovered([(0.0, 1.0)], 0.0, 1.3), [])             # under GAP_MIN
+
     def test_fillers_dropped_in_english_only(self):
         words = lambda *t: [{"word": x, "start": 0, "end": 0} for x in t]
         text = lambda ws: [w["word"] for w in ws]

@@ -203,36 +203,58 @@ class ScopeTests(unittest.TestCase):
         self.assertEqual(proxy.scope_label("bin", "Footage"), "bin 'Footage'")
         self.assertEqual(proxy.scope_label("bin", "Footage", recursive=True), "bin 'Footage' and its sub-bins")
         self.assertEqual(proxy.scope_label("bin", "Master"), "Master")
-        self.assertEqual(proxy.scope_label("timeline", None, "Cut 1"), "the selection on 'Cut 1'")
+        self.assertEqual(proxy.scope_label("timeline", None, "Cut 1"), "every clip on 'Cut 1'")
+        self.assertEqual(proxy.scope_label("timeline", None, "Cut 1", timeline_selection=True),
+                         "the selection on 'Cut 1'")
+        self.assertEqual(proxy.scope_label("timeline"), "the current timeline")
         self.assertEqual(proxy.scope_label("all"), "every clip in the project")
 
-    def test_timeline_selection_needs_21_0_4(self):
-        class OldTimeline:
-            pass  # no GetSelectedClips in dir()
-        self.assertFalse(proxy.timeline_can_select(OldTimeline()))
-        with self.assertRaises(proxy.ProxyError) as raised:
-            proxy.selected_timeline(OldTimeline())
-        self.assertIn("21.0.4", str(raised.exception))
+    class Item:
+        def __init__(self, media):
+            self._media = media
 
-    def test_timeline_selection_maps_items_to_pool_media(self):
-        class Item:
-            def __init__(self, media):
-                self._media = media
-            def GetMediaPoolItem(self):
-                return self._media
-        class Media:
-            def GetClipProperty(self, *a):
-                return {"File Path": "C:/m/v.mp4", "Type": "video"} if a == () else {"File Path": "C:/m/v.mp4", "Type": "video"}.get(a[0])
-            def GetName(self):
-                return "v"
-            def GetUniqueId(self):
-                return "id1"
+        def GetMediaPoolItem(self):
+            return self._media
+
+    class Media:
+        def __init__(self, uid, path):
+            self.uid, self.props = uid, {"File Path": path, "Type": "video"}
+
+        def GetClipProperty(self, *a):
+            return self.props if a == () else self.props.get(a[0])
+
+        def GetName(self):
+            return self.uid
+
+        def GetUniqueId(self):
+            return self.uid
+
+    def _timeline(self, selected, tracks, can_select=True):
         class Timeline:
-            def GetSelectedClips(self):
-                return [Item(Media()), Item(None)]
-        entries, objects = proxy.selected_timeline(Timeline())
-        self.assertEqual(len(entries), 1)
-        self.assertEqual(entries[0]["path"], "C:/m/v.mp4")
+            def GetTrackCount(self, kind):
+                return len(tracks) if kind == "video" else 0
+
+            def GetItemListInTrack(self, kind, index):
+                return tracks[index - 1]
+        if can_select:
+            Timeline.GetSelectedClips = lambda self: selected
+        return Timeline()
+
+    def test_current_timeline_takes_its_selection_first(self):
+        a, b = self.Media("a", "C:/m/a.mp4"), self.Media("b", "C:/m/b.mp4")
+        timeline = self._timeline([self.Item(a), self.Item(None)], [[self.Item(a), self.Item(b)]])
+        entries, objects, from_selection = proxy.timeline_clips(timeline)
+        self.assertTrue(from_selection)
+        self.assertEqual([e["path"] for e in entries], ["C:/m/a.mp4"])
+        self.assertIs(objects["a"], a)
+
+    def test_current_timeline_is_every_clip_when_nothing_is_selected(self):
+        a, b = self.Media("a", "C:/m/a.mp4"), self.Media("b", "C:/m/b.mp4")
+        tracks = [[self.Item(a), self.Item(None)], [self.Item(b), self.Item(a)]]
+        for can_select in (True, False):   # False: a Resolve older than 21.0.4
+            entries, _objects, from_selection = proxy.timeline_clips(self._timeline([], tracks, can_select))
+            self.assertFalse(from_selection)
+            self.assertEqual([e["path"] for e in entries], ["C:/m/a.mp4", "C:/m/b.mp4"])
 
     def test_pool_selection_filters_timelines_and_none(self):
         class Clip:
