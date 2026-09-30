@@ -12,7 +12,7 @@ script and has been ported into the shell.
 
 Buddy's integrated tools include the following. Audit and parts of Audio Assistant are still in progress:
 
-- Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Transcribe)
+- Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Subtitles)
 - Ask Buddy (chat agent)
 - Audio Assistant (new; its Timeline tab mirrors the audio tracks with each clip's waveform, and sets clip volume, pan, fades, loudness to a target, Voice Isolation and the Dialogue Leveler, and a volume curve drawn on the clip that becomes Resolve keyframes - effects are coming)
 - Audit (new; the page only for now - its tools are coming)
@@ -26,7 +26,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Marker Manager (Stills Exporter and YouTube Chapters tabs)
 - SVG Importer
 - Time Tracker
-- Transcribe (Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
+- Subtitles (Transcribe, Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
 
 The bug button in the header (and on the desktop layout's taskbar) sends a
 bug report - what went wrong, up to six screenshots, and Buddy's, the
@@ -130,7 +130,7 @@ PySide6 has to be installed for the interpreter *Resolve* uses, which is not
 always the one on your PATH. If it isn't, the launcher says so and names the
 exact interpreter.
 
-## Transcribe
+## Subtitles
 
 Turns the current timeline's dialogue into subtitles, and translates them, locally - nothing is
 sent to the internet (unless you choose AI translation with a cloud model). Transcribe Timeline renders the timeline's audio mix,
@@ -140,7 +140,7 @@ clauses), and puts them on subtitle track 1 as well as saving an SRT in
 `~/.buddy/transcribe/output/`. Its Subtitle Conversion tab turns them into
 Text+ clips, and the tabs after it style, place and animate them.
 
-- **One-time setup** (Transcribe > Set up...): installs the engine into its
+- **One-time setup** (Subtitles > Setup): installs the engine into its
   own environment in `~/.buddy/transcribe/`, built from the Python Buddy runs
   on. About 1.45 GB with an NVIDIA GPU (mostly CUDA libraries), about 110 MB
   without. Then a model - downloaded, or reused from a folder another app

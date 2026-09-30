@@ -138,12 +138,12 @@
     },
     "text_animator": {
       "name": "Animation",
-      "summary": "The page for animating things in Resolve. Its top row of tabs is the kind of animation - only Text+ so far, and that tab is empty for now: the Text+ tools (font styling, layout, animation) are tabs on Transcribe, after Subtitle Conversion. Formerly Text Animator.",
+      "summary": "The page for animating things in Resolve. Its top row of tabs is the kind of animation - only Text+ so far, and that tab is empty for now: the Text+ tools (font styling, layout, animation) are tabs on Subtitles, after Subtitle Conversion. Formerly Text Animator.",
       "needs_resolve": true,
       "capabilities": [
-        "Nothing yet - a Text+ tab kept for animation tools to come; Font Styling, Timeline Layout, Timeline Animation and Custom Animation are on the Transcribe page"
+        "Nothing yet - a Text+ tab kept for animation tools to come; Font Styling, Timeline Layout, Timeline Animation and Custom Animation are on the Subtitles page"
       ],
-      "notes": "Send people wanting to style, place or animate Text+ to Transcribe's Text+ tabs."
+      "notes": "Send people wanting to style, place or animate Text+ to the Subtitles page's Text+ tabs."
     },
     "audio_assistant": {
       "name": "Audio Assistant",
@@ -218,11 +218,11 @@
       ]
     },
     "transcribe": {
-      "name": "Transcribe",
-      "summary": "Transcribes the current timeline's dialogue into subtitles on the timeline (Whisper or NVIDIA Parakeet, running locally), and translates subtitles into other languages (NLLB-200 or MADLAD-400 locally, or Ask Buddy's AI model), and turns them into styled, placed and animated Text+.",
+      "name": "Subtitles",
+      "summary": "Transcribes the current timeline's dialogue into subtitles on the timeline (Whisper or NVIDIA Parakeet, running locally), and translates subtitles into other languages (NLLB-200 or MADLAD-400 locally, or Ask Buddy's AI model), and turns them into styled, placed and animated Text+. Formerly called Transcribe; its first tab is still Transcribe.",
       "needs_resolve": true,
       "capabilities": [
-        "Eight tabs: Subtitles (transcribe), Translate, Subtitle Conversion, the four Text+ tabs (Font Styling, Timeline Layout, Timeline Animation, Custom Animation - formerly the Text Animator page), and Setup at the far right (install the engine and download models)",
+        "Eight tabs: Transcribe, Translate, Subtitle Conversion, the four Text+ tabs (Font Styling, Timeline Layout, Timeline Animation, Custom Animation - formerly the Text Animator page), and Setup at the far right (install the engine and download models)",
         "Renders the timeline's audio mix, transcribes it locally with Whisper (faster-whisper) and builds readable subtitles from the word timings",
         "Runs on the GPU with an NVIDIA card and on the CPU on any other Windows PC or Mac; transcription sends nothing to the internet",
         "Models: Whisper Large v3 (most accurate, every language), Large v3 Turbo (fast, nearly as accurate), Distil-Whisper Large v3.5 (English only, about twice as fast), Small (fastest); NVIDIA Parakeet v3 (25 European languages, very fast even without a GPU, punctuates by itself); downloaded on the Setup tab, or a copy another app already downloaded reused",

@@ -82,11 +82,11 @@ def engine_plan(languages=()):
     from pages.transcribe import jobs, plan
     if not es.venv_python().exists():
         return None, ("Transcription isn't set up on this computer yet – install it on the "
-                      "Transcribe tool's Setup tab.")
+                      "Subtitles tool's Setup tab.")
     settings = plan.Settings(jobs.SETTINGS_PATH)
     models = es.installed_models(settings.get("extra_models", {}))
     if not models:
-        return None, "Get a transcription model on the Transcribe tool's Setup tab."
+        return None, "Get a transcription model on the Subtitles tool's Setup tab."
     languages = list(languages or [])
     language = plan.MIXED if languages else settings.get("language", "")
     if language == plan.MIXED and not languages:

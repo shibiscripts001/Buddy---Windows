@@ -283,7 +283,7 @@ class TranscriptCacheTests(unittest.TestCase):
         with mock.patch("pages.transcribe.env_setup.venv_python", return_value=Path("C:/no/such/python.exe")):
             plan, why = transcripts.engine_plan()
         self.assertIsNone(plan)
-        self.assertIn("Transcribe", why)
+        self.assertIn("Subtitles", why)
 
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
