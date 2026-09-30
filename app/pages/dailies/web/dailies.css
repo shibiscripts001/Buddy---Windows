@@ -55,12 +55,17 @@
 .transport .volume input { width: 75px; accent-color: var(--primary); }
 /* Under the player: which view, the strip, and the transcript. */
 .viewer-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 0 12px 6px; }
-.viewer-bar .strip-hint { opacity: .7; }
-.strip { position: relative; flex: none; height: 58px; margin: 0 12px; background: var(--field-bg); border: var(--bw) solid var(--field-border); border-radius: var(--r-sm); overflow: hidden; cursor: pointer; user-select: none; touch-action: none; }
-.strip .ruler { position: absolute; inset: 0 0 auto 0; height: 16px; border-bottom: var(--bw) solid var(--card-border); pointer-events: none; }
-.strip .tick { position: absolute; top: 0; height: 16px; padding-left: 3px; border-left: var(--bw) solid var(--card-border); font-size: var(--fs-xs); line-height: 16px; color: var(--text-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.strip .blocks { position: absolute; inset: 19px 0 4px 0; pointer-events: none; }
-.strip .block { position: absolute; top: 0; bottom: 0; box-sizing: border-box; padding: 3px 6px; overflow: hidden; background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-top: 3px solid var(--clip-color); border-radius: 3px; }
+.viewer-bar .zoom { display: flex; gap: 2px; }
+.viewer-bar .zoom .btn { min-width: 38px; padding: 3px 12px; font-size: var(--fs-md); line-height: 1.2; white-space: nowrap; }
+/* The strip is a big target on purpose: it's how a review is scrubbed.
+   A time ruler on top, the clips under it, where the pointer would land
+   shown before pressing, and a playhead with a handle to grab. */
+.strip { position: relative; flex: none; height: 104px; margin: 0 12px; background: var(--field-bg); border: var(--bw) solid var(--field-border); border-radius: var(--r-sm); overflow: hidden; cursor: pointer; user-select: none; touch-action: none; }
+.strip .ruler { position: absolute; inset: 0 0 auto 0; height: 26px; border-bottom: var(--bw) solid var(--card-border); pointer-events: none; }
+.strip .tick { position: absolute; top: 0; height: 26px; padding-left: 5px; border-left: var(--bw) solid var(--card-border); font-size: var(--fs-sm); line-height: 26px; color: var(--text-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.strip .tick.minor { height: 7px; top: 19px; padding: 0; opacity: .7; }
+.strip .blocks { position: absolute; inset: 31px 0 5px 0; pointer-events: none; }
+.strip .block { position: absolute; top: 0; bottom: 0; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 3px; padding: 4px 9px; overflow: hidden; background: var(--raised-bg); border: var(--bw) solid var(--card-border); border-top: 4px solid var(--clip-color); border-radius: 4px; }
 .strip .block {
     --clip-color: var(--card-border);
 }
@@ -68,10 +73,20 @@
     --clip-color: var(--primary);
 }
 .strip .block.current { border-color: var(--primary); border-top-color: var(--clip-color); box-shadow: 0 0 0 1px var(--primary); z-index: 1; }
-.strip .block-name { display: block; font-size: var(--fs-xs); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.strip .block-name { display: block; font-size: var(--fs-md); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.strip .block-length { display: block; font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.strip .block.small .block-length { display: none; }
 .strip .block.narrow { padding: 0; }
-.strip .block.narrow .block-name { display: none; }
-.strip .playhead { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--primary); pointer-events: none; z-index: 2; }
+.strip .block.narrow .block-name, .strip .block.narrow .block-length { display: none; }
+.strip .playhead { position: absolute; top: 0; bottom: 0; left: -1px; width: 3px; margin-left: -1px; background: var(--primary); pointer-events: none; z-index: 3; }
+/* The handle: a tab on the ruler, where the playhead is easiest to catch. */
+.strip .playhead::before { content: ""; position: absolute; top: 0; left: -6px; width: 15px; height: 18px; background: var(--primary); border-radius: 0 0 5px 5px; }
+.strip.dragging { cursor: grabbing; }
+/* 2px: a 1px line at a fractional position blurs to almost nothing. Over
+   the playhead, so its time label is never hidden behind the handle. */
+.strip .hover-line { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: color-mix(in srgb, var(--text-strong) 70%, transparent); pointer-events: none; z-index: 4; }
+.strip .hover-time { position: absolute; top: 3px; left: 8px; padding: 1px 7px; border-radius: 4px; background: var(--card-bg); border: var(--bw) solid var(--card-border); color: var(--text-strong); font-size: var(--fs-sm); line-height: 18px; white-space: nowrap; font-variant-numeric: tabular-nums; box-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
+.strip .hover-line.flip .hover-time { left: auto; right: 8px; }
 .transcript { flex: none; display: flex; flex-direction: column; height: 132px; margin: 8px 12px 12px; border: var(--bw) solid var(--card-border); border-radius: var(--r-sm); overflow: hidden; }
 .transcript-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 4px 6px 4px 10px; border-bottom: var(--bw) solid var(--card-border); }
 .transcript-head .btn { padding: 2px 8px; font-size: var(--fs-xs); }

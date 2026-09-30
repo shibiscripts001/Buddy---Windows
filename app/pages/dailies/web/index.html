@@ -67,11 +67,16 @@
                 </div>
                 <span class="muted small" id="strip-info"></span>
                 <div class="spacer"></div>
-                <span class="muted small strip-hint">Alt+scroll zooms · Scroll pans</span>
+                <div class="zoom" role="group" aria-label="Zoom the strip">
+                    <button type="button" class="btn" id="zoom-out" title="Zoom out (Alt+scroll)" aria-label="Zoom out">−</button>
+                    <button type="button" class="btn" id="zoom-fit" title="Show all of it">Fit</button>
+                    <button type="button" class="btn" id="zoom-in" title="Zoom in (Alt+scroll)" aria-label="Zoom in">+</button>
+                </div>
             </div>
-            <div class="strip" id="strip" aria-label="Playback position">
+            <div class="strip" id="strip" aria-label="Playback position" title="Click or drag to move the playhead · Alt+scroll zooms · Scroll pans">
                 <div class="ruler" id="ruler"></div>
                 <div class="blocks" id="blocks"></div>
+                <div class="hover-line" id="hover-line" hidden><span class="hover-time" id="hover-time"></span></div>
                 <div class="playhead" id="playhead"></div>
             </div>
             <div class="transcript">

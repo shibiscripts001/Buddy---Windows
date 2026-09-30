@@ -210,6 +210,38 @@ class NovaLayoutTests(unittest.TestCase):
             const r = pop.getBoundingClientRect();
             return r.top >= 0 && r.bottom <= innerHeight && pop.contains(document.elementFromPoint(r.x + 10, r.y + 10));""")
 
+    def test_the_strip_is_big_names_keep_their_ends_and_zoom_has_buttons(self):
+        self.theme()
+        self.js("""const clips = Array.from({length: 30}, (_, i) => ({id: 'c' + i,
+                name: 'ZEN_FX3_A_20260128_82' + String(i).padStart(2, '0') + '.MP4', bin: 'Master', type: 'Video',
+                seconds: 12, metadata: {}}));
+            Buddy.receive('tape', {clips});
+            Buddy.receive('state', {project: 'Test film', project_id: 'p1', sources: [], current: 'c3',
+                source: '@all', pending: 0, clip_count: 30, viewer: 'source'});
+            Buddy.receive('current', {clip: clips[3]});
+            return true;""")
+        self.settle()
+        result = self.js("""const strip = document.getElementById('strip');
+            const names = [...document.querySelectorAll('.strip .block-name')].map(n => n.textContent).filter(Boolean);
+            return {height: strip.getBoundingClientRect().height, names,
+                    info: document.getElementById('strip-info').textContent};""")
+        self.assertGreaterEqual(result["height"], 96)
+        # Camera names differ at the end: shortened in the middle, never "ZEN_FX3_A_2026...".
+        self.assertTrue(result["names"])
+        self.assertTrue(all(n.endswith(tuple(f"82{i:02d}" for i in range(30))) or "." in n for n in result["names"]),
+                        result["names"])
+        # Where a press would land shows before pressing.
+        self.assertTrue(self.js("""const strip = document.getElementById('strip'), r = strip.getBoundingClientRect();
+            strip.dispatchEvent(new PointerEvent('pointermove', {clientX: r.left + r.width / 2, clientY: r.top + 50, bubbles: true}));
+            const line = document.getElementById('hover-line');
+            return !line.hidden && /[0-9][0-9]:[0-9][0-9] · ZEN_/.test(document.getElementById('hover-time').textContent);"""))
+        span = "const t = [...document.querySelectorAll('.strip .tick:not(.minor)')].map(t => t.textContent); return t;"
+        before = self.js(span)
+        self.js("document.getElementById('zoom-in').click(); return true;")
+        self.assertNotEqual(self.js(span), before)
+        self.js("document.getElementById('zoom-fit').click(); return true;")
+        self.assertEqual(self.js("return document.querySelectorAll('.strip .block').length;"), 30)
+
 
 if __name__ == "__main__":
     unittest.main()

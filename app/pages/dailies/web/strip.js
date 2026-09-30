@@ -28,14 +28,17 @@ const Strip = (() => {
     const {el, send} = Buddy;
     const $ = id => document.getElementById(id);
     const strip = $("strip"), ruler = $("ruler"), blocks = $("blocks"), playhead = $("playhead");
+    const hoverLine = $("hover-line"), hoverTime = $("hover-time");
+    let hoverX = null;                      // clientX of a pointer over the strip, not pressed
     let clips = [], starts = [], total = 0;
     let viewer = "clip", currentId = null, playing = false;
     let local = 0, localLength = 0;         // seconds, inside the current clip
     let view = null;                        // [from, to] seconds shown; null = fit
     let wholeTape = false;                  // zoomed right out by hand: leave it there
     // A tape of hundreds of clips fitted to the strip is hundreds of slivers,
-    // so a long one opens on the clips around the current one instead.
-    const FIT_CLIPS = 24, BEFORE = 2, AFTER = 9;
+    // so a long one opens on the clips around the current one instead - few
+    // enough that each has room for its name.
+    const FIT_CLIPS = 12, BEFORE = 1, AFTER = 5;
     let dragging = null;                    // {id, seconds} while the pointer is down
     let seekTimer = 0;
     const onChange = [];
@@ -84,13 +87,43 @@ const Strip = (() => {
         const [from, to] = shown();
         const width = strip.clientWidth || 1;
         const steps = [0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600, 7200];
-        const step = steps.find(s => s / (to - from) * width >= 72) || steps.at(-1);
+        const step = steps.find(s => s / (to - from) * width >= 90) || steps.at(-1);
         const long = span() >= 3600;     // matching the time readout
         const ticks = [];
+        // Five short marks between labels, where there's room for them.
+        const minor = step / 5 / (to - from) * width >= 12 ? step / 5 : 0;
         for (let t = Math.ceil(from / step) * step; t <= to; t += step) {
             ticks.push(el("span.tick", {text: clockText(t, long), style: `left:${x(t)}px`}));
+            for (let k = 1; minor && k < 5; k++) {
+                const m = t + k * minor;
+                if (m <= to) ticks.push(el("span.tick.minor", {style: `left:${x(m)}px`}));
+            }
         }
         ruler.replaceChildren(...ticks);
+    }
+    // A name shortened to fit `px`, in the middle: camera files differ at the
+    // end ("ZEN_FX3_A_20260128_8206.MP4"), so "ZEN_FX3…8206" beats
+    // "ZEN_FX3_A…". The extension goes first.
+    let measure = null;
+    function fitName(name, px) {
+        if (!measure) {
+            const probe = blocks.querySelector(".block-name");
+            if (!probe) return name;
+            measure = document.createElement("canvas").getContext("2d");
+            const cs = getComputedStyle(probe);
+            measure.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+        }
+        const fits = text => measure.measureText(text).width <= px;
+        if (fits(name)) return name;
+        const bare = name.replace(/\.[A-Za-z0-9]{2,4}$/, "");
+        if (fits(bare)) return bare;
+        let keep = bare.length - 1;
+        while (keep > 2) {
+            const tail = Math.ceil(keep * 0.55), text = bare.slice(0, keep - tail) + "…" + bare.slice(-tail);
+            if (fits(text)) return text;
+            keep--;
+        }
+        return "";      // a sliver: its name is in the hover label
     }
     function drawBlocks() {
         const [from, to] = shown();
@@ -102,15 +135,22 @@ const Strip = (() => {
             const left = x(start), width = Math.max(1, x(start + length) - left);
             const block = el("div.block", {title: `${clip.name} · ${clockText(length)}`}, [
                 el("span.block-name", {text: clip.name, translate: "no"}),
+                el("span.block-length", {text: clockText(length)}),
             ]);
             block.style.left = `${left}px`;
             block.style.width = `${width}px`;
             if (clip.id === currentId) block.classList.add("current");
             if (CLIP_COLORS[clip.color]) block.style.setProperty("--clip-color", CLIP_COLORS[clip.color]);
             if (width < 28) block.classList.add("narrow");
+            else if (width < 80) block.classList.add("small");
             items.push(block);
         }
         blocks.replaceChildren(...items);
+        // Shortened once they're laid out (what fits is the block's own width).
+        for (const block of items) {
+            const name = block.firstChild, room = parseFloat(block.style.width) - 20;
+            if (!block.classList.contains("narrow")) name.textContent = fitName(name.textContent, room);
+        }
     }
     function drawPlayhead() {
         const seconds = origin() + (dragging && dragging.id === currentId ? dragging.at : local);
@@ -118,10 +158,53 @@ const Strip = (() => {
         playhead.style.transform = `translateX(${Math.round(px)}px)`;
         playhead.hidden = !currentId || px < -1 || px > strip.clientWidth + 1;
     }
+    // Where a press would land, before pressing: a line and its time (and,
+    // over the whole tape, which clip).
+    function drawHover() {
+        if (hoverX === null || dragging || !clips.length || !currentId && viewer !== "source") {
+            hoverLine.hidden = true;
+            return;
+        }
+        const rect = strip.getBoundingClientRect();
+        const px = Math.min(Math.max(hoverX - rect.left, 0), rect.width);
+        const seconds = secondsAt(hoverX);
+        const long = span() >= 3600;
+        const at = locate(seconds);
+        const clip = viewer === "source" && at ? clips.find(c => c.id === at.id) : null;
+        hoverTime.textContent = clip ? `${clockText(seconds, long)} · ${clip.name}` : clockText(seconds, long);
+        hoverLine.style.transform = `translateX(${Math.round(px)}px)`;
+        hoverLine.classList.toggle("flip", px > rect.width - 260);
+        hoverLine.hidden = false;
+    }
     function draw() {
-        drawRuler(); drawBlocks(); drawPlayhead();
+        drawRuler(); drawBlocks(); drawPlayhead(); drawHover();
         for (const fn of onChange) fn();
     }
+
+    // Zooms by `factor` (<1 in, >1 out) around a time on the strip.
+    function zoom(factor, around) {
+        if (!clips.length) return;
+        const [from, to] = shown(), width = to - from, full = span();
+        const next = Math.min(Math.max(width * factor, Math.min(2, full)), full);
+        if (next >= full - 1e-6) {
+            view = null;
+            wholeTape = viewer === "source";
+        } else {
+            const start = Math.min(Math.max(around - (around - from) * next / width, 0), full - next);
+            view = [start, start + next];
+        }
+        draw();
+    }
+    const playheadSeconds = () => origin() + local;
+    $("zoom-in").addEventListener("click", () => {
+        const [from, to] = shown(), at = playheadSeconds();
+        zoom(0.5, at >= from && at <= to ? at : (from + to) / 2);
+    });
+    $("zoom-out").addEventListener("click", () => {
+        const [from, to] = shown(), at = playheadSeconds();
+        zoom(2, at >= from && at <= to ? at : (from + to) / 2);
+    });
+    $("zoom-fit").addEventListener("click", () => zoom(Infinity, 0));
 
     // Keeps the playhead on screen while playing, and the chosen clip on
     // screen when it changes, without undoing a zoom.
@@ -149,11 +232,14 @@ const Strip = (() => {
         strip.setPointerCapture(e.pointerId);
         const seconds = secondsAt(e.clientX);
         dragging = {seconds, ...locate(seconds)};
+        strip.classList.add("dragging");
         drawPlayhead();
+        drawHover();
         seek(dragging, false);
     });
     strip.addEventListener("pointermove", e => {
-        if (!dragging) return;
+        hoverX = e.clientX;
+        if (!dragging) { drawHover(); return; }
         const seconds = secondsAt(e.clientX);
         dragging = {seconds, ...locate(seconds)};
         drawPlayhead();
@@ -163,12 +249,15 @@ const Strip = (() => {
         if (!dragging) return;
         const target = dragging;
         dragging = null;
+        strip.classList.remove("dragging");
         if (target.id === currentId) local = target.at;
         seek(target, true);
         drawPlayhead();
+        drawHover();
     };
     strip.addEventListener("pointerup", release);
     strip.addEventListener("pointercancel", release);
+    strip.addEventListener("pointerleave", () => { hoverX = null; drawHover(); });
 
     // Alt+scroll zooms around the pointer; scrolling (or Shift+scroll, or a
     // sideways swipe) pans. A plain scroll over a strip with nothing to pan
@@ -178,18 +267,8 @@ const Strip = (() => {
         const [from, to] = shown(), width = to - from, full = span();
         if (e.altKey) {
             e.preventDefault();
-            const at = secondsAt(e.clientX);
             // Alt turns a vertical wheel into a horizontal one on some systems.
-            const amount = e.deltaY || e.deltaX;
-            const next = Math.min(Math.max(width * Math.exp(amount * 0.0015), Math.min(2, full)), full);
-            if (next >= full - 1e-6) {
-                view = null;
-                wholeTape = viewer === "source";
-            } else {
-                const start = Math.min(Math.max(at - (at - from) * next / width, 0), full - next);
-                view = [start, start + next];
-            }
-            draw();
+            zoom(Math.exp((e.deltaY || e.deltaX) * 0.0015), secondsAt(e.clientX));
             return;
         }
         if (!view) return;
