@@ -6,6 +6,7 @@
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
     <title>Animation</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="animation.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
     <script src="../../../web/buddy.js"></script>
 </head>
@@ -15,10 +16,79 @@
         <h1 class="page-title">Animation</h1>
     </header>
 
-    <!-- The kind of animation. Text+'s tools are on Transcribe for now, so its tab is empty. -->
+    <!-- The kind of animation. Text+'s tools are on Subtitles for now, so its tab is empty. -->
     <nav class="tabs" role="tablist" id="sections">
-        <button type="button" role="tab" aria-selected="true" translate="no">Text+</button>
+        <button type="button" role="tab" data-tab="previews" aria-selected="true">Previews</button>
+        <button type="button" role="tab" data-tab="textplus" aria-selected="false" translate="no">Text+</button>
     </nav>
+
+    <!-- ------------------------------------------------------- Previews -->
+    <section class="panel pv" id="panel-previews">
+        <!-- The chosen preset, how it goes on, and the clips it goes on. -->
+        <div class="card pv-apply">
+            <div class="pv-chosen">
+                <div class="pv-stage pv-stage-lg" id="chosen-stage"></div>
+                <div class="pv-chosen-meta">
+                    <span class="muted small">Chosen preset</span>
+                    <span class="pv-chosen-name" id="chosen-name" translate="no"></span>
+                    <span class="muted small" id="chosen-sub"></span>
+                </div>
+            </div>
+            <div class="pv-options">
+                <label class="pv-opt" id="way-row"><span class="muted small">Put on</span>
+                    <div class="segmented" id="way">
+                        <button type="button" data-way="both">In &amp; Out</button>
+                        <button type="button" data-way="in">In</button>
+                        <button type="button" data-way="out">Out</button>
+                    </div>
+                </label>
+                <label class="pv-opt"><span class="muted small">Speed</span>
+                    <div class="segmented" id="speed">
+                        <button type="button" data-speed="0.5">0.5×</button>
+                        <button type="button" data-speed="1">1×</button>
+                        <button type="button" data-speed="1.5">1.5×</button>
+                        <button type="button" data-speed="2">2×</button>
+                    </div>
+                </label>
+                <p class="muted small pv-where" id="where"></p>
+            </div>
+            <div class="pv-target">
+                <div class="pv-sel" id="selection"></div>
+                <div class="row pv-reframed" id="reframed" hidden>
+                    <span class="muted small" id="reframed-text"></span>
+                    <button type="button" class="btn" id="update">Update framing</button>
+                </div>
+                <div class="row pv-go">
+                    <button type="button" class="btn ghost" id="remove">Remove</button>
+                    <button type="button" class="btn accent" id="apply">Apply to selected</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pv-bar">
+            <input class="field pv-search" id="q" type="search" placeholder="Search presets" autocomplete="off">
+            <div class="segmented" id="packs"></div>
+            <div class="segmented" id="kinds"></div>
+            <div class="spacer"></div>
+            <label class="pv-play muted small">Play
+                <div class="segmented" id="play">
+                    <button type="button" data-play="all">All</button>
+                    <button type="button" data-play="hover">On hover</button>
+                </div>
+            </label>
+        </div>
+
+        <div id="groups" class="pv-groups"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------- Text+ -->
+    <section class="panel" id="panel-textplus" hidden>
+        <div class="empty">
+            <span class="strong">Text+ tools are on the Subtitles page for now</span>
+            <span>Font styling, layout and word-by-word animation are tabs there, after Subtitle conversion.</span>
+        </div>
+    </section>
 </main>
+<script src="animation.js"></script>
 </body>
 </html>

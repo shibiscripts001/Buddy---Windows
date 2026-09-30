@@ -1799,5 +1799,635 @@
   "中文": "所选的 {n} 个 Text+ 片段中有 {blank} 个没有文字，因此没有堆叠任何片段。如果它们原本有文字，可能是 Resolve 的检查器清空了它们：选中多个 Text+ 片段时，点击其 Text 框（显示为 --）会把这个空框写入每个选中的片段。在 Resolve 中撤销（{undo}）也许能找回文字。",
   "العربية": "{blank} من أصل {n} مقاطع Text+ المحددة بلا نص، لذا لم يُكدَّس شيء. إن كانت فيها كلمات، فربما أفرغها Inspector في Resolve: عند تحديد عدة مقاطع Text+، يؤدي النقر داخل مربع Text فيه (يظهر --) إلى كتابة ذلك المربع الفارغ في كل مقطع محدد. قد يعيد التراجع في Resolve ({undo}) الكلمات.",
   "Tiếng Việt": "{blank} trong {n} clip Text+ đã chọn không có chữ, nên không xếp chồng gì cả. Nếu chúng từng có chữ, có thể Inspector của Resolve đã xóa: khi đang chọn nhiều clip Text+, bấm vào ô Text của nó (hiện --) sẽ ghi ô trống đó vào mọi clip đang chọn. Hoàn tác trong Resolve ({undo}) có thể lấy lại chữ."
+ },
+ "Previews": {
+  "日本語": "プレビュー",
+  "Español": "Vistas previas",
+  "Deutsch": "Vorschauen",
+  "Français": "Aperçus",
+  "한국어": "미리 보기",
+  "中文": "预览",
+  "العربية": "المعاينات",
+  "Tiếng Việt": "Xem trước"
+ },
+ "Chosen preset": {
+  "日本語": "選択したプリセット",
+  "Español": "Preajuste elegido",
+  "Deutsch": "Gewählte Vorlage",
+  "Français": "Préréglage choisi",
+  "한국어": "선택한 프리셋",
+  "中文": "所选预设",
+  "العربية": "الإعداد المختار",
+  "Tiếng Việt": "Preset đã chọn"
+ },
+ "Put on": {
+  "日本語": "適用する部分",
+  "Español": "Aplicar",
+  "Deutsch": "Anwenden",
+  "Français": "Appliquer",
+  "한국어": "적용 부분",
+  "中文": "应用",
+  "العربية": "تطبيق",
+  "Tiếng Việt": "Áp dụng"
+ },
+ "In & Out": {
+  "日本語": "イン＆アウト",
+  "Español": "Entrada y salida",
+  "Deutsch": "Ein & Aus",
+  "Français": "Entrée et sortie",
+  "한국어": "인 & 아웃",
+  "中文": "入场和出场",
+  "العربية": "دخول وخروج",
+  "Tiếng Việt": "Vào & Ra"
+ },
+ "Apply to selected": {
+  "日本語": "選択したクリップに適用",
+  "Español": "Aplicar a la selección",
+  "Deutsch": "Auf Auswahl anwenden",
+  "Français": "Appliquer à la sélection",
+  "한국어": "선택 항목에 적용",
+  "中文": "应用到所选",
+  "العربية": "تطبيق على المحدد",
+  "Tiếng Việt": "Áp dụng cho mục đã chọn"
+ },
+ "Search presets": {
+  "日本語": "プリセットを検索",
+  "Español": "Buscar preajustes",
+  "Deutsch": "Vorlagen suchen",
+  "Français": "Rechercher des préréglages",
+  "한국어": "프리셋 검색",
+  "中文": "搜索预设",
+  "العربية": "البحث في الإعدادات",
+  "Tiếng Việt": "Tìm preset"
+ },
+ "Play": {
+  "日本語": "再生",
+  "Español": "Reproducir",
+  "Deutsch": "Abspielen",
+  "Français": "Lecture",
+  "한국어": "재생",
+  "中文": "播放",
+  "العربية": "تشغيل",
+  "Tiếng Việt": "Phát"
+ },
+ "On hover": {
+  "日本語": "ホバー時",
+  "Español": "Al pasar el cursor",
+  "Deutsch": "Beim Überfahren",
+  "Français": "Au survol",
+  "한국어": "마우스를 올리면",
+  "中文": "悬停时",
+  "العربية": "عند التمرير",
+  "Tiếng Việt": "Khi di chuột"
+ },
+ "Any kind": {
+  "日本語": "すべての種類",
+  "Español": "Cualquier tipo",
+  "Deutsch": "Jede Art",
+  "Français": "Tous les types",
+  "한국어": "모든 종류",
+  "中文": "任意类型",
+  "العربية": "أي نوع",
+  "Tiếng Việt": "Mọi loại"
+ },
+ "In · Out": {
+  "日本語": "イン · アウト",
+  "Español": "Entrada · Salida",
+  "Deutsch": "Ein · Aus",
+  "Français": "Entrée · Sortie",
+  "한국어": "인 · 아웃",
+  "中文": "入场 · 出场",
+  "العربية": "دخول · خروج",
+  "Tiếng Việt": "Vào · Ra"
+ },
+ "Emphasis": {
+  "日本語": "強調",
+  "Español": "Énfasis",
+  "Deutsch": "Betonung",
+  "Français": "Accent",
+  "한국어": "강조",
+  "中文": "强调",
+  "العربية": "إبراز",
+  "Tiếng Việt": "Nhấn mạnh"
+ },
+ "Originals": {
+  "日本語": "オリジナル",
+  "Español": "Originales",
+  "Deutsch": "Eigene",
+  "Français": "Originaux",
+  "한국어": "오리지널",
+  "中文": "原创",
+  "العربية": "أصلية",
+  "Tiếng Việt": "Bản gốc"
+ },
+ "From animate.css · MIT": {
+  "日本語": "animate.css より · MIT",
+  "Español": "De animate.css · MIT",
+  "Deutsch": "Aus animate.css · MIT",
+  "Français": "D'animate.css · MIT",
+  "한국어": "animate.css에서 · MIT",
+  "中文": "来自 animate.css · MIT",
+  "العربية": "من animate.css · MIT",
+  "Tiếng Việt": "Từ animate.css · MIT"
+ },
+ "From Magic Animations · MIT": {
+  "日本語": "Magic Animations より · MIT",
+  "Español": "De Magic Animations · MIT",
+  "Deutsch": "Aus Magic Animations · MIT",
+  "Français": "De Magic Animations · MIT",
+  "한국어": "Magic Animations에서 · MIT",
+  "中文": "来自 Magic Animations · MIT",
+  "العربية": "من Magic Animations · MIT",
+  "Tiếng Việt": "Từ Magic Animations · MIT"
+ },
+ "No presets match": {
+  "日本語": "一致するプリセットがありません",
+  "Español": "Ningún preajuste coincide",
+  "Deutsch": "Keine passende Vorlage",
+  "Français": "Aucun préréglage ne correspond",
+  "한국어": "일치하는 프리셋이 없습니다",
+  "中文": "没有匹配的预设",
+  "العربية": "لا توجد إعدادات مطابقة",
+  "Tiếng Việt": "Không có preset phù hợp"
+ },
+ "Try another name, pack or kind.": {
+  "日本語": "別の名前、パック、種類を試してください。",
+  "Español": "Prueba otro nombre, paquete o tipo.",
+  "Deutsch": "Versuche einen anderen Namen, ein anderes Paket oder eine andere Art.",
+  "Français": "Essayez un autre nom, pack ou type.",
+  "한국어": "다른 이름, 팩 또는 종류를 시도해 보세요.",
+  "中文": "试试其他名称、包或类型。",
+  "العربية": "جرّب اسمًا أو حزمة أو نوعًا آخر.",
+  "Tiếng Việt": "Hãy thử tên, gói hoặc loại khác."
+ },
+ "Reading the selection…": {
+  "日本語": "選択範囲を読み込み中…",
+  "Español": "Leyendo la selección…",
+  "Deutsch": "Auswahl wird gelesen…",
+  "Français": "Lecture de la sélection…",
+  "한국어": "선택 항목을 읽는 중…",
+  "中文": "正在读取所选内容…",
+  "العربية": "جارٍ قراءة التحديد…",
+  "Tiếng Việt": "Đang đọc vùng chọn…"
+ },
+ "Nothing selected in the timeline": {
+  "日本語": "タイムラインで何も選択されていません",
+  "Español": "No hay nada seleccionado en la línea de tiempo",
+  "Deutsch": "Nichts in der Timeline ausgewählt",
+  "Français": "Rien n'est sélectionné dans la timeline",
+  "한국어": "타임라인에서 선택된 항목이 없습니다",
+  "中文": "时间线中未选择任何内容",
+  "العربية": "لا يوجد شيء محدد في المخطط الزمني",
+  "Tiếng Việt": "Chưa chọn gì trên timeline"
+ },
+ "Removing…": {
+  "日本語": "削除中…",
+  "Español": "Quitando…",
+  "Deutsch": "Wird entfernt…",
+  "Français": "Suppression…",
+  "한국어": "제거하는 중…",
+  "中文": "正在移除…",
+  "العربية": "جارٍ الإزالة…",
+  "Tiếng Việt": "Đang gỡ…"
+ },
+ "Apply to 1 clip": {
+  "日本語": "1 個のクリップに適用",
+  "Español": "Aplicar a 1 clip",
+  "Deutsch": "Auf 1 Clip anwenden",
+  "Français": "Appliquer à 1 clip",
+  "한국어": "클립 1개에 적용",
+  "中文": "应用到 1 个片段",
+  "العربية": "تطبيق على مقطع واحد",
+  "Tiếng Việt": "Áp dụng cho 1 clip"
+ },
+ "Apply to {n} clips": {
+  "日本語": "{n} 個のクリップに適用",
+  "Español": "Aplicar a {n} clips",
+  "Deutsch": "Auf {n} Clips anwenden",
+  "Français": "Appliquer à {n} clips",
+  "한국어": "클립 {n}개에 적용",
+  "中文": "应用到 {n} 个片段",
+  "العربية": "تطبيق على {n} مقاطع",
+  "Tiếng Việt": "Áp dụng cho {n} clip"
+ },
+ "Take Buddy's preset off the selected clips": {
+  "日本語": "選択したクリップから Buddy のプリセットを外す",
+  "Español": "Quitar el preajuste de Buddy de los clips seleccionados",
+  "Deutsch": "Buddys Vorlage von den ausgewählten Clips entfernen",
+  "Français": "Retirer le préréglage de Buddy des clips sélectionnés",
+  "한국어": "선택한 클립에서 Buddy 프리셋 제거",
+  "中文": "从所选片段移除 Buddy 的预设",
+  "العربية": "إزالة إعداد Buddy من المقاطع المحددة",
+  "Tiếng Việt": "Gỡ preset của Buddy khỏi các clip đã chọn"
+ },
+ "None of the selected clips has a Buddy preset": {
+  "日本語": "選択したクリップに Buddy のプリセットはありません",
+  "Español": "Ninguno de los clips seleccionados tiene un preajuste de Buddy",
+  "Deutsch": "Keiner der ausgewählten Clips hat eine Buddy-Vorlage",
+  "Français": "Aucun des clips sélectionnés n'a de préréglage Buddy",
+  "한국어": "선택한 클립 중 Buddy 프리셋이 있는 클립이 없습니다",
+  "中文": "所选片段都没有 Buddy 预设",
+  "العربية": "لا يحتوي أي من المقاطع المحددة على إعداد من Buddy",
+  "Tiếng Việt": "Không clip nào đã chọn có preset của Buddy"
+ },
+ "None of the selected clips has a Buddy preset.": {
+  "日本語": "選択したクリップに Buddy のプリセットはありません。",
+  "Español": "Ninguno de los clips seleccionados tiene un preajuste de Buddy.",
+  "Deutsch": "Keiner der ausgewählten Clips hat eine Buddy-Vorlage.",
+  "Français": "Aucun des clips sélectionnés n'a de préréglage Buddy.",
+  "한국어": "선택한 클립 중 Buddy 프리셋이 있는 클립이 없습니다.",
+  "中文": "所选片段都没有 Buddy 预设。",
+  "العربية": "لا يحتوي أي من المقاطع المحددة على إعداد من Buddy.",
+  "Tiếng Việt": "Không clip nào đã chọn có preset của Buddy."
+ },
+ "Can't reach Resolve": {
+  "日本語": "Resolve に接続できません",
+  "Español": "No se puede conectar con Resolve",
+  "Deutsch": "Resolve ist nicht erreichbar",
+  "Français": "Impossible de joindre Resolve",
+  "한국어": "Resolve에 연결할 수 없습니다",
+  "中文": "无法连接 Resolve",
+  "العربية": "تعذّر الوصول إلى Resolve",
+  "Tiếng Việt": "Không kết nối được Resolve"
+ },
+ "Text+ tools are on the Subtitles page for now": {
+  "日本語": "Text+ のツールは今のところ字幕ページにあります",
+  "Español": "Por ahora, las herramientas de Text+ están en la página Subtítulos",
+  "Deutsch": "Die Text+-Werkzeuge sind vorerst auf der Seite Untertitel",
+  "Français": "Les outils Text+ sont pour l'instant sur la page Sous-titres",
+  "한국어": "Text+ 도구는 현재 자막 페이지에 있습니다",
+  "中文": "Text+ 工具目前在字幕页面上",
+  "العربية": "أدوات Text+ موجودة حاليًا في صفحة الترجمات",
+  "Tiếng Việt": "Công cụ Text+ hiện nằm ở trang Phụ đề"
+ },
+ "Font styling, layout and word-by-word animation are tabs there, after Subtitle conversion.": {
+  "日本語": "フォントスタイル、レイアウト、単語ごとのアニメーションは、字幕変換の後のタブにあります。",
+  "Español": "El estilo de fuente, la disposición y la animación palabra por palabra son pestañas allí, después de Conversión de subtítulos.",
+  "Deutsch": "Schriftgestaltung, Layout und Wort-für-Wort-Animation sind dort Tabs nach der Untertitelkonvertierung.",
+  "Français": "Le style de police, la mise en page et l'animation mot par mot y sont des onglets, après la conversion des sous-titres.",
+  "한국어": "글꼴 스타일, 레이아웃, 단어별 애니메이션은 자막 변환 다음 탭에 있습니다.",
+  "中文": "字体样式、布局和逐词动画是那里的标签页，位于字幕转换之后。",
+  "العربية": "تنسيق الخط والتخطيط والتحريك كلمة بكلمة علامات تبويب هناك، بعد تحويل الترجمات.",
+  "Tiếng Việt": "Kiểu chữ, bố cục và hoạt ảnh từng từ là các tab ở đó, sau Chuyển đổi phụ đề."
+ },
+ "The In starts on each clip's first frame and the Out ends on its last.": {
+  "日本語": "イン は各クリップの最初のフレームから始まり、アウト は最後のフレームで終わります。",
+  "Español": "La entrada empieza en el primer fotograma de cada clip y la salida termina en el último.",
+  "Deutsch": "Der Eingang beginnt auf dem ersten Bild jedes Clips, der Ausgang endet auf dem letzten.",
+  "Français": "L'entrée commence à la première image de chaque clip et la sortie se termine à la dernière.",
+  "한국어": "인은 각 클립의 첫 프레임에서 시작하고 아웃은 마지막 프레임에서 끝납니다.",
+  "中文": "入场从每个片段的第一帧开始，出场在最后一帧结束。",
+  "العربية": "يبدأ الدخول في أول إطار من كل مقطع وينتهي الخروج في آخر إطار.",
+  "Tiếng Việt": "Phần Vào bắt đầu ở khung đầu của mỗi clip và phần Ra kết thúc ở khung cuối."
+ },
+ "The In starts on each clip's first frame.": {
+  "日本語": "イン は各クリップの最初のフレームから始まります。",
+  "Español": "La entrada empieza en el primer fotograma de cada clip.",
+  "Deutsch": "Der Eingang beginnt auf dem ersten Bild jedes Clips.",
+  "Français": "L'entrée commence à la première image de chaque clip.",
+  "한국어": "인은 각 클립의 첫 프레임에서 시작합니다.",
+  "中文": "入场从每个片段的第一帧开始。",
+  "العربية": "يبدأ الدخول في أول إطار من كل مقطع.",
+  "Tiếng Việt": "Phần Vào bắt đầu ở khung đầu của mỗi clip."
+ },
+ "The Out ends on each clip's last frame.": {
+  "日本語": "アウト は各クリップの最後のフレームで終わります。",
+  "Español": "La salida termina en el último fotograma de cada clip.",
+  "Deutsch": "Der Ausgang endet auf dem letzten Bild jedes Clips.",
+  "Français": "La sortie se termine à la dernière image de chaque clip.",
+  "한국어": "아웃은 각 클립의 마지막 프레임에서 끝납니다.",
+  "中文": "出场在每个片段的最后一帧结束。",
+  "العربية": "ينتهي الخروج في آخر إطار من كل مقطع.",
+  "Tiếng Việt": "Phần Ra kết thúc ở khung cuối của mỗi clip."
+ },
+ "Plays where the playhead is over a clip, or in the middle of the clip.": {
+  "日本語": "再生ヘッドがクリップ上にあればその位置で、なければクリップの中央で再生されます。",
+  "Español": "Se reproduce donde está el cabezal si está sobre un clip, o en medio del clip.",
+  "Deutsch": "Spielt an der Abspielposition, wenn sie über einem Clip steht, sonst in der Mitte des Clips.",
+  "Français": "Se joue à la tête de lecture si elle est sur un clip, sinon au milieu du clip.",
+  "한국어": "재생 헤드가 클립 위에 있으면 그 위치에서, 아니면 클립 중간에서 재생됩니다.",
+  "中文": "播放头在片段上时从播放头处播放，否则在片段中间播放。",
+  "العربية": "يُشغَّل عند رأس التشغيل إن كان فوق مقطع، أو في منتصف المقطع.",
+  "Tiếng Việt": "Phát tại đầu phát nếu nó nằm trên clip, nếu không thì ở giữa clip."
+ },
+ "Ends on each clip's last frame.": {
+  "日本語": "各クリップの最後のフレームで終わります。",
+  "Español": "Termina en el último fotograma de cada clip.",
+  "Deutsch": "Endet auf dem letzten Bild jedes Clips.",
+  "Français": "Se termine à la dernière image de chaque clip.",
+  "한국어": "각 클립의 마지막 프레임에서 끝납니다.",
+  "中文": "在每个片段的最后一帧结束。",
+  "العربية": "ينتهي في آخر إطار من كل مقطع.",
+  "Tiếng Việt": "Kết thúc ở khung cuối của mỗi clip."
+ },
+ "{n} images": {
+  "日本語": "画像 {n} 枚",
+  "Español": "{n} imágenes",
+  "Deutsch": "{n} Bilder",
+  "Français": "{n} images",
+  "한국어": "이미지 {n}개",
+  "中文": "{n} 张图片",
+  "العربية": "{n} صور",
+  "Tiếng Việt": "{n} ảnh"
+ },
+ "1 video clip": {
+  "日本語": "ビデオクリップ 1 個",
+  "Español": "1 clip de vídeo",
+  "Deutsch": "1 Videoclip",
+  "Français": "1 clip vidéo",
+  "한국어": "비디오 클립 1개",
+  "中文": "1 个视频片段",
+  "العربية": "مقطع فيديو واحد",
+  "Tiếng Việt": "1 clip video"
+ },
+ "{n} video clips": {
+  "日本語": "ビデオクリップ {n} 個",
+  "Español": "{n} clips de vídeo",
+  "Deutsch": "{n} Videoclips",
+  "Français": "{n} clips vidéo",
+  "한국어": "비디오 클립 {n}개",
+  "中文": "{n} 个视频片段",
+  "العربية": "{n} مقاطع فيديو",
+  "Tiếng Việt": "{n} clip video"
+ },
+ "1 title": {
+  "日本語": "タイトル 1 個",
+  "Español": "1 título",
+  "Deutsch": "1 Titel",
+  "Français": "1 titre",
+  "한국어": "타이틀 1개",
+  "中文": "1 个标题",
+  "العربية": "عنوان واحد",
+  "Tiếng Việt": "1 tiêu đề"
+ },
+ "{n} titles": {
+  "日本語": "タイトル {n} 個",
+  "Español": "{n} títulos",
+  "Deutsch": "{n} Titel",
+  "Français": "{n} titres",
+  "한국어": "타이틀 {n}개",
+  "中文": "{n} 个标题",
+  "العربية": "{n} عناوين",
+  "Tiếng Việt": "{n} tiêu đề"
+ },
+ "1 other clip": {
+  "日本語": "その他のクリップ 1 個",
+  "Español": "1 clip de otro tipo",
+  "Deutsch": "1 anderer Clip",
+  "Français": "1 autre clip",
+  "한국어": "기타 클립 1개",
+  "中文": "1 个其他片段",
+  "العربية": "مقطع آخر واحد",
+  "Tiếng Việt": "1 clip khác"
+ },
+ "{n} other clips": {
+  "日本語": "その他のクリップ {n} 個",
+  "Español": "{n} clips de otro tipo",
+  "Deutsch": "{n} andere Clips",
+  "Français": "{n} autres clips",
+  "한국어": "기타 클립 {n}개",
+  "中文": "{n} 个其他片段",
+  "العربية": "{n} مقاطع أخرى",
+  "Tiếng Việt": "{n} clip khác"
+ },
+ "1 audio or subtitle clip": {
+  "日本語": "オーディオ／字幕クリップ 1 個",
+  "Español": "1 clip de audio o subtítulos",
+  "Deutsch": "1 Audio- oder Untertitelclip",
+  "Français": "1 clip audio ou de sous-titres",
+  "한국어": "오디오 또는 자막 클립 1개",
+  "中文": "1 个音频或字幕片段",
+  "العربية": "مقطع صوت أو ترجمة واحد",
+  "Tiếng Việt": "1 clip âm thanh hoặc phụ đề"
+ },
+ "{n} audio or subtitle clips": {
+  "日本語": "オーディオ／字幕クリップ {n} 個",
+  "Español": "{n} clips de audio o subtítulos",
+  "Deutsch": "{n} Audio- oder Untertitelclips",
+  "Français": "{n} clips audio ou de sous-titres",
+  "한국어": "오디오 또는 자막 클립 {n}개",
+  "中文": "{n} 个音频或字幕片段",
+  "العربية": "{n} مقاطع صوت أو ترجمة",
+  "Tiếng Việt": "{n} clip âm thanh hoặc phụ đề"
+ },
+ "{name} is on 1 clip.": {
+  "日本語": "{name} を 1 個のクリップに適用しました。",
+  "Español": "{name} está en 1 clip.",
+  "Deutsch": "{name} liegt auf 1 Clip.",
+  "Français": "{name} est sur 1 clip.",
+  "한국어": "{name}을(를) 클립 1개에 적용했습니다.",
+  "中文": "{name} 已应用到 1 个片段。",
+  "العربية": "{name} مطبَّق على مقطع واحد.",
+  "Tiếng Việt": "{name} đã có trên 1 clip."
+ },
+ "{name} is on {n} clips.": {
+  "日本語": "{name} を {n} 個のクリップに適用しました。",
+  "Español": "{name} está en {n} clips.",
+  "Deutsch": "{name} liegt auf {n} Clips.",
+  "Français": "{name} est sur {n} clips.",
+  "한국어": "{name}을(를) 클립 {n}개에 적용했습니다.",
+  "中文": "{name} 已应用到 {n} 个片段。",
+  "العربية": "{name} مطبَّق على {n} مقاطع.",
+  "Tiếng Việt": "{name} đã có trên {n} clip."
+ },
+ "{name} is on {n} of {m} clips – audio and subtitle clips can't move.": {
+  "日本語": "{name} を {m} 個中 {n} 個のクリップに適用しました – オーディオと字幕のクリップは動かせません。",
+  "Español": "{name} está en {n} de {m} clips: los clips de audio y subtítulos no se pueden mover.",
+  "Deutsch": "{name} liegt auf {n} von {m} Clips – Audio- und Untertitelclips lassen sich nicht bewegen.",
+  "Français": "{name} est sur {n} clips sur {m} – les clips audio et de sous-titres ne peuvent pas bouger.",
+  "한국어": "{name}을(를) 클립 {m}개 중 {n}개에 적용했습니다 – 오디오와 자막 클립은 움직일 수 없습니다.",
+  "中文": "{name} 已应用到 {m} 个片段中的 {n} 个 – 音频和字幕片段无法移动。",
+  "العربية": "{name} مطبَّق على {n} من {m} مقاطع – لا يمكن تحريك مقاطع الصوت والترجمة.",
+  "Tiếng Việt": "{name} đã có trên {n}/{m} clip – clip âm thanh và phụ đề không thể chuyển động."
+ },
+ "Only audio or subtitle clips are selected – they can't take a motion preset.": {
+  "日本語": "選択されているのはオーディオか字幕のクリップだけです – モーションプリセットは適用できません。",
+  "Español": "Solo hay clips de audio o subtítulos seleccionados: no admiten un preajuste de movimiento.",
+  "Deutsch": "Nur Audio- oder Untertitelclips sind ausgewählt – sie können keine Bewegungsvorlage bekommen.",
+  "Français": "Seuls des clips audio ou de sous-titres sont sélectionnés – ils ne peuvent pas recevoir de préréglage de mouvement.",
+  "한국어": "오디오 또는 자막 클립만 선택되었습니다 – 모션 프리셋을 적용할 수 없습니다.",
+  "中文": "只选中了音频或字幕片段 – 它们无法应用动态预设。",
+  "العربية": "المحدد مقاطع صوت أو ترجمة فقط – لا يمكن تطبيق إعداد حركة عليها.",
+  "Tiếng Việt": "Chỉ có clip âm thanh hoặc phụ đề được chọn – chúng không nhận preset chuyển động."
+ },
+ "Select the clips to animate in Resolve's timeline first.": {
+  "日本語": "まず Resolve のタイムラインでアニメーションさせるクリップを選択してください。",
+  "Español": "Primero selecciona en la línea de tiempo de Resolve los clips que quieres animar.",
+  "Deutsch": "Wähle zuerst in der Resolve-Timeline die Clips aus, die animiert werden sollen.",
+  "Français": "Sélectionnez d'abord dans la timeline de Resolve les clips à animer.",
+  "한국어": "먼저 Resolve 타임라인에서 애니메이션할 클립을 선택하세요.",
+  "中文": "请先在 Resolve 的时间线中选择要添加动画的片段。",
+  "العربية": "حدّد أولًا المقاطع المراد تحريكها في المخطط الزمني لـ Resolve.",
+  "Tiếng Việt": "Hãy chọn các clip cần tạo chuyển động trên timeline của Resolve trước."
+ },
+ "Took the preset off 1 clip.": {
+  "日本語": "1 個のクリップからプリセットを外しました。",
+  "Español": "Se quitó el preajuste de 1 clip.",
+  "Deutsch": "Vorlage von 1 Clip entfernt.",
+  "Français": "Préréglage retiré d'1 clip.",
+  "한국어": "클립 1개에서 프리셋을 제거했습니다.",
+  "中文": "已从 1 个片段移除预设。",
+  "العربية": "أُزيل الإعداد من مقطع واحد.",
+  "Tiếng Việt": "Đã gỡ preset khỏi 1 clip."
+ },
+ "Took the preset off {n} clips.": {
+  "日本語": "{n} 個のクリップからプリセットを外しました。",
+  "Español": "Se quitó el preajuste de {n} clips.",
+  "Deutsch": "Vorlage von {n} Clips entfernt.",
+  "Français": "Préréglage retiré de {n} clips.",
+  "한국어": "클립 {n}개에서 프리셋을 제거했습니다.",
+  "中文": "已从 {n} 个片段移除预设。",
+  "العربية": "أُزيل الإعداد من {n} مقاطع.",
+  "Tiếng Việt": "Đã gỡ preset khỏi {n} clip."
+ },
+ "Resolve is busy – try again in a moment.": {
+  "日本語": "Resolve が処理中です – 少し待ってからもう一度お試しください。",
+  "Español": "Resolve está ocupado: inténtalo de nuevo en un momento.",
+  "Deutsch": "Resolve ist beschäftigt – versuche es gleich noch einmal.",
+  "Français": "Resolve est occupé – réessayez dans un instant.",
+  "한국어": "Resolve가 사용 중입니다 – 잠시 후 다시 시도하세요.",
+  "中文": "Resolve 正忙 – 请稍后再试。",
+  "العربية": "Resolve مشغول – حاول مرة أخرى بعد قليل.",
+  "Tiếng Việt": "Resolve đang bận – hãy thử lại sau giây lát."
+ },
+ "Couldn't apply the preset": {
+  "日本語": "プリセットを適用できませんでした",
+  "Español": "No se pudo aplicar el preajuste",
+  "Deutsch": "Vorlage konnte nicht angewendet werden",
+  "Français": "Impossible d'appliquer le préréglage",
+  "한국어": "프리셋을 적용할 수 없습니다",
+  "中文": "无法应用预设",
+  "العربية": "تعذّر تطبيق الإعداد",
+  "Tiếng Việt": "Không áp dụng được preset"
+ },
+ "Some clips weren't animated": {
+  "日本語": "一部のクリップはアニメーションされませんでした",
+  "Español": "Algunos clips no se animaron",
+  "Deutsch": "Einige Clips wurden nicht animiert",
+  "Français": "Certains clips n'ont pas été animés",
+  "한국어": "일부 클립은 애니메이션되지 않았습니다",
+  "中文": "部分片段未添加动画",
+  "العربية": "لم يُحرَّك بعض المقاطع",
+  "Tiếng Việt": "Một số clip chưa được tạo chuyển động"
+ },
+ "Couldn't remove the preset": {
+  "日本語": "プリセットを外せませんでした",
+  "Español": "No se pudo quitar el preajuste",
+  "Deutsch": "Vorlage konnte nicht entfernt werden",
+  "Français": "Impossible de retirer le préréglage",
+  "한국어": "프리셋을 제거할 수 없습니다",
+  "中文": "无法移除预设",
+  "العربية": "تعذّرت إزالة الإعداد",
+  "Tiếng Việt": "Không gỡ được preset"
+ },
+ "Some clips kept their preset": {
+  "日本語": "一部のクリップにプリセットが残っています",
+  "Español": "Algunos clips conservaron su preajuste",
+  "Deutsch": "Einige Clips haben ihre Vorlage behalten",
+  "Français": "Certains clips ont gardé leur préréglage",
+  "한국어": "일부 클립에 프리셋이 남아 있습니다",
+  "中文": "部分片段仍保留预设",
+  "العربية": "احتفظت بعض المقاطع بإعدادها",
+  "Tiếng Việt": "Một số clip vẫn giữ preset"
+ },
+ "Applying to selected clips needs DaVinci Resolve 21.0.4 or later.": {
+  "日本語": "選択したクリップへの適用には DaVinci Resolve 21.0.4 以降が必要です。",
+  "Español": "Aplicar a los clips seleccionados requiere DaVinci Resolve 21.0.4 o posterior.",
+  "Deutsch": "Das Anwenden auf ausgewählte Clips braucht DaVinci Resolve 21.0.4 oder neuer.",
+  "Français": "L'application aux clips sélectionnés nécessite DaVinci Resolve 21.0.4 ou ultérieur.",
+  "한국어": "선택한 클립에 적용하려면 DaVinci Resolve 21.0.4 이상이 필요합니다.",
+  "中文": "应用到所选片段需要 DaVinci Resolve 21.0.4 或更高版本。",
+  "العربية": "يتطلب التطبيق على المقاطع المحددة DaVinci Resolve 21.0.4 أو أحدث.",
+  "Tiếng Việt": "Áp dụng cho clip đã chọn cần DaVinci Resolve 21.0.4 trở lên."
+ },
+ "Couldn't read the selection: {error}": {
+  "日本語": "選択範囲を読み込めませんでした: {error}",
+  "Español": "No se pudo leer la selección: {error}",
+  "Deutsch": "Auswahl konnte nicht gelesen werden: {error}",
+  "Français": "Impossible de lire la sélection : {error}",
+  "한국어": "선택 항목을 읽을 수 없습니다: {error}",
+  "中文": "无法读取所选内容：{error}",
+  "العربية": "تعذّرت قراءة التحديد: {error}",
+  "Tiếng Việt": "Không đọc được vùng chọn: {error}"
+ },
+ "Update framing": {
+  "日本語": "フレーミングを更新",
+  "Español": "Actualizar encuadre",
+  "Deutsch": "Bildausschnitt aktualisieren",
+  "Français": "Mettre à jour le cadrage",
+  "한국어": "프레이밍 업데이트",
+  "中文": "更新构图",
+  "العربية": "تحديث التأطير",
+  "Tiếng Việt": "Cập nhật khung hình"
+ },
+ "Updating…": {
+  "日本語": "更新中…",
+  "Español": "Actualizando…",
+  "Deutsch": "Wird aktualisiert…",
+  "Français": "Mise à jour…",
+  "한국어": "업데이트하는 중…",
+  "中文": "正在更新…",
+  "العربية": "جارٍ التحديث…",
+  "Tiếng Việt": "Đang cập nhật…"
+ },
+ "Framing changed on 1 clip": {
+  "日本語": "1 個のクリップでフレーミングが変更されました",
+  "Español": "El encuadre cambió en 1 clip",
+  "Deutsch": "Bildausschnitt bei 1 Clip geändert",
+  "Français": "Cadrage modifié sur 1 clip",
+  "한국어": "클립 1개의 프레이밍이 바뀌었습니다",
+  "中文": "1 个片段的构图已更改",
+  "العربية": "تغيّر التأطير في مقطع واحد",
+  "Tiếng Việt": "Khung hình đã đổi trên 1 clip"
+ },
+ "Framing changed on {n} clips": {
+  "日本語": "{n} 個のクリップでフレーミングが変更されました",
+  "Español": "El encuadre cambió en {n} clips",
+  "Deutsch": "Bildausschnitt bei {n} Clips geändert",
+  "Français": "Cadrage modifié sur {n} clips",
+  "한국어": "클립 {n}개의 프레이밍이 바뀌었습니다",
+  "中文": "{n} 个片段的构图已更改",
+  "العربية": "تغيّر التأطير في {n} مقاطع",
+  "Tiếng Việt": "Khung hình đã đổi trên {n} clip"
+ },
+ "Couldn't update the framing": {
+  "日本語": "フレーミングを更新できませんでした",
+  "Español": "No se pudo actualizar el encuadre",
+  "Deutsch": "Bildausschnitt konnte nicht aktualisiert werden",
+  "Français": "Impossible de mettre à jour le cadrage",
+  "한국어": "프레이밍을 업데이트할 수 없습니다",
+  "中文": "无法更新构图",
+  "العربية": "تعذّر تحديث التأطير",
+  "Tiếng Việt": "Không cập nhật được khung hình"
+ },
+ "Some clips weren't updated": {
+  "日本語": "一部のクリップは更新されませんでした",
+  "Español": "Algunos clips no se actualizaron",
+  "Deutsch": "Einige Clips wurden nicht aktualisiert",
+  "Français": "Certains clips n'ont pas été mis à jour",
+  "한국어": "일부 클립은 업데이트되지 않았습니다",
+  "中文": "部分片段未更新",
+  "العربية": "لم يُحدَّث بعض المقاطع",
+  "Tiếng Việt": "Một số clip chưa được cập nhật"
+ },
+ "Updated the framing on 1 clip.": {
+  "日本語": "1 個のクリップのフレーミングを更新しました。",
+  "Español": "Se actualizó el encuadre de 1 clip.",
+  "Deutsch": "Bildausschnitt von 1 Clip aktualisiert.",
+  "Français": "Cadrage mis à jour sur 1 clip.",
+  "한국어": "클립 1개의 프레이밍을 업데이트했습니다.",
+  "中文": "已更新 1 个片段的构图。",
+  "العربية": "حُدِّث التأطير في مقطع واحد.",
+  "Tiếng Việt": "Đã cập nhật khung hình cho 1 clip."
+ },
+ "Updated the framing on {n} clips.": {
+  "日本語": "{n} 個のクリップのフレーミングを更新しました。",
+  "Español": "Se actualizó el encuadre de {n} clips.",
+  "Deutsch": "Bildausschnitt von {n} Clips aktualisiert.",
+  "Français": "Cadrage mis à jour sur {n} clips.",
+  "한국어": "클립 {n}개의 프레이밍을 업데이트했습니다.",
+  "中文": "已更新 {n} 个片段的构图。",
+  "العربية": "حُدِّث التأطير في {n} مقاطع.",
+  "Tiếng Việt": "Đã cập nhật khung hình cho {n} clip."
  }
 }

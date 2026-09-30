@@ -1,0 +1,118 @@
+/* Animation's own layout. Colours only from buddy.css's theme variables, so
+   every theme and palette draws it its own way. */
+
+.pv {
+    /* One colour per pack: the theme's emphasis (its accent, but Resolve's
+       bright grey - its red means focus), its second colour, and the two
+       mixed. Off-world is one phosphor, so all three come out as it. */
+    --pack-essentials: var(--emphasis);
+    --pack-classic: var(--second-text);
+    --pack-magic: color-mix(in srgb, var(--emphasis) 50%, var(--second-text));
+    display: flex; flex-direction: column; gap: var(--section-gap);
+}
+
+/* --------------------------------------------------------- apply card -- */
+
+.pv-apply {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px 18px;
+    align-items: center;
+    padding: var(--card-pad);
+    --pack: var(--pack-essentials);
+}
+.pv-chosen { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.pv-stage-lg { width: 128px; flex: none; }
+.pv-chosen-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pv-chosen-name { color: var(--text-strong); font-weight: 700; font-size: var(--fs-lg); }
+.pv-options { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; min-width: 0; }
+.pv-opt { display: inline-flex; align-items: center; gap: 8px; }
+.pv-where { margin: 0; flex-basis: 100%; }
+.pv-target { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.pv-sel { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 280px; }
+.pv-go { justify-content: flex-end; }
+.pv-reframed { justify-content: flex-end; }
+
+/* Narrow panes: the card stacks. */
+@media (max-width: 720px) {
+    .pv-apply { grid-template-columns: 1fr; }
+    .pv-target { align-items: stretch; }
+    .pv-sel { justify-content: flex-start; max-width: none; }
+}
+
+/* ------------------------------------------------------------ toolbar -- */
+
+.pv-bar { display: flex; align-items: center; gap: var(--control-gap); flex-wrap: wrap; }
+.pv-search { width: 200px; }
+.pv-play { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.segmented .n { color: var(--text-dim); font-weight: 400; margin-left: 5px; }
+.segmented button[aria-pressed="true"] .n { color: inherit; opacity: .75; }
+
+/* ------------------------------------------------------------- groups -- */
+
+.pv-groups { display: flex; flex-direction: column; gap: 18px; padding-bottom: 12px; }
+.pv-group-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.pv-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--pack); align-self: center; }
+.pv-credit { margin-left: auto; }
+
+.pv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    gap: 10px;
+}
+
+/* -------------------------------------------------------------- tiles -- */
+
+.pv-tile {
+    padding: 6px;
+    display: flex; flex-direction: column; gap: 6px;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    transition: border-color .15s, box-shadow .15s;
+}
+.pv-tile:hover { border-color: var(--btn-hover-border); }
+.pv-tile[aria-pressed="true"] {
+    border-color: var(--accent-text);
+    box-shadow: 0 0 0 1px var(--accent-text), var(--card-shadow);
+}
+.pv-tile:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+/* The little viewer a preset plays in: a well, like a field. Its edge is
+   softer than a field's - it sits inside the card's own, and two full ink
+   lines (Retro, Desktop) read as a double frame. */
+.pv-stage {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--field-bg);
+    border: 1px solid color-mix(in srgb, var(--field-border) 45%, transparent);
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+.pv-stage svg { display: block; width: 100%; height: 100%; }
+.pv-guide { stroke: var(--text-dim); stroke-width: .5; opacity: .22; fill: none; }
+.pv-safe { stroke: var(--text-dim); stroke-width: .5; opacity: .3; fill: none; stroke-dasharray: 2 2; }
+/* What moves: the pack's colour, with its details cut back to the well. */
+.pv-obj { fill: var(--pack); }
+.pv-line { fill: var(--field-bg); }
+/* Sized by its font-size attribute, in the stage's own 128x72 units. */
+.pv-word { font-family: var(--font); font-weight: 800; letter-spacing: -.02em; }
+
+/* Where the preset moves along its length - In, Emphasis, Out - and a playhead. */
+.pv-track {
+    position: relative; height: 4px; margin: 0 2px;
+    border-radius: var(--r-full);
+    background: color-mix(in srgb, var(--text-dim) 22%, transparent);
+    overflow: hidden;
+}
+.pv-seg { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--pack) 55%, transparent); }
+.pv-head { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--text-strong); }
+
+.pv-meta { display: flex; flex-direction: column; gap: 1px; padding: 0 2px 2px; min-width: 0; }
+.pv-name {
+    color: var(--text-strong); font-weight: 600; font-size: var(--fs-md);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pv-sub { display: flex; gap: 6px; }
+.pv-dur { margin-left: auto; font-family: var(--font-mono); }
