@@ -26,6 +26,12 @@ SETTINGS_KEY = "nav_layout"
 DIVIDER = "divider"
 TOOL = "tool"
 
+# A tool made of tools that had their own rail entries -> their old ids.
+MERGED = {
+    "marker_manager": ("stills_exporter", "youtube_chapters"),
+    "media_manager": ("batch_clip_renamer", "media_relink"),
+}
+
 
 def default_layout(registry) -> list[dict]:
     """Registry order, one divider per category - today's rail."""
@@ -51,16 +57,15 @@ def reconcile(saved, registry) -> list[dict]:
     if not isinstance(saved, list) or not saved:
         return default_layout(registry)
 
-    # Existing sidebar layouts placed these tools separately. Keep the new
+    # Existing sidebar layouts placed merged tools separately. Keep the new
     # combined entry at their first saved position and visible when either
     # old entry was visible.
-    old_marker_ids = {"stills_exporter", "youtube_chapters"}
-    migrate_markers = "marker_manager" in known
-    marker_visible = any(
+    merged = {old: new for new, olds in MERGED.items() if new in known for old in olds}
+    merged_visible = {new: any(
         isinstance(entry, dict) and entry.get("type") == TOOL
-        and entry.get("id") in old_marker_ids and bool(entry.get("visible", True))
+        and merged.get(entry.get("id")) == new and bool(entry.get("visible", True))
         for entry in saved
-    )
+    ) for new in set(merged.values())}
 
     out: list[dict] = []
     seen: set[str] = set()
@@ -70,13 +75,11 @@ def reconcile(saved, registry) -> list[dict]:
         if entry.get("type") == DIVIDER:
             out.append({"type": DIVIDER, "label": str(entry.get("label") or "")})
         elif entry.get("type") == TOOL:
-            tool_id = entry.get("id")
-            if migrate_markers and tool_id in old_marker_ids:
-                tool_id = "marker_manager"
+            tool_id = merged.get(entry.get("id"), entry.get("id"))
             if tool_id in known and tool_id not in seen:
                 seen.add(tool_id)
                 out.append({"type": TOOL, "id": tool_id,
-                            "visible": marker_visible if migrate_markers and entry.get("id") in old_marker_ids
+                            "visible": merged_visible[tool_id] if entry.get("id") in merged
                             else bool(entry.get("visible", True))})
 
     # A tool added after the layout was saved goes at the bottom. It brings

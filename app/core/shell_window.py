@@ -1102,6 +1102,15 @@ class ShellWindow(QMainWindow):
         self.move(x, y)
 
     def switch_tool(self, tool_id):
+        if tool_id not in self.pages:
+            # A tool that's a tab on another page (Media Relink on Media
+            # Manager): that page, on its tab.
+            holder = next((page for page in self.pages.values()
+                           if tool_id in getattr(page, "SUB_TOOLS", ())), None)
+            if holder is None:
+                return
+            holder.show_tool(tool_id)
+            tool_id = holder.tool_id
         crash_log.trail("shown", tool_id)
         if self._layout == "desktop":
             # Open its window, bring it back from minimised, or to the front.

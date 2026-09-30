@@ -110,6 +110,16 @@
   "العربية": "مستورد SVG",
   "Tiếng Việt": "Nhập SVG"
  },
+ "Media Manager": {
+  "日本語": "メディアマネージャー",
+  "Español": "Gestor de medios",
+  "Deutsch": "Medienverwaltung",
+  "Français": "Gestionnaire de médias",
+  "한국어": "미디어 관리자",
+  "中文": "媒体管理器",
+  "العربية": "مدير الوسائط",
+  "Tiếng Việt": "Trình quản lý phương tiện"
+ },
  "Media Relink": {
   "日本語": "メディア再リンク",
   "Español": "Revincular medios",

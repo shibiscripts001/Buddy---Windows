@@ -13,12 +13,20 @@
 <body>
 <main class="page">
     <header class="page-head">
-        <h1 class="page-title">Batch Clip Renamer</h1>
+        <h1 class="page-title">Media Manager</h1>
+    </header>
+
+    <nav class="tabs" role="tablist" id="media-tabs" aria-label="Media Manager tools">
+        <button type="button" role="tab" data-tab="renamer" aria-selected="true">Batch Clip Renamer</button>
+        <button type="button" role="tab" data-tab="relink" aria-selected="false">Media Relink</button>
+    </nav>
+
+    <div class="row">
         <div class="segmented" id="scope" role="group" aria-label="Which clips">
             <button type="button" data-scope="bin" title="Every clip in the Media Pool bin that's open in Resolve">Current bin</button>
             <button type="button" data-scope="selected" title="Only the clips selected in Resolve's Media Pool">Selected clips</button>
         </div>
-    </header>
+    </div>
 
     <section class="card form">
         <div class="tabs" role="tablist">
@@ -73,5 +81,6 @@
     </details>
 </main>
 <script src="renamer.js"></script>
+<script src="../../media_manager/web/tabs.js"></script>
 </body>
 </html>

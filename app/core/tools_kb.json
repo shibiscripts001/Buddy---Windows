@@ -104,7 +104,7 @@
         "Which clips: the current bin, the current timeline (every clip used on it), the selected clips (Media Pool selection, or the timeline's when none), or the entire project",
         "Checks every relink by reading the Media Pool again afterwards, and image sequences (R[0001-0100].jpg) are found by their first frame"
       ],
-      "notes": "PROTOTYPE. The core loop works but the tool's own README warns against relying on it for anything irreplaceable. Say so when recommending it."
+      "notes": "A tab on the Media Manager page, beside Batch Clip Renamer (open it as media_relink). PROTOTYPE. The core loop works but the tool's own README warns against relying on it for anything irreplaceable. Say so when recommending it."
     },
     "batch_clip_renamer": {
       "name": "Batch Clip Renamer",
@@ -119,7 +119,7 @@
         "Only the Clip Name property is touched, so the underlying file path and extension are untouched",
         "Timelines sitting in the same bin are filtered out so they cannot be renamed by accident"
       ],
-      "notes": "Scope deliberately resets to the safer 'All Clips' default each launch, because which clips are selected changes every session."
+      "notes": "A tab on the Media Manager page, beside Media Relink (open it as batch_clip_renamer). Scope deliberately resets to the safer 'All Clips' default each launch, because which clips are selected changes every session."
     },
     "dailies": {
       "name": "Dailies",

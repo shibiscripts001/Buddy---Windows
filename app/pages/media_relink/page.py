@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Media Relink - finds this project's clips a new file to point at: offline
+Media Relink (a tab on Media Manager) - finds this project's clips a new file to point at: offline
 clips from a folder you choose, or any clips when media moves to a new
 drive - from the open bin, the open timeline, the selected clips or the
 whole project. A web page (core/web_page.py): the view is web/index.html +
@@ -86,8 +86,11 @@ class _SearchWorker(QThread):
 class MediaRelinkPage(WebToolPage):
     tool_id = "media_relink"
     display_name = "Media Relink"
-    category = "Media & Assets"
+    category = "Media & Assets"         # a tab on Media Manager (pages/media_manager)
     web_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
+
+    def on_switch_tab(self, payload):
+        self._media_manager.show_tab((payload or {}).get("tab"))
 
     def build_state(self):
         self.mode = MODE_FIX

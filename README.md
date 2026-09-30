@@ -17,11 +17,10 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Audio Assistant (new; its Timeline tab mirrors the audio tracks with each clip's waveform, and sets clip volume, pan, fades, loudness to a target, Voice Isolation and the Dialogue Leveler, and a volume curve drawn on the clip that becomes Resolve keyframes - effects are coming)
 - Audit (new; the page only for now - its tools are coming)
 - Asset Manager
-- Batch Clip Renamer
 - Color Palette Manager
 - Dailies (named source tapes, continuous Media Pool review, notes and metadata)
 - Image Importer
-- Media Relink
+- Media Manager (Batch Clip Renamer and Media Relink tabs)
 - Project Setup (bins, folder import, timeline populate, multicam sync, proxy rendering)
 - Marker Manager (Stills Exporter and YouTube Chapters tabs)
 - SVG Importer

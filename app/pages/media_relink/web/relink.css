@@ -1,6 +1,9 @@
 /* Media Relink's layout. Colours come from buddy.css's theme variables. */
 
 .page { gap: 10px; overflow: hidden; }
+/* Media Manager's tab row where Batch Clip Renamer's page (the usual gap) has it,
+   so it doesn't jump when the tab changes. */
+#media-tabs { margin-top: calc(var(--section-gap) - 10px); }
 
 .intro { padding: var(--card-pad); display: flex; align-items: center; gap: var(--card-gap); flex-wrap: wrap; flex: none; }
 .intro-text { flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px; }

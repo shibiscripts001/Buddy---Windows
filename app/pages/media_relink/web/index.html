@@ -13,12 +13,20 @@
 <body>
 <main class="page">
     <header class="page-head">
-        <h1 class="page-title">Media Relink</h1>
+        <h1 class="page-title">Media Manager</h1>
+    </header>
+
+    <nav class="tabs" role="tablist" id="media-tabs" aria-label="Media Manager tools">
+        <button type="button" role="tab" data-tab="renamer" aria-selected="false">Batch Clip Renamer</button>
+        <button type="button" role="tab" data-tab="relink" aria-selected="true">Media Relink</button>
+    </nav>
+
+    <div class="row">
         <div class="segmented" id="mode" role="group" aria-label="What to do">
             <button type="button" data-mode="fix">Fix offline media</button>
             <button type="button" data-mode="relocate">Move to a new location</button>
         </div>
-    </header>
+    </div>
 
     <section class="card intro">
         <div class="intro-text">
@@ -71,5 +79,6 @@
     </details>
 </main>
 <script src="relink.js"></script>
+<script src="../../media_manager/web/tabs.js"></script>
 </body>
 </html>

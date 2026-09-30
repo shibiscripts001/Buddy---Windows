@@ -47,8 +47,11 @@ BUSY_ABOVE = 20
 class BatchClipRenamerPage(WebToolPage):
     tool_id = "batch_clip_renamer"
     display_name = "Batch Clip Renamer"
-    category = "Editing Tools"
+    category = "Media & Assets"         # a tab on Media Manager (pages/media_manager)
     web_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
+
+    def on_switch_tab(self, payload):
+        self._media_manager.show_tab((payload or {}).get("tab"))
 
     def build_state(self):
         # Scope deliberately starts on the whole bin every launch: which

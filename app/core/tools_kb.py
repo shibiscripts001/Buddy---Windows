@@ -89,11 +89,18 @@ def _raw() -> dict:
         return {}
 
 
+def _tool_ids(page_cls) -> list:
+    """A rail page's tool id, then those of the tools on its tabs (Media
+    Manager's Batch Clip Renamer and Media Relink - the shell opens either
+    by its own id)."""
+    return [getattr(page_cls, "tool_id", None), *getattr(page_cls, "SUB_TOOLS", ())]
+
+
 def _availability(tool_id: str, registry) -> str:
     if registry is None:
         return UNKNOWN
     for _category, page_cls in registry:
-        if getattr(page_cls, "tool_id", None) == tool_id:
+        if tool_id in _tool_ids(page_cls):
             return PLANNED if getattr(page_cls, "is_placeholder", False) else AVAILABLE
     return PLANNED
 
@@ -114,7 +121,7 @@ def load_tools(registry=None) -> list[ToolInfo]:
         for tool_id, entry in raw.items()
     ]
     if registry is not None:
-        order = [getattr(c, "tool_id", None) for _cat, c in registry]
+        order = [tid for _cat, c in registry for tid in _tool_ids(c)]
         tools.sort(
             key=lambda t: order.index(t.tool_id) if t.tool_id in order else len(order)
         )
