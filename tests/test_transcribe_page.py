@@ -150,6 +150,7 @@ class FakeResolve:
     subtitles = 12
     converted = []
     own = {"available": False, "uid": "", "existing": False}   # Resolve Studio 21.1+'s own transcription
+    open_timeline = "Interview"
 
     def __init__(self, controller):
         pass
@@ -158,7 +159,7 @@ class FakeResolve:
         return dict(FakeResolve.own)
 
     def timeline_info(self):
-        return SimpleNamespace(name="Interview", duration_seconds=600, start_timecode="01:00:00:00",
+        return SimpleNamespace(name=FakeResolve.open_timeline, duration_seconds=600, start_timecode="01:00:00:00",
                                subtitle_items_on_track1=FakeResolve.existing)
 
     def place_subtitles(self, srt, replace_existing=False):
@@ -220,6 +221,7 @@ class PageTests(unittest.TestCase):
         FakeResolve.existing, FakeResolve.placed = 0, []
         FakeResolve.timeline, FakeResolve.empty, FakeResolve.subtitles, FakeResolve.converted = "Interview", 4, 12, []
         FakeResolve.own = {"available": False, "uid": "", "existing": False}
+        FakeResolve.open_timeline = "Interview"
         self._patch(page_mod.TranscribePage, "_settings_path", lambda s: tmp / "settings.json")
         self._patch(page_mod.jobs, "ProbeJob", FakeProbe)
         for name in ("TranscribeJob", "TranslateJob", "AITranslateJob", "SetupJob"):
@@ -333,6 +335,44 @@ class PageTests(unittest.TestCase):
 
         self._run_and_finish()
         self.page.on_answer({"id": self.last("ask")["id"], "ok": True})
+        self.assertEqual(FakeResolve.placed[-1][1], True)
+
+    def test_unticked_saves_the_srt_only_and_it_can_go_on_later(self):
+        self.page._rescan()
+        self.assertTrue(self.last("options")["place"])                    # ticked unless you say
+        self.page.on_option({"key": "place_on_timeline", "value": False})
+        self.assertFalse(plan.Settings(self.tmp / "settings.json").get("place_on_timeline"))
+        o = self.last("options")
+        self.assertFalse(o["place"])
+        self.assertIn("saves the subtitles as an SRT file", o["run_note"])
+        self._run_and_finish()
+        self.assertEqual(FakeResolve.placed, [])
+        r = self.last("result")
+        self.assertEqual((r["ok"], r["placed"], r["placing"], r["message"]),
+                         (True, 0, False, "Done – saved as an SRT file."))
+        self.page.on_place_last()                                          # the result's "Add to timeline"
+        self.assertEqual(FakeResolve.placed[-1][1], False)
+        self.assertEqual(self.last("result")["placed"], 12)
+        self.page.on_place_last()                                          # placed: nothing more to do
+        self.assertEqual(len(FakeResolve.placed), 1)
+
+    def test_add_to_timeline_goes_to_the_timeline_it_was_made_from(self):
+        self.page._rescan()
+        self.page.on_option({"key": "place_on_timeline", "value": False})
+        self._run_and_finish()
+        FakeResolve.open_timeline = "B-roll"
+        self.page.on_place_last()
+        self.assertEqual(FakeResolve.placed, [])
+        self.assertIn("'Interview'", self.last("alert")["text"])
+
+    def test_add_to_timeline_still_asks_before_replacing(self):
+        FakeResolve.existing = 30
+        self._run_and_finish()
+        self.page.on_answer({"id": self.last("ask")["id"], "ok": False})  # kept track 1
+        self.page.on_place_last()                                          # ... then changed their mind
+        ask = self.last("ask")
+        self.assertEqual((ask["kind"], ask["count"]), ("replace", 30))
+        self.page.on_answer({"id": ask["id"], "ok": True})
         self.assertEqual(FakeResolve.placed[-1][1], True)
 
     def test_nothing_else_runs_while_a_job_does(self):

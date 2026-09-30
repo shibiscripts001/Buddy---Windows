@@ -31,9 +31,11 @@ translates each sentence from its own language, and keeps the ones already
 in the target language as they were.
 
 Then, back on the GUI thread, the SRT goes onto subtitle track 1 - the only
-track Resolve's API will place subtitles on. If track 1 already has
-subtitles the user chooses: replace them (the count is shown), or keep the
-SRT file only. Nothing is overwritten without that choice.
+track Resolve's API will place subtitles on - unless "Add to the timeline
+when done" is unticked (then it's the SRT file only, and the result's "Add
+to timeline" places it later, on the timeline it was made from). If track 1
+already has subtitles the user chooses: replace them (the count is shown),
+or keep the SRT file only. Nothing is overwritten without that choice.
 
 Translate: the last transcript - or any SRT - becomes one SRT per chosen
 language, saved to a folder the user picks - and, unless the user turns it
@@ -73,7 +75,7 @@ Protocol:
     to the view    catalog, setup, options, timeline, translate, convert, job,
                    result, log, ask, alert, toast, tab
     from the view  tab, rescan, install_env, download, use_copy,
-                   pick_model_folder, stop, option, mixed, run, save_srt,
+                   pick_model_folder, stop, option, mixed, run, place_last, save_srt,
                    refresh_timeline, tr_option, targets, choose_folder,
                    translate_last, translate_srt, show_files, conv_option,
                    convert, answer
@@ -129,6 +131,7 @@ class TranscribePage(WebToolPage):
         self.stage, self.progress = "", None
         self.last_srt = None
         self.result = None
+        self._run_timeline = ""     # the timeline the running transcription is of
         self._pending_translate = None   # a transcript to translate once the placing is done
         self._translating = None         # {"source", "srt", "label"} of the translation running
         self._placing = False
@@ -293,11 +296,23 @@ class TranscribePage(WebToolPage):
             "ready": self.ready, "why": why,
             "where": ("GPU" if self.hw and self.hw.nvidia else "CPU") if self.hw else "",
             "resolve": own, "speaker_names": bool(s.get("speaker_names", True)),
-            "run_note": ("Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles "
-                         "go on subtitle track 1." if own else
-                         "Renders the timeline's audio, transcribes it on this computer, and puts the subtitles "
-                         "on subtitle track 1."),
+            "place": self._placing_on(),
+            "run_note": self._run_note(own),
         })
+
+    def _placing_on(self):
+        return bool(self.settings.get("place_on_timeline", True))
+
+    def _run_note(self, own):
+        if self._placing_on():
+            return ("Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles "
+                    "go on subtitle track 1." if own else
+                    "Renders the timeline's audio, transcribes it on this computer, and puts the subtitles "
+                    "on subtitle track 1.")
+        return ("Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles are "
+                "saved as an SRT file." if own else
+                "Renders the timeline's audio, transcribes it on this computer, and saves the subtitles as "
+                "an SRT file.")
 
     def _push_translate(self):
         s = self.settings
@@ -454,6 +469,8 @@ class TranscribePage(WebToolPage):
             s["max_lines"] = 1 if value in (1, "1") else 2
         elif key == "speaker_names":
             s["speaker_names"] = bool(value)
+        elif key == "place_on_timeline":
+            s["place_on_timeline"] = bool(value)
         else:
             return
         s.save()
@@ -546,6 +563,7 @@ class TranscribePage(WebToolPage):
                 return
             self._add_log(f"Transcribing '{info.name}' ({info.duration_seconds / 60:.1f} min) with {label}…")
             self.result = None
+            self._run_timeline = info.name
             self.emit("result", None)
             job_plan = dict(chosen_plan, timeline=self.own.get("uid", ""), fresh=fresh)
             self._begin("transcribe", jobs.TranscribeJob(resolve, info.name, job_plan, chosen_plan["language"],
@@ -591,9 +609,31 @@ class TranscribePage(WebToolPage):
         if self.settings.get("translate_auto") and self.settings.get("translate_targets"):
             self._pending_translate = dict(self.settings.get("last_transcript"))
         self.result = {"ok": True, "kind": "transcribe", "srt": result["srt"], "summary": summary, "placed": 0,
+                       "timeline": self._run_timeline, "placing": True,
                        "message": "Adding the subtitles to the timeline…"}
+        if not self._placing_on():
+            return self._placed(0, "Done – saved as an SRT file.")
         self._placing = True
         self._place(result["srt"])
+
+    def on_place_last(self, _payload=None):
+        """The result's "Add to timeline": the transcript that wasn't placed, onto the
+        timeline it was made from - not whichever one is open now."""
+        r = self.result
+        if (self.job is not None or self._placing or not r or r.get("kind") != "transcribe"
+                or r.get("placed") or not Path(r.get("srt") or "").is_file()):
+            return
+        try:
+            info = TranscribeController(self.host.ensure_connected()).timeline_info()
+        except (ResolveConnectionError, TranscribeResolveError) as exc:
+            return self._alert(str(exc), "Not connected")
+        if r.get("timeline") and info.name != r["timeline"]:
+            return self._alert(f"These subtitles are from '{r['timeline']}'. Open it in Resolve to add them "
+                               f"there – '{info.name}' is open now.", "Another timeline is open")
+        self._placing = True
+        r.update(placing=True, message="Adding the subtitles to the timeline…")
+        self.emit("result", r)
+        self._place(r["srt"])
 
     def _place(self, srt_path):
         """Subtitle track 1, asking first if that would replace subtitles
@@ -620,12 +660,11 @@ class TranscribePage(WebToolPage):
         finally:
             self.host.set_busy(False)
 
-    def _placed(self, count):
+    def _placed(self, count, unplaced="Done – saved as an SRT file (not added to the timeline)."):
         self._placing = False
         if self.result:
-            self.result["placed"] = count
-            self.result["message"] = (f"Done – {count} subtitles on subtitle track 1." if count else
-                                      "Done – saved as an SRT file (not added to the timeline).")
+            self.result.update(placed=count, placing=False)
+            self.result["message"] = f"Done – {count} subtitles on subtitle track 1." if count else unplaced
         self.emit("result", self.result)
         self._read_timeline()
         self._maybe_translate_pending()

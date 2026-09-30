@@ -2419,5 +2419,95 @@
   "中文": "Buddy 的辅助进程无法连接 Resolve。请在 Resolve 中把 偏好设置 > 系统 > 常规 >“外部脚本使用”设为“本地”，然后重试。",
   "العربية": "تعذّر على العملية المساعدة في Buddy الوصول إلى Resolve. في Resolve، اضبط التفضيلات > النظام > عام > \"External scripting using\" على Local، ثم حاول مرة أخرى.",
   "Tiếng Việt": "Tiến trình phụ của Buddy không kết nối được Resolve. Trong Resolve, đặt Preferences > System > General > \"External scripting using\" thành Local rồi thử lại."
+ },
+ "Add to the timeline when done": {
+  "日本語": "完了したらタイムラインに追加",
+  "Español": "Añadir a la línea de tiempo al terminar",
+  "Deutsch": "Nach dem Transkribieren in die Timeline einfügen",
+  "Français": "Ajouter à la timeline une fois terminé",
+  "한국어": "완료되면 타임라인에 추가",
+  "中文": "完成后添加到时间线",
+  "العربية": "الإضافة إلى المخطط الزمني عند الانتهاء",
+  "Tiếng Việt": "Thêm vào timeline khi xong"
+ },
+ "Onto subtitle track 1. If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.": {
+  "日本語": "字幕トラック 1 に配置します。既に字幕がある場合は、置き換える前に確認します。オフにすると、字幕は SRT ファイルとしてのみ保存されます。",
+  "Español": "En la pista de subtítulos 1. Si ya tiene subtítulos, se te pregunta antes de reemplazarlos. Sin marcar, los subtítulos solo se guardan como archivo SRT.",
+  "Deutsch": "Auf Untertitelspur 1. Hat sie schon Untertitel, wirst du gefragt, bevor sie ersetzt werden. Nicht angehakt, werden die Untertitel nur als SRT-Datei gespeichert.",
+  "Français": "Sur la piste de sous-titres 1. Si elle contient déjà des sous-titres, on vous demande avant de les remplacer. Décoché, les sous-titres sont seulement enregistrés en fichier SRT.",
+  "한국어": "자막 트랙 1에 넣습니다. 이미 자막이 있으면 바꾸기 전에 묻습니다. 체크를 해제하면 자막은 SRT 파일로만 저장됩니다.",
+  "中文": "放到字幕轨道 1。如果其中已有字幕，替换前会先询问。取消勾选时，字幕只保存为 SRT 文件。",
+  "العربية": "على مسار الترجمة 1. إذا كان فيه ترجمات بالفعل، يُطلب منك التأكيد قبل استبدالها. عند إلغاء التحديد، تُحفظ الترجمات كملف SRT فقط.",
+  "Tiếng Việt": "Vào track phụ đề 1. Nếu track đã có phụ đề, bạn sẽ được hỏi trước khi thay thế. Khi bỏ chọn, phụ đề chỉ được lưu thành tệp SRT."
+ },
+ "Add to timeline": {
+  "日本語": "タイムラインに追加",
+  "Español": "Añadir a la línea de tiempo",
+  "Deutsch": "In die Timeline einfügen",
+  "Français": "Ajouter à la timeline",
+  "한국어": "타임라인에 추가",
+  "中文": "添加到时间线",
+  "العربية": "إضافة إلى المخطط الزمني",
+  "Tiếng Việt": "Thêm vào timeline"
+ },
+ "Puts these subtitles on subtitle track 1 of the timeline they were made from": {
+  "日本語": "この字幕を、作成元のタイムラインの字幕トラック 1 に配置します",
+  "Español": "Pone estos subtítulos en la pista de subtítulos 1 de la línea de tiempo de la que salieron",
+  "Deutsch": "Legt diese Untertitel auf Untertitelspur 1 der Timeline, aus der sie stammen",
+  "Français": "Place ces sous-titres sur la piste de sous-titres 1 de la timeline dont ils proviennent",
+  "한국어": "이 자막을 만들어진 타임라인의 자막 트랙 1에 넣습니다",
+  "中文": "将这些字幕放到其来源时间线的字幕轨道 1",
+  "العربية": "يضع هذه الترجمات على مسار الترجمة 1 في المخطط الزمني الذي أُنشئت منه",
+  "Tiếng Việt": "Đặt các phụ đề này lên track phụ đề 1 của timeline đã tạo ra chúng"
+ },
+ "Done – saved as an SRT file.": {
+  "日本語": "完了 – SRT ファイルとして保存しました。",
+  "Español": "Listo: guardado como archivo SRT.",
+  "Deutsch": "Fertig – als SRT-Datei gespeichert.",
+  "Français": "Terminé – enregistré en fichier SRT.",
+  "한국어": "완료 – SRT 파일로 저장했습니다.",
+  "中文": "完成 – 已保存为 SRT 文件。",
+  "العربية": "تم – حُفظ كملف SRT.",
+  "Tiếng Việt": "Xong – đã lưu thành tệp SRT."
+ },
+ "Renders the timeline's audio, transcribes it on this computer, and saves the subtitles as an SRT file.": {
+  "日本語": "タイムラインのオーディオをレンダリングし、このコンピューターで文字起こしして、字幕を SRT ファイルとして保存します。",
+  "Español": "Renderiza el audio de la línea de tiempo, lo transcribe en este ordenador y guarda los subtítulos como archivo SRT.",
+  "Deutsch": "Rendert den Ton der Timeline, transkribiert ihn auf diesem Computer und speichert die Untertitel als SRT-Datei.",
+  "Français": "Rend l'audio de la timeline, le transcrit sur cet ordinateur et enregistre les sous-titres en fichier SRT.",
+  "한국어": "타임라인의 오디오를 렌더링하고 이 컴퓨터에서 받아쓴 뒤 자막을 SRT 파일로 저장합니다.",
+  "中文": "渲染时间线的音频，在这台电脑上转录，并将字幕保存为 SRT 文件。",
+  "العربية": "يصيّر صوت المخطط الزمني ويفرّغه نصيًا على هذا الحاسوب ويحفظ الترجمات كملف SRT.",
+  "Tiếng Việt": "Kết xuất âm thanh của timeline, phiên âm trên máy này và lưu phụ đề thành tệp SRT."
+ },
+ "Resolve transcribes the timeline itself, telling the speakers apart, and the subtitles are saved as an SRT file.": {
+  "日本語": "Resolve がタイムラインを自ら文字起こしして話者を聞き分け、字幕は SRT ファイルとして保存されます。",
+  "Español": "Resolve transcribe la línea de tiempo por sí mismo, distinguiendo a los hablantes, y los subtítulos se guardan como archivo SRT.",
+  "Deutsch": "Resolve transkribiert die Timeline selbst, unterscheidet die Sprecher, und die Untertitel werden als SRT-Datei gespeichert.",
+  "Français": "Resolve transcrit lui-même la timeline en distinguant les intervenants, et les sous-titres sont enregistrés en fichier SRT.",
+  "한국어": "Resolve가 타임라인을 직접 받아쓰며 화자를 구분하고, 자막은 SRT 파일로 저장됩니다.",
+  "中文": "Resolve 自行转录时间线并区分说话人，字幕保存为 SRT 文件。",
+  "العربية": "يفرّغ Resolve المخطط الزمني نصيًا بنفسه مع التمييز بين المتحدثين، وتُحفظ الترجمات كملف SRT.",
+  "Tiếng Việt": "Resolve tự phiên âm timeline, phân biệt người nói, và phụ đề được lưu thành tệp SRT."
+ },
+ "These subtitles are from '{timeline}'. Open it in Resolve to add them there – '{name}' is open now.": {
+  "日本語": "この字幕は「{timeline}」のものです。追加するには Resolve でそのタイムラインを開いてください – 今は「{name}」が開いています。",
+  "Español": "Estos subtítulos son de '{timeline}'. Ábrela en Resolve para añadirlos allí; ahora está abierta '{name}'.",
+  "Deutsch": "Diese Untertitel stammen aus '{timeline}'. Öffne sie in Resolve, um sie dort einzufügen – gerade ist '{name}' geöffnet.",
+  "Français": "Ces sous-titres viennent de « {timeline} ». Ouvrez-la dans Resolve pour les y ajouter – « {name} » est ouverte pour l'instant.",
+  "한국어": "이 자막은 '{timeline}'에서 만든 것입니다. 거기에 추가하려면 Resolve에서 해당 타임라인을 여세요 – 지금은 '{name}'이(가) 열려 있습니다.",
+  "中文": "这些字幕来自“{timeline}”。请在 Resolve 中打开它再添加 – 当前打开的是“{name}”。",
+  "العربية": "هذه الترجمات من '{timeline}'. افتحه في Resolve لإضافتها إليه – المفتوح الآن هو '{name}'.",
+  "Tiếng Việt": "Các phụ đề này từ '{timeline}'. Hãy mở nó trong Resolve để thêm vào đó – hiện đang mở '{name}'."
+ },
+ "Another timeline is open": {
+  "日本語": "別のタイムラインが開いています",
+  "Español": "Hay otra línea de tiempo abierta",
+  "Deutsch": "Eine andere Timeline ist geöffnet",
+  "Français": "Une autre timeline est ouverte",
+  "한국어": "다른 타임라인이 열려 있습니다",
+  "中文": "打开的是另一条时间线",
+  "العربية": "مخطط زمني آخر مفتوح",
+  "Tiếng Việt": "Đang mở một timeline khác"
  }
 }

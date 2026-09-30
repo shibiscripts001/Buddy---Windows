@@ -77,9 +77,13 @@
                        placeholder="e.g. DaVinci Resolve, Buddy, your guests' names">
                 <span class="hint">Used by the Whisper models. Parakeet has no way to take hints.</span>
             </label>
-            <div id="speakers-row" hidden>
+            <div class="check-row" id="speakers-row" hidden>
                 <label class="check"><input type="checkbox" id="speaker-names"> Name who's speaking</label>
                 <span class="hint">Each subtitle is one person's words either way. Ticked, the first line of each turn starts with their name – "Speaker 1:", or what you named them in Resolve.</span>
+            </div>
+            <div class="check-row">
+                <label class="check"><input type="checkbox" id="place-on-timeline"> Add to the timeline when done</label>
+                <span class="hint">Onto subtitle track 1. If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.</span>
             </div>
             <div class="run-row">
                 <button type="button" class="btn accent big" data-action="run" id="run">Transcribe timeline</button>
@@ -91,6 +95,8 @@
             <div class="result-head"><span class="result-icon" id="rt-icon"></span><b id="rt-message"></b></div>
             <div class="muted" id="rt-summary"></div>
             <div class="row wrap">
+                <button type="button" class="btn accent" data-action="place_last" id="rt-place"
+                        title="Puts these subtitles on subtitle track 1 of the timeline they were made from">Add to timeline</button>
                 <button type="button" class="btn" data-action="save_srt" id="rt-save">Save SRT…</button>
                 <button type="button" class="btn" data-goto="convert" id="rt-convert"
                         title="Turns each subtitle into its own Text+ clip, to style, place and animate on the tabs that follow">Convert to Text+…</button>

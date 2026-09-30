@@ -40,6 +40,10 @@ p.hint, .note { margin: 0; line-height: 1.5; }
 .run-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .btn.big { padding: 10px 24px; font-size: var(--fs-md); }
 .opts > p { margin: 0; line-height: 1.5; }
+/* A checkbox with its hint on the line below, lined up with the label's text. */
+.check-row { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.check-row[hidden] { display: none; }
+.check-row .hint { padding-left: 23px; }
 .conv-row { gap: 14px; align-items: flex-end; }
 .conv-row .lbl { min-width: 160px; }
 .conv-arrow { display: flex; color: var(--text-dim); padding-bottom: 8px; }

@@ -54,7 +54,7 @@ RESOLVE_TIP = ("Resolve Studio transcribes the timeline itself – nothing to in
                "tells the speakers apart. The transcription stays with the timeline in Resolve too.")
 
 DEFAULTS = {"model": "", "language": "", "mixed_languages": [], "hotwords": "", "max_chars": 42,
-            "max_lines": 2, "extra_models": {}, "speaker_names": True,
+            "max_lines": 2, "extra_models": {}, "speaker_names": True, "place_on_timeline": True,
             "translate_model": "", "translate_targets": [], "translate_auto": False,
             "translate_dir": "", "translate_timeline": True, "last_transcript": None,
             "srt_language": "eng_Latn"}

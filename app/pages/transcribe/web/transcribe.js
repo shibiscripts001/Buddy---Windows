@@ -129,6 +129,7 @@ Buddy.on("options", o => {
     $("hotwords-row").hidden = o.resolve;
     $("speakers-row").hidden = !o.resolve;
     $("speaker-names").checked = o.speaker_names;
+    $("place-on-timeline").checked = o.place;
     $("run-note").textContent = o.run_note;
 
     $("not-ready").hidden = o.ready || !o.why;
@@ -174,6 +175,7 @@ $("max-lines").onclick = e => {
 };
 $("hotwords").addEventListener("change", e => send("option", {key: "hotwords", value: e.target.value}));
 $("speaker-names").onchange = e => send("option", {key: "speaker_names", value: e.target.checked});
+$("place-on-timeline").onchange = e => send("option", {key: "place_on_timeline", value: e.target.checked});
 
 // ------------------------------------------------------------ results --
 
@@ -187,6 +189,8 @@ Buddy.on("result", r => {
         $("rt-message").textContent = r.message;
         $("rt-summary").textContent = r.summary || "";
         $("rt-save").hidden = !r.ok;
+        // Not placed (unticked, or track 1 kept): one click puts it there after all.
+        $("rt-place").hidden = !(r.ok && !r.placed && !r.placing);
         $("rt-convert").hidden = !(r.ok && r.placed);
         $("rt-translate").hidden = !r.ok;
     }
