@@ -109,6 +109,9 @@ class HeaderView(_ChromeView):
     def on_orb(self, _payload=None):
         self.shell.open_announcements()
 
+    def on_update(self, _payload=None):
+        self.shell.open_update()
+
     def on_bug(self, _payload=None):
         self.shell.open_bug_report()
 

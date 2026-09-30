@@ -74,8 +74,8 @@ class SettingsDialog(WebDialog):
             return None
 
     def sections(self):
-        out = [{"id": "shell", "title": "", "fields": [f for f in shell_fields(self.shared_settings, self._autostart())
-                                                         if f]}]
+        fields = shell_fields(self.shared_settings, self._autostart(), getattr(self.main_window, "updates", None))
+        out = [{"id": "shell", "title": "", "fields": [f for f in fields if f]}]
         page = self.active_page
         fields = page.settings_fields() if page is not None else None
         if fields:
@@ -112,6 +112,14 @@ class SettingsDialog(WebDialog):
                 self.shared_settings["announcements_enabled"] = bool(value)
                 self.shared_settings.save()
             return
+        if effect == "updates":
+            shell = self.main_window
+            if hasattr(shell, "set_updates_enabled"):
+                shell.set_updates_enabled(bool(value))         # also stops/starts checking
+            else:
+                self.shared_settings["updates_enabled"] = bool(value)
+                self.shared_settings.save()
+            return
         if effect == "language":
             self.shared_settings.save()
             # Every open view (this window too) gets the new language's
@@ -144,6 +152,10 @@ class SettingsDialog(WebDialog):
             return
         elif action == "organize" and hasattr(self.main_window, "open_nav_organizer"):
             self.main_window.open_nav_organizer(self)
+        elif action == "check_updates" and hasattr(self.main_window, "check_updates_now"):
+            self.main_window.check_updates_now(self)
+        elif action == "roll_back_update" and hasattr(self.main_window, "roll_back_update"):
+            self.main_window.roll_back_update(self)
         elif action == "reset_theme":
             reset_theme(self.shared_settings)
             self.shared_settings.save()

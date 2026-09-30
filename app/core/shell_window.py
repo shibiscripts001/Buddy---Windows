@@ -16,8 +16,8 @@ the busy overlay and the tray.
 
 import traceback
 
-from PySide6.QtCore import QEvent, QRectF, Qt, QThread, QTimer, Signal
-from PySide6.QtGui import QAction, QColor, QCursor, QIcon, QPainter, QPainterPath, QPixmap, QRegion
+from PySide6.QtCore import QEvent, QRectF, Qt, QThread, QTimer, QUrl, Signal
+from PySide6.QtGui import QAction, QColor, QCursor, QDesktopServices, QIcon, QPainter, QPainterPath, QPixmap, QRegion
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QFrame, QStackedWidget, QScrollArea,
     QApplication, QMenu, QSystemTrayIcon, QSplitter, QSplitterHandle,
@@ -38,6 +38,7 @@ from core import desktop_layout
 from core import nav_layout
 from core.announcements_window import AnnouncementsDialog
 from core.announcements import SEEN_KEY, AnnouncementChecker
+from core import updater
 from core.buddy_server import DEFAULT_SERVER_URL
 from core.bug_report import BugReportDialog
 from core.nav_organizer import NavOrganizerDialog
@@ -54,7 +55,7 @@ from core import crash_log
 from core.i18n import get_i18n, tr
 from core.settings_dialog import SettingsDialog
 from core.shell_web import HeaderView, RailView
-from core.message_dialog import alert
+from core.message_dialog import alert, confirm
 
 # Widest each pane grows in dual view, so two tools side by side on a big
 # monitor stay near each other; past that the space is left empty on the
@@ -282,6 +283,12 @@ class ShellWindow(QMainWindow):
         # off with one checkbox in Settings.
         self.announcements = AnnouncementChecker(self.shared_settings, self._network_server_url, self)
         self.announcements.changed.connect(self.push_header)
+        # The header's Update button (core/updater.py): once a day, off in Settings.
+        self.updates = updater.UpdateChecker(self.shared_settings, self)
+        self.updates.changed.connect(self.push_header)
+        self.updates.progress.connect(self.set_busy_message)
+        self.updates.installed.connect(self._on_update_installed)
+        self.updates.failed.connect(self._on_update_failed)
         # closeEvent isn't the only way out: app.quit() from elsewhere skips
         # it, and at Windows logoff/shutdown Qt 6 closes no windows at all -
         # it only emits commitDataRequest (session ending) and then
@@ -302,6 +309,7 @@ class ShellWindow(QMainWindow):
         self._center_on_screen()
         self._connect(silent=True)
         self.announcements.start()
+        self.updates.start()
         load_warnings = getattr(self.shared_settings, "load_warnings", None)
         if load_warnings:
             alert(self, "Settings", "\n\n".join(load_warnings))
@@ -520,6 +528,95 @@ class ShellWindow(QMainWindow):
     def check_announcements_now(self):
         """Buddy Network's Admin panel, right after an admin posts one."""
         self.announcements.check_now()
+
+    # ------------------------------------------------------------ updates --
+    def open_update(self):
+        """The header's Update button: the version on offer - or, once one is
+        in place, restarting into it."""
+        state = self.updates.header_state()
+        if state is None:
+            return
+        if state["kind"] == "restart":
+            return self._offer_restart(f"Buddy {state['version']} is in place. Restart Buddy now to start using it?")
+        offer = self.updates.offer()
+        version, current = offer["version"], self.updates.current
+        if offer["missing"]:
+            if confirm(self, "Update Buddy",
+                       f"Buddy {version} is out, but it needs the installer this time: it adds "
+                       f"{', '.join(offer['missing'])}, which Buddy can't install while it's running.\n\n"
+                       f"Open the download page?", ok="Open the download page", cancel="Later"):
+                QDesktopServices.openUrl(QUrl(offer["page"]))
+            return
+        size = max(1, round(offer["size"] / 1_000_000))
+        # Each sentence translated on its own, the release notes (English, a
+        # line each) between them as they are: translating the whole text as
+        # one would run the notes' lines together.
+        parts = [tr(f"Buddy {version} is ready – you have {current}.")]
+        if offer["notes"]:
+            parts.append(tr("What's new:") + "\n" + offer["notes"])
+        parts.append(tr(f"It's a {size} MB download from GitHub, then Buddy restarts. Your settings and work "
+                        f"stay as they are, and Settings can roll it back."))
+        if confirm(self, "Update Buddy", "\n\n".join(parts), ok="Update now", cancel="Later"):
+            self.set_busy(True, f"Downloading Buddy {version}…")
+            self.updates.download_and_install()
+
+    def _on_update_installed(self, version):
+        self.set_busy(False)
+        self._offer_restart(f"Buddy {version} is installed. Restart Buddy now to start using it?")
+
+    def _on_update_failed(self, why):
+        self.set_busy(False)
+        alert(self, "Update didn't finish",
+              f"{why}\n\nNothing was changed – Buddy {self.updates.current} is still the one installed.")
+
+    def _offer_restart(self, text, parent=None):
+        if not updater.CAN_RELAUNCH:
+            # macOS: reopened from Resolve's Scripts menu (core/updater.py).
+            if confirm(parent or self, "Restart Buddy",
+                       f"{tr(text)}\n\n{tr('Buddy quits, and you open it again from Workspace > Scripts > Buddy.')}",
+                       ok="Quit Buddy", cancel="Later"):
+                self._quit_app()
+            return
+        if confirm(parent or self, "Restart Buddy", text, ok="Restart now", cancel="Later"):
+            self.restart_buddy(parent)
+
+    def restart_buddy(self, parent=None):
+        """Quits and starts again (core/updater.py) - or, if there's no Python
+        to start it with, says how."""
+        if updater.relaunch_after_quit(self.updates.launcher_path() or updater.scripts_dir() / updater.LAUNCHER_NAME):
+            self._quit_app()
+        else:
+            alert(parent or self, "Restart Buddy",
+                  "Quit Buddy (its tray icon › Quit) and open it again from Workspace > Scripts > Buddy.")
+
+    def set_updates_enabled(self, on: bool):
+        """Settings' "Check for Buddy updates" checkbox."""
+        self.updates.set_enabled(on)
+
+    def check_updates_now(self, parent):
+        """Settings' "Check for updates now"."""
+        def answered(error):
+            if error:
+                alert(parent, "Check for updates", f"Couldn't check for updates: {error}")
+            elif self.updates.header_state() is not None:
+                self.open_update()
+            else:
+                alert(parent, "Check for updates", f"Buddy {self.updates.current} is the latest version.")
+        self.updates.check_now(answered)
+
+    def roll_back_update(self, parent):
+        """Settings' "Roll back to …": the version the last update replaced."""
+        previous = self.updates.previous()
+        if not previous or not confirm(
+                parent, "Roll back",
+                f"Go back to Buddy {previous}? The version you have now won't be offered again until you "
+                f"check for updates.", ok=f"Roll back to {previous}", cancel="Cancel"):
+            return
+        try:
+            version = self.updates.roll_back()
+        except OSError as exc:
+            return alert(parent, "Roll back", f"Couldn't roll back: {exc}")
+        self._offer_restart(f"Buddy {version} is back in place. Restart Buddy now to go back to it?", parent)
 
     # --------------------------------------------------------- bug report --
     def open_bug_report(self):
@@ -1011,6 +1108,7 @@ class ShellWindow(QMainWindow):
     def push_header(self):
         self.header.show_state({
             "connected": self.connected, "orb": self.announcements.unseen() if hasattr(self, "announcements") else False,
+            "update": self.updates.header_state() if hasattr(self, "updates") else None,
             "split": self._split_on, "side": self._side_tool_id,
             "choices": [{"id": tid, "label": self.pages[tid].display_name} for tid in self.side_choices()],
         })

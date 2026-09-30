@@ -12,6 +12,7 @@ $("bug").onclick = () => send("bug");
 for (const b of document.querySelectorAll("[data-action]")) b.onclick = () => send(b.dataset.action);
 $("settings").onclick = () => send("settings");
 $("orb").onclick = () => send("orb");
+$("update").onclick = () => send("update");
 $("split").onclick = () => send("split", {on: $("split").getAttribute("aria-pressed") !== "true"});
 $("side").onchange = e => send("side", {id: e.target.value});
 
@@ -37,6 +38,14 @@ Buddy.on("header", h => {
                                      : "Connect to DaVinci Resolve";
     $("status").className = `status ${h.connected ? "ok" : "bad"}`;
     $("orb").hidden = !h.orb;
+    // A newer Buddy (core/updater.py): to install, or installed and waiting for a restart.
+    const u = h.update;
+    $("update").hidden = !u;
+    if (u) {
+        $("update").textContent = u.kind === "restart" ? "Restart to update" : "Update";
+        $("update").title = u.kind === "restart" ? `Buddy ${u.version} is installed – restart Buddy to start using it`
+                                                 : `Buddy ${u.version} is ready to install`;
+    }
     $("split").setAttribute("aria-pressed", String(h.split));
     const side = $("side");
     side.hidden = !h.split;

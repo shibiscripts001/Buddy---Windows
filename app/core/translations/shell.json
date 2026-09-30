@@ -1509,5 +1509,405 @@
   "中文": "系统",
   "العربية": "النظام",
   "Tiếng Việt": "Hệ thống"
+ },
+ "Update": {
+  "日本語": "アップデート",
+  "Español": "Actualizar",
+  "Deutsch": "Aktualisieren",
+  "Français": "Mettre à jour",
+  "한국어": "업데이트",
+  "中文": "更新",
+  "العربية": "تحديث",
+  "Tiếng Việt": "Cập nhật"
+ },
+ "Restart to update": {
+  "日本語": "再起動して更新",
+  "Español": "Reiniciar para actualizar",
+  "Deutsch": "Zum Aktualisieren neu starten",
+  "Français": "Redémarrer pour mettre à jour",
+  "한국어": "다시 시작하여 업데이트",
+  "中文": "重启以完成更新",
+  "العربية": "أعد التشغيل للتحديث",
+  "Tiếng Việt": "Khởi động lại để cập nhật"
+ },
+ "Buddy {version} is ready to install": {
+  "日本語": "Buddy {version} をインストールできます",
+  "Español": "Buddy {version} está listo para instalarse",
+  "Deutsch": "Buddy {version} ist bereit zur Installation",
+  "Français": "Buddy {version} est prêt à être installé",
+  "한국어": "Buddy {version}을(를) 설치할 수 있습니다",
+  "中文": "Buddy {version} 可以安装了",
+  "العربية": "Buddy {version} جاهز للتثبيت",
+  "Tiếng Việt": "Buddy {version} đã sẵn sàng để cài đặt"
+ },
+ "Buddy {version} is installed – restart Buddy to start using it": {
+  "日本語": "Buddy {version} をインストールしました – Buddy を再起動すると使えます",
+  "Español": "Buddy {version} está instalado: reinicia Buddy para empezar a usarlo",
+  "Deutsch": "Buddy {version} ist installiert – starte Buddy neu, um es zu verwenden",
+  "Français": "Buddy {version} est installé – redémarrez Buddy pour l'utiliser",
+  "한국어": "Buddy {version}이(가) 설치되었습니다 – Buddy를 다시 시작하면 사용할 수 있습니다",
+  "中文": "Buddy {version} 已安装 – 重启 Buddy 即可使用",
+  "العربية": "تم تثبيت Buddy {version} – أعد تشغيل Buddy لبدء استخدامه",
+  "Tiếng Việt": "Đã cài Buddy {version} – khởi động lại Buddy để bắt đầu dùng"
+ },
+ "Update Buddy": {
+  "日本語": "Buddy をアップデート",
+  "Español": "Actualizar Buddy",
+  "Deutsch": "Buddy aktualisieren",
+  "Français": "Mettre à jour Buddy",
+  "한국어": "Buddy 업데이트",
+  "中文": "更新 Buddy",
+  "العربية": "تحديث Buddy",
+  "Tiếng Việt": "Cập nhật Buddy"
+ },
+ "Buddy {version} is out, but it needs the installer this time: it adds {packages}, which Buddy can't install while it's running.\n\nOpen the download page?": {
+  "日本語": "Buddy {version} が出ましたが、今回はインストーラーが必要です。{packages} を追加するため、実行中の Buddy からはインストールできません。\n\nダウンロードページを開きますか?",
+  "Español": "Ya salió Buddy {version}, pero esta vez necesita el instalador: añade {packages}, que Buddy no puede instalar mientras se ejecuta.\n\n¿Abrir la página de descarga?",
+  "Deutsch": "Buddy {version} ist da, braucht diesmal aber das Installationsprogramm: Es bringt {packages} mit, was Buddy nicht installieren kann, während es läuft.\n\nDownload-Seite öffnen?",
+  "Français": "Buddy {version} est sorti, mais il faut l'installeur cette fois : il ajoute {packages}, que Buddy ne peut pas installer pendant qu'il tourne.\n\nOuvrir la page de téléchargement ?",
+  "한국어": "Buddy {version}이(가) 나왔지만 이번에는 설치 프로그램이 필요합니다. {packages}을(를) 추가하는데, Buddy가 실행 중일 때는 설치할 수 없습니다.\n\n다운로드 페이지를 열까요?",
+  "中文": "Buddy {version} 已发布，但这次需要安装程序：它会添加 {packages}，Buddy 运行时无法安装。\n\n打开下载页面？",
+  "العربية": "صدر Buddy {version}، لكنه يحتاج إلى المثبّت هذه المرة: فهو يضيف {packages}، ولا يستطيع Buddy تثبيتها أثناء تشغيله.\n\nهل تريد فتح صفحة التنزيل؟",
+  "Tiếng Việt": "Buddy {version} đã ra, nhưng lần này cần trình cài đặt: bản này thêm {packages}, mà Buddy không thể cài khi đang chạy.\n\nMở trang tải xuống?"
+ },
+ "Open the download page": {
+  "日本語": "ダウンロードページを開く",
+  "Español": "Abrir la página de descarga",
+  "Deutsch": "Download-Seite öffnen",
+  "Français": "Ouvrir la page de téléchargement",
+  "한국어": "다운로드 페이지 열기",
+  "中文": "打开下载页面",
+  "العربية": "فتح صفحة التنزيل",
+  "Tiếng Việt": "Mở trang tải xuống"
+ },
+ "Later": {
+  "日本語": "後で",
+  "Español": "Más tarde",
+  "Deutsch": "Später",
+  "Français": "Plus tard",
+  "한국어": "나중에",
+  "中文": "稍后",
+  "العربية": "لاحقًا",
+  "Tiếng Việt": "Để sau"
+ },
+ "Update now": {
+  "日本語": "今すぐアップデート",
+  "Español": "Actualizar ahora",
+  "Deutsch": "Jetzt aktualisieren",
+  "Français": "Mettre à jour maintenant",
+  "한국어": "지금 업데이트",
+  "中文": "立即更新",
+  "العربية": "حدّث الآن",
+  "Tiếng Việt": "Cập nhật ngay"
+ },
+ "It's a {size} MB download from GitHub, then Buddy restarts. Your settings and work stay as they are, and Settings can roll it back.": {
+  "日本語": "GitHub から {size} MB をダウンロードし、Buddy が再起動します。設定や作業はそのままで、設定から元に戻すこともできます。",
+  "Español": "Son {size} MB desde GitHub y luego Buddy se reinicia. Tus ajustes y tu trabajo no cambian, y en Ajustes puedes deshacerlo.",
+  "Deutsch": "Es sind {size} MB von GitHub, dann startet Buddy neu. Deine Einstellungen und Arbeit bleiben, wie sie sind, und in den Einstellungen lässt es sich zurücknehmen.",
+  "Français": "C'est un téléchargement de {size} Mo depuis GitHub, puis Buddy redémarre. Vos réglages et votre travail restent tels quels, et les Réglages permettent de revenir en arrière.",
+  "한국어": "GitHub에서 {size}MB를 내려받은 뒤 Buddy가 다시 시작됩니다. 설정과 작업은 그대로이고, 설정에서 되돌릴 수 있습니다.",
+  "中文": "从 GitHub 下载 {size} MB，然后 Buddy 会重启。你的设置和工作保持不变，也可以在设置中回退。",
+  "العربية": "تنزيل بحجم {size} ميغابايت من GitHub، ثم يُعاد تشغيل Buddy. تبقى إعداداتك وعملك كما هي، ويمكن التراجع عنه من الإعدادات.",
+  "Tiếng Việt": "Tải {size} MB từ GitHub, rồi Buddy khởi động lại. Cài đặt và công việc của bạn giữ nguyên, và có thể quay lại bản cũ trong Cài đặt."
+ },
+ "Downloading Buddy {version}…": {
+  "日本語": "Buddy {version} をダウンロード中…",
+  "Español": "Descargando Buddy {version}…",
+  "Deutsch": "Buddy {version} wird heruntergeladen…",
+  "Français": "Téléchargement de Buddy {version}…",
+  "한국어": "Buddy {version} 내려받는 중…",
+  "中文": "正在下载 Buddy {version}…",
+  "العربية": "جارٍ تنزيل Buddy {version}…",
+  "Tiếng Việt": "Đang tải Buddy {version}…"
+ },
+ "Downloading Buddy {version}… {percent}%": {
+  "日本語": "Buddy {version} をダウンロード中… {percent}%",
+  "Español": "Descargando Buddy {version}… {percent} %",
+  "Deutsch": "Buddy {version} wird heruntergeladen… {percent} %",
+  "Français": "Téléchargement de Buddy {version}… {percent} %",
+  "한국어": "Buddy {version} 내려받는 중… {percent}%",
+  "中文": "正在下载 Buddy {version}… {percent}%",
+  "العربية": "جارٍ تنزيل Buddy {version}… {percent}%",
+  "Tiếng Việt": "Đang tải Buddy {version}… {percent}%"
+ },
+ "Restart Buddy": {
+  "日本語": "Buddy を再起動",
+  "Español": "Reiniciar Buddy",
+  "Deutsch": "Buddy neu starten",
+  "Français": "Redémarrer Buddy",
+  "한국어": "Buddy 다시 시작",
+  "中文": "重启 Buddy",
+  "العربية": "إعادة تشغيل Buddy",
+  "Tiếng Việt": "Khởi động lại Buddy"
+ },
+ "Restart now": {
+  "日本語": "今すぐ再起動",
+  "Español": "Reiniciar ahora",
+  "Deutsch": "Jetzt neu starten",
+  "Français": "Redémarrer maintenant",
+  "한국어": "지금 다시 시작",
+  "中文": "立即重启",
+  "العربية": "أعد التشغيل الآن",
+  "Tiếng Việt": "Khởi động lại ngay"
+ },
+ "Buddy {version} is installed. Restart Buddy now to start using it?": {
+  "日本語": "Buddy {version} をインストールしました。今すぐ再起動して使い始めますか?",
+  "Español": "Buddy {version} está instalado. ¿Reiniciar Buddy ahora para empezar a usarlo?",
+  "Deutsch": "Buddy {version} ist installiert. Buddy jetzt neu starten, um es zu verwenden?",
+  "Français": "Buddy {version} est installé. Redémarrer Buddy maintenant pour l'utiliser ?",
+  "한국어": "Buddy {version}이(가) 설치되었습니다. 지금 다시 시작해서 사용할까요?",
+  "中文": "Buddy {version} 已安装。现在重启 Buddy 开始使用？",
+  "العربية": "تم تثبيت Buddy {version}. هل تريد إعادة تشغيل Buddy الآن لبدء استخدامه؟",
+  "Tiếng Việt": "Đã cài Buddy {version}. Khởi động lại Buddy ngay để bắt đầu dùng?"
+ },
+ "Buddy {version} is in place. Restart Buddy now to start using it?": {
+  "日本語": "Buddy {version} の準備ができています。今すぐ再起動して使い始めますか?",
+  "Español": "Buddy {version} ya está en su sitio. ¿Reiniciar Buddy ahora para empezar a usarlo?",
+  "Deutsch": "Buddy {version} ist bereit. Buddy jetzt neu starten, um es zu verwenden?",
+  "Français": "Buddy {version} est en place. Redémarrer Buddy maintenant pour l'utiliser ?",
+  "한국어": "Buddy {version}이(가) 준비되어 있습니다. 지금 다시 시작해서 사용할까요?",
+  "中文": "Buddy {version} 已就位。现在重启 Buddy 开始使用？",
+  "العربية": "Buddy {version} في مكانه. هل تريد إعادة تشغيل Buddy الآن لبدء استخدامه؟",
+  "Tiếng Việt": "Buddy {version} đã sẵn sàng. Khởi động lại Buddy ngay để bắt đầu dùng?"
+ },
+ "Update didn't finish": {
+  "日本語": "アップデートが完了しませんでした",
+  "Español": "La actualización no terminó",
+  "Deutsch": "Die Aktualisierung wurde nicht abgeschlossen",
+  "Français": "La mise à jour n'a pas abouti",
+  "한국어": "업데이트를 마치지 못했습니다",
+  "中文": "更新未完成",
+  "العربية": "لم يكتمل التحديث",
+  "Tiếng Việt": "Cập nhật chưa hoàn tất"
+ },
+ "{why}\n\nNothing was changed – Buddy {current} is still the one installed.": {
+  "日本語": "{why}\n\n何も変更していません – インストールされているのは Buddy {current} のままです。",
+  "Español": "{why}\n\nNo se cambió nada: sigue instalado Buddy {current}.",
+  "Deutsch": "{why}\n\nEs wurde nichts geändert – installiert ist weiterhin Buddy {current}.",
+  "Français": "{why}\n\nRien n'a été modifié – Buddy {current} est toujours celui installé.",
+  "한국어": "{why}\n\n아무것도 바뀌지 않았습니다 – 설치된 것은 여전히 Buddy {current}입니다.",
+  "中文": "{why}\n\n没有做任何更改 – 安装的仍是 Buddy {current}。",
+  "العربية": "{why}\n\nلم يتغير شيء – لا يزال Buddy {current} هو المثبّت.",
+  "Tiếng Việt": "{why}\n\nKhông có gì thay đổi – bản đang cài vẫn là Buddy {current}."
+ },
+ "Quit Buddy (its tray icon › Quit) and open it again from Workspace > Scripts > Buddy.": {
+  "日本語": "Buddy を終了し(トレイアイコン › 終了)、Workspace > Scripts > Buddy からもう一度開いてください。",
+  "Español": "Cierra Buddy (su icono de la bandeja › Salir) y ábrelo de nuevo desde Workspace > Scripts > Buddy.",
+  "Deutsch": "Beende Buddy (Symbol in der Taskleiste › Beenden) und öffne es wieder über Workspace > Scripts > Buddy.",
+  "Français": "Quittez Buddy (son icône dans la barre › Quitter) et rouvrez-le depuis Workspace > Scripts > Buddy.",
+  "한국어": "Buddy를 종료하고(트레이 아이콘 › 종료) Workspace > Scripts > Buddy에서 다시 여세요.",
+  "中文": "退出 Buddy（托盘图标 › 退出），然后从 Workspace > Scripts > Buddy 重新打开。",
+  "العربية": "أغلق Buddy (أيقونته في شريط النظام › خروج) وافتحه مجددًا من Workspace > Scripts > Buddy.",
+  "Tiếng Việt": "Thoát Buddy (biểu tượng khay › Thoát) rồi mở lại từ Workspace > Scripts > Buddy."
+ },
+ "Check for updates": {
+  "日本語": "アップデートを確認",
+  "Español": "Buscar actualizaciones",
+  "Deutsch": "Nach Updates suchen",
+  "Français": "Rechercher des mises à jour",
+  "한국어": "업데이트 확인",
+  "中文": "检查更新",
+  "العربية": "التحقق من التحديثات",
+  "Tiếng Việt": "Kiểm tra cập nhật"
+ },
+ "Couldn't check for updates: {t_error}": {
+  "日本語": "アップデートを確認できませんでした: {t_error}",
+  "Español": "No se pudo buscar actualizaciones: {t_error}",
+  "Deutsch": "Konnte nicht nach Updates suchen: {t_error}",
+  "Français": "Impossible de rechercher des mises à jour : {t_error}",
+  "한국어": "업데이트를 확인하지 못했습니다: {t_error}",
+  "中文": "无法检查更新：{t_error}",
+  "العربية": "تعذّر التحقق من التحديثات: {t_error}",
+  "Tiếng Việt": "Không kiểm tra được cập nhật: {t_error}"
+ },
+ "The latest release has no update information.": {
+  "日本語": "最新のリリースにはアップデート情報がありません。",
+  "Español": "La última versión publicada no tiene información de actualización.",
+  "Deutsch": "Die neueste Version enthält keine Update-Informationen.",
+  "Français": "La dernière version publiée n'a pas d'informations de mise à jour.",
+  "한국어": "최신 릴리스에 업데이트 정보가 없습니다.",
+  "中文": "最新发布版本没有更新信息。",
+  "العربية": "لا يحتوي أحدث إصدار على معلومات تحديث.",
+  "Tiếng Việt": "Bản phát hành mới nhất không có thông tin cập nhật."
+ },
+ "Buddy is running from its source folder.": {
+  "日本語": "Buddy はソースフォルダーから実行されています。",
+  "Español": "Buddy se está ejecutando desde su carpeta de código fuente.",
+  "Deutsch": "Buddy läuft aus seinem Quellordner.",
+  "Français": "Buddy s'exécute depuis son dossier source.",
+  "한국어": "Buddy가 소스 폴더에서 실행 중입니다.",
+  "中文": "Buddy 正从源代码文件夹运行。",
+  "العربية": "يعمل Buddy من مجلد الشيفرة المصدرية.",
+  "Tiếng Việt": "Buddy đang chạy từ thư mục mã nguồn."
+ },
+ "Buddy {version} is the latest version.": {
+  "日本語": "Buddy {version} が最新バージョンです。",
+  "Español": "Buddy {version} es la versión más reciente.",
+  "Deutsch": "Buddy {version} ist die neueste Version.",
+  "Français": "Buddy {version} est la dernière version.",
+  "한국어": "Buddy {version}이(가) 최신 버전입니다.",
+  "中文": "Buddy {version} 已是最新版本。",
+  "العربية": "Buddy {version} هو أحدث إصدار.",
+  "Tiếng Việt": "Buddy {version} là phiên bản mới nhất."
+ },
+ "Roll back": {
+  "日本語": "元に戻す",
+  "Español": "Volver atrás",
+  "Deutsch": "Zurücksetzen",
+  "Français": "Revenir en arrière",
+  "한국어": "되돌리기",
+  "中文": "回退",
+  "العربية": "التراجع",
+  "Tiếng Việt": "Quay lại bản cũ"
+ },
+ "Go back to Buddy {version}? The version you have now won't be offered again until you check for updates.": {
+  "日本語": "Buddy {version} に戻しますか? 今のバージョンは、アップデートを確認するまで再び表示されません。",
+  "Español": "¿Volver a Buddy {version}? La versión que tienes ahora no se volverá a ofrecer hasta que busques actualizaciones.",
+  "Deutsch": "Zu Buddy {version} zurückkehren? Die jetzige Version wird erst wieder angeboten, wenn du nach Updates suchst.",
+  "Français": "Revenir à Buddy {version} ? La version actuelle ne sera plus proposée tant que vous ne rechercherez pas de mises à jour.",
+  "한국어": "Buddy {version}(으)로 되돌릴까요? 지금 버전은 업데이트를 확인할 때까지 다시 제안되지 않습니다.",
+  "中文": "回退到 Buddy {version}？在你检查更新之前，不会再提示当前版本。",
+  "العربية": "هل تريد العودة إلى Buddy {version}؟ لن يُعرض الإصدار الحالي مجددًا حتى تتحقق من التحديثات.",
+  "Tiếng Việt": "Quay lại Buddy {version}? Bản hiện tại sẽ không được đề xuất lại cho đến khi bạn kiểm tra cập nhật."
+ },
+ "Roll back to {version}": {
+  "日本語": "{version} に戻す",
+  "Español": "Volver a la {version}",
+  "Deutsch": "Auf {version} zurücksetzen",
+  "Français": "Revenir à la {version}",
+  "한국어": "{version}(으)로 되돌리기",
+  "中文": "回退到 {version}",
+  "العربية": "العودة إلى {version}",
+  "Tiếng Việt": "Quay lại {version}"
+ },
+ "Couldn't roll back: {t_error}": {
+  "日本語": "元に戻せませんでした: {t_error}",
+  "Español": "No se pudo volver atrás: {t_error}",
+  "Deutsch": "Zurücksetzen fehlgeschlagen: {t_error}",
+  "Français": "Impossible de revenir en arrière : {t_error}",
+  "한국어": "되돌리지 못했습니다: {t_error}",
+  "中文": "无法回退：{t_error}",
+  "العربية": "تعذّر التراجع: {t_error}",
+  "Tiếng Việt": "Không quay lại được: {t_error}"
+ },
+ "Buddy {version} is back in place. Restart Buddy now to go back to it?": {
+  "日本語": "Buddy {version} に戻しました。今すぐ再起動して切り替えますか?",
+  "Español": "Buddy {version} vuelve a estar en su sitio. ¿Reiniciar Buddy ahora para volver a ella?",
+  "Deutsch": "Buddy {version} ist wieder da. Buddy jetzt neu starten, um zu ihr zurückzukehren?",
+  "Français": "Buddy {version} est de nouveau en place. Redémarrer Buddy maintenant pour y revenir ?",
+  "한국어": "Buddy {version}이(가) 다시 준비되었습니다. 지금 다시 시작해서 되돌릴까요?",
+  "中文": "Buddy {version} 已恢复。现在重启 Buddy 回到该版本？",
+  "العربية": "عاد Buddy {version} إلى مكانه. هل تريد إعادة تشغيل Buddy الآن للعودة إليه؟",
+  "Tiếng Việt": "Buddy {version} đã được khôi phục. Khởi động lại Buddy ngay để quay lại bản đó?"
+ },
+ "Updates": {
+  "日本語": "アップデート",
+  "Español": "Actualizaciones",
+  "Deutsch": "Updates",
+  "Français": "Mises à jour",
+  "한국어": "업데이트",
+  "中文": "更新",
+  "العربية": "التحديثات",
+  "Tiếng Việt": "Cập nhật"
+ },
+ "Check for Buddy updates": {
+  "日本語": "Buddy のアップデートを確認する",
+  "Español": "Buscar actualizaciones de Buddy",
+  "Deutsch": "Nach Buddy-Updates suchen",
+  "Français": "Rechercher les mises à jour de Buddy",
+  "한국어": "Buddy 업데이트 확인",
+  "中文": "检查 Buddy 更新",
+  "العربية": "التحقق من تحديثات Buddy",
+  "Tiếng Việt": "Kiểm tra cập nhật Buddy"
+ },
+ "Once a day Buddy looks for a newer version on GitHub and shows an Update button in the header - it's only installed when you say so. Nothing about you or your projects is sent.": {
+  "日本語": "1 日 1 回、Buddy は GitHub で新しいバージョンを探し、見つかるとヘッダーにアップデートボタンを表示します。インストールはあなたが選んだときだけです。あなたやプロジェクトの情報は何も送信されません。",
+  "Español": "Una vez al día, Buddy busca una versión nueva en GitHub y muestra un botón Actualizar en la cabecera; solo se instala cuando tú lo dices. No se envía nada sobre ti ni tus proyectos.",
+  "Deutsch": "Einmal am Tag sucht Buddy auf GitHub nach einer neueren Version und zeigt oben eine Schaltfläche zum Aktualisieren – installiert wird nur, wenn du es sagst. Über dich oder deine Projekte wird nichts gesendet.",
+  "Français": "Une fois par jour, Buddy cherche une version plus récente sur GitHub et affiche un bouton Mettre à jour dans l'en-tête – elle n'est installée que si vous le décidez. Rien sur vous ni sur vos projets n'est envoyé.",
+  "한국어": "하루에 한 번 Buddy가 GitHub에서 새 버전을 찾고, 있으면 헤더에 업데이트 버튼을 보여 줍니다. 설치는 원할 때만 합니다. 사용자나 프로젝트에 관한 정보는 보내지 않습니다.",
+  "中文": "Buddy 每天在 GitHub 上查找一次新版本，并在顶部显示“更新”按钮 – 只有你同意才会安装。不会发送任何关于你或你的项目的信息。",
+  "العربية": "مرة يوميًا يبحث Buddy عن إصدار أحدث على GitHub ويعرض زر تحديث في الشريط العلوي – ولا يُثبَّت إلا حين تقرر ذلك. لا يُرسل أي شيء عنك أو عن مشاريعك.",
+  "Tiếng Việt": "Mỗi ngày một lần Buddy tìm phiên bản mới trên GitHub và hiện nút Cập nhật ở đầu cửa sổ – chỉ cài khi bạn đồng ý. Không có thông tin nào về bạn hay dự án của bạn được gửi đi."
+ },
+ "Check for updates now": {
+  "日本語": "今すぐアップデートを確認",
+  "Español": "Buscar actualizaciones ahora",
+  "Deutsch": "Jetzt nach Updates suchen",
+  "Français": "Rechercher des mises à jour maintenant",
+  "한국어": "지금 업데이트 확인",
+  "中文": "立即检查更新",
+  "العربية": "التحقق من التحديثات الآن",
+  "Tiếng Việt": "Kiểm tra cập nhật ngay"
+ },
+ "You have Buddy {version}. Looks for a newer one on GitHub now.": {
+  "日本語": "現在は Buddy {version} です。GitHub で新しいバージョンを今すぐ探します。",
+  "Español": "Tienes Buddy {version}. Busca ahora una más nueva en GitHub.",
+  "Deutsch": "Du hast Buddy {version}. Sucht jetzt auf GitHub nach einer neueren.",
+  "Français": "Vous avez Buddy {version}. Cherche maintenant une version plus récente sur GitHub.",
+  "한국어": "지금은 Buddy {version}입니다. GitHub에서 새 버전을 지금 찾습니다.",
+  "中文": "你现在是 Buddy {version}。立即在 GitHub 上查找新版本。",
+  "العربية": "لديك Buddy {version}. يبحث الآن عن إصدار أحدث على GitHub.",
+  "Tiếng Việt": "Bạn đang dùng Buddy {version}. Tìm bản mới hơn trên GitHub ngay."
+ },
+ "Puts back Buddy {version}, the version the last update replaced.": {
+  "日本語": "前回のアップデートで置き換えた Buddy {version} に戻します。",
+  "Español": "Vuelve a poner Buddy {version}, la versión que reemplazó la última actualización.",
+  "Deutsch": "Setzt Buddy {version} wieder ein, die Version, die das letzte Update ersetzt hat.",
+  "Français": "Remet Buddy {version}, la version remplacée par la dernière mise à jour.",
+  "한국어": "마지막 업데이트로 바뀐 Buddy {version}을(를) 다시 넣습니다.",
+  "中文": "恢复 Buddy {version}，即上次更新替换掉的版本。",
+  "العربية": "يعيد Buddy {version}، الإصدار الذي استبدله آخر تحديث.",
+  "Tiếng Việt": "Đặt lại Buddy {version}, phiên bản mà lần cập nhật trước đã thay thế."
+ },
+ "This Buddy runs from its source folder, so it isn't updated from here.": {
+  "日本語": "この Buddy はソースフォルダーから実行されているため、ここからは更新されません。",
+  "Español": "Este Buddy se ejecuta desde su carpeta de código fuente, así que no se actualiza desde aquí.",
+  "Deutsch": "Dieses Buddy läuft aus seinem Quellordner und wird daher nicht von hier aktualisiert.",
+  "Français": "Ce Buddy s'exécute depuis son dossier source, il n'est donc pas mis à jour d'ici.",
+  "한국어": "이 Buddy는 소스 폴더에서 실행되므로 여기서는 업데이트되지 않습니다.",
+  "中文": "这个 Buddy 从源代码文件夹运行，所以不会在这里更新。",
+  "العربية": "يعمل Buddy هذا من مجلد الشيفرة المصدرية، لذا لا يُحدَّث من هنا.",
+  "Tiếng Việt": "Buddy này chạy từ thư mục mã nguồn nên không được cập nhật ở đây."
+ },
+ "Buddy {version} is ready – you have {current}.": {
+  "日本語": "Buddy {version} の準備ができました – 現在は {current} です。",
+  "Español": "Buddy {version} está listo; tienes la {current}.",
+  "Deutsch": "Buddy {version} ist bereit – du hast {current}.",
+  "Français": "Buddy {version} est prêt – vous avez la {current}.",
+  "한국어": "Buddy {version}이(가) 준비되었습니다 – 지금은 {current}입니다.",
+  "中文": "Buddy {version} 已就绪 – 你现在是 {current}。",
+  "العربية": "Buddy {version} جاهز – لديك {current}.",
+  "Tiếng Việt": "Buddy {version} đã sẵn sàng – bạn đang dùng {current}."
+ },
+ "What's new:": {
+  "日本語": "新しい点:",
+  "Español": "Novedades:",
+  "Deutsch": "Neu:",
+  "Français": "Nouveautés :",
+  "한국어": "새로운 점:",
+  "中文": "更新内容：",
+  "العربية": "الجديد:",
+  "Tiếng Việt": "Có gì mới:"
+ },
+ "Buddy quits, and you open it again from Workspace > Scripts > Buddy.": {
+  "日本語": "Buddy を終了します。Workspace > Scripts > Buddy からもう一度開いてください。",
+  "Español": "Buddy se cierra y lo vuelves a abrir desde Workspace > Scripts > Buddy.",
+  "Deutsch": "Buddy wird beendet, und du öffnest es wieder über Workspace > Scripts > Buddy.",
+  "Français": "Buddy se ferme, et vous le rouvrez depuis Workspace > Scripts > Buddy.",
+  "한국어": "Buddy가 종료되면 Workspace > Scripts > Buddy에서 다시 여세요.",
+  "中文": "Buddy 会退出，然后从 Workspace > Scripts > Buddy 重新打开它。",
+  "العربية": "يُغلق Buddy، ثم تفتحه مجددًا من Workspace > Scripts > Buddy.",
+  "Tiếng Việt": "Buddy sẽ thoát, rồi bạn mở lại từ Workspace > Scripts > Buddy."
+ },
+ "Quit Buddy": {
+  "日本語": "Buddy を終了",
+  "Español": "Salir de Buddy",
+  "Deutsch": "Buddy beenden",
+  "Français": "Quitter Buddy",
+  "한국어": "Buddy 종료",
+  "中文": "退出 Buddy",
+  "العربية": "إغلاق Buddy",
+  "Tiếng Việt": "Thoát Buddy"
  }
 }

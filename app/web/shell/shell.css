@@ -16,6 +16,9 @@ body.window { background: var(--surface); }
     background: var(--header-bg); border: var(--bw) solid var(--shell-border); border-radius: var(--header-radius);
 }
 .shell-title { font-size: var(--title-size); font-weight: var(--title-weight); color: var(--title-fg); }
+/* The header's Update button (core/updater.py): small, beside the title. */
+.shell-header .update { padding: 3px 12px; min-height: 0; font-size: var(--fs-sm); }
+
 .orb {
     width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; flex: none;
     background: var(--primary); animation: orb-pulse 2.4s ease-in-out infinite;

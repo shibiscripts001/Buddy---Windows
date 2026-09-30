@@ -5,7 +5,9 @@
 # Editing this file runs it too - how to retry a version whose run failed.
 #
 # It builds from the repo alone on a clean Windows machine: build_installer.py
-# makes buddy.zip and compiles installer/Buddy.iss with Inno Setup.
+# makes buddy.zip and compiles installer/Buddy.iss with Inno Setup. buddy.zip,
+# Buddy.py and buddy-update.json (build_update_manifest.py) go on the release
+# too: they're what a running Buddy updates itself from (app/core/updater.py).
 
 name: Release
 
@@ -112,6 +114,11 @@ jobs:
         shell: pwsh
         run: python build_installer.py
 
+      - name: Write the update manifest
+        if: steps.exists.outputs.skip == 'false'
+        shell: pwsh
+        run: python build_update_manifest.py --platform windows
+
       - name: Publish the release
         if: steps.exists.outputs.skip == 'false'
         shell: pwsh
@@ -128,4 +135,5 @@ jobs:
 
           SHA-256 of BuddySetup-$v.exe: ``$sha`` - to check a download, run ``Get-FileHash BuddySetup-$v.exe`` in PowerShell and compare.
           "@
-          gh release create "v$v" $exe --title "Buddy $v" --notes $notes --generate-notes --target $env:GITHUB_SHA
+          # buddy.zip, Buddy.py, buddy-update.json: for Buddy's own Update button.
+          gh release create "v$v" $exe buddy.zip Buddy.py dist/buddy-update.json --title "Buddy $v" --notes $notes --generate-notes --target $env:GITHUB_SHA

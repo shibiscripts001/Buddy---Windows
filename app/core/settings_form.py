@@ -151,9 +151,10 @@ def custom_color(shared, which):
     return shared.get(f"panel_{theme}", "") or derive_panel(background)
 
 
-def shell_fields(shared, autostart):
-    """Appearance and Window. autostart: True/False, or None if Windows'
-    startup settings couldn't be read."""
+def shell_fields(shared, autostart, updates=None):
+    """Appearance, Window and Updates. autostart: True/False, or None if
+    Windows' startup settings couldn't be read. updates: the shell's
+    core/updater.UpdateChecker, or None (then no Updates section)."""
     theme = shared.get("theme", DEFAULT_THEME)
     subthemes = list_subthemes(theme)
     subtheme = shared.get("subtheme")
@@ -195,6 +196,31 @@ def shell_fields(shared, autostart):
         buttons(("Organize sidebar…", "organize",
                  {"tooltip": "Reorder, show or hide the tools in the sidebar, and add or rename the dividers "
                              "between them."})),
+        *update_fields(shared, updates),
+    ]
+
+
+def update_fields(shared, updates):
+    """Updates: the once-a-day check, checking now, and rolling back."""
+    if updates is None:
+        return []
+    if not updates.supported:
+        return [line(), heading("Updates"),
+                hint("This Buddy runs from its source folder, so it isn't updated from here.")]
+    previous = updates.previous()
+    actions = [("Check for updates now", "check_updates",
+                {"tooltip": f"You have Buddy {updates.current}. Looks for a newer one on GitHub now."})]
+    if previous:
+        actions.append((f"Roll back to {previous}", "roll_back_update",
+                        {"tooltip": f"Puts back Buddy {previous}, the version the last update replaced."}))
+    return [
+        line(),
+        heading("Updates"),
+        check("updates_enabled", "Check for Buddy updates", shared.get("updates_enabled", True),
+              hint_text="Once a day Buddy looks for a newer version on GitHub and shows an Update button in the "
+                        "header - it's only installed when you say so. Nothing about you or your projects is "
+                        "sent."),
+        buttons(*actions),
     ]
 
 
@@ -213,7 +239,7 @@ def language_fields(shared):
 
 def apply_shell(shared, key, value):
     """Stores one shell setting. Returns what it affects - "theme",
-    "window", "announcements", "autostart", "tray", "language" - or None if
+    "window", "announcements", "updates", "autostart", "tray", "language" - or None if
     the value isn't one it takes. Doesn't save; the caller does."""
     if key == "theme":
         if value not in list_themes():
@@ -249,6 +275,8 @@ def apply_shell(shared, key, value):
         return "language"
     if key == "announcements_enabled":
         return "announcements"
+    if key == "updates_enabled":
+        return "updates"
     if key == "autostart":
         return "autostart"
     return None

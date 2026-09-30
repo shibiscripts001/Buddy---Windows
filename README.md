@@ -71,6 +71,19 @@ removes Buddy and leaves Python, its packages and your `~/.buddy` settings.
 Rather not run the installer? [manual_install.txt](manual_install.txt) walks
 through the same steps by hand - every feature, Buddy Network included.
 
+## Updates
+
+Once installed, Buddy updates itself. Once a day it looks at the latest GitHub
+release, and when there's a newer one an **Update** button appears in the
+header: it shows what changed, downloads `buddy.zip` (and `Buddy.py`, if that
+changed) from the release, checks each is exactly the size and SHA-256 the
+release's `buddy-update.json` says, keeps the old one, and restarts Buddy.
+Settings > Updates turns the daily check off, checks now, or rolls
+back to the version the last update replaced. A release that needs a package
+Buddy doesn't have yet sends you to its installer instead. Updates aren't
+signed: they're trusted as far as GitHub and the account publishing the
+releases are (see `app/core/updater.py`).
+
 ## Building the installer
 
 ```bash
@@ -85,7 +98,8 @@ the version in `VERSION`.
 Change the number in `VERSION` on `main` (e.g. `1.0.0` -> `1.0.1`) and commit -
 GitHub's web editor is fine. GitHub Actions (`.github/workflows/release.yml`)
 then runs the tests, builds the installer on a clean Windows machine and
-publishes release `v1.0.1` with `BuddySetup-1.0.1.exe` attached. Pushes that
+publishes release `v1.0.1` with `BuddySetup-1.0.1.exe` attached - and `buddy.zip`, `Buddy.py` and
+`buddy-update.json` (`build_update_manifest.py`), which running Buddys update from. Pushes that
 don't change `VERSION` release nothing, and an existing version is never
 overwritten. It packages what is on `main`, so push changes before bumping. The installer script is
 `installer/Buddy.iss`; the packages it installs are `installer/requirements.txt`

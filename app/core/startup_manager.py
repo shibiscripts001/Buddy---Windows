@@ -200,6 +200,13 @@ def _find_python_for_startup():
     return None
 
 
+def python_for_relaunch():
+    """A real interpreter to start Buddy with again after an update
+    (core/updater.py): the one the watcher starts it with, else the install
+    Buddy runs on. None if neither is found - never fuscript.exe."""
+    return _find_python_for_startup() or running_python_exe()
+
+
 def _watcher_command(python_exe):
     return f'"{python_exe}" "{_WATCHER_PATH}"'
 

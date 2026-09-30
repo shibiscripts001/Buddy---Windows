@@ -174,6 +174,8 @@ def _run():
 
     app_dir = _extracted_app_dir(zip_path)
     _log(f"app_dir: {app_dir}")
+    # Which zip this is - what an update replaces (core/updater.py).
+    os.environ["BUDDY_ZIP"] = zip_path
     # Buddy's modules import each other absolutely (core.*, pages.*,
     # registry), so the extracted app folder itself goes on sys.path -
     # not its parent.
