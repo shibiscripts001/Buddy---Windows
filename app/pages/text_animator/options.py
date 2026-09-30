@@ -16,6 +16,7 @@ import re
 from .animation_engine import FusionAnimationEngine
 from .overlays import GRID_TYPES, SAFE_ZONE_TYPES
 from .layout_presets import LAYOUT_PRESETS
+from .word_by_word import LINE_CHOICES as WBW_LINES
 
 ANIM_PRESETS = ["Pop (Scale)", "Bounce (Extra Rebound)", "Fade (Opacity)", "Slide (Direction + Fade)",
                 "Typewriter (Letters)", "Letter Fade (Letters)", "Letter Pop (Letters)"]
@@ -24,6 +25,8 @@ ANIM_PRESETS = ["Pop (Scale)", "Bounce (Extra Rebound)", "Fade (Opacity)", "Slid
 SCOPES = ("timeline", "selected", "playhead", "track")
 # tab -> settings key of its "Apply to" choice. Font Styling's also reads the two older keys below.
 SCOPE_KEYS = {"style_scope": "font_style_scope", "anim_scope": "anim_scope", "layout_scope": "layout_scope"}
+# Word-by-word's Space words: under the playhead, or each group of words on the timeline.
+WBW_SCOPES = ("playhead", "timeline")
 
 # name -> (label, min, max, step, decimals, default, settings key). The page's sliders.
 SLIDERS = {
@@ -39,6 +42,8 @@ SLIDERS = {
     "background_extend_horizontal": ("Extend H", -1.0, 1.0, 0.01, 3, 0.0, "background_extend_horizontal"),
     "background_extend_vertical": ("Extend V", -1.0, 1.0, 0.01, 3, 0.0, "background_extend_vertical"),
     "background_opacity": ("Opacity", 0.0, 1.0, 0.01, 2, 0.5, "background_opacity"),
+    # Word-by-word's Space as one: the gaps between words, in spaces (1 = one Text+ clip's own).
+    "wbw_spacing": ("Word spacing", 0.0, 2.0, 0.05, 2, 1.0, "word_by_word_spacing"),
 }
 # name -> (default (r, g, b), settings key prefix)
 COLORS = {
@@ -165,6 +170,16 @@ class Options:
             return speeds[-1]
 
     @property
+    def wbw_lines(self) -> str:
+        value = str(self.s.get("word_by_word_lines", "auto"))
+        return value if value in WBW_LINES else "auto"
+
+    @property
+    def wbw_scope(self) -> str:
+        value = self.s.get("word_by_word_scope", "playhead")
+        return value if value in WBW_SCOPES else "playhead"
+
+    @property
     def layout_preset(self) -> str:
         preset = self.s.get("layout_preset")
         return preset if preset in LAYOUT_PRESETS else next(iter(LAYOUT_PRESETS))
@@ -235,6 +250,14 @@ class Options:
             if value not in LAYOUT_PRESETS:
                 return False
             s["layout_preset"] = value
+        elif name == "wbw_lines":
+            if str(value) not in WBW_LINES:
+                return False
+            s["word_by_word_lines"] = str(value)
+        elif name == "wbw_scope":
+            if value not in WBW_SCOPES:
+                return False
+            s["word_by_word_scope"] = value
         elif name in OVERLAY:
             spec = OVERLAY[name]
             if isinstance(spec, tuple):
@@ -274,6 +297,7 @@ class Options:
             "anim_directions": list(FusionAnimationEngine.SLIDE_DIRECTIONS), "anim_direction": self.anim_direction,
             "anim_speeds": list(FusionAnimationEngine.SPEEDS), "anim_speed": self.anim_speed,
             "layout_presets": list(LAYOUT_PRESETS), "layout_preset": self.layout_preset,
+            "wbw_lines": self.wbw_lines, "wbw_scope": self.wbw_scope,
         }
 
     def overlay_view(self) -> dict:

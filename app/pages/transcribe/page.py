@@ -2,9 +2,10 @@
 """
 Transcribe - turn the current timeline's dialogue into subtitles, and
 translate them. A web page (core/web_page.py): the view is web/index.html
-+ transcribe.js, with eight tabs - Subtitles, Translate, Subtitle
-Conversion, the four Text+ tabs (Font Styling, Timeline Layout, Timeline
-Animation, Custom Animation) and, at the far end, Setup.
++ transcribe.js, with nine tabs - Subtitles, Translate, Subtitle
+Conversion, the five Text+ tabs (Font Styling, Timeline Layout,
+Word-by-word, Timeline Animation, Custom Animation) and, at the far end,
+Setup.
 
 One button, three stages, all off the GUI thread (jobs.py):
 
@@ -653,7 +654,8 @@ class TranscribePage(WebToolPage):
     def _place_now(self, resolve, srt_path, replace):
         self.host.set_busy(True, "Adding subtitles to the timeline…")
         try:
-            return resolve.place_subtitles(srt_path, replace_existing=replace)
+            return resolve.place_subtitles(srt_path, replace_existing=replace,
+                                           log=lambda message: self._add_log(message, "info"))
         except TranscribeResolveError as exc:
             self._add_log(f"Couldn't add to the timeline: {exc}", "error")
             return 0

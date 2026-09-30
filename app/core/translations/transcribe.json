@@ -2430,16 +2430,6 @@
   "العربية": "الإضافة إلى المخطط الزمني عند الانتهاء",
   "Tiếng Việt": "Thêm vào timeline khi xong"
  },
- "Onto subtitle track 1. If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.": {
-  "日本語": "字幕トラック 1 に配置します。既に字幕がある場合は、置き換える前に確認します。オフにすると、字幕は SRT ファイルとしてのみ保存されます。",
-  "Español": "En la pista de subtítulos 1. Si ya tiene subtítulos, se te pregunta antes de reemplazarlos. Sin marcar, los subtítulos solo se guardan como archivo SRT.",
-  "Deutsch": "Auf Untertitelspur 1. Hat sie schon Untertitel, wirst du gefragt, bevor sie ersetzt werden. Nicht angehakt, werden die Untertitel nur als SRT-Datei gespeichert.",
-  "Français": "Sur la piste de sous-titres 1. Si elle contient déjà des sous-titres, on vous demande avant de les remplacer. Décoché, les sous-titres sont seulement enregistrés en fichier SRT.",
-  "한국어": "자막 트랙 1에 넣습니다. 이미 자막이 있으면 바꾸기 전에 묻습니다. 체크를 해제하면 자막은 SRT 파일로만 저장됩니다.",
-  "中文": "放到字幕轨道 1。如果其中已有字幕，替换前会先询问。取消勾选时，字幕只保存为 SRT 文件。",
-  "العربية": "على مسار الترجمة 1. إذا كان فيه ترجمات بالفعل، يُطلب منك التأكيد قبل استبدالها. عند إلغاء التحديد، تُحفظ الترجمات كملف SRT فقط.",
-  "Tiếng Việt": "Vào track phụ đề 1. Nếu track đã có phụ đề, bạn sẽ được hỏi trước khi thay thế. Khi bỏ chọn, phụ đề chỉ được lưu thành tệp SRT."
- },
  "Add to timeline": {
   "日本語": "タイムラインに追加",
   "Español": "Añadir a la línea de tiempo",
@@ -2509,5 +2499,65 @@
   "中文": "打开的是另一条时间线",
   "العربية": "مخطط زمني آخر مفتوح",
   "Tiếng Việt": "Đang mở một timeline khác"
+ },
+ "Subtitle track {n} was switched off in Resolve, so Buddy switched it on.": {
+  "日本語": "Resolve で字幕トラック {n} がオフになっていたため、Buddy がオンにしました。",
+  "Español": "La pista de subtítulos {n} estaba desactivada en Resolve, así que Buddy la activó.",
+  "Deutsch": "Untertitelspur {n} war in Resolve ausgeschaltet, deshalb hat Buddy sie eingeschaltet.",
+  "Français": "La piste de sous-titres {n} était désactivée dans Resolve, Buddy l'a donc activée.",
+  "한국어": "Resolve에서 자막 트랙 {n}이(가) 꺼져 있어 Buddy가 켰습니다.",
+  "中文": "Resolve 中的字幕轨道 {n} 已关闭，因此 Buddy 将其打开了。",
+  "العربية": "كان مسار الترجمة {n} متوقفًا في Resolve، لذا شغّله Buddy.",
+  "Tiếng Việt": "Rãnh phụ đề {n} đang tắt trong Resolve nên Buddy đã bật nó lên."
+ },
+ "Subtitle track {n} was locked in Resolve, so Buddy unlocked it.": {
+  "日本語": "Resolve で字幕トラック {n} がロックされていたため、Buddy がロックを解除しました。",
+  "Español": "La pista de subtítulos {n} estaba bloqueada en Resolve, así que Buddy la desbloqueó.",
+  "Deutsch": "Untertitelspur {n} war in Resolve gesperrt, deshalb hat Buddy sie entsperrt.",
+  "Français": "La piste de sous-titres {n} était verrouillée dans Resolve, Buddy l'a donc déverrouillée.",
+  "한국어": "Resolve에서 자막 트랙 {n}이(가) 잠겨 있어 Buddy가 잠금을 해제했습니다.",
+  "中文": "Resolve 中的字幕轨道 {n} 已锁定，因此 Buddy 将其解锁了。",
+  "العربية": "كان مسار الترجمة {n} مقفلًا في Resolve، لذا ألغى Buddy قفله.",
+  "Tiếng Việt": "Rãnh phụ đề {n} đang bị khóa trong Resolve nên Buddy đã mở khóa."
+ },
+ "Onto subtitle track 1, so ST1 has to be the destination track in Resolve (its patch lit red in the track headers). If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.": {
+  "日本語": "字幕トラック 1 に追加します。そのため、Resolve で ST1 が宛先トラック（トラックヘッダーでパッチが赤く点灯）になっている必要があります。すでに字幕がある場合は、置き換える前に確認されます。オフにすると、字幕は SRT ファイルとしてのみ保存されます。",
+  "Español": "En la pista de subtítulos 1, así que ST1 tiene que ser la pista de destino en Resolve (su parche iluminado en rojo en los encabezados de pista). Si ya tiene subtítulos, se te preguntará antes de reemplazarlos. Sin marcar, los subtítulos solo se guardan como archivo SRT.",
+  "Deutsch": "Auf Untertitelspur 1 – ST1 muss daher in Resolve die Zielspur sein (ihr Patch leuchtet in den Spurköpfen rot). Hat sie schon Untertitel, wirst du vor dem Ersetzen gefragt. Nicht angehakt, werden die Untertitel nur als SRT-Datei gespeichert.",
+  "Français": "Sur la piste de sous-titres 1 : ST1 doit donc être la piste de destination dans Resolve (son patch allumé en rouge dans les en-têtes de piste). Si elle contient déjà des sous-titres, on vous demande avant de les remplacer. Décoché, les sous-titres sont seulement enregistrés en fichier SRT.",
+  "한국어": "자막 트랙 1에 넣으므로, Resolve에서 ST1이 대상 트랙이어야 합니다(트랙 헤더에서 패치가 빨간색으로 켜짐). 이미 자막이 있으면 바꾸기 전에 묻습니다. 체크하지 않으면 자막은 SRT 파일로만 저장됩니다.",
+  "中文": "放到字幕轨道 1 上，因此 ST1 必须是 Resolve 中的目标轨道（轨道头中其接线显示为红色）。如果轨道上已有字幕，替换前会先询问你。不勾选时，字幕只保存为 SRT 文件。",
+  "العربية": "على مسار الترجمة 1، لذا يجب أن يكون ST1 هو مسار الوجهة في Resolve (يضيء مقبسه بالأحمر في رؤوس المسارات). إذا كانت عليه ترجمات بالفعل، فسيُطلب منك التأكيد قبل استبدالها. عند إلغاء التحديد، تُحفظ الترجمات كملف SRT فقط.",
+  "Tiếng Việt": "Vào rãnh phụ đề 1, nên ST1 phải là rãnh đích trong Resolve (ô patch của nó sáng đỏ ở phần đầu rãnh). Nếu rãnh đã có phụ đề, bạn sẽ được hỏi trước khi thay thế. Khi bỏ chọn, phụ đề chỉ được lưu thành tệp SRT."
+ },
+ "Resolve imported the subtitles but didn't place them. Check that ST1 is the destination subtitle track in Resolve (its patch lit red in the track headers).": {
+  "日本語": "Resolve は字幕を読み込みましたが、配置しませんでした。Resolve で ST1 が字幕の宛先トラック（トラックヘッダーでパッチが赤く点灯）になっているか確認してください。",
+  "Español": "Resolve importó los subtítulos, pero no los colocó. Comprueba que ST1 sea la pista de subtítulos de destino en Resolve (su parche iluminado en rojo en los encabezados de pista).",
+  "Deutsch": "Resolve hat die Untertitel importiert, aber nicht platziert. Prüfe, ob ST1 in Resolve die Ziel-Untertitelspur ist (ihr Patch leuchtet in den Spurköpfen rot).",
+  "Français": "Resolve a importé les sous-titres mais ne les a pas placés. Vérifiez que ST1 est la piste de sous-titres de destination dans Resolve (son patch allumé en rouge dans les en-têtes de piste).",
+  "한국어": "Resolve가 자막을 가져왔지만 배치하지 않았습니다. Resolve에서 ST1이 자막 대상 트랙인지 확인하세요(트랙 헤더에서 패치가 빨간색으로 켜짐).",
+  "中文": "Resolve 已导入字幕，但未放置。请检查 ST1 是否为 Resolve 中的目标字幕轨道（轨道头中其接线显示为红色）。",
+  "العربية": "استورد Resolve الترجمات لكنه لم يضعها. تحقّق من أن ST1 هو مسار الترجمة الوجهة في Resolve (يضيء مقبسه بالأحمر في رؤوس المسارات).",
+  "Tiếng Việt": "Resolve đã nhập phụ đề nhưng không đặt chúng. Hãy kiểm tra ST1 có phải là rãnh phụ đề đích trong Resolve không (ô patch của nó sáng đỏ ở phần đầu rãnh)."
+ },
+ "Resolve put the subtitles on subtitle track {n}, its destination track, so they were taken off again. Make ST1 the destination (click its patch in the track headers) and try again – the SRT file is saved.": {
+  "日本語": "Resolve が字幕を宛先トラックである字幕トラック {n} に配置したため、取り除きました。ST1 を宛先にして（トラックヘッダーでパッチをクリック）、もう一度お試しください。SRT ファイルは保存されています。",
+  "Español": "Resolve puso los subtítulos en la pista de subtítulos {n}, su pista de destino, así que se quitaron de nuevo. Haz de ST1 el destino (haz clic en su parche en los encabezados de pista) y vuelve a intentarlo; el archivo SRT está guardado.",
+  "Deutsch": "Resolve hat die Untertitel auf Untertitelspur {n} gelegt, seine Zielspur, deshalb wurden sie wieder entfernt. Mach ST1 zum Ziel (klick in den Spurköpfen auf ihren Patch) und versuch es noch einmal – die SRT-Datei ist gespeichert.",
+  "Français": "Resolve a placé les sous-titres sur la piste de sous-titres {n}, sa piste de destination, ils ont donc été retirés. Faites de ST1 la destination (cliquez sur son patch dans les en-têtes de piste) et réessayez – le fichier SRT est enregistré.",
+  "한국어": "Resolve가 자막을 대상 트랙인 자막 트랙 {n}에 넣어서 다시 제거했습니다. ST1을 대상으로 지정하고(트랙 헤더에서 패치 클릭) 다시 시도하세요. SRT 파일은 저장되어 있습니다.",
+  "中文": "Resolve 把字幕放到了其目标轨道——字幕轨道 {n} 上，因此已将其移除。请把 ST1 设为目标（在轨道头中点击其接线）后重试——SRT 文件已保存。",
+  "العربية": "وضع Resolve الترجمات على مسار الترجمة {n}، وهو مسار الوجهة لديه، لذا أُزيلت مرة أخرى. اجعل ST1 هو الوجهة (انقر على مقبسه في رؤوس المسارات) وحاول مجددًا – ملف SRT محفوظ.",
+  "Tiếng Việt": "Resolve đã đặt phụ đề vào rãnh phụ đề {n}, rãnh đích của nó, nên chúng đã được gỡ ra. Hãy đặt ST1 làm đích (bấm vào ô patch của nó ở phần đầu rãnh) rồi thử lại – tệp SRT đã được lưu."
+ },
+ "Video track {track} already has {n} clip(s) where the subtitles go, and Resolve won't put Text+ over them. Choose an empty video track – track {empty} is.": {
+  "日本語": "ビデオトラック {track} には字幕が入る位置にすでに {n} 個のクリップがあり、Resolve はその上に Text+ を置きません。空のビデオトラックを選んでください。トラック {empty} が空いています。",
+  "Español": "La pista de vídeo {track} ya tiene {n} clip(s) donde van los subtítulos, y Resolve no pone Text+ encima. Elige una pista de vídeo vacía: la pista {empty} lo está.",
+  "Deutsch": "Videospur {track} hat schon {n} Clip(s) dort, wo die Untertitel hinkommen, und Resolve legt kein Text+ darüber. Wähle eine leere Videospur – Spur {empty} ist leer.",
+  "Français": "La piste vidéo {track} a déjà {n} clip(s) là où vont les sous-titres, et Resolve ne met pas de Text+ par-dessus. Choisissez une piste vidéo vide – la piste {empty} l'est.",
+  "한국어": "비디오 트랙 {track}에는 자막이 들어갈 자리에 이미 클립 {n}개가 있고, Resolve는 그 위에 Text+를 놓지 않습니다. 빈 비디오 트랙을 선택하세요. 트랙 {empty}가 비어 있습니다.",
+  "中文": "视频轨道 {track} 上字幕要放的位置已有 {n} 个片段，Resolve 不会把 Text+ 放在它们上面。请选择一条空的视频轨道——轨道 {empty} 是空的。",
+  "العربية": "يحتوي مسار الفيديو {track} بالفعل على {n} مقطع حيث توضع الترجمات، ولن يضع Resolve مقاطع Text+ فوقها. اختر مسار فيديو فارغًا – المسار {empty} فارغ.",
+  "Tiếng Việt": "Rãnh video {track} đã có {n} clip ở chỗ phụ đề sẽ đặt, và Resolve sẽ không đặt Text+ đè lên chúng. Hãy chọn một rãnh video trống – rãnh {empty} đang trống."
  }
 }

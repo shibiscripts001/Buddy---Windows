@@ -25,6 +25,7 @@
         <button type="button" role="tab" data-tab="convert">Subtitle conversion</button>
         <button type="button" role="tab" data-tab="style">Font styling</button>
         <button type="button" role="tab" data-tab="layout">Timeline layout</button>
+        <button type="button" role="tab" data-tab="wordbyword">Word-by-word</button>
         <button type="button" role="tab" data-tab="animation">Timeline animation</button>
         <button type="button" role="tab" data-tab="words">Custom animation</button>
         <button type="button" role="tab" data-tab="setup" class="end">Setup <i class="badge-dot" id="setup-dot" hidden></i></button>
@@ -83,7 +84,7 @@
             </div>
             <div class="check-row">
                 <label class="check"><input type="checkbox" id="place-on-timeline"> Add to the timeline when done</label>
-                <span class="hint">Onto subtitle track 1. If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.</span>
+                <span class="hint">Onto subtitle track 1, so ST1 has to be the destination track in Resolve (its patch lit red in the track headers). If it already has subtitles, you're asked before they're replaced. Unticked, the subtitles are saved as an SRT file only.</span>
             </div>
             <div class="run-row">
                 <button type="button" class="btn accent big" data-action="run" id="run">Transcribe timeline</button>
@@ -301,6 +302,54 @@
                 <button type="button" class="btn accent" data-tp="apply_bounding" id="apply-bounding">Apply bounding</button>
             </section>
         </div>
+    </section>
+
+    <!-- --------------------------------------------------- word-by-word -->
+    <section class="panel" id="panel-wordbyword" hidden>
+        <section class="card box canvas-card">
+            <div class="row canvas-head">
+                <span class="section-title">Word preview</span>
+                <span class="muted small">For animations with one word per Text+ clip. Drag across empty space to select some of the words; Shift-click adds one.</span>
+                <div class="spacer"></div>
+                <div class="history"><button type="button" class="btn ghost icon" data-undo title="Undo (Ctrl+Z)"></button><button type="button" class="btn ghost icon" data-redo title="Redo (Ctrl+Shift+Z)"></button></div>
+                <button type="button" class="btn ghost" data-guides>Guides &amp; snapping</button>
+            </div>
+            <div class="canvas-host" id="canvas-wordbyword"></div>
+        </section>
+        <section class="card box">
+            <span class="section-title">Stack on their own tracks</span>
+            <p class="muted small note">Copies the timeline with each Text+ clip selected on Resolve's timeline on a
+                video track of its own, lasting until the playhead, so the words build up and stay on screen
+                together. The copy opens in Resolve; this timeline isn't changed. Needs DaVinci Resolve 21.0.4 or
+                later.</p>
+            <p class="warn note">With several Text+ clips selected, don't click into Resolve's Inspector Text box (it
+                shows --): Resolve writes that empty box into every selected clip, and their words are gone.</p>
+            <div class="row">
+                <div class="spacer"></div>
+                <button type="button" class="btn accent" data-tp="stack_words" id="stack-words">Stack selected clips</button>
+            </div>
+        </section>
+        <section class="card box">
+            <span class="section-title">Space as one</span>
+            <p class="muted small note">Sets single-word Text+ clips out the way one Text+ clip would show them as a
+                sentence: the same space between words and between lines, in the order the clips start on the
+                timeline. Each word keeps its own font and size, and the words stay centred where they are.</p>
+            <div class="row wrap gap wbw-controls">
+                <div class="lbl">Lines <div class="segmented" id="wbw-lines"></div></div>
+                <label class="lbl">Apply to <select class="field" id="wbw-scope" aria-label="Apply to">
+                    <option value="playhead">Under the playhead</option>
+                    <option value="timeline">Entire timeline</option>
+                </select></label>
+            </div>
+            <div class="wbw-spacing" data-slider="wbw_spacing"></div>
+            <p class="muted small note">Word spacing: 1 is the space one Text+ clip would put between the words, 0 has
+                them touching, 2 is twice as wide. Double-click the slider to go back to 1.</p>
+            <p class="muted small note" id="wbw-note"></p>
+            <div class="row">
+                <div class="spacer"></div>
+                <button type="button" class="btn accent" id="space-words">Space words</button>
+            </div>
+        </section>
     </section>
 
     <!-- --------------------------------------------------------- words -->

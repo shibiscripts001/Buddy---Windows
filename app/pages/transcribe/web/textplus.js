@@ -1,6 +1,6 @@
 /*
- * The Text+ tabs on Transcribe (Font styling, Timeline layout, Timeline animation, Custom
- * animation). text_animator/text_plus.py owns every setting and makes every Resolve call;
+ * The Text+ tabs on Transcribe (Font styling, Timeline layout, Word-by-word, Timeline
+ * animation, Custom animation). text_animator/text_plus.py owns every setting and makes every Resolve call;
  * this draws what it sends and reports what the user did. The placement canvases are
  * canvas.js. Its messages are "tp_"-prefixed both ways, so they never meet Transcribe's own;
  * the tabs themselves, the toasts, alerts and activity log are transcribe.js's.
@@ -24,7 +24,7 @@ for (const b of $$("[data-redo]")) {
 // --------------------------------------------------------------- tabs --
 
 // Which of the page's tabs is on screen: transcribe.js says (the "buddy-tab" event).
-const TABS = new Set(["style", "layout", "animation", "words"]);
+const TABS = new Set(["style", "layout", "wordbyword", "animation", "words"]);
 let TAB = "subtitles";
 document.addEventListener("buddy-tab", e => { TAB = e.detail; closeGuides(); });
 
@@ -122,6 +122,11 @@ on("options", o => {
     presetCards($("anim-presets"), ANIMATIONS.filter(a => o.anim_presets.includes(a.id)), o.anim_preset, v => set("anim_preset", v));
     presetCards($("presets"), LAYOUTS.filter(l => o.layout_presets.includes(l.id)), o.layout_preset, v => { set("layout_preset", v); });
     $("preset-note").textContent = (LAYOUTS.find(l => l.id === o.layout_preset) || {}).note || "";
+    segmented($("wbw-lines"), [["auto", "Auto"], ["1", "1"], ["2", "2"], ["3", "3"]], o.wbw_lines, v => set("wbw_lines", v));
+    if (document.activeElement !== $("wbw-scope")) $("wbw-scope").value = o.wbw_scope;
+    $("wbw-note").textContent = o.wbw_scope === "timeline"
+        ? "Each group of single-word clips that are on screen together, anywhere on the timeline. Auto uses the fewest lines, up to 3, that fit in 90% of the frame's width."
+        : "The words selected in the preview, or every single-word clip under the playhead. Auto uses the fewest lines, up to 3, that fit in 90% of the frame's width.";
     drawScopes(o);
     drawPreview();
 });
@@ -287,6 +292,7 @@ new ResizeObserver(() => {
 
 const canvases = {
     layout: PlacementCanvas($("canvas-layout"), {tab: "layout", multi: false, send}),
+    wordbyword: PlacementCanvas($("canvas-wordbyword"), {tab: "wordbyword", multi: true, send}),
     words: PlacementCanvas($("canvas-words"), {tab: "words", multi: true, send}),
 };
 on("canvas", c => canvases[c.tab] && canvases[c.tab].update(c));
@@ -299,6 +305,8 @@ on("overlay", o => {
 });
 
 $("apply-layout").onclick = () => send("apply_layout", {preset: OPT.layout_preset, selected: canvases.words.selected()});
+$("wbw-scope").onchange = e => set("wbw_scope", e.target.value);
+$("space-words").onclick = () => send("space_words", {selected: canvases.wordbyword.selected()});
 
 on("history", h => {
     for (const b of $$("[data-undo]")) { b.disabled = !h.undo; b.title = !h.undo ? "Nothing to undo" : h.undo === 1 ? "Undo (Ctrl+Z) - 1 step" : `Undo (Ctrl+Z) - ${h.undo} steps`; }

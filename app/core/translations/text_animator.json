@@ -1529,5 +1529,275 @@
   "中文": "每个字母依次从无到有弹出。",
   "العربية": "يبرز كل حرف من العدم، واحدًا تلو الآخر.",
   "Tiếng Việt": "Từng chữ lần lượt bật ra từ hư không."
+ },
+ "Word-by-word": {
+  "日本語": "単語ごと",
+  "Español": "Palabra por palabra",
+  "Deutsch": "Wort für Wort",
+  "Français": "Mot par mot",
+  "한국어": "단어별",
+  "中文": "逐词",
+  "العربية": "كلمة بكلمة",
+  "Tiếng Việt": "Từng từ"
+ },
+ "For animations with one word per Text+ clip. Drag across empty space to select some of the words; Shift-click adds one.": {
+  "日本語": "1 つの Text+ クリップに 1 単語ずつのアニメーション用です。空いている所をドラッグして一部の単語を選択し、Shift キーを押しながらクリックすると 1 つ追加できます。",
+  "Español": "Para animaciones con una palabra por clip de Text+. Arrastra sobre un espacio vacío para seleccionar algunas de las palabras; Mayús + clic añade una.",
+  "Deutsch": "Für Animationen mit einem Wort pro Text+-Clip. Ziehe über eine leere Stelle, um einige der Wörter auszuwählen; Umschalt-Klick fügt eines hinzu.",
+  "Français": "Pour les animations avec un mot par clip Text+. Faites glisser sur un espace vide pour sélectionner certains mots ; Maj-clic en ajoute un.",
+  "한국어": "Text+ 클립 하나에 단어 하나씩인 애니메이션용입니다. 빈 곳을 드래그해 일부 단어를 선택하고, Shift 클릭으로 하나를 추가합니다.",
+  "中文": "用于每个 Text+ 片段一个单词的动画。在空白处拖动可选择部分单词；按住 Shift 点击可添加一个。",
+  "العربية": "للرسوم المتحركة التي تضم كلمة واحدة في كل مقطع Text+. اسحب فوق مساحة فارغة لتحديد بعض الكلمات؛ النقر مع Shift يضيف كلمة.",
+  "Tiếng Việt": "Dành cho hoạt ảnh có một từ trên mỗi clip Text+. Kéo qua vùng trống để chọn một số từ; Shift-bấm để thêm một từ."
+ },
+ "Space as one": {
+  "日本語": "1 つとして配置",
+  "Español": "Espaciar como una sola",
+  "Deutsch": "Wie ein Clip anordnen",
+  "Français": "Espacer comme un seul",
+  "한국어": "하나처럼 배치",
+  "中文": "作为一个整体排布",
+  "العربية": "تباعد ككتلة واحدة",
+  "Tiếng Việt": "Giãn cách như một"
+ },
+ "Sets single-word Text+ clips out the way one Text+ clip would show them as a sentence: the same space between words and between lines, in the order the clips start on the timeline. Each word keeps its own font and size, and the words stay centred where they are.": {
+  "日本語": "1 単語の Text+ クリップを、1 つの Text+ クリップが文として表示するように並べます。単語の間隔も行の間隔も同じで、タイムライン上でクリップが始まる順になります。各単語のフォントとサイズはそのままで、単語は今ある場所を中心に配置されます。",
+  "Español": "Coloca los clips de Text+ de una sola palabra como los mostraría un único clip de Text+ en forma de frase: el mismo espacio entre palabras y entre líneas, en el orden en que empiezan los clips en la línea de tiempo. Cada palabra conserva su fuente y su tamaño, y las palabras quedan centradas donde están.",
+  "Deutsch": "Ordnet Text+-Clips mit je einem Wort so an, wie ein einzelner Text+-Clip sie als Satz zeigen würde: derselbe Abstand zwischen Wörtern und zwischen Zeilen, in der Reihenfolge, in der die Clips auf der Timeline beginnen. Jedes Wort behält seine Schrift und Größe, und die Wörter bleiben dort zentriert, wo sie sind.",
+  "Français": "Dispose les clips Text+ d'un seul mot comme un seul clip Text+ les afficherait en phrase : le même espace entre les mots et entre les lignes, dans l'ordre où les clips commencent sur la timeline. Chaque mot garde sa police et sa taille, et les mots restent centrés là où ils sont.",
+  "한국어": "단어 하나짜리 Text+ 클립들을, Text+ 클립 하나가 문장으로 보여 줄 때처럼 배치합니다. 단어 사이와 줄 사이 간격이 같고, 타임라인에서 클립이 시작하는 순서를 따릅니다. 각 단어는 글꼴과 크기를 그대로 유지하고, 단어들은 지금 있는 곳을 중심으로 놓입니다.",
+  "中文": "将单词 Text+ 片段按一个 Text+ 片段显示整句的方式排布：词间距和行间距相同，按片段在时间线上开始的先后排列。每个单词保留自己的字体和大小，单词组保持在当前位置居中。",
+  "العربية": "يرتّب مقاطع Text+ ذات الكلمة الواحدة كما يعرضها مقطع Text+ واحد في جملة: المسافة نفسها بين الكلمات وبين الأسطر، بترتيب بدء المقاطع على الخط الزمني. تحتفظ كل كلمة بخطها وحجمها، وتبقى الكلمات متمركزة حيث هي.",
+  "Tiếng Việt": "Sắp xếp các clip Text+ một từ theo cách một clip Text+ duy nhất hiển thị chúng thành câu: cùng khoảng cách giữa các từ và giữa các dòng, theo thứ tự các clip bắt đầu trên timeline. Mỗi từ giữ phông chữ và cỡ chữ của nó, và các từ vẫn được căn giữa tại chỗ hiện tại."
+ },
+ "Lines": {
+  "日本語": "行数",
+  "Español": "Líneas",
+  "Deutsch": "Zeilen",
+  "Français": "Lignes",
+  "한국어": "줄 수",
+  "中文": "行数",
+  "العربية": "الأسطر",
+  "Tiếng Việt": "Số dòng"
+ },
+ "Auto": {
+  "日本語": "自動",
+  "Español": "Auto",
+  "Deutsch": "Auto",
+  "Français": "Auto",
+  "한국어": "자동",
+  "中文": "自动",
+  "العربية": "تلقائي",
+  "Tiếng Việt": "Tự động"
+ },
+ "Space words": {
+  "日本語": "単語を配置",
+  "Español": "Espaciar palabras",
+  "Deutsch": "Wörter anordnen",
+  "Français": "Espacer les mots",
+  "한국어": "단어 배치",
+  "中文": "排布单词",
+  "العربية": "تباعد الكلمات",
+  "Tiếng Việt": "Giãn cách từ"
+ },
+ "Each group of single-word clips that are on screen together, anywhere on the timeline. Auto uses the fewest lines, up to 3, that fit in 90% of the frame's width.": {
+  "日本語": "タイムライン上のどこでも、同時に画面に出ている 1 単語クリップのグループごとに行います。自動では、フレーム幅の 90% に収まる最少の行数（最大 3 行）を使います。",
+  "Español": "Cada grupo de clips de una palabra que están en pantalla a la vez, en cualquier parte de la línea de tiempo. Auto usa el menor número de líneas, hasta 3, que quepa en el 90 % del ancho del cuadro.",
+  "Deutsch": "Jede Gruppe von Ein-Wort-Clips, die gleichzeitig im Bild sind, überall auf der Timeline. Auto nimmt die wenigsten Zeilen, bis zu 3, die in 90 % der Bildbreite passen.",
+  "Français": "Chaque groupe de clips d'un mot à l'écran en même temps, partout sur la timeline. Auto utilise le moins de lignes possible, jusqu'à 3, qui tiennent dans 90 % de la largeur de l'image.",
+  "한국어": "타임라인 어디에서든 화면에 함께 나오는 단어 하나짜리 클립 그룹마다 적용합니다. 자동은 프레임 너비의 90%에 들어가는 가장 적은 줄 수(최대 3줄)를 사용합니다.",
+  "中文": "时间线上任何位置同时出现在画面中的每组单词片段。“自动”使用能放进画面宽度 90% 的最少行数，最多 3 行。",
+  "العربية": "كل مجموعة من مقاطع الكلمة الواحدة الظاهرة على الشاشة معًا، في أي مكان على الخط الزمني. يستخدم الوضع التلقائي أقل عدد من الأسطر، حتى 3، يتسع ضمن 90% من عرض الإطار.",
+  "Tiếng Việt": "Mỗi nhóm clip một từ cùng xuất hiện trên màn hình, ở bất kỳ đâu trên timeline. Tự động dùng ít dòng nhất, tối đa 3, vừa trong 90% chiều rộng khung hình."
+ },
+ "The words selected in the preview, or every single-word clip under the playhead. Auto uses the fewest lines, up to 3, that fit in 90% of the frame's width.": {
+  "日本語": "プレビューで選択した単語、または再生ヘッド下のすべての 1 単語クリップです。自動では、フレーム幅の 90% に収まる最少の行数（最大 3 行）を使います。",
+  "Español": "Las palabras seleccionadas en la vista previa, o todos los clips de una palabra bajo el cabezal. Auto usa el menor número de líneas, hasta 3, que quepa en el 90 % del ancho del cuadro.",
+  "Deutsch": "Die in der Vorschau ausgewählten Wörter oder jeder Ein-Wort-Clip unter dem Abspielkopf. Auto nimmt die wenigsten Zeilen, bis zu 3, die in 90 % der Bildbreite passen.",
+  "Français": "Les mots sélectionnés dans l'aperçu, ou chaque clip d'un mot sous la tête de lecture. Auto utilise le moins de lignes possible, jusqu'à 3, qui tiennent dans 90 % de la largeur de l'image.",
+  "한국어": "미리보기에서 선택한 단어, 또는 재생 헤드 아래의 모든 단어 하나짜리 클립입니다. 자동은 프레임 너비의 90%에 들어가는 가장 적은 줄 수(최대 3줄)를 사용합니다.",
+  "中文": "预览中选中的单词，或播放头下的所有单词片段。“自动”使用能放进画面宽度 90% 的最少行数，最多 3 行。",
+  "العربية": "الكلمات المحددة في المعاينة، أو كل مقطع كلمة واحدة تحت رأس التشغيل. يستخدم الوضع التلقائي أقل عدد من الأسطر، حتى 3، يتسع ضمن 90% من عرض الإطار.",
+  "Tiếng Việt": "Các từ được chọn trong bản xem trước, hoặc mọi clip một từ dưới đầu phát. Tự động dùng ít dòng nhất, tối đa 3, vừa trong 90% chiều rộng khung hình."
+ },
+ "No single-word Text+ clips on screen together on this timeline.": {
+  "日本語": "このタイムラインには、同時に画面に出ている 1 単語の Text+ クリップがありません。",
+  "Español": "No hay clips de Text+ de una palabra en pantalla a la vez en esta línea de tiempo.",
+  "Deutsch": "Auf dieser Timeline sind keine Ein-Wort-Text+-Clips gleichzeitig im Bild.",
+  "Français": "Aucun clip Text+ d'un mot à l'écran en même temps sur cette timeline.",
+  "한국어": "이 타임라인에는 화면에 함께 나오는 단어 하나짜리 Text+ 클립이 없습니다.",
+  "中文": "此时间线上没有同时出现在画面中的单词 Text+ 片段。",
+  "العربية": "لا توجد على هذا الخط الزمني مقاطع Text+ ذات كلمة واحدة ظاهرة على الشاشة معًا.",
+  "Tiếng Việt": "Timeline này không có clip Text+ một từ nào cùng xuất hiện trên màn hình."
+ },
+ "Needs at least 2 single-word Text+ clips under the playhead.": {
+  "日本語": "再生ヘッド下に 1 単語の Text+ クリップが 2 つ以上必要です。",
+  "Español": "Se necesitan al menos 2 clips de Text+ de una palabra bajo el cabezal.",
+  "Deutsch": "Es werden mindestens 2 Ein-Wort-Text+-Clips unter dem Abspielkopf gebraucht.",
+  "Français": "Il faut au moins 2 clips Text+ d'un mot sous la tête de lecture.",
+  "한국어": "재생 헤드 아래에 단어 하나짜리 Text+ 클립이 2개 이상 필요합니다.",
+  "中文": "播放头下至少需要 2 个单词 Text+ 片段。",
+  "العربية": "يلزم مقطعا Text+ ذوا كلمة واحدة على الأقل تحت رأس التشغيل.",
+  "Tiếng Việt": "Cần ít nhất 2 clip Text+ một từ dưới đầu phát."
+ },
+ "Spaced {n} groups of words": {
+  "日本語": "{n} グループの単語を配置しました",
+  "Español": "Se espaciaron {n} grupos de palabras",
+  "Deutsch": "{n} Wortgruppen angeordnet",
+  "Français": "{n} groupes de mots espacés",
+  "한국어": "단어 그룹 {n}개를 배치했습니다",
+  "中文": "已排布 {n} 组单词",
+  "العربية": "تم تباعد {n} من مجموعات الكلمات",
+  "Tiếng Việt": "Đã giãn cách {n} nhóm từ"
+ },
+ "Spaced {n} words on {lines} line(s)": {
+  "日本語": "{n} 単語を {lines} 行に配置しました",
+  "Español": "Se espaciaron {n} palabras en {lines} línea(s)",
+  "Deutsch": "{n} Wörter auf {lines} Zeile(n) angeordnet",
+  "Français": "{n} mots espacés sur {lines} ligne(s)",
+  "한국어": "단어 {n}개를 {lines}줄에 배치했습니다",
+  "中文": "已将 {n} 个单词排布为 {lines} 行",
+  "العربية": "تم تباعد {n} كلمات على {lines} سطر",
+  "Tiếng Việt": "Đã giãn cách {n} từ trên {lines} dòng"
+ },
+ "Spacing words…": {
+  "日本語": "単語を配置しています…",
+  "Español": "Espaciando palabras…",
+  "Deutsch": "Wörter werden angeordnet…",
+  "Français": "Espacement des mots…",
+  "한국어": "단어를 배치하는 중…",
+  "中文": "正在排布单词…",
+  "العربية": "جارٍ تباعد الكلمات…",
+  "Tiếng Việt": "Đang giãn cách từ…"
+ },
+ "Stack on their own tracks": {
+  "日本語": "それぞれ別のトラックに重ねる",
+  "Español": "Apilar en pistas propias",
+  "Deutsch": "Auf eigene Spuren stapeln",
+  "Français": "Empiler sur des pistes séparées",
+  "한국어": "각자 트랙에 쌓기",
+  "中文": "分别堆叠到各自的轨道",
+  "العربية": "تكديس كلٍّ على مساره",
+  "Tiếng Việt": "Xếp chồng lên rãnh riêng"
+ },
+ "Copies the timeline with each Text+ clip selected on Resolve's timeline on a video track of its own, lasting until the playhead, so the words build up and stay on screen together. The copy opens in Resolve; this timeline isn't changed. Needs DaVinci Resolve 21.0.4 or later.": {
+  "日本語": "Resolve のタイムラインで選択した Text+ クリップを、それぞれ専用のビデオトラックに置き、再生ヘッドの位置まで伸ばしたタイムラインのコピーを作ります。単語が積み重なり、一緒に画面に残ります。コピーは Resolve で開き、このタイムラインは変更されません。DaVinci Resolve 21.0.4 以降が必要です。",
+  "Español": "Copia la línea de tiempo con cada clip de Text+ seleccionado en la línea de tiempo de Resolve en una pista de vídeo propia, hasta el cabezal, para que las palabras se acumulen y queden juntas en pantalla. La copia se abre en Resolve; esta línea de tiempo no cambia. Necesita DaVinci Resolve 21.0.4 o posterior.",
+  "Deutsch": "Kopiert die Timeline, wobei jeder auf der Resolve-Timeline ausgewählte Text+-Clip eine eigene Videospur bekommt und bis zum Abspielkopf dauert – so bauen sich die Wörter auf und bleiben zusammen im Bild. Die Kopie öffnet sich in Resolve; diese Timeline bleibt unverändert. Erfordert DaVinci Resolve 21.0.4 oder neuer.",
+  "Français": "Copie la timeline en plaçant chaque clip Text+ sélectionné sur la timeline de Resolve sur une piste vidéo à lui, jusqu'à la tête de lecture, pour que les mots s'accumulent et restent ensemble à l'écran. La copie s'ouvre dans Resolve ; cette timeline n'est pas modifiée. Nécessite DaVinci Resolve 21.0.4 ou ultérieur.",
+  "한국어": "Resolve 타임라인에서 선택한 Text+ 클립을 각각 자기 비디오 트랙에 놓고 재생 헤드까지 늘린 타임라인 사본을 만듭니다. 단어가 쌓이며 함께 화면에 남습니다. 사본은 Resolve에서 열리고, 이 타임라인은 바뀌지 않습니다. DaVinci Resolve 21.0.4 이상이 필요합니다.",
+  "中文": "复制时间线，把在 Resolve 时间线上选中的每个 Text+ 片段放到各自的视频轨道上，并延长到播放头处，让单词逐个累积并一起留在画面中。副本会在 Resolve 中打开；此时间线不会改变。需要 DaVinci Resolve 21.0.4 或更高版本。",
+  "العربية": "ينسخ الخط الزمني ويضع كل مقطع Text+ محدد على الخط الزمني في Resolve على مسار فيديو خاص به، ممتدًا حتى رأس التشغيل، لتتراكم الكلمات وتبقى على الشاشة معًا. تُفتح النسخة في Resolve؛ ولا يتغير هذا الخط الزمني. يتطلب DaVinci Resolve 21.0.4 أو أحدث.",
+  "Tiếng Việt": "Sao chép timeline, đặt mỗi clip Text+ được chọn trên timeline của Resolve lên một rãnh video riêng, kéo dài đến đầu phát, để các từ lần lượt xuất hiện và cùng ở lại trên màn hình. Bản sao mở trong Resolve; timeline này không bị thay đổi. Cần DaVinci Resolve 21.0.4 trở lên."
+ },
+ "Stack selected clips": {
+  "日本語": "選択したクリップを重ねる",
+  "Español": "Apilar clips seleccionados",
+  "Deutsch": "Ausgewählte Clips stapeln",
+  "Français": "Empiler les clips sélectionnés",
+  "한국어": "선택한 클립 쌓기",
+  "中文": "堆叠所选片段",
+  "العربية": "تكديس المقاطع المحددة",
+  "Tiếng Việt": "Xếp chồng clip đã chọn"
+ },
+ "Select the Text+ clips to stack on Resolve's timeline first.": {
+  "日本語": "先に Resolve のタイムラインで重ねる Text+ クリップを選択してください。",
+  "Español": "Primero selecciona en la línea de tiempo de Resolve los clips de Text+ que quieras apilar.",
+  "Deutsch": "Wähle zuerst auf der Resolve-Timeline die Text+-Clips aus, die gestapelt werden sollen.",
+  "Français": "Sélectionnez d'abord sur la timeline de Resolve les clips Text+ à empiler.",
+  "한국어": "먼저 Resolve 타임라인에서 쌓을 Text+ 클립을 선택하세요.",
+  "中文": "请先在 Resolve 时间线上选择要堆叠的 Text+ 片段。",
+  "العربية": "حدّد أولًا مقاطع Text+ المراد تكديسها على الخط الزمني في Resolve.",
+  "Tiếng Việt": "Hãy chọn trước các clip Text+ cần xếp chồng trên timeline của Resolve."
+ },
+ "'{text}' starts at or after the playhead – put the playhead where the words should end.": {
+  "日本語": "「{text}」は再生ヘッドの位置かそれより後から始まります。単語を終わらせたい位置に再生ヘッドを置いてください。",
+  "Español": "«{text}» empieza en el cabezal o después: pon el cabezal donde deban terminar las palabras.",
+  "Deutsch": "„{text}“ beginnt am oder nach dem Abspielkopf – setze den Abspielkopf dorthin, wo die Wörter enden sollen.",
+  "Français": "« {text} » commence à la tête de lecture ou après : placez la tête de lecture là où les mots doivent finir.",
+  "한국어": "'{text}'이(가) 재생 헤드 위치나 그 뒤에서 시작합니다. 단어가 끝날 곳에 재생 헤드를 두세요.",
+  "中文": "“{text}”从播放头处或之后开始——请把播放头放在单词应结束的位置。",
+  "العربية": "يبدأ '{text}' عند رأس التشغيل أو بعده – ضع رأس التشغيل حيث يجب أن تنتهي الكلمات.",
+  "Tiếng Việt": "'{text}' bắt đầu tại hoặc sau đầu phát – hãy đặt đầu phát ở chỗ các từ cần kết thúc."
+ },
+ "Stacked {n} Text+ clips on {tracks} tracks in '{name}'": {
+  "日本語": "「{name}」で {n} 個の Text+ クリップを {tracks} トラックに重ねました",
+  "Español": "Se apilaron {n} clips de Text+ en {tracks} pistas en «{name}»",
+  "Deutsch": "{n} Text+-Clips auf {tracks} Spuren gestapelt, in „{name}“",
+  "Français": "{n} clips Text+ empilés sur {tracks} pistes dans « {name} »",
+  "한국어": "'{name}'에서 Text+ 클립 {n}개를 트랙 {tracks}개에 쌓았습니다",
+  "中文": "已在“{name}”中把 {n} 个 Text+ 片段堆叠到 {tracks} 条轨道上",
+  "العربية": "تم تكديس {n} من مقاطع Text+ على {tracks} مسارات في '{name}'",
+  "Tiếng Việt": "Đã xếp {n} clip Text+ lên {tracks} rãnh trong '{name}'"
+ },
+ "Stacking the clips…": {
+  "日本語": "クリップを重ねています…",
+  "Español": "Apilando los clips…",
+  "Deutsch": "Clips werden gestapelt…",
+  "Français": "Empilement des clips…",
+  "한국어": "클립을 쌓는 중…",
+  "中文": "正在堆叠片段…",
+  "العربية": "جارٍ تكديس المقاطع…",
+  "Tiếng Việt": "Đang xếp chồng clip…"
+ },
+ "{n} of the clips weren't in the exported timeline – nothing was changed.": {
+  "日本語": "書き出したタイムラインにクリップのうち {n} 個がありませんでした。何も変更していません。",
+  "Español": "{n} de los clips no estaban en la línea de tiempo exportada; no se cambió nada.",
+  "Deutsch": "{n} der Clips waren nicht in der exportierten Timeline – es wurde nichts geändert.",
+  "Français": "{n} des clips n'étaient pas dans la timeline exportée ; rien n'a été modifié.",
+  "한국어": "내보낸 타임라인에 클립 {n}개가 없었습니다. 아무것도 바뀌지 않았습니다.",
+  "中文": "导出的时间线中缺少 {n} 个片段——未做任何更改。",
+  "العربية": "لم يكن {n} من المقاطع في الخط الزمني المُصدَّر – لم يتغير شيء.",
+  "Tiếng Việt": "{n} clip không có trong timeline đã xuất – không có gì bị thay đổi."
+ },
+ "The exported timeline isn't in a form Buddy knows – update Buddy, or stack the clips by hand.": {
+  "日本語": "書き出したタイムラインは Buddy が知らない形式です。Buddy を更新するか、手作業でクリップを重ねてください。",
+  "Español": "La línea de tiempo exportada no tiene un formato que Buddy conozca: actualiza Buddy o apila los clips a mano.",
+  "Deutsch": "Die exportierte Timeline hat eine Form, die Buddy nicht kennt – aktualisiere Buddy oder staple die Clips von Hand.",
+  "Français": "La timeline exportée n'est pas dans une forme que Buddy connaît : mettez Buddy à jour ou empilez les clips à la main.",
+  "한국어": "내보낸 타임라인이 Buddy가 모르는 형식입니다. Buddy를 업데이트하거나 클립을 직접 쌓으세요.",
+  "中文": "导出的时间线格式 Buddy 无法识别——请更新 Buddy，或手动堆叠片段。",
+  "العربية": "الخط الزمني المُصدَّر ليس بصيغة يعرفها Buddy – حدّث Buddy أو كدّس المقاطع يدويًا.",
+  "Tiếng Việt": "Timeline đã xuất có dạng Buddy không nhận ra – hãy cập nhật Buddy hoặc tự xếp chồng các clip."
+ },
+ "With several Text+ clips selected, don't click into Resolve's Inspector Text box (it shows --): Resolve writes that empty box into every selected clip, and their words are gone.": {
+  "日本語": "複数の Text+ クリップを選択しているときは、Resolve のインスペクタの Text 欄（-- と表示）をクリックしないでください。Resolve がその空の欄を選択中のすべてのクリップに書き込み、文字が消えてしまいます。",
+  "Español": "Con varios clips de Text+ seleccionados, no hagas clic en el cuadro Text del Inspector de Resolve (muestra --): Resolve escribe ese cuadro vacío en todos los clips seleccionados y sus palabras desaparecen.",
+  "Deutsch": "Wenn mehrere Text+-Clips ausgewählt sind, klicke nicht in das Textfeld des Resolve-Inspektors (es zeigt --): Resolve schreibt dieses leere Feld in jeden ausgewählten Clip, und ihre Wörter sind weg.",
+  "Français": "Avec plusieurs clips Text+ sélectionnés, ne cliquez pas dans la zone Text de l'inspecteur de Resolve (elle affiche --) : Resolve écrit cette zone vide dans chaque clip sélectionné, et leurs mots disparaissent.",
+  "한국어": "Text+ 클립을 여러 개 선택한 상태에서는 Resolve 인스펙터의 Text 상자(--로 표시됨)를 클릭하지 마세요. Resolve가 그 빈 상자를 선택한 모든 클립에 써 넣어 단어가 사라집니다.",
+  "中文": "选中多个 Text+ 片段时，请不要点击 Resolve 检查器的 Text 框（显示为 --）：Resolve 会把这个空框写入每个选中的片段，它们的文字就没了。",
+  "العربية": "عند تحديد عدة مقاطع Text+، لا تنقر داخل مربع Text في Inspector الخاص بـ Resolve (يظهر --): يكتب Resolve ذلك المربع الفارغ في كل مقطع محدد، فتختفي كلماتها.",
+  "Tiếng Việt": "Khi đang chọn nhiều clip Text+, đừng bấm vào ô Text trong Inspector của Resolve (hiện --): Resolve sẽ ghi ô trống đó vào mọi clip đang chọn, và chữ của chúng sẽ mất."
+ },
+ "Word spacing": {
+  "日本語": "単語の間隔",
+  "Español": "Espacio entre palabras",
+  "Deutsch": "Wortabstand",
+  "Français": "Espace entre les mots",
+  "한국어": "단어 간격",
+  "中文": "词间距",
+  "العربية": "المسافة بين الكلمات",
+  "Tiếng Việt": "Khoảng cách từ"
+ },
+ "Word spacing: 1 is the space one Text+ clip would put between the words, 0 has them touching, 2 is twice as wide. Double-click the slider to go back to 1.": {
+  "日本語": "単語の間隔：1 は 1 つの Text+ クリップが単語の間に置く間隔、0 は単語どうしが接し、2 はその 2 倍です。スライダーをダブルクリックすると 1 に戻ります。",
+  "Español": "Espacio entre palabras: 1 es el espacio que pondría un solo clip de Text+ entre las palabras, 0 las junta y 2 es el doble. Haz doble clic en el control para volver a 1.",
+  "Deutsch": "Wortabstand: 1 ist der Abstand, den ein einzelner Text+-Clip zwischen die Wörter setzen würde, bei 0 berühren sie sich, 2 ist doppelt so breit. Doppelklick auf den Regler setzt ihn auf 1 zurück.",
+  "Français": "Espace entre les mots : 1 est l'espace qu'un seul clip Text+ mettrait entre les mots, 0 les colle, 2 est deux fois plus large. Double-cliquez sur le curseur pour revenir à 1.",
+  "한국어": "단어 간격: 1은 Text+ 클립 하나가 단어 사이에 두는 간격이고, 0은 단어가 붙으며, 2는 두 배입니다. 슬라이더를 더블클릭하면 1로 돌아갑니다.",
+  "中文": "词间距：1 是单个 Text+ 片段在单词之间留的间距，0 让单词紧挨着，2 是两倍宽。双击滑块可恢复为 1。",
+  "العربية": "المسافة بين الكلمات: 1 هي المسافة التي يضعها مقطع Text+ واحد بين الكلمات، و0 تجعلها متلاصقة، و2 ضعف العرض. انقر نقرًا مزدوجًا على شريط التمرير للعودة إلى 1.",
+  "Tiếng Việt": "Khoảng cách từ: 1 là khoảng một clip Text+ sẽ đặt giữa các từ, 0 cho các từ sát nhau, 2 là rộng gấp đôi. Bấm đúp vào thanh trượt để về lại 1."
+ },
+ "{blank} of the {n} selected Text+ clips have no text, so nothing was stacked. If they had words, Resolve's Inspector may have emptied them: with several Text+ clips selected, clicking into its Text box (it shows --) writes that empty box into every selected clip. Undo in Resolve ({undo}) may bring the words back.": {
+  "日本語": "選択した {n} 個の Text+ クリップのうち {blank} 個に文字がないため、何も重ねていません。文字があったのなら、Resolve のインスペクタが消した可能性があります。複数の Text+ クリップを選択した状態でその Text 欄（-- と表示）をクリックすると、空の欄が選択中のすべてのクリップに書き込まれます。Resolve の取り消し（{undo}）で文字が戻るかもしれません。",
+  "Español": "{blank} de los {n} clips de Text+ seleccionados no tienen texto, así que no se apiló nada. Si tenían palabras, puede que el Inspector de Resolve las borrara: con varios clips de Text+ seleccionados, hacer clic en su cuadro Text (muestra --) escribe ese cuadro vacío en todos los clips seleccionados. Deshacer en Resolve ({undo}) puede recuperar las palabras.",
+  "Deutsch": "{blank} der {n} ausgewählten Text+-Clips haben keinen Text, deshalb wurde nichts gestapelt. Hatten sie Wörter, hat sie vielleicht der Inspektor von Resolve geleert: Sind mehrere Text+-Clips ausgewählt, schreibt ein Klick in sein Textfeld (es zeigt --) dieses leere Feld in jeden ausgewählten Clip. Rückgängig in Resolve ({undo}) holt die Wörter vielleicht zurück.",
+  "Français": "{blank} des {n} clips Text+ sélectionnés n'ont pas de texte, donc rien n'a été empilé. S'ils avaient des mots, l'inspecteur de Resolve les a peut-être vidés : avec plusieurs clips Text+ sélectionnés, cliquer dans sa zone Text (elle affiche --) écrit cette zone vide dans chaque clip sélectionné. Annuler dans Resolve ({undo}) peut ramener les mots.",
+  "한국어": "선택한 Text+ 클립 {n}개 중 {blank}개에 글자가 없어 아무것도 쌓지 않았습니다. 원래 단어가 있었다면 Resolve 인스펙터가 지웠을 수 있습니다. Text+ 클립을 여러 개 선택한 상태에서 Text 상자(--로 표시됨)를 클릭하면 그 빈 상자가 선택한 모든 클립에 써집니다. Resolve에서 실행 취소({undo})하면 단어가 돌아올 수 있습니다.",
+  "中文": "所选的 {n} 个 Text+ 片段中有 {blank} 个没有文字，因此没有堆叠任何片段。如果它们原本有文字，可能是 Resolve 的检查器清空了它们：选中多个 Text+ 片段时，点击其 Text 框（显示为 --）会把这个空框写入每个选中的片段。在 Resolve 中撤销（{undo}）也许能找回文字。",
+  "العربية": "{blank} من أصل {n} مقاطع Text+ المحددة بلا نص، لذا لم يُكدَّس شيء. إن كانت فيها كلمات، فربما أفرغها Inspector في Resolve: عند تحديد عدة مقاطع Text+، يؤدي النقر داخل مربع Text فيه (يظهر --) إلى كتابة ذلك المربع الفارغ في كل مقطع محدد. قد يعيد التراجع في Resolve ({undo}) الكلمات.",
+  "Tiếng Việt": "{blank} trong {n} clip Text+ đã chọn không có chữ, nên không xếp chồng gì cả. Nếu chúng từng có chữ, có thể Inspector của Resolve đã xóa: khi đang chọn nhiều clip Text+, bấm vào ô Text của nó (hiện --) sẽ ghi ô trống đó vào mọi clip đang chọn. Hoàn tác trong Resolve ({undo}) có thể lấy lại chữ."
  }
 }

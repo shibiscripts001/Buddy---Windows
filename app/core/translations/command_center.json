@@ -1,0 +1,23 @@
+{
+ "_comment": "Command Center. English -> each language; see core/i18n.py.",
+ "Command Center": {
+  "日本語": "コマンドセンター",
+  "Español": "Centro de comandos",
+  "Deutsch": "Befehlszentrale",
+  "Français": "Centre de commande",
+  "한국어": "커맨드 센터",
+  "中文": "命令中心",
+  "العربية": "مركز الأوامر",
+  "Tiếng Việt": "Trung tâm lệnh"
+ },
+ "This tab is in place; setting up hot keys for Buddy's actions is still being built.": {
+  "日本語": "このタブは用意できました。Buddy の操作にホットキーを割り当てる機能は現在作成中です。",
+  "Español": "Esta pestaña ya está lista; la configuración de atajos de teclado para las acciones de Buddy aún se está creando.",
+  "Deutsch": "Dieser Tab ist schon da; Tastenkürzel für Buddys Aktionen werden noch gebaut.",
+  "Français": "Cet onglet est en place ; la configuration des raccourcis clavier pour les actions de Buddy est encore en préparation.",
+  "한국어": "이 탭은 준비되었습니다. Buddy 작업에 단축키를 지정하는 기능은 아직 만드는 중입니다.",
+  "中文": "此标签页已就位；为 Buddy 的操作设置快捷键的功能仍在开发中。",
+  "العربية": "هذا التبويب جاهز؛ وإعداد اختصارات لوحة المفاتيح لإجراءات Buddy لا يزال قيد الإنشاء.",
+  "Tiếng Việt": "Thẻ này đã có; tính năng đặt phím tắt cho các thao tác của Buddy vẫn đang được xây dựng."
+ }
+}

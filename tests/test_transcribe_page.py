@@ -162,7 +162,7 @@ class FakeResolve:
         return SimpleNamespace(name=FakeResolve.open_timeline, duration_seconds=600, start_timecode="01:00:00:00",
                                subtitle_items_on_track1=FakeResolve.existing)
 
-    def place_subtitles(self, srt, replace_existing=False):
+    def place_subtitles(self, srt, replace_existing=False, log=lambda msg: None):
         FakeResolve.placed.append((srt, replace_existing))
         return 12
 
@@ -446,7 +446,7 @@ class PageTests(unittest.TestCase):
 
     def test_the_text_plus_tabs_are_hosted_here(self):
         self.assertEqual(self.page_mod.TABS, ("subtitles", "translate", "convert", "style", "layout",
-                                              "animation", "words", "setup"))
+                                              "wordbyword", "animation", "words", "setup"))
         tools = self.page.textplus
         with mock.patch.object(tools, "tab_shown") as shown:
             self.page.on_tab({"tab": "style"})

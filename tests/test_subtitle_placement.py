@@ -3,7 +3,10 @@ place_subtitles) against a fake Resolve that does what Resolve 21.1 was
 measured doing: the first AppendToTimeline on a timeline with anything on
 it puts every cue after the end of the timeline's content; placed again,
 the cues land where the SRT says. Every placement is checked cue by cue,
-redone once if it's off, and never left misplaced."""
+redone once if it's off, and never left misplaced. On a switched-off track
+it puts nothing at all, so the track is switched on (and unlocked) first.
+Resolve appends to its destination subtitle track, which scripts can't set:
+when that isn't ST1, what landed elsewhere is taken off and that's said."""
 
 import os
 import tempfile
@@ -26,9 +29,27 @@ class Item:
 
 
 class Timeline:
-    def __init__(self, fps="24", has_content=True, always_off=0):
-        self.fps, self.subs, self.appends = fps, [], 0
+    def __init__(self, fps="24", has_content=True, always_off=0, enabled=True, locked=False, destination=1,
+                 tracks=1, subs=()):
+        self.fps, self.subs, self.appends = fps, list(subs), 0
         self.has_content, self.always_off = has_content, always_off
+        self.enabled, self.locked = enabled, locked
+        self.destination, self.track2 = destination, [Item(START)]   # track 2 has one of its own
+        self.tracks = max(tracks, destination)
+
+    def GetIsTrackEnabled(self, kind, index):
+        return self.enabled
+
+    def SetTrackEnable(self, kind, index, enabled):
+        self.enabled = enabled
+        return True
+
+    def GetIsTrackLocked(self, kind, index):
+        return self.locked
+
+    def SetTrackLock(self, kind, index, locked):
+        self.locked = locked
+        return True
 
     def GetSetting(self, key):
         return self.fps if key == "timelineFrameRate" else None
@@ -37,25 +58,32 @@ class Timeline:
         return START
 
     def GetTrackCount(self, kind):
-        return 1
+        return self.tracks
 
     def AddTrack(self, kind):
         return True
 
     def GetItemListInTrack(self, kind, index):
-        return list(self.subs)
+        return list(self.subs if index == 1 else self.track2)
 
     def DeleteClips(self, items):
         self.subs = [s for s in self.subs if s not in items]
+        self.track2 = [s for s in self.track2 if s not in items]
         return True
 
     def place(self, cue_starts):
         """What Resolve does with AppendToTimeline([the SRT's item])."""
         self.appends += 1
+        if not self.enabled or self.locked:
+            return
         first_time = self.appends == 1
         shift = (CONTENT_END - START) if first_time and self.has_content else 0
         fps = float(self.fps)
-        self.subs = [Item(START + round(t * fps) + shift + self.always_off) for t in cue_starts]
+        placed = [Item(START + round(t * fps) + shift + self.always_off) for t in cue_starts]
+        if self.destination == 2:
+            self.track2 += placed
+        else:
+            self.subs += placed
 
 
 class MediaPool:
@@ -107,7 +135,7 @@ def srt(starts):
 class PlacementTests(unittest.TestCase):
     STARTS = [0.0, 5.0, 83.5, 600.0]
 
-    def place(self, timeline, starts=None):
+    def place(self, timeline, starts=None, log=lambda msg: None, replace=False):
         starts = self.STARTS if starts is None else starts
         project = Project(timeline, starts)
         controller = TranscribeController(type("C", (), {"current_project": lambda s: project})())
@@ -115,7 +143,7 @@ class PlacementTests(unittest.TestCase):
             path = os.path.join(folder, "t.srt")
             with open(path, "w", encoding="utf-8") as f:
                 f.write(srt(starts))
-            return controller.place_subtitles(path), project
+            return controller.place_subtitles(path, replace_existing=replace, log=log), project
 
     def assert_where_they_belong(self, timeline, fps=24.0):
         self.assertEqual(sorted(s.GetStart() for s in timeline.subs),
@@ -146,6 +174,49 @@ class PlacementTests(unittest.TestCase):
         self.assertEqual(tl.subs, [])                           # nothing left misplaced
         self.assertIn("2.0 s late", str(caught.exception))
         self.assertIn("SRT file is saved", str(caught.exception))
+
+    def test_a_switched_off_or_locked_track_is_opened_first_and_said(self):
+        tl = Timeline(has_content=False, enabled=False, locked=True)
+        said = []
+        placed, _ = self.place(tl, log=said.append)
+        self.assertEqual((placed, tl.enabled, tl.locked), (len(self.STARTS), True, False))
+        self.assert_where_they_belong(tl)
+        self.assertEqual(said, ["Subtitle track 1 was switched off in Resolve, so Buddy switched it on.",
+                                "Subtitle track 1 was locked in Resolve, so Buddy unlocked it."])
+
+    def test_an_open_track_is_left_as_it_is(self):
+        said = []
+        self.place(Timeline(has_content=False), log=said.append)
+        self.assertEqual(said, [])
+
+    def test_landing_on_another_destination_track_is_taken_off_and_said(self):
+        tl = Timeline(destination=2)
+        own = list(tl.track2)
+        with self.assertRaises(TranscribeResolveError) as caught:
+            self.place(tl)
+        self.assertEqual((tl.subs, tl.track2, tl.appends), ([], own, 1))    # its own subtitle stays
+        self.assertIn("subtitle track 2, its destination track", str(caught.exception))
+        self.assertIn("Make ST1 the destination", str(caught.exception))
+
+    def test_replacing_on_the_only_track_takes_the_old_ones_off_first(self):
+        tl = Timeline(subs=[Item(START + 5), Item(START + 50)])
+        placed, _ = self.place(tl, replace=True)
+        self.assertEqual(placed, len(self.STARTS))
+        self.assert_where_they_belong(tl)
+
+    def test_replacing_with_other_tracks_takes_the_old_ones_off_once_the_new_are_there(self):
+        tl = Timeline(tracks=2, subs=[Item(START + 5), Item(START + 50)])
+        placed, _ = self.place(tl, replace=True)
+        self.assertEqual((placed, tl.appends), (len(self.STARTS), 2))
+        self.assert_where_they_belong(tl)
+
+    def test_replacing_when_the_destination_is_another_track_keeps_the_old_ones(self):
+        old = [Item(START + 5), Item(START + 50)]
+        tl = Timeline(destination=2, subs=old)
+        own = list(tl.track2)
+        with self.assertRaises(TranscribeResolveError):
+            self.place(tl, replace=True)
+        self.assertEqual((tl.subs, tl.track2), (old, own))
 
     def test_a_frame_of_rounding_is_not_a_mistake(self):
         tl = Timeline(has_content=False, always_off=1)

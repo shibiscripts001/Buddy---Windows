@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 Text+ tools - font styling, placement, word layouts and animation presets for the
-Text+ clips on the open timeline. Transcribe's page hosts them as four of its tabs
-(Font Styling, Timeline Layout, Timeline Animation, Custom Animation), right after
-Subtitle Conversion, which makes the Text+ in the first place. The view is
+Text+ clips on the open timeline. Transcribe's page hosts them as five of its tabs
+(Font Styling, Timeline Layout, Word-by-word, Timeline Animation, Custom Animation), right
+after Subtitle Conversion, which makes the Text+ in the first place. The view is
 transcribe/web/textplus.js, the placement canvases transcribe/web/canvas.js; this
 package keeps the engine (subtitle_engine.py, animation_engine.py, canvas_math.py...).
 It was the Text Animator page; the Animation page (page.py) now only holds an empty
@@ -13,7 +13,7 @@ TextPlusTools is not a page: it lives inside one (see __init__). Every Resolve/F
 call for these tabs is here; the controls' values are read from options.Options (the
 settings bucket).
 
-The placement canvases (Timeline Layout, Custom Animation) show every Text+ clip under
+The placement canvases (Timeline Layout, Word-by-word, Custom Animation) show every Text+ clip under
 the playhead at its real position, font, size and colour, polled every 500 ms while the
 page and one of those tabs are on screen - Resolve has no change notifications. How big
 each clip's text draws, and where around its Center, is measured here (canvas_math.text_box,
@@ -35,11 +35,14 @@ the page's own):
     to the view    state, fonts, options, overlay, canvas, history, alert, toast
     from the view  refresh, set, overlay, reset_font, apply_style, move, group_move,
                    resize, bounding, apply_position, apply_bounding, apply_layout,
-                   apply_animation, remove_animations, undo, redo, dump
+                   space_words, stack_words, apply_animation, remove_animations, undo, redo, dump
 """
 
 import os
 import re
+import shutil
+import sys
+import tempfile
 import time
 import traceback
 from typing import Any, Dict, NamedTuple, Optional, Tuple
@@ -48,8 +51,9 @@ from PySide6.QtCore import QObject, QTimer
 from PySide6.QtGui import QFontDatabase
 
 from core.resolve_bridge import ResolveConnectionError
+from pages.transcribe import drt
 
-from . import canvas_math, overlays, text_measure
+from . import canvas_math, overlays, text_measure, word_by_word
 from .animation_engine import FusionAnimationEngine
 from .canvas_math import (
     cap_height_fraction,
@@ -68,7 +72,7 @@ from .font_utils import (
     split_font_name_and_style,
 )
 from .layout_presets import LAYOUT_PRESETS, compute_vertical_stack_centers, group_overlapping_clips
-from .live_preview import get_active_text_plus_items, parse_point
+from .live_preview import _get_current_frame, _read_text_tool_state, get_active_text_plus_items, parse_point
 from .options import Options
 from .subtitle_engine import get_timeline_resolution
 
@@ -85,10 +89,11 @@ AUTO_SPACE_WORDS_DEFAULT_SIZE = 0.08
 TABS = {
     "style": "Font Styling",
     "layout": "Timeline Layout",
+    "wordbyword": "Word-by-word",
     "animation": "Timeline Animation",
     "words": "Custom Animation",
 }
-_CANVAS_TABS = ("layout", "words")
+_CANVAS_TABS = ("layout", "wordbyword", "words")
 _LIVE_TABS = _CANVAS_TABS + ("style",)   # polled for the Text+ under the playhead
 # Around each clip's box, as a fraction of frame width: none - the box is the lines' own
 # (canvas_math.text_box), so its edges are what lines words up.
@@ -685,6 +690,251 @@ class TextPlusTools(QObject):
             except Exception as err:
                 self.log(f"[Word Layout] SetInput Exception: {err}")
         return sub_actions, applied
+
+    # ------------------------------------------------------------ word-by-word --
+
+    @staticmethod
+    def _clip_start(clip) -> int:
+        try:
+            return int(clip.GetStart()) if callable(getattr(clip, "GetStart", None)) else 0
+        except Exception:
+            return 0
+
+    @staticmethod
+    def _word_entry(key, clip, track, state) -> Optional[dict]:
+        """A clip Space words can set out - one word, a known Center - as {clip, track,
+        start, end, word}; None for any other."""
+        if not state or state.get("center") is None or not word_by_word.is_single_word(state.get("text")):
+            return None
+        try:
+            start, end = int(clip.GetStart()), int(clip.GetEnd())
+        except Exception:
+            start = end = 0
+        cx, cy = state["center"]
+        return {"clip": clip, "track": track, "start": start, "end": end, "word": word_by_word.Word(
+            key, state["text"], state["font_name"], state["font_style"], state["font_size"],
+            state["line_spacing"], cx, 1.0 - cy)}
+
+    def _playhead_words(self, selected) -> list:
+        """The single-word Text+ under the playhead - only the ones selected in the preview,
+        if any are."""
+        resolve = self._resolve()
+        timeline = self._get_current_timeline(resolve) if resolve is not None else None
+        if timeline is None:
+            return []
+        items = get_active_text_plus_items(timeline, self._get_fusion_comp, self._find_text_tool, log=self.log)
+        chosen = {key for key in selected or []}
+        entries = []
+        for item in items:
+            key = self._item_id(item)
+            if chosen and key not in chosen:
+                continue
+            state = {"text": item.text, "font_name": item.font_name, "font_style": item.font_style,
+                     "font_size": item.font_size, "line_spacing": item.line_spacing, "center": item.center}
+            entry = self._word_entry(key, item.clip, item.track_index, state)
+            if entry is not None:
+                entries.append(entry)
+        return entries
+
+    def _timeline_word_groups(self, timeline) -> list:
+        """Every group of single-word Text+ clips on screen together, anywhere on the
+        timeline (each clip overlapping every other in its group), two words or more."""
+        clips, _desc = self._scope_clips(timeline, "timeline", 1)
+        entries = []
+        for clip, track in clips:
+            comp = self._get_fusion_comp(clip)
+            tool = self._find_text_tool(comp) if comp is not None else None
+            entry = self._word_entry(len(entries), clip, track, _read_text_tool_state(tool))
+            if entry is not None:
+                entries.append(entry)
+        groups = group_overlapping_clips([(i, e["start"], e["end"]) for i, e in enumerate(entries)])
+        return [[entries[i] for i in group] for group in groups if len(group) > 1]
+
+    def _space_group(self, entries, lines, aspect, spacing=1.0) -> Tuple[list, int, Any]:
+        """One group set out and put in Resolve: (undo steps, clips moved, the layout)."""
+        entries = sorted(entries, key=lambda e: (e["start"], e["track"]))
+        placed = word_by_word.layout([e["word"] for e in entries], lines, aspect, spacing)
+        sub_actions, moved = [], 0
+        for entry in entries:
+            cx, cy = placed.centers[entry["word"].key]
+            new_center = [cx, 1.0 - cy]
+            comp = self._get_fusion_comp(entry["clip"])
+            tool = self._find_text_tool(comp) if comp is not None else None
+            if tool is None:
+                self.log("[Word-by-word] Could not re-locate the Text+ tool for one word – skipped.")
+                continue
+            try:
+                old = parse_point(tool.GetInput("Center"))
+            except Exception:
+                old = None
+            if old is not None and abs(old[0] - new_center[0]) < 1e-6 and abs(old[1] - new_center[1]) < 1e-6:
+                continue
+            try:
+                tool.SetInput("Center", new_center)
+                moved += 1
+                if old is not None:
+                    sub_actions.append(_LivePreviewAction(clip=entry["clip"], kind="position",
+                                                          old_value=list(old), new_value=new_center))
+            except Exception as err:
+                self.log(f"[Word-by-word] Center SetInput Exception: {err}")
+        return sub_actions, moved, placed
+
+    def on_space_words(self, payload):
+        """Space words: the single-word clips under the playhead (those selected in the
+        preview, if any), or every group of them on the timeline, set out as one Text+
+        clip would show the sentence - see word_by_word.py."""
+        payload = payload or {}
+        lines, scope, spacing = self.opts.wbw_lines, self.opts.wbw_scope, self.opts.slider("wbw_spacing")
+        resolve = self._resolve()
+        if resolve is None:
+            return
+        timeline = self._timeline_or_log(resolve)
+        if timeline is None:
+            return
+        width, height = get_timeline_resolution(timeline)
+        aspect = width / height if height else 16 / 9
+        try:
+            if scope == "timeline":
+                self.host.set_busy(True, "Spacing words…")
+                try:
+                    groups = self._timeline_word_groups(timeline)
+                    if not groups:
+                        self.log("[Word-by-word] No single-word Text+ clips are on screen together on this timeline.")
+                        return self.emit("toast", {"text": "No single-word Text+ clips on screen together on this timeline."})
+                    sub_actions, moved, wide = [], 0, 0
+                    for group in groups:
+                        steps, count, placed = self._space_group(group, lines, aspect, spacing)
+                        sub_actions += steps
+                        moved += count
+                        wide += placed.widest > 1.0
+                finally:
+                    self.host.set_busy(False)
+                self.log(f"[Word-by-word] Spaced {sum(len(g) for g in groups)} words in {len(groups)} group(s); "
+                         f"{moved} Text+ clip(s) moved.")
+                if wide:
+                    self.log(f"[Warning] {wide} group(s) are wider than the frame – allow more lines, or make the words smaller.")
+                self.emit("toast", {"text": f"Spaced {len(groups)} groups of words"})
+            else:
+                entries = self._playhead_words(payload.get("selected"))
+                if len(entries) < 2:
+                    self.log("[Word-by-word] Needs at least 2 single-word Text+ clips under the playhead.")
+                    return self.emit("toast", {"text": "Needs at least 2 single-word Text+ clips under the playhead."})
+                sub_actions, moved, placed = self._space_group(entries, lines, aspect, spacing)
+                self.log(f"[Word-by-word] Spaced {len(entries)} words on {len(placed.lines)} line(s); "
+                         f"{moved} Text+ clip(s) moved.")
+                if placed.widest > 1.0:
+                    self.log("[Warning] The words are wider than the frame – allow more lines, or make them smaller.")
+                self.emit("toast", {"text": f"Spaced {len(entries)} words on {len(placed.lines)} line(s)"})
+            self._record_batch_action(sub_actions)
+        except Exception as err:
+            self.log(f"[Error in space_words]: {err}")
+            self.log(traceback.format_exc())
+        self._refresh_live_preview(force=True)
+
+    def on_stack_words(self, _payload=None):
+        """Stack on their own tracks: the Text+ clips selected on Resolve's timeline, each
+        on a video track of its own and lasting until the playhead, in a copy of the
+        timeline that's then opened (word_by_word.stack_plan, drt.restack_video_clips).
+        The timeline itself isn't changed."""
+        resolve = self._resolve()
+        if resolve is None:
+            return
+        timeline = self._timeline_or_log(resolve)
+        if timeline is None:
+            return
+        try:
+            chosen, _desc = self._scope_clips(timeline, "selected", 1)
+        except _ScopeUnavailable as exc:
+            self.log(f"[Warning] {exc}")
+            return self.emit("toast", {"text": str(exc)})
+        words = []
+        for clip, track in chosen:
+            comp = self._get_fusion_comp(clip)
+            tool = self._find_text_tool(comp) if comp is not None else None
+            if tool is not None:
+                try:
+                    text = str(tool.GetInput("StyledText") or "").strip()
+                except Exception:
+                    text = ""
+                words.append((track, int(clip.GetStart()), int(clip.GetEnd()), text))
+        if not words:
+            self.log("[Word-by-word] No Text+ clips are selected on the timeline.")
+            return self.emit("toast", {"text": "Select the Text+ clips to stack on Resolve's timeline first."})
+        blank = sum(1 for w in words if not w[3])
+        if blank:
+            # Most likely Resolve's Inspector: with several Text+ selected, clicking into its
+            # Text box (it shows "--") and away writes that empty box into every one of them.
+            self.log(f"[Word-by-word] {blank} of the selected Text+ clip(s) have no text – nothing was stacked.")
+            return self.emit("alert", {"title": "Stack on their own tracks", "text": (
+                f"{blank} of the {len(words)} selected Text+ clips have no text, so nothing was stacked. If they had "
+                "words, Resolve's Inspector may have emptied them: with several Text+ clips selected, clicking into "
+                f"its Text box (it shows --) writes that empty box into every selected clip. Undo in Resolve "
+                f"({'Cmd+Z' if sys.platform == 'darwin' else 'Ctrl+Z'}) may bring the words back.")})
+        playhead = _get_current_frame(timeline)
+        late = [w for w in words if playhead is None or w[1] >= playhead]
+        if late:
+            text = late[0][3] or "A selected clip"
+            self.log(f"[Word-by-word] '{text}' starts at or after the playhead – nothing was stacked.")
+            return self.emit("toast", {"text": f"'{text}' starts at or after the playhead – put the playhead where the words should end."})
+        clips = []
+        for track in range(1, int(timeline.GetTrackCount("video") or 0) + 1):
+            for item in timeline.GetItemListInTrack("video", track) or []:
+                try:
+                    clips.append((track, int(item.GetStart()), int(item.GetEnd())))
+                except Exception:
+                    continue
+        plan = word_by_word.stack_plan(clips, [w[:3] for w in words], playhead)
+        self.host.set_busy(True, "Stacking the clips…")
+        try:
+            name = self._stack_into_new_timeline(resolve, timeline, plan)
+        except drt.DrtError as exc:
+            self.log(f"[Error] {exc}")
+            return self.emit("alert", {"title": "Stack on their own tracks", "text": str(exc)})
+        except Exception as err:
+            self.log(f"[Error in stack_words]: {err}")
+            self.log(traceback.format_exc())
+            return self.emit("alert", {"title": "Stack on their own tracks", "text": str(err)})
+        finally:
+            self.host.set_busy(False)
+        tracks = len({new for new, _duration in plan.values()})
+        self.log(f"[Word-by-word] Stacked {len(plan)} Text+ clip(s) on {tracks} track(s) until the playhead, "
+                 f"in a new timeline, '{name}' (opened). The timeline they came from is unchanged.")
+        self.emit("toast", {"text": f"Stacked {len(plan)} Text+ clips on {tracks} tracks in '{name}'"})
+        self._sync_timeline()
+        self._refresh_live_preview(force=True)
+
+    @classmethod
+    def _all_folders(cls, folder) -> list:
+        found = [folder]
+        for sub in folder.GetSubFolderList() or []:
+            found.extend(cls._all_folders(sub))
+        return found
+
+    def _stack_into_new_timeline(self, resolve, timeline, plan) -> str:
+        """The timeline exported as .drt, its clips restacked by `plan`, imported as a new
+        timeline - bound to the Media Pool clips already there - and opened. Its name."""
+        project = resolve.GetProjectManager().GetCurrentProject()
+        mp = project.GetMediaPool()
+        taken = {project.GetTimelineByIndex(i).GetName() for i in range(1, (project.GetTimelineCount() or 0) + 1)}
+        name, n = f"{timeline.GetName()} (Word-by-word)", 2
+        while name in taken:
+            name, n = f"{timeline.GetName()} (Word-by-word {n})", n + 1
+        folder = tempfile.mkdtemp(prefix="buddy word-by-word ")
+        exported, built = os.path.join(folder, "timeline.drt"), os.path.join(folder, "stacked.drt")
+        try:
+            if not timeline.Export(exported, resolve.EXPORT_DRT, resolve.EXPORT_NONE) or not os.path.isfile(exported):
+                raise drt.DrtError("Resolve couldn't export the timeline.")
+            drt.with_video_clips_restacked(exported, built, plan)
+            made = mp.ImportTimelineFromFile(built, {
+                "timelineName": name, "importSourceClips": False,
+                "sourceClipsFolders": self._all_folders(mp.GetRootFolder())})
+            if not made:
+                raise drt.DrtError("Resolve didn't import the new timeline.")
+            made.SetName(name)          # a .drt comes in named after the file, whatever timelineName says
+            project.SetCurrentTimeline(made)
+            return made.GetName()
+        finally:
+            shutil.rmtree(folder, ignore_errors=True)
 
     # ------------------------------------------------------------ bounding --
 

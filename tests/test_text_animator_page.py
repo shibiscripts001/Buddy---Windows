@@ -685,7 +685,7 @@ class AnimationPageTests(unittest.TestCase):
     def test_the_animation_page_keeps_the_old_id(self):
         from pages.text_animator.page import AnimationPage
         from pages.text_animator.text_plus import TABS
-        self.assertEqual(list(TABS), ["style", "layout", "animation", "words"])
+        self.assertEqual(list(TABS), ["style", "layout", "wordbyword", "animation", "words"])
         self.assertEqual(AnimationPage.display_name, "Animation")
         self.assertEqual(AnimationPage.tool_id, "text_animator")          # saved settings and sidebar keep working
 

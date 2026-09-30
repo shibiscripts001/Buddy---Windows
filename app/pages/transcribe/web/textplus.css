@@ -128,3 +128,7 @@ input[type="range"] { width: 100%; margin: 0; accent-color: var(--primary); curs
 .log .error { color: var(--danger-text); }
 
 @media (max-width: 860px) { .style-layout { grid-template-columns: 1fr; } .style-side { position: static; } }
+
+/* Word-by-word: Lines' and Apply to's labels level, though the buttons are taller than the dropdown. */
+.wbw-controls { align-items: flex-start; }
+.wbw-spacing { max-width: 360px; }

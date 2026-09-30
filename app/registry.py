@@ -19,6 +19,7 @@ from pages.audio_assistant.page import AudioAssistantPage
 from pages.audit.page import AuditPage
 from pages.buddy_network.page import BuddyNetworkPage
 from pages.color_palette.page import ColorPalettePage
+from pages.command_center.page import CommandCenterPage
 from pages.dailies.page import DailiesPage
 from pages.image_importer.page import ImageImporterPage
 from pages.manual_chat.page import ManualChatPage
@@ -57,6 +58,8 @@ REGISTRY = [
     ("Export & Delivery", MarkerManagerPage),
 
     ("Business", TimeTrackerPage),
+
+    ("Command Center", CommandCenterPage),
 
     # "" = a plain line above it instead of a heading.
     ("", BuddyNetworkPage),

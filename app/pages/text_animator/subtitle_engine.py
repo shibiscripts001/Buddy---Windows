@@ -908,8 +908,14 @@ class TextPlusGenerator:
                 self._apply_clip_timings(inserted_item, sub.start_frame, sub.end_frame)
                 text_styled = self._apply_text_and_styling(inserted_item, sub.text, sub_data=sub,
                                                            default_font=default_font)
+                if not text_styled:
+                    # No Text+ to reach: Resolve's answer when the spot is already taken. Not
+                    # counted as made, and not deleted either - it may be a clip already there.
+                    log_msgs.append(f"  - [FAIL] [{idx}/{len(subtitles)}] Couldn't put the words on a Text+ clip at "
+                                    f"frame {sub.start_frame} for '{sub.text}' – is something already there?")
+                    continue
                 created_clips.append(inserted_item)
-                style_status = "styled" if text_styled else "unstyled"
+                style_status = "styled"
 
                 actual_start = inserted_item.GetStart() if hasattr(inserted_item, "GetStart") else None
                 actual_end = inserted_item.GetEnd() if hasattr(inserted_item, "GetEnd") else None

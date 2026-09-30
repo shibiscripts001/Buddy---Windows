@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Subtitle tracks written straight into a Resolve timeline file (.drt) - how
-Transcribe gives every language its own subtitle track. No Qt, no Resolve.
+Transcribe gives every language its own subtitle track - and video clips
+moved onto tracks of their own there (Word-by-word's Stack, restack_video_clips
+below). No Qt, no Resolve.
 
 Why a file: Resolve's scripting places subtitles only on the track it has
 picked as the destination (normally track 1). A new track inserted at the
@@ -153,6 +155,83 @@ def replace_subtitle_tracks(xml: str, tracks: list[Track], start_frame: int, fps
 def with_subtitle_tracks(src: str, dst: str, tracks: list[Track], start_frame: int, fps: float):
     """Copies the .drt at src to dst with its subtitle tracks replaced by
     one per Track - the rest of the timeline exactly as exported."""
+    _rewrite_sequence(src, dst, lambda xml: replace_subtitle_tracks(xml, tracks, start_frame, fps),
+                      "add the subtitle files")
+
+
+# ------------------------------------------------------------ video clips onto tracks of their own --
+#
+# Word-by-word's Stack (text_animator/text_plus.py): chosen video clips each moved to a
+# track and lengthened, the rest of the timeline as exported. A Text+ clip is an
+# <Sm2TiVideoClip> with its whole Fusion composition inside; its <Start> is also in its
+# FieldsBlob, which is why clips here keep theirs and only change track and <Duration>.
+# Measured on 21.1: added tracks come in as the template's copies, and a lengthened Text+
+# gets its composition lengthened by Resolve (0-119 became 0-599) and draws to the end.
+
+_VIDEO_VEC = re.compile(r"<VideoTrackVec>(.*?)</VideoTrackVec>", re.S)
+_ITEMS = re.compile(r"<Items>(.*?)</Items>|<Items/>", re.S)
+
+
+def _elements(body: str) -> list[str]:
+    """The top-level <Element>...</Element> blocks in `body`, whatever is nested in them."""
+    blocks, depth, begin = [], 0, None
+    for tag in re.finditer(r"<(/?)Element>", body):
+        if not tag.group(1):
+            if depth == 0:
+                begin = tag.start()
+            depth += 1
+        else:
+            depth -= 1
+            if depth == 0 and begin is not None:
+                blocks.append(body[begin:tag.end()])
+    return blocks
+
+
+def _start_of(block: str):
+    found = re.search(r"<Start>(-?\d+)</Start>", block)
+    return int(found.group(1)) if found else None
+
+
+def restack_video_clips(xml: str, moves: dict) -> str:
+    """The sequence XML with each clip in `moves` - {(video track, start frame): (new
+    track, new duration)}, 1-based tracks - on its new track with its new length. Tracks
+    past the last are added, copies of video track 1 with nothing on them and no name.
+    Everything else on every track stays as it was."""
+    vec = _VIDEO_VEC.search(xml)
+    tracks = _elements(vec.group(1)) if vec else []
+    if not tracks or not all(_ITEMS.search(t) for t in tracks):
+        raise DrtError("The exported timeline isn't in a form Buddy knows – update Buddy, or stack the clips by hand.")
+    kept, moved, found = [], {}, set()
+    for index, track in enumerate(tracks, start=1):
+        items = _ITEMS.search(track)
+        blocks = []
+        for block in _elements(items.group(1) or ""):
+            key = (index, _start_of(block))
+            if key in moves and "<Sm2TiVideoClip " in block and key not in found:
+                found.add(key)
+                new_track, duration = moves[key]
+                block = re.sub(r"<Duration>\d+</Duration>", f"<Duration>{int(duration)}</Duration>", block, count=1)
+                moved.setdefault(new_track, []).append(block)
+            else:
+                blocks.append(block)
+        kept.append(blocks)
+    missing = set(moves) - found
+    if missing:
+        raise DrtError(f"{len(missing)} of the clips weren't in the exported timeline – nothing was changed.")
+    blank = re.sub(r"<UserDefinedName>.*?</UserDefinedName>", "<UserDefinedName/>", tracks[0], count=1, flags=re.S)
+    while len(kept) < max(moved, default=0):
+        kept.append([])
+        tracks.append(re.sub(r'(<Sm2TiTrack DbId=")[^"]+', lambda m: m.group(1) + str(uuid.uuid4()), blank, count=1))
+    out = []
+    for index, (track, blocks) in enumerate(zip(tracks, kept), start=1):
+        blocks = sorted(blocks + moved.get(index, []), key=lambda b: _start_of(b) or 0)
+        body = f"<Items>\n     {chr(10).join('     ' + b.strip() for b in blocks).strip()}\n    </Items>" if blocks else "<Items/>"
+        out.append(_ITEMS.sub(lambda _m: body, track, count=1).strip())
+    return xml[:vec.start(1)] + "\n  " + "\n  ".join(out) + "\n " + xml[vec.end(1):]
+
+
+def _rewrite_sequence(src: str, dst: str, transform, what: str):
+    """Copies the .drt at src to dst with its one sequence's XML passed through transform."""
     try:
         with zipfile.ZipFile(src) as z:
             entries = [(info.filename, z.read(info.filename)) for info in z.infolist()]
@@ -160,10 +239,14 @@ def with_subtitle_tracks(src: str, dst: str, tracks: list[Track], start_frame: i
         raise DrtError(f"Resolve's timeline export couldn't be read: {exc}") from None
     sequences = [name for name, _ in entries if name.startswith("SeqContainer/") and name.endswith(".xml")]
     if len(sequences) != 1:
-        raise DrtError("The exported timeline isn't in a form Buddy knows – update Buddy, or add the "
-                       "subtitle files by hand.")
+        raise DrtError(f"The exported timeline isn't in a form Buddy knows – update Buddy, or {what} by hand.")
     with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as z:
         for name, data in entries:
             if name == sequences[0]:
-                data = replace_subtitle_tracks(data.decode("utf-8"), tracks, start_frame, fps).encode("utf-8")
+                data = transform(data.decode("utf-8")).encode("utf-8")
             z.writestr(name, data)
+
+
+def with_video_clips_restacked(src: str, dst: str, moves: dict):
+    """Copies the .drt at src to dst with the clips in `moves` restacked (restack_video_clips)."""
+    _rewrite_sequence(src, dst, lambda xml: restack_video_clips(xml, moves), "stack the clips")

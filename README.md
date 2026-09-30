@@ -10,7 +10,7 @@ script and has been ported into the shell.
 
 ## Status
 
-Buddy's integrated tools include the following. Audit and parts of Audio Assistant are still in progress:
+Buddy's integrated tools include the following. Audit, Command Center and parts of Audio Assistant are still in progress:
 
 - Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Subtitles)
 - Ask Buddy (chat agent)
@@ -18,6 +18,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Audit (new; the page only for now - its tools are coming)
 - Asset Manager
 - Color Palette Manager
+- Command Center (new; the page only for now - it will hold hot key combos that run Buddy's actions)
 - Dailies (named source tapes, continuous Media Pool review, notes and metadata)
 - Image Importer
 - Media Manager (Batch Clip Renamer and Media Relink tabs)
@@ -25,7 +26,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Marker Manager (Stills Exporter and YouTube Chapters tabs)
 - SVG Importer
 - Time Tracker
-- Subtitles (Transcribe, Translate, Subtitle Conversion and the Text+ styling, layout and animation tabs included)
+- Subtitles (Transcribe, Translate, Subtitle Conversion and the Text+ styling, layout, word-by-word and animation tabs included)
 
 The bug button in the header (and on the desktop layout's taskbar) sends a
 bug report - what went wrong, up to six screenshots, and Buddy's, the

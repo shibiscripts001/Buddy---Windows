@@ -272,11 +272,50 @@ class TranscribeController:
 
     # --------------------------------------------------------- subtitles
 
-    def place_subtitles(self, srt_path: str, replace_existing: bool = False) -> int:
+    @staticmethod
+    def _open_track(tl, index) -> list[str]:
+        """Subtitle track `index` switched on and unlocked, if it wasn't: on a
+        switched-off track AppendToTimeline returns the item and puts nothing
+        there (measured on 21.1). Returns what was changed, to be said."""
+        changed = []
+        try:
+            if tl.GetIsTrackEnabled("subtitle", index) is False and tl.SetTrackEnable("subtitle", index, True):
+                changed.append(f"Subtitle track {index} was switched off in Resolve, so Buddy switched it on.")
+            if tl.GetIsTrackLocked("subtitle", index) and tl.SetTrackLock("subtitle", index, False):
+                changed.append(f"Subtitle track {index} was locked in Resolve, so Buddy unlocked it.")
+        except Exception:
+            pass
+        return changed
+
+    @staticmethod
+    def _uid(item):
+        try:
+            return item.GetUniqueId()
+        except Exception:
+            return id(item)
+
+    def _added_elsewhere(self, tl, before) -> tuple[int, list]:
+        """(track, clips) for subtitles the append put on a track other than 1
+        - the one that's the destination in Resolve's track headers - or
+        (0, []). `before`: each other track's clip ids before the append."""
+        for index, known in before.items():
+            added = [item for item in self._subtitle_items(tl, index) if self._uid(item) not in known]
+            if added:
+                return index, added
+        return 0, []
+
+    def place_subtitles(self, srt_path: str, replace_existing: bool = False, log=lambda msg: None) -> int:
         """Import srt_path and put it on subtitle track 1 of the current
-        timeline. Returns how many subtitle clips were placed. Raises if
-        track 1 already has subtitles and replace_existing is False - the
-        page asks the user before passing True."""
+        timeline, switching the track on and unlocking it first if need be
+        (said through log). Returns how many subtitle clips were placed.
+        Raises if track 1 already has subtitles and replace_existing is
+        False - the page asks the user before passing True.
+
+        Resolve puts an appended SRT on its destination subtitle track (the
+        red ST patch in the track headers), which scripts can't set
+        (measured on 21.1). Buddy uses track 1 only, so if they land on
+        another track they're taken off again and the user is told to make
+        ST1 the destination."""
         project = self._project()
         tl = self._timeline(project)
         mp = project.GetMediaPool()
@@ -296,15 +335,36 @@ class TranscribeController:
             if (tl.GetTrackCount("subtitle") or 0) == 0:
                 if not tl.AddTrack("subtitle"):
                     raise TranscribeResolveError("Resolve couldn't add a subtitle track.")
-            if existing:
+            for message in self._open_track(tl, 1):
+                log(message)
+            others = {index: {self._uid(item) for item in self._subtitle_items(tl, index)}
+                      for index in range(2, (tl.GetTrackCount("subtitle") or 0) + 1)}
+            # With other subtitle tracks the destination may not be ST1: the old
+            # subtitles come off only once the new ones are on track 1.
+            old = {self._uid(item) for item in existing}
+            if existing and not others:
                 tl.DeleteClips(existing)
+                old = set()
             expected = self._cue_frames(srt_path, tl, project)
             off = 0
             for _try in range(PLACE_TRIES):
                 mp.AppendToTimeline([items[0]])
-                placed = self._subtitle_items(tl, 1)
+                track1 = self._subtitle_items(tl, 1)
+                placed = [item for item in track1 if self._uid(item) not in old]
+                if placed and old:
+                    tl.DeleteClips([item for item in track1 if self._uid(item) in old])
+                    old = set()
                 if not placed:
-                    raise TranscribeResolveError("Resolve imported the subtitles but didn't place them.")
+                    track, stray = self._added_elsewhere(tl, others)
+                    if stray:
+                        tl.DeleteClips(stray)
+                        raise TranscribeResolveError(
+                            f"Resolve put the subtitles on subtitle track {track}, its destination track, so they "
+                            "were taken off again. Make ST1 the destination (click its patch in the track "
+                            "headers) and try again – the SRT file is saved.")
+                    raise TranscribeResolveError(
+                        "Resolve imported the subtitles but didn't place them. Check that ST1 is the destination "
+                        "subtitle track in Resolve (its patch lit red in the track headers).")
                 off = self._misplaced_by(placed, expected)
                 if off is None:
                     return len(placed)
@@ -420,17 +480,40 @@ class TranscribeController:
     def subtitles_to_text_plus(self, sub_track: int, video_track: int, log=lambda msg: None) -> int:
         """Each subtitle on subtitle track sub_track becomes a Text+ clip at
         the same time on video track video_track (added if the timeline has
-        fewer). Returns how many were made; log gets what happened."""
+        fewer). Returns how many were made; log gets what happened.
+
+        Refused when video_track already has clips where the subtitles go:
+        Resolve then hands back no Text+ Buddy can reach, so the words never
+        reach it - the clips came out blank, or weren't placed at all
+        (measured on 21.1)."""
         resolve = self.controller.resolve
         tl = self._timeline()
         subtitles = SubtitleExtractor(resolve).extract_subtitles_from_track(tl, track_index=sub_track)
         if not subtitles:
             raise TranscribeResolveError(f"Subtitle track {sub_track} has no subtitles.")
+        in_the_way = self._clips_in_the_way(tl, video_track, [(s.start_frame, s.end_frame) for s in subtitles])
+        if in_the_way:
+            empty = get_top_most_unpopulated_video_track_index(tl)
+            raise TranscribeResolveError(
+                f"Video track {video_track} already has {in_the_way} clip(s) where the subtitles go, and Resolve "
+                f"won't put Text+ over them. Choose an empty video track – track {empty} is.")
         clips, messages = TextPlusGenerator(resolve).create_text_plus_clips(
             tl, subtitles, target_video_track=video_track)
         for message in messages:
             log(message)
         return len(clips)
+
+    @staticmethod
+    def _clips_in_the_way(tl, track: int, spans) -> int:
+        """How many clips on video track `track` overlap any of `spans` - (start, end)
+        frames, end exclusive."""
+        try:
+            if track > int(tl.GetTrackCount("video") or 0):
+                return 0
+            clips = [(int(c.GetStart()), int(c.GetEnd())) for c in tl.GetItemListInTrack("video", track) or []]
+        except Exception:
+            return 0
+        return sum(1 for start, end in clips if any(s < end and start < e for s, e in spans))
 
     @staticmethod
     def _transcripts_bin(mp):
