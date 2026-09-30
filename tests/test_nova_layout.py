@@ -158,11 +158,20 @@ class NovaLayoutTests(unittest.TestCase):
             probe.style.cssText = 'position:fixed;inset:0;background:#ff0000;z-index:99999';
             document.body.append(probe); return true;""")
         self.settle()
-        readable = all(r > 200 and g < 60 and b < 60 for r, g, b in samples())
+        red = lambda got: all(r > 200 and g < 60 and b < 60 for r, g, b in got)
+        readable = red(samples())
         self.js("document.getElementById('pixel-probe').remove(); return true;")
         self.settle()
         if not readable:
             self.skipTest("this machine can't read a web view's pixels back")
+        # Gone from the page isn't gone from the screen: GitHub's Mac runner
+        # still drew the red block 80 ms after it was removed, and the samples
+        # below read it as the background (0.3.23-0.3.25 never released).
+        deadline = time.monotonic() + 5
+        while red(samples()) and time.monotonic() < deadline:
+            self.settle()
+        if red(samples()):
+            self.skipTest("this machine's web view pixels don't update")
 
         before = samples()
 
