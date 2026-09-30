@@ -1,6 +1,7 @@
 """The measuring behind the Text+ placement canvas: how big a Text+ clip's text renders for
-a Fusion "Size" and where it sits around its Center (font files' own metrics, and QtGui for
-glyph widths - no widgets), bounding-line and word-layout fits, and the grid / safe-zone
+a Fusion "Size" and where it sits around its Center (font files' own metrics, QtGui for
+glyph widths - no widgets - and each face's baseline as Resolve measured it,
+text_measure.py), bounding-line and word-layout fits, and the grid / safe-zone
 overlays. Was placement_canvas.py; its QGraphicsView canvas is now the web page's
 (transcribe/web/canvas.js), which draws what text_box() measures here."""
 import math
@@ -14,12 +15,23 @@ from .overlays import GRID_FRACTIONS, GRID_TYPES, SAFE_ZONE_RECTS, SAFE_ZONE_TYP
 
 
 # How Text+ sizes text: it makes the font's ascent + descent this x Size x composition
-# width. Measured in Resolve 21 from rendered bounds (a Text+ tool's Output:GetDoD()) on 7
-# fonts from Segoe UI (ascent + descent 1.33 em) to Times New Roman (1.11 em): 0.8024-0.8038
-# for all. (The earlier rule - cap height = 0.444 x Size x width, from one Open Sans render -
-# was only right for fonts shaped like Open Sans: it drew Arial 14% small.) The web style
-# preview uses the same constant (transcribe/web/textplus.js).
-TEXT_PLUS_HEIGHT = 0.803
+# width. Measured in Resolve 21.1 (2026-09-30) on 10 faces from Calibri (ascent + descent
+# 1.0 em) to Comic Sans MS (1.39 em), Arial Bold among them, from a Text+ tool's
+# Output:GetDoD(): the width "HHHH" adds over "H" - three advances, so the 2 px DoD adds to
+# each edge cancels out - gave 0.7987-0.8010. (0.803, the figure before, came from rendered
+# heights, which carry that margin.) The line step is the same ascent + descent, with no
+# line gap (to 0.4%, same 10 faces), times the tool's LineSpacing. The web style preview
+# uses the same constant (transcribe/web/textplus.js).
+TEXT_PLUS_HEIGHT = 0.800
+
+# Where the baseline sits: the lines' block is centred on the Center and the baseline is a
+# fixed distance below it for each face - the same for "H", "xg" or "Ty." (to 0.005 em) -
+# but a distance no table in the font gives: 0.35-0.40 em across the 14 faces measured,
+# where (ascent - descent) / 2 is off by up to 0.17 em (Gabriola). So Resolve is asked, once
+# per face (text_measure.py) and set here (set_baselines); a face not yet measured uses
+# BASELINE_FALLBACK, the middle of that range (within 0.025 em of all 14).
+BASELINE_FALLBACK = 0.375
+_baselines: Dict[Tuple[str, str], float] = {}     # (family, style) -> ems below the Center
 
 # WHICH ascent and descent: the font file's hhea table - FreeType's, which Fusion renders
 # with - not the Windows metrics (OS/2 usWin) Qt and the browser use on Windows. For most
@@ -48,6 +60,38 @@ def set_font_files(font_list) -> bool:
     _px_per_size.cache_clear()
     _text_metrics.cache_clear()
     return True
+
+
+def face(font_name: Optional[str], style: Optional[str] = None) -> Tuple[str, str]:
+    """(family, style) - what a Text+ clip's Font and Style inputs name."""
+    return (font_name or "Arial", style or "Regular")
+
+
+def font_file(font_name: Optional[str], style: Optional[str] = None) -> Optional[str]:
+    """The file Resolve renders this face from: its style's, else the family's Regular,
+    else any of its styles."""
+    family, style = face(font_name, style)
+    styles = _font_files.get(family) or {}
+    return styles.get(style) or styles.get("Regular") or next(iter(styles.values()), None)
+
+
+def set_baselines(values: Dict[Tuple[str, str], float]) -> bool:
+    """Takes baselines Resolve measured ({(family, style): ems below the Center}, see
+    text_measure.py). True if that changed anything."""
+    new = {face(*key): float(v) for key, v in (values or {}).items() if 0.0 < float(v) < 1.5}
+    if all(_baselines.get(key) == v for key, v in new.items()):
+        return False
+    _baselines.update(new)
+    return True
+
+
+def baseline(font_name: Optional[str], style: Optional[str] = None) -> float:
+    """How far below a Text+ Center a one-line clip's baseline sits, in ems."""
+    return _baselines.get(face(font_name, style), BASELINE_FALLBACK)
+
+
+def has_baseline(font_name: Optional[str], style: Optional[str] = None) -> bool:
+    return face(font_name, style) in _baselines
 
 
 def _sfnt_tables(data: bytes) -> Dict[str, bytes]:
@@ -80,40 +124,52 @@ def _file_metrics(path: str) -> Optional[Tuple[float, float, float]]:
     return ascent / units, -descent / units, max(gap, 0) / units
 
 
-def font_vertical_metrics(font_name: str) -> Tuple[float, float, float]:
+def font_vertical_metrics(font_name: str, style: Optional[str] = None) -> Tuple[float, float, float]:
     """(ascent, descent, line gap) in ems, as Text+ sees them: from the file Resolve uses
-    for this family (its Regular, else any style), else Qt's figures for it."""
-    styles = _font_files.get(font_name or "Arial") or {}
-    path = styles.get("Regular") or next(iter(styles.values()), None)
+    for this face (font_file), else Qt's figures for it."""
+    path = font_file(font_name, style)
     found = _file_metrics(path) if path else None
     if found:
         return found
-    metrics = QFontMetricsF(_measure_font(font_name))
+    metrics = QFontMetricsF(_measure_font(font_name, style))
     ascent, descent = metrics.ascent() / _MEASURE_PX, metrics.descent() / _MEASURE_PX
     if ascent + descent <= 0:
         return 0.905, 0.212, 0.033          # Arial's, if Qt can't say
     return ascent, descent, max(metrics.leading(), 0.0) / _MEASURE_PX
 
 
-def _measure_font(font_name: str) -> QFont:
+def _measure_font(font_name: str, style: Optional[str] = None) -> QFont:
+    """The face as Qt shapes it - kerned, as Text+ is: Qt's widths, style and kerning
+    included, came within 2 px of Resolve's on the same 10 faces (Arial's "AVAVAVAV" is
+    60 px narrower than "AAAAVVVV" there, and here)."""
     font = QFont(font_name or "Arial")
+    if style:
+        font.setStyleName(style)
     font.setPixelSize(_MEASURE_PX)
+    font.setKerning(True)
     return font
 
 
 @lru_cache(maxsize=256)
-def _px_per_size(font_name: str) -> float:
+def _px_per_size(font_name: str, style: Optional[str] = None) -> float:
     """Text+'s font pixel size for Size 1, as a fraction of composition width: the
-    TEXT_PLUS_HEIGHT rule solved with this font's ascent + descent."""
-    ascent, descent, _gap = font_vertical_metrics(font_name)
+    TEXT_PLUS_HEIGHT rule solved with this face's ascent + descent."""
+    ascent, descent, _gap = font_vertical_metrics(font_name, style)
     return TEXT_PLUS_HEIGHT / (ascent + descent)
 
 
-def cap_height_fraction(font_name: str, size: float) -> float:
+def cap_height_fraction(font_name: str, size: float, style: Optional[str] = None) -> float:
     """How tall a Text+ clip's capital letters draw at `size`, as a fraction of composition
     width."""
-    cap = QFontMetricsF(_measure_font(font_name)).capHeight() / _MEASURE_PX
-    return max(size, 0.0) * _px_per_size(font_name or "Arial") * cap
+    cap = QFontMetricsF(_measure_font(font_name, style)).capHeight() / _MEASURE_PX
+    return max(size, 0.0) * _px_per_size(font_name or "Arial", style) * cap
+
+
+def glyph_extent(font_name: str, text: str, style: Optional[str] = None) -> Tuple[float, float]:
+    """(how far the text's ink reaches above its baseline, how far below), in ems - what
+    text_measure.py needs to find the baseline in Resolve's rendered bounds."""
+    ink = QFontMetricsF(_measure_font(font_name, style)).tightBoundingRect(text)
+    return -ink.top() / _MEASURE_PX, ink.bottom() / _MEASURE_PX
 
 
 def compute_bounding_fit_size(
@@ -184,7 +240,7 @@ _LARGE_WORD_SECONDARY_SIZE = 0.07  # matches layout_presets.SECONDARY_SIZE
 _LARGE_WORD_ROW_OFFSET = 0.22
 
 
-def _measure_word_width_fraction(font_name: str, text: str, size: float) -> float:
+def _measure_word_width_fraction(font_name: str, text: str, size: float, style: Optional[str] = None) -> float:
     """Given a Fusion "Size" value, what fraction of composition width does `text` render
     at? The forward direction of compute_bounding_fit_size().
 
@@ -193,9 +249,9 @@ def _measure_word_width_fraction(font_name: str, text: str, size: float) -> floa
     every line's width into one meaningless, far too wide measurement."""
     if size <= 0 or not text:
         return 0.0
-    metrics = QFontMetricsF(_measure_font(font_name))
+    metrics = QFontMetricsF(_measure_font(font_name, style))
     widest = max((metrics.horizontalAdvance(line) for line in text.split("\n")), default=0.0)
-    return size * _px_per_size(font_name or "Arial") * widest / _MEASURE_PX
+    return size * _px_per_size(font_name or "Arial", style) * widest / _MEASURE_PX
 
 
 def compute_auto_spaced_row(
@@ -299,45 +355,50 @@ _MEASURE_SIZE = 1.0
 
 
 @lru_cache(maxsize=512)
-def _text_metrics(font_name: str, text: str) -> Tuple[Any, ...]:
-    """(pixel size, ink left, ink top, ink width, ink height, ((x, baseline) per line)) at
+def _text_metrics(font_name: str, style: str, text: str, line_spacing: float, below: float) -> Tuple[Any, ...]:
+    """(pixel size, box left, box top, box width, box height, ((x, baseline) per line)) at
     Size _MEASURE_SIZE, as fractions of composition width, relative to the Text+ Center
-    (y down). See text_box()."""
-    font = _measure_font(font_name)
-    metrics = QFontMetricsF(font)
-    ascent, descent, gap = (v * _MEASURE_PX for v in font_vertical_metrics(font_name))
+    (y down). `below`: the face's baseline() - an argument so a newly measured one is
+    never answered from the cache. See text_box()."""
+    metrics = QFontMetricsF(_measure_font(font_name, style))
+    ascent, descent, _gap = (v * _MEASURE_PX for v in font_vertical_metrics(font_name, style))
     lines = (text or " ").split("\n")
-    line_step = ascent + descent + gap
-    top = -(ascent + descent + (len(lines) - 1) * line_step) / 2    # the block, centred on Center
-    origins, lefts, tops, rights, bottoms = [], [], [], [], []
+    step = (ascent + descent) * line_spacing
+    first = below * _MEASURE_PX - (len(lines) - 1) * step / 2          # the lines, centred on the one line's place
+    origins, widths = [], []
     for i, line in enumerate(lines):
-        x = -metrics.horizontalAdvance(line) / 2                     # each line centred on its own width
-        baseline = top + ascent + i * line_step
-        origins.append((x, baseline))
-        ink = metrics.tightBoundingRect(line or " ")
-        lefts.append(x + ink.left())
-        rights.append(x + ink.right())
-        tops.append(baseline + ink.top())
-        bottoms.append(baseline + ink.bottom())
-    k = _MEASURE_SIZE * _px_per_size(font_name) / _MEASURE_PX       # measured px -> composition width
-    left, ink_top = min(lefts), min(tops)
-    return (_MEASURE_PX * k, left * k, ink_top * k, (max(rights) - left) * k, (max(bottoms) - ink_top) * k,
+        width = metrics.horizontalAdvance(line)
+        widths.append(width)
+        origins.append((-width / 2, first + i * step))                 # each line centred on its own width
+    k = _MEASURE_SIZE * _px_per_size(font_name, style) / _MEASURE_PX   # measured px -> composition width
+    widest = max(widths)
+    top, bottom = first - ascent, origins[-1][1] + descent
+    return (_MEASURE_PX * k, -widest / 2 * k, top * k, widest * k, (bottom - top) * k,
             tuple((x * k, y * k) for x, y in origins))
 
 
-def text_box(font_name: str, text: str, size: float) -> Dict[str, Any]:
-    """How a Text+ clip's text draws, for the web canvas: the font's pixel size, the ink box
-    (left/top from the clip's Center, y down, and width/height) and each line's origin (x
-    and baseline, from the Center) - fractions of composition width, so the page multiplies
-    by its canvas width.
+def text_box(font_name: str, text: str, size: float, style: Optional[str] = None,
+             line_spacing: float = 1.0) -> Dict[str, Any]:
+    """How a Text+ clip's text draws, for the web canvas: the font's pixel size, the line
+    box (left/top from the clip's Center, y down, and width/height) and each line's origin
+    (x and baseline, from the Center) - fractions of composition width, so the page
+    multiplies by its canvas width.
 
-    Laid out as Text+ does it (centred, measured against rendered bounds): the lines' block
-    - ascent + descent, plus a line of ascent + descent + gap for each further line - is
-    centred on the Center, each line centred on its own width. So the Center sits on the
-    middle of the line box, not of the ink: a word with no ascenders ("was") has its ink
-    below the Center, and words in a row share a baseline only at the same Center y."""
+    The box is the lines' own, not their ink's: from the first baseline up by the font's
+    ascent to the last baseline down by its descent, and as wide as the widest line's
+    advance. So it's the same height for "use", "happy" and "I" - two words of one face
+    and size on one baseline have boxes that line up exactly, top and bottom, and two
+    words set side by side a space apart are a sentence. The ink stays inside it (a
+    font's ascent and descent are drawn to hold its letters).
+
+    Laid out as Text+ does it (measured in Resolve, see TEXT_PLUS_HEIGHT and
+    BASELINE_FALLBACK): one line's baseline is baseline() below the Center; further
+    lines step by ascent + descent x LineSpacing, the lines centred on where the one
+    would be; each line centred on its own width."""
     scale = max(size, 0.0) / _MEASURE_SIZE
-    px, left, top, width, height, lines = _text_metrics(font_name or "Arial", text or " ")
+    family, style = face(font_name, style)
+    spacing = float(line_spacing) if isinstance(line_spacing, (int, float)) and line_spacing > 0 else 1.0
+    px, left, top, width, height, lines = _text_metrics(family, style, text or " ", spacing, baseline(family, style))
     return {"px": px * scale, "left": left * scale, "top": top * scale, "w": width * scale,
             "h": height * scale, "lines": [[x * scale, y * scale] for x, y in lines]}
 

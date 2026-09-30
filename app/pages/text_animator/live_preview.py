@@ -24,6 +24,8 @@ class ActiveTextItem(NamedTuple):
     font_size: float
     color: Tuple[float, float, float]
     center: Optional[Tuple[float, float]]
+    font_style: str = "Regular"     # the tool's Style input - Bold draws wider than Regular
+    line_spacing: float = 1.0       # LineSpacing: the step between lines, x ascent + descent
 
 
 # Tracks which unparseable Center value types have already been logged, so a real project
@@ -113,6 +115,14 @@ def _read_text_tool_state(
     except Exception:
         font_size = None
     try:
+        font_style = text_tool.GetInput("Style")
+    except Exception:
+        font_style = None
+    try:
+        line_spacing = text_tool.GetInput("LineSpacing")
+    except Exception:
+        line_spacing = None
+    try:
         red = text_tool.GetInput("Red1")
         green = text_tool.GetInput("Green1")
         blue = text_tool.GetInput("Blue1")
@@ -139,6 +149,8 @@ def _read_text_tool_state(
         "text": text if isinstance(text, str) else "",
         "font_name": font_name if isinstance(font_name, str) and font_name else DEFAULT_FONT_NAME,
         "font_size": float(font_size) if isinstance(font_size, (int, float)) else 0.08,
+        "font_style": font_style if isinstance(font_style, str) and font_style else "Regular",
+        "line_spacing": float(line_spacing) if isinstance(line_spacing, (int, float)) and line_spacing > 0 else 1.0,
         "color": (
             float(red) if isinstance(red, (int, float)) else 1.0,
             float(green) if isinstance(green, (int, float)) else 1.0,
@@ -220,6 +232,8 @@ def get_active_text_plus_items(
                     font_size=state["font_size"],
                     color=state["color"],
                     center=state["center"],
+                    font_style=state["font_style"],
+                    line_spacing=state["line_spacing"],
                 )
             )
 

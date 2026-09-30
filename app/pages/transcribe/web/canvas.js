@@ -2,8 +2,8 @@
  * The Text+ tabs' placement canvas: every Text+ clip under Resolve's playhead, drawn at its
  * real position, font, size and colour, to drag, resize (corner handles) and nudge (arrow
  * keys). text_animator/text_plus.py measures each clip's text (canvas_math.text_box - fractions of the frame
- * width, placed around the clip's Center the way Text+ lays it out: the Center is the middle of the
- * line box, not of the ink) and sends it with "canvas"; this draws and moves it locally and reports only a
+ * width, placed around the clip's Center the way Text+ lays it out, the baseline where Resolve measured it
+ * for that face) and sends it with "canvas"; this draws and moves it locally and reports only a
  * finished edit ("move", "group_move", "resize", "bounding", through send) - nothing reaches Resolve
  * mid-drag. Snapping (frame centre, other clips' edges, centres and baselines, safe-zone edges; never
  * back to where a drag started, and off while Alt is held) and the
@@ -54,7 +54,9 @@ function PlacementCanvas(root, {tab, multi, send}) {
         return {cx: o ? o.cx : item.cx, cy: o ? o.cy : item.cy, size: o && o.size !== undefined ? o.size : item.size};
     }
 
-    // The ink box (padded) where Text+ draws it: box.left/top are from the Center, in frame
+    // The line box where Text+ draws it - ascent above the first baseline to descent below the last,
+    // the widest line's advance across - so it's the same height whatever the letters: words of one
+    // size on one baseline have boxes that line up. box.left/top are from the Center, in frame
     // widths. baselines: each line's, in canvas pixels - what words in a row share.
     function rectOf(item, v = view(item)) {
         const k = item.size ? v.size / item.size : 1, b = item.box, pad = data.padding * W;

@@ -38,6 +38,7 @@ the page's own):
                    apply_animation, remove_animations, undo, redo, dump
 """
 
+import os
 import re
 import time
 import traceback
@@ -48,7 +49,7 @@ from PySide6.QtGui import QFontDatabase
 
 from core.resolve_bridge import ResolveConnectionError
 
-from . import canvas_math, overlays
+from . import canvas_math, overlays, text_measure
 from .animation_engine import FusionAnimationEngine
 from .canvas_math import (
     cap_height_fraction,
@@ -89,8 +90,9 @@ TABS = {
 }
 _CANVAS_TABS = ("layout", "words")
 _LIVE_TABS = _CANVAS_TABS + ("style",)   # polled for the Text+ under the playhead
-# 4 px of box padding at a 640 px reference width, as a fraction of frame width.
-_BOX_PADDING = 4 / 640
+# Around each clip's box, as a fraction of frame width: none - the box is the lines' own
+# (canvas_math.text_box), so its edges are what lines words up.
+_BOX_PADDING = 0.0
 _SAMPLE_MAX_LINES = 6      # the style preview's text: a clip's own, up to this
 _SAMPLE_MAX_CHARS = 400
 # What an Apply says when its "Apply to" holds no clips.
@@ -114,9 +116,13 @@ class _LivePreviewAction(NamedTuple):
     clip_key: Optional[tuple] = None
 
 
-def _css_font(name: str) -> dict:
-    """A Fusion font name ("Open Sans Semibold") as CSS: family, weight, italic."""
-    family, style = split_font_name_and_style(name or DEFAULT_FONT_NAME)
+def _css_font(name: str, style: Optional[str] = None) -> dict:
+    """A Fusion font name ("Open Sans Semibold") as CSS: family, weight, italic. With a
+    `style` (a Text+ tool's own Style input), `name` is the family as it is."""
+    if style is None:
+        family, style = split_font_name_and_style(name or DEFAULT_FONT_NAME)
+    else:
+        family, name = name or DEFAULT_FONT_NAME, f"{name} {style}"
     s = style.lower()
     weight = 400
     for words, value in ((("thin",), 100), (("extralight", "ultralight"), 200), (("light",), 300),
@@ -161,6 +167,8 @@ class TextPlusTools(QObject):
         self._canvas_sig = {tab: None for tab in _CANVAS_TABS}
         self._sample = ""
         self._fonts_read = False     # Resolve's font files handed to canvas_math (see _read_font_files)
+        self._measured = self.host.tool_settings("text_animator", {})  # + "baselines" (_measure_faces)
+        self._unmeasurable = set()   # faces Resolve drew nothing for, this session
 
         real_font_names = get_installed_font_family_names() or sorted(QFontDatabase.families(), key=str.casefold)
         self._font_display_to_real = build_font_display_map(real_font_names)
@@ -265,8 +273,9 @@ class TextPlusTools(QObject):
         view["font_css"] = _css_font(self.opts.font_name)
         # Ascent + descent and line step in ems, as Text+ measures them (canvas_math) - the
         # browser's own figures can be the Windows metrics, which aren't always the same.
-        ascent, descent, gap = canvas_math.font_vertical_metrics(view["font_css"]["family"])
-        view["font_css"].update(height=ascent + descent, line=ascent + descent + gap)
+        # Text+ steps lines by ascent + descent alone: no line gap.
+        ascent, descent, _gap = canvas_math.font_vertical_metrics(view["font_css"]["family"])
+        view["font_css"].update(height=ascent + descent, line=ascent + descent)
         self.emit("options", view)
 
     def _overlay_view(self):
@@ -295,11 +304,12 @@ class TextPlusTools(QObject):
                 "id": self._item_id(item),
                 "track": item.track_index,
                 "text": item.text,
-                "font": _css_font(item.font_name),
+                "font": _css_font(item.font_name, item.font_style),
                 "color": "#" + "".join(f"{max(0, min(255, round(c * 255))):02X}" for c in item.color),
                 "cx": center[0], "cy": 1.0 - center[1],
                 "size": item.font_size,
-                "box": canvas_math.text_box(item.font_name, item.text, item.font_size),
+                "box": canvas_math.text_box(item.font_name, item.text, item.font_size,
+                                            item.font_style, item.line_spacing),
                 "known": item.center is not None,
             })
         return out
@@ -331,6 +341,48 @@ class TextPlusTools(QObject):
                 self._canvas_sig[tab] = None
                 self._push_canvas(tab)
             self._push_options()
+
+    def _face_key(self, family, style) -> str:
+        """A measured baseline's key: the face and the file it's drawn from, so a font
+        updated or installed over is measured again."""
+        path = canvas_math.font_file(family, style) or ""
+        try:
+            stat = os.stat(path) if path else None
+        except OSError:
+            stat = None
+        sig = f"{stat.st_size}|{stat.st_mtime_ns}" if stat else ""
+        return f"{family}|{style}|{os.path.normcase(path)}|{sig}"
+
+    def _measure_faces(self, items):
+        """Each face under the playhead gets its baseline from Resolve once (see
+        text_measure) - remembered with its font file, so after the first time it's read
+        from settings rather than measured."""
+        faces = {canvas_math.face(item.font_name, item.font_style): item for item in items}
+        missing = {f: item for f, item in faces.items() if not canvas_math.has_baseline(*f)}
+        if not missing:
+            return
+        saved = self._measured.get("baselines") or {}
+        known = {f: saved[self._face_key(*f)] for f in missing if self._face_key(*f) in saved}
+        todo = [f for f in missing if f not in known and f not in self._unmeasurable]
+        if todo:
+            comp = self._get_fusion_comp(missing[todo[0]].clip)
+            try:
+                found = text_measure.measure_baselines(comp, todo, self.resolution, log=self.log)
+            except Exception as err:
+                self.log(f"[Placement Canvas] Couldn't measure the fonts' baselines in Resolve: {err}")
+                found = {}
+            self._unmeasurable.update(f for f in todo if f not in found)
+            if found:
+                saved = dict(saved)
+                saved.update({self._face_key(*f): round(v, 5) for f, v in found.items()})
+                self._measured["baselines"] = saved
+                save = getattr(self._measured, "save", None)
+                if callable(save):
+                    save()
+            known.update(found)
+        if canvas_math.set_baselines(known):
+            for tab in _CANVAS_TABS:
+                self._canvas_sig[tab] = None
 
     def _sync_timeline(self):
         """Syncs the timeline's name, tracks and resolution."""
@@ -398,6 +450,7 @@ class TextPlusTools(QObject):
             self.log(f"[Error refreshing live preview]: {err}")
             return
         self._update_sample(items)
+        self._measure_faces(items)
         if self.tab in _CANVAS_TABS:
             self._items[self.tab] = {self._item_id(item): item for item in items}
             self._push_canvas(self.tab)
@@ -420,6 +473,7 @@ class TextPlusTools(QObject):
     def on_refresh(self, _payload=None):
         self._no_connection = False
         self._fonts_read = False     # a font installed since is found
+        self._unmeasurable.clear()
         self._sync_timeline()
         self._refresh_live_preview(force=True)
 
@@ -654,7 +708,7 @@ class TextPlusTools(QObject):
         for key, item in items.items():
             if item.center is None:
                 continue
-            box = canvas_math.text_box(item.font_name, item.text, item.font_size)
+            box = canvas_math.text_box(item.font_name, item.text, item.font_size, item.font_style, item.line_spacing)
             box_height = (box["h"] + 2 * _BOX_PADDING) * aspect
             offsets[key] = (box["top"] + box["h"] / 2) * aspect
             text_tool = text_tools.get(key)

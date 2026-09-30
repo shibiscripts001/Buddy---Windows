@@ -203,10 +203,9 @@ function rgba(hex, alpha) {
 // A vertical frame at the card's full width would push the rest of the panel off screen.
 const PREVIEW_MAX_HEIGHT = 360;
 
-// Text+ sizes a font so that its ascent + descent is this x Size x frame width.
-// Measured in Resolve 21 from rendered bounds (Output:GetDoD), 7 fonts from Segoe UI
-// (ascent + descent 1.33 em) to Times New Roman (1.11 em): 0.8024-0.8038 for all.
-const TEXT_PLUS_HEIGHT = 0.803;
+// Text+ sizes a font so that its ascent + descent is this x Size x frame width - measured in
+// Resolve 21.1 on 10 faces, 0.7987-0.8010 (text_animator/canvas_math.py TEXT_PLUS_HEIGHT).
+const TEXT_PLUS_HEIGHT = 0.800;
 const fontHeights = new Map();
 
 /* A font's ascent + descent per pixel of CSS font-size - the browser's own metrics, the

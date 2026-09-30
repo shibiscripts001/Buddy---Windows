@@ -50,12 +50,70 @@ class Tool:
         return (c[1], c[2])
 
 
+# Where the fake Resolve draws a face's baseline, in ems below the Center - for the probe.
+TRUE_BASELINE = 0.41
+
+
+class Probe:
+    """The Text+ tool text_measure adds: renders its H (bounds only) with TRUE_BASELINE."""
+
+    def __init__(self, comp):
+        self.comp, self.inputs, self.Name = comp, {}, "Text1"
+        self.Output = self
+
+    def SetAttrs(self, attrs):
+        self.Name = attrs.get("TOOLS_Name", self.Name)
+
+    def SetInput(self, name, value):
+        self.inputs[name] = value
+
+    def GetInput(self, name):
+        return self.inputs.get(name)
+
+    def Delete(self):
+        self.comp.extra.remove(self)
+
+    def GetValue(self, _time):
+        return type("Image", (), {"Width": 1920, "Height": 1080})()
+
+    def GetDoD(self, _time):
+        import math
+        from pages.text_animator import canvas_math as cm
+        family, style = self.inputs["Font"], self.inputs["Style"]
+        if family == "Nothing Drawn":
+            return None
+        em = self.inputs["Size"] * cm._px_per_size(family, style) * 1920
+        above, below = cm.glyph_extent(family, "H", style)
+        base = 540 - TRUE_BASELINE * em
+        return {1: 900, 2: math.floor(base - below * em) - 2, 3: 1020, 4: math.floor(base + above * em) + 2}
+
+
 class Comp:
+    added = 0                       # probes added, all comps
+
     def __init__(self, tool):
-        self.tool = tool
+        self.tool, self.extra, self.CurrentTime, self.calls = tool, [], 0, []
 
     def GetToolList(self, _selected=False, kind=None):
-        return {1: self.tool}
+        return {i: t for i, t in enumerate([self.tool] + self.extra, start=1)}
+
+    def AddTool(self, kind, _x, _y):
+        Comp.added += 1
+        probe = Probe(self)
+        self.extra.append(probe)
+        return probe
+
+    def Lock(self):
+        self.calls.append("Lock")
+
+    def Unlock(self):
+        self.calls.append("Unlock")
+
+    def StartUndo(self, _name):
+        self.calls.append("StartUndo")
+
+    def EndUndo(self, keep):
+        self.calls.append(("EndUndo", keep))
 
 
 class Clip:
@@ -307,20 +365,78 @@ class CanvasMathTests(unittest.TestCase):
         ascent, descent, _gap = cm.font_vertical_metrics("Arial")
         self.assertGreater(ascent + descent, 0.9)
 
-    def test_laid_out_around_the_center_like_text_plus(self):
-        """Measured against Resolve's rendered bounds (to 1-2 px on 11 clips): the lines'
-        block - ascent + descent, and a line step per further line - is centred on Center,
-        each line centred on its own width."""
+    def use_baselines(self, values):
         from pages.text_animator import canvas_math as cm
-        self.use_font_files({"Arial": {"Regular": font_file(self, 1000, 200, 0, 1160, 288)}})
+        saved = dict(cm._baselines)
+        self.addCleanup(lambda: (cm._baselines.clear(), cm._baselines.update(saved)))
+        cm._baselines.clear()
+        cm.set_baselines(values)
+
+    def test_laid_out_around_the_center_like_text_plus(self):
+        """Measured against Resolve's rendered bounds (164 renders, 15 faces, to 2.3 px at
+        Size 0.4): one line's baseline is the face's baseline() below the Center, further
+        lines step by ascent + descent - no line gap - x LineSpacing, centred on where the
+        one line would be, each line centred on its own width."""
+        from pages.text_animator import canvas_math as cm
+        self.use_font_files({"Arial": {"Regular": font_file(self, 1000, 200, 300, 1160, 288)}})
+        self.use_baselines({})
         one = cm.text_box("Arial", "Hello", 0.1)
         px = one["px"]
-        self.assertAlmostEqual(one["lines"][0][1], 0.4 * px, places=9)        # baseline below the line box's middle
+        self.assertAlmostEqual(one["lines"][0][1], cm.BASELINE_FALLBACK * px, places=9)   # not measured yet
         self.assertAlmostEqual(one["lines"][0][0], -cm._measure_word_width_fraction("Arial", "Hello", 0.1) / 2, places=9)
         two = cm.text_box("Arial", "Hello\nHi", 0.1)
-        self.assertAlmostEqual(two["lines"][0][1], -0.2 * px, places=9)
-        self.assertAlmostEqual(two["lines"][1][1] - two["lines"][0][1], 1.2 * px, places=9)
+        self.assertAlmostEqual(two["lines"][0][1], (cm.BASELINE_FALLBACK - 0.6) * px, places=9)
+        self.assertAlmostEqual(two["lines"][1][1] - two["lines"][0][1], 1.2 * px, places=9)   # the 0.3 gap left out
         self.assertGreater(two["lines"][1][0], two["lines"][0][0])             # the shorter line, centred
+        wide = cm.text_box("Arial", "Hello\nHi", 0.1, line_spacing=1.5)
+        self.assertAlmostEqual(wide["lines"][1][1] - wide["lines"][0][1], 1.8 * px, places=9)
+
+    def test_every_word_gets_the_same_box_on_one_baseline(self):
+        """The box is the lines' (ascent over the baseline, descent under it, the advance
+        across), not the ink's: "use", "happy" and "I" - no ascenders, both, a capital -
+        get one height, and at one Center y the same top and bottom."""
+        from pages.text_animator import canvas_math as cm
+        self.use_font_files({"Arial": {"Regular": font_file(self, 900, 200, 30, 1160, 288)}})
+        self.use_baselines({("Arial", "Regular"): 0.39})
+        boxes = {t: cm.text_box("Arial", t, 0.08) for t in ("use", "happy", "now and I", "I")}
+        px = boxes["use"]["px"]
+        for text, box in boxes.items():
+            with self.subTest(text):
+                self.assertAlmostEqual(box["lines"][0][1], 0.39 * px, places=9)
+                self.assertAlmostEqual(box["top"], (0.39 - 0.9) * px, places=9)
+                self.assertAlmostEqual(box["h"], 1.1 * px, places=9)
+                self.assertAlmostEqual(box["left"], -box["w"] / 2, places=9)
+                self.assertAlmostEqual(box["w"], cm._measure_word_width_fraction("Arial", text, 0.08), places=9)
+
+    def test_a_measured_baseline_moves_the_text_and_its_box(self):
+        from pages.text_animator import canvas_math as cm
+        self.use_baselines({})
+        before = cm.text_box("Arial", "Hello", 0.1)
+        self.assertFalse(cm.has_baseline("Arial"))
+        self.assertTrue(cm.set_baselines({("Arial", "Regular"): 0.45}))
+        self.assertFalse(cm.set_baselines({("Arial", "Regular"): 0.45}))    # unchanged
+        after = cm.text_box("Arial", "Hello", 0.1)                         # not the cached one
+        self.assertAlmostEqual(after["lines"][0][1], 0.45 * after["px"], places=9)
+        self.assertAlmostEqual(after["top"] - before["top"], (0.45 - cm.BASELINE_FALLBACK) * after["px"], places=9)
+        self.assertEqual(after["h"], before["h"])
+        self.assertTrue(cm.has_baseline("Arial", "Regular"))
+        self.assertFalse(cm.has_baseline("Arial", "Bold"))                  # each style its own
+
+    def test_resolves_bounds_give_the_baseline(self):
+        """text_measure: a probe H drawn in a fake comp at a known baseline is read back to
+        a thousandth of an em, and the comp is left as it was - probe deleted, its undo
+        thrown away, a probe left by an earlier Buddy cleared too."""
+        from pages.text_animator import text_measure
+        self.use_baselines({})
+        comp = Comp(Tool("Hello"))
+        stale = comp.AddTool("TextPlus", 0, 0)
+        stale.SetAttrs({"TOOLS_Name": text_measure.PROBE_NAME})
+        found = text_measure.measure_baselines(comp, [("Arial", "Regular"), ("Nothing Drawn", "Regular")], (1920, 1080))
+        self.assertEqual(list(found), [("Arial", "Regular")])
+        self.assertAlmostEqual(found[("Arial", "Regular")], TRUE_BASELINE, delta=0.002)
+        self.assertEqual(comp.extra, [])
+        self.assertEqual(comp.calls, ["Lock", "StartUndo", ("EndUndo", False), "Unlock"])
+        self.assertIsNone(text_measure.baseline_from_bounds(None, 1080, 500, 0.7, 0))
 
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
@@ -328,7 +444,10 @@ class PageTests(unittest.TestCase):
     def setUp(self):
         QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
         self.app = QApplication.instance() or QApplication([])
+        from pages.text_animator import canvas_math as cm
         from pages.text_animator.text_plus import TextPlusTools
+        saved = dict(cm._baselines)                                       # the probe measures in setUp
+        self.addCleanup(lambda: (cm._baselines.clear(), cm._baselines.update(saved)))
         self.host = Host()
         self.host_page = HostPage(self.host)
         self.page = TextPlusTools(self.host_page)
@@ -517,6 +636,30 @@ class PageTests(unittest.TestCase):
                                                     ("Styled 3 clips", "info")])
         self.page.on_undo()                                               # nothing to undo: a toast
         self.assertEqual(self.last("toast"), {"text": "Nothing to undo"})
+
+    def test_each_face_is_measured_in_resolve_once(self):
+        """The canvas draws each clip on the baseline Resolve measured for its face -
+        measured the first time, then remembered with its font file."""
+        from pages.text_animator import canvas_math as cm
+        from pages.text_animator.text_plus import TextPlusTools
+        saved = dict(cm._baselines)
+        self.addCleanup(lambda: (cm._baselines.clear(), cm._baselines.update(saved)))
+        cm._baselines.clear()
+        self.host.tools["text_animator"].pop("baselines", None)          # as if never measured
+        added = Comp.added
+        self.page.on_refresh()
+        self.assertEqual(Comp.added, added + 1)                           # one probe for the clips' one face
+        hello = next(i for i in self.last("canvas")["items"] if i["text"] == "Hello")
+        self.assertAlmostEqual(hello["box"]["lines"][0][1] / hello["box"]["px"], TRUE_BASELINE, delta=0.002)
+        self.assertEqual(len(self.host.tools["text_animator"]["baselines"]), 1)
+        self.page._refresh_live_preview(force=True)
+        self.assertEqual(Comp.added, added + 1)                           # known now
+        cm._baselines.clear()                                             # a new session
+        again = TextPlusTools(self.host_page)
+        self.addCleanup(again.deleteLater)
+        again._refresh_live_preview(force=True)
+        self.assertEqual(Comp.added, added + 1)                           # read from settings, not measured
+        self.assertAlmostEqual(cm.baseline("Arial"), TRUE_BASELINE, delta=0.002)
 
     def test_fonts_are_measured_from_the_files_resolve_uses(self):
         from types import SimpleNamespace
