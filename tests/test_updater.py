@@ -324,6 +324,11 @@ class RelaunchTests(unittest.TestCase):
             launcher = Path(tmp) / "Buddy.py"
             launcher.write_text(f"open({str(marker)!r}, 'w').write('ok')\n", encoding="utf-8")
             quitting = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(1.5)"])
+            # Reaped as it ends, as Buddy's own parent (Resolve) would: an
+            # unreaped child still answers kill(pid, 0) on macOS and Linux,
+            # so the helper would wait its whole minute.
+            import threading
+            threading.Thread(target=quitting.wait, daemon=True).start()
             started = time.monotonic()
             subprocess.run([sys.executable, "-c", updater._RELAUNCH, str(quitting.pid), sys.executable, str(launcher)],
                            timeout=30)

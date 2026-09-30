@@ -42,14 +42,17 @@ class NavTests(unittest.TestCase):
         ])
 
     def test_the_registry_has_media_manager_and_not_its_tabs(self):
-        from registry import REGISTRY
-        ids = [page_cls.tool_id for _category, page_cls in REGISTRY]
-        self.assertIn("media_manager", ids)
-        self.assertNotIn("media_relink", ids)
-        self.assertNotIn("batch_clip_renamer", ids)
+        # Read, not imported: importing registry.py imports every page, numpy and
+        # all - which the release workflow's test run doesn't install.
+        source = (_paths.APP / "registry.py").read_text(encoding="utf-8")
+        self.assertIn("MediaManagerPage", source)
+        self.assertNotIn("MediaRelinkPage", source)
+        self.assertNotIn("BatchClipRenamerPage", source)
         # Ask Buddy can still offer either tool by its own id.
+        from pages.media_manager.page import MediaManagerPage
+        registry = [("Media & Assets", MediaManagerPage)]
         for tool_id in ("media_relink", "batch_clip_renamer"):
-            self.assertTrue(get_tool(tool_id, REGISTRY).is_available, tool_id)
+            self.assertTrue(get_tool(tool_id, registry).is_available, tool_id)
 
 
 class ViewTests(unittest.TestCase):
