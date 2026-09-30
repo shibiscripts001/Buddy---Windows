@@ -12,11 +12,18 @@ scaled on the GPU - far cheaper than streaming JPEG frames to the page.
 Transparent where there is no picture, so a cleared surface shows the
 page's still underneath rather than a black box. If QtQuick can't load at
 all, a QVideoWidget stands in: flashes, but plays.
+
+Scrolled partly out of view, the widget covers only what's visible and
+crop() shifts the picture inside it. A mask can't do this: a QQuickWidget
+stacked on top (WA_AlwaysStackOnTop) is composited as a texture, and the
+compositor ignores widget masks - the whole stage showed over the page's
+bars. The QVideoWidget stand-in is a native window, where a mask works.
 """
 
 import os
 
-from PySide6.QtCore import QObject, Qt, QUrl, Signal
+from PySide6.QtCore import QObject, QRect, Qt, QUrl, Signal
+from PySide6.QtGui import QRegion
 from PySide6.QtMultimedia import QVideoFrame
 from PySide6.QtWidgets import QWidget
 
@@ -64,6 +71,21 @@ class VideoSurface(QObject):
         widget = QVideoWidget(parent)
         widget.setAspectRatioMode(Qt.KeepAspectRatio)
         return widget, widget
+
+    def crop(self, stage_width, stage_height, visible: QRect):
+        """The stage is stage_width x stage_height; `visible` is the part of
+        it in view (in the stage's own coordinates), which is what the
+        widget now covers."""
+        if self._root is not None:
+            for name, value in (("stageWidth", stage_width), ("stageHeight", stage_height),
+                                ("cropX", visible.x()), ("cropY", visible.y())):
+                self._root.setProperty(name, value)
+        else:
+            # The native stand-in covers the whole stage and is masked.
+            self.widget.setMask(QRegion(visible))
+
+    def covers_whole_stage(self):
+        return self._root is None
 
     def set_dim(self, dim):
         """Fades the picture back while the next clip loads."""

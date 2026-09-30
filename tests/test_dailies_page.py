@@ -11,7 +11,7 @@ from core import ffmpeg_log
 
 try:
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-    from PySide6.QtCore import QCoreApplication, Qt
+    from PySide6.QtCore import QCoreApplication, QPoint, Qt
     from PySide6.QtGui import QColor, QImage
     from PySide6.QtMultimedia import QVideoFrame
     from PySide6.QtWidgets import QApplication
@@ -82,10 +82,22 @@ class PageMessageTests(unittest.TestCase):
     def test_scrolling_crops_video_without_resizing_its_picture(self):
         self.page.on_stage_geometry({"x": 20, "y": 100, "width": 400, "height": 150,
                                      "stage": {"x": 20, "y": 50, "width": 400, "height": 200}})
-        self.assertEqual(self.page._video_rect.width(), 400)
-        self.assertEqual(self.page._video_rect.height(), 200)
-        clip = self.page._video_widget.mask().boundingRect()
-        self.assertEqual((clip.x(), clip.y(), clip.width(), clip.height()), (0, 50, 400, 150))
+        surface = self.page._surface
+        if surface.covers_whole_stage():        # the QVideoWidget stand-in: masked
+            self.assertEqual((self.page._video_rect.width(), self.page._video_rect.height()), (400, 200))
+            clip = self.page._video_widget.mask().boundingRect()
+            self.assertEqual((clip.x(), clip.y(), clip.width(), clip.height()), (0, 50, 400, 150))
+        else:
+            # A mask is ignored on the stacked-on-top QQuickWidget (the whole stage
+            # drew over the page's bars): the widget covers only what's in view...
+            rect = self.page._video_rect
+            origin = self.page.view.mapTo(self.page, QPoint(20, 50))
+            self.assertEqual((rect.x(), rect.y(), rect.width(), rect.height()),
+                             (origin.x(), origin.y() + 50, 400, 150))
+            # ...and the picture keeps the stage's size, shifted up by what's hidden.
+            root = surface._root
+            self.assertEqual([root.property(n) for n in ("stageWidth", "stageHeight", "cropX", "cropY")],
+                             [400, 200, 0, 50])
         self.page.on_stage_geometry({"x": 20, "y": 100, "width": 0, "height": 0,
                                      "stage": {"x": 20, "y": 50, "width": 400, "height": 200}})
         self.assertTrue(self.page._video_rect.isEmpty())

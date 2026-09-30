@@ -28,7 +28,7 @@ from collections import OrderedDict
 from time import monotonic
 
 from PySide6.QtCore import QPoint, QRect, Qt, QTimer
-from PySide6.QtGui import QImage, QKeySequence, QRegion, QShortcut
+from PySide6.QtGui import QImage, QKeySequence, QShortcut
 from core.resolve_worker import ResolveWorker
 from core.web_page import WebToolPage
 from pages.asset_manager.player import image_data_url
@@ -307,11 +307,19 @@ class DailiesPage(WebToolPage):
         except (KeyError, TypeError, ValueError):
             return
         # Crop the native surface to the visible workspace without shrinking
-        # the video itself when part of its stage scrolls out of view.
+        # the video itself when part of its stage scrolls out of view: the
+        # widget covers the visible part, the picture inside it is shifted
+        # (video_surface.py - a mask is ignored on the stacked-on-top widget).
         origin = self.view.mapTo(self, QPoint(sx, sy))
         clip = QRect(x - sx, y - sy, max(0, width), max(0, height)).intersected(QRect(0, 0, sw, sh))
-        self._video_rect = QRect(origin.x(), origin.y(), sw, sh) if not clip.isEmpty() else QRect()
-        self._video_widget.setMask(QRegion(clip))
+        if clip.isEmpty():
+            self._video_rect = QRect()
+        elif self._surface.covers_whole_stage():
+            self._video_rect = QRect(origin.x(), origin.y(), sw, sh)
+        else:
+            self._video_rect = clip.translated(origin)
+        if not clip.isEmpty():
+            self._surface.crop(sw, sh, clip)
         self._sync_video_widget()
 
     def _sync_video_widget(self):
