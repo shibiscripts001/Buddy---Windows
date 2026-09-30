@@ -250,6 +250,8 @@ class PageTests(unittest.TestCase):
         self.assertEqual(self.page.settings.path, self.tmp / "settings.json")
 
     def test_options_are_saved(self):
+        self.page.on_option({"key": "max_chars", "value": 0})
+        self.assertEqual(self.page.settings.get("max_chars"), 1)              # down to a word a subtitle
         self.page.on_option({"key": "max_chars", "value": 99})
         self.page.on_option({"key": "max_lines", "value": 1})
         self.page.on_option({"key": "language", "value": plan.MIXED})       # no languages chosen yet: refused

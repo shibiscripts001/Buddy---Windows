@@ -7,7 +7,9 @@ for 15 seconds or stop mid-clause. So cues are rebuilt from the WORD
 timings instead, against the usual subtitle readability limits (broadcast
 and streaming style guides agree on roughly these):
 
-  max_chars   characters per line (42)
+  max_chars   characters per line (42; 1-60 - a word is never split). 1 is
+              "a word a cue" (Style.one_word), for animating word by word:
+              every word its own cue, back to back with no gap
   max_lines   lines per cue (2)
   min / max   seconds on screen (1.0 / 7.0)
   gap         a pause this long between words always starts a new cue
@@ -74,12 +76,17 @@ class Style:
     speaker_names: bool = False   # "Speaker 1: ..." where a named speaker starts (build_cues)
 
     @property
+    def one_word(self) -> bool:
+        """A word a cue, each shown until the next starts: max_chars 1."""
+        return self.max_chars <= 1
+
+    @property
     def narrow_lines(self) -> bool:
         return self.cjk and self.wide
 
     @property
     def line_chars(self) -> int:
-        return max(8, round(self.max_chars * CJK_WIDTH)) if self.narrow_lines else self.max_chars
+        return max(1, round(self.max_chars * CJK_WIDTH)) if self.narrow_lines else self.max_chars
 
 
 # -------------------------------------------------------------- wrapping
@@ -203,6 +210,9 @@ def _flatten_words(segments: list[dict]) -> list[dict] | None:
                 # text uses it - elsewhere every word gets one anyway.
                 words.append({"start": float(w["start"]), "end": float(w["end"]), "text": text,
                               "sp": raw[:1].isspace(), "speaker": seg.get("speaker")})
+    # In time order: a segment filled in later (the worker's gap fill) can come
+    # after words it went before - one cue then ran backwards over the next.
+    words.sort(key=lambda w: w["start"])
     return words
 
 
@@ -240,7 +250,7 @@ def _cues_from_words(words: list[dict], style: Style) -> list[tuple[float, float
 
     def flush():
         if cur:
-            raw.append((cur[0]["start"], cur[-1]["end"], _join(cur, style.cjk), cur[0].get("speaker")))
+            raw.append((cur[0]["start"], cur[-1]["end"], _join(cur, style.cjk), cur[0].get("speaker"), len(cur)))
             cur.clear()
 
     for i, w in enumerate(words):
@@ -280,6 +290,45 @@ def _cues_from_words(words: list[dict], style: Style) -> list[tuple[float, float
     return _merge_orphans(raw, style)
 
 
+# Style.one_word: no word shows for less than a frame at 23.976 fps (41.7 ms) -
+# Resolve can't hold a subtitle shorter, and 36 of 5,558 words were (fast speech).
+WORD_MIN = 0.042
+
+
+def _word_cues(words: list[dict]) -> list[tuple]:
+    """Style.one_word: a cue per word. Words Whisper gave no time of their own
+    - one start for a run of them, zero long (26 in a 104-minute transcript) -
+    share the time up to the next word that has one, by length, so each still
+    shows; and a word that follows the last by less than WORD_MIN waits for it
+    (the run catches up at the next pause). (start, end, text, one word?) like
+    _merge_orphans."""
+    out, i = [], 0
+    while i < len(words):
+        j = i + 1
+        while j < len(words) and words[j]["start"] <= words[i]["start"] + 1e-6:
+            j += 1
+        group = words[i:j]
+        if len(group) == 1:
+            w = group[0]
+            out.append((w["start"], w["end"], w["text"], True))
+        else:
+            start = group[0]["start"]
+            end = words[j]["start"] if j < len(words) else max(max(w["end"] for w in group), start + 0.2 * len(group))
+            total = sum(len(w["text"]) for w in group) or 1
+            t = start
+            for w in group:
+                span = (end - start) * len(w["text"]) / total
+                out.append((t, t + span, w["text"], True))
+                t += span
+        i = j
+    for k in range(1, len(out)):
+        start, end, text, one = out[k]
+        earliest = out[k - 1][0] + WORD_MIN
+        if start < earliest:
+            out[k] = (earliest, max(end, earliest + WORD_MIN), text, one)
+    return out
+
+
 # Shorter than this, a cue is an orphan - a word or two cut off by a length
 # break, flashing up on its own for a second.
 ORPHAN_CHARS = 14
@@ -288,19 +337,20 @@ ORPHAN_CHARS = 14
 def _merge_orphans(raw, style: Style):
     """Fold a tiny cue back into the one before it when they're contiguous
     (no real pause between), the same person said both, and the result still
-    fits on screen. raw: (start, end, text, speaker); the speaker goes."""
+    fits on screen. raw: (start, end, text, speaker, words); out: (start,
+    end, text, one word?) - the speaker goes."""
     orphan = round(ORPHAN_CHARS * CJK_WIDTH) if style.narrow_lines else ORPHAN_CHARS
     out = []
-    for start, end, text, speaker in raw:
+    for start, end, text, speaker, count in raw:
         if out and len(text) < orphan and out[-1][3] == speaker:
-            p_start, p_end, p_text, _ = out[-1]
+            p_start, p_end, p_text, _, p_count = out[-1]
             joined = p_text + text if style.cjk else f"{p_text} {text}"
             if (start - p_end < style.pause_gap and end - p_start <= style.max_duration
                     and _fits(joined, style)):
-                out[-1] = (p_start, end, joined, speaker)
+                out[-1] = (p_start, end, joined, speaker, p_count + count)
                 continue
-        out.append((start, end, text, speaker))
-    return [(start, end, text) for start, end, text, _speaker in out]
+        out.append((start, end, text, speaker, count))
+    return [(start, end, text, count == 1) for start, end, text, _speaker, count in out]
 
 
 def _cues_from_segments(segments: list[dict], style: Style) -> list[tuple[float, float, str]]:
@@ -331,9 +381,13 @@ def _cues_from_segments(segments: list[dict], style: Style) -> list[tuple[float,
 
 
 def _finish(raw, style: Style) -> list[Cue]:
-    """Final timing and wrapping, shared by transcripts and translations."""
+    """Final timing and wrapping, shared by transcripts and translations.
+    raw: (start, end, text[, one word?]) - a cue that's one spoken word stays
+    on one line, however short the lines are (a word is never split: CJK
+    text wraps between characters, and would put "今日" on two)."""
     cues: list[Cue] = []
-    for i, (start, end, text) in enumerate(raw):
+    gap = 0.0 if style.one_word else style.min_gap      # a word a cue: no blank between words
+    for i, (start, end, text, *one_word) in enumerate(raw):
         nxt = raw[i + 1][0] if i + 1 < len(raw) else None
         # Stretch short cues toward the minimum, but never into the next -
         # not even to keep a cue visible: a floor applied after the clamp
@@ -344,10 +398,11 @@ def _finish(raw, style: Style) -> list[Cue]:
             end = start + style.min_duration
         end = max(end, start + 0.2)   # a zero-length cue would vanish
         if nxt is not None:
-            end = min(end, nxt - style.min_gap)
+            end = min(end, nxt - gap)
             if end <= start:
                 end = start + (nxt - start) / 2 if nxt > start else start + 0.01
-        cues.append(Cue(start, end, wrap(text, style.line_chars, style.max_lines, style.cjk)))
+        cues.append(Cue(start, end, text if one_word and one_word[0] else
+                        wrap(text, style.line_chars, style.max_lines, style.cjk)))
     return cues
 
 
@@ -376,7 +431,10 @@ def build_cues(segments: list[dict], style: Style | None = None) -> list[Cue]:
     words = _flatten_words(segments)
     if words and style.speaker_names:
         words = _name_speakers(words)
-    raw = _cues_from_words(words, style) if words else _cues_from_segments(segments, style)
+    if words and style.one_word:
+        raw = _word_cues(words)
+    else:
+        raw = _cues_from_words(words, style) if words else _cues_from_segments(segments, style)
     return _finish(raw, style)
 
 

@@ -462,7 +462,7 @@ class TranscribePage(WebToolPage):
             s["hotwords"] = str(value or "").strip()
         elif key == "max_chars":
             try:
-                s["max_chars"] = max(24, min(60, int(value)))
+                s["max_chars"] = max(1, min(60, int(value)))    # 1: a word per subtitle
             except (TypeError, ValueError):
                 pass
         elif key == "max_lines":

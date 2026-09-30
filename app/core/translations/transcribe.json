@@ -70,15 +70,15 @@
   "العربية": "عدد الأحرف في السطر",
   "Tiếng Việt": "Số ký tự mỗi dòng"
  },
- "24–60. 42 is the usual.": {
-  "日本語": "24～60。通常は 42 です。",
-  "Español": "24–60. Lo habitual es 42.",
-  "Deutsch": "24–60. Üblich sind 42.",
-  "Français": "24–60. 42 est la valeur habituelle.",
-  "한국어": "24–60. 보통 42입니다.",
-  "中文": "24–60。通常为 42。",
-  "العربية": "24–60. المعتاد 42.",
-  "Tiếng Việt": "24–60. Thường là 42."
+ "1–60. 42 is the usual; 1 gives each word its own subtitle.": {
+  "日本語": "1–60。通常は 42。1 にすると単語ごとに 1 つの字幕になります。",
+  "Español": "1–60. Lo habitual es 42; con 1, cada palabra tiene su propio subtítulo.",
+  "Deutsch": "1–60. Üblich sind 42; bei 1 bekommt jedes Wort einen eigenen Untertitel.",
+  "Français": "1–60. 42 est la valeur habituelle ; 1 donne à chaque mot son propre sous-titre.",
+  "한국어": "1–60. 보통 42입니다. 1로 하면 단어마다 자막이 하나씩 됩니다.",
+  "中文": "1–60。通常为 42；设为 1 时每个词单独成一条字幕。",
+  "العربية": "1–60. المعتاد 42؛ و1 يجعل لكل كلمة ترجمة خاصة بها.",
+  "Tiếng Việt": "1–60. Thường là 42; đặt 1 thì mỗi từ thành một phụ đề riêng."
  },
  "Per subtitle": {
   "日本語": "1 つの字幕あたり",

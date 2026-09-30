@@ -74,7 +74,7 @@ class CueTests(unittest.TestCase):
     def test_random_transcripts_keep_every_invariant(self):
         rnd = random.Random(11)
         for _ in range(400):
-            style = st.Style(max_chars=rnd.choice([24, 32, 42, 60]), max_lines=rnd.choice([1, 2]))
+            style = st.Style(max_chars=rnd.choice([1, 2, 5, 12, 24, 32, 42, 60]), max_lines=rnd.choice([1, 2]))
             words = random_words(rnd, rnd.randint(1, 80))
             cues = st.build_cues([{"start": 0, "end": 0, "text": "", "words": words}], style)
             said = "".join(w["word"].split()[0] for w in words)
@@ -122,6 +122,45 @@ class CueTests(unittest.TestCase):
                 self.assertNotIn(line[-1], leading, out)
                 self.assertNotIn(line[-1], "\u1039\u17d2", out)  # virama/coeng
 
+    def test_one_character_a_line_gives_a_word_a_subtitle(self):
+        """For animating word by word: no word is split, none are put together,
+        and each shows until the next starts."""
+        said = ["So", "it's", "been", "a", "while.", "Welcome", "back,", "everyone"]
+        words = [{"start": i * .3, "end": i * .3 + .25, "word": " " + w} for i, w in enumerate(said)]
+        cues = st.build_cues([{"start": 0, "end": 0, "text": "", "words": words}], st.Style(max_chars=1))
+        self.assertEqual([c.text for c in cues], said)
+        for a, b in zip(cues, cues[1:]):
+            self.assertAlmostEqual(a.end, b.start)                          # back to back: no blank frames
+        # Whisper's words without a time of their own (one start, zero long), and
+        # one-letter words that two lines of one would have paired up.
+        timed = [(0.0, 0.3, "I"), (0.4, 0.4, "a"), (0.4, 0.4, "am"), (0.4, 0.4, "here"), (1.0, 1.2, "a"), (1.3, 1.5, "I")]
+        words = [{"start": s0, "end": e0, "word": " " + w} for s0, e0, w in timed]
+        cues = st.build_cues([{"start": 0, "end": 0, "text": "", "words": words}], st.Style(max_chars=1, max_lines=2))
+        self.assertEqual([c.text for c in cues], ["I", "a", "am", "here", "a", "I"])
+        for a, b in zip(cues, cues[1:]):
+            self.assertGreater(a.end, a.start)
+            self.assertLessEqual(a.end, b.start + 1e-9)
+        self.assertAlmostEqual(cues[3].end, 1.0)                              # the untimed three share 0.4-1.0
+        fast = [{"start": 0.01 * i, "end": 0.01 * i + 0.01, "word": f" w{i}"} for i in range(5)] +                [{"start": 2.0, "end": 2.3, "word": " later"}]
+        cues = st.build_cues([{"start": 0, "end": 0, "text": "", "words": fast}], st.Style(max_chars=1))
+        self.assertTrue(all(c.end - c.start >= st.WORD_MIN - 1e-9 for c in cues))   # a frame each, at least
+        self.assertEqual(cues[-1].start, 2.0)                                           # caught up by the pause
+        ja = ["今日", "は", "撮影", "です", "。"]
+        segs = [{"start": 0, "end": 3, "text": "",
+                 "words": [{"start": i * .5, "end": i * .5 + .4, "word": w} for i, w in enumerate(ja)]}]
+        cues = st.build_cues(segs, st.Style(max_chars=1, cjk=True))
+        self.assertEqual([c.text for c in cues], ["今日", "は", "撮影", "です", "。"])
+
+    def test_words_are_put_in_time_order(self):
+        """A segment the gap fill added lands after words it came before: its
+        cue ran backwards over the next (seen on a real 104-minute transcript)."""
+        segs = [{"start": 20, "end": 21, "text": "", "words": [{"start": 20, "end": 20.5, "word": " channel."}]},
+                {"start": 4, "end": 5, "text": "", "words": [{"start": 4.6, "end": 5.0, "word": " Hmm"}]}]
+        for style in (st.Style(), st.Style(max_chars=1)):
+            cues = st.build_cues(segs, style)
+            self.assertEqual([c.text for c in cues], ["Hmm", "channel."])
+            self.assertLessEqual(cues[0].end, cues[1].start)
+
     def test_segments_without_word_timings_still_work(self):
         segs = [{"start": 0.0, "end": 10.0, "text": " ".join(["word"] * 40)}]
         cues = st.build_cues(segs, st.Style())
@@ -149,7 +188,7 @@ class TranslationTests(unittest.TestCase):
         rnd = random.Random(7)
         for _ in range(600):
             cjk = rnd.random() < 0.4
-            style = st.Style(max_chars=rnd.choice([24, 32, 42, 60]), max_lines=rnd.choice([1, 2]), cjk=cjk)
+            style = st.Style(max_chars=rnd.choice([1, 2, 5, 12, 24, 32, 42, 60]), max_lines=rnd.choice([1, 2]), cjk=cjk)
             words = [{"start": w["start"], "end": w["end"], "text": w["word"].strip(), "sp": True}
                      for w in random_words(rnd, rnd.randint(1, 60))]
             sents = st.sentences_from_words(words)
