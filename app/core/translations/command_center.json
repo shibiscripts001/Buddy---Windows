@@ -1239,5 +1239,25 @@
   "中文": "Resolve 没有添加标记。",
   "العربية": "لم يضف Resolve العلامة.",
   "Tiếng Việt": "Resolve không thêm điểm đánh dấu."
+ },
+ "Add a Run button": {
+  "日本語": "実行ボタンを追加",
+  "Español": "Añadir un botón Ejecutar",
+  "Deutsch": "Ausführen-Schaltfläche hinzufügen",
+  "Français": "Ajouter un bouton Exécuter",
+  "한국어": "실행 버튼 추가",
+  "中文": "添加运行按钮",
+  "العربية": "إضافة زر تشغيل",
+  "Tiếng Việt": "Thêm nút Chạy"
+ },
+ "Another Run button": {
+  "日本語": "もう 1 つの実行ボタン",
+  "Español": "Otro botón Ejecutar",
+  "Deutsch": "Weitere Ausführen-Schaltfläche",
+  "Français": "Un autre bouton Exécuter",
+  "한국어": "실행 버튼 하나 더",
+  "中文": "再加一个运行按钮",
+  "العربية": "زر تشغيل آخر",
+  "Tiếng Việt": "Thêm một nút Chạy"
  }
 }

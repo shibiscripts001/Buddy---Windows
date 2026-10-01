@@ -74,6 +74,8 @@ function optionControl(b, o) {
     return el("label.cc-opt", {}, [el("span.muted.small", {text: o.label}), swatchOf(o, value), select]);
 }
 
+let supported = true;   // hot keys work here (Windows); elsewhere only the Run buttons
+
 function bindingRow(action, b) {
     const keys = el("button.cc-keys", {type: "button", title: b.keys ? "Click, then press new keys (Backspace clears)" : "Click, then press the keys you want",
         "data-keys": b.keys || "", onclick: () => {
@@ -87,7 +89,7 @@ function bindingRow(action, b) {
     const remove = el("button.btn.ghost.icon.cc-remove", {type: "button", title: "Remove this hot key", onclick: () => send("remove", {id: b.id})}, icon("trash"));
     const notes = [b.error ? el("div.cc-error", {text: b.error}) : null, b.note ? el("div.cc-note", {text: b.note}) : null];
     return el("div.cc-binding", {}, [
-        el("div.cc-row", {}, [el("div.cc-opts", {}, action.options.map(o => optionControl(b, o))), keys, run, remove]),
+        el("div.cc-row", {}, [el("div.cc-opts", {}, action.options.map(o => optionControl(b, o))), supported ? keys : null, run, remove]),
         ...notes,
     ]);
 }
@@ -97,6 +99,7 @@ Buddy.on("state", s => {
     $("enabled").checked = s.enabled;
     $("enabled").disabled = !s.supported;
     $("unsupported").hidden = s.supported;
+    supported = s.supported;
     if (recording) return;   // don't redraw under a key box that's waiting
     $("groups").replaceChildren(...s.groups.map(g => el("section.cc-group", {}, [
         el("h2.section-title", {text: g.name}),
@@ -104,7 +107,8 @@ Buddy.on("state", s => {
             el("div.cc-head", {}, [el("h3.cc-title", {text: a.label}), el("p.muted.small.cc-about", {text: a.about})]),
             ...a.bindings.map(b => bindingRow(a, b)),
             el("button.btn.ghost.cc-add", {type: "button", onclick: () => send("add", {action: a.id})},
-               [icon("plus"), el("span", {text: a.bindings.length ? "Another hot key" : "Add a hot key"})]),
+               [icon("plus"), el("span", {text: supported ? (a.bindings.length ? "Another hot key" : "Add a hot key")
+                                                      : (a.bindings.length ? "Another Run button" : "Add a Run button")})]),
         ])),
     ])));
     $("recent").replaceChildren(...(s.recent.length ? s.recent.map(r => el(`div.cc-recent-row${r.ok ? "" : ".bad"}`, {}, [
