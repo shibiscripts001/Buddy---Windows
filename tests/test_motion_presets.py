@@ -5,7 +5,10 @@ over a timeline-sized canvas, each channel a BezierSpline written whole with
 SetKeyFrames, Center through an XYPath, and every change followed by the
 ExportFusionComp + ImportFusionComp round trip the Edit page needs."""
 
+import copy
+import re
 import unittest
+from unittest import mock
 
 import _paths  # noqa: F401
 from pages.text_animator import framing, motion, motion_resolve as mr
@@ -25,7 +28,13 @@ class Output:
 
 class Input:
     def __init__(self, tool, name):
-        self.tool, self.name, self.source, self.value = tool, name, None, None
+        self.tool, self.name, self.source, self.value, self.expression = tool, name, None, None, None
+
+    def SetExpression(self, text):
+        self.expression = text
+
+    def GetExpression(self):
+        return self.expression
 
     def ConnectTo(self, output):
         self.source = output
@@ -130,7 +139,10 @@ class Item:
 
     def __init__(self, comp=None, name="clip", size=(1920, 1080), **inspector):
         self.comps = [comp] if comp else []
+        self.names = [f"Composition {i + 1}" for i in range(len(self.comps))]
         self.name, self.size, self.reloads, self.deleted = name, size, 0, []
+        self.exported = {}          # path -> a copy of the comp, as the file would hold it
+        self.refuse_delete = False
         self.props = {"ZoomX": 1.0, "ZoomY": 1.0, "ZoomGang": True, "Pan": 0.0, "Tilt": 0.0,
                       "RotationAngle": 0.0, "AnchorPointX": 0.0, "AnchorPointY": 0.0, "FlipX": False,
                       "FlipY": False, "CropLeft": 0.0, "CropRight": 0.0, "CropTop": 0.0, "CropBottom": 0.0,
@@ -146,24 +158,45 @@ class Item:
     def GetName(self): return self.name
     def GetFusionCompCount(self): return len(self.comps)
     def GetFusionCompByIndex(self, i): return self.comps[i - 1]
-    def GetFusionCompNameList(self): return [f"Composition {i + 1}" for i in range(len(self.comps))]
-    def LoadFusionCompByName(self, _name): return self.comps[-1]
+    def GetFusionCompNameList(self): return list(self.names)
+    def LoadFusionCompByName(self, name): return self.comps[self.names.index(name)]
 
     def AddFusionComp(self):
         self.comps.append(Comp(size=self.size))
+        self.names.append(self._fresh_name())
         return self.comps[-1]
 
-    def ExportFusionComp(self, path, _index):
-        open(path, "w").write("Composition {}")
+    def _fresh_name(self):
+        n = 1
+        while f"Composition {n}" in self.names:
+            n += 1
+        return f"Composition {n}"
+
+    def ExportFusionComp(self, path, index):
+        with open(path, "w") as f:
+            f.write("Composition {}")
+        self.exported[path] = copy.deepcopy(self.comps[index - 1])
         return True
 
-    def ImportFusionComp(self, _path):
+    def ImportFusionComp(self, path):
+        # As Resolve does: a new comp, added after the others.
         self.reloads += 1
+        self.comps.append(copy.deepcopy(self.exported[path]))
+        self.names.append(self._fresh_name())
         return self.comps[-1]
 
     def DeleteFusionCompByName(self, name):
+        if self.refuse_delete or len(self.comps) == 1 or name not in self.names:
+            return False            # never the last one (Studio 21.1)
+        i = self.names.index(name)
         self.deleted.append(name)
-        self.comps.pop()
+        del self.comps[i], self.names[i]
+        return True
+
+    def RenameFusionCompByName(self, old, new):
+        if old not in self.names or new in self.names:
+            return False
+        self.names[self.names.index(old)] = new
         return True
 
 
@@ -177,8 +210,19 @@ def chain(comp):
     return names
 
 
+def carrier(inp):
+    """The carrier an input plays its keys from through its expression, or None."""
+    if not inp.expression:
+        return None
+    return inp.tool.comp.FindTool(inp.expression.split(":", 1)[0])
+
+
 def curve(inp):
-    """The keyframes on the spline feeding an input, or None."""
+    """The keyframes on the spline feeding an input - straight, or through the
+    carrier its expression reads - or None."""
+    held = carrier(inp)
+    if held is not None:
+        inp = held.Angle
     return inp.source.tool.keyframes if inp.source else None
 
 
@@ -460,7 +504,7 @@ class OnClips(unittest.TestCase):
         comp = item.comps[0]
         self.assertEqual(chain(comp), ["MediaOut1", "TextPlus1"])
         self.assertEqual(sorted(t.reg_id for t in comp.tools.values()), ["MediaOut", "TextPlus"])
-        self.assertEqual(item.deleted, [])
+        self.assertEqual(item.names, ["Composition 1"])     # each import replaced the one before
 
     def test_remove_leaves_a_comp_buddy_made_passing_straight_through(self):
         # Resolve won't delete a clip's last composition.
@@ -468,7 +512,7 @@ class OnClips(unittest.TestCase):
         self.put(item, "pop")
         self.assertTrue(mr.remove(item))
         self.assertEqual(chain(item.comps[0]), ["MediaOut1", "MediaIn1"])
-        self.assertEqual(item.deleted, [])
+        self.assertEqual(item.names, ["Composition 1"])
         self.assertEqual(item.reloads, 2)
 
     def test_remove_without_a_preset_does_nothing(self):
@@ -479,8 +523,185 @@ class OnClips(unittest.TestCase):
     def test_several_compositions_are_left_alone(self):
         item = Item(Comp())
         item.comps.append(Comp())
+        item.names.append("Composition 2")
         with self.assertRaises(RuntimeError):
             self.put(item, "pop")
+
+    def test_apply_again_and_again_on_the_comp_that_plays(self):
+        # Each round trip's import is a new comp; the one it came from goes,
+        # so the next Apply finds one comp, with the preset in it.
+        item = Item()
+        for pid in ("pop", "whip", "slide"):
+            self.put(item, pid)
+            self.assertEqual(item.names, ["Composition 1"])
+        self.assertEqual(item.comps[0].FindTool("BuddyMotion").GetData(mr.TAG), "slide")
+        self.assertTrue(mr._has_motion(item))
+        self.assertTrue(mr.remove(item))
+        self.assertFalse(mr._has_motion(item))
+        self.assertEqual(len(item.comps), 1)
+
+    def test_a_clip_buddy_1_1_36_left_two_comps_on(self):
+        # The comp the preset was built in, and the imported copy that plays.
+        item = Item()
+        self.put(item, "pop")
+        stale = copy.deepcopy(item.comps[0])
+        item.comps.insert(0, stale)
+        item.names = ["Composition 1", "Composition 2"]
+        playing = item.comps[1]
+        playing.FindTool("BuddyMotion").SetData(mr.TAG, "whip")
+        self.assertEqual(mr._motion_comp(item)[1], playing)        # the newest, not comp 1
+        self.put(item, "slide")                                     # no "several compositions"
+        self.assertEqual(len(item.comps), 1)                        # both old ones gone
+        self.assertEqual(item.comps[0].FindTool("BuddyMotion").GetData(mr.TAG), "slide")
+
+    def test_a_delete_resolve_turns_down_leaves_a_comp_the_next_apply_passes_over(self):
+        item = Item()
+        self.put(item, "pop")
+        item.refuse_delete = True
+        self.put(item, "whip")
+        self.assertEqual(len(item.comps), 2)
+        item.refuse_delete = False
+        self.put(item, "slide")
+        self.assertEqual(len(item.comps), 1)
+        self.assertEqual(item.comps[0].FindTool("BuddyMotion").GetData(mr.TAG), "slide")
+
+    def test_a_failed_apply_leaves_the_clip_as_it_was(self):
+        item = Item(Pan=40.0)
+        self.put(item, "whip")
+        before = chain(item.comps[0])
+        props = dict(item.props)
+        with mock.patch.object(mr, "_key", side_effect=RuntimeError("couldn't connect a keyframe curve")):
+            with self.assertRaises(RuntimeError):
+                self.put(item, "pop")
+        self.assertEqual(len(item.comps), 1)
+        comp = item.comps[0]
+        self.assertEqual(comp.FindTool("BuddyMotion").GetData(mr.TAG), "whip")    # the old preset is still on
+        self.assertEqual(chain(comp), before)
+        self.assertTrue(curve(comp.FindTool("BuddyMotion").Center.source.tool.X))
+        self.assertEqual(item.props, props)
+
+    def test_a_failed_remove_leaves_the_preset_on(self):
+        item = Item()
+        self.put(item, "pop")
+        with mock.patch.object(mr, "_take_out", side_effect=RuntimeError("boom")):
+            with self.assertRaises(RuntimeError):
+                mr.remove(item)
+        self.assertEqual(len(item.comps), 1)
+        self.assertEqual(item.comps[0].FindTool("BuddyMotion").GetData(mr.TAG), "pop")
+
+    def test_a_one_frame_clip_is_turned_away_untouched(self):
+        with self.assertRaises(ValueError):
+            motion.plan(PRESETS["pop"], 1, 24)
+        item = Item()
+        with self.assertRaises(RuntimeError):
+            self.put(item, "pop", clip_frames=1)
+        self.assertEqual(item.comps, [])                            # no comp added for nothing
+        two = motion.plan(PRESETS["pop"], 2, 24)["Size"]
+        self.assertLessEqual(max(two), 1)                           # nothing past the last frame
+
+
+def play(expression, time, start, end):
+    """The comp frame a trim-following expression plays its keys at, worked out
+    the way Fusion would: comp.RenderStart/End are the trimmed clip's."""
+    mapping = expression.split('GetValue("Angle", ', 1)[1][:-1]
+    mapping = mapping.replace("comp.RenderStart", "RS").replace("comp.RenderEnd", "RE")
+    return eval(mapping, {"iif": lambda c, a, b: a if c else b, "time": time, "RS": start, "RE": end})
+
+
+class Trimming(unittest.TestCase):
+    """An In and an Out ride the clip's ends after it's trimmed in the Edit page.
+    The ranges are what Studio 21.1 showed for a 5 s still: 0-119, 0-95 with a
+    second off the end, 24-95 with a second off the start too."""
+
+    def setUp(self):
+        self.item = Item(name="still")
+        mr.apply(self.item, "pop", lambda n, r, a: motion.plan(PRESETS["pop"], n, 24 * r, at=a), 120, None,
+                 (1920, 1080), mr.FIT, mr.read_inspector(self.item), {"way": "both"})
+        self.merge = self.item.comps[0].FindTool("BuddyMotion")
+        self.expr = self.merge.Size.expression
+        self.keys = curve(self.merge.Size)
+        self.size = lambda c: motion.evaluate({f: {"value": k[1], "lh": None, "rh": None} for f, k in self.keys.items()}, c)
+
+    def test_untrimmed_it_plays_as_laid_out(self):
+        for t in range(120):
+            self.assertAlmostEqual(play(self.expr, t, 0, 119), t)
+
+    def test_a_trimmed_end_brings_the_out_with_it(self):
+        for back in range(8):                       # the Out's last frames land on the new end
+            self.assertAlmostEqual(play(self.expr, 95 - back, 0, 95), 119 - back)
+        for t in range(10):                         # the In is where it was
+            self.assertAlmostEqual(play(self.expr, t, 0, 95), t)
+        self.assertAlmostEqual(self.size(play(self.expr, 95, 0, 95)), 0.0)   # gone by the last frame, as before
+
+    def test_a_trimmed_start_brings_the_in_with_it(self):
+        for k in range(10):
+            self.assertAlmostEqual(play(self.expr, 24 + k, 24, 95), k)
+        self.assertEqual(self.size(play(self.expr, 24, 24, 95)), 0.0)   # starts from nothing, as before
+        self.assertAlmostEqual(play(self.expr, 95, 24, 95), 119)
+
+    def test_a_longer_clip_holds_still_between_and_never_replays_the_in(self):
+        in_end = next(last for name, _f, _l, _first, last in motion.plan(PRESETS["pop"], 120, 24)["moves"] if name == "in")
+        for t in range(int(in_end) + 1, 288):                      # the Out starts at 288.92
+            c = play(self.expr, t, 0, 299)
+            self.assertGreaterEqual(c, in_end)
+            self.assertAlmostEqual(self.size(c), 1.0, places=3)
+        self.assertAlmostEqual(play(self.expr, 299, 0, 299), 119)
+
+    def test_a_clip_trimmed_shorter_than_its_moves_squeezes_both(self):
+        frames = [play(self.expr, t, 40, 49) for t in range(40, 50)]
+        self.assertAlmostEqual(frames[0], 0)
+        self.assertAlmostEqual(frames[-1], 119)
+        self.assertEqual(frames, sorted(frames))
+        self.assertAlmostEqual(play(self.expr, 40, 40, 40), 0)           # a single frame: no division by nothing
+
+    def test_only_what_read_back_right_goes_in_the_expression(self):
+        # time, comp.RenderStart/End, iif, numbers and Tool:GetValue - nothing
+        # untried (an expression on a point input crashed Resolve 21.1).
+        words = set(re.findall(r"[A-Za-z_][A-Za-z_.]*", self.expr))
+        self.assertLessEqual(words, {"BuddyMotionKeysSize:GetValue", "BuddyMotionKeysSize", "GetValue", "Angle",
+                                     "iif", "time", "comp.RenderStart", "comp.RenderEnd"})
+        self.assertNotIn("e+", self.expr)
+
+    def test_the_keys_sit_on_carriers_off_the_flow(self):
+        comp = self.item.comps[0]
+        self.assertEqual(chain(comp), ["MediaOut1", "BuddyMotion", "MediaIn1"])
+        carrier = comp.FindTool("BuddyMotionKeysSize")
+        self.assertEqual(carrier.reg_id, "Transform")
+        self.assertTrue(carrier.Angle.source)                   # the spline
+        self.assertIsNone(self.merge.Size.source)               # the Merge only reads it
+
+    def test_a_move_follows_the_trims_through_the_motion_path(self):
+        item = Item()
+        mr.apply(item, "whip", lambda n, r, a: motion.plan(PRESETS["whip"], n, 24 * r, at=a), 120, None,
+                 (1920, 1080), mr.FIT, mr.read_inspector(item), {"way": "both"})
+        path = item.comps[0].FindTool("BuddyMotion").Center.source.tool
+        self.assertEqual(path.reg_id, "XYPath")                 # no expression on the point itself
+        self.assertIsNone(item.comps[0].FindTool("BuddyMotion").Center.expression)
+        for axis in ("X", "Y"):
+            self.assertTrue(getattr(path, axis).expression.startswith(f"BuddyMotionKeys{axis}:"))
+        self.assertAlmostEqual(play(path.X.expression, 95, 0, 95), 119)
+
+    def test_applying_again_and_removing_leave_no_stray_carriers(self):
+        comp = lambda: self.item.comps[0]
+        mr.apply(self.item, "whip", lambda n, r, a: motion.plan(PRESETS["whip"], n, 24 * r, at=a), 120, None,
+                 (1920, 1080), mr.FIT, mr.read_inspector(self.item), {"way": "both"})
+        names = sorted(n for n in comp().tools if n.startswith(mr.CARRIER))
+        self.assertEqual(names, ["BuddyMotionKeysX", "BuddyMotionKeysY"])          # Pop's Size carrier went
+        self.assertTrue(mr.remove(self.item))
+        self.assertEqual([n for n in comp().tools if n.startswith(mr.CARRIER)], [])
+        self.assertEqual(sorted(t.reg_id for t in comp().tools.values()), ["MediaIn", "MediaOut"])
+
+    def test_an_emphasis_stays_on_the_frames_it_went_on(self):
+        item = Item()
+        tada = "css-animate-tada-card"
+        mr.apply(item, tada, lambda n, r, a: motion.plan(PRESETS[tada], n, 24 * r, at=a), 120, 30,
+                 (1920, 1080), mr.FIT, mr.read_inspector(item), {"way": "both"})
+        merge = item.comps[0].FindTool("BuddyMotion")
+        keyed = [getattr(merge, n) for n in ("Size", "Angle") if getattr(merge, n).source or getattr(merge, n).expression]
+        self.assertTrue(keyed)
+        for inp in keyed:
+            self.assertIsNone(inp.expression)
+        self.assertIsNone(mr.time_map(0, 120, 0, 0))
 
 
 class Framing(unittest.TestCase):

@@ -70,6 +70,7 @@ class AnimationPage(WebToolPage):
         self.selection = None       # motion_resolve.summary(), or None before the first read
         self.problem = ""
         self.working = ""           # "apply" / "remove" while a job runs
+        self._queued = None         # (job, done) waiting for the worker to be free
         self._worker = ResolveWorker(self)
         self._poll = QTimer(self)
         self._poll.setInterval(POLL_MS)
@@ -114,9 +115,26 @@ class AnimationPage(WebToolPage):
 
     def _read_selection(self):
         controller = self._controller()
-        if controller is None or self._worker.busy():
+        if controller is None or self._worker.busy() or self._queued or self.working:
             return
-        self._worker.start(lambda: motion_resolve.summary(controller), self._on_selection)
+        self._run(lambda: motion_resolve.summary(controller), self._on_selection)
+
+    def _run(self, job, done):
+        """Starts a worker job; when it's over, whatever is queued behind it."""
+        def finished(result, error):
+            try:
+                done(result, error)
+            finally:
+                self._next()
+        return self._worker.start(job, finished)
+
+    def _next(self):
+        if self._queued is None or self._worker.busy():
+            return
+        job, done = self._queued
+        self._queued = None
+        if not self._run(job, done):
+            self._queued = (job, done)
 
     def _on_selection(self, result, error):
         if isinstance(error, motion_resolve.SelectionUnavailable):
@@ -199,15 +217,24 @@ class AnimationPage(WebToolPage):
         self._read_selection()
 
     def _start(self, what, job, done):
+        """Runs an Apply / Update / Remove on the worker. While it's busy (most
+        often the selection poll) the job waits its turn rather than holding
+        the UI thread up for it."""
+        if self.working:
+            return
         controller = self._controller(connect=True)
         if controller is None:
             self.emit("alert", {"title": "Can't reach Resolve", "text": self.problem})
             return self._push_state()
-        if not self._worker.wait_idle(3) or not self._worker.start(lambda: job(controller), done):
-            self.emit("toast", {"text": "Resolve is busy – try again in a moment."})
-            return
         self.working = what
         self._push_state()
+        task = (lambda: job(controller), done)
+        if self._worker.busy():
+            self._queued = task
+            if self._worker.running_for() > 2:
+                self.emit("toast", {"text": "Resolve is busy – this starts as soon as it's free."})
+        elif not self._run(*task):
+            self._queued = task
 
     def on_apply(self, _payload=None):
         preset = self._by_id[self.settings.get("chosen")]

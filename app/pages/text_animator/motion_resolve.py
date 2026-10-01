@@ -12,7 +12,11 @@ in just before MediaOut, over a clear Background:
 
 and the Merge's Center (through an XYPath), Size, Angle and Blend are keyed
 with BezierSplines: motion.plan's few eased keys, handles and all, written
-to each spline whole (SetKeyFrames). A Merge rather than
+to each spline whole (SetKeyFrames). An In and an Out follow the clip's
+trims: their keys sit on carriers (unconnected Transforms, BuddyMotionKeys*)
+and the Merge plays them through an expression that counts the In from the
+comp's first frame and the Out back from its last (time_map) - so a clip
+trimmed in the Edit page keeps its whole move, with Buddy closed. A Merge rather than
 a Transform: Blend over a clear background is a real fade, where a
 Transform's Blend mixes in the unmoved picture. Nothing already in the comp
 is changed, so the user's own Fusion work stays, and the Buddy tools carry
@@ -52,6 +56,7 @@ TAG = "BuddyMotion"                 # tool data key on the Merge: the preset id
 MERGE_NAME, CANVAS_NAME = "BuddyMotion", "BuddyMotionCanvas"
 CROP_NAME, SHAPE_NAME = "BuddyMotionCrop", "BuddyMotionShape"   # the framing, in front of the Merge
 FRAMING = "BuddyMotionFraming"      # tool data on the Merge: framing.dumps() of what came in
+CARRIER = "BuddyMotionKeys"         # + channel: an unconnected Transform holding its keys (_keyed)
 FAR = -32768                        # AddTool's "don't place it in the flow" position
 LOOK_AT = 40                        # summary(): comps opened per read, at most
 
@@ -174,14 +179,40 @@ def summary(controller):
 
 
 def _has_motion(item):
-    """A cheap look: does the clip's comp hold a Buddy Merge? No comp, no."""
+    """A cheap look: does one of the clip's comps hold a Buddy Merge? No comp, no."""
     try:
-        if not item.GetFusionCompCount():
-            return False
-        comp = item.GetFusionCompByIndex(1)
-        return comp is not None and _buddy_merge(comp) is not None
+        return _motion_comp(item) is not None
     except Exception:
         return False
+
+
+def _motion_comp(item):
+    """(index, comp, Merge) for the comp Buddy's preset is in, or None. The
+    newest that holds one: every change comes back in as a new comp
+    (_swap_in), and Buddy 1.1.36 left the one it came from behind - an older
+    copy with a Merge of its own, which this passes over."""
+    for index in range(int(item.GetFusionCompCount() or 0), 0, -1):
+        comp = item.GetFusionCompByIndex(index)
+        merge = _buddy_merge(comp) if comp is not None else None
+        if merge is not None:
+            return index, comp, merge
+    return None
+
+
+def _working_comp(item):
+    """(index, comp, Buddy Merge or None) for apply: the comp the preset is in,
+    else the clip's only comp, else a new one. Raises for a clip with several
+    of its own - which one plays isn't something the API says."""
+    found = _motion_comp(item)
+    if found is not None:
+        return found
+    count = int(item.GetFusionCompCount() or 0)
+    if count > 1:
+        raise RuntimeError("it has several Fusion compositions")
+    comp = item.AddFusionComp() if count == 0 else item.GetFusionCompByIndex(1)
+    if comp is None:
+        raise RuntimeError("Resolve gave no Fusion composition for it")
+    return 1, comp, None
 
 
 # ------------------------------------------------------------------ comps --
@@ -223,13 +254,32 @@ def _delete_feeding(inp):
     tool.Delete()
 
 
+def _carriers(comp):
+    """The comp's key carriers (_keyed). Their splines go with them."""
+    found = []
+    for tool in (comp.GetToolList(False, "Transform") or {}).values():
+        try:
+            if tool.GetAttrs("TOOLS_Name").startswith(CARRIER):
+                found.append(tool)
+        except Exception:
+            continue
+    return found
+
+
 def _take_out(comp, merge):
-    """Removes a Buddy Merge, its canvas, its keys and the framing tools in
-    front of it, and reconnects what fed them to MediaOut. That, or None."""
+    """Removes a Buddy Merge, its canvas, its keys (on it, or on carriers) and
+    the framing tools in front of it, and reconnects what fed them to
+    MediaOut. That, or None."""
     media_out = _media_out(comp)
     upstream = _source_tool(merge.Foreground)
     for name in ("Size", "Angle", "Blend", "Center"):
         _delete_feeding(getattr(merge, name))
+    for carrier in _carriers(comp):
+        try:
+            _delete_feeding(carrier.Angle)
+            carrier.Delete()
+        except Exception:
+            pass
     canvas = _source_tool(merge.Background)
     merge.Delete()
     if canvas is not None and canvas.GetAttrs("TOOLS_Name").startswith(CANVAS_NAME):
@@ -312,25 +362,134 @@ def _key(comp, inp, keys, base=0.0, times=1.0):
         raise RuntimeError("couldn't connect a keyframe curve")
 
 
-def _reload(item):
-    """Export the comp and import it again - the Edit page only renders what
-    comes in that way (see the module note). True when it went through."""
+def _num(value):
+    """A number as an expression writes it: plain decimals, never 1e+06."""
+    text = f"{float(value):.6f}".rstrip("0").rstrip(".")
+    return text if text not in ("", "-0") else "0"
+
+
+def time_map(base, frames, in_end, out_len):
+    """The expression that keeps an In on the clip's first frame and an Out on
+    its last, however the clip is trimmed later: the comp frame (`time`) to
+    play the keys at, as laid out for a clip of `frames` comp frames from
+    `base` - the In over its first `in_end` frames, the Out over its last
+    `out_len`. None when there's neither (an Emphasis stays on the frames it
+    went on at).
+
+    A trim moves the comp's render range with it (measured 21.1: 5 s still,
+    0-119; a second off the end, 0-95; a second off the start, 24-95), so
+    the In is counted from comp.RenderStart and the Out back from
+    comp.RenderEnd, with the rest held between. A clip trimmed shorter than
+    the two moves gets both squeezed in proportion, as plan() does. Only
+    what read back right through the API goes in: time, comp.RenderStart,
+    comp.RenderEnd, iif() and arithmetic."""
+    if in_end <= 0 and out_len <= 0:
+        return None
+    first, last, total = _num(base), _num(base + frames - 1), _num(in_end + out_len)
+    span = "(comp.RenderEnd - comp.RenderStart)"
+    squeeze = f"iif({span} < {total}, iif({span} < 1, 1, {span}) / {total}, 1)"
+    since = "(time - comp.RenderStart)"
+    out = f"({last} - (comp.RenderEnd - time) / {squeeze})"
+    rest = _num(base + in_end)
+    return (f"iif({since} <= {_num(in_end)} * {squeeze}, {first} + {since} / {squeeze}, "
+            f"iif({out} < {rest}, {rest}, {out}))")
+
+
+def _keyed(comp, inp, channel, keys, base, mapping, times=1.0):
+    """Keys for one channel. With a time map they go on a carrier - an
+    unconnected Transform named CARRIER + channel, the keys on its Angle -
+    and the input plays them through an expression (measured 21.1: a
+    Transform's keyed Angle read through Tool:GetValue("Angle", time - 30)
+    came back 30 frames late, exactly). Without one, straight on the input."""
+    if mapping is None:
+        return _key(comp, inp, keys, base, times)
+    carrier = comp.AddTool("Transform", FAR, FAR)
+    name = CARRIER + channel.replace(".", "")
+    carrier.SetAttrs({"TOOLS_Name": name})
+    _key(comp, carrier.Angle, keys, base, times)
+    inp.SetExpression(f'{name}:GetValue("Angle", {mapping})')
+
+
+def _temp_comp():
     handle, path = tempfile.mkstemp(prefix="buddy_motion_", suffix=".comp")
     os.close(handle)
+    return path
+
+
+def _forget(path):
     try:
-        if not item.ExportFusionComp(path, 1):
-            return False
-        if not item.ImportFusionComp(path):
-            return False
-        names = item.GetFusionCompNameList() or []
-        if names:
-            item.LoadFusionCompByName(names[-1])
+        os.remove(path)
+    except OSError:
+        pass
+
+
+def _export(item, index):
+    """The clip's comp `index` written to a temp .comp file: its path, or None."""
+    path = _temp_comp()
+    if item.ExportFusionComp(path, index):
+        return path
+    _forget(path)
+    return None
+
+
+def _swap_in(item, index, path):
+    """Imports a .comp file in place of the clip's comp `index`. Resolve adds
+    an import as a new comp and makes it the one that plays, so the comp it
+    replaces is deleted after it - along with any older copy still holding a
+    Buddy Merge (Buddy 1.1.36 left those) - and the new one takes the old
+    one's name. True when the import went through; a delete or rename Resolve
+    turns down leaves an extra comp, which _motion_comp passes over."""
+    names = list(item.GetFusionCompNameList() or [])
+    if not item.ImportFusionComp(path):
+        return False
+    after = list(item.GetFusionCompNameList() or [])
+    if not after:
         return True
-    finally:
+    new = after[-1]
+    item.LoadFusionCompByName(new)
+    old = names[index - 1] if 0 < index <= len(names) else None
+    stale = [old] if old else []
+    for i, name in enumerate(names, 1):
+        if name != old and name != new:
+            comp = item.GetFusionCompByIndex(i)
+            if comp is not None and _buddy_merge(comp) is not None:
+                stale.append(name)
+    gone = []
+    for name in stale:
         try:
-            os.remove(path)
-        except OSError:
+            if item.DeleteFusionCompByName(name):
+                gone.append(name)
+        except Exception:
             pass
+    if old in gone and old != new:
+        try:
+            item.RenameFusionCompByName(new, old)
+            item.LoadFusionCompByName(old)
+        except Exception:
+            pass
+    return True
+
+
+def _reload(item, index):
+    """Export comp `index` and import it in its place - the Edit page only
+    renders what comes in that way (see the module note). True when it
+    went through."""
+    path = _export(item, index)
+    if path is None:
+        return False
+    try:
+        return _swap_in(item, index, path)
+    finally:
+        _forget(path)
+
+
+def _restore(item, index, backup):
+    """Puts the copy saved before a change back in place of comp `index`, so a
+    change that failed half way leaves the clip as it was."""
+    try:
+        _swap_in(item, index, backup)
+    except Exception:
+        pass
 
 
 def comp_frames(comp, clip_frames):
@@ -359,12 +518,9 @@ def apply(item, preset_id, plan_for, clip_frames, at=None, canvas=None, mode=FIT
     back to neutral. On a clip Buddy already animated, it's what changed
     since and goes on top of the framing already in. `options` ({"way",
     "speed", "at"}) are kept for Update framing. Raises with a reason."""
-    count = item.GetFusionCompCount() or 0
-    if count > 1:
-        raise RuntimeError("it has several Fusion compositions")
-    comp = item.AddFusionComp() if count == 0 else item.GetFusionCompByIndex(1)
-    if comp is None:
-        raise RuntimeError("Resolve gave no Fusion composition for it")
+    if clip_frames < 2:
+        raise RuntimeError("it's only one frame long - too short for a move")
+    index, comp, old = _working_comp(item)
     media_out = _media_out(comp)
     if media_out is None:
         raise RuntimeError("its Fusion composition has no MediaOut")
@@ -377,7 +533,6 @@ def apply(item, preset_id, plan_for, clip_frames, at=None, canvas=None, mode=FIT
     fit = fit_scale(width, height, frame[0], frame[1], mode) if canvas else 1.0
     shown = (width * fit, height * fit)
 
-    old = _buddy_merge(comp)
     before = fr.loads(old.GetData(FRAMING)) if old is not None else None
     raw = inspector or {}
     if before:                          # re-framed since: on top of what's in
@@ -388,6 +543,44 @@ def apply(item, preset_id, plan_for, clip_frames, at=None, canvas=None, mode=FIT
         place = fr.from_inspector(raw, shown, frame)
         original = raw
     put = fr.merge_inputs(place, fit, frame)
+    # The old preset comes out before the new one is built, so a failure half
+    # way would leave the clip with neither: the comp as it was goes back.
+    backup = _export(item, index)
+    if backup is None:
+        raise RuntimeError("Resolve wouldn't save a copy of its Fusion composition first")
+    try:
+        _build(comp, media_out, old, preset_id, keys, base, put, width, height, frame, canvas,
+               {"raw": original, "place": place, "shown": shown, "options": options or {}},
+               trim_map(keys, base, frames))
+        if not _reload(item, index):
+            raise RuntimeError("Resolve didn't take the updated Fusion composition")
+    except Exception:
+        _restore(item, index, backup)
+        raise
+    finally:
+        _forget(backup)
+    # The framing is in the comp now; the Inspector goes back to neutral (a
+    # crop that couldn't come in stays).
+    neutral = {k: v for k, v in fr.NEUTRAL.items() if k not in fr.CROPS or fr.crop_comes_in(raw)}
+    write_inspector(item, {"ZoomGang": True, **neutral})
+
+
+def trim_map(keys, base, frames):
+    """time_map for motion.plan's keys on a comp of `frames` frames from
+    `base`: how far its In runs from the start and its Out from the end."""
+    in_end = out_len = 0
+    for name, *_rounded, first, last in keys.get("moves") or []:
+        if name == "in":
+            in_end = max(in_end, last)
+        elif name == "out":
+            out_len = max(out_len, frames - 1 - first)
+    return time_map(base, frames, in_end, out_len)
+
+
+def _build(comp, media_out, old, preset_id, keys, base, put, width, height, frame, canvas, record, mapping=None):
+    """apply's change to the comp: the old Buddy tools out, the framing and the
+    keyed Merge in - its keys played through `mapping` (trim_map) when
+    there is one. Raises with a reason."""
     comp.Lock()
     comp.StartUndo("Buddy motion preset")
     try:
@@ -426,39 +619,35 @@ def apply(item, preset_id, plan_for, clip_frames, at=None, canvas=None, mode=FIT
         merge.ConnectInput("Foreground", upstream)
         media_out.ConnectInput("Input", merge)
         merge.SetData(TAG, preset_id)
-        merge.SetData(FRAMING, fr.dumps({"raw": original, "place": place, "shown": shown,
-                                         "options": options or {}}))
+        merge.SetData(FRAMING, fr.dumps(record))
         size, turn = put["size"], put["angle"]
         dx, dy = put["centre"]
         centre = {0: {"value": 0.5}}
         if "Size" in keys:
-            _key(comp, merge.Size, keys["Size"], base, size)
+            _keyed(comp, merge.Size, "Size", keys["Size"], base, mapping, size)
         elif abs(size - 1.0) > 1e-9:
             merge.SetInput("Size", size)
         if "Angle" in keys:
-            _key(comp, merge.Angle, _shifted(keys["Angle"], turn), base)
+            _keyed(comp, merge.Angle, "Angle", _shifted(keys["Angle"], turn), base, mapping)
         elif turn:
             merge.SetInput("Angle", turn)
         if "Blend" in keys:
-            _key(comp, merge.Blend, keys["Blend"], base)
+            _keyed(comp, merge.Blend, "Blend", keys["Blend"], base, mapping)
         if "Center.X" in keys or "Center.Y" in keys:
+            # A position is a point, and an expression on a point input crashed
+            # Resolve 21.1 while it was being tried: the move goes through an
+            # XYPath, whose X and Y are plain numbers.
             merge.AddModifier("Center", "XYPath")
             path = _source_tool(merge.Center)
             if path is None:
                 raise RuntimeError("couldn't attach a motion path")
-            _key(comp, path.X, _shifted(keys.get("Center.X") or centre, dx), base)
-            _key(comp, path.Y, _shifted(keys.get("Center.Y") or centre, dy), base)
+            _keyed(comp, path.X, "X", _shifted(keys.get("Center.X") or centre, dx), base, mapping)
+            _keyed(comp, path.Y, "Y", _shifted(keys.get("Center.Y") or centre, dy), base, mapping)
         elif dx or dy:
             merge.SetInput("Center", {1: 0.5 + dx, 2: 0.5 + dy})
     finally:
         comp.EndUndo(True)
         comp.Unlock()
-    if not _reload(item):
-        raise RuntimeError("Resolve didn't take the updated Fusion composition")
-    # The framing is in the comp now; the Inspector goes back to neutral (a
-    # crop that couldn't come in stays).
-    neutral = {k: v for k, v in fr.NEUTRAL.items() if k not in fr.CROPS or fr.crop_comes_in(raw)}
-    write_inspector(item, {"ZoomGang": True, **neutral})
 
 
 def remove(item):
@@ -468,22 +657,29 @@ def remove(item):
     made stays, empty (MediaIn straight to MediaOut, which looks like the
     clip did): Resolve won't delete a clip's last composition
     (DeleteFusionCompByName returns False, 21.1)."""
-    if not item.GetFusionCompCount():
+    found = _motion_comp(item)
+    if found is None:
         return False
-    comp = item.GetFusionCompByIndex(1)
-    merge = _buddy_merge(comp) if comp is not None else None
-    if merge is None:
-        return False
+    index, comp, merge = found
     record = fr.loads(merge.GetData(FRAMING))
     canvas = _source_tool(merge.Background)
     frame = (canvas.GetInput("Width"), canvas.GetInput("Height")) if canvas is not None else None
-    comp.Lock()
+    backup = _export(item, index)
+    if backup is None:
+        raise RuntimeError("Resolve wouldn't save a copy of its Fusion composition first")
     try:
-        _take_out(comp, merge)
+        comp.Lock()
+        try:
+            _take_out(comp, merge)
+        finally:
+            comp.Unlock()
+        if not _reload(item, index):
+            raise RuntimeError("Resolve didn't take the updated Fusion composition")
+    except Exception:
+        _restore(item, index, backup)
+        raise
     finally:
-        comp.Unlock()
-    if not _reload(item):
-        raise RuntimeError("Resolve didn't take the updated Fusion composition")
+        _forget(backup)
     if record and frame and frame[0] and frame[1]:
         now = read_inspector(item)
         if fr.is_neutral(now) and record.get("raw"):
@@ -591,11 +787,12 @@ def run_update(controller, plan_for_preset, name_of=lambda item: item.GetName())
     fitting = setting("timelineInputResMismatchBehavior")
     updated, failed = 0, []
     for item, track_type in selected_items(timeline):
-        if classify(item, track_type) not in ANIMATABLE or not item.GetFusionCompCount():
+        if classify(item, track_type) not in ANIMATABLE:
             continue
-        merge = _buddy_merge(item.GetFusionCompByIndex(1))
-        if merge is None:
+        found = _motion_comp(item)
+        if found is None:
             continue
+        merge = found[2]
         preset_id = merge.GetData(TAG)
         record = fr.loads(merge.GetData(FRAMING)) or {}
         options = record.get("options") or {}

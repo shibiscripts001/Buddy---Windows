@@ -689,6 +689,76 @@ class AnimationPageTests(unittest.TestCase):
         self.assertEqual(AnimationPage.display_name, "Animation")
         self.assertEqual(AnimationPage.tool_id, "text_animator")          # saved settings and sidebar keep working
 
+    def queue_page(self):
+        """AnimationPage's job queue on a stand-in: a worker whose job ends
+        when the test says, and no Qt."""
+        from pages.text_animator.page import AnimationPage
+
+        class Worker:
+            def __init__(self):
+                self.running, self.started = None, []
+
+            def busy(self):
+                return self.running is not None
+
+            def running_for(self):
+                return 0.0
+
+            def start(self, job, done):
+                if self.running:
+                    return False
+                self.running = (job, done)
+                self.started.append(job)
+                return True
+
+            def wait_idle(self, _timeout):
+                raise AssertionError("the UI thread mustn't wait on Resolve")
+
+            def finish(self):
+                job, done = self.running
+                self.running = None
+                done(job(), None)
+
+        class Page:
+            _start, _run, _next, _read_selection = (AnimationPage._start, AnimationPage._run,
+                                                    AnimationPage._next, AnimationPage._read_selection)
+
+            def __init__(self):
+                self._worker, self._queued, self.working, self.problem, self.sent = Worker(), None, "", "", []
+
+            def _controller(self, connect=False):
+                return "controller"
+
+            def _push_state(self):
+                pass
+
+            def emit(self, name, payload=None):
+                self.sent.append(name)
+
+        return Page()
+
+    def test_an_action_behind_the_poll_waits_its_turn_without_blocking(self):
+        page = self.queue_page()
+        page._run(lambda: "selection", lambda r, e: None)               # the poll, mid-read
+        done = []
+        page._start("apply", lambda c: f"applied with {c}", lambda r, e: done.append(r))
+        self.assertEqual(page.working, "apply")                         # the buttons say so at once
+        self.assertEqual(done, [])
+        page._read_selection()                                          # a poll tick: not ahead of it
+        self.assertEqual(len(page._worker.started), 1)
+        page._worker.finish()                                           # the read ends...
+        self.assertEqual(len(page._worker.started), 2)                  # ...and Apply starts
+        page._worker.finish()
+        self.assertEqual(done, ["applied with controller"])
+
+    def test_a_second_click_while_working_does_nothing(self):
+        page = self.queue_page()
+        page._start("apply", lambda c: 1, lambda r, e: None)
+        page._start("remove", lambda c: 2, lambda r, e: None)
+        self.assertEqual(len(page._worker.started), 1)
+        self.assertIsNone(page._queued)
+        self.assertEqual(page.working, "apply")
+
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
 class SourceFramesTests(unittest.TestCase):

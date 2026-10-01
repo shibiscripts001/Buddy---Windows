@@ -324,7 +324,7 @@ def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
     "Angle", "Blend"} in comp frames 0..clip_frames-1, only the channels
     that move; a key is {"value", "lh", "rh"}, its handles (frame, value) or
     None. A few eased keys per move (fit). Plus "moves": [(name, first
-    frame, last frame)].
+    frame, last frame, and the two exactly - where the keys are)].
 
     way     "both", "in" or "out" - which part of an In · Out preset.
     speed   how fast it plays (2 = half as long).
@@ -332,8 +332,11 @@ def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
             it in the middle. Ignored by the others.
 
     A clip too short for the whole move gets it squeezed to fit; In and Out
-    together share the clip in proportion."""
-    end = max(1, int(clip_frames) - 1)
+    together share the clip in proportion. A one-frame clip has no room for
+    a move at all: ValueError."""
+    if int(clip_frames) < 2:
+        raise ValueError("it's only one frame long - too short for a move")
+    end = int(clip_frames) - 1
     rate = float(fps) / max(0.01, float(speed))
     found = moves(preset)
     kind = preset["kind"]
@@ -377,5 +380,5 @@ def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
             for t, v, lh, rh in fit(points, TOLERANCE[name]):
                 channel[round(t, 3)] = {"value": round(v, 5), "lh": rounded(lh), "rh": rounded(rh)}
         keys[name] = dict(sorted(channel.items()))
-    keys["moves"] = [(m, round(f), round(f + l)) for m, _a, _b, f, l in placed]
+    keys["moves"] = [(m, round(f), round(f + l), round(f, 3), round(f + l, 3)) for m, _a, _b, f, l in placed]
     return keys

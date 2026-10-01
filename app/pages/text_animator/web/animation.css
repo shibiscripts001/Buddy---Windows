@@ -9,6 +9,20 @@
     --pack-classic: var(--second-text);
     --pack-magic: color-mix(in srgb, var(--emphasis) 50%, var(--second-text));
     display: flex; flex-direction: column; gap: var(--section-gap);
+    flex: 1 1 auto; min-height: 0;
+}
+
+/* The title, tabs and apply card stay put and only the presets scroll, in a
+   box of their own - not a sticky card over a scrolling page: on a see-through
+   page (Modern, Nova) Qt's web view left trails of the stuck card behind.
+   The box reaches a few px past the presets so a tile's focus ring and
+   chosen edge aren't clipped. */
+.page:has(> .pv:not([hidden])) { overflow: hidden; }
+.pv-scroll {
+    flex: 1 1 auto; min-height: 0;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: var(--section-gap);
+    padding: 3px; margin: -3px;
 }
 
 /* --------------------------------------------------------- apply card -- */
@@ -33,8 +47,12 @@
 .pv-go { justify-content: flex-end; }
 .pv-reframed { justify-content: flex-end; }
 
-/* Narrow panes: the card stacks. */
+/* Narrow panes: the card stacks - too tall to keep in view, so the whole
+   page scrolls again. */
 @media (max-width: 720px) {
+    .page:has(> .pv:not([hidden])) { overflow-y: auto; }
+    .pv { flex: none; }
+    .pv-scroll { overflow: visible; flex: none; }
     .pv-apply { grid-template-columns: 1fr; }
     .pv-target { align-items: stretch; }
     .pv-sel { justify-content: flex-start; max-width: none; }
