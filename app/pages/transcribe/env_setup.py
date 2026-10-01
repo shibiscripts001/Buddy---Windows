@@ -19,13 +19,31 @@ Windows and Mac user. The CUDA libraries are only installed when an NVIDIA
 GPU is present.
 
 Pinned versions: ctranslate2 4.8.2 + cuBLAS 12.9.2.10 + cuDNN 9 is the
-combination known to work on an RTX 50-series card. Every package has wheels for Python 3.10-3.14 on
-Windows x64 and both Mac architectures, checked on PyPI; where the newest
-release skips a platform, pip falls back to the previous one by itself.
+combination known to work on an RTX 50-series card.
+
+Everything downloaded is pinned and checked (tools/pin_transcribe.py writes
+the pins; nothing here picks a newer version by itself):
+  Packages  locks/base.txt (+ locks/nvidia.txt): every package the engine
+            needs, at an exact version, with the SHA-256 of each published
+            wheel. pip installs them with --require-hashes (a file that
+            doesn't match is refused), --only-binary :all: (nothing built
+            from source, so no package's setup script runs) and --no-deps
+            (nothing outside the list). Then Windows Defender scans the
+            environment; a flagged one is deleted. A stamp in the venv
+            records which locks it was built from - an environment from
+            before, or from older locks, reads as not verified.
+  Models    model_pins.json: each model's repo at one commit, with every
+            file's SHA-256. Downloaded into a staging folder, checked file
+            by file, and only then swapped in - a mismatch is deleted.
+            Every format offered holds data, not code (CTranslate2's
+            model.bin, ONNX, JSON); only the pinned file names are fetched.
+            A copy found elsewhere (the Hugging Face cache, a folder picked
+            by hand) is checked against the same hashes and labelled.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import platform
@@ -36,10 +54,18 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
+from core import defender
+
 ROOT = Path.home() / ".buddy" / "transcribe"
 VENV_DIR = ROOT / "venv"
 MODELS_DIR = ROOT / "models"
 WORKER = Path(__file__).with_name("worker.py")
+# In the venv: which lock files built it (their SHA-256), once it's verified.
+STAMP_NAME = "buddy-lock.json"
+# Model folders already checked against model_pins.json, by path: each
+# file's size and modified time then, and the verdict - a folder unchanged
+# since isn't hashed again.
+VERIFIED_CACHE = ROOT / "verified.json"
 
 BASE_PACKAGES = ["faster-whisper==1.2.1", "ctranslate2==4.8.2", "onnx-asr==0.12.0"]
 # onnx-asr runs Parakeet: pure Python (<1 MB) on the onnxruntime that
@@ -60,17 +86,20 @@ NVIDIA_PACKAGES = ["nvidia-cublas-cu12==12.9.2.10", "nvidia-cudnn-cu12>=9,<10"]
 # per-token times. Distil-Whisper is English only.
 MODELS = [
     {"id": "large-v3", "label": "Large v3", "size_gb": 3.1, "engine": "whisper",
+     "repo": "Systran/faster-whisper-large-v3",
      "fit": "Most accurate, every language. Best with an NVIDIA GPU."},
     {"id": "large-v3-turbo", "label": "Large v3 Turbo", "size_gb": 1.6, "engine": "whisper",
+     "repo": "mobiuslabsgmbh/faster-whisper-large-v3-turbo",
      "fit": "Nearly as accurate, several times faster. Good default."},
     {"id": "parakeet-v3", "label": "Parakeet v3 (NVIDIA)", "size_gb": 0.67, "engine": "parakeet",
      "repo": "istupakov/parakeet-tdt-0.6b-v3-onnx",
      "files": ["config.json", "vocab.txt", "encoder-model.int8.onnx", "decoder_joint-model.int8.onnx"],
      "fit": "25 European languages only. Very fast even without a GPU; punctuates by itself."},
     {"id": "distil-large-v3.5", "label": "Distil-Whisper Large v3.5", "size_gb": 1.51, "engine": "whisper",
-     "english_only": True,
+     "repo": "distil-whisper/distil-large-v3.5-ct2", "english_only": True,
      "fit": "English only. About twice as fast as Large v3, nearly as accurate."},
     {"id": "small", "label": "Small", "size_gb": 0.48, "engine": "whisper",
+     "repo": "Systran/faster-whisper-small",
      "fit": "Fast on any computer. Less accurate."},
 ]
 MODEL_IDS = [m["id"] for m in MODELS]
@@ -114,6 +143,26 @@ TRANSLATION_BY_ID = {m["id"]: m for m in TRANSLATION_MODELS}
 TRANSLATION_FILES = ["model.bin", "config.json", "shared_vocabulary.json", "tokenizer.json",
                      "special_tokens_map.json", "tokenizer_config.json", "generation_config.json"]
 RECOMMENDED_TRANSLATION = "nllb-1.3b"
+# What a Whisper download fetches - faster-whisper's own patterns.
+WHISPER_PATTERNS = ["config.json", "preprocessor_config.json", "model.bin", "tokenizer.json", "vocabulary.*"]
+# Files a repo may leave out (small ships no preprocessor_config.json).
+OPTIONAL_FILES = {"preprocessor_config.json", "tokenizer.json", "special_tokens_map.json",
+                  "tokenizer_config.json", "generation_config.json"}
+
+# Every download pinned (tools/pin_transcribe.py writes these): each model
+# to one commit of its repo with every file's SHA-256, and the engine's
+# packages to exact versions with every wheel's SHA-256.
+PINS_PATH = Path(__file__).with_name("model_pins.json")
+LOCKS_DIR = Path(__file__).with_name("locks")
+
+
+def model_patterns(entry: dict) -> list[str]:
+    """The files a model's download fetches."""
+    if entry.get("files"):
+        return list(entry["files"])
+    if entry["id"] in TRANSLATION_IDS:
+        return list(TRANSLATION_FILES)
+    return list(WHISPER_PATTERNS)
 
 
 class SetupError(RuntimeError):
@@ -204,11 +253,28 @@ def packages_for(hw: Hardware) -> list[str]:
     return BASE_PACKAGES + (NVIDIA_PACKAGES if hw.nvidia else [])
 
 
+def lock_files(hw: Hardware) -> list[Path]:
+    """The lock files this machine installs from."""
+    return [LOCKS_DIR / "base.txt"] + ([LOCKS_DIR / "nvidia.txt"] if hw.nvidia else [])
+
+
+def _sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 22), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
 @dataclass
 class EnvStatus:
     ready: bool
     detail: str
     versions: dict = field(default_factory=dict)
+    # Installed from Buddy's current locks, hash-checked and scanned. False
+    # for an environment from before that, or from older locks: it works,
+    # but a Reinstall replaces it with a verified one.
+    verified: bool = False
 
 
 def env_status(timeout: int = 60) -> EnvStatus:
@@ -238,7 +304,20 @@ def env_status(timeout: int = 60) -> EnvStatus:
         versions = json.loads(out.stdout.strip().splitlines()[-1])
     except (ValueError, IndexError):
         versions = {}
-    return EnvStatus(True, "Ready.", versions)
+    verified = _stamp_current()
+    detail = "Ready." if verified else ("Ready, but installed before Buddy checked every download – Reinstall "
+                                        "replaces it with a verified copy.")
+    return EnvStatus(True, detail, versions, verified)
+
+
+def _stamp_current() -> bool:
+    """Built from the lock files as they are now (the stamp's hashes match)."""
+    try:
+        stamp = json.loads((VENV_DIR / STAMP_NAME).read_text(encoding="utf-8"))
+        locks = stamp["locks"]
+        return bool(locks) and all(_sha256(LOCKS_DIR / name) == sha for name, sha in locks.items())
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 Progress = Callable[[str], None]
@@ -274,24 +353,51 @@ class SetupCancelled(Exception):
     pass
 
 
+def _locked_install(locks: list[Path], progress: Progress, cancelled) -> None:
+    """pip, installing exactly the locked wheels: each checked against its
+    SHA-256, none built from source, nothing outside the list."""
+    args = [str(venv_python()), "-m", "pip", "install", "--disable-pip-version-check", "--progress-bar", "off",
+            "--require-hashes", "--only-binary", ":all:", "--no-deps"]
+    for lock in locks:
+        args += ["-r", str(lock)]
+    _run_streaming(args, progress, cancelled, "Installing packages")
+
+
 def install_environment(progress: Progress = print, cancelled=lambda: False,
-                        hw: Hardware | None = None) -> None:
-    """Create ~/.buddy/transcribe/venv and install the engine into it.
-    Safe to re-run: an existing venv is reused and pip only fetches what's
-    missing."""
+                        hw: Hardware | None = None, fresh: bool = False) -> None:
+    """Create ~/.buddy/transcribe/venv and install the engine into it from
+    the locks. An environment that isn't verified - from before the locks,
+    or from older ones - is built again from scratch (fresh): packages
+    installed unchecked aren't kept. Otherwise safe to re-run: pip only
+    fetches what's missing. Models are never touched."""
     hw = hw or detect_hardware()
     ROOT.mkdir(parents=True, exist_ok=True)
+    if VENV_DIR.exists() and (fresh or not _stamp_current()):
+        progress("Removing the old environment (the models are kept) …")
+        shutil.rmtree(VENV_DIR)
     if not venv_python().exists():
         progress(f"Creating the environment with {base_python()} …")
         _run_streaming([base_python(), "-m", "venv", str(VENV_DIR)],
                        progress, cancelled, "Creating the environment")
-    pkgs = packages_for(hw)
-    progress("Installing: " + ", ".join(pkgs))
-    _run_streaming(
-        [str(venv_python()), "-m", "pip", "install", "--disable-pip-version-check",
-         "--progress-bar", "off", *pkgs],
-        progress, cancelled, "Installing packages",
-    )
+    locks = lock_files(hw)
+    progress("Installing: " + ", ".join(packages_for(hw)) + " – every file checked against its published hash")
+    _locked_install(locks, progress, cancelled)
+    # --no-deps installs only what's listed: pip check confirms that's everything.
+    check = subprocess.run([str(venv_python()), "-m", "pip", "check", "--disable-pip-version-check"],
+                           capture_output=True, text=True, **_no_window())
+    if check.returncode != 0:
+        raise SetupError("The locked packages don't fit together:\n" + check.stdout.strip()[-1500:])
+    if sys.platform == "win32":
+        progress("Checking the environment with Windows Defender …")
+    verdict, note = defender.scan(VENV_DIR, "the transcription engine")
+    if verdict == defender.THREAT:
+        shutil.rmtree(VENV_DIR, ignore_errors=True)
+        raise SetupError("Windows Defender flagged the transcription engine's download, so it was deleted and "
+                         "won't be used. Nothing was run.")
+    if note:
+        progress(note)
+    (VENV_DIR / STAMP_NAME).write_text(json.dumps({"locks": {p.name: _sha256(p) for p in locks}}, indent=1),
+                                       encoding="utf-8")
     status = env_status()
     if not status.ready:
         raise SetupError(status.detail)
@@ -303,11 +409,8 @@ def ensure_parakeet_runtime(progress: Progress = print, cancelled=lambda: False)
     if "onnx_asr" in env_status().versions:
         return
     progress(f"Adding Parakeet support ({PARAKEET_PACKAGE}, under 1 MB) …")
-    _run_streaming(
-        [str(venv_python()), "-m", "pip", "install", "--disable-pip-version-check",
-         "--progress-bar", "off", PARAKEET_PACKAGE],
-        progress, cancelled, "Installing onnx-asr",
-    )
+    # From the lock like everything else: what's there already is skipped.
+    _locked_install([LOCKS_DIR / "base.txt"], progress, cancelled)
 
 
 def remove_environment() -> None:
@@ -332,6 +435,18 @@ def _looks_like(model_id: str, folder: Path) -> bool:
     if MODEL_BY_ID[model_id]["engine"] == "parakeet":
         return _looks_like_parakeet(folder)
     return _looks_like_model(folder)
+
+
+def folder_size(folder: str | Path) -> int:
+    """Bytes under a folder (0 if it isn't there)."""
+    total = 0
+    for root, _dirs, files in os.walk(folder):
+        for name in files:
+            try:
+                total += os.path.getsize(os.path.join(root, name))
+            except OSError:
+                pass
+    return total
 
 
 def buddy_model_dir(model_id: str) -> Path:
@@ -425,33 +540,118 @@ def identify_model_folder(folder: str | Path) -> str | None:
     return None
 
 
+_PINS: dict | None = None
+
+
+def model_pins() -> dict:
+    """model id -> {repo, revision, files: {name: {size, sha256}}}."""
+    global _PINS
+    if _PINS is None:
+        _PINS = json.loads(PINS_PATH.read_text(encoding="utf-8"))
+    return _PINS
+
+
+def check_model_files(model_id: str, folder: Path, progress: Progress | None = None) -> str:
+    """"" if every pinned file of the model is in folder, whole and as
+    published; else what's wrong with the first that isn't."""
+    pin = model_pins().get(model_id)
+    if not pin:
+        return f"Buddy has no checksums for {model_id}"
+    for name, want in pin["files"].items():
+        path = folder / name
+        if not path.is_file():
+            return f"{name} is missing"
+        if path.stat().st_size != want["size"]:
+            return f"{name} isn't the published size"
+        if progress and want["size"] > 50_000_000:
+            progress(f"Checking {name} ({want['size'] / 1e9:.1f} GB) …")
+        if _sha256(path) != want["sha256"]:
+            return f"{name} doesn't match its published checksum"
+    return ""
+
+
+def _signature(model_id: str, folder: Path) -> list | None:
+    """Each pinned file's size and modified time - what says a folder is
+    unchanged since it was last checked."""
+    out = []
+    for name in sorted(model_pins().get(model_id, {}).get("files", {})):
+        try:
+            st = (folder / name).stat()
+        except OSError:
+            return None
+        out.append([name, st.st_size, st.st_mtime_ns])
+    return out
+
+
+def model_verified(model_id: str, folder: str | Path) -> bool:
+    """Whether a model folder holds exactly the pinned files (other files
+    beside them don't matter). Hashed once - seconds for a 3 GB model -
+    and remembered while the files are unchanged."""
+    folder = Path(folder)
+    sig = _signature(model_id, folder)
+    if sig is None:
+        return False
+    key = str(folder.resolve())
+    try:
+        cache = json.loads(VERIFIED_CACHE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        cache = {}
+    hit = cache.get(key)
+    if hit and hit.get("model") == model_id and hit.get("files") == sig \
+            and hit.get("revision") == model_pins()[model_id]["revision"]:
+        return bool(hit.get("ok"))
+    ok = not check_model_files(model_id, folder)
+    cache[key] = {"model": model_id, "revision": model_pins()[model_id]["revision"], "files": sig, "ok": ok}
+    try:
+        ROOT.mkdir(parents=True, exist_ok=True)
+        VERIFIED_CACHE.write_text(json.dumps(cache, indent=1), encoding="utf-8")
+    except OSError:
+        pass
+    return ok
+
+
+def verify_found(*found: dict) -> dict[str, bool]:
+    """folder -> verified, for every folder in these {model id: folder} maps."""
+    return {path: model_verified(mid, path) for group in found for mid, path in group.items() if path}
+
+
 def download_model(model_id: str, progress: Progress = print, cancelled=lambda: False) -> str:
     """Download a model into ~/.buddy/transcribe/models/<id>, run inside
-    the venv: Whisper sizes through faster-whisper's own downloader (it
-    knows which repo holds each size), translation models from their named
-    repo. Returns the folder."""
+    the venv: its pinned files from its repo at the pinned commit, into a
+    staging folder, each file checked against its SHA-256 before the
+    folder replaces what was there. Returns the folder."""
     if model_id not in MODEL_IDS + TRANSLATION_IDS:
         raise SetupError(f"Unknown model {model_id!r}.")
     if not venv_python().exists():
         raise SetupError("Set up the transcription environment first.")
-    target = buddy_model_dir(model_id)
-    target.mkdir(parents=True, exist_ok=True)
+    pin = model_pins().get(model_id)
+    if not pin:
+        raise SetupError(f"Buddy has no checksums for {model_id}, so it won't download it.")
     entry = next(m for m in MODELS + TRANSLATION_MODELS if m["id"] == model_id)
-    expected = int(entry["size_gb"] * 1e9)
-    cmd = [str(venv_python()), str(WORKER), "download", "--output", str(target),
-           "--expected-bytes", str(expected)]
-    if model_id in TRANSLATION_IDS:
-        cmd += ["--model", entry["repo"], "--files", ",".join(TRANSLATION_FILES)]
-    elif entry.get("files"):
+    if entry.get("engine") == "parakeet":
         ensure_parakeet_runtime(progress, cancelled)
-        cmd += ["--model", entry["repo"], "--files", ",".join(entry["files"])]
-    else:
-        cmd += ["--model", model_id]    # faster-whisper knows each size's repo
+    target = buddy_model_dir(model_id)
+    staging = target.with_name(target.name + ".downloading")
+    staging.mkdir(parents=True, exist_ok=True)       # kept if cancelled: a retry resumes it
+    expected = sum(f["size"] for f in pin["files"].values())
+    cmd = [str(venv_python()), str(WORKER), "download", "--output", str(staging),
+           "--expected-bytes", str(expected), "--model", pin["repo"], "--revision", pin["revision"],
+           "--files", ",".join(pin["files"])]
     progress(f"Downloading {model_id} …")
     _run_streaming(cmd, progress, cancelled, f"Downloading {model_id}")
-    ok = _looks_like_translator(target) if model_id in TRANSLATION_IDS else _looks_like(model_id, target)
-    if not ok:
-        raise SetupError(f"The {model_id} download finished but the model files are missing.")
+    problem = check_model_files(model_id, staging, progress)
+    if problem:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise SetupError(f"The {model_id} download didn't match what Buddy expects ({problem}), so it was "
+                         "deleted and won't be used. Try again – if it keeps happening, the model's files on "
+                         "the server have changed.")
+    old = target.with_name(target.name + ".replaced")
+    shutil.rmtree(old, ignore_errors=True)
+    if target.exists():
+        target.rename(old)
+    staging.rename(target)
+    shutil.rmtree(old, ignore_errors=True)
+    model_verified(model_id, target)                # remembered: no second hashing at the next check
     return str(target)
 
 

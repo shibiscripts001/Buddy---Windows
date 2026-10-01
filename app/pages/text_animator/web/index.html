@@ -19,11 +19,14 @@
     <!-- The kind of animation. Text+'s tools are on Subtitles for now, so its tab is empty. -->
     <nav class="tabs" role="tablist" id="sections">
         <button type="button" role="tab" data-tab="previews" aria-selected="true">Previews</button>
-        <button type="button" role="tab" data-tab="textplus" aria-selected="false" translate="no">Text+</button>
+        <button type="button" role="tab" data-tab="editor" aria-selected="false">Editor</button>
+        <button type="button" role="tab" data-tab="favorites" aria-selected="false">Favorites</button>
+        <button type="button" role="tab" data-tab="textplus" aria-selected="false">Titles</button>
     </nav>
 
-    <!-- ------------------------------------------------------- Previews -->
-    <section class="panel pv" id="panel-previews">
+    <!-- ------------------------------------------- Previews and Favorites -->
+    <!-- One panel for both: Favorites is Previews narrowed to the hearted. -->
+    <section class="panel pv" id="panel-previews" data-tabs="previews favorites">
         <!-- The chosen preset, how it goes on, and the clips it goes on. -->
         <div class="card pv-apply">
             <div class="pv-chosen">
@@ -81,6 +84,69 @@
         </div>
 
         <div id="groups" class="pv-groups"></div>
+        </div>
+    </section>
+
+    <!-- --------------------------------------------------------- Editor -->
+    <section class="panel ed" id="panel-editor" hidden>
+        <!-- Which preset, what it's called and how it's made. -->
+        <div class="card ed-head">
+            <label class="ed-field"><span class="muted small">Preset</span>
+                <select class="field" id="ed-base" aria-label="Preset to edit"></select>
+            </label>
+            <label class="ed-field ed-name"><span class="muted small">Name</span>
+                <input class="field" id="ed-name" type="text" maxlength="60" autocomplete="off" placeholder="Untitled">
+            </label>
+            <div class="ed-field"><span class="muted small">Kind</span>
+                <div class="segmented" id="ed-kind"></div>
+            </div>
+            <label class="ed-field"><span class="muted small">Length</span>
+                <span class="ed-dur"><input class="field" id="ed-dur" type="number" min="0.2" max="10" step="0.1"><span class="muted small">s</span></span>
+            </label>
+            <div class="spacer"></div>
+            <div class="row ed-save">
+                <button type="button" class="btn ghost" id="ed-revert">Revert</button>
+                <button type="button" class="btn ghost" id="ed-delete" hidden>Delete</button>
+                <button type="button" class="btn" id="ed-update" hidden>Save changes</button>
+                <button type="button" class="btn accent" id="ed-saveas">Save as preset</button>
+            </div>
+        </div>
+
+        <div class="ed-main">
+            <!-- What's drawn, playing exactly as it'll move. -->
+            <div class="card ed-view">
+                <div class="pv-stage ed-stage" id="ed-stage"></div>
+                <div class="row ed-transport">
+                    <button type="button" class="btn icon" id="ed-play" title="Play or pause"></button>
+                    <span class="muted small ed-time" id="ed-time"></span>
+                </div>
+                <p class="warn ed-kind-note" id="ed-kind-note"></p>
+                <div class="ed-try">
+                    <div class="pv-sel" id="ed-selection"></div>
+                    <button type="button" class="btn" id="ed-apply">Apply to selected</button>
+                    <p class="muted small ed-note">As it is now, saved or not, with the Put on and Speed chosen on Previews.</p>
+                </div>
+            </div>
+
+            <!-- The curves: one channel to edit, the others faint behind it. -->
+            <div class="card ed-graph-card">
+                <div class="row ed-tools">
+                    <div class="segmented" id="ed-channels"></div>
+                    <span class="ed-frame" id="ed-frame" title="The playhead's frame"></span>
+                    <div class="spacer"></div>
+                    <!-- One clip selected: the curves at its length, or the preset's own. -->
+                    <div class="segmented" id="ed-view" aria-label="Timing shown" hidden></div>
+                    <button type="button" class="btn ghost" id="ed-fit" title="Fit the curve to the graph">Fit</button>
+                    <button type="button" class="btn icon ghost" id="ed-undo" title="Undo (Ctrl+Z)"></button>
+                    <button type="button" class="btn icon ghost" id="ed-redo" title="Redo (Ctrl+Y)"></button>
+                </div>
+                <div class="ed-graph-wrap" id="ed-graph-wrap">
+                    <svg class="ed-graph" id="ed-graph" tabindex="0" aria-label="Spline editor"></svg>
+                    <!-- What can be done to the selected keys, beside them. -->
+                    <div class="ed-keymenu" id="ed-keymenu" role="toolbar" aria-label="Selected keys" hidden></div>
+                </div>
+                <p class="muted small ed-hint">Drag a key or its handles. Ctrl-click keys, or drag across empty space, to select several (Shift or Ctrl adds to them), then drag one to move them all. Hold Shift while dragging keys to move them only in time. Selected keys get a menu of their own. Double-click the curve to add a key; Delete removes the selected ones. Alt-drag a handle to break it from its partner. Drag along the time bar at the top to move the playhead. Click the channels above to show several at once, each in its own colour: keys of different channels can be selected together and moved as one, and a key dragged near another channel's key snaps to its time (hold Ctrl to drag freely). Right-click a channel to change its colour.</p>
+            </div>
         </div>
     </section>
 

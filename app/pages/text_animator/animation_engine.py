@@ -570,24 +570,40 @@ class FusionAnimationEngine:
     # of composition width (From Left/Right) or height (From Top/Bottom).
     SLIDE_DIRECTIONS = ("From Left", "From Right", "From Top", "From Bottom")
 
-    # Animation Speed slider: each preset's base duration (Pop=15, Bounce=20, Fade=15,
-    # Slide=15 frames - see each preset's own `duration` default below) is used as-is for
-    # "Slow" (scale 1.0), so the base feel is the slow end of the range. "Medium"/"Fast"
-    # scale those same base durations down so the whole animation plays out over fewer
-    # frames (a shorter keyframe span == a quicker, tighter-looking animation).
+    # Base durations are the preset's timing at 24 fps. Scale by the current
+    # timeline rate so the same move takes the same number of seconds at 30
+    # or 60 fps; the speed choice then changes that duration intentionally.
+    _REFERENCE_FPS = 24.0
     SPEEDS = ("Fast", "Medium", "Slow")
     _SPEED_DURATION_SCALE = {"Fast": 0.4, "Medium": 0.65, "Slow": 1.0}
     _MIN_PRESET_DURATION_FRAMES = 3  # floor so "Fast" never collapses a preset to 0-1 frames
 
     @staticmethod
-    def scaled_duration(base_duration: int, speed: str) -> int:
-        """Scales a preset's base (Slow-speed) duration by the chosen Fast/Medium/Slow speed,
-        floored at _MIN_PRESET_DURATION_FRAMES so a very short base duration can't be scaled
-        down to something that no longer reads as an animation at all. Unrecognized `speed`
-        values fall back to Slow (scale 1.0, i.e. the unscaled base duration) rather than
-        raising, matching this codebase's existing defensive-per-field style."""
+    def comp_fps(comp: Any, clip_frames: int, timeline_fps: float) -> float:
+        """Effective Fusion frames per second for this timeline clip.
+
+        A Text+ made from Buddy's 24 fps template can sit on a 30/60 fps
+        timeline. Its render range uses source frames, so scale the timeline
+        rate by the comp-frame to timeline-frame count ratio.
+        """
+        try:
+            attrs = comp.GetAttrs() or {}
+            start, end = float(attrs["COMPN_RenderStart"]), float(attrs["COMPN_RenderEnd"])
+            if end >= start and clip_frames > 0:
+                return float(timeline_fps) * (round(end - start) + 1) / clip_frames
+        except (AttributeError, KeyError, TypeError, ValueError):
+            pass
+        return float(timeline_fps)
+
+    @staticmethod
+    def scaled_duration(base_duration: int, speed: str, fps: float = 24.0) -> int:
+        """Convert a preset's 24 fps base timing to timeline frames, then apply
+        Fast/Medium/Slow. The frame floor prevents a move collapsing to a
+        nearly instantaneous key pair. Unknown speeds retain Slow timing."""
         scale = FusionAnimationEngine._SPEED_DURATION_SCALE.get(speed, 1.0)
-        return max(FusionAnimationEngine._MIN_PRESET_DURATION_FRAMES, round(base_duration * scale))
+        rate = float(fps) if fps and float(fps) > 0 else FusionAnimationEngine._REFERENCE_FPS
+        return max(FusionAnimationEngine._MIN_PRESET_DURATION_FRAMES,
+                   round(base_duration * scale * rate / FusionAnimationEngine._REFERENCE_FPS))
 
     @staticmethod
     def apply_pop_preset_to_clip(text_tool: Any, comp: Any, start_frame: int = 0, duration: int = 15) -> Tuple[bool, List[str]]:
@@ -1148,17 +1164,19 @@ class FusionAnimationEngine:
         return True, logs
 
     @staticmethod
-    def letter_delay(text: str, speed: str) -> float:
-        """Frames between one letter and the next: the speed's own pace, or less for a line
-        too long to arrive in time at it."""
+    def letter_delay(text: str, speed: str, fps: float = 24.0) -> float:
+        """Frames between letters, scaled from 24 fps so the reveal's seconds
+        stay stable across timeline rates. Long lines still fit the reveal."""
         steps = max(1, len(text or "") - 1)
-        pace = FusionAnimationEngine._LETTER_DELAY.get(speed, FusionAnimationEngine._LETTER_DELAY["Slow"])
-        reveal = FusionAnimationEngine._LETTER_REVEAL_FRAMES.get(speed, FusionAnimationEngine._LETTER_REVEAL_FRAMES["Slow"])
+        rate = float(fps) if fps and float(fps) > 0 else FusionAnimationEngine._REFERENCE_FPS
+        factor = rate / FusionAnimationEngine._REFERENCE_FPS
+        pace = FusionAnimationEngine._LETTER_DELAY.get(speed, FusionAnimationEngine._LETTER_DELAY["Slow"]) * factor
+        reveal = FusionAnimationEngine._LETTER_REVEAL_FRAMES.get(speed, FusionAnimationEngine._LETTER_REVEAL_FRAMES["Slow"]) * factor
         return round(min(pace, reveal / steps), 3)
 
     @staticmethod
     def apply_letter_preset_to_clip(text_tool: Any, comp: Any, preset: str, speed: str = "Medium",
-                                    start_frame: int = 0) -> Tuple[bool, List[str]]:
+                                    start_frame: int = 0, fps: float = 24.0) -> Tuple[bool, List[str]]:
         """Typewriter (each letter appears, one after another), Letter Fade (each fades in)
         or Letter Pop (each grows from nothing with a little overshoot), on the Text+'s
         Follower."""
@@ -1172,7 +1190,7 @@ class FusionAnimationEngine:
             text = follower.GetInput("Text")
         except Exception:
             text = ""
-        delay = FusionAnimationEngine.letter_delay(text if isinstance(text, str) else "", speed)
+        delay = FusionAnimationEngine.letter_delay(text if isinstance(text, str) else "", speed, fps)
         try:
             follower.SetInput("Delay", delay)
         except Exception as err:
@@ -1180,7 +1198,7 @@ class FusionAnimationEngine:
             return False, logs
         t0 = start_frame
         if preset.startswith("Letter Pop"):
-            duration = FusionAnimationEngine.scaled_duration(10, speed)
+            duration = FusionAnimationEngine.scaled_duration(10, speed, fps)
             try:
                 follower.SetInput("TransformSize", 1)   # the size group on, as Resolve's Scale Up has it
             except Exception:
@@ -1196,7 +1214,7 @@ class FusionAnimationEngine:
                 logs.extend(spline_logs)
                 ok = ok and axis_ok
         else:
-            duration = 1 if preset.startswith("Typewriter") else FusionAnimationEngine.scaled_duration(12, speed)
+            duration = 1 if preset.startswith("Typewriter") else FusionAnimationEngine.scaled_duration(12, speed, fps)
             ok, spline_logs = FusionAnimationEngine._create_and_connect_spline(follower, comp, "Opacity1", {
                 t0: 0.0, t0 + duration: 1.0, t0 + duration + FusionAnimationEngine._FADE_HOLD_GAP_FRAMES: 1.0})
             logs.extend(spline_logs)

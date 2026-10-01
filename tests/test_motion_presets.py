@@ -6,6 +6,7 @@ SetKeyFrames, Center through an XYPath, and every change followed by the
 ExportFusionComp + ImportFusionComp round trip the Edit page needs."""
 
 import copy
+import math
 import re
 import unittest
 from unittest import mock
@@ -285,9 +286,11 @@ class Fitting(unittest.TestCase):
         self.assertIsNotNone(second["lh"])
 
     def test_a_turn_gets_a_key(self):
-        # Pop overshoots to 1.22: a key sits on the peak.
+        # Pop overshoots to 1.22: a key sits on the peak - its true top,
+        # between two samples (motion_presets.json's baked keys).
         size = values(motion.plan(PRESETS["pop"], 120, 24, way="in")["Size"])
-        self.assertAlmostEqual(max(size.values()), 1.22)
+        self.assertAlmostEqual(max(size.values()), 1.22, delta=0.01)
+        self.assertGreaterEqual(max(size.values()), max(PRESETS["pop"]["s"]) - 1e-9)
 
     def test_keys_are_smooth_except_a_sharp_hit(self):
         # The curve Drop + bounce had: a spike between samples and a kink.
@@ -393,6 +396,36 @@ class Planning(unittest.TestCase):
         v = motion.view(PRESETS["pop"])
         self.assertEqual(v["segs"][0][0], 0)
         self.assertEqual(v["segs"][-1][1], 1)
+        self.assertEqual(v["previewKeys"], motion.keys_of(PRESETS["pop"]))
+
+    def test_builtin_previews_follow_the_curves_applied_in_resolve(self):
+        for preset in PRESETS.values():
+            preview = motion.view(preset)["previewKeys"]
+            planned = motion.plan(preset, 120, 24)
+            for name, (channel, convert) in motion._CHANNELS.items():
+                if name not in planned:
+                    continue
+                for move, _first, _last, start, end in planned["moves"]:
+                    a, b = motion.moves(preset)[move]
+                    for step in range(21):
+                        fraction = step / 20
+                        sample = a + (b - a) * fraction
+                        frame = start + (end - start) * fraction
+                        expected = convert(motion.evaluate_keys(preview[channel], sample))
+                        actual = motion.evaluate(planned[name], frame)
+                        self.assertAlmostEqual(actual, expected, delta=motion.TOLERANCE[name],
+                                               msg=(preset["id"], move, name, sample))
+
+    def test_preview_at_selected_speed_matches_resolve_frames(self):
+        # The live 24 fps project exposed this: Pop at 2x reaches nearly
+        # full size on frame one, although an unspeeded browser preview does not.
+        preset = PRESETS["pop"]
+        preview = motion.view(preset)["previewKeys"]["s"]
+        applied = motion.plan(preset, 60, 24, speed=2)["Size"]
+        for frame in range(8):
+            sample = frame * 2 * motion.LAST / (preset["dur"] * 24)
+            self.assertAlmostEqual(motion.evaluate_keys(preview, sample),
+                                   motion.evaluate(applied, frame), places=5)
 
 
 class Scaling(unittest.TestCase):
@@ -459,7 +492,7 @@ class OnClips(unittest.TestCase):
         self.put(big, "pop")                            # Size keys, and their handles, halved
         size = curve(big.comps[0].FindTool("BuddyMotion").Size)
         peak = max(size.values(), key=lambda k: k[1])
-        self.assertAlmostEqual(peak[1], 1.22 * 0.5)
+        self.assertAlmostEqual(peak[1], max(PRESETS["pop"]["keys"]["s"], key=lambda k: k[1])[1] * 0.5)
         plain = motion.plan(PRESETS["pop"], 120, 24)["Size"]
         frame = next(f for f, k in plain.items() if k["lh"])
         lh = plain[frame]["lh"]
@@ -704,6 +737,162 @@ class Trimming(unittest.TestCase):
         self.assertIsNone(mr.time_map(0, 120, 0, 0))
 
 
+class EditedKeys(unittest.TestCase):
+    """The Editor's keys (motion.keys_of / from_keys) and plan() laying them."""
+
+    def test_every_preset_opens_as_keys_and_saves_back_the_same(self):
+        # An unedited preset saved from the Editor moves as the original.
+        for p in PRESETS.values():
+            keys = motion.keys_of(p)
+            self.assertEqual(set(keys), set(motion.CHANNELS))
+            for c, rows in keys.items():
+                self.assertEqual((rows[0][0], rows[-1][0]), (0.0, float(motion.LAST)), (p["id"], c))
+            copy_ = motion.from_keys("saved-x", p["label"], p["kind"], p["dur"], keys)
+            self.assertEqual(motion.moves(copy_), motion.moves(p), p["id"])
+            self.assertEqual(motion.plan(copy_, 120, 24)["moves"], motion.plan(p, 120, 24)["moves"], p["id"])
+            for c in motion.CHANNELS:
+                for k in range(motion.SAMPLES):
+                    self.assertAlmostEqual(copy_[c][k], p[c][k], delta=motion.KEY_TOLERANCE[c] * 1.5, msg=(p["id"], c, k))
+
+    def test_a_hold_between_moves_is_exactly_at_rest(self):
+        keys = motion.keys_of(PRESETS["pop"])["s"]
+        for t in range(11, 33):
+            self.assertAlmostEqual(motion.evaluate_keys(keys, t), 1.0, places=9)
+
+    def test_a_key_added_on_the_curve_leaves_it_as_it_was(self):
+        keys = motion.keys_of(PRESETS["pop"])["s"]
+        more = motion.split_at(keys, 3.3)
+        self.assertEqual(len(more), len(keys) + 1)
+        for i in range(401):
+            self.assertAlmostEqual(motion.evaluate_keys(more, i / 10), motion.evaluate_keys(keys, i / 10), places=9)
+        self.assertEqual(motion.split_at(more, 3.3), more)          # one there already
+
+    def test_cut_keeps_the_part_between(self):
+        keys = motion.keys_of(PRESETS["pop"])["s"]
+        part = motion.cut(keys, 2, 30)
+        self.assertEqual((part[0][0], part[-1][0]), (2, 30))
+        self.assertIsNone(part[0][2])
+        self.assertIsNone(part[-1][3])
+        for t in (2, 5.5, 9, 20):
+            self.assertAlmostEqual(motion.evaluate_keys(part, t), motion.evaluate_keys(keys, t), places=9)
+
+    def test_what_comes_back_from_the_page_is_made_safe(self):
+        keys = motion.clean_keys({
+            "s": [[30, 1.0, [35, 1.0], [25, 2.0]], [10, "x", None, None], [10, 0.5, None, [99, 0.4]],
+                  ["bad"], [55, 1e9, None, None]],
+            "o": "junk",
+        })
+        s = keys["s"]
+        self.assertEqual([k[0] for k in s], [0.0, 10.0, 30.0, 40.0])     # sorted, one per time, ends added
+        self.assertEqual(s[1][1], 0.5)                                    # the later row for t=10 wins
+        self.assertLessEqual(s[1][3][0], 30.0)                            # a handle stays inside its neighbours
+        self.assertLessEqual(s[2][2][0], 30.0)                            # ...and on its own side
+        self.assertGreaterEqual(s[2][3][0], 30.0)
+        self.assertIsNone(s[0][2])
+        self.assertLessEqual(abs(s[-1][1]), 10000)                        # no wild values
+        self.assertEqual(keys["o"], [[0.0, 1.0, None, None], [40.0, 1.0, None, None]])   # held at rest
+        self.assertEqual(keys["x"][0][1], 0.0)
+
+    def test_plan_lays_the_drawn_keys_themselves(self):
+        # A hand-drawn In: scale 0 -> 1.3 -> 1 over samples 0..10, then rest,
+        # and an Out of opacity over 30..40.
+        keys = {"s": [[0, 0.0, None, [2, 0.5]], [6, 1.3, [5, 1.3], [7, 1.3]], [10, 1.0, [9, 1.0], None],
+                      [40, 1.0, None, None]],
+                "o": [[0, 1.0, None, None], [30, 1.0, None, [33, 1.0]], [40, 0.0, [37, 0.0], None]]}
+        p = motion.from_keys("saved-1", "Mine", motion.KIND_IN_OUT, 1.0, keys)
+        self.assertEqual(motion.moves(p), {"in": (0, 10), "out": (30, 40)})
+        plan = motion.plan(p, 120, 24)
+        size, blend = plan["Size"], plan["Blend"]
+        # The In: 10 samples of a 1 s preset at 24 fps is 6 frames - keys at 0, 3.6, 6.
+        self.assertEqual(sorted(size)[:3], [0.0, 3.6, 6.0])
+        self.assertEqual(size[3.6]["value"], 1.3)
+        self.assertEqual(size[3.6]["lh"], (3.0, 1.3))                     # handles come along, stretched
+        self.assertEqual(max(blend), 119.0)
+        self.assertEqual(blend[119.0]["value"], 0.0)
+
+    def test_an_in_or_an_out_takes_only_its_part_of_the_curve(self):
+        keys = motion.keys_of(PRESETS["pop"])                            # an In and an Out
+        only_in = motion.from_keys("saved-1", "In", motion.KIND_IN, 2.4, keys)
+        self.assertEqual(set(motion.moves(only_in)), {"in"})
+        plan = motion.plan(only_in, 120, 24, way="both")                 # Put on doesn't bring the Out back
+        self.assertEqual([m for m, *_ in plan["moves"]], ["in"])
+        self.assertLess(max(plan["Size"]), 30)
+        only_out = motion.from_keys("saved-2", "Out", motion.KIND_OUT, 2.4, keys)
+        plan = motion.plan(only_out, 120, 24)
+        self.assertEqual([m for m, *_ in plan["moves"]], ["out"])
+        self.assertGreater(min(plan["Size"]), 90)
+        self.assertIn(motion.KIND_IN, motion.KINDS)
+
+    def test_every_built_in_preset_is_cleanly_keyed(self):
+        """A key on every peak and valley, one only, with no curve passing the
+        keys either side of it, and no corner except where it turns back (a
+        hit: Drop's floor). The 41 samples alone put two keys on Heart beat's
+        first thump and missed the bottom of its valley."""
+        unit = {"x": 64.0, "y": 36.0, "r": 1.0, "s": 0.01, "o": 0.01}       # 1% of the frame, 1 degree, 1%
+        for p in PRESETS.values():
+            self.assertEqual(set(p["keys"]), set(motion.CHANNELS), p["id"])
+            for c, keys in p["keys"].items():
+                where = (p["id"], c)
+                for k0, k1 in zip(keys, keys[1:]):
+                    lo, hi = min(k0[1], k1[1]), max(k0[1], k1[1])
+                    for i in range(1, 60):
+                        v = motion.evaluate_keys([k0, k1], k0[0] + (k1[0] - k0[0]) * i / 60)
+                        self.assertLessEqual(v, hi + 0.25 * unit[c], (where, k0[0], "rises past its keys"))
+                        self.assertGreaterEqual(v, lo - 0.25 * unit[c], (where, k0[0], "dips past its keys"))
+                for a, b, prev, nxt in zip(keys[1:], keys[2:], keys, keys[3:]):
+                    if abs(a[1] - b[1]) < 0.15 * unit[c] and b[0] - a[0] <= 2.5:
+                        peak = min(a[1], b[1]) > max(prev[1], nxt[1]) + 0.5 * unit[c]
+                        dip = max(a[1], b[1]) < min(prev[1], nxt[1]) - 0.5 * unit[c]
+                        self.assertFalse(peak or dip, (where, a[0], "two keys on one peak"))
+                for k in keys[1:-1]:
+                    if not (k[2] and k[3]) or k[0] - k[2][0] <= 1e-9 or k[3][0] - k[0] <= 1e-9:
+                        continue
+                    left = (k[1] - k[2][1]) / unit[c] / (k[0] - k[2][0])
+                    right = (k[3][1] - k[1]) / unit[c] / (k[3][0] - k[0])
+                    bend = abs(math.degrees(math.atan(left) - math.atan(right)))
+                    self.assertTrue(bend <= 12 or left * right < 0, (where, k[0], f"a corner of {bend:.0f} degrees"))
+
+    def test_heart_beat_peaks_and_valley_each_have_a_key_on_them(self):
+        s = PRESETS["css-animate-heartBeat-card"]["keys"]["s"]
+        inner = [k for k in s if 12 < k[0] < 23]
+        self.assertEqual(len(inner), 3)                              # peak, valley, peak
+        first, valley, second = inner
+        self.assertAlmostEqual(first[1], 1.3, delta=0.01)
+        self.assertAlmostEqual(second[1], 1.3, delta=0.01)
+        self.assertAlmostEqual(valley[1], 1.0, delta=0.01)
+        curve = [motion.evaluate_keys(s, first[0] + (second[0] - first[0]) * i / 400) for i in range(401)]
+        self.assertAlmostEqual(min(curve), valley[1], places=6)       # the valley's key is its bottom
+        for k in inner:                                               # level handles: smooth turns
+            self.assertAlmostEqual(k[2][1], k[1], places=6)
+            self.assertAlmostEqual(k[3][1], k[1], places=6)
+
+    def test_drop_bounces_land_on_the_floor_and_never_stall(self):
+        # Drawn by hand in motion_presets.json: 41 samples fell short of the
+        # floor and hung for two samples at each bounce's top.
+        drop = PRESETS["drop"]
+        y = drop["keys"]["y"]
+        hits = [k for k in y if k[0] <= 10 and k[1] == 0.0 and k[0] > 0]
+        self.assertEqual([k[0] for k in hits], [4.0, 8.0, 10.0])
+        peaks, last = [], 0.0
+        for a, b in ((4, 8), (8, 10)):          # each bounce: up once, down once, no stall
+            values = [motion.evaluate_keys(y, a + (b - a) * i / 200) for i in range(201)]
+            steps = [q - p for p, q in zip(values, values[1:])]
+            turns = sum(1 for s, t in zip(steps, steps[1:]) if s < 0 <= t)
+            self.assertEqual(turns, 1, (a, b))
+            peaks.append(-min(values))
+        self.assertGreater(peaks[0], peaks[1])      # each lower than the one before
+        self.assertEqual(motion.moves(drop), {"in": (0, 10), "out": (32, 40)})
+        plan = motion.plan(drop, 120, 24)               # what Fusion gets is these keys
+        self.assertIn(0.5, [round(k["value"], 5) for f, k in plan["Center.Y"].items() if f < 15])
+
+    def test_a_saved_preset_plays_its_own_curve_on_the_tiles(self):
+        p = motion.from_keys("saved-1", "Mine", motion.KIND_IN_OUT, 2.0, {"x": [[0, -64, None, None], [20, 0, None, None]]})
+        v = motion.view(p)
+        self.assertEqual(v["keys"]["x"][0][1], -64.0)
+        self.assertEqual(v["pack"], "Saved")
+        self.assertEqual(motion.view(PRESETS["pop"])["keys"], PRESETS["pop"]["keys"])   # built-in ones' baked keys
+
+
 class Framing(unittest.TestCase):
     """The Inspector's framing goes into the comp; the Inspector goes neutral."""
 
@@ -767,6 +956,37 @@ class Framing(unittest.TestCase):
         self.assertTrue(mr.remove(item))
         for key, want in (("ZoomX", 0.8), ("Pan", 33.0), ("AnchorPointX", 12.5), ("RotationAngle", -7.0)):
             self.assertEqual(item.props[key], want)
+
+
+class SelectionSummary(unittest.TestCase):
+    """What the Animation page reads every couple of seconds."""
+
+    def summary(self, *clips):
+        class Timeline:
+            def GetName(self): return "T"
+            def GetSetting(self, key): return "24" if key == "timelineFrameRate" else ""
+            def GetSelectedClips(self): return list(clips)
+
+        project = type("Project", (), {"GetCurrentTimeline": lambda self: Timeline()})()
+        return mr.summary(type("Controller", (), {"current_project": lambda self: project})())
+
+    def clip(self, name, frames, kind="Still"):
+        item = Item(name=name)
+        pool = type("Pool", (), {"GetClipProperty": lambda self, key: kind})()
+        item.GetMediaPoolItem = lambda: pool
+        item.GetTrackTypeAndIndex = lambda: ("video", 1)
+        item.GetStart = lambda: 0
+        item.GetDuration = lambda: frames
+        return item
+
+    def test_one_clip_gives_the_editor_its_length(self):
+        s = self.summary(self.clip("ZYWBd4H.png", 120))
+        self.assertEqual(s["clip"], {"name": "ZYWBd4H.png", "frames": 120})
+        self.assertEqual(s["fps"], 24.0)
+
+    def test_several_clips_give_none(self):
+        self.assertIsNone(self.summary(self.clip("a", 120), self.clip("b", 48))["clip"])
+        self.assertIsNone(self.summary()["clip"])
 
 
 class Shapes(unittest.TestCase):

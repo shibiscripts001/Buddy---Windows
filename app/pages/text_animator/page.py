@@ -11,6 +11,12 @@ goes into the comp with it (framing.py), so the move is never cut off at the
 frame's edge; re-frame in the Inspector and Update framing folds it in.
 Remove takes the preset off and puts the framing back.
 
+Editor opens any preset as keys on a spline editor (motion.keys_of) with a
+viewer that plays exactly what's drawn; the edit can go straight on the
+selected clips, or be saved as a preset of the person's own
+(motion.from_keys) - those are the Saved pack, at the foot of Previews.
+Favorites is every preset that's been hearted, with Previews' apply card.
+
 Text+ is empty so far: the Text+ tools (font styling, placement, word
 layouts, animation presets) are tabs on Subtitles, right after the Subtitle
 Conversion that makes the Text+ (see text_plus.py, which that page hosts,
@@ -21,11 +27,14 @@ arrangement and saved settings carry over. Its own choices are saved under
 "animation_previews".
 
 Protocol:
-    to the view    presets, state, toast, alert
-    from the view  tab, choose, way, speed, play, refresh, apply, update, remove
+    to the view    presets, state, keys, saved, toast, alert
+    from the view  tab, choose, way, speed, play, refresh, apply, update, remove,
+                   keys, favorite, save, delete, apply_draft, color
 """
 
 import os
+import re
+import uuid
 
 from PySide6.QtCore import QTimer
 
@@ -37,9 +46,14 @@ from . import motion, motion_resolve
 
 POLL_MS = 1500
 SETTINGS_ID = "animation_previews"
-DEFAULTS = {"tab": "previews", "chosen": "pop", "way": "both", "speed": 1.0, "play": "all"}
-TABS = ("previews", "textplus")
+DEFAULTS = {"tab": "previews", "chosen": "pop", "way": "both", "speed": 1.0, "play": "all",
+            "favorites": [], "saved": [], "colors": {}}
+TABS = ("previews", "editor", "favorites", "textplus")
+APPLY_TABS = ("previews", "editor", "favorites")     # the tabs that read the selection
+MAX_SAVED = 200
+DRAFT = "draft"                     # the Editor's unsaved edit, put on clips as it is
 PLAY = ("all", "hover")
+_HEX = re.compile(r"#[0-9a-fA-F]{6}")
 
 _KIND_WORDS = {
     motion_resolve.IMAGE: ("image", "images"),
@@ -63,8 +77,9 @@ class AnimationPage(WebToolPage):
 
     def build_state(self):
         self.settings = self.host.tool_settings(SETTINGS_ID, DEFAULTS)
-        self.presets = motion.load()
-        self._by_id = {p["id"]: p for p in self.presets}
+        self.builtin = motion.load()
+        self._keys = {}             # preset id -> motion.keys_of, fitted the first time the Editor asks
+        self._load_saved()
         if self.settings.get("chosen") not in self._by_id:
             self.settings["chosen"] = self.presets[0]["id"]
         self.selection = None       # motion_resolve.summary(), or None before the first read
@@ -77,13 +92,29 @@ class AnimationPage(WebToolPage):
         self._poll.timeout.connect(self._poll_selection)
         self._poll.start()
 
+    def _load_saved(self):
+        """The person's own presets (settings "saved") after the built-in ones.
+        One that won't read is dropped rather than stopping the page."""
+        self.saved = []
+        for entry in self.settings.get("saved") or []:
+            try:
+                self.saved.append(motion.from_keys(entry["id"], entry["label"], entry["kind"],
+                                                   entry["dur"], entry["keys"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+        self.presets = self.builtin + self.saved
+        self._by_id = {p["id"]: p for p in self.presets}
+
     def web_ready(self):
+        self._send_presets()
+        self._push_state()
+
+    def _send_presets(self):
         self.emit("presets", {
-            "packs": motion.PACKS,
+            "packs": motion.PACKS + ([motion.SAVED] if self.saved else []),
             "kinds": motion.KINDS,
             "presets": [motion.view(p) for p in self.presets],
         })
-        self._push_state()
 
     def on_shown(self):
         self._read_selection()
@@ -110,7 +141,7 @@ class AnimationPage(WebToolPage):
         return self.host.controller if getattr(self.host, "connected", False) else None
 
     def _poll_selection(self):
-        if self.isVisible() and self.settings.get("tab") == "previews":
+        if self.isVisible() and self.settings.get("tab") in APPLY_TABS:
             self._read_selection()
 
     def _read_selection(self):
@@ -156,6 +187,8 @@ class AnimationPage(WebToolPage):
             "way": self.settings.get("way"),
             "speed": self.settings.get("speed"),
             "play": self.settings.get("play"),
+            "favorites": [i for i in self.settings.get("favorites") or [] if i in self._by_id],
+            "colors": self._colors(),
             "connected": self._controller() is not None,
             "selection": self._selection_view(),
             "shape": motion_resolve.preview_shape(self.selection["counts"] if self.selection else {}),
@@ -169,9 +202,15 @@ class AnimationPage(WebToolPage):
             return None
         counts = s["counts"]
         can = sum(n for k, n in counts.items() if k in motion_resolve.ANIMATABLE)
-        return {"timeline": s["timeline"], "total": s["total"], "animatable": can,
-                "animated": s["animated"], "reframed": s.get("reframed", 0),
+        return {"timeline": s["timeline"], "fps": s.get("fps", 24.0), "total": s["total"], "animatable": can,
+                "animated": s["animated"], "reframed": s.get("reframed", 0), "clip": s.get("clip"),
                 "parts": [{"text": _count(counts[k], k), "kind": k} for k in _KIND_WORDS if counts.get(k)]}
+
+    def _colors(self):
+        """The colours picked for the Editor's channels, by channel."""
+        colors = self.settings.get("colors") or {}
+        return {c: v.lower() for c, v in colors.items()
+                if c in motion.CHANNELS and isinstance(v, str) and _HEX.fullmatch(v)}
 
     def _save(self, key, value):
         self.settings[key] = value
@@ -184,7 +223,7 @@ class AnimationPage(WebToolPage):
         tab = (payload or {}).get("tab")
         if tab in TABS:
             self._save("tab", tab)
-            if tab == "previews":
+            if tab in APPLY_TABS:
                 self._read_selection()
 
     def on_choose(self, payload):
@@ -237,13 +276,19 @@ class AnimationPage(WebToolPage):
             self._queued = task
 
     def on_apply(self, _payload=None):
-        preset = self._by_id[self.settings.get("chosen")]
+        self._apply(self._by_id[self.settings.get("chosen")])
+
+    def _apply(self, preset):
         way, speed = self.settings.get("way"), float(self.settings.get("speed") or 1)
 
         def plan_for(frames, fps, at):
             return motion.plan(preset, frames, fps, way=way, speed=speed, at=at)
 
         options = {"way": way, "speed": speed}
+        if preset.get("keys"):
+            # Drawn in the Editor: the keys go with the clip, so Update framing
+            # still has them once the preset is changed or deleted.
+            options["preset"] = motion.stored(preset)
         self._start("apply", lambda c: motion_resolve.run_apply(c, preset, plan_for, options=options),
                     lambda result, error: self._done_apply(preset, result, error))
 
@@ -272,6 +317,12 @@ class AnimationPage(WebToolPage):
     def on_update(self, _payload=None):
         def plan_for_preset(preset_id, options):
             preset = self._by_id.get(preset_id)
+            if preset is None and options.get("preset"):
+                try:
+                    kept = options["preset"]
+                    preset = motion.from_keys(preset_id, kept["label"], kept["kind"], kept["dur"], kept["keys"])
+                except (KeyError, TypeError, ValueError):
+                    preset = None
             if preset is None:
                 return None
             way, speed = options.get("way") or "both", float(options.get("speed") or 1)
@@ -317,3 +368,99 @@ class AnimationPage(WebToolPage):
     def _read_after(self):
         self._push_state()
         QTimer.singleShot(0, self._read_selection)
+
+    # ------------------------------------------------------------- Editor --
+
+    def on_keys(self, payload):
+        """The Editor opens a preset: its keys (fitted once, then kept)."""
+        pid = (payload or {}).get("id")
+        preset = self._by_id.get(pid)
+        if preset is None:
+            return
+        if pid not in self._keys:
+            self._keys[pid] = motion.keys_of(preset)
+        self.emit("keys", {"id": pid, "keys": self._keys[pid]})
+
+    def _draft(self, payload, pid=DRAFT):
+        payload = payload or {}
+        return motion.from_keys(pid, str(payload.get("label") or "").strip() or "Untitled",
+                                payload.get("kind"), payload.get("dur"), payload.get("keys"))
+
+    def on_apply_draft(self, payload):
+        """The Editor's edit on the selected clips, saved or not."""
+        try:
+            preset = self._draft(payload)
+        except (TypeError, ValueError, AttributeError):
+            return self.emit("toast", {"text": "That edit couldn't be read."})
+        self._apply(preset)
+
+    def on_save(self, payload):
+        """Saves the Editor's edit: over a preset of the person's own ("id"),
+        or as a new one. The new or updated preset is chosen."""
+        payload = payload or {}
+        pid = payload.get("id")
+        saved = list(self.settings.get("saved") or [])
+        if pid not in {e.get("id") for e in saved}:
+            if len(saved) >= MAX_SAVED:
+                return self.emit("toast", {"text": f"There are {MAX_SAVED} saved presets already – delete one first."})
+            pid = f"saved-{uuid.uuid4().hex[:10]}"
+        try:
+            preset = self._draft(payload, pid)
+        except (TypeError, ValueError, AttributeError):
+            return self.emit("toast", {"text": "That edit couldn't be read."})
+        entry = motion.stored(preset)
+        if any(e.get("id") == pid for e in saved):
+            saved = [entry if e.get("id") == pid else e for e in saved]
+        else:
+            saved.append(entry)
+        self.settings["saved"] = saved
+        self.settings["chosen"] = pid
+        self.settings.save()
+        self._keys.pop(pid, None)
+        self._load_saved()
+        self._send_presets()
+        self._push_state()
+        self.emit("saved", {"id": pid})
+        self.emit("toast", {"text": f"Saved {preset['label']} to your presets."})
+
+    def on_delete(self, payload):
+        """Deletes a preset of the person's own (built-in ones stay)."""
+        pid = (payload or {}).get("id")
+        saved = list(self.settings.get("saved") or [])
+        gone = next((e for e in saved if e.get("id") == pid), None)
+        if gone is None:
+            return
+        self.settings["saved"] = [e for e in saved if e.get("id") != pid]
+        self.settings["favorites"] = [i for i in self.settings.get("favorites") or [] if i != pid]
+        self._keys.pop(pid, None)
+        self._load_saved()
+        if self.settings.get("chosen") not in self._by_id:
+            self.settings["chosen"] = self.presets[0]["id"]
+        self.settings.save()
+        self._send_presets()
+        self._push_state()
+        self.emit("toast", {"text": f"Deleted {gone.get('label') or 'the preset'}."})
+
+    def on_favorite(self, payload):
+        """Hearts a preset (on) or takes the heart off."""
+        payload = payload or {}
+        pid = payload.get("id")
+        if pid not in self._by_id:
+            return
+        favorites = [i for i in self.settings.get("favorites") or [] if i != pid]
+        if payload.get("on"):
+            favorites.append(pid)
+        self._save("favorites", favorites)
+
+    def on_color(self, payload):
+        """An Editor channel's colour (#rrggbb), or none: back to its own."""
+        payload = payload or {}
+        channel, color = payload.get("channel"), payload.get("color")
+        if channel not in motion.CHANNELS or not (color is None or isinstance(color, str) and _HEX.fullmatch(color)):
+            return
+        colors = self._colors()
+        if color:
+            colors[channel] = color.lower()
+        else:
+            colors.pop(channel, None)
+        self._save("colors", colors)

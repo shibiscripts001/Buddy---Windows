@@ -751,6 +751,112 @@ class AnimationPageTests(unittest.TestCase):
         page._worker.finish()
         self.assertEqual(done, ["applied with controller"])
 
+    def saved_page(self, settings=None):
+        """AnimationPage's saved presets, hearts and Editor on a stand-in."""
+        from pages.text_animator import motion
+        from pages.text_animator.page import AnimationPage, DEFAULTS
+
+        names = ("_load_saved", "_send_presets", "_draft", "_save", "_apply", "on_save", "on_delete",
+                 "on_favorite", "on_keys", "on_apply_draft", "on_update", "on_color", "_colors")
+        Page = type("Page", (), {n: getattr(AnimationPage, n) for n in names})
+        page = Page()
+        page.settings = Mem({**DEFAULTS, **(settings or {})})
+        page.builtin = motion.load()
+        page._keys = {}
+        page.sent, page.started = [], []
+        page.emit = lambda name, payload=None: page.sent.append((name, payload))
+        page._push_state = lambda: page.sent.append(("state", None))
+        page._start = lambda what, job, done: page.started.append((what, job))
+        page._load_saved()
+        return page
+
+    def keys(self):
+        return {"s": [[0, 0.0, None, [3, 1.0]], [10, 1.0, [7, 1.0], None], [40, 1.0, None, None]]}
+
+    def test_saving_an_edit_makes_a_preset_of_your_own(self):
+        page = self.saved_page()
+        page.on_save({"label": "Mine", "kind": "In · Out", "dur": 1.5, "keys": self.keys()})
+        saved = page.settings["saved"]
+        self.assertEqual(len(saved), 1)
+        pid = saved[0]["id"]
+        self.assertTrue(pid.startswith("saved-"))
+        self.assertEqual(page.settings["chosen"], pid)                    # chosen, ready to apply
+        self.assertEqual(page._by_id[pid]["pack"], "Saved")
+        presets = [p for name, p in page.sent if name == "presets"][-1]
+        self.assertEqual(presets["packs"][-1]["id"], "Saved")              # its own section, last
+        self.assertEqual(presets["presets"][-1]["label"], "Mine")
+        self.assertIn(("saved", {"id": pid}), page.sent)
+
+        page.on_save({"id": pid, "label": "Mine too", "kind": "Emphasis", "dur": 2, "keys": self.keys()})
+        self.assertEqual([e["label"] for e in page.settings["saved"]], ["Mine too"])     # over it, not beside
+        page.on_save({"id": "pop", "label": "Pop mine", "keys": self.keys()})
+        self.assertEqual(len(page.settings["saved"]), 2)                   # a built-in one is never overwritten
+
+    def test_saved_presets_come_back_next_time(self):
+        page = self.saved_page()
+        page.on_save({"label": "Mine", "kind": "In · Out", "dur": 1.0, "keys": self.keys()})
+        again = self.saved_page(dict(page.settings))
+        self.assertEqual([p["label"] for p in again.saved], ["Mine"])
+        broken = self.saved_page({"saved": [{"id": "saved-x"}, *page.settings["saved"]]})
+        self.assertEqual([p["label"] for p in broken.saved], ["Mine"])    # one that won't read is skipped
+
+    def test_hearts_and_deleting(self):
+        page = self.saved_page()
+        page.on_save({"label": "Mine", "keys": self.keys()})
+        pid = page.settings["saved"][0]["id"]
+        for heart in ("pop", pid, "nothing-like-it"):
+            page.on_favorite({"id": heart, "on": True})
+        self.assertEqual(page.settings["favorites"], ["pop", pid])
+        page.on_favorite({"id": "pop", "on": False})
+        self.assertEqual(page.settings["favorites"], [pid])
+        page.on_delete({"id": pid})
+        self.assertEqual(page.settings["saved"], [])
+        self.assertEqual(page.settings["favorites"], [])                   # its heart went with it
+        self.assertEqual(page.settings["chosen"], page.builtin[0]["id"])
+        page.on_delete({"id": "pop"})                                     # built-in ones stay
+        self.assertIn("pop", page._by_id)
+
+    def test_a_channel_keeps_the_colour_picked_for_it(self):
+        page = self.saved_page()
+        page.on_color({"channel": "y", "color": "#FF00AA"})
+        page.on_color({"channel": "s", "color": "#123456"})
+        self.assertEqual(page.settings["colors"], {"y": "#ff00aa", "s": "#123456"})
+        for bad in ({"channel": "z", "color": "#ffffff"}, {"channel": "x", "color": "red"},
+                    {"channel": "x", "color": "#fff"}, {"channel": "x", "color": 7}):
+            page.on_color(bad)                                            # not a channel, not #rrggbb
+        self.assertEqual(page.settings["colors"], {"y": "#ff00aa", "s": "#123456"})
+        page.on_color({"channel": "y", "color": None})                    # back to its own
+        self.assertEqual(page.settings["colors"], {"s": "#123456"})
+        again = self.saved_page({"colors": {"s": "#123456", "q": "#000000", "x": "nope"}})
+        self.assertEqual(again._colors(), {"s": "#123456"})                # what won't read is left out
+
+    def test_the_editor_gets_keys_once(self):
+        page = self.saved_page()
+        page.on_keys({"id": "pop"})
+        page.on_keys({"id": "pop"})
+        sent = [p for name, p in page.sent if name == "keys"]
+        self.assertEqual(len(sent), 2)
+        self.assertIs(sent[0]["keys"], sent[1]["keys"])                    # fitted the first time only
+        self.assertEqual(set(sent[0]["keys"]), {"x", "y", "r", "s", "o"})
+
+    def test_an_edit_goes_on_clips_with_its_keys_kept_for_update_framing(self):
+        from pages.text_animator import page as page_module
+        page = self.saved_page()
+        page.on_apply_draft({"label": "Try", "kind": "In · Out", "dur": 1.0, "keys": self.keys()})
+        what, job = page.started[0]
+        self.assertEqual(what, "apply")
+        calls = []
+        real = page_module.motion_resolve.run_apply
+        page_module.motion_resolve.run_apply = lambda c, preset, plan_for, options=None: calls.append((preset, options))
+        try:
+            job("controller")
+        finally:
+            page_module.motion_resolve.run_apply = real
+        preset, options = calls[0]
+        self.assertEqual(preset["id"], "draft")
+        self.assertEqual(options["preset"]["keys"]["s"][1][1], 1.0)
+        self.assertEqual(options["preset"]["label"], "Try")
+
     def test_a_second_click_while_working_does_nothing(self):
         page = self.queue_page()
         page._start("apply", lambda c: 1, lambda r, e: None)

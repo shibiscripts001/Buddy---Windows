@@ -28,14 +28,25 @@ ToolPage.settings_fields() and handling on_setting() / on_settings_action()
     buttons   items [{label, action, [kind], [tooltip]}]
     line
     info      label, text (a value shown, not edited)
+    status    label, text, tone (ok / warn / ""), [hint] - a fact with a
+              chip ("Verified", "Sends to Anthropic")
+    link      label, page, [hint] - opens another page of the window
+    models    rows, [filters] - a list of models (see models())
+    storage   total, parts [{label, bytes, tone}], [path] - disk used, as a bar
+    progress  text, value (0-100, None = still working), [stop] (an action)
 
 Any field may carry "error" (shown under it) and "indent". Everything a
 field shows goes into the page as text; only a hint's "html" is HTML, and
 that's only ever Buddy's own.
+
+The window is pages on a rail (core/settings_dialog.py): a page is a dict
+{id, group, title, [subtitle], fields} - group one of GROUPS. A heading
+starts a card of its own; a line ends one.
 """
 
 import re
 
+from core.app_version import buddy_version
 from core.i18n import LANGUAGES, canonical_language, language_label
 from core.theme import (
     DEFAULT_SIDE_PANE_TINT,
@@ -120,6 +131,47 @@ def info(label, value, raw=False):
     return {"kind": "info", "label": label, "text": value, "raw": raw}
 
 
+def status(label, value, tone="", hint_text=None, raw=False):
+    """A fact with a chip: tone "ok" (green), "warn" (red outline) or ""."""
+    return {"kind": "status", "label": label, "text": value, "tone": tone, "hint": hint_text, "raw": raw}
+
+
+def link(label, page, hint_text=None):
+    """A button that opens another page of Settings, by its id."""
+    return {"kind": "link", "label": label, "page": page, "hint": hint_text}
+
+
+def models(rows, filters=False):
+    """A list of models, one row each:
+
+        label      its name; raw: shown as it is (a model id), never translated
+        sub        what it is and what uses it, in parts shown with dots
+                   between: ["Transcription", "Subtitles, Dailies"]
+        size       text ("3.1 GB"), or ""
+        chip       {text, tone, [tip]} - Verified, Not verified, Cloud...
+        where      "local", "cloud" or "missing" - what the filters go by
+        note       a line under it (where it is)
+        actions    [{label, action | page, [kind], [disabled], [tip]}] -
+                   an action goes to the row's owner (a tool id), a page
+                   opens that page
+        owner      whose on_settings_action gets the row's actions
+
+    filters: All / On this PC / Cloud / Not downloaded above the list."""
+    return {"kind": "models", "rows": list(rows), "filters": filters}
+
+
+def storage(total, parts, path=""):
+    """Disk used, as one bar: total is the text over it, parts
+    [{label, size, bytes, tone}] its pieces (size: the bytes as text)."""
+    return {"kind": "storage", "total": total, "parts": [p for p in parts if p.get("bytes")], "path": path}
+
+
+def progress(text, value=None, stop=None):
+    """Something running: value 0-100, or None while there's no telling.
+    stop: the action that stops it."""
+    return {"kind": "progress", "text": text, "value": value, "stop": stop}
+
+
 def parse_number(value, minimum, maximum):
     """A number field's text -> a float in range, or None if it isn't one
     (blank is None too)."""
@@ -151,16 +203,27 @@ def custom_color(shared, which):
     return shared.get(f"panel_{theme}", "") or derive_panel(background)
 
 
-def shell_fields(shared, autostart, updates=None):
-    """Appearance, Window and Updates. autostart: True/False, or None if
-    Windows' startup settings couldn't be read. updates: the shell's
-    core/updater.UpdateChecker, or None (then no Updates section)."""
-    theme = shared.get("theme", DEFAULT_THEME)
-    subthemes = list_subthemes(theme)
-    subtheme = shared.get("subtheme")
-    if subtheme not in subthemes:
-        subtheme = default_subtheme(theme)
-    custom = subtheme == "Custom"
+# The rail's groups, top to bottom; "end" sits at the foot of the rail.
+GROUPS = [
+    {"id": "general", "label": "General", "icon": "sliders"},
+    {"id": "look", "label": "Look", "icon": "palette"},
+    {"id": "ai", "label": "AI", "icon": "spark"},
+    {"id": "tools", "label": "Tools", "icon": "tool"},
+    {"id": "about", "label": "About", "icon": "info", "end": True},
+]
+GROUP_IDS = [g["id"] for g in GROUPS]
+
+
+def page(page_id, group, title, fields, subtitle=""):
+    return {"id": page_id, "group": group, "title": title, "subtitle": subtitle,
+            "fields": [f for f in fields if f]}
+
+
+def shell_pages(shared, autostart, updates=None):
+    """The shell's own pages: General, Window, Appearance and About.
+    autostart: True/False, or None if Windows' startup settings couldn't be
+    read. updates: the shell's core/updater.UpdateChecker, or None (then
+    About has no Updates)."""
     autostart_field = check(
         "autostart", "Start Buddy automatically when Resolve starts", bool(autostart),
         tooltip="Registers a small background helper that watches for DaVinci Resolve launching and starts "
@@ -169,35 +232,66 @@ def shell_fields(shared, autostart, updates=None):
     if autostart is None:
         autostart_field.update(disabled=True, tooltip="Could not read Windows startup settings.")
     return [
-        heading("Appearance"),
+        page("general", "general", "General", [
+            *language_fields(shared),
+            heading("Startup"),
+            autostart_field,
+            check("keep_running_in_tray", "Keep running in tray when window is closed",
+                  shared.get("keep_running_in_tray", True),
+                  tooltip="When checked, closing the window (the [X] button) minimizes Buddy to the system tray "
+                          "instead of quitting – background tools like Time Tracker keep running. When unchecked, "
+                          "closing the window quits Buddy normally."),
+            heading("Announcements"),
+            check("announcements_enabled", "Show announcements from Buddy",
+                  shared.get("announcements_enabled", True),
+                  hint_text="Once a day Buddy checks for news (updates, known issues) and shows a small glowing dot "
+                            "next to \"Buddy\" when there's something new. Nothing about you or your projects is "
+                            "sent. Untick to stop checking."),
+        ], "Language, starting up and news from Buddy."),
+        page("window", "general", "Window", [
+            heading("Window"),
+            check("stay_on_top", "Keep Buddy on top of Resolve", shared.get("stay_on_top", False)),
+            select("split_tint", "Second pane in dual view", shared.get("split_tint", DEFAULT_SIDE_PANE_TINT),
+                   list(SIDE_PANE_TINTS.items()),
+                   tooltip="Tints the tool on the right while dual view is on, so it's easy to tell which side is "
+                           "which."),
+            heading("Sidebar"),
+            hint("Reorder, show or hide the tools in the sidebar, and add or rename the dividers between them."),
+            buttons(("Organize sidebar…", "organize")),
+        ], "How Buddy sits beside Resolve, and its sidebar."),
+        page("appearance", "look", "Appearance", appearance_fields(shared), "Changes show straight away."),
+        page("about", "about", "About Buddy", [
+            heading("Buddy"),
+            info("Version", buddy_version(), raw=True),
+            *update_fields(shared, updates),
+        ]),
+    ]
+
+
+def appearance_fields(shared):
+    theme = shared.get("theme", DEFAULT_THEME)
+    subthemes = list_subthemes(theme)
+    subtheme = shared.get("subtheme")
+    if subtheme not in subthemes:
+        subtheme = default_subtheme(theme)
+    custom = subtheme == "Custom"
+    return [
+        heading("Theme"),
         select("theme", "Theme", theme, [(key, theme_label(key)) for key in list_themes()]),
         select("subtheme", "Subtheme", subtheme, subthemes),
+        heading("Colours"),
         color("accent_color", "Accent", custom_color(shared, "accent"), custom),
         color("background_color", "Background", custom_color(shared, "background"), custom),
         color("panel_color", "Panels", custom_color(shared, "panel"), custom),
         hint("Pick the Custom subtheme to choose your own colours.") if not custom else None,
-        line(),
-        heading("Window"),
-        check("stay_on_top", "Keep Buddy on top of Resolve", shared.get("stay_on_top", False)),
-        select("split_tint", "Second pane in dual view", shared.get("split_tint", DEFAULT_SIDE_PANE_TINT),
-               list(SIDE_PANE_TINTS.items()),
-               tooltip="Tints the tool on the right while dual view is on, so it's easy to tell which side is "
-                       "which."),
-        check("keep_running_in_tray", "Keep running in tray when window is closed",
-              shared.get("keep_running_in_tray", True),
-              tooltip="When checked, closing the window (the [X] button) minimizes Buddy to the system tray "
-                      "instead of quitting – background tools like Time Tracker keep running. When unchecked, "
-                      "closing the window quits Buddy normally."),
-        autostart_field,
-        check("announcements_enabled", "Show announcements from Buddy", shared.get("announcements_enabled", True),
-              hint_text="Once a day Buddy checks for news (updates, known issues) and shows a small glowing dot "
-                        "next to \"Buddy\" when there's something new. Nothing about you or your projects is "
-                        "sent. Untick to stop checking."),
-        buttons(("Organize sidebar…", "organize",
-                 {"tooltip": "Reorder, show or hide the tools in the sidebar, and add or rename the dividers "
-                             "between them."})),
-        *update_fields(shared, updates),
+        buttons(("Reset to default", "reset_theme",
+                 {"tooltip": "The default theme, and every theme's own colours cleared."})),
     ]
+
+
+def shell_fields(shared, autostart, updates=None):
+    """Every field of the shell's pages, as one list."""
+    return [f for p in shell_pages(shared, autostart, updates) for f in p["fields"]]
 
 
 def update_fields(shared, updates):
@@ -205,7 +299,7 @@ def update_fields(shared, updates):
     if updates is None:
         return []
     if not updates.supported:
-        return [line(), heading("Updates"),
+        return [heading("Updates"),
                 hint("This Buddy runs from its source folder, so it isn't updated from here.")]
     previous = updates.previous()
     actions = [("Check for updates now", "check_updates",
@@ -214,7 +308,6 @@ def update_fields(shared, updates):
         actions.append((f"Roll back to {previous}", "roll_back_update",
                         {"tooltip": f"Puts back Buddy {previous}, the version the last update replaced."}))
     return [
-        line(),
         heading("Updates"),
         check("updates_enabled", "Check for Buddy updates", shared.get("updates_enabled", True),
               hint_text="Once a day Buddy looks for a newer version on GitHub and shows an Update button in the "
@@ -225,11 +318,10 @@ def update_fields(shared, updates):
 
 
 def language_fields(shared):
-    """The Language dropdown - the last thing in Settings, whichever tool
-    is open. Each language is shown in its own name."""
+    """The Language dropdown, first on the General page. Each language is
+    shown in its own name."""
     language = canonical_language(shared.get("language", LANGUAGES[0]))
     return [
-        line(),
         heading("Language"),
         select("language", "Language", language if language in LANGUAGES else LANGUAGES[0],
                [(key, language_label(key)) for key in LANGUAGES], raw=True,

@@ -1,0 +1,260 @@
+{
+ "large-v3": {
+  "repo": "Systran/faster-whisper-large-v3",
+  "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+  "files": {
+   "config.json": {
+    "size": 2394,
+    "sha256": "a9306624f5ec14270a014b647e5c316b6e03a662c369758d1b90697a7b0655b9"
+   },
+   "model.bin": {
+    "size": 3087284237,
+    "sha256": "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1"
+   },
+   "preprocessor_config.json": {
+    "size": 340,
+    "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+   },
+   "tokenizer.json": {
+    "size": 2480617,
+    "sha256": "6d8cbd7cd0d8d5815e478dac67b85a26bbe77c1f5e0c6d76d1ce2abc0e5f21ca"
+   },
+   "vocabulary.json": {
+    "size": 1068114,
+    "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+   }
+  }
+ },
+ "large-v3-turbo": {
+  "repo": "mobiuslabsgmbh/faster-whisper-large-v3-turbo",
+  "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+  "files": {
+   "config.json": {
+    "size": 2263,
+    "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e"
+   },
+   "model.bin": {
+    "size": 1617884929,
+    "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da"
+   },
+   "preprocessor_config.json": {
+    "size": 340,
+    "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+   },
+   "tokenizer.json": {
+    "size": 2710337,
+    "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd"
+   },
+   "vocabulary.json": {
+    "size": 1068114,
+    "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+   }
+  }
+ },
+ "parakeet-v3": {
+  "repo": "istupakov/parakeet-tdt-0.6b-v3-onnx",
+  "revision": "8f23f0c03c8761650bdb5b40aaf3e40d2c15f1ce",
+  "files": {
+   "config.json": {
+    "size": 97,
+    "sha256": "666903c76b9798caf2c210afd4f6cd60b08a8dbf9800ec8d7a3bc0d2148ac466"
+   },
+   "decoder_joint-model.int8.onnx": {
+    "size": 18202004,
+    "sha256": "eea7483ee3d1a30375daedc8ed83e3960c91b098812127a0d99d1c8977667a70"
+   },
+   "encoder-model.int8.onnx": {
+    "size": 652183999,
+    "sha256": "6139d2fa7e1b086097b277c7149725edbab89cc7c7ae64b23c741be4055aff09"
+   },
+   "vocab.txt": {
+    "size": 93939,
+    "sha256": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d"
+   }
+  }
+ },
+ "distil-large-v3.5": {
+  "repo": "distil-whisper/distil-large-v3.5-ct2",
+  "revision": "9793ccc07920e0f830e1dba0343efcdf0ef8c903",
+  "files": {
+   "config.json": {
+    "size": 2690,
+    "sha256": "90c55f775cc4e0bb17293d0bf12f96557a486f20dea886fabd8e6075a3588b21"
+   },
+   "model.bin": {
+    "size": 1512927867,
+    "sha256": "c58b88b8585ffcd2135fddaaf421ce72cb223b32edea70d156aed1dea319a119"
+   },
+   "preprocessor_config.json": {
+    "size": 340,
+    "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+   },
+   "tokenizer.json": {
+    "size": 2480645,
+    "sha256": "b3c8202bbf06d8ee4232c5984baa563784ac4737e2e7fdc42fa180200d3cfcdb"
+   },
+   "vocabulary.json": {
+    "size": 1068114,
+    "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+   }
+  }
+ },
+ "small": {
+  "repo": "Systran/faster-whisper-small",
+  "revision": "536b0662742c02347bc0e980a01041f333bce120",
+  "files": {
+   "config.json": {
+    "size": 2370,
+    "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828"
+   },
+   "model.bin": {
+    "size": 483546902,
+    "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+   },
+   "tokenizer.json": {
+    "size": 2203239,
+    "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+   },
+   "vocabulary.txt": {
+    "size": 459861,
+    "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+   }
+  }
+ },
+ "nllb-1.3b": {
+  "repo": "OpenNMT/nllb-200-distilled-1.3B-ct2-int8",
+  "revision": "70f572adafa4794890ce7826156a4209717855af",
+  "files": {
+   "config.json": {
+    "size": 1071,
+    "sha256": "bb11352c2579e31d4251500cd3d813beb6ab083c8a60268db52e9698c1c9cda2"
+   },
+   "generation_config.json": {
+    "size": 189,
+    "sha256": "0bb604cdb8392649176935a447ce994128f170a6908c135a17d0e3dfb8113cb2"
+   },
+   "model.bin": {
+    "size": 1377755738,
+    "sha256": "89dc4b9eb7f4dcd3ff36023c9b1c55fcecb47ddc0df97ab31b068ef9cf194940"
+   },
+   "shared_vocabulary.json": {
+    "size": 5921176,
+    "sha256": "af53bfd0e6f726209e7325e45b87ab3b14e5856f7d42d7b9be91de3287c45267"
+   },
+   "special_tokens_map.json": {
+    "size": 3548,
+    "sha256": "992bd4ed610d644d6823081937bcc91bb8878dd556cea4ae5327f2480361330e"
+   },
+   "tokenizer.json": {
+    "size": 17331176,
+    "sha256": "e316b82de11d0f951f370943b3c438311629547285129b0b81dadabd01bca665"
+   },
+   "tokenizer_config.json": {
+    "size": 564,
+    "sha256": "d1aa8c3697d3e35674f97b5b7e9c99d22b010f528e80140257d97316be90d044"
+   }
+  }
+ },
+ "nllb-3.3b": {
+  "repo": "OpenNMT/nllb-200-3.3B-ct2-int8",
+  "revision": "28d998cc8548ad62f4f98cf8860928c3af99b97b",
+  "files": {
+   "config.json": {
+    "size": 1071,
+    "sha256": "fa393269e093784425d78115fa8c223722f6432fab71ae972e6e7b869ce916f2"
+   },
+   "generation_config.json": {
+    "size": 189,
+    "sha256": "0bb604cdb8392649176935a447ce994128f170a6908c135a17d0e3dfb8113cb2"
+   },
+   "model.bin": {
+    "size": 3356047962,
+    "sha256": "b7540c4e19aa2a5079c89241ffccb49711705ca8b1d255cea00c3216dc7d5165"
+   },
+   "shared_vocabulary.json": {
+    "size": 5921176,
+    "sha256": "af53bfd0e6f726209e7325e45b87ab3b14e5856f7d42d7b9be91de3287c45267"
+   },
+   "special_tokens_map.json": {
+    "size": 3548,
+    "sha256": "992bd4ed610d644d6823081937bcc91bb8878dd556cea4ae5327f2480361330e"
+   },
+   "tokenizer.json": {
+    "size": 17331176,
+    "sha256": "e316b82de11d0f951f370943b3c438311629547285129b0b81dadabd01bca665"
+   },
+   "tokenizer_config.json": {
+    "size": 564,
+    "sha256": "d1aa8c3697d3e35674f97b5b7e9c99d22b010f528e80140257d97316be90d044"
+   }
+  }
+ },
+ "nllb-600m": {
+  "repo": "mijuanlo/nllb-200-distilled-600M-ct2-int8",
+  "revision": "16bc5ff0482f9f1c0d35bdef950721ce58640789",
+  "files": {
+   "config.json": {
+    "size": 1065,
+    "sha256": "bf8ade7c3f1683e5f13001bab18b04a1ccd1a6801208efd227ed13b2ff6f15e7"
+   },
+   "generation_config.json": {
+    "size": 189,
+    "sha256": "0bb604cdb8392649176935a447ce994128f170a6908c135a17d0e3dfb8113cb2"
+   },
+   "model.bin": {
+    "size": 622596105,
+    "sha256": "398726640cc2a02cc6a35277fa3cf2159ce8a1a66b48aa1b6c8837a47e3dd00c"
+   },
+   "shared_vocabulary.json": {
+    "size": 5921176,
+    "sha256": "af53bfd0e6f726209e7325e45b87ab3b14e5856f7d42d7b9be91de3287c45267"
+   },
+   "special_tokens_map.json": {
+    "size": 3548,
+    "sha256": "992bd4ed610d644d6823081937bcc91bb8878dd556cea4ae5327f2480361330e"
+   },
+   "tokenizer.json": {
+    "size": 17331176,
+    "sha256": "e316b82de11d0f951f370943b3c438311629547285129b0b81dadabd01bca665"
+   },
+   "tokenizer_config.json": {
+    "size": 564,
+    "sha256": "d1aa8c3697d3e35674f97b5b7e9c99d22b010f528e80140257d97316be90d044"
+   }
+  }
+ },
+ "madlad-3b": {
+  "repo": "Nextcloud-AI/madlad400-3b-mt-ct2-int8",
+  "revision": "aa32bbdeba7880eff2096ec044cb155a340a9400",
+  "files": {
+   "config.json": {
+    "size": 224,
+    "sha256": "90fb54962455a4e0a0bc7235c0f063d7e46d9c1a1ae003af8059809abd6aeece"
+   },
+   "generation_config.json": {
+    "size": 142,
+    "sha256": "0849b38987568ccfe4ebefc22bbda1cec4bee01c345e93bfab207d4692b0a1d5"
+   },
+   "model.bin": {
+    "size": 2950208329,
+    "sha256": "77b9fd9ab97c1259d07089b5f854393dad81bc5fb5647d3f9a5d101c94f40daa"
+   },
+   "shared_vocabulary.json": {
+    "size": 5477099,
+    "sha256": "c327551ce3ca6efc7b437e11a267f79979893332dda8a1d146e2c950815193f8"
+   },
+   "special_tokens_map.json": {
+    "size": 414,
+    "sha256": "7f79f1d5063d56c4b980eec0692f3c7429bdef335071d34e566bd00fd4b5e3e0"
+   },
+   "tokenizer.json": {
+    "size": 16629031,
+    "sha256": "a2799ccc696b752ba00c34f58726bfe253a04921ceb6cfc620400f560474790b"
+   },
+   "tokenizer_config.json": {
+    "size": 830,
+    "sha256": "641fc660745306dfb935f666a68f8bc10a44c39241cfb357be518fda8c09662d"
+   }
+  }
+ }
+}

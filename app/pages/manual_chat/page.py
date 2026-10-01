@@ -47,7 +47,7 @@ from core.resolve_bridge import ResolveConnectionError
 from core.tools_kb import get_tool
 from core.web_page import WebToolPage
 
-from . import actions, manual_pdf, pictures, chat_store
+from . import actions, chat_store, embedder, local_llama, manual_pdf, pictures
 from .agent import AgentResult, ManualAgent
 from .ask_folder import instructions_for_prompt
 from .config import (
@@ -172,7 +172,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             text = self.settings.get("text_path") or ""
             if not bundle and not text:
                 bundle, text = default_data_paths()
-            self._retriever = ManualRetriever(bundle or None, text or None)
+            self._retriever = ManualRetriever(bundle or None, text or None, embedder.from_settings(self.settings))
         finally:
             self.host.set_busy(False)
         self._push_status()
@@ -182,11 +182,16 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             return ""
         note = self._retriever.describe_tier()
         if self._retriever.tier == TIER_NONE:
-            note += "  Build it from the manual PDF in Settings > Ask Buddy > Rebuild from PDF…"
+            note += "  Build it from the manual PDF in Settings > AI > Manual search > Rebuild from PDF…"
         return note
 
+    def on_app_quitting(self):
+        # Buddy's own llama.cpp, if semantic search started it.
+        local_llama.stop_all()
+
     def _reload_manual(self, _result=None):
-        """Pick up a freshly built bundle without restarting Buddy."""
+        """Pick up a freshly built bundle - or a newly chosen embedder -
+        without restarting Buddy."""
         self._retriever = None
         if self.isVisible():
             self.on_shown()
@@ -430,7 +435,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             error = result.error
             if self._pending_pictures:
                 error += ("\n\nThis question had a picture. If the model can't read images, choose one that "
-                          "can in Settings > Ask Buddy (a \"vision\" model – most recent GPT, Claude and "
+                          "can in Settings > AI > Chat assistant (a \"vision\" model – most recent GPT, Claude and "
                           "Gemini models can; for Ollama, e.g. gemma3 or llava) – or ask without it.")
             self._append(ERROR, error, error=True, copyable=True)
             return

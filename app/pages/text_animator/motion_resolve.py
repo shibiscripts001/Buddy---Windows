@@ -157,15 +157,18 @@ def classify(item, track_type):
 def summary(controller):
     """{"timeline", "counts": {kind: n}, "total", "animated"} for the
     selection - "animated" is how many carry a Buddy preset (so Remove
-    knows whether there's anything to take off)."""
+    knows whether there's anything to take off) - and "clip": the one
+    animatable clip's {"name", "frames"} when there's only one (the Editor
+    lays its curves out at that clip's length), else None."""
     _project, timeline = current_timeline(controller)
     if timeline is None:
         return {"timeline": "", "counts": {}, "total": 0, "animated": 0}
-    counts, animated, reframed, looked = {}, 0, 0, 0
+    counts, animated, reframed, looked, clips = {}, 0, 0, 0, []
     for item, track_type in selected_items(timeline):
         kind = classify(item, track_type)
         counts[kind] = counts.get(kind, 0) + 1
         if kind in ANIMATABLE:
+            clips.append(item)
             # The page asks every couple of seconds, and each Resolve call
             # holds Buddy up while it runs: past LOOK_AT clips, count them
             # as maybe animated rather than open every comp.
@@ -174,8 +177,20 @@ def summary(controller):
                 animated += 1
                 if looked <= LOOK_AT and not fr.is_neutral(read_inspector(item)):
                     reframed += 1
-    return {"timeline": timeline.GetName(), "counts": counts, "total": sum(counts.values()),
-            "animated": animated, "reframed": reframed}
+    try:
+        fps = float(timeline.GetSetting("timelineFrameRate"))
+    except Exception:
+        fps = 24.0
+    if fps <= 0:
+        fps = 24.0
+    clip = None
+    if len(clips) == 1:
+        try:
+            clip = {"name": clips[0].GetName(), "frames": int(clips[0].GetDuration() or 0)}
+        except Exception:
+            clip = None
+    return {"timeline": timeline.GetName(), "fps": fps, "counts": counts,
+            "total": sum(counts.values()), "animated": animated, "reframed": reframed, "clip": clip}
 
 
 def _has_motion(item):

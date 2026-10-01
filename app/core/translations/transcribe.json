@@ -312,13 +312,13 @@
  },
  "This computer": {
   "日本語": "このコンピューター",
-  "Español": "Este equipo",
+  "Español": "Este ordenador",
   "Deutsch": "Dieser Computer",
   "Français": "Cet ordinateur",
   "한국어": "이 컴퓨터",
-  "中文": "本机",
+  "中文": "这台电脑",
   "العربية": "هذا الكمبيوتر",
-  "Tiếng Việt": "Máy này"
+  "Tiếng Việt": "Máy tính này"
  },
  "Check again": {
   "日本語": "再確認",
@@ -335,10 +335,10 @@
   "Español": "Motor de transcripción",
   "Deutsch": "Transkriptions-Engine",
   "Français": "Moteur de transcription",
-  "한국어": "받아쓰기 엔진",
-  "中文": "转录引擎",
-  "العربية": "محرك التفريغ",
-  "Tiếng Việt": "Công cụ phiên âm"
+  "한국어": "전사 엔진",
+  "中文": "转写引擎",
+  "العربية": "محرك النسخ",
+  "Tiếng Việt": "Bộ máy phiên âm"
  },
  "Install engine": {
   "日本語": "エンジンをインストール",
@@ -371,7 +371,7 @@
   "Tiếng Việt": "Mô hình giọng nói"
  },
  "Use a model folder…": {
-  "日本語": "モデルフォルダーを使用…",
+  "日本語": "モデルフォルダーを使う…",
   "Español": "Usar una carpeta de modelo…",
   "Deutsch": "Modellordner verwenden…",
   "Français": "Utiliser un dossier de modèle…",
@@ -639,36 +639,6 @@
   "中文": "正在检查引擎…",
   "العربية": "جارٍ التحقق من المحرك…",
   "Tiếng Việt": "Đang kiểm tra công cụ…"
- },
- "Installed ({versions}).": {
-  "日本語": "インストール済み ({versions})。",
-  "Español": "Instalado ({versions}).",
-  "Deutsch": "Installiert ({versions}).",
-  "Français": "Installé ({versions}).",
-  "한국어": "설치됨({versions}).",
-  "中文": "已安装（{versions}）。",
-  "العربية": "مثبت ({versions}).",
-  "Tiếng Việt": "Đã cài đặt ({versions})."
- },
- "Installed.": {
-  "日本語": "インストール済み。",
-  "Español": "Instalado.",
-  "Deutsch": "Installiert.",
-  "Français": "Installé.",
-  "한국어": "설치됨.",
-  "中文": "已安装。",
-  "العربية": "مثبت.",
-  "Tiếng Việt": "Đã cài đặt."
- },
- "Installs faster-whisper into Buddy's own folder ({root}), built from the Python Buddy runs on. Download: {size}.": {
-  "日本語": "faster-whisper を Buddy 専用のフォルダー ({root}) に、Buddy が動作している Python を元にインストールします。ダウンロード: {size}。",
-  "Español": "Instala faster-whisper en la carpeta propia de Buddy ({root}), a partir del Python con el que funciona Buddy. Descarga: {size}.",
-  "Deutsch": "Installiert faster-whisper in Buddys eigenen Ordner ({root}), auf Basis des Python, mit dem Buddy läuft. Download: {size}.",
-  "Français": "Installe faster-whisper dans le dossier propre à Buddy ({root}), à partir du Python sur lequel tourne Buddy. Téléchargement : {size}.",
-  "한국어": "faster-whisper를 Buddy 전용 폴더({root})에 Buddy가 실행되는 Python을 기반으로 설치합니다. 다운로드: {size}.",
-  "中文": "将 faster-whisper 安装到 Buddy 自己的文件夹（{root}），基于 Buddy 运行所用的 Python 构建。下载大小：{size}。",
-  "العربية": "يثبّت faster-whisper في مجلد Buddy الخاص ({root})، مبنيًا من Python الذي يعمل عليه Buddy. حجم التنزيل: {size}.",
-  "Tiếng Việt": "Cài faster-whisper vào thư mục riêng của Buddy ({root}), dựng từ Python mà Buddy đang chạy. Dung lượng tải: {size}."
  },
  "Bigger models are more accurate and slower.": {
   "日本語": "大きいモデルほど精度が高く、処理は遅くなります。",
@@ -2559,5 +2529,415 @@
   "中文": "视频轨道 {track} 上字幕要放的位置已有 {n} 个片段，Resolve 不会把 Text+ 放在它们上面。请选择一条空的视频轨道——轨道 {empty} 是空的。",
   "العربية": "يحتوي مسار الفيديو {track} بالفعل على {n} مقطع حيث توضع الترجمات، ولن يضع Resolve مقاطع Text+ فوقها. اختر مسار فيديو فارغًا – المسار {empty} فارغ.",
   "Tiếng Việt": "Rãnh video {track} đã có {n} clip ở chỗ phụ đề sẽ đặt, và Resolve sẽ không đặt Text+ đè lên chúng. Hãy chọn một rãnh video trống – rãnh {empty} đang trống."
+ },
+ "Installed and verified ({versions}).": {
+  "日本語": "インストール済み・検証済み ({versions})。",
+  "Español": "Instalado y verificado ({versions}).",
+  "Deutsch": "Installiert und geprüft ({versions}).",
+  "Français": "Installé et vérifié ({versions}).",
+  "한국어": "설치 및 검증 완료 ({versions}).",
+  "中文": "已安装并验证（{versions}）。",
+  "العربية": "مثبّت ومُتحقَّق منه ({versions}).",
+  "Tiếng Việt": "Đã cài đặt và xác minh ({versions})."
+ },
+ "Installed and verified.": {
+  "日本語": "インストール済み・検証済み。",
+  "Español": "Instalado y verificado.",
+  "Deutsch": "Installiert und geprüft.",
+  "Français": "Installé et vérifié.",
+  "한국어": "설치 및 검증 완료.",
+  "中文": "已安装并验证。",
+  "العربية": "مثبّت ومُتحقَّق منه.",
+  "Tiếng Việt": "Đã cài đặt và xác minh."
+ },
+ "Installs faster-whisper into Buddy's own folder ({root}), built from the Python Buddy runs on. Download: {size}. Every package is checked against its published hash, and Windows Defender scans the result.": {
+  "日本語": "faster-whisper を Buddy 専用のフォルダー ({root}) に、Buddy が動作している Python を元にインストールします。ダウンロード: {size}。すべてのパッケージを公開されているハッシュで照合し、Windows Defender で結果をスキャンします。",
+  "Español": "Instala faster-whisper en la carpeta propia de Buddy ({root}), creado a partir del Python con el que funciona Buddy. Descarga: {size}. Cada paquete se comprueba con su hash publicado y Windows Defender analiza el resultado.",
+  "Deutsch": "Installiert faster-whisper in Buddys eigenen Ordner ({root}), aufgebaut aus dem Python, mit dem Buddy läuft. Download: {size}. Jedes Paket wird gegen seinen veröffentlichten Hash geprüft, und Windows Defender scannt das Ergebnis.",
+  "Français": "Installe faster-whisper dans le dossier propre à Buddy ({root}), à partir du Python sur lequel tourne Buddy. Téléchargement : {size}. Chaque paquet est vérifié avec son empreinte publiée, et Windows Defender analyse le résultat.",
+  "한국어": "faster-whisper를 Buddy 전용 폴더({root})에, Buddy가 실행되는 Python으로 설치합니다. 다운로드: {size}. 모든 패키지를 공개된 해시와 대조하고, Windows Defender로 결과를 검사합니다.",
+  "中文": "将 faster-whisper 安装到 Buddy 自己的文件夹（{root}），基于 Buddy 所运行的 Python 构建。下载：{size}。每个包都会与其公布的哈希核对，并由 Windows Defender 扫描结果。",
+  "العربية": "يثبّت faster-whisper في مجلد Buddy الخاص ({root})، مبنيًا من Python الذي يعمل عليه Buddy. التنزيل: {size}. تُطابَق كل حزمة مع بصمتها المنشورة، ويفحص Windows Defender النتيجة.",
+  "Tiếng Việt": "Cài faster-whisper vào thư mục riêng của Buddy ({root}), dựng từ Python mà Buddy đang chạy. Dung lượng tải: {size}. Mỗi gói được đối chiếu với mã băm đã công bố, và Windows Defender quét kết quả."
+ },
+ "Reinstall engine": {
+  "日本語": "エンジンを再インストール",
+  "Español": "Reinstalar el motor",
+  "Deutsch": "Engine neu installieren",
+  "Français": "Réinstaller le moteur",
+  "한국어": "엔진 다시 설치",
+  "中文": "重新安装引擎",
+  "العربية": "إعادة تثبيت المحرك",
+  "Tiếng Việt": "Cài lại công cụ"
+ },
+ "Ready, but installed before Buddy checked every download – Reinstall replaces it with a verified copy.": {
+  "日本語": "準備完了。ただし、Buddy がすべてのダウンロードを検証する前にインストールされたものです – 再インストールすると検証済みのものに置き換わります。",
+  "Español": "Listo, pero se instaló antes de que Buddy comprobara cada descarga: Reinstalar lo sustituye por una copia verificada.",
+  "Deutsch": "Bereit, aber installiert, bevor Buddy jeden Download geprüft hat – Neu installieren ersetzt es durch eine geprüfte Kopie.",
+  "Français": "Prêt, mais installé avant que Buddy vérifie chaque téléchargement – Réinstaller le remplace par une copie vérifiée.",
+  "한국어": "준비되었지만 Buddy가 모든 다운로드를 검증하기 전에 설치된 것입니다 – 다시 설치하면 검증된 사본으로 바뀝니다.",
+  "中文": "已就绪，但它是在 Buddy 检查每个下载之前安装的 – “重新安装”会将其替换为经过验证的副本。",
+  "العربية": "جاهز، لكنه ثُبّت قبل أن يتحقق Buddy من كل تنزيل – تستبدله «إعادة التثبيت» بنسخة مُتحقَّق منها.",
+  "Tiếng Việt": "Đã sẵn sàng, nhưng được cài trước khi Buddy kiểm tra mọi bản tải – Cài lại sẽ thay bằng bản đã xác minh."
+ },
+ "Verified": {
+  "日本語": "検証済み",
+  "Español": "Verificado",
+  "Deutsch": "Geprüft",
+  "Français": "Vérifié",
+  "한국어": "검증됨",
+  "中文": "已验证",
+  "العربية": "مُتحقَّق منه",
+  "Tiếng Việt": "Đã xác minh"
+ },
+ "Not verified": {
+  "日本語": "未検証",
+  "Español": "Sin verificar",
+  "Deutsch": "Nicht geprüft",
+  "Français": "Non vérifié",
+  "한국어": "검증 안 됨",
+  "中文": "未验证",
+  "العربية": "غير مُتحقَّق منه",
+  "Tiếng Việt": "Chưa xác minh"
+ },
+ "Every file matches the checksum Buddy expects for this model.": {
+  "日本語": "すべてのファイルが、このモデルについて Buddy が想定するチェックサムと一致します。",
+  "Español": "Cada archivo coincide con la suma de comprobación que Buddy espera para este modelo.",
+  "Deutsch": "Jede Datei passt zu der Prüfsumme, die Buddy für dieses Modell erwartet.",
+  "Français": "Chaque fichier correspond à la somme de contrôle que Buddy attend pour ce modèle.",
+  "한국어": "모든 파일이 이 모델에 대해 Buddy가 예상하는 체크섬과 일치합니다.",
+  "中文": "每个文件都与 Buddy 对该模型预期的校验和一致。",
+  "العربية": "يطابق كل ملف المجموع الاختباري الذي يتوقعه Buddy لهذا النموذج.",
+  "Tiếng Việt": "Mọi tệp đều khớp với mã kiểm tra Buddy mong đợi cho mô hình này."
+ },
+ "These files aren't exactly the ones Buddy expects for this model – an older download, or a copy from somewhere else. Model files hold no code, so it can still be used; re-download it for a verified copy.": {
+  "日本語": "これらのファイルは、このモデルについて Buddy が想定するものと完全には一致しません – 以前のダウンロードか、別の場所からのコピーです。モデルファイルにはコードが含まれないので引き続き使えますが、検証済みのコピーにするには再ダウンロードしてください。",
+  "Español": "Estos archivos no son exactamente los que Buddy espera para este modelo: una descarga anterior o una copia de otro sitio. Los archivos de modelo no contienen código, así que se puede seguir usando; vuelve a descargarlo para tener una copia verificada.",
+  "Deutsch": "Diese Dateien sind nicht genau die, die Buddy für dieses Modell erwartet – ein älterer Download oder eine Kopie von anderswo. Modelldateien enthalten keinen Code, es lässt sich also weiter nutzen; lade es neu herunter, um eine geprüfte Kopie zu haben.",
+  "Français": "Ces fichiers ne sont pas exactement ceux que Buddy attend pour ce modèle – un ancien téléchargement, ou une copie venue d'ailleurs. Les fichiers de modèle ne contiennent pas de code, il reste donc utilisable ; retéléchargez-le pour une copie vérifiée.",
+  "한국어": "이 파일은 이 모델에 대해 Buddy가 예상하는 파일과 정확히 같지 않습니다 – 예전 다운로드이거나 다른 곳에서 가져온 사본입니다. 모델 파일에는 코드가 없으므로 계속 쓸 수 있지만, 검증된 사본을 원하면 다시 내려받으세요.",
+  "中文": "这些文件与 Buddy 对该模型预期的文件并不完全一致 – 是较早的下载，或来自别处的副本。模型文件不含代码，因此仍可使用；重新下载即可获得经过验证的副本。",
+  "العربية": "ليست هذه الملفات هي نفسها التي يتوقعها Buddy لهذا النموذج تمامًا – تنزيل أقدم، أو نسخة من مكان آخر. لا تحتوي ملفات النماذج على شيفرة، لذا يمكن استخدامه؛ أعد تنزيله لتحصل على نسخة مُتحقَّق منها.",
+  "Tiếng Việt": "Các tệp này không hoàn toàn đúng như Buddy mong đợi cho mô hình này – một bản tải cũ hơn, hoặc bản sao từ nơi khác. Tệp mô hình không chứa mã nên vẫn dùng được; hãy tải lại để có bản đã xác minh."
+ },
+ "Re-download ({size})": {
+  "日本語": "再ダウンロード ({size})",
+  "Español": "Volver a descargar ({size})",
+  "Deutsch": "Neu herunterladen ({size})",
+  "Français": "Retélécharger ({size})",
+  "한국어": "다시 내려받기 ({size})",
+  "中文": "重新下载（{size}）",
+  "العربية": "إعادة التنزيل ({size})",
+  "Tiếng Việt": "Tải lại ({size})"
+ },
+ "Downloads a verified copy into Buddy's folder.": {
+  "日本語": "検証済みのコピーを Buddy のフォルダーにダウンロードします。",
+  "Español": "Descarga una copia verificada en la carpeta de Buddy.",
+  "Deutsch": "Lädt eine geprüfte Kopie in Buddys Ordner herunter.",
+  "Français": "Télécharge une copie vérifiée dans le dossier de Buddy.",
+  "한국어": "검증된 사본을 Buddy 폴더로 내려받습니다.",
+  "中文": "将经过验证的副本下载到 Buddy 的文件夹。",
+  "العربية": "ينزّل نسخة مُتحقَّقًا منها إلى مجلد Buddy.",
+  "Tiếng Việt": "Tải bản đã xác minh vào thư mục của Buddy."
+ },
+ "Removing the old environment (the models are kept) …": {
+  "日本語": "古い環境を削除しています（モデルは残します）…",
+  "Español": "Eliminando el entorno antiguo (los modelos se conservan)…",
+  "Deutsch": "Die alte Umgebung wird entfernt (die Modelle bleiben) …",
+  "Français": "Suppression de l'ancien environnement (les modèles sont conservés)…",
+  "한국어": "이전 환경을 지우는 중(모델은 유지)…",
+  "中文": "正在删除旧环境（保留模型）…",
+  "العربية": "جارٍ حذف البيئة القديمة (تُحفظ النماذج)…",
+  "Tiếng Việt": "Đang xóa môi trường cũ (giữ lại các mô hình)…"
+ },
+ "Installing: {packages} – every file checked against its published hash": {
+  "日本語": "インストール中: {packages} – すべてのファイルを公開されているハッシュで照合",
+  "Español": "Instalando: {packages}: cada archivo se comprueba con su hash publicado",
+  "Deutsch": "Installiere: {packages} – jede Datei gegen ihren veröffentlichten Hash geprüft",
+  "Français": "Installation : {packages} – chaque fichier vérifié avec son empreinte publiée",
+  "한국어": "설치 중: {packages} – 모든 파일을 공개된 해시와 대조",
+  "中文": "正在安装：{packages} – 每个文件都与其公布的哈希核对",
+  "العربية": "جارٍ التثبيت: {packages} – يُطابَق كل ملف مع بصمته المنشورة",
+  "Tiếng Việt": "Đang cài: {packages} – mọi tệp được đối chiếu với mã băm đã công bố"
+ },
+ "Checking the environment with Windows Defender …": {
+  "日本語": "Windows Defender で環境を検査しています…",
+  "Español": "Comprobando el entorno con Windows Defender…",
+  "Deutsch": "Die Umgebung wird mit Windows Defender geprüft …",
+  "Français": "Vérification de l'environnement avec Windows Defender…",
+  "한국어": "Windows Defender로 환경을 검사하는 중…",
+  "中文": "正在用 Windows Defender 检查环境…",
+  "العربية": "جارٍ فحص البيئة باستخدام Windows Defender…",
+  "Tiếng Việt": "Đang kiểm tra môi trường bằng Windows Defender…"
+ },
+ "Windows Defender scanned the transcription engine and found no threats.": {
+  "日本語": "Windows Defender で文字起こしエンジンをスキャンし、脅威は見つかりませんでした。",
+  "Español": "Windows Defender analizó el motor de transcripción y no encontró amenazas.",
+  "Deutsch": "Windows Defender hat die Transkriptions-Engine gescannt und keine Bedrohungen gefunden.",
+  "Français": "Windows Defender a analysé le moteur de transcription et n'a trouvé aucune menace.",
+  "한국어": "Windows Defender가 전사 엔진을 검사했으며 위협을 찾지 못했습니다.",
+  "中文": "Windows Defender 已扫描转录引擎，未发现威胁。",
+  "العربية": "فحص Windows Defender محرك النسخ ولم يجد أي تهديدات.",
+  "Tiếng Việt": "Windows Defender đã quét công cụ chép lời và không phát hiện mối đe dọa nào."
+ },
+ "Windows Defender isn't on this PC, so it couldn't scan the transcription engine.": {
+  "日本語": "この PC には Windows Defender がないため、文字起こしエンジンをスキャンできませんでした。",
+  "Español": "Windows Defender no está en este PC, así que no pudo analizar el motor de transcripción.",
+  "Deutsch": "Auf diesem PC ist kein Windows Defender, daher konnte die Transkriptions-Engine nicht gescannt werden.",
+  "Français": "Windows Defender n'est pas sur ce PC, il n'a donc pas pu analyser le moteur de transcription.",
+  "한국어": "이 PC에 Windows Defender가 없어 전사 엔진을 검사하지 못했습니다.",
+  "中文": "此电脑上没有 Windows Defender，因此无法扫描转录引擎。",
+  "العربية": "Windows Defender غير موجود على هذا الحاسوب، لذا تعذّر فحص محرك النسخ.",
+  "Tiếng Việt": "Máy này không có Windows Defender nên không quét được công cụ chép lời."
+ },
+ "Windows Defender couldn't scan the transcription engine: {error}": {
+  "日本語": "Windows Defender で文字起こしエンジンをスキャンできませんでした: {error}",
+  "Español": "Windows Defender no pudo analizar el motor de transcripción: {error}",
+  "Deutsch": "Windows Defender konnte die Transkriptions-Engine nicht scannen: {error}",
+  "Français": "Windows Defender n'a pas pu analyser le moteur de transcription : {error}",
+  "한국어": "Windows Defender가 전사 엔진을 검사하지 못했습니다: {error}",
+  "中文": "Windows Defender 无法扫描转录引擎：{error}",
+  "العربية": "تعذّر على Windows Defender فحص محرك النسخ: {error}",
+  "Tiếng Việt": "Windows Defender không quét được công cụ chép lời: {error}"
+ },
+ "Windows Defender couldn't scan the transcription engine (it may be turned off for another antivirus, code {code}).": {
+  "日本語": "Windows Defender で文字起こしエンジンをスキャンできませんでした（別のウイルス対策ソフトのためにオフになっている可能性があります。コード {code}）。",
+  "Español": "Windows Defender no pudo analizar el motor de transcripción (puede estar desactivado por otro antivirus, código {code}).",
+  "Deutsch": "Windows Defender konnte die Transkriptions-Engine nicht scannen (er ist vielleicht für ein anderes Antivirenprogramm abgeschaltet, Code {code}).",
+  "Français": "Windows Defender n'a pas pu analyser le moteur de transcription (il est peut-être désactivé au profit d'un autre antivirus, code {code}).",
+  "한국어": "Windows Defender가 전사 엔진을 검사하지 못했습니다(다른 백신 때문에 꺼져 있을 수 있음, 코드 {code}).",
+  "中文": "Windows Defender 无法扫描转录引擎（可能因其他杀毒软件而被关闭，代码 {code}）。",
+  "العربية": "تعذّر على Windows Defender فحص محرك النسخ (ربما أُوقف لصالح برنامج مكافحة فيروسات آخر، الرمز {code}).",
+  "Tiếng Việt": "Windows Defender không quét được công cụ chép lời (có thể đã bị tắt vì một phần mềm diệt virus khác, mã {code})."
+ },
+ "Windows Defender flagged the transcription engine's download, so it was deleted and won't be used. Nothing was run.": {
+  "日本語": "Windows Defender がダウンロードした文字起こしエンジンを検出したため、削除して使用しません。何も実行されていません。",
+  "Español": "Windows Defender marcó la descarga del motor de transcripción, así que se eliminó y no se usará. No se ejecutó nada.",
+  "Deutsch": "Windows Defender hat den Download der Transkriptions-Engine beanstandet, deshalb wurde er gelöscht und wird nicht verwendet. Es wurde nichts ausgeführt.",
+  "Français": "Windows Defender a signalé le téléchargement du moteur de transcription : il a été supprimé et ne sera pas utilisé. Rien n'a été exécuté.",
+  "한국어": "Windows Defender가 내려받은 전사 엔진을 위협으로 표시해 삭제했으며 사용하지 않습니다. 아무것도 실행되지 않았습니다.",
+  "中文": "Windows Defender 标记了下载的转录引擎，因此已将其删除且不会使用。未运行任何内容。",
+  "العربية": "رصد Windows Defender تنزيل محرك النسخ، لذا حُذف ولن يُستخدم. لم يُشغَّل أي شيء.",
+  "Tiếng Việt": "Windows Defender đã gắn cờ bản tải công cụ chép lời nên nó đã bị xóa và sẽ không được dùng. Không có gì được chạy."
+ },
+ "Checking {name} ({size} GB) …": {
+  "日本語": "{name} を検査しています（{size} GB）…",
+  "Español": "Comprobando {name} ({size} GB)…",
+  "Deutsch": "{name} wird geprüft ({size} GB) …",
+  "Français": "Vérification de {name} ({size} Go)…",
+  "한국어": "{name} 확인 중({size}GB)…",
+  "中文": "正在检查 {name}（{size} GB）…",
+  "العربية": "جارٍ فحص {name} ‏({size} غ.ب)…",
+  "Tiếng Việt": "Đang kiểm tra {name} ({size} GB)…"
+ },
+ "Buddy has no checksums for {model}, so it won't download it.": {
+  "日本語": "Buddy には {model} のチェックサムがないため、ダウンロードしません。",
+  "Español": "Buddy no tiene sumas de comprobación para {model}, así que no lo descargará.",
+  "Deutsch": "Buddy hat keine Prüfsummen für {model} und lädt es deshalb nicht herunter.",
+  "Français": "Buddy n'a pas de sommes de contrôle pour {model}, il ne le téléchargera donc pas.",
+  "한국어": "Buddy에 {model}의 체크섬이 없어 내려받지 않습니다.",
+  "中文": "Buddy 没有 {model} 的校验和，因此不会下载它。",
+  "العربية": "لا يملك Buddy مجاميع اختبارية لـ {model}، لذا لن ينزّله.",
+  "Tiếng Việt": "Buddy không có mã kiểm tra cho {model} nên sẽ không tải nó."
+ },
+ "The {model} download didn't match what Buddy expects ({problem}), so it was deleted and won't be used. Try again – if it keeps happening, the model's files on the server have changed.": {
+  "日本語": "ダウンロードした {model} が Buddy の想定と一致しなかったため（{problem}）、削除して使用しません。もう一度お試しください – 繰り返し起きる場合は、サーバー上のモデルのファイルが変わっています。",
+  "Español": "La descarga de {model} no coincidía con lo que Buddy espera ({problem}), así que se eliminó y no se usará. Inténtalo de nuevo; si sigue pasando, los archivos del modelo en el servidor han cambiado.",
+  "Deutsch": "Der Download von {model} passte nicht zu dem, was Buddy erwartet ({problem}), deshalb wurde er gelöscht und wird nicht verwendet. Versuche es erneut – passiert es immer wieder, haben sich die Dateien des Modells auf dem Server geändert.",
+  "Français": "Le téléchargement de {model} ne correspondait pas à ce que Buddy attend ({problem}) : il a été supprimé et ne sera pas utilisé. Réessayez – si cela se reproduit, les fichiers du modèle sur le serveur ont changé.",
+  "한국어": "내려받은 {model}이(가) Buddy가 예상한 것과 맞지 않아({problem}) 삭제했으며 사용하지 않습니다. 다시 시도하세요 – 계속 그렇다면 서버의 모델 파일이 바뀐 것입니다.",
+  "中文": "下载的 {model} 与 Buddy 的预期不符（{problem}），因此已删除且不会使用。请重试 – 如果反复出现，说明服务器上的模型文件已更改。",
+  "العربية": "لم يطابق تنزيل {model} ما يتوقعه Buddy ‏({problem})، لذا حُذف ولن يُستخدم. حاول مجددًا – وإن تكرر ذلك فقد تغيّرت ملفات النموذج على الخادم.",
+  "Tiếng Việt": "Bản tải {model} không khớp với những gì Buddy mong đợi ({problem}) nên đã bị xóa và sẽ không được dùng. Hãy thử lại – nếu vẫn xảy ra, các tệp của mô hình trên máy chủ đã thay đổi."
+ },
+ "The locked packages don't fit together:\n{output}": {
+  "日本語": "ロックされたパッケージの組み合わせが合いません:\n{output}",
+  "Español": "Los paquetes fijados no encajan entre sí:\n{output}",
+  "Deutsch": "Die festgelegten Pakete passen nicht zusammen:\n{output}",
+  "Français": "Les paquets verrouillés ne s'accordent pas :\n{output}",
+  "한국어": "고정된 패키지가 서로 맞지 않습니다:\n{output}",
+  "中文": "锁定的包彼此不兼容：\n{output}",
+  "العربية": "الحزم المثبّتة لا تتوافق معًا:\n{output}",
+  "Tiếng Việt": "Các gói đã khóa không khớp với nhau:\n{output}"
+ },
+ "Moves it to the Recycle Bin.": {
+  "日本語": "ごみ箱に移動します。",
+  "Español": "Lo mueve a la Papelera de reciclaje.",
+  "Deutsch": "Verschiebt es in den Papierkorb.",
+  "Français": "Le déplace dans la Corbeille.",
+  "한국어": "휴지통으로 옮깁니다.",
+  "中文": "将其移到回收站。",
+  "العربية": "ينقله إلى سلة المحذوفات.",
+  "Tiếng Việt": "Chuyển nó vào Thùng rác."
+ },
+ "Buddy stops using this copy. Its files are left where they are.": {
+  "日本語": "Buddy はこのコピーを使わなくなります。ファイルはそのまま残ります。",
+  "Español": "Buddy deja de usar esta copia. Sus archivos se quedan donde están.",
+  "Deutsch": "Buddy nutzt diese Kopie nicht mehr. Ihre Dateien bleiben, wo sie sind.",
+  "Français": "Buddy cesse d'utiliser cette copie. Ses fichiers restent où ils sont.",
+  "한국어": "Buddy가 이 사본을 더 이상 쓰지 않습니다. 파일은 그대로 남습니다.",
+  "中文": "Buddy 将不再使用这个副本。其文件保留在原处。",
+  "العربية": "يتوقف Buddy عن استخدام هذه النسخة. تبقى ملفاتها في مكانها.",
+  "Tiếng Việt": "Buddy ngừng dùng bản sao này. Các tệp vẫn ở nguyên chỗ."
+ },
+ "Installed – your copy: {where}": {
+  "日本語": "インストール済み – 自分のコピー: {where}",
+  "Español": "Instalado – tu copia: {where}",
+  "Deutsch": "Installiert – Ihre Kopie: {where}",
+  "Français": "Installé – votre copie : {where}",
+  "한국어": "설치됨 – 내 사본: {where}",
+  "中文": "已安装 —— 你的副本：{where}",
+  "العربية": "مثبّت – نسختك: {where}",
+  "Tiếng Việt": "Đã cài – bản sao của bạn: {where}"
+ },
+ "Found: {where}": {
+  "日本語": "見つかりました: {where}",
+  "Español": "Encontrado: {where}",
+  "Deutsch": "Gefunden: {where}",
+  "Français": "Trouvé : {where}",
+  "한국어": "찾음: {where}",
+  "中文": "已找到：{where}",
+  "العربية": "تم العثور عليه: {where}",
+  "Tiếng Việt": "Đã tìm thấy: {where}"
+ },
+ "Not installed": {
+  "日本語": "未インストール",
+  "Español": "Sin instalar",
+  "Deutsch": "Nicht installiert",
+  "Français": "Non installé",
+  "한국어": "설치 안 됨",
+  "中文": "未安装",
+  "العربية": "غير مثبّت",
+  "Tiếng Việt": "Chưa cài"
+ },
+ "Subtitles is busy – downloads and installs wait until it's done.": {
+  "日本語": "Subtitles は処理中です – ダウンロードとインストールは終わるまで待ちます。",
+  "Español": "Subtitles está ocupado – las descargas e instalaciones esperan a que termine.",
+  "Deutsch": "Subtitles ist beschäftigt – Downloads und Installationen warten, bis es fertig ist.",
+  "Français": "Subtitles est occupé – les téléchargements et installations attendent qu'il ait fini.",
+  "한국어": "Subtitles가 작업 중입니다 – 다운로드와 설치는 끝날 때까지 기다립니다.",
+  "中文": "Subtitles 正忙 —— 下载和安装会等它完成。",
+  "العربية": "Subtitles مشغول – تنتظر التنزيلات وعمليات التثبيت حتى ينتهي.",
+  "Tiếng Việt": "Subtitles đang bận – việc tải và cài sẽ chờ đến khi xong."
+ },
+ "Subtitles is busy – try again when it's done.": {
+  "日本語": "Subtitles は処理中です – 終わってからもう一度試してください。",
+  "Español": "Subtitles está ocupado – inténtalo de nuevo cuando termine.",
+  "Deutsch": "Subtitles ist beschäftigt – versuchen Sie es erneut, wenn es fertig ist.",
+  "Français": "Subtitles est occupé – réessayez quand il aura fini.",
+  "한국어": "Subtitles가 작업 중입니다 – 끝난 뒤 다시 시도하세요.",
+  "中文": "Subtitles 正忙 —— 完成后再试。",
+  "العربية": "Subtitles مشغول – حاول مجددًا عند انتهائه.",
+  "Tiếng Việt": "Subtitles đang bận – hãy thử lại khi xong."
+ },
+ "A faster-whisper model you already have (it contains model.bin).": {
+  "日本語": "すでに持っている faster-whisper モデル(model.bin を含む)。",
+  "Español": "Un modelo faster-whisper que ya tienes (contiene model.bin).",
+  "Deutsch": "Ein faster-whisper-Modell, das Sie schon haben (es enthält model.bin).",
+  "Français": "Un modèle faster-whisper que vous avez déjà (il contient model.bin).",
+  "한국어": "이미 가지고 있는 faster-whisper 모델(model.bin 포함).",
+  "中文": "你已有的 faster-whisper 模型（包含 model.bin）。",
+  "العربية": "نموذج faster-whisper لديك بالفعل (يحتوي على model.bin).",
+  "Tiếng Việt": "Một mô hình faster-whisper bạn đã có (chứa model.bin)."
+ },
+ "An NLLB-200 or MADLAD-400 model you already have (it contains model.bin and tokenizer.json).": {
+  "日本語": "すでに持っている NLLB-200 または MADLAD-400 モデル(model.bin と tokenizer.json を含む)。",
+  "Español": "Un modelo NLLB-200 o MADLAD-400 que ya tienes (contiene model.bin y tokenizer.json).",
+  "Deutsch": "Ein NLLB-200- oder MADLAD-400-Modell, das Sie schon haben (es enthält model.bin und tokenizer.json).",
+  "Français": "Un modèle NLLB-200 ou MADLAD-400 que vous avez déjà (il contient model.bin et tokenizer.json).",
+  "한국어": "이미 가지고 있는 NLLB-200 또는 MADLAD-400 모델(model.bin과 tokenizer.json 포함).",
+  "中文": "你已有的 NLLB-200 或 MADLAD-400 模型（包含 model.bin 和 tokenizer.json）。",
+  "العربية": "نموذج NLLB-200 أو MADLAD-400 لديك بالفعل (يحتوي على model.bin وtokenizer.json).",
+  "Tiếng Việt": "Một mô hình NLLB-200 hoặc MADLAD-400 bạn đã có (chứa model.bin và tokenizer.json)."
+ },
+ "Speech to text for Subtitles and Dailies – it all runs on this computer.": {
+  "日本語": "Subtitles と Dailies の音声のテキスト化 – すべてこのコンピューター上で動きます。",
+  "Español": "De voz a texto para Subtitles y Dailies – todo se ejecuta en este ordenador.",
+  "Deutsch": "Sprache zu Text für Subtitles und Dailies – alles läuft auf diesem Computer.",
+  "Français": "La parole en texte pour Subtitles et Dailies – tout s'exécute sur cet ordinateur.",
+  "한국어": "Subtitles와 Dailies의 음성 텍스트 변환 – 모두 이 컴퓨터에서 실행됩니다.",
+  "中文": "为 Subtitles 和 Dailies 将语音转为文字 —— 全部在这台电脑上运行。",
+  "العربية": "تحويل الكلام إلى نص لـ Subtitles وDailies – كل ذلك يعمل على هذا الكمبيوتر.",
+  "Tiếng Việt": "Chuyển giọng nói thành chữ cho Subtitles và Dailies – tất cả chạy trên máy này."
+ },
+ "Subtitles' AI translation uses the Chat assistant's model.": {
+  "日本語": "Subtitles の AI 翻訳はチャットアシスタントのモデルを使います。",
+  "Español": "La traducción con IA de Subtitles usa el modelo del Asistente de chat.",
+  "Deutsch": "Die KI-Übersetzung von Subtitles nutzt das Modell des Chat-Assistenten.",
+  "Français": "La traduction par IA de Subtitles utilise le modèle de l'Assistant de discussion.",
+  "한국어": "Subtitles의 AI 번역은 채팅 도우미의 모델을 씁니다.",
+  "中文": "Subtitles 的 AI 翻译使用聊天助手的模型。",
+  "العربية": "تستخدم ترجمة Subtitles بالذكاء الاصطناعي نموذج مساعد الدردشة.",
+  "Tiếng Việt": "Bản dịch AI của Subtitles dùng mô hình của Trợ lý trò chuyện."
+ },
+ "Subtitles in other languages, on this computer or with the Chat assistant's model.": {
+  "日本語": "ほかの言語の字幕を、このコンピューター上で、またはチャットアシスタントのモデルで。",
+  "Español": "Subtítulos en otros idiomas, en este ordenador o con el modelo del Asistente de chat.",
+  "Deutsch": "Untertitel in anderen Sprachen, auf diesem Computer oder mit dem Modell des Chat-Assistenten.",
+  "Français": "Des sous-titres dans d'autres langues, sur cet ordinateur ou avec le modèle de l'Assistant de discussion.",
+  "한국어": "다른 언어의 자막을 이 컴퓨터에서 또는 채팅 도우미의 모델로.",
+  "中文": "其他语言的字幕，在这台电脑上或用聊天助手的模型生成。",
+  "العربية": "ترجمات بلغات أخرى، على هذا الكمبيوتر أو بنموذج مساعد الدردشة.",
+  "Tiếng Việt": "Phụ đề bằng ngôn ngữ khác, trên máy này hoặc với mô hình của Trợ lý trò chuyện."
+ },
+ "Your clips' audio is transcribed on this computer – or by Resolve Studio's own transcription, when you pick it.": {
+  "日本語": "クリップの音声はこのコンピューター上で文字起こしされます – Resolve Studio 独自の文字起こしを選んだ場合はそちらで行われます。",
+  "Español": "El audio de tus clips se transcribe en este ordenador – o con la transcripción propia de Resolve Studio, si la eliges.",
+  "Deutsch": "Der Ton Ihrer Clips wird auf diesem Computer transkribiert – oder von Resolve Studios eigener Transkription, wenn Sie diese wählen.",
+  "Français": "L'audio de vos clips est transcrit sur cet ordinateur – ou par la transcription propre de Resolve Studio, si vous la choisissez.",
+  "한국어": "클립의 오디오는 이 컴퓨터에서 전사됩니다 – Resolve Studio 자체 전사를 고르면 그쪽에서 합니다.",
+  "中文": "你的片段音频在这台电脑上转写 —— 选择 Resolve Studio 自带转写时则由它完成。",
+  "العربية": "يُنسخ صوت مقاطعك على هذا الكمبيوتر – أو بخاصية النسخ في Resolve Studio نفسه، عندما تختارها.",
+  "Tiếng Việt": "Âm thanh của các clip được phiên âm trên máy này – hoặc bằng tính năng phiên âm riêng của Resolve Studio, khi bạn chọn nó."
+ },
+ "Translation models run on this computer. AI translation sends the subtitles to the Chat assistant's model instead.": {
+  "日本語": "翻訳モデルはこのコンピューター上で動きます。AI 翻訳では代わりに字幕をチャットアシスタントのモデルに送ります。",
+  "Español": "Los modelos de traducción se ejecutan en este ordenador. La traducción con IA envía los subtítulos al modelo del Asistente de chat.",
+  "Deutsch": "Übersetzungsmodelle laufen auf diesem Computer. Die KI-Übersetzung sendet die Untertitel stattdessen an das Modell des Chat-Assistenten.",
+  "Français": "Les modèles de traduction s'exécutent sur cet ordinateur. La traduction par IA envoie plutôt les sous-titres au modèle de l'Assistant de discussion.",
+  "한국어": "번역 모델은 이 컴퓨터에서 실행됩니다. AI 번역은 대신 자막을 채팅 도우미의 모델로 보냅니다.",
+  "中文": "翻译模型在这台电脑上运行。AI 翻译则会把字幕发送给聊天助手的模型。",
+  "العربية": "تعمل نماذج الترجمة على هذا الكمبيوتر. أما الترجمة بالذكاء الاصطناعي فترسل الترجمات إلى نموذج مساعد الدردشة.",
+  "Tiếng Việt": "Các mô hình dịch chạy trên máy này. Bản dịch AI thì gửi phụ đề tới mô hình của Trợ lý trò chuyện."
+ },
+ "{label} removed.": {
+  "日本語": "{label} を削除しました。",
+  "Español": "{label} quitado.",
+  "Deutsch": "{label} entfernt.",
+  "Français": "{label} retiré.",
+  "한국어": "{label}을(를) 제거했습니다.",
+  "中文": "已移除 {label}。",
+  "العربية": "تمت إزالة {label}.",
+  "Tiếng Việt": "Đã gỡ {label}."
+ },
+ "Removed {label}.": {
+  "日本語": "{label} を削除しました。",
+  "Español": "Se quitó {label}.",
+  "Deutsch": "{label} wurde entfernt.",
+  "Français": "{label} a été retiré.",
+  "한국어": "{label}을(를) 제거했습니다.",
+  "中文": "已移除 {label}。",
+  "العربية": "أُزيل {label}.",
+  "Tiếng Việt": "Đã gỡ {label}."
+ },
+ "{label} goes to the Recycle Bin. You can download it again from here.": {
+  "日本語": "{label} はごみ箱に移動します。ここからまたダウンロードできます。",
+  "Español": "{label} irá a la Papelera de reciclaje. Puedes volver a descargarlo desde aquí.",
+  "Deutsch": "{label} kommt in den Papierkorb. Sie können es von hier erneut herunterladen.",
+  "Français": "{label} ira dans la Corbeille. Vous pourrez le retélécharger d'ici.",
+  "한국어": "{label}은(는) 휴지통으로 이동합니다. 여기서 다시 내려받을 수 있습니다.",
+  "中文": "{label} 将移到回收站。你可以从这里重新下载。",
+  "العربية": "سينتقل {label} إلى سلة المحذوفات. يمكنك تنزيله مجددًا من هنا.",
+  "Tiếng Việt": "{label} sẽ vào Thùng rác. Bạn có thể tải lại từ đây."
+ },
+ "Buddy stops using your copy of {label}. Its files are left where they are.": {
+  "日本語": "Buddy は {label} の自分のコピーを使わなくなります。ファイルはそのまま残ります。",
+  "Español": "Buddy deja de usar tu copia de {label}. Sus archivos se quedan donde están.",
+  "Deutsch": "Buddy nutzt Ihre Kopie von {label} nicht mehr. Ihre Dateien bleiben, wo sie sind.",
+  "Français": "Buddy cesse d'utiliser votre copie de {label}. Ses fichiers restent où ils sont.",
+  "한국어": "Buddy가 {label}의 내 사본을 더 이상 쓰지 않습니다. 파일은 그대로 남습니다.",
+  "中文": "Buddy 将不再使用你的 {label} 副本。其文件保留在原处。",
+  "العربية": "يتوقف Buddy عن استخدام نسختك من {label}. تبقى ملفاتها في مكانها.",
+  "Tiếng Việt": "Buddy ngừng dùng bản sao {label} của bạn. Các tệp vẫn ở nguyên chỗ."
  }
 }

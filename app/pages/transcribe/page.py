@@ -95,6 +95,7 @@ from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QFileDialog
 
 from core import crash_log
+from core.settings_dialog import refresh_open
 from core.i18n import tr, tr_filter
 from core.resolve_bridge import ResolveConnectionError
 from core.web_page import WebToolPage
@@ -109,6 +110,7 @@ from . import languages as L
 from . import plan
 from . import subtitles as st
 from .resolve_ext import TranscribeController, TranscribeResolveError
+from .settings_panel import TranscribeSettingsMixin
 
 LOG_LIMIT = 200
 RECHECK_SECONDS = 10
@@ -117,7 +119,7 @@ _WHILE_BUSY = {"stop", "tab", "answer", "option", "mixed", "tr_option", "targets
                "show_files", "save_srt", "choose_folder", "rescan", "conv_option"}
 
 
-class TranscribePage(WebToolPage):
+class TranscribePage(TranscribeSettingsMixin, WebToolPage):
     tool_id = "transcribe"
     display_name = "Subtitles"      # formerly "Transcribe" (tool_id kept, so settings carry over)
     category = "Editing Tools"
@@ -151,6 +153,8 @@ class TranscribePage(WebToolPage):
         self.hw = None
         self.env = None
         self.models, self.found, self.tmodels, self.tfound = {}, {}, {}, {}
+        self.verified = {}          # model folder -> it holds exactly the pinned files
+        self.sizes = {}             # installed folder (and the engine's) -> bytes on disk
         self._probe = None
         self._probe_again = False
         self._probed_at = 0.0
@@ -216,6 +220,8 @@ class TranscribePage(WebToolPage):
         self.hw, self.env = found["hw"], found["env"]
         self.models, self.found = found["models"], found["found"]
         self.tmodels, self.tfound = found["tmodels"], found["tfound"]
+        self.verified = found.get("verified", {})
+        self.sizes = found.get("sizes", {})
         if not self._chose_tab and not self.ready:
             self.tab = "setup"
             self.emit("tab", self.tab)
@@ -256,17 +262,21 @@ class TranscribePage(WebToolPage):
             "hardware": hw.describe() if hw else "",
             "gpu": bool(hw and hw.nvidia),
             "env_ready": bool(env and env.ready),
+            "env_verified": bool(env and env.verified),
             "env_detail": env.detail if env else "",
             "env_versions": ", ".join(f"{k} {v}" for k, v in env.versions.items()) if env and env.versions else "",
             "env_size": plan.ENV_DOWNLOAD_NVIDIA if hw and hw.nvidia else plan.ENV_DOWNLOAD_CPU,
             "root": str(es.ROOT),
             "recommended": plan.model_label(hw.recommended_model) if hw else "",
-            "models": plan.setup_rows(es.MODELS, self.models, self.found, hw.recommended_model if hw else ""),
-            "tmodels": plan.setup_rows(es.TRANSLATION_MODELS, self.tmodels, self.tfound, es.RECOMMENDED_TRANSLATION),
+            "models": plan.setup_rows(es.MODELS, self.models, self.found, hw.recommended_model if hw else "",
+                                      self.verified),
+            "tmodels": plan.setup_rows(es.TRANSLATION_MODELS, self.tmodels, self.tfound, es.RECOMMENDED_TRANSLATION,
+                                       self.verified),
             "tr_recommended": plan.model_label(es.RECOMMENDED_TRANSLATION),
             "busy": busy,
             "ready": self.ready,
         })
+        refresh_open(self.tool_id)              # Settings > AI shows the same
 
     def _model_options(self):
         return plan.model_options(self.models, self.hw.recommended_model if self.hw else "",
@@ -350,6 +360,7 @@ class TranscribePage(WebToolPage):
         })
 
     def _push_job(self):
+        refresh_open(self.tool_id)
         self.emit("job", {"kind": self.job_kind if self.job is not None else None,
                           "stage": self.stage, "progress": self.progress})
 
@@ -1067,25 +1078,13 @@ class TranscribePage(WebToolPage):
         self._rescan()
 
     def on_pick_model_folder(self, payload):
-        translation = (payload or {}).get("kind") == "translation"
-        if translation:
-            folder = QFileDialog.getExistingDirectory(
-                self, tr("Choose an NLLB-200 or MADLAD-400 model folder (it contains model.bin and tokenizer.json)"))
-        else:
-            folder = QFileDialog.getExistingDirectory(self, tr("Choose a faster-whisper model folder (it contains model.bin)"))
-        if not folder:
-            return
-        if translation:
-            model_id = es.identify_translation_folder(folder)
-            problem = ("That folder doesn't look like a CTranslate2 NLLB-200 or MADLAD-400 3B model – it should "
-                       "contain model.bin, tokenizer.json and shared_vocabulary.json.")
-        else:
-            model_id = es.identify_model_folder(folder)
-            problem = ("That folder doesn't look like a faster-whisper (CTranslate2) model – it should contain "
-                       "model.bin and config.json.")
-        if model_id is None:
-            return self._alert(problem, "Not a model folder")
-        self._use_path(model_id, folder)
+        self._pick_model_folder((payload or {}).get("kind") == "translation", self,
+                                lambda title, text: self._alert(text, title))
+
+    def on_remove_model(self, payload):
+        problem = self.remove_model((payload or {}).get("id"))
+        if problem:
+            self._alert(problem)
 
     def on_rescan(self, _payload=None):
         self._rescan()

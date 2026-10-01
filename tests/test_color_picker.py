@@ -73,6 +73,8 @@ class ColorPickerTests(unittest.TestCase):
         # Until the form has drawn and the window has its real size - on a
         # slow machine the page can still be a sliver when the swatches appear.
         for _ in range(300):
+            # The swatches are on the Look group's page.
+            self._js("document.querySelector('.set-rail-item[title=Look]')?.click()")
             if self._js("document.querySelectorAll('.set-color:not(:disabled)').length > 0"
                         " && innerHeight >= 600"):
                 break

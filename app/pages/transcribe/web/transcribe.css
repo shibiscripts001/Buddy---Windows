@@ -72,6 +72,9 @@ p.hint, .note { margin: 0; line-height: 1.5; }
 .model-text b { color: var(--text-strong); }
 .model-actions { display: flex; gap: 8px; align-items: center; flex: none; }
 .chip.rec { margin-left: 8px; color: var(--emphasis); }
+/* A model's files against Buddy's pinned checksums. */
+.chip.ok { color: var(--success); }
+.chip.warn { color: var(--danger-text); border-color: currentColor; }
 .installed { display: inline-flex; align-items: center; gap: 6px; color: var(--success); font-weight: 600; font-size: var(--fs-sm); }
 
 .lang-list {

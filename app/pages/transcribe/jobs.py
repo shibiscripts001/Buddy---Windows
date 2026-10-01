@@ -498,11 +498,20 @@ class ProbeJob(QThread):
 
     def run(self):
         hw = self.hw or es.detect_hardware()
-        self.done.emit({
+        found = {
             "hw": hw,
             "env": es.env_status(),
             "models": es.installed_models(self.extra),
             "found": es.scan_existing_models(),
             "tmodels": es.installed_translation_models(self.extra),
             "tfound": es.scan_existing_translation_models(),
-        })
+        }
+        # Every model folder against its pinned checksums: hashed the first
+        # time (seconds a model), remembered while its files are unchanged.
+        found["verified"] = es.verify_found(found["models"], found["found"], found["tmodels"], found["tfound"])
+        # What each installed model and the engine take on disk, for Settings' Model library.
+        folders = [*found["models"].values(), *found["tmodels"].values()]
+        if found["env"].ready:
+            folders.append(str(es.VENV_DIR))
+        found["sizes"] = {f: es.folder_size(f) for f in folders}
+        self.done.emit(found)

@@ -10,11 +10,13 @@ Four tiers, best available wins. describe_tier() explains the current one
 to the user, because "why are my answers worse today" should be answerable
 from the UI:
 
-  hybrid       bundle + Ollama  - vector similarity fused with BM25. Finds
-                                  paraphrases ("get rid of the hum" ->
-                                  noise reduction).
-  bundle-bm25  bundle, no Ollama- BM25 over chunks.jsonl. Keyword-only, but
-                                  chunks are cleaned and pre-cited, so it
+  hybrid       bundle + an      - vector similarity fused with BM25. Finds
+               embedder           paraphrases ("get rid of the hum" ->
+                                  noise reduction). The embedder is the one
+                                  Settings chose (embedder.py): Buddy's own
+                                  model, Ollama or another server.
+  bundle-bm25  bundle, no       - BM25 over chunks.jsonl. Keyword-only, but
+               embedder           chunks are cleaned and pre-cited, so it
                                   still beats raw page text.
   text-bm25    manual.txt only  - BM25 over whole pages, citations parsed
                                   out of the running footer at query time.
@@ -30,8 +32,6 @@ import json
 import math
 import re
 import struct
-import urllib.error
-import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -39,8 +39,13 @@ from pathlib import Path
 
 VECTOR_MAGIC = b"RMS1"
 QUERY_PREFIX = "task: search result | query: "
+DOC_PREFIX = "title: {title} | text: "
 EMBED_MODEL = "embeddinggemma"
 RRF_K = 60
+# How alike an embedder's vector for a stored chunk must be to the stored one
+# for its queries to be trusted against the bundle. The same model gives
+# 0.9996 or better (int8 storage, Q8_0 weights); a different one well under 0.9.
+MATCH = 0.98
 
 BUNDLE_CHUNKS = "chunks.jsonl"
 BUNDLE_VECTORS = "vectors-int8-512.bin"
@@ -49,9 +54,6 @@ BUNDLE_VECTORS = "vectors-int8-512.bin"
 # and the failed IPv6 connect costs a flat ~2.0s before falling back to IPv4.
 # Measured: 2.09s per embed via localhost vs 0.046s here.
 OLLAMA_HOST = "http://127.0.0.1:11434"
-OLLAMA_URL = f"{OLLAMA_HOST}/api/embed"
-OLLAMA_TAGS_URL = f"{OLLAMA_HOST}/api/tags"
-OLLAMA_TIMEOUT = 15
 
 TIER_HYBRID = "hybrid"
 TIER_BUNDLE_BM25 = "bundle-bm25"
@@ -61,12 +63,12 @@ TIER_NONE = "none"
 TIER_BLURB = {
     TIER_HYBRID: "Semantic + keyword search over the built bundle.",
     TIER_BUNDLE_BM25: (
-        "Keyword search over the built bundle. Start Ollama "
-        "(with embeddinggemma pulled) for semantic search."
+        "Keyword search over the built bundle. Set up semantic search in "
+        "Settings > AI > Manual search for answers that find what you mean."
     ),
     TIER_TEXT_BM25: (
         "Keyword search over the plain text extract. Build the bundle "
-        "for chunk-level citations, and run Ollama for semantic search."
+        "for chunk-level citations and semantic search."
     ),
     TIER_NONE: "No manual data found – answers will not be grounded.",
 }
@@ -147,28 +149,6 @@ class BM25:
         return scores[:limit]
 
 
-def embed_query(query: str, timeout: int = OLLAMA_TIMEOUT) -> list[float] | None:
-    """Embed via local Ollama, or None if it isn't reachable.
-
-    The prefix is not optional - EmbeddingGemma is prefix-trained, and the
-    bundle's document vectors were built with the matching document-side
-    prefix. Dropping it silently degrades every result.
-    """
-    body = json.dumps(
-        {"model": EMBED_MODEL, "input": [QUERY_PREFIX + query]}
-    ).encode("utf-8")
-    req = urllib.request.Request(
-        OLLAMA_URL, data=body, headers={"Content-Type": "application/json"}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            payload = json.load(resp)
-    except (urllib.error.URLError, OSError, ValueError, TimeoutError):
-        return None
-    vecs = payload.get("embeddings") or []
-    return vecs[0] if vecs else None
-
-
 class ManualRetriever:
     """Picks the best tier available at construction time.
 
@@ -176,18 +156,29 @@ class ManualRetriever:
     BM25 index, which is fine once at page load but not per keystroke.
     """
 
-    def __init__(self, bundle_dir: str | Path | None, text_path: str | Path | None):
+    def __init__(self, bundle_dir: str | Path | None, text_path: str | Path | None, embedder=None):
         self.bundle_dir = Path(bundle_dir) if bundle_dir else None
         self.text_path = Path(text_path) if text_path else None
+        self.embedder = embedder
         self.tier = TIER_NONE
+        self.why = ""               # why it isn't semantic, for describe_tier
         self.chunks: list[dict] = []
         self.dim = 0
         self._vectors: bytes = b""
         self._scales: list[float] = []
         self._bm25: BM25 | None = None
+        self._verified = False
 
         if self._load_bundle():
-            self.tier = TIER_HYBRID if self.ollama_available() else TIER_BUNDLE_BM25
+            self.tier = TIER_BUNDLE_BM25
+            if self.dim <= 0:
+                self.why = "The bundle was built without vectors – rebuild it from the PDF for semantic search."
+            elif embedder is None:
+                self.why = "Semantic search is off in Settings."
+            else:
+                ok, self.why = embedder.ready()
+                if ok:
+                    self.tier = TIER_HYBRID
         elif self._load_text():
             self.tier = TIER_TEXT_BM25
 
@@ -255,24 +246,32 @@ class ManualRetriever:
 
     # -------------------------------------------------------------- search
 
-    def ollama_available(self) -> bool:
-        """Ask Ollama what it has rather than embedding a probe string.
+    def stored_vector(self, index: int) -> list[float]:
+        """A chunk's vector as the bundle stores it (unit length, 512 dims)."""
+        row = self._vectors[index * self.dim:(index + 1) * self.dim]
+        return [(b - 256 if b > 127 else b) * self._scales[index] for b in row]
 
-        /api/tags needs no inference, so this stays fast even when the model
-        is cold - and a cold embeddinggemma load is exactly the case a short
-        probe timeout would misread as "Ollama isn't there", silently
-        dropping the page to keyword-only search.
-        """
-        if self.dim <= 0:
-            return False
+    def _query_vector(self, query: str) -> list[float] | None:
+        """The query's vector - and, the first time, the embedder's own
+        vector for a stored chunk, which must match the bundle's (MATCH)
+        before any query of its is trusted. None means keywords only now;
+        self.why says why."""
         try:
-            with urllib.request.urlopen(OLLAMA_TAGS_URL, timeout=3) as resp:
-                models = json.load(resp).get("models") or []
-        except (urllib.error.URLError, OSError, ValueError, TimeoutError):
-            return False
-        return any(
-            (m.get("name") or "").startswith(EMBED_MODEL) for m in models
-        )
+            if self._verified:
+                return self.embedder.embed([QUERY_PREFIX + query])[0]
+            first = self.chunks[0]
+            probe = DOC_PREFIX.format(title=first.get("chapter_title") or "none") + first.get("text", "")
+            mine, qvec = self.embedder.embed([probe, QUERY_PREFIX + query])
+        except Exception as exc:  # noqa: BLE001 - EmbedError, or anything a server threw
+            self.tier, self.why = TIER_BUNDLE_BM25, f"{self.embedder.label} stopped answering: {exc}"
+            return None
+        score = cosine(mine[: self.dim], self.stored_vector(0))
+        if score < MATCH:
+            self.tier = TIER_BUNDLE_BM25
+            self.why = mismatch(self.embedder.label, score)
+            return None
+        self._verified = True
+        return qvec
 
     def _vector_scores(self, qvec: list[float]) -> list[tuple[int, float]]:
         """Cosine against dequantized int8 vectors, via MRL-truncated query."""
@@ -305,12 +304,11 @@ class ManualRetriever:
         rankings = [[i for i, _ in keyword]]
 
         if self.tier == TIER_HYBRID:
-            qvec = embed_query(query)
+            # The embedder gone away mid-session, or not the bundle's model:
+            # keep answering on keywords, the reason noted for the status line.
+            qvec = self._query_vector(query)
             if qvec:
                 rankings.append([i for i, _ in self._vector_scores(qvec)])
-            else:
-                # Ollama went away mid-session; keep answering, note the drop.
-                self.tier = TIER_BUNDLE_BM25
 
         fused = self._rrf(rankings, limit) if len(rankings) > 1 else [
             (i, s) for i, s in keyword[:limit]
@@ -331,4 +329,51 @@ class ManualRetriever:
         return results
 
     def describe_tier(self) -> str:
-        return TIER_BLURB.get(self.tier, "")
+        if self.tier == TIER_HYBRID and self.embedder is not None:
+            return f"Semantic + keyword search over the built bundle, with {self.embedder.label}."
+        blurb = TIER_BLURB.get(self.tier, "")
+        return f"{blurb} {self.why}" if self.tier == TIER_BUNDLE_BM25 and self.why else blurb
+
+
+def cosine(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    norm = math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))
+    return dot / norm if norm else 0.0
+
+
+def mismatch(label: str, score: float) -> str:
+    return (f"{label} isn't the model the manual's index was built with (similarity {score:.2f}). "
+            "Rebuild the manual with it, or use EmbeddingGemma.")
+
+
+def check_embedder(bundle_dir: str | Path, embedder) -> tuple[bool, str]:
+    """Settings' Test: does this embedder answer, and with the vectors the
+    bundle was built with? Reads only the first chunk and its vector, not
+    the whole bundle."""
+    bundle = Path(bundle_dir)
+    try:
+        with open(bundle / BUNDLE_CHUNKS, encoding="utf-8") as f:
+            first = json.loads(f.readline())
+        with open(bundle / BUNDLE_VECTORS, "rb") as f:
+            head = f.read(12)
+            if head[:4] != VECTOR_MAGIC:
+                raise ValueError("no vectors")
+            n, dim = struct.unpack_from("<ii", head, 4)
+            scale = struct.unpack("<f", f.read(4))[0]
+            f.seek(12 + 4 * n)
+            row = f.read(dim)
+    except (OSError, ValueError, struct.error):
+        return False, "There's no manual bundle with vectors to test against – rebuild it from the PDF."
+    stored = [(b - 256 if b > 127 else b) * scale for b in row]
+    ok, why = embedder.ready()
+    if not ok:
+        return False, why
+    text = DOC_PREFIX.format(title=first.get("chapter_title") or "none") + first.get("text", "")
+    try:
+        mine = embedder.embed([text], timeout=120)[0]
+    except Exception as exc:  # noqa: BLE001 - shown to the person
+        return False, f"{embedder.label} didn't answer: {exc}"
+    score = cosine(mine[:dim], stored)
+    if score < MATCH:
+        return False, mismatch(embedder.label, score)
+    return True, f"Works – {embedder.label} matches the manual's index (similarity {score:.4f})."

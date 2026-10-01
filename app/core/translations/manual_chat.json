@@ -1740,16 +1740,6 @@
   "العربية": "⚠ pymupdf4llm غير مثبت – ستفقد المقاطع العناوين والجداول. شغّل:",
   "Tiếng Việt": "⚠ pymupdf4llm chưa được cài – các đoạn sẽ mất tiêu đề và bảng. Hãy chạy:"
  },
- "✓ Ollama with {model} – semantic search will be built.": {
-  "日本語": "✓ Ollama と {model} – 意味検索が構築されます。",
-  "Español": "✓ Ollama con {model}: se creará la búsqueda semántica.",
-  "Deutsch": "✓ Ollama mit {model} – semantische Suche wird erstellt.",
-  "Français": "✓ Ollama avec {model} – la recherche sémantique sera créée.",
-  "한국어": "✓ Ollama와 {model} – 의미 검색이 만들어집니다.",
-  "中文": "✓ Ollama 和 {model}——将构建语义搜索。",
-  "العربية": "✓ Ollama مع {model} – سيُبنى البحث الدلالي.",
-  "Tiếng Việt": "✓ Ollama với {model} – tìm kiếm ngữ nghĩa sẽ được dựng."
- },
  "Opening the PDF…": {
   "日本語": "PDF を開いています…",
   "Español": "Abriendo el PDF…",
@@ -1810,26 +1800,6 @@
   "العربية": "بحث دلالي وبالكلمات المفتاحية في الحزمة المبنية.",
   "Tiếng Việt": "Tìm kiếm ngữ nghĩa + từ khóa trong gói đã dựng."
  },
- "Keyword search over the built bundle. Start Ollama (with embeddinggemma pulled) for semantic search.": {
-  "日本語": "構築したバンドルでキーワード検索を行います。意味検索には Ollama を起動してください (embeddinggemma を取得済みで)。",
-  "Español": "Búsqueda por palabras clave en el paquete creado. Inicia Ollama (con embeddinggemma descargado) para la búsqueda semántica.",
-  "Deutsch": "Stichwortsuche im erstellten Paket. Starten Sie Ollama (mit heruntergeladenem embeddinggemma) für die semantische Suche.",
-  "Français": "Recherche par mots-clés dans le paquet créé. Lancez Ollama (avec embeddinggemma téléchargé) pour la recherche sémantique.",
-  "한국어": "만든 번들에서 키워드 검색. 의미 검색을 하려면 Ollama를 시작하세요(embeddinggemma를 받아 둔 상태로).",
-  "中文": "在已构建的数据包中进行关键词搜索。如需语义搜索，请启动 Ollama（并已拉取 embeddinggemma）。",
-  "العربية": "بحث بالكلمات المفتاحية في الحزمة المبنية. شغّل Ollama (مع تنزيل embeddinggemma) للبحث الدلالي.",
-  "Tiếng Việt": "Tìm kiếm từ khóa trong gói đã dựng. Hãy khởi động Ollama (đã tải embeddinggemma) để tìm kiếm ngữ nghĩa."
- },
- "Keyword search over the plain text extract. Build the bundle for chunk-level citations, and run Ollama for semantic search.": {
-  "日本語": "プレーンテキストの抽出データでキーワード検索を行います。段落単位で引用するにはバンドルを構築し、意味検索には Ollama を起動してください。",
-  "Español": "Búsqueda por palabras clave en el texto extraído. Crea el paquete para citas por fragmento y ejecuta Ollama para la búsqueda semántica.",
-  "Deutsch": "Stichwortsuche im reinen Textauszug. Erstellen Sie das Paket für abschnittsgenaue Quellenangaben und starten Sie Ollama für die semantische Suche.",
-  "Français": "Recherche par mots-clés dans l'extrait texte brut. Créez le paquet pour des citations par passage, et lancez Ollama pour la recherche sémantique.",
-  "한국어": "일반 텍스트 추출본에서 키워드 검색. 단락 단위 인용을 하려면 번들을 만들고, 의미 검색을 하려면 Ollama를 실행하세요.",
-  "中文": "在纯文本提取内容中进行关键词搜索。如需按段落引用，请构建数据包；如需语义搜索，请运行 Ollama。",
-  "العربية": "بحث بالكلمات المفتاحية في النص المستخرج. ابنِ الحزمة للحصول على استشهادات على مستوى المقاطع، وشغّل Ollama للبحث الدلالي.",
-  "Tiếng Việt": "Tìm kiếm từ khóa trong bản trích văn bản thuần. Hãy dựng gói để trích dẫn theo đoạn, và chạy Ollama để tìm kiếm ngữ nghĩa."
- },
  "No manual data found – answers will not be grounded.": {
   "日本語": "マニュアルのデータが見つかりません – 回答はマニュアルに基づきません。",
   "Español": "No se encontraron datos del manual: las respuestas no se basarán en él.",
@@ -1840,15 +1810,15 @@
   "العربية": "لم يتم العثور على بيانات الدليل – لن تستند الإجابات إليه.",
   "Tiếng Việt": "Không tìm thấy dữ liệu sách hướng dẫn – câu trả lời sẽ không dựa trên sách."
  },
- "No manual data found – answers will not be grounded. Build it from the manual PDF in Settings > Ask Buddy > Rebuild from PDF…": {
-  "日本語": "マニュアルのデータが見つかりません – 回答はマニュアルに基づきません。設定 > Buddy に質問 > PDF から再構築… でマニュアルの PDF から構築してください。",
-  "Español": "No se encontraron datos del manual: las respuestas no se basarán en él. Créalos desde el PDF del manual en Ajustes > Pregunta a Buddy > Reconstruir desde PDF…",
-  "Deutsch": "Keine Handbuchdaten gefunden – Antworten stützen sich nicht auf das Handbuch. Erstellen Sie sie aus dem Handbuch-PDF unter Einstellungen > Buddy fragen > Aus PDF neu erstellen…",
-  "Français": "Aucune donnée du manuel trouvée – les réponses ne s'appuieront pas sur le manuel. Créez-les à partir du PDF du manuel dans Paramètres > Demander à Buddy > Reconstruire depuis le PDF…",
-  "한국어": "매뉴얼 데이터가 없습니다 – 답변이 매뉴얼에 근거하지 않습니다. 설정 > Buddy에게 질문 > PDF에서 다시 만들기…에서 매뉴얼 PDF로 만드세요.",
-  "中文": "未找到手册数据——回答将不基于手册。请在“设置 > 询问 Buddy > 从 PDF 重建…”中用手册 PDF 构建。",
-  "العربية": "لم يتم العثور على بيانات الدليل – لن تستند الإجابات إليه. ابنها من ملف PDF للدليل في الإعدادات > اسأل Buddy > إعادة البناء من PDF…",
-  "Tiếng Việt": "Không tìm thấy dữ liệu sách hướng dẫn – câu trả lời sẽ không dựa trên sách. Hãy dựng từ PDF sách hướng dẫn trong Cài đặt > Hỏi Buddy > Dựng lại từ PDF…"
+ "No manual data found – answers will not be grounded. Build it from the manual PDF in Settings > AI > Manual search > Rebuild from PDF…": {
+  "日本語": "マニュアルのデータが見つかりません – 回答はマニュアルに基づきません。設定 > AI > マニュアル検索 > PDF から再構築… でマニュアルの PDF から構築してください。",
+  "Español": "No se encontraron datos del manual: las respuestas no se basarán en él. Créalos desde el PDF del manual en Ajustes > IA > Búsqueda en el manual > Reconstruir desde PDF…",
+  "Deutsch": "Keine Handbuchdaten gefunden – Antworten stützen sich nicht auf das Handbuch. Erstellen Sie sie aus dem Handbuch-PDF unter Einstellungen > KI > Handbuchsuche > Aus PDF neu erstellen…",
+  "Français": "Aucune donnée du manuel trouvée – les réponses ne s'appuieront pas sur le manuel. Créez-les à partir du PDF du manuel dans Paramètres > IA > Recherche dans le manuel > Reconstruire depuis le PDF…",
+  "한국어": "매뉴얼 데이터가 없습니다 – 답변이 매뉴얼에 근거하지 않습니다. 설정 > AI > 매뉴얼 검색 > PDF에서 다시 만들기…에서 매뉴얼 PDF로 만드세요.",
+  "中文": "未找到手册数据——回答将不基于手册。请在“设置 > AI > 手册搜索 > 从 PDF 重建…”中用手册 PDF 构建。",
+  "العربية": "لم يتم العثور على بيانات الدليل – لن تستند الإجابات إليه. ابنها من ملف PDF للدليل في الإعدادات > الذكاء الاصطناعي > البحث في الدليل > إعادة البناء من PDF…",
+  "Tiếng Việt": "Không tìm thấy dữ liệu sách hướng dẫn – câu trả lời sẽ không dựa trên sách. Hãy dựng từ PDF sách hướng dẫn trong Cài đặt > AI > Tìm trong hướng dẫn > Dựng lại từ PDF…"
  },
  "Pictures stay on this PC. The model has to be one that can see images.": {
   "日本語": "画像はこのパソコンから出ません。モデルは画像を認識できるものである必要があります。",
@@ -2049,5 +2019,1125 @@
   "中文": "(当前)",
   "العربية": "(الحالية)",
   "Tiếng Việt": "(hiện tại)"
+ },
+ "Semantic search": {
+  "日本語": "セマンティック検索",
+  "Español": "Búsqueda semántica",
+  "Deutsch": "Semantische Suche",
+  "Français": "Recherche sémantique",
+  "한국어": "의미 검색",
+  "中文": "语义搜索",
+  "العربية": "البحث الدلالي",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa"
+ },
+ "Embedding model": {
+  "日本語": "埋め込みモデル",
+  "Español": "Modelo de embeddings",
+  "Deutsch": "Embedding-Modell",
+  "Français": "Modèle d'embedding",
+  "한국어": "임베딩 모델",
+  "中文": "嵌入模型",
+  "العربية": "نموذج التضمين",
+  "Tiếng Việt": "Mô hình nhúng"
+ },
+ "Automatic": {
+  "日本語": "自動",
+  "Español": "Automático",
+  "Deutsch": "Automatisch",
+  "Français": "Automatique",
+  "한국어": "자동",
+  "中文": "自动",
+  "العربية": "تلقائي",
+  "Tiếng Việt": "Tự động"
+ },
+ "Buddy's own model": {
+  "日本語": "Buddy 内蔵のモデル",
+  "Español": "El modelo propio de Buddy",
+  "Deutsch": "Buddys eigenes Modell",
+  "Français": "Le modèle propre à Buddy",
+  "한국어": "Buddy 자체 모델",
+  "中文": "Buddy 自带模型",
+  "العربية": "نموذج Buddy الخاص",
+  "Tiếng Việt": "Mô hình riêng của Buddy"
+ },
+ "Another server (LM Studio, llama.cpp…)": {
+  "日本語": "別のサーバー（LM Studio、llama.cpp など）",
+  "Español": "Otro servidor (LM Studio, llama.cpp…)",
+  "Deutsch": "Anderer Server (LM Studio, llama.cpp …)",
+  "Français": "Autre serveur (LM Studio, llama.cpp…)",
+  "한국어": "다른 서버(LM Studio, llama.cpp 등)",
+  "中文": "其他服务器（LM Studio、llama.cpp 等）",
+  "العربية": "خادم آخر (LM Studio وllama.cpp…)",
+  "Tiếng Việt": "Máy chủ khác (LM Studio, llama.cpp…)"
+ },
+ "Off – keyword search only": {
+  "日本語": "オフ – キーワード検索のみ",
+  "Español": "Desactivada: solo búsqueda por palabras clave",
+  "Deutsch": "Aus – nur Stichwortsuche",
+  "Français": "Désactivée – recherche par mots-clés uniquement",
+  "한국어": "끄기 – 키워드 검색만",
+  "中文": "关闭 – 仅关键词搜索",
+  "العربية": "إيقاف – البحث بالكلمات المفتاحية فقط",
+  "Tiếng Việt": "Tắt – chỉ tìm theo từ khóa"
+ },
+ "Buddy's own EmbeddingGemma": {
+  "日本語": "Buddy 内蔵の EmbeddingGemma",
+  "Español": "El EmbeddingGemma propio de Buddy",
+  "Deutsch": "Buddys eigenes EmbeddingGemma",
+  "Français": "L'EmbeddingGemma propre à Buddy",
+  "한국어": "Buddy 자체 EmbeddingGemma",
+  "中文": "Buddy 自带的 EmbeddingGemma",
+  "العربية": "EmbeddingGemma الخاص بـ Buddy",
+  "Tiếng Việt": "EmbeddingGemma riêng của Buddy"
+ },
+ "Buddy's own {name}": {
+  "日本語": "Buddy 内蔵の {name}",
+  "Español": "El {name} propio de Buddy",
+  "Deutsch": "Buddys eigenes {name}",
+  "Français": "Le {name} propre à Buddy",
+  "한국어": "Buddy 자체 {name}",
+  "中文": "Buddy 自带的 {name}",
+  "العربية": "{name} الخاص بـ Buddy",
+  "Tiếng Việt": "{name} riêng của Buddy"
+ },
+ "the server at {url}": {
+  "日本語": "{url} のサーバー",
+  "Español": "el servidor de {url}",
+  "Deutsch": "der Server unter {url}",
+  "Français": "le serveur à {url}",
+  "한국어": "{url}의 서버",
+  "中文": "位于 {url} 的服务器",
+  "العربية": "الخادم على {url}",
+  "Tiếng Việt": "máy chủ tại {url}"
+ },
+ "Ollama isn't running.": {
+  "日本語": "Ollama が起動していません。",
+  "Español": "Ollama no está en ejecución.",
+  "Deutsch": "Ollama läuft nicht.",
+  "Français": "Ollama n'est pas lancé.",
+  "한국어": "Ollama가 실행 중이 아닙니다.",
+  "中文": "Ollama 未在运行。",
+  "العربية": "Ollama لا يعمل.",
+  "Tiếng Việt": "Ollama chưa chạy."
+ },
+ "Ollama has no embeddinggemma model (ollama pull embeddinggemma).": {
+  "日本語": "Ollama に embeddinggemma モデルがありません（ollama pull embeddinggemma）。",
+  "Español": "Ollama no tiene el modelo embeddinggemma (ollama pull embeddinggemma).",
+  "Deutsch": "Ollama hat kein embeddinggemma-Modell (ollama pull embeddinggemma).",
+  "Français": "Ollama n'a pas le modèle embeddinggemma (ollama pull embeddinggemma).",
+  "한국어": "Ollama에 embeddinggemma 모델이 없습니다(ollama pull embeddinggemma).",
+  "中文": "Ollama 中没有 embeddinggemma 模型（ollama pull embeddinggemma）。",
+  "العربية": "لا يحتوي Ollama على نموذج embeddinggemma (ollama pull embeddinggemma).",
+  "Tiếng Việt": "Ollama chưa có mô hình embeddinggemma (ollama pull embeddinggemma)."
+ },
+ "The server at {url} answered {code}.": {
+  "日本語": "{url} のサーバーが {code} を返しました。",
+  "Español": "El servidor de {url} respondió {code}.",
+  "Deutsch": "Der Server unter {url} antwortete mit {code}.",
+  "Français": "Le serveur à {url} a répondu {code}.",
+  "한국어": "{url}의 서버가 {code}(으)로 응답했습니다.",
+  "中文": "位于 {url} 的服务器返回了 {code}。",
+  "العربية": "ردّ الخادم على {url} بالرمز {code}.",
+  "Tiếng Việt": "Máy chủ tại {url} trả lời {code}."
+ },
+ "Nothing is answering at {url} – is the server running?": {
+  "日本語": "{url} から応答がありません – サーバーは起動していますか？",
+  "Español": "Nada responde en {url}: ¿está en ejecución el servidor?",
+  "Deutsch": "Unter {url} antwortet nichts – läuft der Server?",
+  "Français": "Rien ne répond à {url} – le serveur est-il lancé ?",
+  "한국어": "{url}에서 응답이 없습니다 – 서버가 실행 중인가요?",
+  "中文": "{url} 没有响应 – 服务器在运行吗？",
+  "العربية": "لا شيء يستجيب على {url} – هل الخادم يعمل؟",
+  "Tiếng Việt": "Không có phản hồi tại {url} – máy chủ có đang chạy không?"
+ },
+ "Buddy's own model isn't set up yet – Settings > AI > Manual search > Set up.": {
+  "日本語": "Buddy 内蔵のモデルはまだセットアップされていません – 設定 > AI > マニュアル検索 > セットアップ。",
+  "Español": "El modelo propio de Buddy aún no está configurado: Ajustes > IA > Búsqueda en el manual > Configurar.",
+  "Deutsch": "Buddys eigenes Modell ist noch nicht eingerichtet – Einstellungen > KI > Handbuchsuche > Einrichten.",
+  "Français": "Le modèle propre à Buddy n'est pas encore installé – Réglages > IA > Recherche dans le manuel > Installer.",
+  "한국어": "Buddy 자체 모델이 아직 설정되지 않았습니다 – 설정 > AI > 매뉴얼 검색 > 설정하기.",
+  "中文": "Buddy 自带模型尚未设置 – 设置 > AI > 手册搜索 > 设置。",
+  "العربية": "لم يُعدّ نموذج Buddy الخاص بعد – الإعدادات > الذكاء الاصطناعي > البحث في الدليل > إعداد.",
+  "Tiếng Việt": "Mô hình riêng của Buddy chưa được thiết lập – Cài đặt > AI > Tìm trong hướng dẫn > Thiết lập."
+ },
+ "There's no embedding model in {path} – Set up downloads one.": {
+  "日本語": "{path} に埋め込みモデルがありません – セットアップでダウンロードできます。",
+  "Español": "No hay ningún modelo de embeddings en {path}: Configurar descarga uno.",
+  "Deutsch": "In {path} ist kein Embedding-Modell – Einrichten lädt eines herunter.",
+  "Français": "Il n'y a aucun modèle d'embedding dans {path} – Installer en télécharge un.",
+  "한국어": "{path}에 임베딩 모델이 없습니다 – 설정하기로 하나를 내려받습니다.",
+  "中文": "{path} 中没有嵌入模型 – “设置”会下载一个。",
+  "العربية": "لا يوجد نموذج تضمين في {path} – يقوم «إعداد» بتنزيل واحد.",
+  "Tiếng Việt": "Không có mô hình nhúng nào trong {path} – Thiết lập sẽ tải một mô hình."
+ },
+ "{name} isn't there, or isn't a GGUF model.": {
+  "日本語": "{name} が見つからないか、GGUF モデルではありません。",
+  "Español": "{name} no está o no es un modelo GGUF.",
+  "Deutsch": "{name} fehlt oder ist kein GGUF-Modell.",
+  "Français": "{name} est introuvable ou n'est pas un modèle GGUF.",
+  "한국어": "{name}이(가) 없거나 GGUF 모델이 아닙니다.",
+  "中文": "{name} 不存在，或不是 GGUF 模型。",
+  "العربية": "{name} غير موجود أو ليس نموذج GGUF.",
+  "Tiếng Việt": "{name} không có ở đó hoặc không phải mô hình GGUF."
+ },
+ "Ollama stopped answering: {error}": {
+  "日本語": "Ollama が応答しなくなりました: {error}",
+  "Español": "Ollama dejó de responder: {error}",
+  "Deutsch": "Ollama antwortet nicht mehr: {error}",
+  "Français": "Ollama ne répond plus : {error}",
+  "한국어": "Ollama가 응답을 멈췄습니다: {error}",
+  "中文": "Ollama 停止响应：{error}",
+  "العربية": "توقف Ollama عن الاستجابة: {error}",
+  "Tiếng Việt": "Ollama đã ngừng phản hồi: {error}"
+ },
+ "The server at {url} stopped answering: {error}": {
+  "日本語": "{url} のサーバーが応答しなくなりました: {error}",
+  "Español": "El servidor de {url} dejó de responder: {error}",
+  "Deutsch": "Der Server unter {url} antwortet nicht mehr: {error}",
+  "Français": "Le serveur à {url} ne répond plus : {error}",
+  "한국어": "{url}의 서버가 응답을 멈췄습니다: {error}",
+  "中文": "位于 {url} 的服务器停止响应：{error}",
+  "العربية": "توقف الخادم على {url} عن الاستجابة: {error}",
+  "Tiếng Việt": "Máy chủ tại {url} đã ngừng phản hồi: {error}"
+ },
+ "Keyword search over the built bundle. Set up semantic search in Settings > AI > Manual search for answers that find what you mean.": {
+  "日本語": "作成済みバンドルのキーワード検索です。意図をくみ取った回答には、設定 > AI > マニュアル検索 でセマンティック検索をセットアップしてください。",
+  "Español": "Búsqueda por palabras clave en el paquete creado. Configura la búsqueda semántica en Ajustes > IA > Búsqueda en el manual para respuestas que encuentren lo que quieres decir.",
+  "Deutsch": "Stichwortsuche im erstellten Paket. Richte unter Einstellungen > KI > Handbuchsuche die semantische Suche ein, damit Antworten finden, was du meinst.",
+  "Français": "Recherche par mots-clés dans le paquet construit. Installez la recherche sémantique dans Réglages > IA > Recherche dans le manuel pour des réponses qui trouvent ce que vous voulez dire.",
+  "한국어": "빌드된 번들의 키워드 검색입니다. 의도를 파악하는 답변을 원하면 설정 > AI > 매뉴얼 검색에서 의미 검색을 설정하세요.",
+  "中文": "在已构建的数据包中进行关键词搜索。在“设置 > AI > 手册搜索”中设置语义搜索，答案才能找到你的真正意思。",
+  "العربية": "بحث بالكلمات المفتاحية في الحزمة المبنية. أعدّ البحث الدلالي من الإعدادات > الذكاء الاصطناعي > البحث في الدليل لتحصل على إجابات تفهم ما تقصده.",
+  "Tiếng Việt": "Tìm theo từ khóa trong gói đã tạo. Thiết lập tìm kiếm ngữ nghĩa trong Cài đặt > AI > Tìm trong hướng dẫn để câu trả lời hiểu đúng ý bạn."
+ },
+ "Keyword search over the built bundle. Set up semantic search in Settings > AI > Manual search for answers that find what you mean. {t_why}": {
+  "日本語": "作成済みバンドルのキーワード検索です。意図をくみ取った回答には、設定 > AI > マニュアル検索 でセマンティック検索をセットアップしてください。{t_why}",
+  "Español": "Búsqueda por palabras clave en el paquete creado. Configura la búsqueda semántica en Ajustes > IA > Búsqueda en el manual para respuestas que encuentren lo que quieres decir. {t_why}",
+  "Deutsch": "Stichwortsuche im erstellten Paket. Richte unter Einstellungen > KI > Handbuchsuche die semantische Suche ein, damit Antworten finden, was du meinst. {t_why}",
+  "Français": "Recherche par mots-clés dans le paquet construit. Installez la recherche sémantique dans Réglages > IA > Recherche dans le manuel pour des réponses qui trouvent ce que vous voulez dire. {t_why}",
+  "한국어": "빌드된 번들의 키워드 검색입니다. 의도를 파악하는 답변을 원하면 설정 > AI > 매뉴얼 검색에서 의미 검색을 설정하세요. {t_why}",
+  "中文": "在已构建的数据包中进行关键词搜索。在“设置 > AI > 手册搜索”中设置语义搜索，答案才能找到你的真正意思。{t_why}",
+  "العربية": "بحث بالكلمات المفتاحية في الحزمة المبنية. أعدّ البحث الدلالي من الإعدادات > الذكاء الاصطناعي > البحث في الدليل لتحصل على إجابات تفهم ما تقصده. {t_why}",
+  "Tiếng Việt": "Tìm theo từ khóa trong gói đã tạo. Thiết lập tìm kiếm ngữ nghĩa trong Cài đặt > AI > Tìm trong hướng dẫn để câu trả lời hiểu đúng ý bạn. {t_why}"
+ },
+ "Keyword search over the plain text extract. Build the bundle for chunk-level citations and semantic search.": {
+  "日本語": "プレーンテキスト抽出のキーワード検索です。段落単位の引用とセマンティック検索には、バンドルを作成してください。",
+  "Español": "Búsqueda por palabras clave en el texto extraído. Crea el paquete para tener citas por fragmento y búsqueda semántica.",
+  "Deutsch": "Stichwortsuche im extrahierten Text. Erstelle das Paket für Zitate auf Abschnittsebene und semantische Suche.",
+  "Français": "Recherche par mots-clés dans le texte extrait. Construisez le paquet pour des citations par passage et la recherche sémantique.",
+  "한국어": "추출한 일반 텍스트의 키워드 검색입니다. 구절 단위 인용과 의미 검색을 하려면 번들을 빌드하세요.",
+  "中文": "在提取的纯文本中进行关键词搜索。构建数据包即可获得段落级引用和语义搜索。",
+  "العربية": "بحث بالكلمات المفتاحية في النص المستخرَج. ابنِ الحزمة للحصول على استشهادات على مستوى المقاطع وبحث دلالي.",
+  "Tiếng Việt": "Tìm theo từ khóa trong văn bản trích xuất. Hãy tạo gói để có trích dẫn theo đoạn và tìm kiếm ngữ nghĩa."
+ },
+ "Semantic + keyword search over the built bundle, with {t_label}.": {
+  "日本語": "作成済みバンドルのセマンティック＋キーワード検索です（{t_label}）。",
+  "Español": "Búsqueda semántica + por palabras clave en el paquete creado, con {t_label}.",
+  "Deutsch": "Semantische + Stichwortsuche im erstellten Paket, mit {t_label}.",
+  "Français": "Recherche sémantique + par mots-clés dans le paquet construit, avec {t_label}.",
+  "한국어": "빌드된 번들의 의미 + 키워드 검색입니다({t_label} 사용).",
+  "中文": "在已构建的数据包中进行语义 + 关键词搜索，使用 {t_label}。",
+  "العربية": "بحث دلالي + بالكلمات المفتاحية في الحزمة المبنية، باستخدام {t_label}.",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa + từ khóa trong gói đã tạo, dùng {t_label}."
+ },
+ "The bundle was built without vectors – rebuild it from the PDF for semantic search.": {
+  "日本語": "このバンドルはベクトルなしで作成されました – セマンティック検索には PDF から再作成してください。",
+  "Español": "El paquete se creó sin vectores: vuelve a crearlo desde el PDF para la búsqueda semántica.",
+  "Deutsch": "Das Paket wurde ohne Vektoren erstellt – erstelle es für die semantische Suche neu aus dem PDF.",
+  "Français": "Le paquet a été construit sans vecteurs – reconstruisez-le depuis le PDF pour la recherche sémantique.",
+  "한국어": "이 번들은 벡터 없이 빌드되었습니다 – 의미 검색을 하려면 PDF에서 다시 빌드하세요.",
+  "中文": "此数据包构建时没有向量 – 请从 PDF 重新构建以使用语义搜索。",
+  "العربية": "بُنيت الحزمة دون متجهات – أعد بناءها من ملف PDF للبحث الدلالي.",
+  "Tiếng Việt": "Gói được tạo mà không có vectơ – hãy tạo lại từ PDF để tìm kiếm ngữ nghĩa."
+ },
+ "Semantic search is off in Settings.": {
+  "日本語": "設定でセマンティック検索がオフになっています。",
+  "Español": "La búsqueda semántica está desactivada en Ajustes.",
+  "Deutsch": "Die semantische Suche ist in den Einstellungen aus.",
+  "Français": "La recherche sémantique est désactivée dans les Réglages.",
+  "한국어": "설정에서 의미 검색이 꺼져 있습니다.",
+  "中文": "语义搜索已在设置中关闭。",
+  "العربية": "البحث الدلالي متوقف في الإعدادات.",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa đang tắt trong Cài đặt."
+ },
+ "{t_label} stopped answering: {error}": {
+  "日本語": "{t_label} が応答しなくなりました: {error}",
+  "Español": "{t_label} dejó de responder: {error}",
+  "Deutsch": "{t_label} antwortet nicht mehr: {error}",
+  "Français": "{t_label} ne répond plus : {error}",
+  "한국어": "{t_label}이(가) 응답을 멈췄습니다: {error}",
+  "中文": "{t_label} 停止响应：{error}",
+  "العربية": "توقف {t_label} عن الاستجابة: {error}",
+  "Tiếng Việt": "{t_label} đã ngừng phản hồi: {error}"
+ },
+ "{t_label} isn't the model the manual's index was built with (similarity {score}). Rebuild the manual with it, or use EmbeddingGemma.": {
+  "日本語": "{t_label} はマニュアルのインデックスを作成したモデルではありません（類似度 {score}）。このモデルでマニュアルを再作成するか、EmbeddingGemma を使ってください。",
+  "Español": "{t_label} no es el modelo con el que se creó el índice del manual (similitud {score}). Vuelve a crear el manual con él o usa EmbeddingGemma.",
+  "Deutsch": "{t_label} ist nicht das Modell, mit dem der Index des Handbuchs erstellt wurde (Ähnlichkeit {score}). Erstelle das Handbuch damit neu oder nutze EmbeddingGemma.",
+  "Français": "{t_label} n'est pas le modèle avec lequel l'index du manuel a été construit (similarité {score}). Reconstruisez le manuel avec lui, ou utilisez EmbeddingGemma.",
+  "한국어": "{t_label}은(는) 매뉴얼 색인을 만든 모델이 아닙니다(유사도 {score}). 이 모델로 매뉴얼을 다시 빌드하거나 EmbeddingGemma를 사용하세요.",
+  "中文": "{t_label} 不是构建手册索引所用的模型（相似度 {score}）。请用它重新构建手册，或使用 EmbeddingGemma。",
+  "العربية": "ليس {t_label} النموذج الذي بُني به فهرس الدليل (التشابه {score}). أعد بناء الدليل به، أو استخدم EmbeddingGemma.",
+  "Tiếng Việt": "{t_label} không phải mô hình đã dùng để tạo chỉ mục của sách hướng dẫn (độ tương đồng {score}). Hãy tạo lại sách hướng dẫn bằng nó, hoặc dùng EmbeddingGemma."
+ },
+ "There's no manual bundle with vectors to test against – rebuild it from the PDF.": {
+  "日本語": "テストに使えるベクトル付きのマニュアルバンドルがありません – PDF から再作成してください。",
+  "Español": "No hay ningún paquete del manual con vectores para probar: vuelve a crearlo desde el PDF.",
+  "Deutsch": "Es gibt kein Handbuch-Paket mit Vektoren zum Testen – erstelle es neu aus dem PDF.",
+  "Français": "Il n'y a aucun paquet du manuel avec vecteurs pour tester – reconstruisez-le depuis le PDF.",
+  "한국어": "테스트할 벡터가 있는 매뉴얼 번들이 없습니다 – PDF에서 다시 빌드하세요.",
+  "中文": "没有带向量的手册数据包可供测试 – 请从 PDF 重新构建。",
+  "العربية": "لا توجد حزمة دليل بمتجهات للاختبار عليها – أعد بناءها من ملف PDF.",
+  "Tiếng Việt": "Không có gói sách hướng dẫn nào có vectơ để kiểm tra – hãy tạo lại từ PDF."
+ },
+ "{t_label} didn't answer: {error}": {
+  "日本語": "{t_label} が応答しませんでした: {error}",
+  "Español": "{t_label} no respondió: {error}",
+  "Deutsch": "{t_label} hat nicht geantwortet: {error}",
+  "Français": "{t_label} n'a pas répondu : {error}",
+  "한국어": "{t_label}이(가) 응답하지 않았습니다: {error}",
+  "中文": "{t_label} 没有响应：{error}",
+  "العربية": "لم يستجب {t_label}: {error}",
+  "Tiếng Việt": "{t_label} không phản hồi: {error}"
+ },
+ "Works – {t_label} matches the manual's index (similarity {score}).": {
+  "日本語": "動作しています – {t_label} はマニュアルのインデックスと一致します（類似度 {score}）。",
+  "Español": "Funciona: {t_label} coincide con el índice del manual (similitud {score}).",
+  "Deutsch": "Funktioniert – {t_label} passt zum Index des Handbuchs (Ähnlichkeit {score}).",
+  "Français": "Ça marche – {t_label} correspond à l'index du manuel (similarité {score}).",
+  "한국어": "작동합니다 – {t_label}이(가) 매뉴얼 색인과 일치합니다(유사도 {score}).",
+  "中文": "正常 – {t_label} 与手册索引一致（相似度 {score}）。",
+  "العربية": "يعمل – يطابق {t_label} فهرس الدليل (التشابه {score}).",
+  "Tiếng Việt": "Hoạt động – {t_label} khớp với chỉ mục của sách hướng dẫn (độ tương đồng {score})."
+ },
+ "Downloading {name}… {done} of {total} MB": {
+  "日本語": "{name} をダウンロード中… {done} / {total} MB",
+  "Español": "Descargando {name}… {done} de {total} MB",
+  "Deutsch": "{name} wird heruntergeladen … {done} von {total} MB",
+  "Français": "Téléchargement de {name}… {done} sur {total} Mo",
+  "한국어": "{name} 내려받는 중… {done} / {total}MB",
+  "中文": "正在下载 {name}… {done} / {total} MB",
+  "العربية": "جارٍ تنزيل {name}… {done} من {total} م.ب",
+  "Tiếng Việt": "Đang tải {name}… {done} / {total} MB"
+ },
+ "Couldn't download {name}: {error}": {
+  "日本語": "{name} をダウンロードできませんでした: {error}",
+  "Español": "No se pudo descargar {name}: {error}",
+  "Deutsch": "{name} konnte nicht heruntergeladen werden: {error}",
+  "Français": "Impossible de télécharger {name} : {error}",
+  "한국어": "{name}을(를) 내려받지 못했습니다: {error}",
+  "中文": "无法下载 {name}：{error}",
+  "العربية": "تعذّر تنزيل {name}: {error}",
+  "Tiếng Việt": "Không tải được {name}: {error}"
+ },
+ "The {name} download didn't match its published checksum, so it wasn't used. Try again - if it keeps happening, the file on the server has changed.": {
+  "日本語": "ダウンロードした {name} が公開されているチェックサムと一致しなかったため、使用しませんでした。もう一度お試しください。繰り返し起きる場合は、サーバー上のファイルが変わっています。",
+  "Español": "La descarga de {name} no coincidía con su suma de comprobación publicada, así que no se usó. Inténtalo de nuevo; si sigue pasando, el archivo del servidor ha cambiado.",
+  "Deutsch": "Der Download von {name} passte nicht zu seiner veröffentlichten Prüfsumme und wurde deshalb nicht verwendet. Versuche es erneut – passiert es immer wieder, hat sich die Datei auf dem Server geändert.",
+  "Français": "Le téléchargement de {name} ne correspondait pas à sa somme de contrôle publiée, il n'a donc pas été utilisé. Réessayez – si cela se reproduit, le fichier sur le serveur a changé.",
+  "한국어": "내려받은 {name}이(가) 공개된 체크섬과 일치하지 않아 사용하지 않았습니다. 다시 시도하세요. 계속 그렇다면 서버의 파일이 바뀐 것입니다.",
+  "中文": "下载的 {name} 与其公布的校验和不一致，因此未被使用。请重试 – 如果反复出现，说明服务器上的文件已更改。",
+  "العربية": "لم يطابق تنزيل {name} المجموع الاختباري المنشور له، لذا لم يُستخدم. حاول مجددًا – وإن تكرر ذلك فقد تغيّر الملف على الخادم.",
+  "Tiếng Việt": "Bản tải {name} không khớp với mã kiểm tra đã công bố nên không được dùng. Hãy thử lại – nếu vẫn xảy ra, tệp trên máy chủ đã thay đổi."
+ },
+ "There's no llama.cpp build for this computer ({machine}).": {
+  "日本語": "このコンピュータ用の llama.cpp ビルドはありません（{machine}）。",
+  "Español": "No hay ninguna versión de llama.cpp para este ordenador ({machine}).",
+  "Deutsch": "Für diesen Computer gibt es keinen llama.cpp-Build ({machine}).",
+  "Français": "Il n'existe pas de version de llama.cpp pour cet ordinateur ({machine}).",
+  "한국어": "이 컴퓨터용 llama.cpp 빌드가 없습니다({machine}).",
+  "中文": "没有适用于此电脑的 llama.cpp 版本（{machine}）。",
+  "العربية": "لا يوجد إصدار من llama.cpp لهذا الحاسوب ({machine}).",
+  "Tiếng Việt": "Không có bản llama.cpp cho máy tính này ({machine})."
+ },
+ "Checking llama.cpp with Windows Defender…": {
+  "日本語": "Windows Defender で llama.cpp を検査中…",
+  "Español": "Comprobando llama.cpp con Windows Defender…",
+  "Deutsch": "llama.cpp wird mit Windows Defender geprüft …",
+  "Français": "Vérification de llama.cpp avec Windows Defender…",
+  "한국어": "Windows Defender로 llama.cpp 검사 중…",
+  "中文": "正在用 Windows Defender 检查 llama.cpp…",
+  "العربية": "جارٍ فحص llama.cpp باستخدام Windows Defender…",
+  "Tiếng Việt": "Đang kiểm tra llama.cpp bằng Windows Defender…"
+ },
+ "Unpacking llama.cpp…": {
+  "日本語": "llama.cpp を展開中…",
+  "Español": "Descomprimiendo llama.cpp…",
+  "Deutsch": "llama.cpp wird entpackt …",
+  "Français": "Décompression de llama.cpp…",
+  "한국어": "llama.cpp 압축 푸는 중…",
+  "中文": "正在解压 llama.cpp…",
+  "العربية": "جارٍ فك ضغط llama.cpp…",
+  "Tiếng Việt": "Đang giải nén llama.cpp…"
+ },
+ "Windows Defender flagged the llama.cpp download, so it was deleted and won't be used. Nothing was run.": {
+  "日本語": "Windows Defender がダウンロードした llama.cpp を検出したため、削除して使用しません。何も実行されていません。",
+  "Español": "Windows Defender marcó la descarga de llama.cpp, así que se eliminó y no se usará. No se ejecutó nada.",
+  "Deutsch": "Windows Defender hat den llama.cpp-Download beanstandet, deshalb wurde er gelöscht und wird nicht verwendet. Es wurde nichts ausgeführt.",
+  "Français": "Windows Defender a signalé le téléchargement de llama.cpp : il a été supprimé et ne sera pas utilisé. Rien n'a été exécuté.",
+  "한국어": "Windows Defender가 내려받은 llama.cpp를 위협으로 표시해 삭제했으며 사용하지 않습니다. 아무것도 실행되지 않았습니다.",
+  "中文": "Windows Defender 标记了下载的 llama.cpp，因此已将其删除且不会使用。未运行任何内容。",
+  "العربية": "رصد Windows Defender تنزيل llama.cpp، لذا حُذف ولن يُستخدم. لم يُشغَّل أي شيء.",
+  "Tiếng Việt": "Windows Defender đã gắn cờ bản tải llama.cpp nên nó đã bị xóa và sẽ không được dùng. Không có gì được chạy."
+ },
+ "Couldn't unpack llama.cpp: {error}": {
+  "日本語": "llama.cpp を展開できませんでした: {error}",
+  "Español": "No se pudo descomprimir llama.cpp: {error}",
+  "Deutsch": "llama.cpp konnte nicht entpackt werden: {error}",
+  "Français": "Impossible de décompresser llama.cpp : {error}",
+  "한국어": "llama.cpp 압축을 풀지 못했습니다: {error}",
+  "中文": "无法解压 llama.cpp：{error}",
+  "العربية": "تعذّر فك ضغط llama.cpp: {error}",
+  "Tiếng Việt": "Không giải nén được llama.cpp: {error}"
+ },
+ "llama.cpp was unpacked, but its llama-server wasn't in it.": {
+  "日本語": "llama.cpp を展開しましたが、llama-server が含まれていませんでした。",
+  "Español": "Se descomprimió llama.cpp, pero no incluía su llama-server.",
+  "Deutsch": "llama.cpp wurde entpackt, aber sein llama-server war nicht dabei.",
+  "Français": "llama.cpp a été décompressé, mais son llama-server n'y était pas.",
+  "한국어": "llama.cpp 압축을 풀었지만 llama-server가 들어 있지 않았습니다.",
+  "中文": "已解压 llama.cpp，但其中没有 llama-server。",
+  "العربية": "فُك ضغط llama.cpp، لكن llama-server لم يكن فيه.",
+  "Tiếng Việt": "Đã giải nén llama.cpp nhưng không có llama-server trong đó."
+ },
+ "Windows Defender scanned llama.cpp and found no threats.": {
+  "日本語": "Windows Defender で llama.cpp をスキャンし、脅威は見つかりませんでした。",
+  "Español": "Windows Defender analizó llama.cpp y no encontró amenazas.",
+  "Deutsch": "Windows Defender hat llama.cpp gescannt und keine Bedrohungen gefunden.",
+  "Français": "Windows Defender a analysé llama.cpp et n'a trouvé aucune menace.",
+  "한국어": "Windows Defender가 llama.cpp를 검사했으며 위협을 찾지 못했습니다.",
+  "中文": "Windows Defender 已扫描 llama.cpp，未发现威胁。",
+  "العربية": "فحص Windows Defender برنامج llama.cpp ولم يجد أي تهديدات.",
+  "Tiếng Việt": "Windows Defender đã quét llama.cpp và không phát hiện mối đe dọa nào."
+ },
+ "Windows Defender isn't on this PC, so it couldn't scan llama.cpp.": {
+  "日本語": "この PC には Windows Defender がないため、llama.cpp をスキャンできませんでした。",
+  "Español": "Windows Defender no está en este PC, así que no pudo analizar llama.cpp.",
+  "Deutsch": "Auf diesem PC ist kein Windows Defender, daher konnte llama.cpp nicht gescannt werden.",
+  "Français": "Windows Defender n'est pas sur ce PC, il n'a donc pas pu analyser llama.cpp.",
+  "한국어": "이 PC에 Windows Defender가 없어 llama.cpp를 검사하지 못했습니다.",
+  "中文": "此电脑上没有 Windows Defender，因此无法扫描 llama.cpp。",
+  "العربية": "Windows Defender غير موجود على هذا الحاسوب، لذا تعذّر فحص llama.cpp.",
+  "Tiếng Việt": "Máy này không có Windows Defender nên không quét được llama.cpp."
+ },
+ "Windows Defender couldn't scan llama.cpp: {error}": {
+  "日本語": "Windows Defender で llama.cpp をスキャンできませんでした: {error}",
+  "Español": "Windows Defender no pudo analizar llama.cpp: {error}",
+  "Deutsch": "Windows Defender konnte llama.cpp nicht scannen: {error}",
+  "Français": "Windows Defender n'a pas pu analyser llama.cpp : {error}",
+  "한국어": "Windows Defender가 llama.cpp를 검사하지 못했습니다: {error}",
+  "中文": "Windows Defender 无法扫描 llama.cpp：{error}",
+  "العربية": "تعذّر على Windows Defender فحص llama.cpp: {error}",
+  "Tiếng Việt": "Windows Defender không quét được llama.cpp: {error}"
+ },
+ "Windows Defender couldn't scan llama.cpp (it may be turned off for another antivirus, code {code}).": {
+  "日本語": "Windows Defender で llama.cpp をスキャンできませんでした（別のウイルス対策ソフトのためにオフになっている可能性があります。コード {code}）。",
+  "Español": "Windows Defender no pudo analizar llama.cpp (puede estar desactivado por otro antivirus, código {code}).",
+  "Deutsch": "Windows Defender konnte llama.cpp nicht scannen (er ist vielleicht für ein anderes Antivirenprogramm abgeschaltet, Code {code}).",
+  "Français": "Windows Defender n'a pas pu analyser llama.cpp (il est peut-être désactivé au profit d'un autre antivirus, code {code}).",
+  "한국어": "Windows Defender가 llama.cpp를 검사하지 못했습니다(다른 백신 때문에 꺼져 있을 수 있음, 코드 {code}).",
+  "中文": "Windows Defender 无法扫描 llama.cpp（可能因其他杀毒软件而被关闭，代码 {code}）。",
+  "العربية": "تعذّر على Windows Defender فحص llama.cpp (ربما أُوقف لصالح برنامج مكافحة فيروسات آخر، الرمز {code}).",
+  "Tiếng Việt": "Windows Defender không quét được llama.cpp (có thể đã bị tắt vì một phần mềm diệt virus khác, mã {code})."
+ },
+ "llama.cpp isn't set up yet – Settings > AI > Manual search > Set up.": {
+  "日本語": "llama.cpp はまだセットアップされていません – 設定 > AI > マニュアル検索 > セットアップ。",
+  "Español": "llama.cpp aún no está configurado: Ajustes > IA > Búsqueda en el manual > Configurar.",
+  "Deutsch": "llama.cpp ist noch nicht eingerichtet – Einstellungen > KI > Handbuchsuche > Einrichten.",
+  "Français": "llama.cpp n'est pas encore installé – Réglages > IA > Recherche dans le manuel > Installer.",
+  "한국어": "llama.cpp가 아직 설정되지 않았습니다 – 설정 > AI > 매뉴얼 검색 > 설정하기.",
+  "中文": "llama.cpp 尚未设置 – 设置 > AI > 手册搜索 > 设置。",
+  "العربية": "لم يُعدّ llama.cpp بعد – الإعدادات > الذكاء الاصطناعي > البحث في الدليل > إعداد.",
+  "Tiếng Việt": "llama.cpp chưa được thiết lập – Cài đặt > AI > Tìm trong hướng dẫn > Thiết lập."
+ },
+ "The model file isn't there any more: {path}": {
+  "日本語": "モデルファイルが見つかりません: {path}",
+  "Español": "El archivo del modelo ya no está: {path}",
+  "Deutsch": "Die Modelldatei ist nicht mehr da: {path}",
+  "Français": "Le fichier du modèle n'est plus là : {path}",
+  "한국어": "모델 파일이 더 이상 없습니다: {path}",
+  "中文": "模型文件已不在：{path}",
+  "العربية": "ملف النموذج لم يعد موجودًا: {path}",
+  "Tiếng Việt": "Tệp mô hình không còn ở đó: {path}"
+ },
+ "{name} isn't a GGUF model, so it wasn't run.": {
+  "日本語": "{name} は GGUF モデルではないため、実行しませんでした。",
+  "Español": "{name} no es un modelo GGUF, así que no se ejecutó.",
+  "Deutsch": "{name} ist kein GGUF-Modell und wurde deshalb nicht ausgeführt.",
+  "Français": "{name} n'est pas un modèle GGUF, il n'a donc pas été exécuté.",
+  "한국어": "{name}은(는) GGUF 모델이 아니어서 실행하지 않았습니다.",
+  "中文": "{name} 不是 GGUF 模型，因此未运行。",
+  "العربية": "{name} ليس نموذج GGUF، لذا لم يُشغَّل.",
+  "Tiếng Việt": "{name} không phải mô hình GGUF nên không được chạy."
+ },
+ "llama.cpp wouldn't start: {error}": {
+  "日本語": "llama.cpp を起動できませんでした: {error}",
+  "Español": "llama.cpp no se iniciaba: {error}",
+  "Deutsch": "llama.cpp ließ sich nicht starten: {error}",
+  "Français": "llama.cpp n'a pas voulu démarrer : {error}",
+  "한국어": "llama.cpp가 시작되지 않았습니다: {error}",
+  "中文": "llama.cpp 无法启动：{error}",
+  "العربية": "تعذّر تشغيل llama.cpp: {error}",
+  "Tiếng Việt": "llama.cpp không khởi động được: {error}"
+ },
+ "llama.cpp stopped while loading {name} – is it a GGUF model it can read? Its log: {path}": {
+  "日本語": "{name} の読み込み中に llama.cpp が停止しました – 読み込める GGUF モデルですか？ ログ: {path}",
+  "Español": "llama.cpp se detuvo al cargar {name}: ¿es un modelo GGUF que puede leer? Su registro: {path}",
+  "Deutsch": "llama.cpp hat beim Laden von {name} angehalten – ist es ein GGUF-Modell, das es lesen kann? Sein Protokoll: {path}",
+  "Français": "llama.cpp s'est arrêté en chargeant {name} – est-ce un modèle GGUF qu'il sait lire ? Son journal : {path}",
+  "한국어": "{name}을(를) 불러오다 llama.cpp가 멈췄습니다 – 읽을 수 있는 GGUF 모델인가요? 로그: {path}",
+  "中文": "llama.cpp 在加载 {name} 时停止 – 这是它能读取的 GGUF 模型吗？日志：{path}",
+  "العربية": "توقف llama.cpp أثناء تحميل {name} – هل هو نموذج GGUF يستطيع قراءته؟ سجله: {path}",
+  "Tiếng Việt": "llama.cpp đã dừng khi tải {name} – đó có phải mô hình GGUF mà nó đọc được không? Nhật ký: {path}"
+ },
+ "llama.cpp didn't get {name} ready in {seconds} s. Its log: {path}": {
+  "日本語": "llama.cpp は {seconds} 秒以内に {name} を準備できませんでした。ログ: {path}",
+  "Español": "llama.cpp no tuvo {name} listo en {seconds} s. Su registro: {path}",
+  "Deutsch": "llama.cpp hat {name} nicht in {seconds} s bereit bekommen. Sein Protokoll: {path}",
+  "Français": "llama.cpp n'a pas préparé {name} en {seconds} s. Son journal : {path}",
+  "한국어": "llama.cpp가 {seconds}초 안에 {name}을(를) 준비하지 못했습니다. 로그: {path}",
+  "中文": "llama.cpp 未能在 {seconds} 秒内准备好 {name}。日志：{path}",
+  "العربية": "لم يجهّز llama.cpp النموذج {name} خلال {seconds} ث. سجله: {path}",
+  "Tiếng Việt": "llama.cpp không chuẩn bị xong {name} trong {seconds} giây. Nhật ký: {path}"
+ },
+ "llama.cpp answered {code}: {detail}": {
+  "日本語": "llama.cpp が {code} を返しました: {detail}",
+  "Español": "llama.cpp respondió {code}: {detail}",
+  "Deutsch": "llama.cpp antwortete mit {code}: {detail}",
+  "Français": "llama.cpp a répondu {code} : {detail}",
+  "한국어": "llama.cpp가 {code}(으)로 응답했습니다: {detail}",
+  "中文": "llama.cpp 返回了 {code}：{detail}",
+  "العربية": "ردّ llama.cpp بالرمز {code}: {detail}",
+  "Tiếng Việt": "llama.cpp trả lời {code}: {detail}"
+ },
+ "llama.cpp stopped answering: {error}": {
+  "日本語": "llama.cpp が応答しなくなりました: {error}",
+  "Español": "llama.cpp dejó de responder: {error}",
+  "Deutsch": "llama.cpp antwortet nicht mehr: {error}",
+  "Français": "llama.cpp ne répond plus : {error}",
+  "한국어": "llama.cpp가 응답을 멈췄습니다: {error}",
+  "中文": "llama.cpp 停止响应：{error}",
+  "العربية": "توقف llama.cpp عن الاستجابة: {error}",
+  "Tiếng Việt": "llama.cpp đã ngừng phản hồi: {error}"
+ },
+ "Ollama on this PC, with embeddinggemma pulled (ollama pull embeddinggemma).": {
+  "日本語": "この PC の Ollama（embeddinggemma を取得済み: ollama pull embeddinggemma）。",
+  "Español": "Ollama en este PC, con embeddinggemma descargado (ollama pull embeddinggemma).",
+  "Deutsch": "Ollama auf diesem PC, mit geladenem embeddinggemma (ollama pull embeddinggemma).",
+  "Français": "Ollama sur ce PC, avec embeddinggemma téléchargé (ollama pull embeddinggemma).",
+  "한국어": "이 PC의 Ollama(embeddinggemma를 받아 둔 상태: ollama pull embeddinggemma).",
+  "中文": "此电脑上的 Ollama，并已拉取 embeddinggemma（ollama pull embeddinggemma）。",
+  "العربية": "Ollama على هذا الحاسوب، مع سحب embeddinggemma (ollama pull embeddinggemma).",
+  "Tiếng Việt": "Ollama trên máy này, đã tải embeddinggemma (ollama pull embeddinggemma)."
+ },
+ "LM Studio on this PC (127.0.0.1:1234)": {
+  "日本語": "この PC の LM Studio（127.0.0.1:1234）",
+  "Español": "LM Studio en este PC (127.0.0.1:1234)",
+  "Deutsch": "LM Studio auf diesem PC (127.0.0.1:1234)",
+  "Français": "LM Studio sur ce PC (127.0.0.1:1234)",
+  "한국어": "이 PC의 LM Studio(127.0.0.1:1234)",
+  "中文": "此电脑上的 LM Studio（127.0.0.1:1234）",
+  "العربية": "LM Studio على هذا الحاسوب (127.0.0.1:1234)",
+  "Tiếng Việt": "LM Studio trên máy này (127.0.0.1:1234)"
+ },
+ "its name there, e.g. text-embedding-embeddinggemma-300m": {
+  "日本語": "そのサーバーでの名前（例: text-embedding-embeddinggemma-300m）",
+  "Español": "su nombre allí, p. ej., text-embedding-embeddinggemma-300m",
+  "Deutsch": "sein Name dort, z. B. text-embedding-embeddinggemma-300m",
+  "Français": "son nom là-bas, p. ex. text-embedding-embeddinggemma-300m",
+  "한국어": "그 서버에서의 이름(예: text-embedding-embeddinggemma-300m)",
+  "中文": "它在那里的名称，例如 text-embedding-embeddinggemma-300m",
+  "العربية": "اسمه هناك، مثل text-embedding-embeddinggemma-300m",
+  "Tiếng Việt": "tên của nó ở đó, ví dụ text-embedding-embeddinggemma-300m"
+ },
+ "only if the server asks for one": {
+  "日本語": "サーバーが求める場合のみ",
+  "Español": "solo si el servidor lo pide",
+  "Deutsch": "nur, wenn der Server einen verlangt",
+  "Français": "seulement si le serveur en demande une",
+  "한국어": "서버가 요구할 때만",
+  "中文": "仅当服务器要求时",
+  "العربية": "فقط إذا طلبه الخادم",
+  "Tiếng Việt": "chỉ khi máy chủ yêu cầu"
+ },
+ "LM Studio, a llama-server started with --embedding, or any other OpenAI-compatible /embeddings endpoint. It needs to run EmbeddingGemma to match the manual's index.": {
+  "日本語": "LM Studio、--embedding 付きで起動した llama-server、またはその他の OpenAI 互換 /embeddings エンドポイント。マニュアルのインデックスと一致させるには EmbeddingGemma を実行している必要があります。",
+  "Español": "LM Studio, un llama-server iniciado con --embedding o cualquier otro endpoint /embeddings compatible con OpenAI. Debe ejecutar EmbeddingGemma para coincidir con el índice del manual.",
+  "Deutsch": "LM Studio, ein mit --embedding gestarteter llama-server oder ein anderer OpenAI-kompatibler /embeddings-Endpunkt. Er muss EmbeddingGemma ausführen, damit er zum Index des Handbuchs passt.",
+  "Français": "LM Studio, un llama-server lancé avec --embedding, ou tout autre point de terminaison /embeddings compatible OpenAI. Il doit exécuter EmbeddingGemma pour correspondre à l'index du manuel.",
+  "한국어": "LM Studio, --embedding으로 시작한 llama-server, 또는 그 밖의 OpenAI 호환 /embeddings 엔드포인트. 매뉴얼 색인과 맞추려면 EmbeddingGemma를 실행해야 합니다.",
+  "中文": "LM Studio、以 --embedding 启动的 llama-server，或其他任何兼容 OpenAI 的 /embeddings 端点。它需要运行 EmbeddingGemma 才能与手册索引一致。",
+  "العربية": "LM Studio، أو llama-server مُشغَّل مع --embedding، أو أي نقطة /embeddings أخرى متوافقة مع OpenAI. يجب أن يشغّل EmbeddingGemma ليطابق فهرس الدليل.",
+  "Tiếng Việt": "LM Studio, một llama-server chạy với --embedding, hoặc bất kỳ điểm cuối /embeddings tương thích OpenAI nào khác. Nó cần chạy EmbeddingGemma để khớp với chỉ mục của sách hướng dẫn."
+ },
+ "That address isn't on this computer or your local network – your questions are sent there to be searched.": {
+  "日本語": "このアドレスはこのコンピュータやローカルネットワーク上にありません – 質問は検索のためにそこへ送信されます。",
+  "Español": "Esa dirección no está en este ordenador ni en tu red local: tus preguntas se envían allí para buscarlas.",
+  "Deutsch": "Diese Adresse liegt weder auf diesem Computer noch in deinem lokalen Netzwerk – deine Fragen werden zum Suchen dorthin gesendet.",
+  "Français": "Cette adresse n'est ni sur cet ordinateur ni sur votre réseau local – vos questions y sont envoyées pour être recherchées.",
+  "한국어": "이 주소는 이 컴퓨터나 로컬 네트워크에 있지 않습니다 – 질문이 검색을 위해 그곳으로 전송됩니다.",
+  "中文": "该地址不在此电脑或你的局域网上 – 你的问题会被发送到那里进行搜索。",
+  "العربية": "هذا العنوان ليس على هذا الحاسوب ولا على شبكتك المحلية – تُرسل أسئلتك إليه ليُبحث فيها.",
+  "Tiếng Việt": "Địa chỉ đó không nằm trên máy này hay mạng nội bộ của bạn – câu hỏi của bạn sẽ được gửi tới đó để tìm kiếm."
+ },
+ "Ask Buddy searches the manual by keywords only.": {
+  "日本語": "Ask Buddy はキーワードだけでマニュアルを検索します。",
+  "Español": "Ask Buddy busca en el manual solo por palabras clave.",
+  "Deutsch": "Ask Buddy durchsucht das Handbuch nur nach Stichwörtern.",
+  "Français": "Ask Buddy cherche dans le manuel par mots-clés uniquement.",
+  "한국어": "Ask Buddy는 키워드로만 매뉴얼을 검색합니다.",
+  "中文": "Ask Buddy 只按关键词搜索手册。",
+  "العربية": "يبحث Ask Buddy في الدليل بالكلمات المفتاحية فقط.",
+  "Tiếng Việt": "Ask Buddy chỉ tìm trong sách hướng dẫn theo từ khóa."
+ },
+ "Test semantic search": {
+  "日本語": "セマンティック検索をテスト",
+  "Español": "Probar la búsqueda semántica",
+  "Deutsch": "Semantische Suche testen",
+  "Français": "Tester la recherche sémantique",
+  "한국어": "의미 검색 테스트",
+  "中文": "测试语义搜索",
+  "العربية": "اختبار البحث الدلالي",
+  "Tiếng Việt": "Kiểm tra tìm kiếm ngữ nghĩa"
+ },
+ "Buddy's own model once it's set up, Ollama until then.": {
+  "日本語": "セットアップ後は Buddy 内蔵のモデル、それまでは Ollama を使います。",
+  "Español": "El modelo propio de Buddy una vez configurado; Ollama hasta entonces.",
+  "Deutsch": "Buddys eigenes Modell, sobald es eingerichtet ist, bis dahin Ollama.",
+  "Français": "Le modèle propre à Buddy une fois installé, Ollama d'ici là.",
+  "한국어": "설정한 뒤에는 Buddy 자체 모델, 그 전에는 Ollama를 씁니다.",
+  "中文": "设置后使用 Buddy 自带模型，在此之前使用 Ollama。",
+  "العربية": "نموذج Buddy الخاص بعد إعداده، وOllama حتى ذلك الحين.",
+  "Tiếng Việt": "Mô hình riêng của Buddy sau khi thiết lập, còn trước đó là Ollama."
+ },
+ "Setting up…": {
+  "日本語": "セットアップ中…",
+  "Español": "Configurando…",
+  "Deutsch": "Wird eingerichtet …",
+  "Français": "Installation…",
+  "한국어": "설정 중…",
+  "中文": "正在设置…",
+  "العربية": "جارٍ الإعداد…",
+  "Tiếng Việt": "Đang thiết lập…"
+ },
+ "Set up – downloads {mb} MB": {
+  "日本語": "セットアップ – {mb} MB をダウンロード",
+  "Español": "Configurar: descarga {mb} MB",
+  "Deutsch": "Einrichten – lädt {mb} MB herunter",
+  "Français": "Installer – télécharge {mb} Mo",
+  "한국어": "설정하기 – {mb}MB 내려받기",
+  "中文": "设置 – 下载 {mb} MB",
+  "العربية": "إعداد – يُنزّل {mb} م.ب",
+  "Tiếng Việt": "Thiết lập – tải {mb} MB"
+ },
+ "Set up downloads llama.cpp, which runs models on this computer, and EmbeddingGemma, the model the manual's index is built with – no other app needed.": {
+  "日本語": "セットアップでは、このコンピュータでモデルを動かす llama.cpp と、マニュアルのインデックスの作成に使われているモデル EmbeddingGemma をダウンロードします – ほかのアプリは不要です。",
+  "Español": "Configurar descarga llama.cpp, que ejecuta modelos en este ordenador, y EmbeddingGemma, el modelo con el que se creó el índice del manual; no hace falta ninguna otra app.",
+  "Deutsch": "Einrichten lädt llama.cpp herunter, das Modelle auf diesem Computer ausführt, und EmbeddingGemma, das Modell, mit dem der Index des Handbuchs erstellt ist – keine andere App nötig.",
+  "Français": "Installer télécharge llama.cpp, qui exécute les modèles sur cet ordinateur, et EmbeddingGemma, le modèle avec lequel l'index du manuel est construit – aucune autre app nécessaire.",
+  "한국어": "설정하기는 이 컴퓨터에서 모델을 실행하는 llama.cpp와, 매뉴얼 색인을 만든 모델인 EmbeddingGemma를 내려받습니다 – 다른 앱은 필요 없습니다.",
+  "中文": "“设置”会下载在此电脑上运行模型的 llama.cpp，以及构建手册索引所用的模型 EmbeddingGemma – 无需其他应用。",
+  "العربية": "يُنزّل «إعداد» llama.cpp الذي يشغّل النماذج على هذا الحاسوب، وEmbeddingGemma، النموذج الذي بُني به فهرس الدليل – دون حاجة إلى تطبيق آخر.",
+  "Tiếng Việt": "Thiết lập sẽ tải llama.cpp, phần mềm chạy mô hình trên máy này, và EmbeddingGemma, mô hình dùng để tạo chỉ mục của sách hướng dẫn – không cần ứng dụng nào khác."
+ },
+ "Model file": {
+  "日本語": "モデルファイル",
+  "Español": "Archivo del modelo",
+  "Deutsch": "Modelldatei",
+  "Français": "Fichier du modèle",
+  "한국어": "모델 파일",
+  "中文": "模型文件",
+  "العربية": "ملف النموذج",
+  "Tiếng Việt": "Tệp mô hình"
+ },
+ "Models folder": {
+  "日本語": "モデルフォルダー",
+  "Español": "Carpeta de modelos",
+  "Deutsch": "Modellordner",
+  "Français": "Dossier des modèles",
+  "한국어": "모델 폴더",
+  "中文": "模型文件夹",
+  "العربية": "مجلد النماذج",
+  "Tiếng Việt": "Thư mục mô hình"
+ },
+ "To use another embedding model, drop its GGUF file in this folder. Only GGUF files are run – they hold no code. Use ones from sources you trust. A model other than EmbeddingGemma needs Rebuild from PDF… so the manual's index matches it.": {
+  "日本語": "別の埋め込みモデルを使うには、その GGUF ファイルをこのフォルダーに入れてください。実行されるのは GGUF ファイルだけです – コードは含まれていません。信頼できる入手元のものを使ってください。EmbeddingGemma 以外のモデルでは、マニュアルのインデックスを合わせるために「PDF から再作成…」が必要です。",
+  "Español": "Para usar otro modelo de embeddings, pon su archivo GGUF en esta carpeta. Solo se ejecutan archivos GGUF: no contienen código. Usa los de fuentes en las que confíes. Un modelo distinto de EmbeddingGemma necesita Volver a crear desde PDF… para que el índice del manual coincida.",
+  "Deutsch": "Um ein anderes Embedding-Modell zu nutzen, lege seine GGUF-Datei in diesen Ordner. Es werden nur GGUF-Dateien ausgeführt – sie enthalten keinen Code. Nimm sie aus Quellen, denen du vertraust. Ein anderes Modell als EmbeddingGemma braucht „Aus PDF neu erstellen …“, damit der Index des Handbuchs dazu passt.",
+  "Français": "Pour utiliser un autre modèle d'embedding, déposez son fichier GGUF dans ce dossier. Seuls les fichiers GGUF sont exécutés – ils ne contiennent pas de code. Prenez-les de sources fiables. Un modèle autre qu'EmbeddingGemma demande « Reconstruire depuis le PDF… » pour que l'index du manuel corresponde.",
+  "한국어": "다른 임베딩 모델을 쓰려면 그 GGUF 파일을 이 폴더에 넣으세요. GGUF 파일만 실행되며 코드는 들어 있지 않습니다. 믿을 수 있는 출처의 파일을 쓰세요. EmbeddingGemma가 아닌 모델은 매뉴얼 색인이 맞도록 'PDF에서 다시 빌드…'가 필요합니다.",
+  "中文": "要使用其他嵌入模型，把它的 GGUF 文件放进此文件夹。只会运行 GGUF 文件 – 它们不含代码。请使用你信任的来源的文件。EmbeddingGemma 以外的模型需要“从 PDF 重新构建…”，让手册索引与之匹配。",
+  "العربية": "لاستخدام نموذج تضمين آخر، ضع ملف GGUF الخاص به في هذا المجلد. لا تُشغَّل إلا ملفات GGUF – فهي لا تحتوي على شيفرة. استخدم ملفات من مصادر تثق بها. يحتاج أي نموذج غير EmbeddingGemma إلى «إعادة البناء من PDF…» ليطابقه فهرس الدليل.",
+  "Tiếng Việt": "Để dùng mô hình nhúng khác, hãy thả tệp GGUF của nó vào thư mục này. Chỉ tệp GGUF mới được chạy – chúng không chứa mã. Hãy dùng tệp từ nguồn bạn tin cậy. Mô hình khác EmbeddingGemma cần «Tạo lại từ PDF…» để chỉ mục của sách hướng dẫn khớp với nó."
+ },
+ "Still busy with the last one…": {
+  "日本語": "まだ前の処理中です…",
+  "Español": "Todavía con lo anterior…",
+  "Deutsch": "Noch mit dem Letzten beschäftigt …",
+  "Français": "Encore occupé avec le précédent…",
+  "한국어": "아직 이전 작업 중입니다…",
+  "中文": "仍在处理上一个…",
+  "العربية": "ما زال منشغلًا بالسابق…",
+  "Tiếng Việt": "Vẫn đang bận việc trước…"
+ },
+ "Set up was cancelled – nothing was kept.": {
+  "日本語": "セットアップを取り消しました – 何も残していません。",
+  "Español": "Se canceló la configuración: no se guardó nada.",
+  "Deutsch": "Das Einrichten wurde abgebrochen – nichts wurde behalten.",
+  "Français": "L'installation a été annulée – rien n'a été conservé.",
+  "한국어": "설정을 취소했습니다 – 아무것도 남기지 않았습니다.",
+  "中文": "设置已取消 – 未保留任何内容。",
+  "العربية": "أُلغي الإعداد – لم يُحتفظ بأي شيء.",
+  "Tiếng Việt": "Đã hủy thiết lập – không giữ lại gì."
+ },
+ "Semantic search is set up – Buddy's own EmbeddingGemma runs on this computer.": {
+  "日本語": "セマンティック検索をセットアップしました – Buddy 内蔵の EmbeddingGemma がこのコンピュータで動作します。",
+  "Español": "La búsqueda semántica está configurada: el EmbeddingGemma propio de Buddy se ejecuta en este ordenador.",
+  "Deutsch": "Die semantische Suche ist eingerichtet – Buddys eigenes EmbeddingGemma läuft auf diesem Computer.",
+  "Français": "La recherche sémantique est installée – l'EmbeddingGemma propre à Buddy s'exécute sur cet ordinateur.",
+  "한국어": "의미 검색을 설정했습니다 – Buddy 자체 EmbeddingGemma가 이 컴퓨터에서 실행됩니다.",
+  "中文": "语义搜索已设置 – Buddy 自带的 EmbeddingGemma 在此电脑上运行。",
+  "العربية": "أُعدّ البحث الدلالي – يعمل EmbeddingGemma الخاص بـ Buddy على هذا الحاسوب.",
+  "Tiếng Việt": "Đã thiết lập tìm kiếm ngữ nghĩa – EmbeddingGemma riêng của Buddy chạy trên máy này."
+ },
+ "Semantic search is set up – Buddy's own EmbeddingGemma runs on this computer. {t_note}": {
+  "日本語": "セマンティック検索をセットアップしました – Buddy 内蔵の EmbeddingGemma がこのコンピュータで動作します。{t_note}",
+  "Español": "La búsqueda semántica está configurada: el EmbeddingGemma propio de Buddy se ejecuta en este ordenador. {t_note}",
+  "Deutsch": "Die semantische Suche ist eingerichtet – Buddys eigenes EmbeddingGemma läuft auf diesem Computer. {t_note}",
+  "Français": "La recherche sémantique est installée – l'EmbeddingGemma propre à Buddy s'exécute sur cet ordinateur. {t_note}",
+  "한국어": "의미 검색을 설정했습니다 – Buddy 자체 EmbeddingGemma가 이 컴퓨터에서 실행됩니다. {t_note}",
+  "中文": "语义搜索已设置 – Buddy 自带的 EmbeddingGemma 在此电脑上运行。{t_note}",
+  "العربية": "أُعدّ البحث الدلالي – يعمل EmbeddingGemma الخاص بـ Buddy على هذا الحاسوب. {t_note}",
+  "Tiếng Việt": "Đã thiết lập tìm kiếm ngữ nghĩa – EmbeddingGemma riêng của Buddy chạy trên máy này. {t_note}"
+ },
+ "Set up semantic search": {
+  "日本語": "セマンティック検索のセットアップ",
+  "Español": "Configurar la búsqueda semántica",
+  "Deutsch": "Semantische Suche einrichten",
+  "Français": "Installer la recherche sémantique",
+  "한국어": "의미 검색 설정",
+  "中文": "设置语义搜索",
+  "العربية": "إعداد البحث الدلالي",
+  "Tiếng Việt": "Thiết lập tìm kiếm ngữ nghĩa"
+ },
+ "Download and set up": {
+  "日本語": "ダウンロードしてセットアップ",
+  "Español": "Descargar y configurar",
+  "Deutsch": "Herunterladen und einrichten",
+  "Français": "Télécharger et installer",
+  "한국어": "내려받아 설정",
+  "中文": "下载并设置",
+  "العربية": "تنزيل وإعداد",
+  "Tiếng Việt": "Tải và thiết lập"
+ },
+ "Buddy will download:": {
+  "日本語": "Buddy は次をダウンロードします:",
+  "Español": "Buddy descargará:",
+  "Deutsch": "Buddy lädt herunter:",
+  "Français": "Buddy va télécharger :",
+  "한국어": "Buddy가 다음을 내려받습니다:",
+  "中文": "Buddy 将下载：",
+  "العربية": "سيُنزّل Buddy:",
+  "Tiếng Việt": "Buddy sẽ tải:"
+ },
+ "• llama.cpp, {mb} MB – runs the model on this computer. MIT licence, from the llama.cpp project's GitHub releases (github.com/ggml-org/llama.cpp). Checked against its published checksum, and scanned by Windows Defender before it's used.": {
+  "日本語": "• llama.cpp（{mb} MB）– このコンピュータでモデルを動かします。MIT ライセンス、llama.cpp プロジェクトの GitHub リリース（github.com/ggml-org/llama.cpp）から入手。公開されているチェックサムで照合し、使用前に Windows Defender でスキャンします。",
+  "Español": "• llama.cpp, {mb} MB: ejecuta el modelo en este ordenador. Licencia MIT, de las versiones de GitHub del proyecto llama.cpp (github.com/ggml-org/llama.cpp). Se comprueba con su suma de comprobación publicada y Windows Defender lo analiza antes de usarlo.",
+  "Deutsch": "• llama.cpp, {mb} MB – führt das Modell auf diesem Computer aus. MIT-Lizenz, aus den GitHub-Releases des llama.cpp-Projekts (github.com/ggml-org/llama.cpp). Wird gegen seine veröffentlichte Prüfsumme geprüft und vor der Nutzung von Windows Defender gescannt.",
+  "Français": "• llama.cpp, {mb} Mo – exécute le modèle sur cet ordinateur. Licence MIT, depuis les versions GitHub du projet llama.cpp (github.com/ggml-org/llama.cpp). Vérifié avec sa somme de contrôle publiée, et analysé par Windows Defender avant d'être utilisé.",
+  "한국어": "• llama.cpp, {mb}MB – 이 컴퓨터에서 모델을 실행합니다. MIT 라이선스, llama.cpp 프로젝트의 GitHub 릴리스(github.com/ggml-org/llama.cpp)에서 받습니다. 공개된 체크섬과 대조하고, 사용 전에 Windows Defender로 검사합니다.",
+  "中文": "• llama.cpp，{mb} MB – 在此电脑上运行模型。MIT 许可，来自 llama.cpp 项目的 GitHub 发布（github.com/ggml-org/llama.cpp）。会与其公布的校验和核对，并在使用前由 Windows Defender 扫描。",
+  "العربية": "• llama.cpp، ‏{mb} م.ب – يشغّل النموذج على هذا الحاسوب. برخصة MIT، من إصدارات مشروع llama.cpp على GitHub ‏(github.com/ggml-org/llama.cpp). يُطابَق مع مجموعه الاختباري المنشور، ويفحصه Windows Defender قبل استخدامه.",
+  "Tiếng Việt": "• llama.cpp, {mb} MB – chạy mô hình trên máy này. Giấy phép MIT, từ các bản phát hành GitHub của dự án llama.cpp (github.com/ggml-org/llama.cpp). Được đối chiếu với mã kiểm tra đã công bố và được Windows Defender quét trước khi dùng."
+ },
+ "• llama.cpp, {mb} MB – runs the model on this computer. MIT licence, from the llama.cpp project's GitHub releases (github.com/ggml-org/llama.cpp). Checked against its published checksum.": {
+  "日本語": "• llama.cpp（{mb} MB）– このコンピュータでモデルを動かします。MIT ライセンス、llama.cpp プロジェクトの GitHub リリース（github.com/ggml-org/llama.cpp）から入手。公開されているチェックサムで照合します。",
+  "Español": "• llama.cpp, {mb} MB: ejecuta el modelo en este ordenador. Licencia MIT, de las versiones de GitHub del proyecto llama.cpp (github.com/ggml-org/llama.cpp). Se comprueba con su suma de comprobación publicada.",
+  "Deutsch": "• llama.cpp, {mb} MB – führt das Modell auf diesem Computer aus. MIT-Lizenz, aus den GitHub-Releases des llama.cpp-Projekts (github.com/ggml-org/llama.cpp). Wird gegen seine veröffentlichte Prüfsumme geprüft.",
+  "Français": "• llama.cpp, {mb} Mo – exécute le modèle sur cet ordinateur. Licence MIT, depuis les versions GitHub du projet llama.cpp (github.com/ggml-org/llama.cpp). Vérifié avec sa somme de contrôle publiée.",
+  "한국어": "• llama.cpp, {mb}MB – 이 컴퓨터에서 모델을 실행합니다. MIT 라이선스, llama.cpp 프로젝트의 GitHub 릴리스(github.com/ggml-org/llama.cpp)에서 받습니다. 공개된 체크섬과 대조합니다.",
+  "中文": "• llama.cpp，{mb} MB – 在此电脑上运行模型。MIT 许可，来自 llama.cpp 项目的 GitHub 发布（github.com/ggml-org/llama.cpp）。会与其公布的校验和核对。",
+  "العربية": "• llama.cpp، ‏{mb} م.ب – يشغّل النموذج على هذا الحاسوب. برخصة MIT، من إصدارات مشروع llama.cpp على GitHub ‏(github.com/ggml-org/llama.cpp). يُطابَق مع مجموعه الاختباري المنشور.",
+  "Tiếng Việt": "• llama.cpp, {mb} MB – chạy mô hình trên máy này. Giấy phép MIT, từ các bản phát hành GitHub của dự án llama.cpp (github.com/ggml-org/llama.cpp). Được đối chiếu với mã kiểm tra đã công bố."
+ },
+ "• EmbeddingGemma, {mb} MB – Google's embedding model, from huggingface.co/ggml-org, checked against its published checksum. It's under the Gemma Terms of Use (ai.google.dev/gemma/terms) – downloading it means you accept them.": {
+  "日本語": "• EmbeddingGemma（{mb} MB）– Google の埋め込みモデル。huggingface.co/ggml-org から入手し、公開されているチェックサムで照合します。Gemma 利用規約（ai.google.dev/gemma/terms）が適用されます – ダウンロードすると規約に同意したことになります。",
+  "Español": "• EmbeddingGemma, {mb} MB: el modelo de embeddings de Google, de huggingface.co/ggml-org, comprobado con su suma de comprobación publicada. Está sujeto a las Condiciones de uso de Gemma (ai.google.dev/gemma/terms): al descargarlo, las aceptas.",
+  "Deutsch": "• EmbeddingGemma, {mb} MB – Googles Embedding-Modell, von huggingface.co/ggml-org, gegen seine veröffentlichte Prüfsumme geprüft. Es unterliegt den Gemma-Nutzungsbedingungen (ai.google.dev/gemma/terms) – mit dem Herunterladen akzeptierst du sie.",
+  "Français": "• EmbeddingGemma, {mb} Mo – le modèle d'embedding de Google, depuis huggingface.co/ggml-org, vérifié avec sa somme de contrôle publiée. Il relève des Conditions d'utilisation de Gemma (ai.google.dev/gemma/terms) – le télécharger signifie que vous les acceptez.",
+  "한국어": "• EmbeddingGemma, {mb}MB – Google의 임베딩 모델로, huggingface.co/ggml-org에서 받아 공개된 체크섬과 대조합니다. Gemma 이용약관(ai.google.dev/gemma/terms)이 적용되며, 내려받으면 약관에 동의하는 것입니다.",
+  "中文": "• EmbeddingGemma，{mb} MB – Google 的嵌入模型，来自 huggingface.co/ggml-org，会与其公布的校验和核对。它受 Gemma 使用条款（ai.google.dev/gemma/terms）约束 – 下载即表示你接受这些条款。",
+  "العربية": "• EmbeddingGemma، ‏{mb} م.ب – نموذج التضمين من Google، من huggingface.co/ggml-org، ويُطابَق مع مجموعه الاختباري المنشور. يخضع لشروط استخدام Gemma ‏(ai.google.dev/gemma/terms) – وتنزيله يعني قبولك لها.",
+  "Tiếng Việt": "• EmbeddingGemma, {mb} MB – mô hình nhúng của Google, từ huggingface.co/ggml-org, được đối chiếu với mã kiểm tra đã công bố. Mô hình tuân theo Điều khoản sử dụng Gemma (ai.google.dev/gemma/terms) – tải về nghĩa là bạn chấp nhận các điều khoản đó."
+ },
+ "It all goes in {path}. Nothing else is installed, and the model only ever runs on this computer.": {
+  "日本語": "すべて {path} に保存されます。ほかには何もインストールされず、モデルはこのコンピュータでのみ動作します。",
+  "Español": "Todo va en {path}. No se instala nada más y el modelo solo se ejecuta en este ordenador.",
+  "Deutsch": "Alles kommt nach {path}. Sonst wird nichts installiert, und das Modell läuft nur auf diesem Computer.",
+  "Français": "Tout va dans {path}. Rien d'autre n'est installé, et le modèle ne s'exécute que sur cet ordinateur.",
+  "한국어": "모두 {path}에 저장됩니다. 그 밖에는 아무것도 설치하지 않으며, 모델은 이 컴퓨터에서만 실행됩니다.",
+  "中文": "全部保存在 {path}。不会安装其他任何内容，模型也只在此电脑上运行。",
+  "العربية": "يُحفظ كل شيء في {path}. لا يُثبَّت أي شيء آخر، ولا يعمل النموذج إلا على هذا الحاسوب.",
+  "Tiếng Việt": "Tất cả được lưu trong {path}. Không cài thêm gì khác, và mô hình chỉ chạy trên máy này."
+ },
+ "There's no llama.cpp build for this computer – use Ollama or another server.": {
+  "日本語": "このコンピュータ用の llama.cpp ビルドはありません – Ollama か別のサーバーを使ってください。",
+  "Español": "No hay ninguna versión de llama.cpp para este ordenador: usa Ollama u otro servidor.",
+  "Deutsch": "Für diesen Computer gibt es keinen llama.cpp-Build – nutze Ollama oder einen anderen Server.",
+  "Français": "Il n'existe pas de version de llama.cpp pour cet ordinateur – utilisez Ollama ou un autre serveur.",
+  "한국어": "이 컴퓨터용 llama.cpp 빌드가 없습니다 – Ollama나 다른 서버를 사용하세요.",
+  "中文": "没有适用于此电脑的 llama.cpp 版本 – 请使用 Ollama 或其他服务器。",
+  "العربية": "لا يوجد إصدار من llama.cpp لهذا الحاسوب – استخدم Ollama أو خادمًا آخر.",
+  "Tiếng Việt": "Không có bản llama.cpp cho máy tính này – hãy dùng Ollama hoặc máy chủ khác."
+ },
+ "Semantic search is off.": {
+  "日本語": "セマンティック検索はオフです。",
+  "Español": "La búsqueda semántica está desactivada.",
+  "Deutsch": "Die semantische Suche ist aus.",
+  "Français": "La recherche sémantique est désactivée.",
+  "한국어": "의미 검색이 꺼져 있습니다.",
+  "中文": "语义搜索已关闭。",
+  "العربية": "البحث الدلالي متوقف.",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa đang tắt."
+ },
+ "✓ {t_label} – semantic search will be built.": {
+  "日本語": "✓ {t_label} – セマンティック検索を作成します。",
+  "Español": "✓ {t_label}: se creará la búsqueda semántica.",
+  "Deutsch": "✓ {t_label} – die semantische Suche wird erstellt.",
+  "Français": "✓ {t_label} – la recherche sémantique sera construite.",
+  "한국어": "✓ {t_label} – 의미 검색을 빌드합니다.",
+  "中文": "✓ {t_label} – 将构建语义搜索。",
+  "العربية": "✓ {t_label} – سيُبنى البحث الدلالي.",
+  "Tiếng Việt": "✓ {t_label} – sẽ tạo tìm kiếm ngữ nghĩa."
+ },
+ "⚠ {t_why} The bundle will be keyword-only – set up semantic search in Settings > AI > Manual search for it.": {
+  "日本語": "⚠ {t_why} バンドルはキーワード検索のみになります – セマンティック検索には、設定 > AI > マニュアル検索 でセットアップしてください。",
+  "Español": "⚠ {t_why} El paquete será solo por palabras clave: para la búsqueda semántica, configúrala en Ajustes > IA > Búsqueda en el manual.",
+  "Deutsch": "⚠ {t_why} Das Paket wird nur Stichwortsuche haben – richte für die semantische Suche Einstellungen > KI > Handbuchsuche ein.",
+  "Français": "⚠ {t_why} Le paquet sera par mots-clés uniquement – installez la recherche sémantique dans Réglages > IA > Recherche dans le manuel.",
+  "한국어": "⚠ {t_why} 번들은 키워드 검색만 됩니다 – 의미 검색을 하려면 설정 > AI > 매뉴얼 검색에서 설정하세요.",
+  "中文": "⚠ {t_why} 数据包将只有关键词搜索 – 如需语义搜索，请在“设置 > AI > 手册搜索”中设置。",
+  "العربية": "⚠ {t_why} ستكون الحزمة للبحث بالكلمات المفتاحية فقط – أعدّ البحث الدلالي من الإعدادات > الذكاء الاصطناعي > البحث في الدليل.",
+  "Tiếng Việt": "⚠ {t_why} Gói sẽ chỉ tìm theo từ khóa – hãy thiết lập tìm kiếm ngữ nghĩa trong Cài đặt > AI > Tìm trong hướng dẫn."
+ },
+ "{t_why} Built a keyword-only bundle – rebuild once semantic search is set up.": {
+  "日本語": "{t_why} キーワード検索のみのバンドルを作成しました – セマンティック検索をセットアップしたら再作成してください。",
+  "Español": "{t_why} Se creó un paquete solo por palabras clave: vuelve a crearlo cuando la búsqueda semántica esté configurada.",
+  "Deutsch": "{t_why} Ein Paket nur mit Stichwortsuche wurde erstellt – erstelle es neu, sobald die semantische Suche eingerichtet ist.",
+  "Français": "{t_why} Un paquet par mots-clés uniquement a été construit – reconstruisez-le une fois la recherche sémantique installée.",
+  "한국어": "{t_why} 키워드 전용 번들을 빌드했습니다 – 의미 검색을 설정한 뒤 다시 빌드하세요.",
+  "中文": "{t_why} 已构建仅关键词的数据包 – 设置好语义搜索后请重新构建。",
+  "العربية": "{t_why} بُنيت حزمة للبحث بالكلمات المفتاحية فقط – أعد البناء بعد إعداد البحث الدلالي.",
+  "Tiếng Việt": "{t_why} Đã tạo gói chỉ tìm theo từ khóa – hãy tạo lại sau khi thiết lập tìm kiếm ngữ nghĩa."
+ },
+ "AI provider": {
+  "日本語": "AI プロバイダー",
+  "Español": "Proveedor de IA",
+  "Deutsch": "KI-Anbieter",
+  "Français": "Fournisseur d'IA",
+  "한국어": "AI 제공자",
+  "中文": "AI 提供商",
+  "العربية": "مزوّد الذكاء الاصطناعي",
+  "Tiếng Việt": "Nhà cung cấp AI"
+ },
+ "Chat assistant": {
+  "日本語": "チャットアシスタント",
+  "Español": "Asistente de chat",
+  "Deutsch": "Chat-Assistent",
+  "Français": "Assistant de discussion",
+  "한국어": "채팅 도우미",
+  "中文": "聊天助手",
+  "العربية": "مساعد الدردشة",
+  "Tiếng Việt": "Trợ lý trò chuyện"
+ },
+ "The model Ask Buddy answers with – and Subtitles' AI translation.": {
+  "日本語": "Ask Buddy が回答に使うモデル – Subtitles の AI 翻訳にも使われます。",
+  "Español": "El modelo con el que responde Ask Buddy – y la traducción con IA de Subtitles.",
+  "Deutsch": "Das Modell, mit dem Ask Buddy antwortet – und die KI-Übersetzung von Subtitles.",
+  "Français": "Le modèle avec lequel Ask Buddy répond – et la traduction par IA de Subtitles.",
+  "한국어": "Ask Buddy가 답할 때 쓰는 모델 – Subtitles의 AI 번역에도 쓰입니다.",
+  "中文": "Ask Buddy 回答所用的模型 —— 也用于 Subtitles 的 AI 翻译。",
+  "العربية": "النموذج الذي يجيب به Ask Buddy – وترجمة Subtitles بالذكاء الاصطناعي.",
+  "Tiếng Việt": "Mô hình Ask Buddy dùng để trả lời – và cho bản dịch AI của Subtitles."
+ },
+ "Manual search": {
+  "日本語": "マニュアル検索",
+  "Español": "Búsqueda en el manual",
+  "Deutsch": "Handbuchsuche",
+  "Français": "Recherche dans le manuel",
+  "한국어": "매뉴얼 검색",
+  "中文": "手册搜索",
+  "العربية": "البحث في الدليل",
+  "Tiếng Việt": "Tìm trong hướng dẫn"
+ },
+ "How Ask Buddy finds the right pages of the manual for a question.": {
+  "日本語": "Ask Buddy が質問に合うマニュアルのページを見つける方法。",
+  "Español": "Cómo encuentra Ask Buddy las páginas del manual adecuadas para una pregunta.",
+  "Deutsch": "Wie Ask Buddy die passenden Seiten des Handbuchs zu einer Frage findet.",
+  "Français": "Comment Ask Buddy trouve les bonnes pages du manuel pour une question.",
+  "한국어": "Ask Buddy가 질문에 맞는 매뉴얼 페이지를 찾는 방법.",
+  "中文": "Ask Buddy 如何为问题找到手册中合适的页面。",
+  "العربية": "كيف يجد Ask Buddy صفحات الدليل المناسبة لسؤال ما.",
+  "Tiếng Việt": "Cách Ask Buddy tìm đúng trang hướng dẫn cho một câu hỏi."
+ },
+ "Ask Buddy's settings are with the rest of Buddy's AI.": {
+  "日本語": "Ask Buddy の設定は、Buddy のほかの AI 設定と一緒にあります。",
+  "Español": "Los ajustes de Ask Buddy están con el resto de la IA de Buddy.",
+  "Deutsch": "Die Einstellungen von Ask Buddy stehen bei der übrigen KI von Buddy.",
+  "Français": "Les réglages d'Ask Buddy sont avec le reste de l'IA de Buddy.",
+  "한국어": "Ask Buddy 설정은 Buddy의 다른 AI 설정과 함께 있습니다.",
+  "中文": "Ask Buddy 的设置与 Buddy 的其他 AI 设置放在一起。",
+  "العربية": "إعدادات Ask Buddy موجودة مع بقية إعدادات الذكاء الاصطناعي في Buddy.",
+  "Tiếng Việt": "Cài đặt của Ask Buddy nằm cùng phần AI còn lại của Buddy."
+ },
+ "The provider and model, memory, custom instructions and project changes.": {
+  "日本語": "プロバイダーとモデル、記憶、カスタム指示、プロジェクトの変更。",
+  "Español": "El proveedor y el modelo, la memoria, las instrucciones personalizadas y los cambios en el proyecto.",
+  "Deutsch": "Anbieter und Modell, Gedächtnis, eigene Anweisungen und Projektänderungen.",
+  "Français": "Le fournisseur et le modèle, la mémoire, les instructions personnalisées et les modifications du projet.",
+  "한국어": "제공자와 모델, 기억, 사용자 지시, 프로젝트 변경.",
+  "中文": "提供商和模型、记忆、自定义说明和项目更改。",
+  "العربية": "المزوّد والنموذج، والذاكرة، والتعليمات المخصصة، وتغييرات المشروع.",
+  "Tiếng Việt": "Nhà cung cấp và mô hình, bộ nhớ, chỉ dẫn riêng và thay đổi dự án."
+ },
+ "Semantic search and the manual's data.": {
+  "日本語": "セマンティック検索とマニュアルのデータ。",
+  "Español": "La búsqueda semántica y los datos del manual.",
+  "Deutsch": "Semantische Suche und die Daten des Handbuchs.",
+  "Français": "La recherche sémantique et les données du manuel.",
+  "한국어": "의미 검색과 매뉴얼 데이터.",
+  "中文": "语义搜索和手册数据。",
+  "العربية": "البحث الدلالي وبيانات الدليل.",
+  "Tiếng Việt": "Tìm kiếm ngữ nghĩa và dữ liệu hướng dẫn."
+ },
+ "Your server": {
+  "日本語": "自分のサーバー",
+  "Español": "Tu servidor",
+  "Deutsch": "Ihr Server",
+  "Français": "Votre serveur",
+  "한국어": "내 서버",
+  "中文": "你的服务器",
+  "العربية": "خادمك",
+  "Tiếng Việt": "Máy chủ của bạn"
+ },
+ "Sends your questions to {provider}.": {
+  "日本語": "質問を {provider} に送信します。",
+  "Español": "Envía tus preguntas a {provider}.",
+  "Deutsch": "Sendet Ihre Fragen an {provider}.",
+  "Français": "Envoie vos questions à {provider}.",
+  "한국어": "질문을 {provider}(으)로 보냅니다.",
+  "中文": "会把你的问题发送给 {provider}。",
+  "العربية": "يرسل أسئلتك إلى {provider}.",
+  "Tiếng Việt": "Gửi câu hỏi của bạn tới {provider}."
+ },
+ "Subtitles' AI translation": {
+  "日本語": "Subtitles の AI 翻訳",
+  "Español": "La traducción con IA de Subtitles",
+  "Deutsch": "KI-Übersetzung von Subtitles",
+  "Français": "La traduction par IA de Subtitles",
+  "한국어": "Subtitles의 AI 번역",
+  "中文": "Subtitles 的 AI 翻译",
+  "العربية": "ترجمة Subtitles بالذكاء الاصطناعي",
+  "Tiếng Việt": "Bản dịch AI của Subtitles"
+ },
+ "in use": {
+  "日本語": "使用中",
+  "Español": "en uso",
+  "Deutsch": "in Verwendung",
+  "Français": "utilisé",
+  "한국어": "사용 중",
+  "中文": "使用中",
+  "العربية": "قيد الاستخدام",
+  "Tiếng Việt": "đang dùng"
+ },
+ "Exactly the file Buddy downloads, checksum and all.": {
+  "日本語": "Buddy がダウンロードするファイルそのものです(チェックサムも一致)。",
+  "Español": "Exactamente el archivo que descarga Buddy, suma de comprobación incluida.",
+  "Deutsch": "Genau die Datei, die Buddy herunterlädt, samt Prüfsumme.",
+  "Français": "Exactement le fichier que Buddy télécharge, somme de contrôle comprise.",
+  "한국어": "Buddy가 내려받는 바로 그 파일이며 체크섬도 같습니다.",
+  "中文": "正是 Buddy 下载的文件，校验和也一致。",
+  "العربية": "الملف نفسه الذي ينزّله Buddy، بما في ذلك المجموع الاختباري.",
+  "Tiếng Việt": "Đúng tệp Buddy tải về, khớp cả mã kiểm."
+ },
+ "Not the file Buddy downloads – a GGUF holds no code, but use ones from sources you trust.": {
+  "日本語": "Buddy がダウンロードするファイルではありません – GGUF にコードは含まれませんが、信頼できる入手元のものを使ってください。",
+  "Español": "No es el archivo que descarga Buddy – un GGUF no contiene código, pero usa los de fuentes de confianza.",
+  "Deutsch": "Nicht die Datei, die Buddy herunterlädt – ein GGUF enthält keinen Code, aber nutzen Sie nur Dateien aus vertrauenswürdigen Quellen.",
+  "Français": "Ce n'est pas le fichier que Buddy télécharge – un GGUF ne contient pas de code, mais utilisez des fichiers de sources fiables.",
+  "한국어": "Buddy가 내려받는 파일이 아닙니다 – GGUF에는 코드가 없지만, 믿을 수 있는 출처의 파일을 쓰세요.",
+  "中文": "不是 Buddy 下载的文件 —— GGUF 不含代码，但请使用来源可信的文件。",
+  "العربية": "ليس الملف الذي ينزّله Buddy – ملف GGUF لا يحتوي على شيفرة، لكن استخدم ملفات من مصادر تثق بها.",
+  "Tiếng Việt": "Không phải tệp Buddy tải về – GGUF không chứa mã, nhưng hãy dùng tệp từ nguồn bạn tin cậy."
+ },
+ "Moves the file to the Recycle Bin.": {
+  "日本語": "ファイルをごみ箱に移動します。",
+  "Español": "Mueve el archivo a la Papelera de reciclaje.",
+  "Deutsch": "Verschiebt die Datei in den Papierkorb.",
+  "Français": "Déplace le fichier dans la Corbeille.",
+  "한국어": "파일을 휴지통으로 옮깁니다.",
+  "中文": "将文件移到回收站。",
+  "العربية": "ينقل الملف إلى سلة المحذوفات.",
+  "Tiếng Việt": "Chuyển tệp vào Thùng rác."
+ },
+ "runs Ask Buddy's search model": {
+  "日本語": "Ask Buddy の検索モデルを動かします",
+  "Español": "ejecuta el modelo de búsqueda de Ask Buddy",
+  "Deutsch": "führt das Suchmodell von Ask Buddy aus",
+  "Français": "exécute le modèle de recherche d'Ask Buddy",
+  "한국어": "Ask Buddy의 검색 모델을 실행",
+  "中文": "运行 Ask Buddy 的搜索模型",
+  "العربية": "يشغّل نموذج البحث في Ask Buddy",
+  "Tiếng Việt": "chạy mô hình tìm kiếm của Ask Buddy"
+ },
+ "release {release}": {
+  "日本語": "リリース {release}",
+  "Español": "versión {release}",
+  "Deutsch": "Release {release}",
+  "Français": "version {release}",
+  "한국어": "릴리스 {release}",
+  "中文": "版本 {release}",
+  "العربية": "الإصدار {release}",
+  "Tiếng Việt": "bản phát hành {release}"
+ },
+ "Checked against its published checksum and scanned by Windows Defender when it was downloaded.": {
+  "日本語": "ダウンロード時に公開チェックサムと照合され、Windows Defender でスキャンされました。",
+  "Español": "Comprobado con su suma publicada y analizado por Windows Defender al descargarse.",
+  "Deutsch": "Beim Herunterladen mit seiner veröffentlichten Prüfsumme geprüft und von Windows Defender gescannt.",
+  "Français": "Vérifié par rapport à sa somme publiée et analysé par Windows Defender lors du téléchargement.",
+  "한국어": "내려받을 때 공개 체크섬과 대조하고 Windows Defender로 검사했습니다.",
+  "中文": "下载时已与其公布的校验和比对，并经 Windows Defender 扫描。",
+  "العربية": "تمت مطابقته مع مجموعه المنشور وفحصه بواسطة Windows Defender عند تنزيله.",
+  "Tiếng Việt": "Đã đối chiếu với mã kiểm công bố và được Windows Defender quét khi tải về."
+ },
+ "On this PC or your network": {
+  "日本語": "この PC またはローカルネットワーク上",
+  "Español": "En este PC o tu red",
+  "Deutsch": "Auf diesem PC oder in Ihrem Netzwerk",
+  "Français": "Sur ce PC ou votre réseau",
+  "한국어": "이 PC 또는 내 네트워크에서",
+  "中文": "在本机或你的网络中",
+  "العربية": "على هذا الكمبيوتر أو شبكتك",
+  "Tiếng Việt": "Trên máy này hoặc mạng của bạn"
+ },
+ "Sends to {provider}": {
+  "日本語": "{provider} に送信",
+  "Español": "Se envía a {provider}",
+  "Deutsch": "Wird an {provider} gesendet",
+  "Français": "Envoyé à {provider}",
+  "한국어": "{provider}(으)로 전송",
+  "中文": "发送到 {provider}",
+  "العربية": "يُرسل إلى {provider}",
+  "Tiếng Việt": "Gửi tới {provider}"
+ },
+ "Keyword search only": {
+  "日本語": "キーワード検索のみ",
+  "Español": "Solo búsqueda por palabras clave",
+  "Deutsch": "Nur Stichwortsuche",
+  "Français": "Recherche par mots-clés uniquement",
+  "한국어": "키워드 검색만",
+  "中文": "仅关键词搜索",
+  "العربية": "بحث بالكلمات المفتاحية فقط",
+  "Tiếng Việt": "Chỉ tìm theo từ khóa"
+ },
+ "Sends to another server": {
+  "日本語": "別のサーバーに送信",
+  "Español": "Se envía a otro servidor",
+  "Deutsch": "Wird an einen anderen Server gesendet",
+  "Français": "Envoyé à un autre serveur",
+  "한국어": "다른 서버로 전송",
+  "中文": "发送到另一台服务器",
+  "العربية": "يُرسل إلى خادم آخر",
+  "Tiếng Việt": "Gửi tới máy chủ khác"
+ },
+ "Changes to your project": {
+  "日本語": "プロジェクトへの変更",
+  "Español": "Cambios en tu proyecto",
+  "Deutsch": "Änderungen an Ihrem Projekt",
+  "Français": "Modifications de votre projet",
+  "한국어": "프로젝트 변경",
+  "中文": "对项目的更改",
+  "العربية": "تغييرات على مشروعك",
+  "Tiếng Việt": "Thay đổi với dự án của bạn"
+ },
+ "Your questions, the manual passages found for them, your custom instructions and – when it looks – details of your open project.": {
+  "日本語": "質問、それに対して見つかったマニュアルの文章、カスタム指示、そして(参照するときは)開いているプロジェクトの詳細。",
+  "Español": "Tus preguntas, los pasajes del manual encontrados para ellas, tus instrucciones personalizadas y – cuando los consulta – detalles de tu proyecto abierto.",
+  "Deutsch": "Ihre Fragen, die dazu gefundenen Handbuchabschnitte, Ihre eigenen Anweisungen und – wenn es nachsieht – Details Ihres geöffneten Projekts.",
+  "Français": "Vos questions, les passages du manuel trouvés pour elles, vos instructions personnalisées et – quand il les consulte – des détails de votre projet ouvert.",
+  "한국어": "질문, 그에 맞게 찾은 매뉴얼 구절, 사용자 지시, 그리고 (살펴볼 때) 열려 있는 프로젝트의 세부 정보.",
+  "中文": "你的问题、为其找到的手册段落、你的自定义说明，以及（在查看时）你打开的项目的详情。",
+  "العربية": "أسئلتك، ومقاطع الدليل التي عُثر عليها لها، وتعليماتك المخصصة، و– عندما يطّلع عليها – تفاصيل مشروعك المفتوح.",
+  "Tiếng Việt": "Câu hỏi của bạn, các đoạn hướng dẫn tìm được cho chúng, chỉ dẫn riêng của bạn và – khi nó xem – chi tiết dự án đang mở."
+ },
+ "Each question, to find the manual's passages for it.": {
+  "日本語": "各質問(マニュアルの該当箇所を探すため)。",
+  "Español": "Cada pregunta, para encontrar los pasajes del manual para ella.",
+  "Deutsch": "Jede Frage, um die passenden Handbuchabschnitte zu finden.",
+  "Français": "Chaque question, pour trouver les passages du manuel qui y répondent.",
+  "한국어": "각 질문(매뉴얼에서 해당 구절을 찾기 위해).",
+  "中文": "每个问题，用于找到手册中对应的段落。",
+  "العربية": "كل سؤال، للعثور على مقاطع الدليل الخاصة به.",
+  "Tiếng Việt": "Mỗi câu hỏi, để tìm các đoạn hướng dẫn phù hợp."
+ },
+ "Buddy shows exactly what it wants to change and waits for you to press Apply.": {
+  "日本語": "Buddy は変更したい内容を正確に表示し、適用を押すまで待ちます。",
+  "Español": "Buddy muestra exactamente lo que quiere cambiar y espera a que pulses Aplicar.",
+  "Deutsch": "Buddy zeigt genau, was es ändern möchte, und wartet, bis Sie auf Übernehmen klicken.",
+  "Français": "Buddy montre exactement ce qu'il veut modifier et attend que vous appuyiez sur Appliquer.",
+  "한국어": "Buddy는 바꾸려는 내용을 정확히 보여 주고 적용을 누를 때까지 기다립니다.",
+  "中文": "Buddy 会准确显示它想更改的内容，并等你按下“应用”。",
+  "العربية": "يعرض Buddy بالضبط ما يريد تغييره وينتظر حتى تضغط تطبيق.",
+  "Tiếng Việt": "Buddy hiện chính xác điều nó muốn thay đổi và chờ bạn bấm Áp dụng."
+ },
+ "Ask Buddy reads your project but never changes it.": {
+  "日本語": "Ask Buddy はプロジェクトを読み取りますが、変更はしません。",
+  "Español": "Ask Buddy lee tu proyecto pero nunca lo cambia.",
+  "Deutsch": "Ask Buddy liest Ihr Projekt, ändert es aber nie.",
+  "Français": "Ask Buddy lit votre projet mais ne le modifie jamais.",
+  "한국어": "Ask Buddy는 프로젝트를 읽기만 하고 바꾸지 않습니다.",
+  "中文": "Ask Buddy 会读取你的项目，但从不更改它。",
+  "العربية": "يقرأ Ask Buddy مشروعك لكنه لا يغيّره أبدًا.",
+  "Tiếng Việt": "Ask Buddy đọc dự án của bạn nhưng không bao giờ thay đổi nó."
+ },
+ "{name} goes to the Recycle Bin. Semantic search needs an embedding model – Set up downloads EmbeddingGemma again.": {
+  "日本語": "{name} はごみ箱に移動します。セマンティック検索には埋め込みモデルが必要です – セットアップで EmbeddingGemma を再ダウンロードできます。",
+  "Español": "{name} irá a la Papelera de reciclaje. La búsqueda semántica necesita un modelo de embeddings – Configurar vuelve a descargar EmbeddingGemma.",
+  "Deutsch": "{name} kommt in den Papierkorb. Die semantische Suche braucht ein Embedding-Modell – Einrichten lädt EmbeddingGemma erneut herunter.",
+  "Français": "{name} ira dans la Corbeille. La recherche sémantique a besoin d'un modèle d'embedding – Installer retélécharge EmbeddingGemma.",
+  "한국어": "{name}은(는) 휴지통으로 이동합니다. 의미 검색에는 임베딩 모델이 필요합니다 – 설정하기로 EmbeddingGemma를 다시 내려받을 수 있습니다.",
+  "中文": "{name} 将移到回收站。语义搜索需要嵌入模型 —— “设置”会重新下载 EmbeddingGemma。",
+  "العربية": "سينتقل {name} إلى سلة المحذوفات. يحتاج البحث الدلالي إلى نموذج تضمين – يعيد «إعداد» تنزيل EmbeddingGemma.",
+  "Tiếng Việt": "{name} sẽ vào Thùng rác. Tìm kiếm ngữ nghĩa cần một mô hình nhúng – Thiết lập sẽ tải lại EmbeddingGemma."
+ },
+ "Couldn't remove {name}: {exc}": {
+  "日本語": "{name} を削除できませんでした: {exc}",
+  "Español": "No se pudo quitar {name}: {exc}",
+  "Deutsch": "{name} konnte nicht entfernt werden: {exc}",
+  "Français": "Impossible de retirer {name} : {exc}",
+  "한국어": "{name}을(를) 제거하지 못했습니다: {exc}",
+  "中文": "无法移除 {name}：{exc}",
+  "العربية": "تعذّرت إزالة {name}: {exc}",
+  "Tiếng Việt": "Không gỡ được {name}: {exc}"
+ },
+ "{name} moved to the Recycle Bin.": {
+  "日本語": "{name} をごみ箱に移動しました。",
+  "Español": "{name} se movió a la Papelera de reciclaje.",
+  "Deutsch": "{name} wurde in den Papierkorb verschoben.",
+  "Français": "{name} a été déplacé dans la Corbeille.",
+  "한국어": "{name}을(를) 휴지통으로 옮겼습니다.",
+  "中文": "已将 {name} 移到回收站。",
+  "العربية": "نُقل {name} إلى سلة المحذوفات.",
+  "Tiếng Việt": "Đã chuyển {name} vào Thùng rác."
+ },
+ "No API key set. Add one in Settings to use the chat.": {
+  "日本語": "API キーが設定されていません。チャットを使うには設定で追加してください。",
+  "Español": "No hay clave de API. Añade una en Ajustes para usar el chat.",
+  "Deutsch": "Kein API-Schlüssel festgelegt. Fügen Sie in den Einstellungen einen hinzu, um den Chat zu nutzen.",
+  "Français": "Aucune clé API définie. Ajoutez-en une dans les Réglages pour utiliser le chat.",
+  "한국어": "API 키가 설정되지 않았습니다. 채팅을 쓰려면 설정에서 추가하세요.",
+  "中文": "未设置 API 密钥。请在设置中添加一个以使用聊天。",
+  "العربية": "لم يُضبط مفتاح API. أضف مفتاحًا في الإعدادات لاستخدام الدردشة.",
+  "Tiếng Việt": "Chưa đặt khóa API. Hãy thêm một khóa trong Cài đặt để dùng trò chuyện."
  }
 }

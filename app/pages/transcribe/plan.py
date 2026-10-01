@@ -210,19 +210,24 @@ def model_label(model_id: str) -> str:
     return next((m["label"] for m in es.MODELS + es.TRANSLATION_MODELS if m["id"] == model_id), model_id)
 
 
-def setup_rows(catalog, installed: dict, found: dict, recommended: str):
+def setup_rows(catalog, installed: dict, found: dict, recommended: str, verified: dict | None = None):
     """One row per model for the Setup tab: installed (and where), or a
-    copy already on disk to use, beside the download."""
+    copy already on disk to use, beside the download - each with whether
+    it's exactly the pinned files (verified: folder -> bool, missing while
+    that's still being checked)."""
+    verified = verified or {}
     rows = []
     for m in catalog:
         mid = m["id"]
         where = installed.get(mid)
+        copy = "" if where else found.get(mid, "")
         rows.append({
             "id": mid, "label": m["label"], "size": f"{m['size_gb']:g} GB", "fit": m["fit"],
             "recommended": mid == recommended,
             "installed": bool(where),
             "where": ("Buddy's folder" if str(es.MODELS_DIR) in where else where) if where else "",
-            "found": "" if where else found.get(mid, ""),
+            "found": copy,
+            "verified": verified.get(where or copy),
         })
     return rows
 

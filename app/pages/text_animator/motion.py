@@ -33,7 +33,8 @@ PACKS = [
     {"id": "Magic", "credit": "From Magic Animations · MIT"},
 ]
 KIND_IN_OUT, KIND_EMPHASIS, KIND_OUT = "In · Out", "Emphasis", "Out"
-KINDS = [KIND_IN_OUT, KIND_EMPHASIS, KIND_OUT]
+KIND_IN = "In"                  # only made in the Editor: just an In's curve
+KINDS = [KIND_IN_OUT, KIND_IN, KIND_EMPHASIS, KIND_OUT]
 
 # Which part of an In · Out preset goes on the clip.
 WAYS = ("both", "in", "out")
@@ -58,12 +59,26 @@ def load(path=DATA):
     for p in raw:
         t = p["t"]
         channel = lambda values: [float(values[min(k, len(values) - 1)]) for k in range(SAMPLES)]
-        out.append({
+        preset = {
             "id": p["id"], "label": p["label"], "pack": p["pack"], "kind": p["kind"],
             "dur": float(p["dur"]),
             "x": channel([v[0] for v in t]), "y": channel([v[1] for v in t]),
             "r": channel(p["r"]), "s": channel(p["s"]), "o": channel(p["o"]),
-        })
+        }
+        if p.get("keys"):
+            # The keys the preset plays - every built-in one has them, baked
+            # once from its samples (a key on every peak and valley, which 41
+            # samples alone can't place) or drawn by hand where the samples
+            # were too coarse for the move (Drop's bounces). A channel without
+            # any is fitted to the samples here; the samples - the tiles, the
+            # moves - are then worked out from the keys, as for a preset saved
+            # from the Editor.
+            missing = any(c not in p["keys"] for c in CHANNELS)
+            keys = clean_keys({**(_fit_keys(preset) if missing else {}), **p["keys"]})
+            preset["keys"] = keys
+            for c in CHANNELS:
+                preset[c] = [evaluate_keys(keys[c], k) for k in range(SAMPLES)]
+        out.append(preset)
     return out
 
 
@@ -75,16 +90,19 @@ def segments(preset):
     """[(first, last)] sample ranges where the preset moves, a short pass
     through rest merged into the move around it. A range includes the rest
     sample it lands on (or starts from), so a move ends where it settles."""
-    runs, start = [], None
-    for k in range(SAMPLES):
-        if moving(preset, k):
-            if start is None:
-                start = max(0, k - 1) if k else 0
-        elif start is not None:
-            runs.append([start, k])
-            start = None
-    if start is not None:
-        runs.append([start, LAST])
+    if preset.get("keys"):
+        runs = _keyed_runs(preset["keys"])
+    else:
+        runs, start = [], None
+        for k in range(SAMPLES):
+            if moving(preset, k):
+                if start is None:
+                    start = max(0, k - 1) if k else 0
+            elif start is not None:
+                runs.append([start, k])
+                start = None
+        if start is not None:
+            runs.append([start, LAST])
     merged = []
     for run in runs:
         if merged and run[0] - merged[-1][1] <= _GAP:
@@ -94,13 +112,33 @@ def segments(preset):
     return [tuple(r) for r in merged]
 
 
+def _keyed_runs(keys):
+    """segments' runs for a preset drawn as keys: between every two key
+    times (any channel's), it rests if every channel holds at rest there;
+    the rest is moves, from the key they start on to the key they land on,
+    widened to whole samples. Not from the samples: a fitted curve may sit
+    within its tolerance of rest (1.5 degrees) and still count as moving
+    (0.05), which moved a move's end by a sample."""
+    times = sorted({round(k[0], 6) for c in CHANNELS for k in keys[c]})
+    runs = []
+    for t0, t1 in zip(times, times[1:]):
+        probes = [t0 + (t1 - t0) * f / 6 for f in range(7)]
+        if any(abs(evaluate_keys(keys[c], t) - _REST[c]) > _EPS[c] for c in CHANNELS for t in probes):
+            if runs and abs(runs[-1][1] - t0) < 1e-6:
+                runs[-1][1] = t1
+            else:
+                runs.append([t0, t1])
+    return [[int(a), min(LAST, -int(-b // 1))] for a, b in runs]
+
+
 def moves(preset):
     """{"in": (a, b), "emphasis": (a, b), "out": (a, b)} - whichever the
     preset has. An In starts on the first sample, an Out ends on the last;
-    anything else is an Emphasis (Hinge, an Out, only has "out")."""
+    anything else is an Emphasis (Hinge, an Out, only has "out"; an In
+    preset made in the Editor only "in")."""
     found = {}
     for a, b in segments(preset):
-        if a == 0 and "in" not in found and preset["kind"] == KIND_IN_OUT:
+        if a == 0 and "in" not in found and preset["kind"] in (KIND_IN_OUT, KIND_IN):
             found["in"] = (a, b)
         elif b == LAST and preset["kind"] in (KIND_IN_OUT, KIND_OUT):
             found["out"] = (a, b)
@@ -119,6 +157,8 @@ def view(preset):
         "kind": preset["kind"], "dur": preset["dur"],
         "x": preset["x"], "y": preset["y"], "r": preset["r"], "s": preset["s"], "o": preset["o"],
         "segs": [[a / LAST, b / LAST] for a, b in segments(preset)],
+        "keys": preset.get("keys"),         # a saved preset's own; built-ins remain on request in the Editor
+        "previewKeys": keys_of(preset),     # same fitted curves that plan() writes to Fusion
     }
 
 
@@ -319,6 +359,205 @@ def evaluate(keys, frame):
     return keys[frames[-1]]["value"]
 
 
+# ------------------------------------------------------------ edited keys --
+#
+# The Editor tab edits a preset as keys rather than samples: per channel,
+# [[t, value, left handle, right handle], ...] with t in samples (0..LAST)
+# and each handle an absolute [t, value] point or None - the shape fit()
+# gives and a Fusion BezierSpline takes. A preset saved from there carries
+# them ("keys"); its samples are worked out from them, for the tiles and for
+# finding its moves, and plan() lays the keys themselves on the clip, so
+# what Fusion gets is exactly the curve that was drawn.
+
+CHANNELS = ("x", "y", "r", "s", "o")
+SAVED = {"id": "Saved", "credit": "Your presets"}
+# fit()'s TOLERANCE in the preset's own units (x/64 and y/36 of the frame).
+KEY_TOLERANCE = {"x": 0.64, "y": 0.36, "r": 1.5, "s": 0.02, "o": 0.03}
+MAX_KEYS = 64                   # per channel, from the Editor
+DURATION = (0.2, 10.0)          # seconds a saved preset may last
+_LIMIT = 10000.0                # no value or handle past this
+
+
+# Built-in presets' fitted keys, by id: they never change, and view() gives
+# every tile its curves - fitting all of them took 0.6 s each time the page
+# sent its presets (opening it, and every save or delete).
+_FITTED = {}
+
+
+def keys_of(preset):
+    """A preset's keys: its own (one saved from the Editor, or drawn by hand
+    in motion_presets.json), else fitted to its samples - a few eased keys
+    per channel, as plan() would lay them."""
+    if preset.get("keys"):
+        return preset["keys"]
+    if preset["id"] not in _FITTED:
+        _FITTED[preset["id"]] = _fit_keys(preset)
+    return _FITTED[preset["id"]]
+
+
+def _fit_keys(preset):
+    """keys_of for a preset with samples only."""
+    out = {}
+    for c in CHANNELS:
+        # Move by move, the way plan() fits them: fitted across the whole
+        # run, a hold at rest came out a hair off it (Pop's 1.01) and the
+        # preset never quite rested between its moves.
+        keys = []
+        for a, b in segments(preset):
+            points = [(k, preset[c][k]) for k in range(a, b + 1)]
+            if all(abs(v - _REST[c]) <= _EPS[c] for _t, v in points):
+                fitted = [(a, preset[c][a], None, None), (b, preset[c][b], None, None)]
+            else:
+                fitted = fit(points, KEY_TOLERANCE[c])
+            for t, v, lh, rh in fitted:
+                row = [round(t, 4), round(v, 5), _hand(lh), _hand(rh)]
+                if keys and abs(keys[-1][0] - row[0]) < 1e-6:
+                    keys[-1][3] = row[3]
+                else:
+                    keys.append(row)
+        if not keys or keys[0][0] > 0:
+            keys.insert(0, [0.0, round(preset[c][0], 5), None, None])
+        if keys[-1][0] < LAST:
+            keys.append([float(LAST), round(preset[c][LAST], 5), None, None])
+        out[c] = keys
+    return out
+
+
+def _hand(h):
+    return None if h is None else [round(h[0], 4), round(h[1], 5)]
+
+
+def _controls(k0, k1):
+    """A segment's four points (t, value): its keys and their handles - a
+    key without one on that side is its own handle."""
+    return ((k0[0], k0[1]), tuple(k0[3]) if k0[3] else (k0[0], k0[1]),
+            tuple(k1[2]) if k1[2] else (k1[0], k1[1]), (k1[0], k1[1]))
+
+
+def _solve(p, t):
+    """u along a segment where its time is t (bisection: time only rises)."""
+    lo, hi = 0.0, 1.0
+    for _ in range(40):
+        u = (lo + hi) / 2
+        if _bezier(p[0][0], p[1][0], p[2][0], p[3][0], u) < t:
+            lo = u
+        else:
+            hi = u
+    return (lo + hi) / 2
+
+
+def evaluate_keys(keys, t):
+    """A channel's value at sample time t."""
+    if t <= keys[0][0]:
+        return keys[0][1]
+    for k0, k1 in zip(keys, keys[1:]):
+        if t <= k1[0]:
+            if k1[0] - k0[0] <= 1e-9:
+                return k1[1]
+            p = _controls(k0, k1)
+            return _bezier(p[0][1], p[1][1], p[2][1], p[3][1], _solve(p, t))
+    return keys[-1][1]
+
+
+def split_at(keys, t):
+    """The keys with one more at time t, the curve's shape unchanged (de
+    Casteljau: the segment's two halves, and the new key's handles from
+    where they meet). The same keys when there's one there already."""
+    out = [list(k) for k in keys]
+    for i, (k0, k1) in enumerate(zip(out, out[1:])):
+        if abs(k0[0] - t) < 1e-6 or abs(k1[0] - t) < 1e-6:
+            return out
+        if k0[0] < t < k1[0]:
+            p = _controls(k0, k1)
+            u = _solve(p, t)
+            lerp = lambda a, b: (a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u)
+            q0, q1, q2 = lerp(p[0], p[1]), lerp(p[1], p[2]), lerp(p[2], p[3])
+            r0, r1 = lerp(q0, q1), lerp(q1, q2)
+            s = lerp(r0, r1)
+            k0[3] = list(q0) if k0[3] else None
+            k1[2] = list(q2) if k1[2] else None
+            out.insert(i + 1, [t, s[1], list(r0), list(r1)])
+            return out
+    return out
+
+
+def cut(keys, a, b):
+    """The keys from time a to b, with keys made at a and b if there aren't
+    any - its first without a left handle, its last without a right one."""
+    part = [k for k in split_at(split_at(keys, a), b) if a - 1e-6 <= k[0] <= b + 1e-6]
+    if part:
+        part[0] = [part[0][0], part[0][1], None, part[0][3]]
+        part[-1] = [part[-1][0], part[-1][1], part[-1][2], None]
+    return part
+
+
+def _number(value, default=0.0):
+    try:
+        value = float(value)
+    except (TypeError, ValueError):
+        return default
+    return max(-_LIMIT, min(_LIMIT, value)) if value == value else default
+
+
+def clean_keys(raw):
+    """Keys from the Editor made safe: numbers, in time order, one per time,
+    a key at 0 and at LAST, handles on their own side and within their
+    neighbours; a channel missing or empty is held at rest."""
+    out = {}
+    for c in CHANNELS:
+        rows = []
+        for row in list((raw or {}).get(c) or [])[:MAX_KEYS]:
+            if not isinstance(row, (list, tuple)) or len(row) < 2:
+                continue
+            hand = lambda h: [_number(h[0]), _number(h[1])] if isinstance(h, (list, tuple)) and len(h) >= 2 else None
+            rows.append([max(0.0, min(float(LAST), _number(row[0]))), _number(row[1]),
+                         hand(row[2] if len(row) > 2 else None), hand(row[3] if len(row) > 3 else None)])
+        rows.sort(key=lambda r: r[0])
+        keys = []
+        for row in rows:
+            if keys and abs(keys[-1][0] - row[0]) < 1e-6:
+                keys[-1] = row
+            else:
+                keys.append(row)
+        if not keys:
+            keys = [[0.0, _REST[c], None, None], [float(LAST), _REST[c], None, None]]
+        if keys[0][0] > 0:
+            keys.insert(0, [0.0, keys[0][1], None, None])
+        if keys[-1][0] < LAST:
+            keys.append([float(LAST), keys[-1][1], None, None])
+        for i, k in enumerate(keys):
+            before = keys[i - 1][0] if i else k[0]
+            after = keys[i + 1][0] if i + 1 < len(keys) else k[0]
+            k[2] = [max(before, min(k[0], k[2][0])), k[2][1]] if k[2] and i else None
+            k[3] = [max(k[0], min(after, k[3][0])), k[3][1]] if k[3] and i + 1 < len(keys) else None
+        out[c] = keys
+    return out
+
+
+def from_keys(pid, label, kind, dur, keys, pack=SAVED["id"]):
+    """A preset from the Editor's keys (clean_keys), with the samples the
+    tiles play and moves() reads worked out from them."""
+    keys = clean_keys(keys)
+    preset = {"id": str(pid), "label": str(label or "Untitled")[:60], "pack": pack,
+              "kind": kind if kind in KINDS else KIND_IN_OUT,
+              "dur": max(DURATION[0], min(DURATION[1], _number(dur, 1.0))), "keys": keys}
+    for c in CHANNELS:
+        preset[c] = [evaluate_keys(keys[c], k) for k in range(SAMPLES)]
+    return preset
+
+
+def stored(preset):
+    """What's saved of a preset made in the Editor (and what from_keys takes)."""
+    return {"id": preset["id"], "label": preset["label"], "kind": preset["kind"],
+            "dur": preset["dur"], "keys": preset["keys"]}
+
+
+# A channel's change to Fusion's units without plan's clamps - for handles,
+# which may overshoot where a key may not.
+_LINEAR = {"Center.X": lambda v: 0.5 + v / 64.0, "Center.Y": lambda v: 0.5 - v / 36.0,
+           "Size": lambda v: v, "Angle": lambda v: -v, "Blend": lambda v: v}
+
+
 def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
     """Keyframes for one clip: {"Center.X": {frame: key}, "Center.Y", "Size",
     "Angle", "Blend"} in comp frames 0..clip_frames-1, only the channels
@@ -346,6 +585,8 @@ def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
             wanted.append("in")
         if way in ("both", "out") and "out" in found:
             wanted.append("out")
+    elif kind == KIND_IN and "in" in found:
+        wanted.append("in")
     elif kind == KIND_EMPHASIS and "emphasis" in found:
         wanted.append("emphasis")
     elif kind == KIND_OUT and "out" in found:
@@ -376,6 +617,15 @@ def plan(preset, clip_frames, fps, way="both", speed=1.0, at=None):
             continue            # doesn't move in the parts being put on
         channel = {}
         for _m, a, b, first, length in placed:
+            if preset.get("keys"):
+                # Drawn in the Editor: its own keys, stretched onto the clip.
+                frame = lambda t: first + (t - a) / max(1e-9, b - a) * length
+                line = _LINEAR[name]
+                hand = lambda h: None if h is None else (frame(h[0]), line(h[1]))
+                for t, v, lh, rh in cut(preset["keys"][c], a, b):
+                    channel[round(frame(t), 3)] = {"value": round(value(v), 5),
+                                                   "lh": rounded(hand(lh)), "rh": rounded(hand(rh))}
+                continue
             points = [(first + (k - a) / max(1, b - a) * length, value(preset[c][k])) for k in range(a, b + 1)]
             for t, v, lh, rh in fit(points, TOLERANCE[name]):
                 channel[round(t, 3)] = {"value": round(v, 5), "lh": rounded(lh), "rh": rounded(rh)}

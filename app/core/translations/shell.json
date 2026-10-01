@@ -1909,5 +1909,475 @@
   "中文": "退出 Buddy",
   "العربية": "إغلاق Buddy",
   "Tiếng Việt": "Thoát Buddy"
+ },
+ "Look": {
+  "日本語": "見た目",
+  "Español": "Aspecto",
+  "Deutsch": "Aussehen",
+  "Français": "Apparence",
+  "한국어": "모양",
+  "中文": "外观",
+  "العربية": "المظهر",
+  "Tiếng Việt": "Giao diện"
+ },
+ "AI": {
+  "日本語": "AI",
+  "Español": "IA",
+  "Deutsch": "KI",
+  "Français": "IA",
+  "한국어": "AI",
+  "中文": "AI",
+  "العربية": "الذكاء الاصطناعي",
+  "Tiếng Việt": "AI"
+ },
+ "About": {
+  "日本語": "情報",
+  "Español": "Acerca de",
+  "Deutsch": "Info",
+  "Français": "À propos",
+  "한국어": "정보",
+  "中文": "关于",
+  "العربية": "حول",
+  "Tiếng Việt": "Giới thiệu"
+ },
+ "Startup": {
+  "日本語": "起動",
+  "Español": "Inicio",
+  "Deutsch": "Start",
+  "Français": "Démarrage",
+  "한국어": "시작",
+  "中文": "启动",
+  "العربية": "بدء التشغيل",
+  "Tiếng Việt": "Khởi động"
+ },
+ "Sidebar": {
+  "日本語": "サイドバー",
+  "Español": "Barra lateral",
+  "Deutsch": "Seitenleiste",
+  "Français": "Barre latérale",
+  "한국어": "사이드바",
+  "中文": "侧边栏",
+  "العربية": "الشريط الجانبي",
+  "Tiếng Việt": "Thanh bên"
+ },
+ "Language, starting up and news from Buddy.": {
+  "日本語": "言語、起動、Buddy からのお知らせ。",
+  "Español": "Idioma, inicio y novedades de Buddy.",
+  "Deutsch": "Sprache, Start und Neuigkeiten von Buddy.",
+  "Français": "Langue, démarrage et nouvelles de Buddy.",
+  "한국어": "언어, 시작, Buddy 소식.",
+  "中文": "语言、启动和 Buddy 的消息。",
+  "العربية": "اللغة وبدء التشغيل وأخبار Buddy.",
+  "Tiếng Việt": "Ngôn ngữ, khởi động và tin tức từ Buddy."
+ },
+ "How Buddy sits beside Resolve, and its sidebar.": {
+  "日本語": "Resolve の横での Buddy の配置と、サイドバー。",
+  "Español": "Cómo se coloca Buddy junto a Resolve, y su barra lateral.",
+  "Deutsch": "Wie Buddy neben Resolve sitzt, und seine Seitenleiste.",
+  "Français": "Comment Buddy se place à côté de Resolve, et sa barre latérale.",
+  "한국어": "Resolve 옆에 Buddy가 놓이는 방식과 사이드바.",
+  "中文": "Buddy 在 Resolve 旁的摆放方式，以及它的侧边栏。",
+  "العربية": "كيف يجلس Buddy بجانب Resolve، وشريطه الجانبي.",
+  "Tiếng Việt": "Cách Buddy nằm cạnh Resolve, và thanh bên của nó."
+ },
+ "Changes show straight away.": {
+  "日本語": "変更はすぐに反映されます。",
+  "Español": "Los cambios se ven al instante.",
+  "Deutsch": "Änderungen sind sofort zu sehen.",
+  "Français": "Les changements s'affichent tout de suite.",
+  "한국어": "변경 사항이 바로 보입니다.",
+  "中文": "更改会立即显示。",
+  "العربية": "تظهر التغييرات فورًا.",
+  "Tiếng Việt": "Thay đổi hiện ra ngay."
+ },
+ "The default theme, and every theme's own colours cleared.": {
+  "日本語": "既定のテーマに戻し、すべてのテーマの独自カラーを消去します。",
+  "Español": "El tema predeterminado, y los colores propios de cada tema borrados.",
+  "Deutsch": "Das Standarddesign, und die eigenen Farben jedes Designs gelöscht.",
+  "Français": "Le thème par défaut, et les couleurs propres à chaque thème effacées.",
+  "한국어": "기본 테마로 돌아가고, 모든 테마의 사용자 색상을 지웁니다.",
+  "中文": "恢复默认主题，并清除每个主题的自定义颜色。",
+  "العربية": "السمة الافتراضية، مع مسح الألوان الخاصة بكل سمة.",
+  "Tiếng Việt": "Chủ đề mặc định, và xóa màu riêng của mọi chủ đề."
+ },
+ "About Buddy": {
+  "日本語": "Buddy について",
+  "Español": "Acerca de Buddy",
+  "Deutsch": "Über Buddy",
+  "Français": "À propos de Buddy",
+  "한국어": "Buddy 정보",
+  "中文": "关于 Buddy",
+  "العربية": "حول Buddy",
+  "Tiếng Việt": "Giới thiệu Buddy"
+ },
+ "Model library": {
+  "日本語": "モデルライブラリ",
+  "Español": "Biblioteca de modelos",
+  "Deutsch": "Modellbibliothek",
+  "Français": "Bibliothèque de modèles",
+  "한국어": "모델 라이브러리",
+  "中文": "模型库",
+  "العربية": "مكتبة النماذج",
+  "Tiếng Việt": "Thư viện mô hình"
+ },
+ "Every model Buddy can use, on this PC or in the cloud, and what uses it.": {
+  "日本語": "Buddy が使えるすべてのモデル(この PC 上またはクラウド)と、それを使うもの。",
+  "Español": "Todos los modelos que Buddy puede usar, en este PC o en la nube, y qué los usa.",
+  "Deutsch": "Jedes Modell, das Buddy nutzen kann, auf diesem PC oder in der Cloud, und was es nutzt.",
+  "Français": "Tous les modèles que Buddy peut utiliser, sur ce PC ou dans le cloud, et ce qui les utilise.",
+  "한국어": "Buddy가 쓸 수 있는 모든 모델(이 PC 또는 클라우드)과 그것을 쓰는 곳.",
+  "中文": "Buddy 可用的每个模型（在本机或云端），以及使用它的功能。",
+  "العربية": "كل نموذج يمكن لـ Buddy استخدامه، على هذا الكمبيوتر أو في السحابة، وما الذي يستخدمه.",
+  "Tiếng Việt": "Mọi mô hình Buddy dùng được, trên máy này hoặc trên đám mây, và thứ dùng nó."
+ },
+ "No tool here uses a model.": {
+  "日本語": "ここにはモデルを使うツールがありません。",
+  "Español": "Ninguna herramienta aquí usa un modelo.",
+  "Deutsch": "Kein Werkzeug hier nutzt ein Modell.",
+  "Français": "Aucun outil ici n'utilise de modèle.",
+  "한국어": "모델을 쓰는 도구가 없습니다.",
+  "中文": "这里没有使用模型的工具。",
+  "العربية": "لا توجد أداة هنا تستخدم نموذجًا.",
+  "Tiếng Việt": "Không có công cụ nào ở đây dùng mô hình."
+ },
+ "Open Buddy's folder": {
+  "日本語": "Buddy のフォルダーを開く",
+  "Español": "Abrir la carpeta de Buddy",
+  "Deutsch": "Buddys Ordner öffnen",
+  "Français": "Ouvrir le dossier de Buddy",
+  "한국어": "Buddy 폴더 열기",
+  "中文": "打开 Buddy 的文件夹",
+  "العربية": "فتح مجلد Buddy",
+  "Tiếng Việt": "Mở thư mục của Buddy"
+ },
+ "{size} on this PC": {
+  "日本語": "この PC 上に {size}",
+  "Español": "{size} en este PC",
+  "Deutsch": "{size} auf diesem PC",
+  "Français": "{size} sur ce PC",
+  "한국어": "이 PC에 {size}",
+  "中文": "本机上 {size}",
+  "العربية": "{size} على هذا الكمبيوتر",
+  "Tiếng Việt": "{size} trên máy này"
+ },
+ "Privacy and safety": {
+  "日本語": "プライバシーと安全",
+  "Español": "Privacidad y seguridad",
+  "Deutsch": "Datenschutz und Sicherheit",
+  "Français": "Confidentialité et sécurité",
+  "한국어": "개인정보 및 안전",
+  "中文": "隐私与安全",
+  "العربية": "الخصوصية والأمان",
+  "Tiếng Việt": "Quyền riêng tư và an toàn"
+ },
+ "What leaves this computer, and what Buddy checks.": {
+  "日本語": "このコンピューターから出ていくものと、Buddy が確認すること。",
+  "Español": "Qué sale de este ordenador y qué comprueba Buddy.",
+  "Deutsch": "Was diesen Computer verlässt, und was Buddy prüft.",
+  "Français": "Ce qui quitte cet ordinateur, et ce que Buddy vérifie.",
+  "한국어": "이 컴퓨터 밖으로 나가는 것과 Buddy가 확인하는 것.",
+  "中文": "哪些内容会离开这台电脑，以及 Buddy 会检查什么。",
+  "العربية": "ما الذي يغادر هذا الكمبيوتر، وما الذي يتحقق منه Buddy.",
+  "Tiếng Việt": "Những gì rời khỏi máy tính này, và những gì Buddy kiểm tra."
+ },
+ "Where your data goes": {
+  "日本語": "データの送信先",
+  "Español": "Adónde van tus datos",
+  "Deutsch": "Wohin Ihre Daten gehen",
+  "Français": "Où vont vos données",
+  "한국어": "데이터가 가는 곳",
+  "中文": "你的数据去向",
+  "العربية": "أين تذهب بياناتك",
+  "Tiếng Việt": "Dữ liệu của bạn đi đâu"
+ },
+ "No tool here uses AI.": {
+  "日本語": "ここには AI を使うツールがありません。",
+  "Español": "Ninguna herramienta aquí usa IA.",
+  "Deutsch": "Kein Werkzeug hier nutzt KI.",
+  "Français": "Aucun outil ici n'utilise l'IA.",
+  "한국어": "AI를 쓰는 도구가 없습니다.",
+  "中文": "这里没有使用 AI 的工具。",
+  "العربية": "لا توجد أداة هنا تستخدم الذكاء الاصطناعي.",
+  "Tiếng Việt": "Không có công cụ nào ở đây dùng AI."
+ },
+ "How downloads are checked": {
+  "日本語": "ダウンロードの確認方法",
+  "Español": "Cómo se comprueban las descargas",
+  "Deutsch": "Wie Downloads geprüft werden",
+  "Français": "Comment les téléchargements sont vérifiés",
+  "한국어": "다운로드 확인 방법",
+  "中文": "下载如何检查",
+  "العربية": "كيف يتم التحقق من التنزيلات",
+  "Tiếng Việt": "Cách kiểm tra bản tải xuống"
+ },
+ "Every model Buddy downloads is pinned to one exact version, and each of its files is checked against the SHA-256 checksum Buddy expects before it's used. Model files hold no code.": {
+  "日本語": "Buddy がダウンロードするモデルはすべて 1 つの正確なバージョンに固定され、各ファイルは使う前に Buddy が想定する SHA-256 チェックサムと照合されます。モデルファイルにコードは含まれません。",
+  "Español": "Cada modelo que descarga Buddy está fijado a una versión exacta, y cada uno de sus archivos se comprueba con la suma SHA-256 que Buddy espera antes de usarse. Los archivos de modelo no contienen código.",
+  "Deutsch": "Jedes Modell, das Buddy herunterlädt, ist auf genau eine Version festgelegt, und jede seiner Dateien wird vor der Verwendung mit der SHA-256-Prüfsumme verglichen, die Buddy erwartet. Modelldateien enthalten keinen Code.",
+  "Français": "Chaque modèle que Buddy télécharge est fixé à une version exacte, et chacun de ses fichiers est comparé à la somme SHA-256 attendue par Buddy avant d'être utilisé. Les fichiers de modèle ne contiennent aucun code.",
+  "한국어": "Buddy가 내려받는 모든 모델은 정확한 한 버전으로 고정되며, 각 파일은 사용 전에 Buddy가 기대하는 SHA-256 체크섬과 대조됩니다. 모델 파일에는 코드가 없습니다.",
+  "中文": "Buddy 下载的每个模型都固定为一个确切版本，每个文件在使用前都会与 Buddy 预期的 SHA-256 校验和比对。模型文件不含代码。",
+  "العربية": "كل نموذج ينزّله Buddy مثبت على إصدار واحد محدد، ويُطابق كل ملف من ملفاته مع مجموع SHA-256 الذي يتوقعه Buddy قبل استخدامه. ملفات النماذج لا تحتوي على شيفرة.",
+  "Tiếng Việt": "Mọi mô hình Buddy tải về đều được cố định ở một phiên bản chính xác, và từng tệp được đối chiếu với mã kiểm SHA-256 mà Buddy mong đợi trước khi dùng. Tệp mô hình không chứa mã."
+ },
+ "The transcription engine installs only exact package versions, each checked against its published hash, and Windows Defender scans it before it's used. llama.cpp, which runs the search model, is checked against its published checksum and scanned the same way.": {
+  "日本語": "文字起こしエンジンは正確なバージョンのパッケージだけをインストールし、それぞれ公開ハッシュと照合され、使う前に Windows Defender がスキャンします。検索モデルを動かす llama.cpp も公開チェックサムと照合され、同じようにスキャンされます。",
+  "Español": "El motor de transcripción instala solo versiones exactas de paquetes, cada una comprobada con su hash publicado, y Windows Defender lo analiza antes de usarse. llama.cpp, que ejecuta el modelo de búsqueda, se comprueba con su suma publicada y se analiza igual.",
+  "Deutsch": "Die Transkriptions-Engine installiert nur exakte Paketversionen, jede mit ihrem veröffentlichten Hash geprüft, und Windows Defender scannt sie vor der Verwendung. llama.cpp, das das Suchmodell ausführt, wird mit seiner veröffentlichten Prüfsumme geprüft und ebenso gescannt.",
+  "Français": "Le moteur de transcription n'installe que des versions exactes de paquets, chacune vérifiée par rapport à son hachage publié, et Windows Defender l'analyse avant son utilisation. llama.cpp, qui exécute le modèle de recherche, est vérifié par rapport à sa somme publiée et analysé de la même façon.",
+  "한국어": "전사 엔진은 정확한 버전의 패키지만 설치하며, 각각 공개된 해시와 대조되고 사용 전에 Windows Defender가 검사합니다. 검색 모델을 실행하는 llama.cpp도 공개 체크섬과 대조되고 같은 방식으로 검사됩니다.",
+  "中文": "转写引擎只安装确切版本的软件包，每个都与其公布的哈希比对，并在使用前由 Windows Defender 扫描。运行搜索模型的 llama.cpp 也会与其公布的校验和比对，并以同样方式扫描。",
+  "العربية": "لا يثبّت محرك النسخ إلا إصدارات حزم محددة، يُطابق كل منها مع البصمة المنشورة، ويفحصه Windows Defender قبل استخدامه. ويُطابق llama.cpp، الذي يشغّل نموذج البحث، مع مجموعه المنشور ويُفحص بالطريقة نفسها.",
+  "Tiếng Việt": "Bộ máy phiên âm chỉ cài các gói đúng phiên bản, mỗi gói được đối chiếu với mã băm đã công bố, và Windows Defender quét trước khi dùng. llama.cpp, thứ chạy mô hình tìm kiếm, được đối chiếu với mã kiểm đã công bố và quét theo cùng cách."
+ },
+ "A copy from somewhere else – a folder you picked, another app's download – shows as Not verified when its files aren't exactly the expected ones.": {
+  "日本語": "別の場所からのコピー(選んだフォルダーや他のアプリのダウンロード)は、ファイルが想定どおりでない場合「未検証」と表示されます。",
+  "Español": "Una copia de otro sitio – una carpeta que elegiste, la descarga de otra app – aparece como No verificado cuando sus archivos no son exactamente los esperados.",
+  "Deutsch": "Eine Kopie von woanders – ein Ordner, den Sie gewählt haben, der Download einer anderen App – wird als Nicht verifiziert angezeigt, wenn ihre Dateien nicht genau die erwarteten sind.",
+  "Français": "Une copie venue d'ailleurs – un dossier que vous avez choisi, le téléchargement d'une autre app – apparaît comme Non vérifié quand ses fichiers ne sont pas exactement ceux attendus.",
+  "한국어": "다른 곳의 사본(직접 고른 폴더, 다른 앱의 다운로드)은 파일이 기대한 것과 정확히 같지 않으면 미검증으로 표시됩니다.",
+  "中文": "来自其他地方的副本（你选择的文件夹、其他应用的下载）在文件与预期不完全一致时显示为“未验证”。",
+  "العربية": "النسخة من مكان آخر – مجلد اخترته، أو تنزيل تطبيق آخر – تظهر على أنها غير موثّقة عندما لا تطابق ملفاتها الملفات المتوقعة تمامًا.",
+  "Tiếng Việt": "Bản sao từ nơi khác – thư mục bạn chọn, bản tải của ứng dụng khác – hiện là Chưa xác minh khi các tệp không đúng hệt như mong đợi."
+ },
+ "On this PC": {
+  "日本語": "この PC 上",
+  "Español": "En este PC",
+  "Deutsch": "Auf diesem PC",
+  "Français": "Sur ce PC",
+  "한국어": "이 PC에서",
+  "中文": "在本机",
+  "العربية": "على هذا الكمبيوتر",
+  "Tiếng Việt": "Trên máy này"
+ },
+ "Leaves this PC": {
+  "日本語": "この PC の外へ送信",
+  "Español": "Sale de este PC",
+  "Deutsch": "Verlässt diesen PC",
+  "Français": "Quitte ce PC",
+  "한국어": "이 PC 밖으로 전송",
+  "中文": "会离开本机",
+  "العربية": "يغادر هذا الكمبيوتر",
+  "Tiếng Việt": "Rời khỏi máy này"
+ },
+ "Search settings": {
+  "日本語": "設定を検索",
+  "Español": "Buscar ajustes",
+  "Deutsch": "Einstellungen durchsuchen",
+  "Français": "Rechercher dans les réglages",
+  "한국어": "설정 검색",
+  "中文": "搜索设置",
+  "العربية": "البحث في الإعدادات",
+  "Tiếng Việt": "Tìm cài đặt"
+ },
+ "Settings sections": {
+  "日本語": "設定のセクション",
+  "Español": "Secciones de ajustes",
+  "Deutsch": "Einstellungsbereiche",
+  "Français": "Sections des réglages",
+  "한국어": "설정 섹션",
+  "中文": "设置分区",
+  "العربية": "أقسام الإعدادات",
+  "Tiếng Việt": "Các mục cài đặt"
+ },
+ "Search results": {
+  "日本語": "検索結果",
+  "Español": "Resultados de la búsqueda",
+  "Deutsch": "Suchergebnisse",
+  "Français": "Résultats de la recherche",
+  "한국어": "검색 결과",
+  "中文": "搜索结果",
+  "العربية": "نتائج البحث",
+  "Tiếng Việt": "Kết quả tìm kiếm"
+ },
+ "1 setting": {
+  "日本語": "1 件の設定",
+  "Español": "1 ajuste",
+  "Deutsch": "1 Einstellung",
+  "Français": "1 réglage",
+  "한국어": "설정 1개",
+  "中文": "1 项设置",
+  "العربية": "إعداد واحد",
+  "Tiếng Việt": "1 cài đặt"
+ },
+ "{count} settings": {
+  "日本語": "{count} 件の設定",
+  "Español": "{count} ajustes",
+  "Deutsch": "{count} Einstellungen",
+  "Français": "{count} réglages",
+  "한국어": "설정 {count}개",
+  "中文": "{count} 项设置",
+  "العربية": "{count} إعدادات",
+  "Tiếng Việt": "{count} cài đặt"
+ },
+ "No settings match your search.": {
+  "日本語": "検索に一致する設定はありません。",
+  "Español": "Ningún ajuste coincide con tu búsqueda.",
+  "Deutsch": "Keine Einstellung passt zu Ihrer Suche.",
+  "Français": "Aucun réglage ne correspond à votre recherche.",
+  "한국어": "검색과 일치하는 설정이 없습니다.",
+  "中文": "没有与搜索匹配的设置。",
+  "العربية": "لا توجد إعدادات تطابق بحثك.",
+  "Tiếng Việt": "Không có cài đặt nào khớp với tìm kiếm."
+ },
+ "Try fewer words, or another name for it.": {
+  "日本語": "語数を減らすか、別の呼び方で試してください。",
+  "Español": "Prueba con menos palabras o con otro nombre.",
+  "Deutsch": "Versuchen Sie weniger Wörter oder einen anderen Namen dafür.",
+  "Français": "Essayez moins de mots, ou un autre nom.",
+  "한국어": "단어를 줄이거나 다른 이름으로 찾아보세요.",
+  "中文": "试试少用几个词，或换个说法。",
+  "العربية": "جرّب كلمات أقل، أو اسمًا آخر له.",
+  "Tiếng Việt": "Thử ít từ hơn, hoặc một tên gọi khác."
+ },
+ "Cloud": {
+  "日本語": "クラウド",
+  "Español": "Nube",
+  "Deutsch": "Cloud",
+  "Français": "Cloud",
+  "한국어": "클라우드",
+  "中文": "云端",
+  "العربية": "السحابة",
+  "Tiếng Việt": "Đám mây"
+ },
+ "Not downloaded": {
+  "日本語": "未ダウンロード",
+  "Español": "Sin descargar",
+  "Deutsch": "Nicht heruntergeladen",
+  "Français": "Non téléchargé",
+  "한국어": "다운로드 안 됨",
+  "中文": "未下载",
+  "العربية": "غير منزّل",
+  "Tiếng Việt": "Chưa tải xuống"
+ },
+ "Nothing here.": {
+  "日本語": "何もありません。",
+  "Español": "Nada aquí.",
+  "Deutsch": "Hier ist nichts.",
+  "Français": "Rien ici.",
+  "한국어": "아무것도 없습니다.",
+  "中文": "这里什么也没有。",
+  "العربية": "لا شيء هنا.",
+  "Tiếng Việt": "Không có gì ở đây."
+ },
+ "AI and models": {
+  "日本語": "AI とモデル",
+  "Español": "IA y modelos",
+  "Deutsch": "KI und Modelle",
+  "Français": "IA et modèles",
+  "한국어": "AI 및 모델",
+  "中文": "AI 与模型",
+  "العربية": "الذكاء الاصطناعي والنماذج",
+  "Tiếng Việt": "AI và mô hình"
+ },
+ "Transcription": {
+  "日本語": "文字起こし",
+  "Español": "Transcripción",
+  "Deutsch": "Transkription",
+  "Français": "Transcription",
+  "한국어": "전사",
+  "中文": "转写",
+  "العربية": "النسخ",
+  "Tiếng Việt": "Phiên âm"
+ },
+ "Translation": {
+  "日本語": "翻訳",
+  "Español": "Traducción",
+  "Deutsch": "Übersetzung",
+  "Français": "Traduction",
+  "한국어": "번역",
+  "中文": "翻译",
+  "العربية": "الترجمة",
+  "Tiếng Việt": "Dịch"
+ },
+ "Search": {
+  "日本語": "検索",
+  "Español": "Búsqueda",
+  "Deutsch": "Suche",
+  "Français": "Recherche",
+  "한국어": "검색",
+  "中文": "搜索",
+  "العربية": "البحث",
+  "Tiếng Việt": "Tìm kiếm"
+ },
+ "Engine": {
+  "日本語": "エンジン",
+  "Español": "Motor",
+  "Deutsch": "Engine",
+  "Français": "Moteur",
+  "한국어": "엔진",
+  "中文": "引擎",
+  "العربية": "المحرك",
+  "Tiếng Việt": "Bộ máy"
+ },
+ "Chat": {
+  "日本語": "チャット",
+  "Español": "Chat",
+  "Deutsch": "Chat",
+  "Français": "Chat",
+  "한국어": "채팅",
+  "中文": "聊天",
+  "العربية": "الدردشة",
+  "Tiếng Việt": "Trò chuyện"
+ },
+ "Models": {
+  "日本語": "モデル",
+  "Español": "Modelos",
+  "Deutsch": "Modelle",
+  "Français": "Modèles",
+  "한국어": "모델",
+  "中文": "模型",
+  "العربية": "النماذج",
+  "Tiếng Việt": "Mô hình"
+ },
+ "Installed": {
+  "日本語": "インストール済み",
+  "Español": "Instalado",
+  "Deutsch": "Installiert",
+  "Français": "Installé",
+  "한국어": "설치됨",
+  "中文": "已安装",
+  "العربية": "مثبّت",
+  "Tiếng Việt": "Đã cài"
+ },
+ "Set up": {
+  "日本語": "セットアップ",
+  "Español": "Configurar",
+  "Deutsch": "Einrichten",
+  "Français": "Installer",
+  "한국어": "설정하기",
+  "中文": "设置",
+  "العربية": "إعداد",
+  "Tiếng Việt": "Thiết lập"
+ },
+ "Not set up": {
+  "日本語": "未設定",
+  "Español": "Sin configurar",
+  "Deutsch": "Nicht eingerichtet",
+  "Français": "Non configuré",
+  "한국어": "설정 안 됨",
+  "中文": "未设置",
+  "العربية": "غير مُعد",
+  "Tiếng Việt": "Chưa thiết lập"
+ },
+ "Allowed": {
+  "日本語": "許可",
+  "Español": "Permitido",
+  "Deutsch": "Erlaubt",
+  "Français": "Autorisé",
+  "한국어": "허용됨",
+  "中文": "已允许",
+  "العربية": "مسموح",
+  "Tiếng Việt": "Được phép"
+ },
+ "Remove the model?": {
+  "日本語": "モデルを削除しますか?",
+  "Español": "¿Quitar el modelo?",
+  "Deutsch": "Modell entfernen?",
+  "Français": "Retirer le modèle ?",
+  "한국어": "모델을 제거할까요?",
+  "中文": "移除此模型？",
+  "العربية": "إزالة النموذج؟",
+  "Tiếng Việt": "Gỡ mô hình?"
  }
 }

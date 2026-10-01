@@ -8,6 +8,7 @@
     --pack-essentials: var(--emphasis);
     --pack-classic: var(--second-text);
     --pack-magic: color-mix(in srgb, var(--emphasis) 50%, var(--second-text));
+    --pack-saved: color-mix(in srgb, var(--emphasis) 35%, var(--text-strong));
     display: flex; flex-direction: column; gap: var(--section-gap);
     flex: 1 1 auto; min-height: 0;
 }
@@ -82,6 +83,7 @@
 /* -------------------------------------------------------------- tiles -- */
 
 .pv-tile {
+    position: relative;
     padding: 6px;
     display: flex; flex-direction: column; gap: 6px;
     cursor: pointer;
@@ -134,3 +136,162 @@
 }
 .pv-sub { display: flex; gap: 6px; }
 .pv-dur { margin-left: auto; font-family: var(--font-mono); }
+
+/* A tile's heart and edit buttons, over its viewer's corner: shown on hover
+   or focus - a heart that's on always shows. */
+.pv-acts {
+    position: absolute; top: 10px; right: 10px;
+    display: flex; gap: 4px;
+}
+.pv-act {
+    width: 24px; height: 24px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--r-full);
+    border: var(--bw) solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-dim);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .15s, color .15s;
+}
+.pv-act svg { width: 13px; height: 13px; }
+.pv-tile:hover .pv-act, .pv-tile:focus-within .pv-act, .pv-act[aria-pressed="true"] { opacity: 1; }
+.pv-act:hover { color: var(--text-strong); }
+.pv-act.heart[aria-pressed="true"] { color: var(--emphasis); }
+.pv-act.heart[aria-pressed="true"] svg { fill: currentColor; }
+
+/* ------------------------------------------------------------- Editor -- */
+
+.ed { display: flex; flex-direction: column; gap: var(--section-gap); }
+.ed-head {
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 14px;
+    padding: var(--card-pad);
+}
+.ed-field { display: flex; flex-direction: column; gap: 4px; }
+.ed-field #ed-base { min-width: 200px; }
+.ed-name .field { width: 180px; }
+.ed-dur { display: inline-flex; align-items: center; gap: 6px; }
+.ed-dur .field { width: 74px; }
+.ed-save { flex-wrap: wrap; }
+
+.ed-main {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: var(--section-gap);
+    align-items: start;
+}
+.ed-view { padding: var(--card-pad); display: flex; flex-direction: column; gap: 10px; }
+.ed-stage { width: 100%; }
+.ed-transport { gap: 10px; }
+.ed-time { font-family: var(--font-mono); }
+.ed-try { display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+          padding-top: 10px; border-top: var(--bw) solid var(--card-border); }
+.ed-try .pv-sel { justify-content: flex-start; max-width: none; }
+.ed-note { margin: 0; }
+
+.ed-graph-card { padding: var(--card-pad); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ed-tools { flex-wrap: wrap; gap: 6px; }
+.ed-tools .segmented button { padding: 4px 10px; }
+/* The playhead's frame, beside the channels: figures of one width, so it doesn't jitter. */
+.ed-frame { font-family: var(--font-mono); font-size: var(--fs-sm); font-variant-numeric: tabular-nums;
+            color: var(--text-strong); white-space: nowrap; margin-left: 6px; }
+.ed-graph-wrap { position: relative; height: 340px; min-width: 0; }
+.ed-graph {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    display: block;
+    background: var(--field-bg);
+    border: var(--bw) solid color-mix(in srgb, var(--field-border) 45%, transparent);
+    border-radius: var(--r-md);
+    touch-action: none;
+    user-select: none;
+    cursor: crosshair;
+}
+.ed-graph:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.ed-hint { margin: 0; }
+
+/* The graph's parts. A channel's colour comes in as --ch. */
+.ed-grid { stroke: var(--text-dim); stroke-width: 1; opacity: .14; }
+.ed-axis { fill: var(--text-dim); font-size: var(--fs-xs); font-family: var(--font-mono); }
+.ed-rest { stroke: var(--text-dim); stroke-width: 1; stroke-dasharray: 3 4; opacity: .55; }
+.ed-move { fill: var(--text-dim); opacity: .06; }
+.ed-curve { fill: none; stroke: var(--ch); stroke-width: 2.25; pointer-events: none; }
+/* A channel not shown: its own colour, muted and faint, behind. */
+.ed-ghost { fill: none; stroke: color-mix(in srgb, var(--ch) 55%, var(--text-dim)); stroke-width: 1.5; opacity: .45; pointer-events: none; }
+/* Another channel shown beside the one being edited: its own colour, under it. */
+.ed-curve.other { stroke-width: 1.75; opacity: .8; pointer-events: none; }
+.ed-key.other { stroke-width: 1.75; cursor: pointer; }
+/* A wide, unseen line along a shown channel's curve: a press on it edits that channel. */
+.ed-hit { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; cursor: pointer; }
+/* Where a dragged key snapped to another channel's key. */
+.ed-snap { stroke: var(--text-strong); stroke-width: 1; stroke-dasharray: 2 3; opacity: .75; pointer-events: none; }
+.ed-axis.ed-value { fill: var(--ch); opacity: .9; }
+.ed-key { fill: var(--field-bg); stroke: var(--ch); stroke-width: 2; cursor: grab; }
+.ed-key.sel { fill: var(--ch); }
+.ed-arm { stroke: var(--ch); stroke-width: 1; opacity: .7; }
+.ed-hand { fill: var(--field-bg); stroke: var(--ch); stroke-width: 1.5; cursor: grab; }
+.ed-head-line { stroke: var(--text-strong); stroke-width: 1.5; opacity: .8; pointer-events: none; }
+/* The time bar along the top: the one place that moves the playhead. */
+.ed-bar { fill: var(--raised-bg); stroke: color-mix(in srgb, var(--field-border) 45%, transparent); cursor: ew-resize; }
+.ed-tick { stroke: var(--text-dim); stroke-width: 1; opacity: .5; pointer-events: none; }
+.ed-bar-label { pointer-events: none; }
+.ed-head-knob { fill: var(--text-strong); pointer-events: none; }
+/* The part of the curve the kind leaves out. */
+.ed-unused { fill: var(--field-bg); opacity: .75; pointer-events: none; }
+/* The box dragged around keys to select them. */
+.ed-box { fill: color-mix(in srgb, var(--accent-text) 12%, transparent); stroke: var(--accent-text);
+          stroke-width: 1; stroke-dasharray: 4 3; pointer-events: none; }
+.ed-kind-note { margin: 0; }
+
+/* The selected keys' menu: a small bar of icons beside them, over the graph. */
+.ed-keymenu {
+    position: absolute; z-index: 3;
+    display: flex; align-items: center; gap: 1px;
+    padding: 3px;
+    background: var(--pop-bg);
+    border: var(--bw) solid var(--pop-border);
+    border-radius: var(--r-md);
+    box-shadow: var(--pop-shadow);
+    backdrop-filter: var(--pop-blur);
+}
+.ed-km-btn {
+    width: 26px; height: 26px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 0; border-radius: var(--r-sm);
+    background: transparent; color: var(--text);
+    cursor: pointer;
+}
+.ed-km-btn svg { width: 15px; height: 15px; }
+.ed-km-btn:hover:not(:disabled) { background: var(--pop-hover-bg); color: var(--pop-hover-fg); }
+.ed-km-btn:disabled { opacity: .35; cursor: default; }
+.ed-km-sep { width: 1px; align-self: stretch; margin: 4px 3px; background: var(--pop-border); }
+/* Its grip: drag to move it, double-click to put it back by the keys. */
+.ed-km-grip {
+    width: 14px; height: 26px; margin-right: 2px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+    border-radius: var(--r-sm);
+    cursor: grab; touch-action: none;
+}
+.ed-km-grip svg { width: 14px; height: 14px; }
+.ed-km-grip:hover { color: var(--text-strong); background: var(--pop-hover-bg); }
+.ed-keymenu.moving, .ed-keymenu.moving .ed-km-grip { cursor: grabbing; }
+.ed-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ch); display: inline-block; margin-right: 6px; }
+.ed-still { opacity: .55; }
+/* The channel being edited, of the ones shown: a ring round its dot. */
+#ed-channels .ed-editing .ed-dot { box-shadow: 0 0 0 2px var(--field-bg), 0 0 0 3.5px var(--ch); }
+#ed-channels button[aria-pressed="false"] .ed-dot { opacity: .45; }
+
+/* Each channel's colour: vivid and apart, to tell them apart drawn over
+   each other. A colour picked by right-clicking a channel is set inline. */
+.ed {
+    --ch-x: #ff5a5f;
+    --ch-y: #3ddc84;
+    --ch-r: #ffb21e;
+    --ch-s: #3ea6ff;
+    --ch-o: #d07bff;
+    --ch: var(--ch-s); }      /* the channel being drawn: set per curve and per button */
+
+@media (max-width: 860px) {
+    .ed-main { grid-template-columns: 1fr; }
+    .ed-view { max-width: 420px; }
+}

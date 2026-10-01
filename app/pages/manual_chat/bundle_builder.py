@@ -25,9 +25,10 @@ Pipeline, one pass per stage:
                page that actually explains clip resolution.
   3. Chunk     Paragraphs packed up to MAX_CHARS within one chapter, cut at
                headings once a chunk is big enough, cited by start page.
-  4. Embed     Local Ollama, embeddinggemma, document-side prefix. Optional:
-               without Ollama the bundle is written keyword-only and Buddy
-               runs at the bundle-bm25 tier.
+  4. Embed     The embedder Settings chose (embedder.py) - Buddy's own
+               EmbeddingGemma, Ollama's or another server's - with the
+               document-side prefix. Optional: without one the bundle is
+               written keyword-only and Buddy runs at the bundle-bm25 tier.
   5. Write     Into a sibling "<name>.building" dir, then swapped in, so a
                cancelled or failed build never leaves Buddy a half bundle.
 
@@ -47,23 +48,13 @@ import struct
 import sys
 import time
 import unicodedata
-import urllib.error
-import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
 
-try:
-    from .retrieval import (
-        BUNDLE_CHUNKS, BUNDLE_VECTORS, EMBED_MODEL, OLLAMA_HOST, VECTOR_MAGIC,
-    )
-except ImportError:  # run as a plain script, no package context
-    from retrieval import (  # type: ignore[no-redef]
-        BUNDLE_CHUNKS, BUNDLE_VECTORS, EMBED_MODEL, OLLAMA_HOST, VECTOR_MAGIC,
-    )
+from .retrieval import BUNDLE_CHUNKS, BUNDLE_VECTORS, DOC_PREFIX, VECTOR_MAGIC
 
-DOC_PREFIX = "title: {title} | text: "
 FULL_DIM = 768
 MRL_DIM = 512
 
@@ -78,9 +69,6 @@ MIN_CHARS = 350        # below this a heading doesn't start a new chunk
 EXTRACT_BATCH = 40     # pages per pymupdf4llm call - also the cancel grain
 EMBED_BATCH = 64       # measured: 64 is ~30% faster than 16, 1.3 min total
 EMBED_TIMEOUT = 300
-
-OLLAMA_EMBED_URL = f"{OLLAMA_HOST}/api/embed"
-OLLAMA_TAGS_URL = f"{OLLAMA_HOST}/api/tags"
 
 LICENSE_NOTE = (
     "Bundle contains text extracted from the DaVinci Resolve Reference "
@@ -153,19 +141,6 @@ def install_hint() -> str:
 
     python = running_python_exe() or sys.executable
     return f'"{python}" -s -m pip install pymupdf pymupdf4llm'
-
-
-def ollama_status() -> tuple[bool, bool]:
-    """(Ollama reachable, embeddinggemma pulled). Asks /api/tags, which
-    needs no inference, so a cold model doesn't read as a missing one."""
-    try:
-        with urllib.request.urlopen(OLLAMA_TAGS_URL, timeout=3) as resp:
-            models = json.load(resp).get("models") or []
-    except (urllib.error.URLError, OSError, ValueError, TimeoutError):
-        return False, False
-    return True, any(
-        (m.get("name") or "").startswith(EMBED_MODEL) for m in models
-    )
 
 
 def _open_pdf(path: Path):
@@ -393,21 +368,11 @@ def chunk_pages(pages: list[dict]) -> tuple[list[dict], dict]:
 # ------------------------------------------------------------- embedding
 
 
-def _embed(texts: list[str]) -> list[list[float]]:
-    body = json.dumps({"model": EMBED_MODEL, "input": texts}).encode("utf-8")
-    req = urllib.request.Request(
-        OLLAMA_EMBED_URL, data=body, headers={"Content-Type": "application/json"}
-    )
+def _embed(embedder, texts: list[str]) -> list[list[float]]:
     try:
-        with urllib.request.urlopen(req, timeout=EMBED_TIMEOUT) as resp:
-            vecs = json.load(resp).get("embeddings") or []
-    except (urllib.error.URLError, OSError, ValueError, TimeoutError) as exc:
-        raise BuildError(f"Ollama stopped answering mid-build: {exc}") from exc
-    if len(vecs) != len(texts):
-        raise BuildError(
-            f"Ollama returned {len(vecs)} embeddings for {len(texts)} chunks."
-        )
-    return vecs
+        return embedder.embed(texts, timeout=EMBED_TIMEOUT)
+    except Exception as exc:  # noqa: BLE001 - EmbedError, or a server's own
+        raise BuildError(f"{embedder.label} stopped answering mid-build: {exc}") from exc
 
 
 def quantize(vec: list[float]) -> tuple[float, bytes]:
@@ -422,7 +387,7 @@ def quantize(vec: list[float]) -> tuple[float, bytes]:
     return scale, q
 
 
-def _embed_all(chunks, progress: Progress, cancelled) -> bytes:
+def _embed_all(embedder, chunks, progress: Progress, cancelled) -> bytes:
     n = len(chunks)
     scales: list[float] = []
     rows: list[bytes] = []
@@ -434,10 +399,10 @@ def _embed_all(chunks, progress: Progress, cancelled) -> bytes:
             DOC_PREFIX.format(title=c["chapter_title"] or "none") + c["text"]
             for c in batch
         ]
-        for vec in _embed(texts):
+        for vec in _embed(embedder, texts):
             if len(vec) < MRL_DIM:
                 raise BuildError(
-                    f"{EMBED_MODEL} returned {len(vec)}-dim vectors; the "
+                    f"{embedder.label} returned {len(vec)}-dim vectors; the "
                     f"bundle format needs at least {MRL_DIM}."
                 )
             s, q = quantize(vec)
@@ -466,11 +431,14 @@ def build_bundle(
     progress: Progress | None = None,
     cancelled: Callable[[], bool] | None = None,
     require_vectors: bool = False,
+    embedder=None,
 ) -> BuildResult:
     """Build a bundle from pdf_path into out_dir, replacing what is there.
 
     The previous bundle is kept as "<out_dir>.previous" (one generation) so
     a bad manual extraction can be rolled back by renaming a folder.
+    embedder: what makes the vectors (embedder.py) - by default the
+    automatic choice: Buddy's own model once set up, else Ollama.
     """
     t0 = time.time()
     pdf_path = Path(pdf_path)
@@ -493,18 +461,16 @@ def build_bundle(
             "headings or tables. Install it for better chunks: "
             + install_hint()
         )
-    reachable, has_model = ollama_status()
-    embed = reachable and has_model
+    if embedder is None:
+        from .embedder import from_settings
+        embedder = from_settings({})
+    embed, why = embedder.ready() if embedder is not None else (False, "Semantic search is off in Settings.")
     if not embed:
-        why = (
-            "Ollama is not running" if not reachable
-            else f"Ollama has no {EMBED_MODEL} model (ollama pull {EMBED_MODEL})"
-        )
         if require_vectors:
-            raise BuildError(f"{why}, and vectors were required.")
+            raise BuildError(f"{why} Vectors were required, so nothing was built.")
         warnings.append(
-            f"{why}: built a keyword-only bundle. Rebuild with it running "
-            "for semantic search."
+            f"{why} Built a keyword-only bundle – rebuild once semantic "
+            "search is set up."
         )
 
     doc = _open_pdf(pdf_path)
@@ -524,7 +490,7 @@ def build_bundle(
         if not chunks:
             raise BuildError(f"No text could be extracted from {pdf_path.name}.")
 
-        vectors = _embed_all(chunks, progress, cancelled) if embed else None
+        vectors = _embed_all(embedder, chunks, progress, cancelled) if embed else None
 
         if cancelled():
             raise BuildCancelled()
@@ -541,7 +507,7 @@ def build_bundle(
         if vectors is not None:
             (staging / BUNDLE_VECTORS).write_bytes(vectors)
         meta = {
-            "model": EMBED_MODEL if vectors is not None else None,
+            "model": embedder.model_name if vectors is not None else None,
             "vector": (
                 {"full_dim": FULL_DIM, "mrl_dim": MRL_DIM, "dtype": "int8"}
                 if vectors is not None else None

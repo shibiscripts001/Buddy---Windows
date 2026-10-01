@@ -2,7 +2,7 @@
 """
 "Rebuild from PDF..." - drop in a new Reference Manual, press Build.
 
-Opened from Settings > Ask Buddy, so it is modal over a window that is
+Opened from Settings > AI > Manual search, so it is modal over a window that is
 itself modal (the Settings window runs under exec()). The build takes
 minutes, so it runs on a QThread and the window only ever renders what the
 worker's signals carry - bundle_builder has no Qt in it.
@@ -42,6 +42,14 @@ STAGE_SPAN = {
     "embed": (80, 98),
     "write": (98, 100),
 }
+# Buddy's own embedding model runs on the CPU: ~9 min for the full manual,
+# longer than the reading.
+CPU_STAGE_SPAN = {
+    "extract": (0, 38),
+    "chunk": (38, 40),
+    "embed": (40, 98),
+    "write": (98, 100),
+}
 
 
 class _BuildWorker(QThread):
@@ -50,10 +58,11 @@ class _BuildWorker(QThread):
     failed = Signal(str)
     was_cancelled = Signal()
 
-    def __init__(self, pdf_path: Path, out_dir: Path):
+    def __init__(self, pdf_path: Path, out_dir: Path, embedder=None):
         super().__init__()
         self.pdf_path = pdf_path
         self.out_dir = out_dir
+        self.embedder = embedder
         self._cancel = False
 
     def cancel(self):
@@ -66,6 +75,7 @@ class _BuildWorker(QThread):
                 self.out_dir,
                 progress=lambda *a: self.progressed.emit(*a),
                 cancelled=lambda: self._cancel,
+                embedder=self.embedder,
             )
         except bb.BuildCancelled:
             self.was_cancelled.emit()
@@ -77,12 +87,12 @@ class _BuildWorker(QThread):
             self.succeeded.emit(result)
 
 
-def checks():
+def checks(embedder):
     """What will happen, said before Build is pressed rather than after:
     ([{tone: ok|bad, text, code}], can_build). Missing PyMuPDF blocks the
-    build; missing Ollama only downgrades it."""
+    build; no embedder ready only downgrades it."""
     has_fitz, has_llm = bb.pymupdf_status()
-    reachable, has_model = bb.ollama_status()
+    ready, why = embedder.ready() if embedder is not None else (False, "Semantic search is off in Settings.")
     rows = []
     if not has_fitz:
         rows.append({"tone": "bad", "text": "✗ PyMuPDF is not installed. Run:", "code": bb.install_hint()})
@@ -91,13 +101,11 @@ def checks():
                                             "tables. Run:", "code": bb.install_hint()})
     else:
         rows.append({"tone": "ok", "text": "✓ PDF reader ready."})
-    if reachable and has_model:
-        rows.append({"tone": "ok", "text": f"✓ Ollama with {bb.EMBED_MODEL} – semantic search will be built."})
+    if ready:
+        rows.append({"tone": "ok", "text": f"✓ {embedder.label} – semantic search will be built."})
     else:
-        why = ("Ollama is not running" if not reachable
-               else f"Ollama has no {bb.EMBED_MODEL} (run: ollama pull {bb.EMBED_MODEL})")
-        rows.append({"tone": "bad", "text": f"⚠ {why} – the bundle will be keyword-only. Start it and reopen this "
-                                            "window for semantic search."})
+        rows.append({"tone": "bad", "text": f"⚠ {why} The bundle will be keyword-only – set up semantic search "
+                                            "in Settings > AI > Manual search for it."})
     return rows, has_fitz
 
 
@@ -110,14 +118,15 @@ class ManualBuildDialog(WebDialog):
 
     built = Signal(object)
 
-    def __init__(self, parent, out_dir: Path):
+    def __init__(self, parent, out_dir: Path, embedder=None):
         self.out_dir = Path(out_dir)
+        self.embedder = embedder
         self.pdf_path: Path | None = None
         self.worker: _BuildWorker | None = None
         self._closing = False
         self._progress = None
         self._status = ""
-        self._checks, self._can_build = checks()
+        self._checks, self._can_build = checks(embedder)
         super().__init__(_theme_host(parent), parent, "Rebuild the manual bundle", (600, 560))
 
     def web_ready(self):
@@ -162,7 +171,7 @@ class ManualBuildDialog(WebDialog):
     def on_start(self, _payload=None):
         if not self.pdf_path or self.worker is not None or not self._can_build:
             return
-        self.worker = _BuildWorker(self.pdf_path, self.out_dir)
+        self.worker = _BuildWorker(self.pdf_path, self.out_dir, self.embedder)
         self.worker.progressed.connect(self._on_progress)
         self.worker.succeeded.connect(self._on_succeeded)
         self.worker.failed.connect(self._on_failed)
@@ -173,7 +182,8 @@ class ManualBuildDialog(WebDialog):
         self.worker.start()
 
     def _on_progress(self, stage, done, total, message):
-        lo, hi = STAGE_SPAN.get(stage, (0, 100))
+        spans = CPU_STAGE_SPAN if getattr(self.embedder, "backend", "") == "buddy" else STAGE_SPAN
+        lo, hi = spans.get(stage, (0, 100))
         frac = (done / total) if total else 0
         self._progress, self._status = int(lo + (hi - lo) * frac), message
         self._push()

@@ -1233,8 +1233,13 @@ class TextPlusTools(QObject):
                     self.log(log_msg)
             else:
                 clip_name = clip.GetName() if callable(getattr(clip, "GetName", None)) else "Clip"
-                preset, speed, direction = value if isinstance(value, tuple) else (value, None, None)
-                success = self._apply_animation_to_tool(text_tool, comp, clip_name, preset, speed=speed, direction=direction)
+                if isinstance(value, tuple):
+                    preset, speed, direction = value[:3]
+                    fps = value[3] if len(value) > 3 else 24.0
+                else:
+                    preset, speed, direction, fps = value, None, None, 24.0
+                success = self._apply_animation_to_tool(text_tool, comp, clip_name, preset,
+                                                        speed=speed, direction=direction, fps=fps)
             if success and action.clip_key is not None:
                 self._anim_preset_by_clip_key[action.clip_key] = value
             return success
@@ -1411,21 +1416,28 @@ class TextPlusTools(QObject):
         return clips, desc
 
     def _apply_animation_to_tool(self, text_tool, comp, clip_name: str, preset_choice: str,
-                                 speed: Optional[str] = None, direction: Optional[str] = None) -> bool:
+                                 speed: Optional[str] = None, direction: Optional[str] = None,
+                                 fps: float = 24.0) -> bool:
         if speed is None:
             speed = self.opts.anim_speed
         if direction is None:
             direction = self.opts.anim_direction
+        try:
+            start_frame = float((comp.GetAttrs() or {}).get("COMPN_RenderStart", 0))
+        except (AttributeError, TypeError, ValueError):
+            start_frame = 0
         FusionAnimationEngine.remove_animations_from_clip(text_tool, comp)
         if preset_choice in FusionAnimationEngine.LETTER_PRESETS:   # before "Pop": "Letter Pop" has it too
             success, preset_logs = FusionAnimationEngine.apply_letter_preset_to_clip(
-                text_tool, comp, preset_choice, speed=speed)
+                text_tool, comp, preset_choice, speed=speed, start_frame=start_frame, fps=fps)
         elif "Bounce" in preset_choice:
-            duration = FusionAnimationEngine.scaled_duration(20, speed)
-            success, preset_logs = FusionAnimationEngine.apply_bounce_preset_to_clip(text_tool, comp, duration=duration)
+            duration = FusionAnimationEngine.scaled_duration(20, speed, fps)
+            success, preset_logs = FusionAnimationEngine.apply_bounce_preset_to_clip(
+                text_tool, comp, start_frame=start_frame, duration=duration)
         elif "Pop" in preset_choice:
-            duration = FusionAnimationEngine.scaled_duration(15, speed)
-            success, preset_logs = FusionAnimationEngine.apply_pop_preset_to_clip(text_tool, comp, duration=duration)
+            duration = FusionAnimationEngine.scaled_duration(15, speed, fps)
+            success, preset_logs = FusionAnimationEngine.apply_pop_preset_to_clip(
+                text_tool, comp, start_frame=start_frame, duration=duration)
         elif "Slide" in preset_choice:
             target_center = self.current_fusion_pos
             if hasattr(text_tool, "GetInput"):
@@ -1435,12 +1447,14 @@ class TextPlusTools(QObject):
                     existing_center = None
                 if existing_center is not None:
                     target_center = existing_center
-            duration = FusionAnimationEngine.scaled_duration(15, speed)
+            duration = FusionAnimationEngine.scaled_duration(15, speed, fps)
             success, preset_logs = FusionAnimationEngine.apply_slide_preset_to_clip(
-                text_tool, comp, target_center=target_center, direction=direction, duration=duration)
+                text_tool, comp, target_center=target_center, direction=direction,
+                start_frame=start_frame, duration=duration)
         else:
-            duration = FusionAnimationEngine.scaled_duration(15, speed)
-            success, preset_logs = FusionAnimationEngine.apply_fade_preset_to_clip(text_tool, comp, duration=duration)
+            duration = FusionAnimationEngine.scaled_duration(15, speed, fps)
+            success, preset_logs = FusionAnimationEngine.apply_fade_preset_to_clip(
+                text_tool, comp, start_frame=start_frame, duration=duration)
         for log_msg in preset_logs:
             self.log(log_msg)
         if not success:
@@ -1467,6 +1481,12 @@ class TextPlusTools(QObject):
             timeline = self._timeline_or_log(resolve)
             if timeline is None:
                 return
+            try:
+                fps = float(timeline.GetSetting("timelineFrameRate"))
+                if fps <= 0:
+                    fps = 24.0
+            except Exception:
+                fps = 24.0
             preset_choice = self.opts.anim_preset
             self.log("[Action] Starting text animation…")
             found = self._scope_or_toast(timeline, scope, self.opts.track("anim_track"))
@@ -1495,9 +1515,14 @@ class TextPlusTools(QObject):
                     old_preset = self._anim_preset_by_clip_key.get(clip_key) if clip_key is not None else None
                     current_speed = self.opts.anim_speed
                     current_direction = self.opts.anim_direction
-                    new_preset_tuple = (preset_choice, current_speed, current_direction)
+                    try:
+                        clip_frames = int(clip.GetDuration() or 0)
+                    except Exception:
+                        clip_frames = 0
+                    comp_fps = FusionAnimationEngine.comp_fps(comp, clip_frames, fps)
+                    new_preset_tuple = (preset_choice, current_speed, current_direction, comp_fps)
                     if self._apply_animation_to_tool(text_tool, comp, clip_name, preset_choice,
-                                                     speed=current_speed, direction=current_direction):
+                                                     speed=current_speed, direction=current_direction, fps=comp_fps):
                         count += 1
                         if clip_key is not None:
                             self._anim_preset_by_clip_key[clip_key] = new_preset_tuple

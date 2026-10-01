@@ -11,14 +11,26 @@
     <script src="../../buddy.js"></script>
 </head>
 <body class="window">
-<main class="dialog">
-    <div class="dialog-body form" id="form"></div>
-    <div class="dialog-foot">
-        <button type="button" class="btn" id="reset">Reset to default</button>
-        <span class="form-status" id="status" role="status"></span>
-        <div class="spacer"></div>
-        <button type="button" class="btn accent" id="close">Close</button>
-    </div>
+<main class="settings">
+    <nav class="set-rail" id="rail" aria-label="Settings sections"></nav>
+    <aside class="set-nav">
+        <input type="search" class="field set-search" id="search" placeholder="Search settings"
+               autocomplete="off" spellcheck="false" aria-label="Search settings">
+        <div class="set-group-name" id="group-name"></div>
+        <div class="set-pages" id="pages" role="list"></div>
+    </aside>
+    <section class="set-main">
+        <header class="set-head">
+            <h1 class="set-title" id="title"></h1>
+            <p class="set-subtitle" id="subtitle"></p>
+        </header>
+        <div class="set-body form" id="form"></div>
+        <div class="dialog-foot">
+            <span class="form-status" id="status" role="status"></span>
+            <div class="spacer"></div>
+            <button type="button" class="btn accent" id="close">Close</button>
+        </div>
+    </section>
 </main>
 <script src="settings.js"></script>
 </body>

@@ -1011,7 +1011,7 @@
   "Tiếng Việt": "Phi"
  },
  "General": {
-  "日本語": "汎用",
+  "日本語": "一般",
   "Español": "General",
   "Deutsch": "Allgemein",
   "Français": "Général",
@@ -2429,5 +2429,755 @@
   "中文": "已更新 {n} 个片段的构图。",
   "العربية": "حُدِّث التأطير في {n} مقاطع.",
   "Tiếng Việt": "Đã cập nhật khung hình cho {n} clip."
+ },
+ "Editor": {
+  "日本語": "エディター",
+  "Español": "Editor",
+  "Deutsch": "Editor",
+  "Français": "Éditeur",
+  "한국어": "편집기",
+  "中文": "编辑器",
+  "العربية": "المحرر",
+  "Tiếng Việt": "Trình chỉnh sửa"
+ },
+ "Favorites": {
+  "日本語": "お気に入り",
+  "Español": "Favoritos",
+  "Deutsch": "Favoriten",
+  "Français": "Favoris",
+  "한국어": "즐겨찾기",
+  "中文": "收藏",
+  "العربية": "المفضلة",
+  "Tiếng Việt": "Yêu thích"
+ },
+ "Open in the Editor": {
+  "日本語": "エディターで開く",
+  "Español": "Abrir en el Editor",
+  "Deutsch": "Im Editor öffnen",
+  "Français": "Ouvrir dans l'Éditeur",
+  "한국어": "편집기에서 열기",
+  "中文": "在编辑器中打开",
+  "العربية": "فتح في المحرر",
+  "Tiếng Việt": "Mở trong Trình chỉnh sửa"
+ },
+ "Add to Favorites": {
+  "日本語": "お気に入りに追加",
+  "Español": "Añadir a Favoritos",
+  "Deutsch": "Zu Favoriten hinzufügen",
+  "Français": "Ajouter aux Favoris",
+  "한국어": "즐겨찾기에 추가",
+  "中文": "加入收藏",
+  "العربية": "إضافة إلى المفضلة",
+  "Tiếng Việt": "Thêm vào Yêu thích"
+ },
+ "Take it out of Favorites": {
+  "日本語": "お気に入りから外す",
+  "Español": "Quitar de Favoritos",
+  "Deutsch": "Aus Favoriten entfernen",
+  "Français": "Retirer des Favoris",
+  "한국어": "즐겨찾기에서 빼기",
+  "中文": "从收藏中移除",
+  "العربية": "إزالة من المفضلة",
+  "Tiếng Việt": "Bỏ khỏi Yêu thích"
+ },
+ "No favorites yet": {
+  "日本語": "お気に入りはまだありません",
+  "Español": "Aún no hay favoritos",
+  "Deutsch": "Noch keine Favoriten",
+  "Français": "Pas encore de favoris",
+  "한국어": "아직 즐겨찾기가 없습니다",
+  "中文": "还没有收藏",
+  "العربية": "لا توجد مفضلة بعد",
+  "Tiếng Việt": "Chưa có mục yêu thích"
+ },
+ "Heart a preset on Previews and it's kept here.": {
+  "日本語": "プレビューでプリセットにハートを付けると、ここに残ります。",
+  "Español": "Marca una plantilla con el corazón en Vistas previas y se guardará aquí.",
+  "Deutsch": "Markiere eine Vorlage in der Vorschau mit dem Herz, dann findest du sie hier.",
+  "Français": "Ajoutez un cœur à un préréglage dans Aperçus et il est gardé ici.",
+  "한국어": "미리보기에서 프리셋에 하트를 누르면 여기에 보관됩니다.",
+  "中文": "在预览中给预设点亮爱心，它就会保存在这里。",
+  "العربية": "ضع قلبًا على إعداد مسبق في المعاينات وسيُحفظ هنا.",
+  "Tiếng Việt": "Thả tim cho một mẫu ở Xem trước và nó sẽ được giữ ở đây."
+ },
+ "Your presets": {
+  "日本語": "あなたのプリセット",
+  "Español": "Tus plantillas",
+  "Deutsch": "Deine Vorlagen",
+  "Français": "Vos préréglages",
+  "한국어": "내 프리셋",
+  "中文": "你的预设",
+  "العربية": "إعداداتك المسبقة",
+  "Tiếng Việt": "Mẫu của bạn"
+ },
+ "Preset": {
+  "日本語": "プリセット",
+  "Español": "Plantilla",
+  "Deutsch": "Vorlage",
+  "Français": "Préréglage",
+  "한국어": "프리셋",
+  "中文": "预设",
+  "العربية": "إعداد مسبق",
+  "Tiếng Việt": "Mẫu"
+ },
+ "Kind": {
+  "日本語": "種類",
+  "Español": "Tipo",
+  "Deutsch": "Art",
+  "Français": "Type",
+  "한국어": "종류",
+  "中文": "类型",
+  "العربية": "النوع",
+  "Tiếng Việt": "Loại"
+ },
+ "Length": {
+  "日本語": "長さ",
+  "Español": "Duración",
+  "Deutsch": "Länge",
+  "Français": "Durée",
+  "한국어": "길이",
+  "中文": "时长",
+  "العربية": "المدة",
+  "Tiếng Việt": "Độ dài"
+ },
+ "Revert": {
+  "日本語": "元に戻す",
+  "Español": "Revertir",
+  "Deutsch": "Zurücksetzen",
+  "Français": "Rétablir",
+  "한국어": "되돌리기",
+  "中文": "还原",
+  "العربية": "استعادة",
+  "Tiếng Việt": "Hoàn tác thay đổi"
+ },
+ "Save changes": {
+  "日本語": "変更を保存",
+  "Español": "Guardar cambios",
+  "Deutsch": "Änderungen speichern",
+  "Français": "Enregistrer les modifications",
+  "한국어": "변경 사항 저장",
+  "中文": "保存更改",
+  "العربية": "حفظ التغييرات",
+  "Tiếng Việt": "Lưu thay đổi"
+ },
+ "Save as preset": {
+  "日本語": "プリセットとして保存",
+  "Español": "Guardar como plantilla",
+  "Deutsch": "Als Vorlage speichern",
+  "Français": "Enregistrer comme préréglage",
+  "한국어": "프리셋으로 저장",
+  "中文": "另存为预设",
+  "العربية": "حفظ كإعداد مسبق",
+  "Tiếng Việt": "Lưu thành mẫu"
+ },
+ "Play or pause": {
+  "日本語": "再生／一時停止",
+  "Español": "Reproducir o pausar",
+  "Deutsch": "Abspielen oder pausieren",
+  "Français": "Lecture ou pause",
+  "한국어": "재생 또는 일시정지",
+  "中文": "播放或暂停",
+  "العربية": "تشغيل أو إيقاف مؤقت",
+  "Tiếng Việt": "Phát hoặc tạm dừng"
+ },
+ "Smooth": {
+  "日本語": "スムーズ",
+  "Español": "Suave",
+  "Deutsch": "Weich",
+  "Français": "Lisse",
+  "한국어": "부드럽게",
+  "中文": "平滑",
+  "العربية": "سلس",
+  "Tiếng Việt": "Mượt"
+ },
+ "Flat": {
+  "日本語": "フラット",
+  "Español": "Plano",
+  "Deutsch": "Flach",
+  "Français": "Plat",
+  "한국어": "평평하게",
+  "中文": "平直",
+  "العربية": "مستوٍ",
+  "Tiếng Việt": "Phẳng"
+ },
+ "Redo (Ctrl+Y)": {
+  "日本語": "やり直す (Ctrl+Y)",
+  "Español": "Rehacer (Ctrl+Y)",
+  "Deutsch": "Wiederholen (Strg+Y)",
+  "Français": "Rétablir (Ctrl+Y)",
+  "한국어": "다시 실행 (Ctrl+Y)",
+  "中文": "重做 (Ctrl+Y)",
+  "العربية": "إعادة (Ctrl+Y)",
+  "Tiếng Việt": "Làm lại (Ctrl+Y)"
+ },
+ "Position X": {
+  "日本語": "位置 X",
+  "Español": "Posición X",
+  "Deutsch": "Position X",
+  "Français": "Position X",
+  "한국어": "위치 X",
+  "中文": "位置 X",
+  "العربية": "الموضع X",
+  "Tiếng Việt": "Vị trí X"
+ },
+ "Position Y": {
+  "日本語": "位置 Y",
+  "Español": "Posición Y",
+  "Deutsch": "Position Y",
+  "Français": "Position Y",
+  "한국어": "위치 Y",
+  "中文": "位置 Y",
+  "العربية": "الموضع Y",
+  "Tiếng Việt": "Vị trí Y"
+ },
+ "Rotation": {
+  "日本語": "回転",
+  "Español": "Rotación",
+  "Deutsch": "Drehung",
+  "Français": "Rotation",
+  "한국어": "회전",
+  "中文": "旋转",
+  "العربية": "الدوران",
+  "Tiếng Việt": "Xoay"
+ },
+ "Scale": {
+  "日本語": "スケール",
+  "Español": "Escala",
+  "Deutsch": "Skalierung",
+  "Français": "Échelle",
+  "한국어": "크기",
+  "中文": "缩放",
+  "العربية": "الحجم",
+  "Tiếng Việt": "Tỉ lệ"
+ },
+ "Discard this edit?": {
+  "日本語": "この編集を破棄しますか？",
+  "Español": "¿Descartar esta edición?",
+  "Deutsch": "Diese Bearbeitung verwerfen?",
+  "Français": "Abandonner cette modification ?",
+  "한국어": "이 편집을 버릴까요?",
+  "中文": "放弃此编辑？",
+  "العربية": "تجاهل هذا التعديل؟",
+  "Tiếng Việt": "Bỏ chỉnh sửa này?"
+ },
+ "The changes to the curves haven't been saved.": {
+  "日本語": "カーブの変更は保存されていません。",
+  "Español": "Los cambios en las curvas no se han guardado.",
+  "Deutsch": "Die Änderungen an den Kurven wurden nicht gespeichert.",
+  "Français": "Les modifications des courbes n'ont pas été enregistrées.",
+  "한국어": "커브 변경 사항이 저장되지 않았습니다.",
+  "中文": "对曲线的更改尚未保存。",
+  "العربية": "لم تُحفظ التغييرات على المنحنيات.",
+  "Tiếng Việt": "Thay đổi đường cong chưa được lưu."
+ },
+ "Untitled": {
+  "日本語": "無題",
+  "Español": "Sin título",
+  "Deutsch": "Ohne Titel",
+  "Français": "Sans titre",
+  "한국어": "제목 없음",
+  "中文": "未命名",
+  "العربية": "بلا عنوان",
+  "Tiếng Việt": "Không tên"
+ },
+ "Reading the curves…": {
+  "日本語": "カーブを読み込み中…",
+  "Español": "Leyendo las curvas…",
+  "Deutsch": "Kurven werden gelesen…",
+  "Français": "Lecture des courbes…",
+  "한국어": "커브를 읽는 중…",
+  "中文": "正在读取曲线…",
+  "العربية": "جارٍ قراءة المنحنيات…",
+  "Tiếng Việt": "Đang đọc đường cong…"
+ },
+ "Preset to edit": {
+  "日本語": "編集するプリセット",
+  "Español": "Plantilla para editar",
+  "Deutsch": "Zu bearbeitende Vorlage",
+  "Français": "Préréglage à modifier",
+  "한국어": "편집할 프리셋",
+  "中文": "要编辑的预设",
+  "العربية": "الإعداد المسبق للتعديل",
+  "Tiếng Việt": "Mẫu cần chỉnh sửa"
+ },
+ "Spline editor": {
+  "日本語": "スプラインエディター",
+  "Español": "Editor de curvas",
+  "Deutsch": "Kurveneditor",
+  "Français": "Éditeur de courbes",
+  "한국어": "스플라인 편집기",
+  "中文": "样条编辑器",
+  "العربية": "محرر المنحنيات",
+  "Tiếng Việt": "Trình chỉnh đường cong"
+ },
+ "As it is now, saved or not, with the Put on and Speed chosen on Previews.": {
+  "日本語": "保存の有無にかかわらず今の状態で、プレビューで選んだ適用範囲と速度を使います。",
+  "Español": "Tal como está ahora, guardada o no, con el Aplicar en y la Velocidad elegidos en Vistas previas.",
+  "Deutsch": "So wie jetzt, gespeichert oder nicht, mit dem in der Vorschau gewählten Anwenden auf und Tempo.",
+  "Français": "Tel quel, enregistré ou non, avec l'Appliquer sur et la Vitesse choisis dans Aperçus.",
+  "한국어": "저장 여부와 관계없이 지금 상태로, 미리보기에서 고른 적용 위치와 속도로 적용합니다.",
+  "中文": "按当前状态（无论是否保存），使用在预览中选择的应用位置和速度。",
+  "العربية": "كما هو الآن، محفوظًا أو لا، مع موضع التطبيق والسرعة المختارين في المعاينات.",
+  "Tiếng Việt": "Đúng như hiện tại, đã lưu hay chưa, với vị trí áp dụng và tốc độ chọn ở Xem trước."
+ },
+ "Fit the curve to the graph": {
+  "日本語": "カーブをグラフに合わせる",
+  "Español": "Ajustar la curva al gráfico",
+  "Deutsch": "Kurve an das Diagramm anpassen",
+  "Français": "Ajuster la courbe au graphique",
+  "한국어": "커브를 그래프에 맞추기",
+  "中文": "让曲线适应图表",
+  "العربية": "ملاءمة المنحنى مع الرسم",
+  "Tiếng Việt": "Khớp đường cong với biểu đồ"
+ },
+ "{t_channel} doesn't move – drag its line to make it. Click to show or hide it, Ctrl-click to show it alone, right-click for its colour": {
+  "日本語": "{t_channel} は動きません – 線をドラッグすると動きます。クリックで表示／非表示、Ctrl キーを押しながらクリックでこれだけを表示、右クリックで色を選べます",
+  "Español": "{t_channel} no se mueve: arrastra su línea para que lo haga. Haz clic para mostrarlo u ocultarlo, Ctrl+clic para mostrar solo este, clic derecho para su color",
+  "Deutsch": "{t_channel} bewegt sich nicht – ziehe an seiner Linie, damit es das tut. Klicke, um ihn ein- oder auszublenden, Strg-Klick, um nur ihn zu zeigen, Rechtsklick für seine Farbe",
+  "Français": "{t_channel} ne bouge pas – faites glisser sa ligne pour qu'il bouge. Cliquez pour l'afficher ou le masquer, Ctrl-clic pour n'afficher que lui, clic droit pour sa couleur",
+  "한국어": "{t_channel}은(는) 움직이지 않습니다 – 선을 드래그하면 움직입니다. 클릭하면 표시하거나 숨기고, Ctrl을 누른 채 클릭하면 이것만 표시하며, 오른쪽 클릭으로 색을 고릅니다",
+  "中文": "{t_channel} 没有动画 – 拖动它的线让它动起来。点击显示或隐藏，按住 Ctrl 点击只显示它，右键点击选择它的颜色",
+  "العربية": "{t_channel} لا يتحرك – اسحب خطه ليتحرك. انقر لإظهاره أو إخفائه، وانقر مع Ctrl لإظهاره وحده، وانقر بزر الماوس الأيمن لاختيار لونه",
+  "Tiếng Việt": "{t_channel} không chuyển động – kéo đường của nó để làm nó chuyển động. Nhấp để hiện hoặc ẩn, Ctrl-nhấp để chỉ hiện kênh này, nhấp chuột phải để chọn màu"
+ },
+ "{t_channel}. Click to show or hide it, Ctrl-click to show it alone, right-click for its colour": {
+  "日本語": "{t_channel}。クリックで表示／非表示、Ctrl キーを押しながらクリックでこれだけを表示、右クリックで色を選べます",
+  "Español": "{t_channel}. Haz clic para mostrarlo u ocultarlo, Ctrl+clic para mostrar solo este, clic derecho para su color",
+  "Deutsch": "{t_channel}. Klicke, um ihn ein- oder auszublenden, Strg-Klick, um nur ihn zu zeigen, Rechtsklick für seine Farbe",
+  "Français": "{t_channel}. Cliquez pour l'afficher ou le masquer, Ctrl-clic pour n'afficher que lui, clic droit pour sa couleur",
+  "한국어": "{t_channel}. 클릭하면 표시하거나 숨기고, Ctrl을 누른 채 클릭하면 이것만 표시하며, 오른쪽 클릭으로 색을 고릅니다",
+  "中文": "{t_channel}。点击显示或隐藏，按住 Ctrl 点击只显示它，右键点击选择它的颜色",
+  "العربية": "{t_channel}. انقر لإظهاره أو إخفائه، وانقر مع Ctrl لإظهاره وحده، وانقر بزر الماوس الأيمن لاختيار لونه",
+  "Tiếng Việt": "{t_channel}. Nhấp để hiện hoặc ẩn, Ctrl-nhấp để chỉ hiện kênh này, nhấp chuột phải để chọn màu"
+ },
+ "Delete {name}?": {
+  "日本語": "{name} を削除しますか？",
+  "Español": "¿Eliminar {name}?",
+  "Deutsch": "{name} löschen?",
+  "Français": "Supprimer {name} ?",
+  "한국어": "{name}을(를) 삭제할까요?",
+  "中文": "删除 {name}？",
+  "العربية": "حذف {name}؟",
+  "Tiếng Việt": "Xóa {name}?"
+ },
+ "It goes from Previews and Favorites. Clips it's already on keep their move.": {
+  "日本語": "プレビューとお気に入りから消えます。すでに適用したクリップの動きはそのまま残ります。",
+  "Español": "Desaparece de Vistas previas y Favoritos. Los clips que ya la tienen conservan su movimiento.",
+  "Deutsch": "Sie verschwindet aus Vorschau und Favoriten. Clips, auf denen sie schon liegt, behalten ihre Bewegung.",
+  "Français": "Il disparaît des Aperçus et des Favoris. Les clips qui l'ont déjà gardent leur mouvement.",
+  "한국어": "미리보기와 즐겨찾기에서 사라집니다. 이미 적용된 클립은 움직임이 그대로 남습니다.",
+  "中文": "它会从预览和收藏中移除。已经应用它的片段会保留动画。",
+  "العربية": "سيختفي من المعاينات والمفضلة. المقاطع التي طُبّق عليها تحتفظ بحركتها.",
+  "Tiếng Việt": "Nó sẽ biến mất khỏi Xem trước và Yêu thích. Các clip đã áp dụng vẫn giữ chuyển động."
+ },
+ "Saved {name} to your presets.": {
+  "日本語": "{name} をあなたのプリセットに保存しました。",
+  "Español": "{name} se guardó en tus plantillas.",
+  "Deutsch": "{name} wurde in deinen Vorlagen gespeichert.",
+  "Français": "{name} a été enregistré dans vos préréglages.",
+  "한국어": "{name}을(를) 내 프리셋에 저장했습니다.",
+  "中文": "已将 {name} 保存到你的预设。",
+  "العربية": "حُفظ {name} في إعداداتك المسبقة.",
+  "Tiếng Việt": "Đã lưu {name} vào mẫu của bạn."
+ },
+ "Deleted {name}.": {
+  "日本語": "{name} を削除しました。",
+  "Español": "Se eliminó {name}.",
+  "Deutsch": "{name} wurde gelöscht.",
+  "Français": "{name} a été supprimé.",
+  "한국어": "{name}을(를) 삭제했습니다.",
+  "中文": "已删除 {name}。",
+  "العربية": "حُذف {name}.",
+  "Tiếng Việt": "Đã xóa {name}."
+ },
+ "That edit couldn't be read.": {
+  "日本語": "その編集を読み込めませんでした。",
+  "Español": "No se pudo leer esa edición.",
+  "Deutsch": "Diese Bearbeitung konnte nicht gelesen werden.",
+  "Français": "Cette modification n'a pas pu être lue.",
+  "한국어": "그 편집을 읽을 수 없습니다.",
+  "中文": "无法读取该编辑。",
+  "العربية": "تعذّرت قراءة هذا التعديل.",
+  "Tiếng Việt": "Không đọc được chỉnh sửa đó."
+ },
+ "There are {n} saved presets already – delete one first.": {
+  "日本語": "保存済みのプリセットがすでに {n} 個あります – 先にどれかを削除してください。",
+  "Español": "Ya hay {n} plantillas guardadas: elimina una primero.",
+  "Deutsch": "Es gibt schon {n} gespeicherte Vorlagen – lösche zuerst eine.",
+  "Français": "Il y a déjà {n} préréglages enregistrés – supprimez-en un d'abord.",
+  "한국어": "저장된 프리셋이 이미 {n}개 있습니다 – 먼저 하나를 삭제하세요.",
+  "中文": "已有 {n} 个保存的预设 – 请先删除一个。",
+  "العربية": "هناك {n} إعدادًا مسبقًا محفوظًا بالفعل – احذف واحدًا أولًا.",
+  "Tiếng Việt": "Đã có {n} mẫu được lưu – hãy xóa bớt một mẫu trước."
+ },
+ "Nothing moves at the start of this curve, so there's no In to play.": {
+  "日本語": "このカーブは始めに何も動かないので、再生するインがありません。",
+  "Español": "Nada se mueve al principio de esta curva, así que no hay Entrada que reproducir.",
+  "Deutsch": "Am Anfang dieser Kurve bewegt sich nichts, also gibt es keinen Eingang zum Abspielen.",
+  "Français": "Rien ne bouge au début de cette courbe, il n'y a donc pas d'Entrée à lire.",
+  "한국어": "이 커브는 시작 부분에서 움직이지 않으므로 재생할 인이 없습니다.",
+  "中文": "这条曲线开头没有任何运动，因此没有可播放的入场。",
+  "العربية": "لا شيء يتحرك في بداية هذا المنحنى، لذا لا يوجد دخول لتشغيله.",
+  "Tiếng Việt": "Không có gì chuyển động ở đầu đường cong này, nên không có phần Vào để phát."
+ },
+ "Nothing moves at the end of this curve, so there's no Out to play.": {
+  "日本語": "このカーブは終わりに何も動かないので、再生するアウトがありません。",
+  "Español": "Nada se mueve al final de esta curva, así que no hay Salida que reproducir.",
+  "Deutsch": "Am Ende dieser Kurve bewegt sich nichts, also gibt es keinen Ausgang zum Abspielen.",
+  "Français": "Rien ne bouge à la fin de cette courbe, il n'y a donc pas de Sortie à lire.",
+  "한국어": "이 커브는 끝부분에서 움직이지 않으므로 재생할 아웃이 없습니다.",
+  "中文": "这条曲线结尾没有任何运动，因此没有可播放的出场。",
+  "العربية": "لا شيء يتحرك في نهاية هذا المنحنى، لذا لا يوجد خروج لتشغيله.",
+  "Tiếng Việt": "Không có gì chuyển động ở cuối đường cong này, nên không có phần Ra để phát."
+ },
+ "Move to playhead": {
+  "日本語": "再生ヘッドへ移動",
+  "Español": "Mover al cabezal",
+  "Deutsch": "Zum Abspielkopf verschieben",
+  "Français": "Déplacer vers la tête de lecture",
+  "한국어": "재생 헤드로 이동",
+  "中文": "移到播放头",
+  "العربية": "النقل إلى رأس التشغيل",
+  "Tiếng Việt": "Chuyển đến đầu phát"
+ },
+ "Move start to playhead": {
+  "日本語": "始まりを再生ヘッドへ",
+  "Español": "Mover el inicio al cabezal",
+  "Deutsch": "Anfang zum Abspielkopf",
+  "Français": "Début sur la tête de lecture",
+  "한국어": "시작을 재생 헤드로",
+  "中文": "将开头移到播放头",
+  "العربية": "نقل البداية إلى رأس التشغيل",
+  "Tiếng Việt": "Đưa điểm đầu đến đầu phát"
+ },
+ "Move end to playhead": {
+  "日本語": "終わりを再生ヘッドへ",
+  "Español": "Mover el final al cabezal",
+  "Deutsch": "Ende zum Abspielkopf",
+  "Français": "Fin sur la tête de lecture",
+  "한국어": "끝을 재생 헤드로",
+  "中文": "将结尾移到播放头",
+  "العربية": "نقل النهاية إلى رأس التشغيل",
+  "Tiếng Việt": "Đưa điểm cuối đến đầu phát"
+ },
+ "Copy ease": {
+  "日本語": "イーズをコピー",
+  "Español": "Copiar suavizado",
+  "Deutsch": "Easing kopieren",
+  "Français": "Copier l'accélération",
+  "한국어": "이즈 복사",
+  "中文": "复制缓动",
+  "العربية": "نسخ التباطؤ",
+  "Tiếng Việt": "Sao chép độ êm"
+ },
+ "Paste ease": {
+  "日本語": "イーズを貼り付け",
+  "Español": "Pegar suavizado",
+  "Deutsch": "Easing einfügen",
+  "Français": "Coller l'accélération",
+  "한국어": "이즈 붙여넣기",
+  "中文": "粘贴缓动",
+  "العربية": "لصق التباطؤ",
+  "Tiếng Việt": "Dán độ êm"
+ },
+ "Copy a key's ease first": {
+  "日本語": "先にキーのイーズをコピーしてください",
+  "Español": "Primero copia el suavizado de una clave",
+  "Deutsch": "Kopiere zuerst das Easing eines Keys",
+  "Français": "Copiez d'abord l'accélération d'une clé",
+  "한국어": "먼저 키의 이즈를 복사하세요",
+  "中文": "请先复制一个关键帧的缓动",
+  "العربية": "انسخ تباطؤ مفتاح أولًا",
+  "Tiếng Việt": "Hãy sao chép độ êm của một khóa trước"
+ },
+ "Delete ease": {
+  "日本語": "イーズを削除",
+  "Español": "Eliminar suavizado",
+  "Deutsch": "Easing löschen",
+  "Français": "Supprimer l'accélération",
+  "한국어": "이즈 삭제",
+  "中文": "删除缓动",
+  "العربية": "حذف التباطؤ",
+  "Tiếng Việt": "Xóa độ êm"
+ },
+ "Delete keys": {
+  "日本語": "キーを削除",
+  "Español": "Eliminar claves",
+  "Deutsch": "Keys löschen",
+  "Français": "Supprimer les clés",
+  "한국어": "키 삭제",
+  "中文": "删除关键帧",
+  "العربية": "حذف المفاتيح",
+  "Tiếng Việt": "Xóa các khóa"
+ },
+ "Loop: repeat these keys to fill the space after them": {
+  "日本語": "ループ：これらのキーを繰り返して後ろの空きを埋める",
+  "Español": "Bucle: repite estas claves para llenar el espacio que sigue",
+  "Deutsch": "Schleife: diese Keys wiederholen, bis der Platz danach gefüllt ist",
+  "Français": "Boucle : répéter ces clés pour remplir l'espace qui suit",
+  "한국어": "반복: 이 키들을 반복해 뒤의 빈 공간을 채웁니다",
+  "中文": "循环：重复这些关键帧以填满其后的空间",
+  "العربية": "تكرار: كرّر هذه المفاتيح لملء المساحة التي بعدها",
+  "Tiếng Việt": "Lặp: lặp lại các khóa này để lấp khoảng trống phía sau"
+ },
+ "No room after these keys to repeat them": {
+  "日本語": "これらのキーの後ろに繰り返す余地がありません",
+  "Español": "No hay espacio después de estas claves para repetirlas",
+  "Deutsch": "Nach diesen Keys ist kein Platz, um sie zu wiederholen",
+  "Français": "Pas de place après ces clés pour les répéter",
+  "한국어": "이 키들 뒤에 반복할 공간이 없습니다",
+  "中文": "这些关键帧之后没有空间可重复",
+  "العربية": "لا مساحة بعد هذه المفاتيح لتكرارها",
+  "Tiếng Việt": "Không còn chỗ sau các khóa này để lặp lại"
+ },
+ "Reverse order": {
+  "日本語": "順序を反転",
+  "Español": "Invertir el orden",
+  "Deutsch": "Reihenfolge umkehren",
+  "Français": "Inverser l'ordre",
+  "한국어": "순서 뒤집기",
+  "中文": "反转顺序",
+  "العربية": "عكس الترتيب",
+  "Tiếng Việt": "Đảo ngược thứ tự"
+ },
+ "The first and last keys stay on their frames": {
+  "日本語": "最初と最後のキーはそのフレームから動きません",
+  "Español": "La primera y la última clave se quedan en su fotograma",
+  "Deutsch": "Der erste und der letzte Key bleiben auf ihrem Frame",
+  "Français": "La première et la dernière clé restent sur leur image",
+  "한국어": "첫 키와 마지막 키는 제자리에 있습니다",
+  "中文": "第一个和最后一个关键帧固定在原位",
+  "العربية": "يبقى المفتاحان الأول والأخير في إطاريهما",
+  "Tiếng Việt": "Khóa đầu và khóa cuối giữ nguyên khung hình"
+ },
+ "They stop at the next key.": {
+  "日本語": "次のキーで止まります。",
+  "Español": "Se detienen en la siguiente clave.",
+  "Deutsch": "Sie halten am nächsten Key an.",
+  "Français": "Elles s'arrêtent à la clé suivante.",
+  "한국어": "다음 키에서 멈춥니다.",
+  "中文": "它们停在下一个关键帧处。",
+  "العربية": "تتوقف عند المفتاح التالي.",
+  "Tiếng Việt": "Chúng dừng ở khóa kế tiếp."
+ },
+ "Copied the ease.": {
+  "日本語": "イーズをコピーしました。",
+  "Español": "Se copió el suavizado.",
+  "Deutsch": "Easing kopiert.",
+  "Français": "Accélération copiée.",
+  "한국어": "이즈를 복사했습니다.",
+  "中文": "已复制缓动。",
+  "العربية": "نُسخ التباطؤ.",
+  "Tiếng Việt": "Đã sao chép độ êm."
+ },
+ "Selected keys": {
+  "日本語": "選択したキー",
+  "Español": "Claves seleccionadas",
+  "Deutsch": "Ausgewählte Keys",
+  "Français": "Clés sélectionnées",
+  "한국어": "선택한 키",
+  "中文": "所选关键帧",
+  "العربية": "المفاتيح المحددة",
+  "Tiếng Việt": "Các khóa đã chọn"
+ },
+ "Drag to move this menu – double-click to put it back by the keys": {
+  "日本語": "ドラッグでこのメニューを移動 – ダブルクリックでキーの横に戻す",
+  "Español": "Arrastra para mover este menú; doble clic para devolverlo junto a las claves",
+  "Deutsch": "Ziehen, um dieses Menü zu verschieben – Doppelklick setzt es zurück zu den Keys",
+  "Français": "Faites glisser pour déplacer ce menu – double-cliquez pour le remettre près des clés",
+  "한국어": "드래그해 이 메뉴를 옮기기 – 더블클릭하면 키 옆으로 돌아갑니다",
+  "中文": "拖动以移动此菜单 – 双击放回关键帧旁",
+  "العربية": "اسحب لنقل هذه القائمة – انقر نقرًا مزدوجًا لإعادتها بجانب المفاتيح",
+  "Tiếng Việt": "Kéo để di chuyển menu này – nhấp đúp để đưa nó về cạnh các khóa"
+ },
+ "Drag a key or its handles. Ctrl-click keys, or drag across empty space, to select several (Shift or Ctrl adds to them), then drag one to move them all. Hold Shift while dragging keys to move them only in time. Selected keys get a menu of their own. Double-click the curve to add a key; Delete removes the selected ones. Alt-drag a handle to break it from its partner. Drag along the time bar at the top to move the playhead. Click the channels above to show several at once, each in its own colour: keys of different channels can be selected together and moved as one, and a key dragged near another channel's key snaps to its time (hold Ctrl to drag freely). Right-click a channel to change its colour.": {
+  "日本語": "キーやハンドルをドラッグします。Ctrl キーを押しながらキーをクリックするか、空いた所をドラッグすると複数のキーを選択でき（Shift か Ctrl で追加）、そのうち一つをドラッグするとまとめて動きます。Shift を押しながらキーをドラッグすると、時間方向にだけ動きます。選択したキーには専用のメニューが出ます。カーブをダブルクリックでキーを追加、Delete で選択中のキーを削除。Alt を押しながらハンドルをドラッグすると対のハンドルから切り離せます。上のタイムバーをドラッグすると再生ヘッドが動きます。上のチャンネルをクリックすると、それぞれの色で複数を同時に表示できます。異なるチャンネルのキーをまとめて選択して一緒に動かせます。また、ドラッグしたキーは他のチャンネルのキーに近づくとその時間にスナップします（Ctrl を押すと自由に動かせます）。チャンネルを右クリックすると色を変えられます。",
+  "Español": "Arrastra una clave o sus manijas. Haz Ctrl+clic en claves, o arrastra por un espacio vacío, para seleccionar varias (Mayús o Ctrl añade más) y arrastra una para moverlas todas. Mantén Mayús al arrastrar claves para moverlas solo en el tiempo. Las claves seleccionadas tienen su propio menú. Doble clic en la curva para añadir una clave; Supr elimina las seleccionadas. Arrastra una manija con Alt para separarla de su pareja. Arrastra por la barra de tiempo de arriba para mover el cabezal. Haz clic en los canales de arriba para mostrar varios a la vez, cada uno en su color: puedes seleccionar a la vez claves de canales distintos y moverlas juntas, y una clave arrastrada cerca de la clave de otro canal se ajusta a su tiempo (mantén Ctrl para arrastrar libremente). Haz clic derecho en un canal para cambiar su color.",
+  "Deutsch": "Ziehe einen Key oder seine Griffe. Klicke mit Strg auf Keys oder ziehe über eine freie Fläche, um mehrere auszuwählen (Umschalt oder Strg fügt hinzu), und ziehe dann einen davon, um alle zu verschieben. Halte beim Ziehen Umschalt gedrückt, um Keys nur in der Zeit zu verschieben. Ausgewählte Keys bekommen ein eigenes Menü. Doppelklick auf die Kurve fügt einen Key hinzu; Entf löscht die ausgewählten. Mit Alt gezogen löst sich ein Griff von seinem Gegenstück. Ziehe an der Zeitleiste oben, um den Abspielkopf zu bewegen. Klicke oben auf die Kanäle, um mehrere zugleich zu zeigen, jeden in seiner Farbe: Keys verschiedener Kanäle lassen sich zusammen auswählen und gemeinsam verschieben, und ein Key, der nahe an den Key eines anderen Kanals gezogen wird, rastet an dessen Zeit ein (halte Strg, um frei zu ziehen). Rechtsklicke auf einen Kanal, um seine Farbe zu ändern.",
+  "Français": "Faites glisser une clé ou ses poignées. Ctrl-cliquez sur des clés, ou faites glisser dans un espace vide, pour en sélectionner plusieurs (Maj ou Ctrl en ajoute), puis faites-en glisser une pour toutes les déplacer. Maintenez Maj en faisant glisser des clés pour ne les déplacer que dans le temps. Les clés sélectionnées ont leur propre menu. Double-cliquez sur la courbe pour ajouter une clé ; Suppr retire celles sélectionnées. Faites glisser une poignée avec Alt pour la détacher de sa partenaire. Faites glisser le long de la barre de temps en haut pour déplacer la tête de lecture. Cliquez sur les canaux ci-dessus pour en afficher plusieurs à la fois, chacun dans sa couleur : des clés de canaux différents peuvent être sélectionnées ensemble et déplacées d'un bloc, et une clé glissée près de la clé d'un autre canal s'aligne sur son temps (maintenez Ctrl pour la déplacer librement). Faites un clic droit sur un canal pour changer sa couleur.",
+  "한국어": "키나 핸들을 드래그하세요. Ctrl을 누른 채 키를 클릭하거나 빈 곳을 드래그하면 여러 키를 선택할 수 있고(Shift나 Ctrl로 추가), 그중 하나를 드래그하면 모두 함께 움직입니다. 키를 드래그할 때 Shift를 누르고 있으면 시간 방향으로만 움직입니다. 선택한 키에는 전용 메뉴가 나타납니다. 커브를 더블클릭하면 키가 추가되고, Delete 키로 선택한 키를 지웁니다. Alt를 누른 채 핸들을 드래그하면 짝 핸들과 분리됩니다. 위쪽 시간 막대를 드래그하면 재생 헤드가 움직입니다. 위의 채널을 클릭하면 여러 채널을 각자의 색으로 함께 표시할 수 있습니다. 서로 다른 채널의 키를 함께 선택해 한 번에 옮길 수 있으며, 다른 채널의 키 가까이로 드래그한 키는 그 시간에 맞춰집니다(자유롭게 드래그하려면 Ctrl을 누르세요). 채널을 오른쪽 클릭하면 색을 바꿀 수 있습니다.",
+  "中文": "拖动关键帧或其手柄。按住 Ctrl 点击关键帧，或在空白处拖动，可选择多个（按住 Shift 或 Ctrl 可追加），再拖动其中一个即可一起移动。拖动关键帧时按住 Shift，只沿时间方向移动。选中的关键帧会有自己的菜单。双击曲线添加关键帧；按 Delete 删除所选关键帧。按住 Alt 拖动手柄可将其与另一侧手柄断开。沿顶部的时间条拖动可移动播放头。点击上方的通道可同时显示多个，各用自己的颜色：可同时选择不同通道的关键帧并一起移动，拖到另一通道关键帧附近的关键帧会吸附到它的时间（按住 Ctrl 可自由拖动）。右键点击通道可更改它的颜色。",
+  "العربية": "اسحب مفتاحًا أو مقابضه. انقر على المفاتيح مع Ctrl، أو اسحب عبر مساحة فارغة، لتحديد عدة مفاتيح (Shift أو Ctrl يضيف إليها)، ثم اسحب أحدها لتحريكها كلها. اضغط Shift أثناء سحب المفاتيح لتحريكها في الزمن فقط. للمفاتيح المحددة قائمة خاصة بها. انقر نقرًا مزدوجًا على المنحنى لإضافة مفتاح؛ يحذف Delete المفاتيح المحددة. اسحب مقبضًا مع Alt لفصله عن نظيره. اسحب على شريط الوقت في الأعلى لتحريك رأس التشغيل. انقر على القنوات في الأعلى لإظهار عدة قنوات معًا، كل منها بلونها: يمكن تحديد مفاتيح من قنوات مختلفة معًا وتحريكها كأنها واحد، والمفتاح المسحوب قرب مفتاح قناة أخرى يلتصق بوقته (اضغط Ctrl للسحب بحرية). انقر بزر الماوس الأيمن على قناة لتغيير لونها.",
+  "Tiếng Việt": "Kéo một khóa hoặc tay cầm của nó. Ctrl-nhấp vào các khóa, hoặc kéo qua vùng trống, để chọn nhiều khóa (Shift hoặc Ctrl để thêm), rồi kéo một khóa để di chuyển tất cả. Giữ Shift khi kéo khóa để chỉ di chuyển chúng theo thời gian. Các khóa được chọn có menu riêng. Nhấp đúp vào đường cong để thêm khóa; Delete xóa các khóa đang chọn. Giữ Alt khi kéo tay cầm để tách nó khỏi tay cầm đối diện. Kéo dọc thanh thời gian ở trên cùng để di chuyển đầu phát. Nhấp vào các kênh ở trên để hiện nhiều kênh cùng lúc, mỗi kênh một màu: có thể chọn cùng lúc các khóa của nhiều kênh và di chuyển chúng cùng nhau, và khóa kéo gần khóa của kênh khác sẽ bắt vào thời điểm của nó (giữ Ctrl để kéo tự do). Nhấp chuột phải vào một kênh để đổi màu."
+ },
+ "Clip {n}s": {
+  "日本語": "クリップ {n}秒",
+  "Español": "Clip {n} s",
+  "Deutsch": "Clip {n} s",
+  "Français": "Clip {n} s",
+  "한국어": "클립 {n}초",
+  "中文": "片段 {n} 秒",
+  "العربية": "المقطع {n} ث",
+  "Tiếng Việt": "Clip {n} giây"
+ },
+ "Preset {n}s": {
+  "日本語": "プリセット {n}秒",
+  "Español": "Plantilla {n} s",
+  "Deutsch": "Vorlage {n} s",
+  "Français": "Préréglage {n} s",
+  "한국어": "프리셋 {n}초",
+  "中文": "预设 {n} 秒",
+  "العربية": "الإعداد المسبق {n} ث",
+  "Tiếng Việt": "Mẫu {n} giây"
+ },
+ "Laid out at {name}'s length, as it'll play there": {
+  "日本語": "{name} の長さに並べて、そこで再生されるとおりに表示",
+  "Español": "Distribuido a la duración de {name}, tal como se reproducirá allí",
+  "Deutsch": "Auf die Länge von {name} gelegt, so wie es dort abläuft",
+  "Français": "Disposé sur la durée de {name}, tel qu'il y sera lu",
+  "한국어": "{name}의 길이에 맞춰, 그곳에서 재생되는 그대로",
+  "中文": "按 {name} 的时长排布，就像在那里播放时一样",
+  "العربية": "موزّع على طول {name} كما سيُعرض هناك",
+  "Tiếng Việt": "Trải theo độ dài của {name}, đúng như khi phát ở đó"
+ },
+ "The preset's own timing": {
+  "日本語": "プリセット本来のタイミング",
+  "Español": "La duración propia de la plantilla",
+  "Deutsch": "Das eigene Timing der Vorlage",
+  "Français": "La durée propre du préréglage",
+  "한국어": "프리셋 자체의 타이밍",
+  "中文": "预设自身的时间",
+  "العربية": "توقيت الإعداد المسبق نفسه",
+  "Tiếng Việt": "Thời lượng riêng của mẫu"
+ },
+ "Timing shown": {
+  "日本語": "表示するタイミング",
+  "Español": "Tiempo mostrado",
+  "Deutsch": "Angezeigtes Timing",
+  "Français": "Durée affichée",
+  "한국어": "표시할 타이밍",
+  "中文": "显示的时间",
+  "العربية": "التوقيت المعروض",
+  "Tiếng Việt": "Thời lượng hiển thị"
+ },
+ "Loop evenly: repeat these keys a whole number of times, evened out to fill the space to the next key exactly": {
+  "日本語": "均等にループ：これらのキーを整数回繰り返し、次のキーまでの間をぴったり埋めるよう均等に調整",
+  "Español": "Bucle uniforme: repite estas claves un número entero de veces, igualadas para llenar justo el espacio hasta la siguiente clave",
+  "Deutsch": "Gleichmäßige Schleife: diese Keys ganzzahlig oft wiederholen, gleichmäßig gestreckt, bis genau zum nächsten Key",
+  "Français": "Boucle régulière : répéter ces clés un nombre entier de fois, égalisées pour remplir exactement l'espace jusqu'à la clé suivante",
+  "한국어": "균등 반복: 이 키들을 정수 번 반복하고, 다음 키까지의 공간을 정확히 채우도록 고르게 맞춤",
+  "中文": "均匀循环：将这些关键帧重复整数次，并均匀调整，正好填满到下一个关键帧的空间",
+  "العربية": "تكرار متساوٍ: كرّر هذه المفاتيح عددًا صحيحًا من المرات، موزعة بالتساوي لتملأ المساحة حتى المفتاح التالي تمامًا",
+  "Tiếng Việt": "Lặp đều: lặp lại các khóa này một số nguyên lần, giãn đều để lấp vừa khoảng trống đến khóa kế tiếp"
+ },
+ "No key after these to loop up to": {
+  "日本語": "これらの後ろにループの終わりとなるキーがありません",
+  "Español": "No hay ninguna clave después de estas hasta la que repetir",
+  "Deutsch": "Nach diesen gibt es keinen Key, bis zu dem wiederholt werden kann",
+  "Français": "Aucune clé après celles-ci jusqu'à laquelle boucler",
+  "한국어": "이 뒤에 반복할 끝이 될 키가 없습니다",
+  "中文": "这些之后没有可循环到的关键帧",
+  "العربية": "لا يوجد مفتاح بعد هذه للتكرار حتى يصل إليه",
+  "Tiếng Việt": "Không có khóa nào sau các khóa này để lặp tới"
+ },
+ "Orange": {
+  "日本語": "オレンジ",
+  "Español": "Naranja",
+  "Deutsch": "Orange",
+  "Français": "Orange",
+  "한국어": "주황",
+  "中文": "橙色",
+  "العربية": "برتقالي",
+  "Tiếng Việt": "Cam"
+ },
+ "Amber": {
+  "日本語": "琥珀色",
+  "Español": "Ámbar",
+  "Deutsch": "Bernstein",
+  "Français": "Ambre",
+  "한국어": "호박색",
+  "中文": "琥珀色",
+  "العربية": "كهرماني",
+  "Tiếng Việt": "Hổ phách"
+ },
+ "Lime": {
+  "日本語": "ライム",
+  "Español": "Lima",
+  "Deutsch": "Limette",
+  "Français": "Citron vert",
+  "한국어": "라임",
+  "中文": "青柠色",
+  "العربية": "ليموني",
+  "Tiếng Việt": "Xanh chanh"
+ },
+ "Teal": {
+  "日本語": "ティール",
+  "Español": "Verde azulado",
+  "Deutsch": "Petrol",
+  "Français": "Bleu sarcelle",
+  "한국어": "청록",
+  "中文": "青色",
+  "العربية": "أزرق مخضر",
+  "Tiếng Việt": "Xanh mòng két"
+ },
+ "Custom colour…": {
+  "日本語": "カスタムカラー…",
+  "Español": "Color personalizado…",
+  "Deutsch": "Eigene Farbe…",
+  "Français": "Couleur personnalisée…",
+  "한국어": "사용자 지정 색…",
+  "中文": "自定义颜色…",
+  "العربية": "لون مخصص…",
+  "Tiếng Việt": "Màu tùy chỉnh…"
+ },
+ "Default colour": {
+  "日本語": "既定の色",
+  "Español": "Color predeterminado",
+  "Deutsch": "Standardfarbe",
+  "Français": "Couleur par défaut",
+  "한국어": "기본 색",
+  "中文": "默认颜色",
+  "العربية": "اللون الافتراضي",
+  "Tiếng Việt": "Màu mặc định"
+ },
+ "{t_channel} colour": {
+  "日本語": "{t_channel} の色",
+  "Español": "Color de {t_channel}",
+  "Deutsch": "Farbe von {t_channel}",
+  "Français": "Couleur de {t_channel}",
+  "한국어": "{t_channel} 색",
+  "中文": "{t_channel} 的颜色",
+  "العربية": "لون {t_channel}",
+  "Tiếng Việt": "Màu của {t_channel}"
+ },
+ "Loop, Loop evenly and Reverse work on one channel's keys at a time": {
+  "日本語": "ループ、均等ループ、反転は一度に一つのチャンネルのキーにだけ使えます",
+  "Español": "Bucle, Bucle uniforme e Invertir funcionan con las claves de un solo canal a la vez",
+  "Deutsch": "Schleife, Gleichmäßige Schleife und Umkehren wirken jeweils nur auf die Keys eines Kanals",
+  "Français": "Boucle, Boucle régulière et Inverser agissent sur les clés d'un seul canal à la fois",
+  "한국어": "반복, 균등 반복, 뒤집기는 한 번에 한 채널의 키에만 적용됩니다",
+  "中文": "循环、均匀循环和反转一次只作用于一个通道的关键帧",
+  "العربية": "تعمل الحلقة والحلقة المتساوية والعكس على مفاتيح قناة واحدة في كل مرة",
+  "Tiếng Việt": "Lặp, Lặp đều và Đảo ngược chỉ áp dụng cho khóa của một kênh mỗi lần"
+ },
+ "Frame {n} / {total}": {
+  "日本語": "フレーム {n} / {total}",
+  "Español": "Fotograma {n} / {total}",
+  "Deutsch": "Frame {n} / {total}",
+  "Français": "Image {n} / {total}",
+  "한국어": "프레임 {n} / {total}",
+  "中文": "帧 {n} / {total}",
+  "العربية": "الإطار {n} / {total}",
+  "Tiếng Việt": "Khung hình {n} / {total}"
+ },
+ "The playhead's frame": {
+  "日本語": "再生ヘッドのフレーム",
+  "Español": "El fotograma del cabezal",
+  "Deutsch": "Das Frame des Abspielkopfs",
+  "Français": "L'image de la tête de lecture",
+  "한국어": "재생 헤드의 프레임",
+  "中文": "播放头所在的帧",
+  "العربية": "إطار رأس التشغيل",
+  "Tiếng Việt": "Khung hình của đầu phát"
+ },
+ "Titles": {
+  "日本語": "タイトル",
+  "Español": "Títulos",
+  "Deutsch": "Titel",
+  "Français": "Titres",
+  "한국어": "타이틀",
+  "中文": "标题",
+  "العربية": "العناوين",
+  "Tiếng Việt": "Tiêu đề"
  }
 }

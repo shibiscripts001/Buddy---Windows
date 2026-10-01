@@ -175,7 +175,7 @@ class PageTests(unittest.TestCase):
         self.addCleanup(self.dialog.deleteLater)
         self.addCleanup(self.dialog.close)
         self.dialog.show()
-        self._until("document.querySelector('[data-section=language] select') !== null")
+        self._until("document.querySelector('[data-page=alpha] [data-key=name]') !== null")
 
     def _js(self, code):
         loop, out = QEventLoop(), {}
@@ -194,26 +194,35 @@ class PageTests(unittest.TestCase):
     def _text(self, selector):
         return self._js(f"document.querySelector({selector!r}).textContent.trim()")
 
+    def _open(self, group):
+        """Clicks a group on the rail (by its English id's position)."""
+        index = [g["id"] for g in sf.GROUPS].index(group)
+        self._js(f"document.querySelectorAll('.set-rail-item')[{index}].click()")
+
     def test_the_page_is_drawn_in_the_language(self):
-        ja = TRANSLATIONS["Appearance"]["日本語"]
-        self._until(f"[...document.querySelectorAll('h2')].some(h => h.textContent === {ja!r})")
+        ja = TRANSLATIONS["General"]["日本語"]
+        self._until(f"[...document.querySelectorAll('.set-rail-item')].some(b => b.textContent === {ja!r})")
         self.assertEqual(self._js("document.documentElement.lang"), "ja")
         self.assertEqual(self.dialog.windowTitle(), TRANSLATIONS["Settings"]["日本語"])
-        # The Language dropdown is the last section, whichever tool is open.
-        self.assertEqual(self._js("[...document.querySelectorAll('section[data-section]')]"
-                                  ".map(s => s.dataset.section).join()"), "shell,tool,language")
+        # It opens on the page of the tool on screen; the rail has every group with a page.
+        self.assertEqual(self._js("document.querySelector('[data-page]').dataset.page"), "alpha")
+        self.assertEqual(self._js("document.querySelectorAll('.set-rail-item').length"), 4)    # no AI here
+        self._open("look")
+        appearance = TRANSLATIONS["Appearance"]["日本語"]
+        self._until(f"document.getElementById('title').textContent === {appearance!r}")
 
     def test_what_people_type_or_name_is_left_alone(self):
-        self._until("document.querySelector('[data-key=name]') !== null")
         self.assertEqual(self._js("document.querySelector('input[data-key=name]').value"), "Settings")
         self.assertEqual(self._text("select[data-key=who] option"), "Settings")       # raw: a name
+        self._open("general")
+        self._until("document.querySelector('select[data-key=language]') !== null")
         self.assertEqual(self._text("select[data-key=language] option[value=English]"), "English")
 
     def test_switching_back_to_english_puts_the_english_back(self):
-        ja = TRANSLATIONS["Appearance"]["日本語"]
-        self._until(f"[...document.querySelectorAll('h2')].some(h => h.textContent === {ja!r})")
-        self.dialog.on_set({"section": "language", "key": "language", "value": "English"})
-        self._until("[...document.querySelectorAll('h2')].some(h => h.textContent === 'Appearance')")
+        ja = TRANSLATIONS["General"]["日本語"]
+        self._until(f"[...document.querySelectorAll('.set-rail-item')].some(b => b.textContent === {ja!r})")
+        self.dialog.on_set({"section": "shell", "key": "language", "value": "English"})
+        self._until("[...document.querySelectorAll('.set-rail-item')].some(b => b.textContent === 'General')")
         self.assertEqual(self.settings["language"], "English")
         self.assertEqual(self.dialog.windowTitle(), "Settings")
         self.assertEqual(self._js("document.documentElement.lang"), "en")

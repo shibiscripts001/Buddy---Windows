@@ -58,6 +58,26 @@ class ToolPage(QWidget):
         the window shows it, so it always shows what's saved."""
         return None
 
+    def settings_pages(self):
+        """This tool's pages in the Settings window (core/settings_form.py
+        page()): by default one page under Tools, of settings_fields(). A
+        tool with AI settings gives pages in the "ai" group too."""
+        fields = self.settings_fields()
+        if not fields:
+            return []
+        return [{"id": self.tool_id, "group": "tools", "title": self.display_name, "fields": fields}]
+
+    def ai_models(self):
+        """The models this tool uses, as rows for Settings' Model library
+        (core/settings_form.py models()) - [] if none."""
+        return []
+
+    def ai_jobs(self):
+        """What this tool's AI does and where the data goes, for Settings'
+        Privacy page: [{label, model, where ("local" / "cloud" / "off"),
+        detail, [page]}]."""
+        return []
+
     def on_setting(self, key, value, ui):
         """One of this tool's settings fields changed: check it, save it
         and apply it. `ui` (core/settings_dialog.py SettingsUI) can alert,

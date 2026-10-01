@@ -522,15 +522,12 @@ def download(args) -> int:
 
     def run():
         try:
-            if args.files:
-                # A named repo (translation models): faster-whisper's
-                # downloader only fetches Whisper's own file names.
-                from huggingface_hub import snapshot_download
-                snapshot_download(args.model, local_dir=args.output,
-                                  allow_patterns=args.files.split(","))
-            else:
-                from faster_whisper.utils import download_model
-                download_model(args.model, output_dir=args.output)
+            # The repo at the pinned commit (env_setup's model_pins.json),
+            # only the pinned file names - env_setup checks each one's
+            # SHA-256 before the model is used.
+            from huggingface_hub import snapshot_download
+            snapshot_download(args.model, revision=args.revision or None, local_dir=args.output,
+                              allow_patterns=args.files.split(",") if args.files else None)
         except BaseException as exc:  # noqa: BLE001 - reported below
             failure.append(exc)
         finally:
@@ -695,6 +692,7 @@ def main() -> int:
     d.add_argument("--output", required=True)
     d.add_argument("--expected-bytes", type=int, default=0)
     d.add_argument("--files", default="", help="comma-separated: download these from repo --model")
+    d.add_argument("--revision", default="", help="the commit of repo --model to download")
     tr = sub.add_parser("translate")
     tr.add_argument("--model", required=True)
     tr.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])

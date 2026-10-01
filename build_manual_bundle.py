@@ -4,8 +4,9 @@
 The same builder the "Rebuild from PDF..." button in Settings > Ask Buddy
 runs (app/pages/manual_chat/bundle_builder.py), for building from a
 terminal instead. Needs PyMuPDF (+ pymupdf4llm for headings and tables),
-and Ollama running with embeddinggemma pulled for semantic search - without
-Ollama the bundle is built keyword-only.
+and for semantic search Buddy's own EmbeddingGemma (Settings > Ask Buddy >
+Set up) or Ollama with embeddinggemma pulled - with neither, the bundle is
+built keyword-only.
 
 The previous bundle is kept alongside as "<out>.previous".
 
@@ -40,7 +41,7 @@ def main():
     parser.add_argument(
         "--require-vectors",
         action="store_true",
-        help="fail instead of building keyword-only when Ollama is unavailable",
+        help="fail instead of building keyword-only when no embedding model is ready",
     )
     args = parser.parse_args()
 

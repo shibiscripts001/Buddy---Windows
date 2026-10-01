@@ -242,6 +242,14 @@ DEFAULTS = {
     # The manual PDF citations open, for a bundle whose meta.json doesn't
     # say what it was built from (manual_pdf.py).
     "manual_pdf": "",
+    # Semantic search's embedder (embedder.py): "auto" is Buddy's own model
+    # once set up, else Ollama. The file is one in the models folder, ""
+    # for the first whose name says it embeds; the rest are for "server".
+    "embed_backend": "auto",
+    "embed_model_file": "",
+    "embed_base_url": "",
+    "embed_model": "",
+    "embed_api_key": "",
     "history_turns": DEFAULT_HISTORY_TURNS,
     # How many tool-call turns the agent may make per answer before it
     # gives up (Ask Buddy Settings -> "Tool call budget").

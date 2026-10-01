@@ -255,10 +255,11 @@ Buddy.on("setup", s => {
     $("rescan").textContent = s.checking ? "Checking…" : "Check again";
     const env = $("env-button");
     $("env-status").textContent = s.probing ? "Checking the engine…"
-        : s.env_ready ? `Installed${s.env_versions ? ` (${s.env_versions})` : ""}.` : s.env_detail;
-    $("env-hint").textContent = `Installs faster-whisper into Buddy's own folder (${s.root}), built from the Python Buddy runs on. Download: ${s.env_size}.`;
-    env.textContent = s.env_ready ? "Repair engine" : "Install engine";
-    env.classList.toggle("accent", !s.env_ready);
+        : s.env_ready && s.env_verified ? `Installed and verified${s.env_versions ? ` (${s.env_versions})` : ""}.` : s.env_detail;
+    $("env-hint").textContent = `Installs faster-whisper into Buddy's own folder (${s.root}), built from the Python Buddy runs on. Download: ${s.env_size}. Every package is checked against its published hash, and Windows Defender scans the result.`;
+    // Installed before downloads were checked: a reinstall replaces it with a verified one.
+    env.textContent = !s.env_ready ? "Install engine" : s.env_verified ? "Repair engine" : "Reinstall engine";
+    env.classList.toggle("accent", !s.env_ready || !s.env_verified);
     env.disabled = s.busy || s.probing;
     $("models-hint").textContent = "Bigger models are more accurate and slower." + (s.recommended
         ? ` Recommended for this computer: ${s.recommended}, plus Parakeet v3 if you work in European languages – with both, Auto uses each for what it's best at.` : "");
@@ -269,12 +270,39 @@ Buddy.on("setup", s => {
     $("pick-model").disabled = $("pick-tmodel").disabled = s.busy;
 });
 
+/* Whether a model's files are exactly the ones Buddy pinned: nothing while
+   that's still being checked. */
+function verifiedChip(m) {
+    if (m.verified === true) {
+        return el("span.chip.ok", {text: "Verified", title: "Every file matches the checksum Buddy expects for this model."});
+    }
+    if (m.verified === false) {
+        return el("span.chip.warn", {text: "Not verified",
+            title: "These files aren't exactly the ones Buddy expects for this model – an older download, or a copy from somewhere else. " +
+                   "Model files hold no code, so it can still be used; re-download it for a verified copy."});
+    }
+    return null;
+}
+
 function modelRow(m, s) {
     const actions = [];
     if (m.installed) {
-        actions.push(el("span.installed", {title: m.where}, [icon("check"), el("span", {text: m.where === "Buddy's folder" ? "Installed" : "Installed – your copy"})]));
+        const own = m.where === "Buddy's folder";
+        actions.push(verifiedChip(m));
+        actions.push(el("span.installed", {title: m.where}, [icon("check"), el("span", {text: own ? "Installed" : "Installed – your copy"})]));
+        if (m.verified === false) actions.push(el("button.btn", {type: "button", text: `Re-download (${m.size})`,
+            disabled: s.busy || !s.env_ready, title: "Downloads a verified copy into Buddy's folder.",
+            onclick: () => send("download", {id: m.id})}));
+        actions.push(el("button.btn", {type: "button", text: "Remove", disabled: s.busy,
+            title: own ? "Moves it to the Recycle Bin." : "Buddy stops using this copy. Its files are left where they are.",
+            onclick: async () => {
+                const yes = await Buddy.confirm({title: "Remove the model?", ok: "Remove", danger: true,
+                    text: own ? `${m.label} goes to the Recycle Bin. You can download it again from here.`
+                              : `Buddy stops using your copy of ${m.label}. Its files are left where they are.`});
+                if (yes) send("remove_model", {id: m.id});
+            }}));
     } else {
-        if (m.found) actions.push(el("button.btn", {type: "button", text: "Use this copy", title: m.found, disabled: s.busy,
+        if (m.found) actions.push(verifiedChip(m), el("button.btn", {type: "button", text: "Use this copy", title: m.found, disabled: s.busy,
                                                     onclick: () => send("use_copy", {id: m.id, path: m.found})}));
         actions.push(el("button.btn", {type: "button", text: `Download (${m.size})`, disabled: s.busy || !s.env_ready,
                                        title: s.env_ready ? "" : "Install the engine first.",
