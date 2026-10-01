@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Buddy link bar</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="chrome">
+<nav class="linkbar" id="bar" data-place="bottom" aria-label="Links">
+    <div class="link-list" id="links" role="toolbar" aria-label="Your links"></div>
+    <button type="button" class="btn ghost link-add" id="add" title="Add a link" aria-label="Add a link">
+        <span class="link-add-label">Add link</span>
+    </button>
+</nav>
+<script src="linkbar.js"></script>
+</body>
+</html>

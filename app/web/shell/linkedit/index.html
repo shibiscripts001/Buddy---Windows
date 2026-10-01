@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Link</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="dialog">
+    <h1 class="dialog-title" id="title"></h1>
+    <div class="dialog-body">
+        <label class="lbl">Name
+            <input class="field" id="name" maxlength="60" spellcheck="false" autocomplete="off"
+                   placeholder="What the bar shows">
+        </label>
+        <label class="lbl">Address
+            <span class="row link-address">
+                <input class="field" id="url" spellcheck="false" autocomplete="off"
+                       placeholder="youtube.com, or a folder like D:\Projects">
+                <button type="button" class="btn" id="browse" title="Choose a folder on this PC">Folder…</button>
+            </span>
+        </label>
+        <div class="field-error" id="error" role="alert"></div>
+        <p class="set-hint">Leave the name empty to use the site's or folder's own name.</p>
+    </div>
+    <div class="dialog-foot">
+        <button type="button" class="btn" id="cancel">Cancel</button>
+        <button type="button" class="btn accent" id="ok"></button>
+    </div>
+</main>
+<script src="linkedit.js"></script>
+</body>
+</html>

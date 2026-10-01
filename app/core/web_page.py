@@ -260,7 +260,7 @@ class WebSurface:
         if self.file_drops:
             # Chromium's own widget (the focus proxy) is what receives the
             # drag, and it's made when the page first loads.
-            self._drop_filter = _FileDropFilter(self)
+            self._drop_filter = self._make_drop_filter()
             self.view.installEventFilter(self._drop_filter)
             page.loadFinished.connect(self._watch_drops)
 
@@ -270,6 +270,11 @@ class WebSurface:
 
         self.build_state()
         page.load(home)
+
+    def _make_drop_filter(self):
+        """What catches the drops (see file_drops) - a view taking more than
+        files gives its own."""
+        return _FileDropFilter(self)
 
     def _watch_drops(self, _ok=True):
         proxy = self.view.focusProxy()

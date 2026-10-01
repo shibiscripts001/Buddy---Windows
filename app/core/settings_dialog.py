@@ -25,7 +25,7 @@ from pathlib import Path
 from PySide6.QtCore import QTimer, QUrl
 from PySide6.QtGui import QDesktopServices
 
-from core import crash_log, startup_manager
+from core import crash_log, link_bar, startup_manager
 from core import settings_form as sf
 from core.i18n import get_i18n
 from core.message_dialog import alert, confirm
@@ -285,6 +285,14 @@ class SettingsDialog(WebDialog):
                 shell.set_updates_enabled(bool(value))         # also stops/starts checking
             else:
                 self.shared_settings["updates_enabled"] = bool(value)
+                self.shared_settings.save()
+            return
+        if effect == "linkbar":
+            shell = self.main_window
+            if hasattr(shell, "set_link_bar_visible"):
+                shell.set_link_bar_visible(bool(value))        # also makes the bar, the first time
+            else:
+                self.shared_settings[link_bar.SHOW_KEY] = bool(value)
                 self.shared_settings.save()
             return
         if effect == "language":

@@ -46,6 +46,7 @@ starts a card of its own; a line ends one.
 
 import re
 
+from core import link_bar
 from core.app_version import buddy_version
 from core.i18n import LANGUAGES, canonical_language, language_label
 from core.theme import (
@@ -258,6 +259,11 @@ def shell_pages(shared, autostart, updates=None):
             heading("Sidebar"),
             hint("Reorder, show or hide the tools in the sidebar, and add or rename the dividers between them."),
             buttons(("Organize sidebar…", "organize")),
+            heading("Link bar"),
+            check(link_bar.SHOW_KEY, "Show the link bar", shared.get(link_bar.SHOW_KEY, False),
+                  hint_text="Your own links – web pages, files and folders – in a bar along the bottom of the "
+                            "window (along the top under the Desktop theme). Add one with the bar's + or drag a "
+                            "link or folder onto it. Right-click a link to rename or remove it; drag it to move it."),
         ], "How Buddy sits beside Resolve, and its sidebar."),
         page("appearance", "look", "Appearance", appearance_fields(shared), "Changes show straight away."),
         page("about", "about", "About Buddy", [
@@ -331,7 +337,8 @@ def language_fields(shared):
 
 def apply_shell(shared, key, value):
     """Stores one shell setting. Returns what it affects - "theme",
-    "window", "announcements", "updates", "autostart", "tray", "language" - or None if
+    "window", "announcements", "updates", "autostart", "tray", "language",
+    "linkbar" - or None if
     the value isn't one it takes. Doesn't save; the caller does."""
     if key == "theme":
         if value not in list_themes():
@@ -371,6 +378,8 @@ def apply_shell(shared, key, value):
         return "updates"
     if key == "autostart":
         return "autostart"
+    if key == link_bar.SHOW_KEY:
+        return "linkbar"
     return None
 
 

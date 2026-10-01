@@ -2379,5 +2379,225 @@
   "中文": "移除此模型？",
   "العربية": "إزالة النموذج؟",
   "Tiếng Việt": "Gỡ mô hình?"
+ },
+ "Couldn't open the link": {
+  "日本語": "リンクを開けませんでした",
+  "Español": "No se pudo abrir el enlace",
+  "Deutsch": "Der Link konnte nicht geöffnet werden",
+  "Français": "Impossible d'ouvrir le lien",
+  "한국어": "링크를 열 수 없습니다",
+  "中文": "无法打开链接",
+  "العربية": "تعذر فتح الرابط",
+  "Tiếng Việt": "Không thể mở liên kết"
+ },
+ "Nothing opened '{address}'. If it's a file or folder, check it's still there.": {
+  "日本語": "'{address}' を開けるものがありませんでした。ファイルやフォルダの場合は、まだ存在するか確認してください。",
+  "Español": "Nada abrió '{address}'. Si es un archivo o una carpeta, comprueba que siga ahí.",
+  "Deutsch": "'{address}' wurde von nichts geöffnet. Wenn es eine Datei oder ein Ordner ist, prüfen Sie, ob sie noch vorhanden ist.",
+  "Français": "Rien n'a ouvert '{address}'. S'il s'agit d'un fichier ou d'un dossier, vérifiez qu'il existe toujours.",
+  "한국어": "'{address}'을(를) 열지 못했습니다. 파일이나 폴더라면 아직 있는지 확인하세요.",
+  "中文": "没有程序打开“{address}”。如果它是文件或文件夹，请检查它是否还在。",
+  "العربية": "لم يفتح أي شيء '{address}'. إذا كان ملفًا أو مجلدًا، فتحقق من أنه لا يزال موجودًا.",
+  "Tiếng Việt": "Không có gì mở được '{address}'. Nếu đó là tệp hoặc thư mục, hãy kiểm tra xem nó còn ở đó không."
+ },
+ "Link bar": {
+  "日本語": "リンクバー",
+  "Español": "Barra de enlaces",
+  "Deutsch": "Linkleiste",
+  "Français": "Barre de liens",
+  "한국어": "링크 바",
+  "中文": "链接栏",
+  "العربية": "شريط الروابط",
+  "Tiếng Việt": "Thanh liên kết"
+ },
+ "The link bar holds up to {count} links.": {
+  "日本語": "リンクバーには最大 {count} 件のリンクを追加できます。",
+  "Español": "La barra de enlaces admite hasta {count} enlaces.",
+  "Deutsch": "Die Linkleiste fasst bis zu {count} Links.",
+  "Français": "La barre de liens peut contenir jusqu'à {count} liens.",
+  "한국어": "링크 바에는 링크를 최대 {count}개까지 넣을 수 있습니다.",
+  "中文": "链接栏最多可容纳 {count} 个链接。",
+  "العربية": "يتسع شريط الروابط لما يصل إلى {count} رابطًا.",
+  "Tiếng Việt": "Thanh liên kết chứa tối đa {count} liên kết."
+ },
+ "Add link…": {
+  "日本語": "リンクを追加…",
+  "Español": "Añadir enlace…",
+  "Deutsch": "Link hinzufügen…",
+  "Français": "Ajouter un lien…",
+  "한국어": "링크 추가…",
+  "中文": "添加链接…",
+  "العربية": "إضافة رابط…",
+  "Tiếng Việt": "Thêm liên kết…"
+ },
+ "Hide link bar": {
+  "日本語": "リンクバーを隠す",
+  "Español": "Ocultar la barra de enlaces",
+  "Deutsch": "Linkleiste ausblenden",
+  "Français": "Masquer la barre de liens",
+  "한국어": "링크 바 숨기기",
+  "中文": "隐藏链接栏",
+  "العربية": "إخفاء شريط الروابط",
+  "Tiếng Việt": "Ẩn thanh liên kết"
+ },
+ "Edit link": {
+  "日本語": "リンクを編集",
+  "Español": "Editar enlace",
+  "Deutsch": "Link bearbeiten",
+  "Français": "Modifier le lien",
+  "한국어": "링크 편집",
+  "中文": "编辑链接",
+  "العربية": "تعديل الرابط",
+  "Tiếng Việt": "Sửa liên kết"
+ },
+ "Add a link": {
+  "日本語": "リンクを追加",
+  "Español": "Añadir un enlace",
+  "Deutsch": "Einen Link hinzufügen",
+  "Français": "Ajouter un lien",
+  "한국어": "링크 추가",
+  "中文": "添加链接",
+  "العربية": "إضافة رابط",
+  "Tiếng Việt": "Thêm một liên kết"
+ },
+ "Type the address of a web page, or a file or folder on this PC.": {
+  "日本語": "Web ページのアドレス、またはこの PC 上のファイルやフォルダを入力してください。",
+  "Español": "Escribe la dirección de una página web, o un archivo o carpeta de este PC.",
+  "Deutsch": "Geben Sie die Adresse einer Webseite oder eine Datei bzw. einen Ordner auf diesem PC ein.",
+  "Français": "Saisissez l'adresse d'une page web, ou un fichier ou dossier de ce PC.",
+  "한국어": "웹 페이지 주소나 이 PC의 파일 또는 폴더를 입력하세요.",
+  "中文": "请输入网页地址，或此电脑上的文件或文件夹。",
+  "العربية": "اكتب عنوان صفحة ويب، أو ملفًا أو مجلدًا على هذا الكمبيوتر.",
+  "Tiếng Việt": "Nhập địa chỉ trang web, hoặc một tệp hay thư mục trên máy tính này."
+ },
+ "That isn't a web address or a file or folder path.": {
+  "日本語": "Web アドレスでも、ファイルやフォルダのパスでもありません。",
+  "Español": "Eso no es una dirección web ni la ruta de un archivo o carpeta.",
+  "Deutsch": "Das ist weder eine Webadresse noch ein Datei- oder Ordnerpfad.",
+  "Français": "Ce n'est ni une adresse web ni le chemin d'un fichier ou d'un dossier.",
+  "한국어": "웹 주소나 파일 또는 폴더 경로가 아닙니다.",
+  "中文": "这不是网址，也不是文件或文件夹路径。",
+  "العربية": "هذا ليس عنوان ويب ولا مسار ملف أو مجلد.",
+  "Tiếng Việt": "Đó không phải là địa chỉ web hay đường dẫn tệp hoặc thư mục."
+ },
+ "Show the link bar": {
+  "日本語": "リンクバーを表示",
+  "Español": "Mostrar la barra de enlaces",
+  "Deutsch": "Linkleiste anzeigen",
+  "Français": "Afficher la barre de liens",
+  "한국어": "링크 바 표시",
+  "中文": "显示链接栏",
+  "العربية": "إظهار شريط الروابط",
+  "Tiếng Việt": "Hiện thanh liên kết"
+ },
+ "Your own links – web pages, files and folders – in a bar along the bottom of the window (along the top under the Desktop theme). Add one with the bar's + or drag a link or folder onto it. Right-click a link to rename or remove it; drag it to move it.": {
+  "日本語": "Web ページ、ファイル、フォルダへの自分だけのリンクを、ウィンドウ下部のバーに並べます（Desktop テーマでは上部）。バーの + で追加するか、リンクやフォルダをバーにドラッグしてください。リンクを右クリックすると名前の変更や削除ができ、ドラッグすると移動できます。",
+  "Español": "Tus propios enlaces – páginas web, archivos y carpetas – en una barra a lo largo de la parte inferior de la ventana (en la parte superior con el tema Desktop). Añade uno con el + de la barra o arrastra un enlace o una carpeta sobre ella. Haz clic derecho en un enlace para renombrarlo o quitarlo; arrástralo para moverlo.",
+  "Deutsch": "Ihre eigenen Links – Webseiten, Dateien und Ordner – in einer Leiste am unteren Fensterrand (beim Desktop-Design oben). Fügen Sie einen über das + der Leiste hinzu oder ziehen Sie einen Link oder Ordner darauf. Klicken Sie mit der rechten Maustaste auf einen Link, um ihn umzubenennen oder zu entfernen; ziehen Sie ihn, um ihn zu verschieben.",
+  "Français": "Vos propres liens – pages web, fichiers et dossiers – dans une barre en bas de la fenêtre (en haut avec le thème Desktop). Ajoutez-en un avec le + de la barre ou faites-y glisser un lien ou un dossier. Faites un clic droit sur un lien pour le renommer ou le retirer ; faites-le glisser pour le déplacer.",
+  "한국어": "웹 페이지, 파일, 폴더로 가는 나만의 링크를 창 아래쪽 바에 둡니다(Desktop 테마에서는 위쪽). 바의 + 로 추가하거나 링크나 폴더를 바로 끌어 놓으세요. 링크를 마우스 오른쪽 버튼으로 클릭하면 이름을 바꾸거나 제거할 수 있고, 끌면 옮길 수 있습니다.",
+  "中文": "你自己的链接（网页、文件和文件夹）显示在窗口底部的一栏中（使用 Desktop 主题时在顶部）。用栏上的 + 添加，或把链接或文件夹拖到栏上。右键单击链接可重命名或移除；拖动可移动它。",
+  "العربية": "روابطك الخاصة – صفحات ويب وملفات ومجلدات – في شريط على طول أسفل النافذة (على طول الأعلى مع سمة Desktop). أضف رابطًا بزر + في الشريط أو اسحب رابطًا أو مجلدًا إليه. انقر بزر الماوس الأيمن على رابط لإعادة تسميته أو إزالته، واسحبه لنقله.",
+  "Tiếng Việt": "Liên kết của riêng bạn – trang web, tệp và thư mục – trên một thanh dọc cạnh dưới cửa sổ (dọc cạnh trên với chủ đề Desktop). Thêm bằng nút + trên thanh hoặc kéo một liên kết hay thư mục vào đó. Nhấp chuột phải vào liên kết để đổi tên hoặc xóa; kéo để di chuyển."
+ },
+ "Links": {
+  "日本語": "リンク",
+  "Español": "Enlaces",
+  "Deutsch": "Links",
+  "Français": "Liens",
+  "한국어": "링크",
+  "中文": "链接",
+  "العربية": "الروابط",
+  "Tiếng Việt": "Liên kết"
+ },
+ "Your links": {
+  "日本語": "あなたのリンク",
+  "Español": "Tus enlaces",
+  "Deutsch": "Ihre Links",
+  "Français": "Vos liens",
+  "한국어": "내 링크",
+  "中文": "你的链接",
+  "العربية": "روابطك",
+  "Tiếng Việt": "Liên kết của bạn"
+ },
+ "Add link": {
+  "日本語": "リンクを追加",
+  "Español": "Añadir enlace",
+  "Deutsch": "Link hinzufügen",
+  "Français": "Ajouter un lien",
+  "한국어": "링크 추가",
+  "中文": "添加链接",
+  "العربية": "إضافة رابط",
+  "Tiếng Việt": "Thêm liên kết"
+ },
+ "Add links to web pages, files or folders – or drag one here.": {
+  "日本語": "Web ページ、ファイル、フォルダへのリンクを追加するか、ここにドラッグしてください。",
+  "Español": "Añade enlaces a páginas web, archivos o carpetas, o arrastra uno aquí.",
+  "Deutsch": "Fügen Sie Links zu Webseiten, Dateien oder Ordnern hinzu – oder ziehen Sie einen hierher.",
+  "Français": "Ajoutez des liens vers des pages web, des fichiers ou des dossiers – ou faites-en glisser un ici.",
+  "한국어": "웹 페이지, 파일, 폴더 링크를 추가하거나 여기로 끌어 놓으세요.",
+  "中文": "添加指向网页、文件或文件夹的链接，或拖一个到这里。",
+  "العربية": "أضف روابط لصفحات ويب أو ملفات أو مجلدات – أو اسحب واحدًا إلى هنا.",
+  "Tiếng Việt": "Thêm liên kết đến trang web, tệp hoặc thư mục – hoặc kéo một mục vào đây."
+ },
+ "Name": {
+  "日本語": "名前",
+  "Español": "Nombre",
+  "Deutsch": "Name",
+  "Français": "Nom",
+  "한국어": "이름",
+  "中文": "名称",
+  "العربية": "الاسم",
+  "Tiếng Việt": "Tên"
+ },
+ "What the bar shows": {
+  "日本語": "バーに表示される名前",
+  "Español": "Lo que muestra la barra",
+  "Deutsch": "Was die Leiste anzeigt",
+  "Français": "Ce qu'affiche la barre",
+  "한국어": "바에 표시될 이름",
+  "中文": "栏上显示的名称",
+  "العربية": "ما يعرضه الشريط",
+  "Tiếng Việt": "Tên hiện trên thanh"
+ },
+ "Address": {
+  "日本語": "アドレス",
+  "Español": "Dirección",
+  "Deutsch": "Adresse",
+  "Français": "Adresse",
+  "한국어": "주소",
+  "中文": "地址",
+  "العربية": "العنوان",
+  "Tiếng Việt": "Địa chỉ"
+ },
+ "youtube.com, or a folder like D:\\Projects": {
+  "日本語": "youtube.com、または D:\\Projects のようなフォルダ",
+  "Español": "youtube.com, o una carpeta como D:\\Projects",
+  "Deutsch": "youtube.com oder ein Ordner wie D:\\Projects",
+  "Français": "youtube.com, ou un dossier comme D:\\Projects",
+  "한국어": "youtube.com 또는 D:\\Projects 같은 폴더",
+  "中文": "youtube.com，或像 D:\\Projects 这样的文件夹",
+  "العربية": "youtube.com، أو مجلد مثل D:\\Projects",
+  "Tiếng Việt": "youtube.com, hoặc một thư mục như D:\\Projects"
+ },
+ "Leave the name empty to use the site's or folder's own name.": {
+  "日本語": "名前を空欄にすると、サイト名またはフォルダ名が使われます。",
+  "Español": "Deja el nombre vacío para usar el nombre del sitio o de la carpeta.",
+  "Deutsch": "Lassen Sie den Namen leer, um den Namen der Website oder des Ordners zu verwenden.",
+  "Français": "Laissez le nom vide pour utiliser celui du site ou du dossier.",
+  "한국어": "이름을 비워 두면 사이트나 폴더의 이름이 쓰입니다.",
+  "中文": "名称留空则使用网站或文件夹本身的名称。",
+  "العربية": "اترك الاسم فارغًا لاستخدام اسم الموقع أو المجلد نفسه.",
+  "Tiếng Việt": "Để trống tên để dùng tên của trang hoặc thư mục."
+ },
+ "Link": {
+  "日本語": "リンク",
+  "Español": "Enlace",
+  "Deutsch": "Link",
+  "Français": "Lien",
+  "한국어": "링크",
+  "中文": "链接",
+  "العربية": "رابط",
+  "Tiếng Việt": "Liên kết"
  }
 }

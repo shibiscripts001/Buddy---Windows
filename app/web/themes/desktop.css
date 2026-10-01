@@ -26,7 +26,7 @@ html[data-family="desktop"] :is(.dropzone, .drop-hint) {
 
 /* The taskbar (the desktop layout's header and rail in one): halftone,
 and the Programs button in the first window colour. */
-html[data-family="desktop"] .taskbar {
+html[data-family="desktop"] :is(.taskbar, .linkbar) {
     background: radial-gradient(var(--halftone) 1.2px, transparent 1.6px) 0 0 / 9px 9px, var(--header-bg);
 }
 html[data-family="desktop"] .task-start { background: var(--chrome-title-bg); color: var(--accent-fg); }

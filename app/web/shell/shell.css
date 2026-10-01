@@ -111,6 +111,53 @@ body.window { background: var(--surface); }
 .task-conn.ok .task-dot { background: var(--success); }
 .task-clock { padding: 0 6px 0 4px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-strong); }
 
+/* ---------------------------------------------------------- link bar --
+   The user's own links (core/link_bar_web.py): a card along the bottom of
+   the window, like the header - or a strip along the top under the
+   desktop layout, edge to edge like its taskbar. */
+
+.linkbar {
+    display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 4px 6px 4px 8px;
+    background: var(--header-bg); border: var(--bw) solid var(--shell-border); border-radius: var(--header-radius);
+}
+.linkbar[data-place="top"] { border-width: 0 0 var(--bw); border-radius: 0; min-height: 40px; }
+.linkbar.drop-over { box-shadow: inset 0 0 0 2px var(--accent-text); }
+.link-list {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px;
+    overflow-x: auto; scrollbar-width: none;
+}
+.link-list::-webkit-scrollbar { display: none; }
+.link {
+    font: inherit; font-size: var(--fs-sm); position: relative; flex: 0 0 auto; max-width: 220px;
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; cursor: pointer;
+    color: var(--nav-fg); background: transparent; border: var(--bw) solid transparent; border-radius: var(--btn-radius);
+    touch-action: none; user-select: none;
+}
+.link:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.link:focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
+.link .icon-svg { width: 16px; height: 16px; flex: none; color: var(--emphasis); }
+.link-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.link.dragging {
+    z-index: 1; cursor: grabbing; background: var(--raised-bg); border-color: var(--card-border);
+    box-shadow: var(--pop-shadow);
+}
+/* Where a dragged link would land: a line in the gap beside this one. */
+.link.drop-before::before, .link.drop-after::after {
+    content: ""; position: absolute; top: 3px; bottom: 3px; width: 2px; border-radius: 1px;
+    background: var(--accent-text);
+}
+.link.drop-before::before { left: -4px; }
+.link.drop-after::after { right: -4px; }
+.link-empty { padding: 0 6px; font-size: var(--fs-sm); color: var(--text-dim); white-space: nowrap; }
+.link-add { flex: none; gap: 6px; padding: 4px 10px; min-height: 0; font-size: var(--fs-sm); }
+.link-add .icon-svg { width: 16px; height: 16px; }
+/* Once there are links, the + says enough on its own. */
+.linkbar:not(.no-links) .link-add-label { display: none; }
+.linkbar:not(.no-links) .link-add { padding: 4px 6px; }
+
+/* The window that adds or edits one. */
+.link-address .field { flex: 1; min-width: 0; }
+
 /* The taskbar's popup (Programs, or a button's actions) - a window of its
    own, exactly the card's size plus room for its shadow. */
 .desk-menu {

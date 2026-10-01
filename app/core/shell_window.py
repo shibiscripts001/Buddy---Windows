@@ -35,6 +35,7 @@ from core.theme import (
     theme_layout,
 )
 from core import desktop_layout
+from core import link_bar
 from core import nav_layout
 from core.announcements_window import AnnouncementsDialog
 from core.announcements import SEEN_KEY, AnnouncementChecker
@@ -51,6 +52,7 @@ from core.resolve_bridge import (
 from core.busy_overlay import BusyOverlay
 from core.desk_web import DeskMenu, TaskbarView
 from core.desktop_window import DesktopArea
+from core.link_bar_web import LinkBarView, LinkDialog
 from core import crash_log
 from core.i18n import get_i18n, tr
 from core.settings_dialog import SettingsDialog
@@ -814,6 +816,13 @@ class ShellWindow(QMainWindow):
         root.addWidget(self.taskbar)
         self.taskbar.hide()
         self.desk_menu = None
+        # The link bar (core/link_bar.py): the user's own links, along the
+        # bottom - the top under the desktop layout. Off until it's asked
+        # for, and only made then.
+        self.links = link_bar.load_links(self.shared_settings.get(link_bar.LINKS_KEY))
+        self.link_bar = None
+        if self.shared_settings.get(link_bar.SHOW_KEY, False):
+            self.set_link_bar_visible(True)
         self._fit_panes()
 
         # Before the first switch_tool() below, which calls the starting
@@ -982,6 +991,7 @@ class ShellWindow(QMainWindow):
                 self.switch_tool(tool_id)
             if self.shared_settings.get("split_view", False):
                 self.set_split_view(True)
+        self._place_link_bar()
         self.push_header()
         self.push_rail()
         self.push_taskbar()
@@ -1103,6 +1113,106 @@ class ShellWindow(QMainWindow):
         self.push_taskbar()
         if self.desk_menu is not None and self.desk_menu.isVisible() and self.desk_menu._kind == "programs":
             self.desk_menu.refresh(self._programs_state())
+
+    # ------------------------------------------------------------ link bar --
+    def set_link_bar_visible(self, on):
+        """Settings > Window's "Show the link bar", and the bar's own Hide."""
+        on = bool(on)
+        if on != self.shared_settings.get(link_bar.SHOW_KEY, False):
+            self.shared_settings[link_bar.SHOW_KEY] = on
+            self.shared_settings.save()
+        if on and self.link_bar is None:
+            self.link_bar = LinkBarView(self)
+            self._place_link_bar()
+        if self.link_bar is not None:
+            self.link_bar.setVisible(on)
+
+    def _place_link_bar(self):
+        """Last in the window, under everything - or first, above the desk,
+        under the desktop layout (its taskbar has the bottom)."""
+        bar = self.link_bar
+        if bar is None:
+            return
+        self._root.removeWidget(bar)
+        if link_bar.placement(self._layout) == "top":
+            self._root.insertWidget(0, bar)
+        else:
+            self._root.addWidget(bar)
+        self.push_link_bar()
+
+    def push_link_bar(self):
+        if self.link_bar is not None:
+            self.link_bar.show_state({"links": link_bar.view_items(self.links),
+                                      "place": link_bar.placement(self._layout)})
+
+    def _save_links(self):
+        self.shared_settings[link_bar.LINKS_KEY] = [dict(link) for link in self.links]
+        self.shared_settings.save()
+        self.push_link_bar()
+
+    def open_link(self, index):
+        if not 0 <= index < len(self.links):
+            return
+        address = self.links[index]["url"]
+        url = QUrl.fromLocalFile(address) if link_bar.is_path(address) else QUrl(address)
+        if not QDesktopServices.openUrl(url):
+            alert(self, "Couldn't open the link",
+                  f"Nothing opened '{address}'. If it's a file or folder, check it's still there.")
+
+    def add_link(self, address=""):
+        """The bar's +, or one link dropped on it: name it, then it goes
+        on the end."""
+        if len(self.links) >= link_bar.MAX_LINKS:
+            alert(self, "Link bar", f"The link bar holds up to {link_bar.MAX_LINKS} links.")
+            return
+        dialog = LinkDialog(self, {"name": "", "url": address} if address else None)
+        if dialog.exec() and dialog.link is not None:
+            self.links.append(dialog.link)
+            self._save_links()
+        dialog.deleteLater()
+
+    def edit_link(self, index):
+        if not 0 <= index < len(self.links):
+            return
+        dialog = LinkDialog(self, self.links[index], editing=True)
+        if dialog.exec() and dialog.link is not None and index < len(self.links):
+            self.links[index] = dialog.link
+            self._save_links()
+        dialog.deleteLater()
+
+    def remove_link(self, index):
+        if 0 <= index < len(self.links):
+            del self.links[index]
+            self._save_links()
+
+    def move_link(self, index, to):
+        if link_bar.move(self.links, index, to):
+            self._save_links()
+
+    def drop_links(self, addresses):
+        """Links dragged from a browser, files and folders from Explorer:
+        one is named first, several go straight on the end."""
+        if len(addresses) == 1:
+            self.add_link(addresses[0])
+            return
+        room = link_bar.MAX_LINKS - len(self.links)
+        added = [link for link, _why in (link_bar.make_link("", a) for a in addresses) if link][:max(0, room)]
+        if added:
+            self.links.extend(added)
+            self._save_links()
+
+    def open_link_menu(self, index):
+        """A link's right-click menu (index -1: the bar itself)."""
+        menu = QMenu(self)
+        if 0 <= index < len(self.links):
+            menu.addAction(tr("Open")).triggered.connect(lambda: self.open_link(index))
+            menu.addAction(tr("Edit…")).triggered.connect(lambda: self.edit_link(index))
+            menu.addAction(tr("Remove")).triggered.connect(lambda: self.remove_link(index))
+            menu.addSeparator()
+        menu.addAction(tr("Add link…")).triggered.connect(lambda: self.add_link())
+        menu.addAction(tr("Hide link bar")).triggered.connect(lambda: self.set_link_bar_visible(False))
+        menu.exec(QCursor.pos())
+        menu.deleteLater()
 
     # -------------------------------------------------------- web chrome --
     def push_header(self):
