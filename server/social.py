@@ -183,6 +183,7 @@ class SocialMixin:
         self.store.set_appear_offline(session.user_id, offline)
         self._push_buddy_lists([session.user_id])
         self._presence_changed(session.user_id)
+        self._who_changed_for(session.user_id)   # off (or back on) every who's-here list
 
     # ---------------------------------------------------------------- DMs
 

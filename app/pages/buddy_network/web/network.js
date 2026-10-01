@@ -38,6 +38,9 @@ $("turn-off").onclick = async () => {
 $("rules-link").onclick = () => send("rules");
 $("appear-offline").onchange = e => send("appear_offline", {on: e.target.checked});
 $("chat-menu").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); send("chat_menu", {x: r.right, y: r.bottom + 4}); };
+// Your own name and avatar: your profile (profile_page.py).
+$("me-face").onclick = $("me-name").onclick = () => send("profile", {user: "me"});
+$("people-btn").onclick = () => send("people_toggle");
 
 // ------------------------------------------------------------------ state
 
@@ -592,12 +595,36 @@ Buddy.on("ask", q => {
 Buddy.on("alert", a => Buddy.modal({title: a.title, body: textBlock(a.text), buttons: [{label: "OK", kind: "accent"}]}));
 Buddy.on("toast", t => Buddy.toast(t.text, 2500));
 
+// ------------------------------------------------------------- who's here
+// Everyone in a public room (profile_page.py), down the right. Clicking
+// someone opens their profile.
+
+Buddy.on("who", w => {
+    const show = w.available && w.open;
+    $("people-btn").hidden = !w.available;
+    $("people-btn").setAttribute("aria-pressed", String(!!w.open));
+    $("people-side").hidden = !show;
+    $("chat").classList.toggle("with-people", show);
+    $("people-count").textContent = w.count;
+    $("people-list").replaceChildren(...w.people.map(p => el("button.people-row", {
+        type: "button", title: p.label, onclick: e => send("profile", {user: p.id, x: e.clientX, y: e.clientY}),
+    }, [
+        el("img", {src: p.avatar, alt: ""}),
+        el("span.pname", {translate: "no"}, [p.name, el("small", {text: `#${p.tag}`})]),
+        p.badge ? el("span.pbadge", {text: p.badge}) : null,
+        p.me ? el("span.pyou", {text: "you"}) : null,
+    ])));
+});
+
 // ---------------------------------------------------------------- buddies
 
 function personRow(p, actions) {
     return el("div.person", {title: p.id}, [
-        el("img", {src: p.avatar, alt: ""}),
-        el("span.pname", {translate: "no"}, [p.name, el("small", {text: `#${p.tag}`})]),
+        // Their avatar and name: their profile.
+        el("button.person-face", {type: "button", title: "See their profile", onclick: () => send("profile", {user: p.id})}, [
+            el("img", {src: p.avatar, alt: ""}),
+            el("span.pname", {translate: "no"}, [p.name, el("small", {text: `#${p.tag}`})]),
+        ]),
         ...actions.map(([label, kind, cls]) => el(`button.btn${cls ? "." + cls : ""}`, {
             type: "button", text: label,
             onclick: () => kind === "message" ? send("open", {key: `user:${p.id}`}) : send("social", {kind, user: p.id}),
@@ -724,7 +751,8 @@ const PANELS = {
             title: "Your Buddy Network account", wide: true,
             body: [
                 el("div.acct-head", {}, [avatar, el("div.acct-who", {}, [name, el("div.prow", {}, [
-                    button("Change name", act("name")), button("Avatar…", act("avatars"))])])]),
+                    button("Change name", act("name")), button("Avatar…", act("avatars")),
+                    button("Profile…", act("profile"))])])]),
                 section("Your ID", [el("p.note", {text: "Share it so people can add you as a buddy."}),
                                     el("div.prow", {}, [id, button("Copy ID", act("copy_id"))])]),
                 section("Recovery code", [warning, el("div.prow", {}, [code, show, button("Copy", act("copy_code"))]),
@@ -862,6 +890,132 @@ const PANELS = {
             buttons: [{label: "Cancel"}, {label: "Ban", kind: "danger", onClick: () => panelAct("ban", "ban", {
                 length: length.selectedIndex, reason: reason.value, network: network.checked})}],
             update() {},
+        };
+    },
+
+    // Someone's profile page (profiles.py, profile_page.py): drawn in the
+    // theme they picked (network.css .profile[data-theme]); your own can be
+    // edited in place. What people wrote goes in with textContent.
+    profile() {
+        const act = (action, extra) => panelAct("profile", action, extra);
+        const page = el("div.profile", {"data-theme": "classic"});
+        let form = null;   // the edit form while editing - built once, so what's typed isn't lost
+
+        const box = (title, kids, cls) => el(`section.pf-box${cls ? "." + cls : ""}`, {}, [
+            title ? el("h3.pf-box-head", {text: title}) : null, el("div.pf-box-body", {}, kids)]);
+        const blurb = (label, text) => text ? [el("h4.pf-label", {text: label}), el("p.pf-text", {text, translate: "no"})] : [];
+
+        function view(d) {
+            const u = d.user;
+            const facts = [];
+            if (d.headline) facts.push(el("div.pf-headline", {text: `“${d.headline}”`, translate: "no"}));
+            if (d.mood) facts.push(el("div.pf-fact", {}, [el("b", {text: "Mood:"}), " ", el("span", {text: d.mood.name}), " ",
+                                                          el("span.pf-face", {text: d.mood.face, translate: "no"})]));
+            if (d.online !== null) facts.push(el(`div.pf-online${d.online ? ".on" : ""}`, {text: d.online ? "Online now!" : "Offline"}));
+            if (d.since) facts.push(el("div.pf-fact", {text: d.since}));
+            facts.push(el("div.pf-fact", {text: d.views}));
+            const blurbs = [...blurb("About me:", d.about), ...blurb("Working on:", d.working_on), ...blurb("Listening to:", d.listening)];
+            if (!blurbs.length) blurbs.push(el("p.pf-empty", {text: d.mine ? "Nothing here yet – Edit profile to say something about yourself." : "Nothing here yet."}));
+            return [
+                el("div.pf-left", {}, [
+                    el("h2.pf-name", {translate: "no"}, [u.name, el("span.pf-tag", {text: ` #${u.tag}`}),
+                                                          u.badge ? el("span.pf-badge", {text: u.badge}) : null]),
+                    el("div.pf-card", {}, [el("img.pf-avatar", {src: u.avatar, alt: ""}), el("div.pf-facts", {}, facts)]),
+                    box(d.contacting, [el("div.pf-actions", {}, d.actions.map(a => el(`button.btn${a.kind ? "." + a.kind : ""}`, {
+                        type: "button", text: a.label, onclick: () => act(a.id)})))], "pf-contact"),
+                ]),
+                el("div.pf-right", {}, [
+                    el("div.pf-network", {text: d.network}),
+                    box(d.blurbs, blurbs),
+                    box(d.top_title, [el("div.pf-top-note", {text: d.top_note}), d.top.length
+                        ? el("div.pf-top", {}, d.top.map(t => el("button.pf-top-person", {
+                            type: "button", title: t.label, onclick: () => act("open", {user: t.id})},
+                            [el("img", {src: t.avatar, alt: ""}), el("span", {text: t.name, translate: "no"})])))
+                        : el("p.pf-empty", {text: d.mine ? "Pick your top buddies under Edit profile." : "No top buddies picked yet."})]),
+                ]),
+            ];
+        }
+
+        function buildForm(d) {
+            const dr = d.draft;
+            const input = (value, max, placeholder) => {
+                const f = el("input.field", {maxlength: String(max), placeholder, autocomplete: "off"});
+                f.value = value || "";
+                return f;
+            };
+            const headline = input(dr.headline, d.limits.headline, "A line about you, shown under your name");
+            const working = input(dr.working_on, d.limits.line, "e.g. A music video for a friend");
+            const listening = input(dr.listening, d.limits.line, "e.g. Daft Punk – Discovery");
+            const about = el("textarea.field", {rows: "5", maxlength: String(d.limits.about),
+                                                placeholder: "Say something about yourself – what you edit, what you love"});
+            about.value = dr.about || "";
+            const face = el("span.pf-face", {translate: "no"});
+            const mood = el("select.field", {}, d.moods.map(m => el("option", {value: m.id, text: m.label})));
+            mood.value = dr.mood || "";
+            const showFace = () => { face.textContent = (d.moods.find(m => m.id === mood.value) || {}).face || ""; };
+            mood.onchange = showFace;
+            showFace();
+            let theme = dr.theme || "classic";
+            const swatches = el("div.pf-swatches", {}, d.themes.map(t => el("button.pf-swatch", {
+                type: "button", "data-theme": t.id, "aria-pressed": String(t.id === theme), onclick: () => {
+                    theme = t.id;
+                    page.dataset.theme = t.id;   // the page shows the theme straight away
+                    for (const b of swatches.children) b.setAttribute("aria-pressed", String(b.dataset.theme === theme));
+                }}, [el("i"), el("span", {text: t.label})])));
+            const top = [...dr.top];
+            const pick = el("div.pf-pick");
+            const drawPick = () => pick.replaceChildren(...(d.buddies.length ? d.buddies.map(b => {
+                const n = top.indexOf(b.id);
+                const tick = el("input", {type: "checkbox", checked: n >= 0, disabled: n < 0 && top.length >= d.limits.top});
+                tick.onchange = () => {
+                    const i = top.indexOf(b.id);
+                    if (tick.checked && i < 0) top.push(b.id);
+                    else if (!tick.checked && i >= 0) top.splice(i, 1);
+                    drawPick();
+                };
+                return el("label.pf-pick-row", {}, [tick, el("img", {src: b.avatar, alt: ""}),
+                    el("span", {text: b.label, translate: "no"}), n >= 0 ? el("span.pf-rank", {text: `#${n + 1}`}) : null]);
+            }) : [el("p.pf-empty", {text: "Add some buddies first – your top buddies are picked from them."})]));
+            drawPick();
+            const error = el("div.field-error");
+            const save = () => act("save", {headline: headline.value, mood: mood.value, about: about.value,
+                                            working_on: working.value, listening: listening.value, theme, top});
+            const node = box("Edit your profile", [
+                el("label.lbl", {}, ["Headline", headline]),
+                el("label.lbl", {}, ["Mood", el("span.row", {}, [mood, face])]),
+                el("label.lbl", {}, ["About me", about]),
+                el("label.lbl", {}, ["Working on", working]),
+                el("label.lbl", {}, ["Listening to", listening]),
+                el("div.lbl", {}, ["Profile theme", swatches]),
+                el("div.lbl", {}, ["Top buddies – up to 8, in the order you tick them", pick]),
+                error,
+                el("div.prow", {}, [el("span.grow"), button("Cancel", () => act("cancel_edit"), "ghost"),
+                                    button("Save profile", save, "accent")]),
+            ], "pf-edit");
+            return {node, error, user: d.user.id, theme: () => theme};
+        }
+
+        return {
+            title: "Profile", wide: true, body: [page],
+            buttons: [{label: "Close"}],
+            update(d) {
+                if (d.loading) {
+                    form = null;
+                    page.dataset.theme = "classic";
+                    page.replaceChildren(el("div.pf-loading", {text: d.error || "Loading profile…"}));
+                    return;
+                }
+                if (d.editing) {
+                    if (!form || form.user !== d.user.id) form = buildForm(d);
+                    page.dataset.theme = form.theme();
+                    form.error.textContent = d.error;
+                    if (page.firstChild !== form.node) page.replaceChildren(form.node);
+                    return;
+                }
+                form = null;
+                page.dataset.theme = d.theme;
+                page.replaceChildren(...view(d), ...(d.error ? [el("div.field-error.pf-error", {text: d.error})] : []));
+            },
         };
     },
 

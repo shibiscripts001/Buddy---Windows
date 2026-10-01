@@ -38,6 +38,7 @@ from websockets.exceptions import ConnectionClosed
 from .bugs import BUG_REPORT_TIMEOUT
 from .common import network_of
 from .core import NetworkCore, Session
+from .profiles import WHO_EVERY
 
 log = logging.getLogger("buddy_network")
 
@@ -267,6 +268,17 @@ async def _purge_loop(core: NetworkCore, connections: set):
         await asyncio.sleep(PURGE_EVERY_SECONDS)
 
 
+async def _who_loop(core: NetworkCore):
+    """Who's-here lists for the public rooms people came to or left
+    (profiles.py): batched, so a busy room gets one every few seconds."""
+    while True:
+        await asyncio.sleep(WHO_EVERY)
+        try:
+            core.flush_who()
+        except Exception:   # noqa: BLE001 - one bad pass mustn't stop the loop
+            log.exception("who's-here lists failed")
+
+
 async def run(core: NetworkCore, host: str, port: int, behind_proxy: bool = False):
     connections: set = set()
     core.fetch = make_fetch()
@@ -276,7 +288,9 @@ async def run(core: NetworkCore, host: str, port: int, behind_proxy: bool = Fals
                      process_request=make_process_request(core)) as server:
         log.info("Buddy Network server listening on %s:%d", host, port)
         purge = asyncio.create_task(_purge_loop(core, connections))
+        who = asyncio.create_task(_who_loop(core))
         try:
             await server.serve_forever()
         finally:
             purge.cancel()
+            who.cancel()

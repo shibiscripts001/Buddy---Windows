@@ -120,10 +120,11 @@ class RenderTests(unittest.TestCase):
         self.assertIn("message deleted", out)
         self.assertNotIn("bn-delete:3", out)
 
-    def test_names_open_the_user_menu_blocked_hidden_deleted_shown(self):
+    def test_names_open_profiles_blocked_hidden_deleted_shown(self):
         out, _ = self.html([msg(1, "mine"), msg(2, "theirs", author="u2", name="Sam")])
-        self.assertIn('href="bn-user:u2"', out)
-        self.assertNotIn("bn-user:u1", out)            # not your own name
+        self.assertIn('class="who" translate="no" href="bn-user:u2"', out)
+        self.assertIn('class="face-link" href="bn-user:u2"', out)   # the avatar too
+        self.assertIn('href="bn-user:u1"', out)        # your own: your profile
         links = []
         out = render.room_html([msg(1, "hello"), msg(2, "spam", author="u2", name="Sam")], my_id="u1",
                                room_name="#Global", more=False, links=links, colors=COLORS,

@@ -4889,5 +4889,855 @@
   "中文": "收到一份错误报告——请查看“管理”。",
   "العربية": "وصل تقرير خطأ – راجع الإدارة.",
   "Tiếng Việt": "Có báo cáo lỗi mới – xem Quản trị."
+ },
+ "Member since {when}": {
+  "日本語": "{when} からのメンバー",
+  "Español": "Miembro desde {when}",
+  "Deutsch": "Mitglied seit {when}",
+  "Français": "Membre depuis {when}",
+  "한국어": "{when}부터 회원",
+  "中文": "{when} 加入",
+  "العربية": "عضو منذ {when}",
+  "Tiếng Việt": "Thành viên từ {when}"
+ },
+ "1 profile view": {
+  "日本語": "プロフィール閲覧 1 回",
+  "Español": "1 visita al perfil",
+  "Deutsch": "1 Profilaufruf",
+  "Français": "1 vue du profil",
+  "한국어": "프로필 조회 1회",
+  "中文": "1 次主页浏览",
+  "العربية": "مشاهدة واحدة للملف الشخصي",
+  "Tiếng Việt": "1 lượt xem hồ sơ"
+ },
+ "{count} profile views": {
+  "日本語": "プロフィール閲覧 {count} 回",
+  "Español": "{count} visitas al perfil",
+  "Deutsch": "{count} Profilaufrufe",
+  "Français": "{count} vues du profil",
+  "한국어": "프로필 조회 {count}회",
+  "中文": "{count} 次主页浏览",
+  "العربية": "{count} مشاهدة للملف الشخصي",
+  "Tiếng Việt": "{count} lượt xem hồ sơ"
+ },
+ "This is your profile – this is how everyone sees it.": {
+  "日本語": "これはあなたのプロフィールです。みんなにはこう見えます。",
+  "Español": "Este es tu perfil: así lo ven todos.",
+  "Deutsch": "Das ist dein Profil – so sehen es alle.",
+  "Français": "Voici votre profil – c'est ainsi que tout le monde le voit.",
+  "한국어": "내 프로필입니다. 모두에게 이렇게 보여요.",
+  "中文": "这是你的主页——大家看到的就是这样。",
+  "العربية": "هذا ملفك الشخصي – هكذا يراه الجميع.",
+  "Tiếng Việt": "Đây là hồ sơ của bạn – mọi người thấy nó như thế này."
+ },
+ "{name} is in your extended network.": {
+  "日本語": "{name} はあなたの拡張ネットワークにいます。",
+  "Español": "{name} está en tu red ampliada.",
+  "Deutsch": "{name} ist in deinem erweiterten Netzwerk.",
+  "Français": "{name} fait partie de votre réseau étendu.",
+  "한국어": "{name}님은 내 확장 네트워크에 있어요.",
+  "中文": "{name} 在你的扩展网络中。",
+  "العربية": "{name} ضمن شبكتك الموسّعة.",
+  "Tiếng Việt": "{name} nằm trong mạng lưới mở rộng của bạn."
+ },
+ "{name}'s Blurbs": {
+  "日本語": "{name} のひとこと",
+  "Español": "Lo de {name}",
+  "Deutsch": "Über {name}",
+  "Français": "Les mots de {name}",
+  "한국어": "{name}의 소개",
+  "中文": "{name} 的简介",
+  "العربية": "نبذة عن {name}",
+  "Tiếng Việt": "Đôi lời của {name}"
+ },
+ "Contacting {name}": {
+  "日本語": "{name} に連絡",
+  "Español": "Contactar con {name}",
+  "Deutsch": "{name} kontaktieren",
+  "Français": "Contacter {name}",
+  "한국어": "{name}님에게 연락",
+  "中文": "联系 {name}",
+  "العربية": "التواصل مع {name}",
+  "Tiếng Việt": "Liên hệ {name}"
+ },
+ "{name}'s Top Buddies": {
+  "日本語": "{name} のトップバディ",
+  "Español": "Los mejores amigos de {name}",
+  "Deutsch": "Top-Buddies von {name}",
+  "Français": "Meilleurs amis de {name}",
+  "한국어": "{name}의 베스트 친구",
+  "中文": "{name} 的挚友",
+  "العربية": "أفضل أصدقاء {name}",
+  "Tiếng Việt": "Bạn thân nhất của {name}"
+ },
+ "1 buddy": {
+  "日本語": "バディ 1 人",
+  "Español": "1 amigo",
+  "Deutsch": "1 Buddy",
+  "Français": "1 ami",
+  "한국어": "친구 1명",
+  "中文": "1 位好友",
+  "العربية": "صديق واحد",
+  "Tiếng Việt": "1 bạn"
+ },
+ "{count} buddies": {
+  "日本語": "バディ {count} 人",
+  "Español": "{count} amigos",
+  "Deutsch": "{count} Buddys",
+  "Français": "{count} amis",
+  "한국어": "친구 {count}명",
+  "中文": "{count} 位好友",
+  "العربية": "{count} أصدقاء",
+  "Tiếng Việt": "{count} bạn"
+ },
+ "No mood": {
+  "日本語": "気分なし",
+  "Español": "Sin estado de ánimo",
+  "Deutsch": "Keine Stimmung",
+  "Français": "Pas d'humeur",
+  "한국어": "기분 없음",
+  "中文": "无心情",
+  "العربية": "بلا مزاج",
+  "Tiếng Việt": "Không có tâm trạng"
+ },
+ "chill": {
+  "日本語": "まったり",
+  "Español": "relajado",
+  "Deutsch": "entspannt",
+  "Français": "détendu",
+  "한국어": "느긋함",
+  "中文": "放松",
+  "العربية": "مسترخٍ",
+  "Tiếng Việt": "thư thái"
+ },
+ "busy": {
+  "日本語": "忙しい",
+  "Español": "ocupado",
+  "Deutsch": "beschäftigt",
+  "Français": "occupé",
+  "한국어": "바쁨",
+  "中文": "忙碌",
+  "العربية": "مشغول",
+  "Tiếng Việt": "bận rộn"
+ },
+ "creative": {
+  "日本語": "クリエイティブ",
+  "Español": "creativo",
+  "Deutsch": "kreativ",
+  "Français": "créatif",
+  "한국어": "창의적",
+  "中文": "有创意",
+  "العربية": "مبدع",
+  "Tiếng Việt": "sáng tạo"
+ },
+ "tired": {
+  "日本語": "疲れた",
+  "Español": "cansado",
+  "Deutsch": "müde",
+  "Français": "fatigué",
+  "한국어": "피곤함",
+  "中文": "疲惫",
+  "العربية": "متعب",
+  "Tiếng Việt": "mệt mỏi"
+ },
+ "excited": {
+  "日本語": "ワクワク",
+  "Español": "emocionado",
+  "Deutsch": "aufgeregt",
+  "Français": "enthousiaste",
+  "한국어": "신남",
+  "中文": "兴奋",
+  "العربية": "متحمّس",
+  "Tiếng Việt": "hào hứng"
+ },
+ "focused": {
+  "日本語": "集中",
+  "Español": "concentrado",
+  "Deutsch": "konzentriert",
+  "Français": "concentré",
+  "한국어": "집중",
+  "中文": "专注",
+  "العربية": "مركّز",
+  "Tiếng Việt": "tập trung"
+ },
+ "silly": {
+  "日本語": "おちゃらけ",
+  "Español": "bromista",
+  "Deutsch": "albern",
+  "Français": "farceur",
+  "한국어": "장난스러움",
+  "中文": "搞怪",
+  "العربية": "مرِح",
+  "Tiếng Việt": "nghịch ngợm"
+ },
+ "grumpy": {
+  "日本語": "不機嫌",
+  "Español": "gruñón",
+  "Deutsch": "mürrisch",
+  "Français": "grognon",
+  "한국어": "심술남",
+  "中文": "暴躁",
+  "العربية": "متذمّر",
+  "Tiếng Việt": "cáu kỉnh"
+ },
+ "inspired": {
+  "日本語": "ひらめき",
+  "Español": "inspirado",
+  "Deutsch": "inspiriert",
+  "Français": "inspiré",
+  "한국어": "영감 받음",
+  "中文": "灵感满满",
+  "العربية": "ملهَم",
+  "Tiếng Việt": "đầy cảm hứng"
+ },
+ "rendering": {
+  "日本語": "レンダリング中",
+  "Español": "renderizando",
+  "Deutsch": "am Rendern",
+  "Français": "en plein rendu",
+  "한국어": "렌더링 중",
+  "中文": "渲染中",
+  "العربية": "أقوم بالتصيير",
+  "Tiếng Việt": "đang render"
+ },
+ "caffeinated": {
+  "日本語": "カフェイン補給済み",
+  "Español": "con mucho café",
+  "Deutsch": "koffeiniert",
+  "Français": "caféiné",
+  "한국어": "카페인 충전",
+  "中文": "咖啡因满格",
+  "العربية": "مليء بالكافيين",
+  "Tiếng Việt": "nạp cà phê"
+ },
+ "Classic": {
+  "日本語": "クラシック",
+  "Español": "Clásico",
+  "Deutsch": "Klassisch",
+  "Français": "Classique",
+  "한국어": "클래식",
+  "中文": "经典",
+  "العربية": "كلاسيكي",
+  "Tiếng Việt": "Cổ điển"
+ },
+ "Midnight": {
+  "日本語": "ミッドナイト",
+  "Español": "Medianoche",
+  "Deutsch": "Mitternacht",
+  "Français": "Minuit",
+  "한국어": "미드나잇",
+  "中文": "午夜",
+  "العربية": "منتصف الليل",
+  "Tiếng Việt": "Nửa đêm"
+ },
+ "Bubblegum": {
+  "日本語": "バブルガム",
+  "Español": "Chicle",
+  "Deutsch": "Kaugummi",
+  "Français": "Chewing-gum",
+  "한국어": "버블껌",
+  "中文": "泡泡糖",
+  "العربية": "علكة",
+  "Tiếng Việt": "Kẹo cao su"
+ },
+ "Hacker": {
+  "日本語": "ハッカー",
+  "Español": "Hacker",
+  "Deutsch": "Hacker",
+  "Français": "Hacker",
+  "한국어": "해커",
+  "中文": "黑客",
+  "العربية": "هاكر",
+  "Tiếng Việt": "Hacker"
+ },
+ "Sunset": {
+  "日本語": "サンセット",
+  "Español": "Atardecer",
+  "Deutsch": "Sonnenuntergang",
+  "Français": "Coucher de soleil",
+  "한국어": "노을",
+  "中文": "日落",
+  "العربية": "غروب",
+  "Tiếng Việt": "Hoàng hôn"
+ },
+ "Ocean": {
+  "日本語": "オーシャン",
+  "Español": "Océano",
+  "Deutsch": "Ozean",
+  "Français": "Océan",
+  "한국어": "바다",
+  "中文": "海洋",
+  "العربية": "محيط",
+  "Tiếng Việt": "Đại dương"
+ },
+ "Forest": {
+  "日本語": "フォレスト",
+  "Español": "Bosque",
+  "Deutsch": "Wald",
+  "Français": "Forêt",
+  "한국어": "숲",
+  "中文": "森林",
+  "العربية": "غابة",
+  "Tiếng Việt": "Rừng"
+ },
+ "Glitter": {
+  "日本語": "グリッター",
+  "Español": "Purpurina",
+  "Deutsch": "Glitzer",
+  "Français": "Paillettes",
+  "한국어": "글리터",
+  "中文": "闪粉",
+  "العربية": "بريق",
+  "Tiếng Việt": "Lấp lánh"
+ },
+ "Notebook": {
+  "日本語": "ノート",
+  "Español": "Cuaderno",
+  "Deutsch": "Notizheft",
+  "Français": "Cahier",
+  "한국어": "공책",
+  "中文": "笔记本",
+  "العربية": "دفتر",
+  "Tiếng Việt": "Vở ghi"
+ },
+ "Retro": {
+  "日本語": "レトロ",
+  "Español": "Retro",
+  "Deutsch": "Retro",
+  "Français": "Rétro",
+  "한국어": "레트로",
+  "中文": "复古",
+  "العربية": "قديم الطراز",
+  "Tiếng Việt": "Hoài cổ"
+ },
+ "Headlines are at most {count} characters.": {
+  "日本語": "見出しは {count} 文字までです。",
+  "Español": "Los titulares tienen como máximo {count} caracteres.",
+  "Deutsch": "Überschriften haben höchstens {count} Zeichen.",
+  "Français": "Les titres font au plus {count} caractères.",
+  "한국어": "헤드라인은 최대 {count}자입니다.",
+  "中文": "标题最多 {count} 个字符。",
+  "العربية": "العنوان {count} حرفًا على الأكثر.",
+  "Tiếng Việt": "Tiêu đề tối đa {count} ký tự."
+ },
+ "About me is at most {count} characters.": {
+  "日本語": "自己紹介は {count} 文字までです。",
+  "Español": "«Sobre mí» tiene como máximo {count} caracteres.",
+  "Deutsch": "„Über mich“ hat höchstens {count} Zeichen.",
+  "Français": "« À propos de moi » fait au plus {count} caractères.",
+  "한국어": "자기소개는 최대 {count}자입니다.",
+  "中文": "关于我最多 {count} 个字符。",
+  "العربية": "«نبذة عني» {count} حرفًا على الأكثر.",
+  "Tiếng Việt": "Giới thiệu bản thân tối đa {count} ký tự."
+ },
+ "Those lines are at most {count} characters.": {
+  "日本語": "これらの行は {count} 文字までです。",
+  "Español": "Esas líneas tienen como máximo {count} caracteres.",
+  "Deutsch": "Diese Zeilen haben höchstens {count} Zeichen.",
+  "Français": "Ces lignes font au plus {count} caractères.",
+  "한국어": "이 줄은 최대 {count}자입니다.",
+  "中文": "这些行最多 {count} 个字符。",
+  "العربية": "هذه الأسطر {count} حرفًا على الأكثر.",
+  "Tiếng Việt": "Các dòng đó tối đa {count} ký tự."
+ },
+ "Pick up to {count} top buddies.": {
+  "日本語": "トップバディは {count} 人まで選べます。",
+  "Español": "Elige hasta {count} mejores amigos.",
+  "Deutsch": "Wähle bis zu {count} Top-Buddies.",
+  "Français": "Choisissez jusqu'à {count} meilleurs amis.",
+  "한국어": "베스트 친구는 최대 {count}명까지 고를 수 있어요.",
+  "中文": "最多选择 {count} 位挚友。",
+  "العربية": "اختر حتى {count} من أفضل الأصدقاء.",
+  "Tiếng Việt": "Chọn tối đa {count} bạn thân nhất."
+ },
+ "{count} here": {
+  "日本語": "{count} 人がここに",
+  "Español": "{count} aquí",
+  "Deutsch": "{count} hier",
+  "Français": "{count} ici",
+  "한국어": "{count}명 접속 중",
+  "中文": "{count} 人在此",
+  "العربية": "{count} هنا",
+  "Tiếng Việt": "{count} người ở đây"
+ },
+ "Edit profile": {
+  "日本語": "プロフィールを編集",
+  "Español": "Editar perfil",
+  "Deutsch": "Profil bearbeiten",
+  "Français": "Modifier le profil",
+  "한국어": "프로필 편집",
+  "中文": "编辑主页",
+  "العربية": "تعديل الملف الشخصي",
+  "Tiếng Việt": "Sửa hồ sơ"
+ },
+ "Change avatar…": {
+  "日本語": "アバターを変更…",
+  "Español": "Cambiar avatar…",
+  "Deutsch": "Avatar ändern…",
+  "Français": "Changer d'avatar…",
+  "한국어": "아바타 변경…",
+  "中文": "更换头像…",
+  "العربية": "تغيير الصورة الرمزية…",
+  "Tiếng Việt": "Đổi ảnh đại diện…"
+ },
+ "Copy my ID": {
+  "日本語": "自分の ID をコピー",
+  "Español": "Copiar mi ID",
+  "Deutsch": "Meine ID kopieren",
+  "Français": "Copier mon ID",
+  "한국어": "내 ID 복사",
+  "中文": "复制我的 ID",
+  "العربية": "نسخ معرّفي",
+  "Tiếng Việt": "Sao chép ID của tôi"
+ },
+ "Send message": {
+  "日本語": "メッセージを送る",
+  "Español": "Enviar mensaje",
+  "Deutsch": "Nachricht senden",
+  "Français": "Envoyer un message",
+  "한국어": "메시지 보내기",
+  "中文": "发消息",
+  "العربية": "إرسال رسالة",
+  "Tiếng Việt": "Gửi tin nhắn"
+ },
+ "Cancel buddy request": {
+  "日本語": "バディ申請を取り消す",
+  "Español": "Cancelar solicitud de amistad",
+  "Deutsch": "Buddy-Anfrage zurückziehen",
+  "Français": "Annuler la demande d'ami",
+  "한국어": "친구 요청 취소",
+  "中文": "取消好友请求",
+  "العربية": "إلغاء طلب الصداقة",
+  "Tiếng Việt": "Hủy lời mời kết bạn"
+ },
+ "Add to buddies": {
+  "日本語": "バディに追加",
+  "Español": "Añadir a amigos",
+  "Deutsch": "Zu Buddys hinzufügen",
+  "Français": "Ajouter aux amis",
+  "한국어": "친구 추가",
+  "中文": "加为好友",
+  "العربية": "إضافة إلى الأصدقاء",
+  "Tiếng Việt": "Thêm vào bạn bè"
+ },
+ "Clear profile": {
+  "日本語": "プロフィールを消去",
+  "Español": "Vaciar perfil",
+  "Deutsch": "Profil leeren",
+  "Français": "Effacer le profil",
+  "한국어": "프로필 비우기",
+  "中文": "清空主页",
+  "العربية": "مسح الملف الشخصي",
+  "Tiếng Việt": "Xóa nội dung hồ sơ"
+ },
+ "Profile saved": {
+  "日本語": "プロフィールを保存しました",
+  "Español": "Perfil guardado",
+  "Deutsch": "Profil gespeichert",
+  "Français": "Profil enregistré",
+  "한국어": "프로필이 저장되었어요",
+  "中文": "主页已保存",
+  "العربية": "تم حفظ الملف الشخصي",
+  "Tiếng Việt": "Đã lưu hồ sơ"
+ },
+ "Empty what {name} wrote on their profile – the headline, About me and the rest? Their theme, mood and top buddies stay. It goes in the admin log.": {
+  "日本語": "{name} がプロフィールに書いた内容（見出し、自己紹介など）を消去しますか？テーマ、気分、トップバディは残ります。管理ログに記録されます。",
+  "Español": "¿Vaciar lo que {name} escribió en su perfil (el titular, «Sobre mí» y lo demás)? Su tema, estado de ánimo y mejores amigos se quedan. Queda en el registro de administración.",
+  "Deutsch": "Leeren, was {name} in das Profil geschrieben hat – Überschrift, „Über mich“ und den Rest? Design, Stimmung und Top-Buddies bleiben. Es kommt ins Admin-Protokoll.",
+  "Français": "Effacer ce que {name} a écrit sur son profil – le titre, « À propos de moi » et le reste ? Son thème, son humeur et ses meilleurs amis restent. Cela figure dans le journal d'administration.",
+  "한국어": "{name}님이 프로필에 쓴 내용(헤드라인, 자기소개 등)을 비울까요? 테마, 기분, 베스트 친구는 그대로 남아요. 관리자 기록에 남습니다.",
+  "中文": "清空 {name} 在主页上写的内容（标题、关于我等）？主题、心情和挚友会保留。此操作会记入管理日志。",
+  "العربية": "هل تريد مسح ما كتبه {name} في ملفه الشخصي – العنوان و«نبذة عني» وغيرهما؟ يبقى المظهر والمزاج وأفضل الأصدقاء. يُسجَّل ذلك في سجل الإدارة.",
+  "Tiếng Việt": "Xóa những gì {name} viết trên hồ sơ – tiêu đề, giới thiệu và phần còn lại? Chủ đề, tâm trạng và bạn thân nhất vẫn giữ nguyên. Việc này được ghi vào nhật ký quản trị."
+ },
+ "you": {
+  "日本語": "あなた",
+  "Español": "tú",
+  "Deutsch": "du",
+  "Français": "vous",
+  "한국어": "나",
+  "中文": "你",
+  "العربية": "أنت",
+  "Tiếng Việt": "bạn"
+ },
+ "See their profile": {
+  "日本語": "プロフィールを見る",
+  "Español": "Ver su perfil",
+  "Deutsch": "Profil ansehen",
+  "Français": "Voir son profil",
+  "한국어": "프로필 보기",
+  "中文": "查看主页",
+  "العربية": "عرض ملفه الشخصي",
+  "Tiếng Việt": "Xem hồ sơ"
+ },
+ "Profile…": {
+  "日本語": "プロフィール…",
+  "Español": "Perfil…",
+  "Deutsch": "Profil…",
+  "Français": "Profil…",
+  "한국어": "프로필…",
+  "中文": "主页…",
+  "العربية": "الملف الشخصي…",
+  "Tiếng Việt": "Hồ sơ…"
+ },
+ "Mood:": {
+  "日本語": "気分:",
+  "Español": "Estado de ánimo:",
+  "Deutsch": "Stimmung:",
+  "Français": "Humeur :",
+  "한국어": "기분:",
+  "中文": "心情：",
+  "العربية": "المزاج:",
+  "Tiếng Việt": "Tâm trạng:"
+ },
+ "Online now!": {
+  "日本語": "オンライン中！",
+  "Español": "¡En línea ahora!",
+  "Deutsch": "Jetzt online!",
+  "Français": "En ligne !",
+  "한국어": "지금 접속 중!",
+  "中文": "正在线上！",
+  "العربية": "متصل الآن!",
+  "Tiếng Việt": "Đang trực tuyến!"
+ },
+ "Offline": {
+  "日本語": "オフライン",
+  "Español": "Desconectado",
+  "Deutsch": "Offline",
+  "Français": "Hors ligne",
+  "한국어": "오프라인",
+  "中文": "离线",
+  "العربية": "غير متصل",
+  "Tiếng Việt": "Ngoại tuyến"
+ },
+ "About me:": {
+  "日本語": "自己紹介:",
+  "Español": "Sobre mí:",
+  "Deutsch": "Über mich:",
+  "Français": "À propos de moi :",
+  "한국어": "자기소개:",
+  "中文": "关于我：",
+  "العربية": "نبذة عني:",
+  "Tiếng Việt": "Giới thiệu:"
+ },
+ "Working on:": {
+  "日本語": "取り組み中:",
+  "Español": "Trabajando en:",
+  "Deutsch": "Arbeite an:",
+  "Français": "En cours :",
+  "한국어": "작업 중:",
+  "中文": "正在做：",
+  "العربية": "أعمل على:",
+  "Tiếng Việt": "Đang làm:"
+ },
+ "Listening to:": {
+  "日本語": "聴いている曲:",
+  "Español": "Escuchando:",
+  "Deutsch": "Höre gerade:",
+  "Français": "J'écoute :",
+  "한국어": "듣는 중:",
+  "中文": "正在听：",
+  "العربية": "أستمع إلى:",
+  "Tiếng Việt": "Đang nghe:"
+ },
+ "Nothing here yet – Edit profile to say something about yourself.": {
+  "日本語": "まだ何もありません。「プロフィールを編集」で自己紹介を書きましょう。",
+  "Español": "Aún no hay nada: usa Editar perfil para contar algo de ti.",
+  "Deutsch": "Noch nichts hier – über „Profil bearbeiten“ kannst du etwas über dich schreiben.",
+  "Français": "Rien pour l'instant – Modifier le profil pour parler de vous.",
+  "한국어": "아직 아무것도 없어요. 프로필 편집에서 자기소개를 써 보세요.",
+  "中文": "这里还什么都没有——点“编辑主页”介绍一下自己吧。",
+  "العربية": "لا شيء هنا بعد – استخدم تعديل الملف الشخصي لتكتب شيئًا عن نفسك.",
+  "Tiếng Việt": "Chưa có gì – dùng Sửa hồ sơ để viết đôi điều về bạn."
+ },
+ "Nothing here yet.": {
+  "日本語": "まだ何もありません。",
+  "Español": "Aún no hay nada.",
+  "Deutsch": "Noch nichts hier.",
+  "Français": "Rien pour l'instant.",
+  "한국어": "아직 아무것도 없어요.",
+  "中文": "这里还什么都没有。",
+  "العربية": "لا شيء هنا بعد.",
+  "Tiếng Việt": "Chưa có gì."
+ },
+ "Pick your top buddies under Edit profile.": {
+  "日本語": "トップバディは「プロフィールを編集」で選べます。",
+  "Español": "Elige a tus mejores amigos en Editar perfil.",
+  "Deutsch": "Wähle deine Top-Buddies unter „Profil bearbeiten“.",
+  "Français": "Choisissez vos meilleurs amis dans Modifier le profil.",
+  "한국어": "베스트 친구는 프로필 편집에서 고를 수 있어요.",
+  "中文": "在“编辑主页”里选择你的挚友。",
+  "العربية": "اختر أفضل أصدقائك من تعديل الملف الشخصي.",
+  "Tiếng Việt": "Chọn bạn thân nhất trong Sửa hồ sơ."
+ },
+ "No top buddies picked yet.": {
+  "日本語": "トップバディはまだ選ばれていません。",
+  "Español": "Aún no hay mejores amigos elegidos.",
+  "Deutsch": "Noch keine Top-Buddies gewählt.",
+  "Français": "Aucun meilleur ami choisi pour l'instant.",
+  "한국어": "아직 고른 베스트 친구가 없어요.",
+  "中文": "还没有选择挚友。",
+  "العربية": "لم يُختَر أفضل الأصدقاء بعد.",
+  "Tiếng Việt": "Chưa chọn bạn thân nhất nào."
+ },
+ "A line about you, shown under your name": {
+  "日本語": "名前の下に表示される、あなたについての一言",
+  "Español": "Una frase sobre ti, bajo tu nombre",
+  "Deutsch": "Eine Zeile über dich, unter deinem Namen",
+  "Français": "Une ligne sur vous, sous votre nom",
+  "한국어": "이름 아래에 보이는 나에 대한 한 줄",
+  "中文": "一句关于你的话，显示在名字下方",
+  "العربية": "سطر عنك يظهر تحت اسمك",
+  "Tiếng Việt": "Một dòng về bạn, hiện dưới tên"
+ },
+ "Say something about yourself – what you edit, what you love": {
+  "日本語": "自分について書きましょう。どんな編集をしているか、好きなものなど",
+  "Español": "Cuenta algo de ti: qué editas, qué te encanta",
+  "Deutsch": "Erzähl etwas über dich – was du schneidest, was du liebst",
+  "Français": "Parlez de vous – ce que vous montez, ce que vous aimez",
+  "한국어": "나에 대해 써 보세요. 어떤 편집을 하는지, 무엇을 좋아하는지",
+  "中文": "介绍一下自己——你剪什么、喜欢什么",
+  "العربية": "قل شيئًا عن نفسك – ماذا تُحرّر وماذا تحب",
+  "Tiếng Việt": "Kể đôi điều về bạn – bạn dựng gì, bạn yêu thích gì"
+ },
+ "Add some buddies first – your top buddies are picked from them.": {
+  "日本語": "先にバディを追加しましょう。トップバディはその中から選びます。",
+  "Español": "Añade primero algunos amigos: tus mejores amigos se eligen entre ellos.",
+  "Deutsch": "Füge zuerst Buddys hinzu – deine Top-Buddies wählst du aus ihnen.",
+  "Français": "Ajoutez d'abord des amis – vos meilleurs amis sont choisis parmi eux.",
+  "한국어": "먼저 친구를 추가하세요. 베스트 친구는 그중에서 골라요.",
+  "中文": "先添加一些好友——挚友从好友中选择。",
+  "العربية": "أضف بعض الأصدقاء أولًا – يُختار أفضل أصدقائك من بينهم.",
+  "Tiếng Việt": "Hãy thêm bạn bè trước – bạn thân nhất được chọn từ họ."
+ },
+ "Edit your profile": {
+  "日本語": "プロフィールを編集",
+  "Español": "Edita tu perfil",
+  "Deutsch": "Dein Profil bearbeiten",
+  "Français": "Modifier votre profil",
+  "한국어": "프로필 편집",
+  "中文": "编辑你的主页",
+  "العربية": "عدّل ملفك الشخصي",
+  "Tiếng Việt": "Sửa hồ sơ của bạn"
+ },
+ "Headline": {
+  "日本語": "見出し",
+  "Español": "Titular",
+  "Deutsch": "Überschrift",
+  "Français": "Titre",
+  "한국어": "헤드라인",
+  "中文": "标题",
+  "العربية": "العنوان",
+  "Tiếng Việt": "Tiêu đề"
+ },
+ "Mood": {
+  "日本語": "気分",
+  "Español": "Estado de ánimo",
+  "Deutsch": "Stimmung",
+  "Français": "Humeur",
+  "한국어": "기분",
+  "中文": "心情",
+  "العربية": "المزاج",
+  "Tiếng Việt": "Tâm trạng"
+ },
+ "About me": {
+  "日本語": "自己紹介",
+  "Español": "Sobre mí",
+  "Deutsch": "Über mich",
+  "Français": "À propos de moi",
+  "한국어": "자기소개",
+  "中文": "关于我",
+  "العربية": "نبذة عني",
+  "Tiếng Việt": "Giới thiệu"
+ },
+ "Working on": {
+  "日本語": "取り組み中",
+  "Español": "Trabajando en",
+  "Deutsch": "Arbeite an",
+  "Français": "En cours",
+  "한국어": "작업 중",
+  "中文": "正在做",
+  "العربية": "أعمل على",
+  "Tiếng Việt": "Đang làm"
+ },
+ "Listening to": {
+  "日本語": "聴いている曲",
+  "Español": "Escuchando",
+  "Deutsch": "Höre gerade",
+  "Français": "J'écoute",
+  "한국어": "듣는 중",
+  "中文": "正在听",
+  "العربية": "أستمع إلى",
+  "Tiếng Việt": "Đang nghe"
+ },
+ "Profile theme": {
+  "日本語": "プロフィールのテーマ",
+  "Español": "Tema del perfil",
+  "Deutsch": "Profil-Design",
+  "Français": "Thème du profil",
+  "한국어": "프로필 테마",
+  "中文": "主页主题",
+  "العربية": "مظهر الملف الشخصي",
+  "Tiếng Việt": "Chủ đề hồ sơ"
+ },
+ "Top buddies – up to 8, in the order you tick them": {
+  "日本語": "トップバディ（最大 8 人、チェックした順）",
+  "Español": "Mejores amigos: hasta 8, en el orden en que los marques",
+  "Deutsch": "Top-Buddies – bis zu 8, in der Reihenfolge deiner Häkchen",
+  "Français": "Meilleurs amis – jusqu'à 8, dans l'ordre où vous les cochez",
+  "한국어": "베스트 친구 – 최대 8명, 체크한 순서대로",
+  "中文": "挚友——最多 8 位，按勾选顺序排列",
+  "العربية": "أفضل الأصدقاء – حتى 8، بترتيب تحديدك لهم",
+  "Tiếng Việt": "Bạn thân nhất – tối đa 8, theo thứ tự bạn đánh dấu"
+ },
+ "Save profile": {
+  "日本語": "プロフィールを保存",
+  "Español": "Guardar perfil",
+  "Deutsch": "Profil speichern",
+  "Français": "Enregistrer le profil",
+  "한국어": "프로필 저장",
+  "中文": "保存主页",
+  "العربية": "حفظ الملف الشخصي",
+  "Tiếng Việt": "Lưu hồ sơ"
+ },
+ "Profile": {
+  "日本語": "プロフィール",
+  "Español": "Perfil",
+  "Deutsch": "Profil",
+  "Français": "Profil",
+  "한국어": "프로필",
+  "中文": "主页",
+  "العربية": "الملف الشخصي",
+  "Tiếng Việt": "Hồ sơ"
+ },
+ "Loading profile…": {
+  "日本語": "プロフィールを読み込み中…",
+  "Español": "Cargando perfil…",
+  "Deutsch": "Profil wird geladen…",
+  "Français": "Chargement du profil…",
+  "한국어": "프로필 불러오는 중…",
+  "中文": "正在加载主页…",
+  "العربية": "جارٍ تحميل الملف الشخصي…",
+  "Tiếng Việt": "Đang tải hồ sơ…"
+ },
+ "People": {
+  "日本語": "メンバー",
+  "Español": "Personas",
+  "Deutsch": "Leute",
+  "Français": "Personnes",
+  "한국어": "사람들",
+  "中文": "在线的人",
+  "العربية": "الأشخاص",
+  "Tiếng Việt": "Mọi người"
+ },
+ "Show or hide who's here": {
+  "日本語": "ここにいる人を表示・非表示",
+  "Español": "Mostrar u ocultar quién está aquí",
+  "Deutsch": "Anzeigen oder ausblenden, wer hier ist",
+  "Français": "Afficher ou masquer qui est là",
+  "한국어": "여기 있는 사람 보이기/숨기기",
+  "中文": "显示或隐藏在这里的人",
+  "العربية": "إظهار أو إخفاء الموجودين هنا",
+  "Tiếng Việt": "Hiện hoặc ẩn ai đang ở đây"
+ },
+ "Here now": {
+  "日本語": "ここにいる人",
+  "Español": "Aquí ahora",
+  "Deutsch": "Gerade hier",
+  "Français": "Ici maintenant",
+  "한국어": "지금 여기",
+  "中文": "此刻在这里",
+  "العربية": "هنا الآن",
+  "Tiếng Việt": "Đang ở đây"
+ },
+ "People set to appear offline aren't listed.": {
+  "日本語": "オフライン表示にしている人は表示されません。",
+  "Español": "No se muestra a quien aparece desconectado.",
+  "Deutsch": "Wer offline erscheinen will, wird nicht angezeigt.",
+  "Français": "Les personnes qui apparaissent hors ligne ne sont pas listées.",
+  "한국어": "오프라인으로 표시한 사람은 보이지 않아요.",
+  "中文": "设为显示离线的人不会列出。",
+  "العربية": "لا يظهر من اختار الظهور بمظهر غير متصل.",
+  "Tiếng Việt": "Người đặt chế độ hiện ngoại tuyến sẽ không có trong danh sách."
+ },
+ "Your profile": {
+  "日本語": "あなたのプロフィール",
+  "Español": "Tu perfil",
+  "Deutsch": "Dein Profil",
+  "Français": "Votre profil",
+  "한국어": "내 프로필",
+  "中文": "你的主页",
+  "العربية": "ملفك الشخصي",
+  "Tiếng Việt": "Hồ sơ của bạn"
+ },
+ "Who's here": {
+  "日本語": "ここにいる人",
+  "Español": "Quién está aquí",
+  "Deutsch": "Wer hier ist",
+  "Français": "Qui est là",
+  "한국어": "여기 있는 사람",
+  "中文": "谁在这里",
+  "العربية": "من هنا",
+  "Tiếng Việt": "Ai đang ở đây"
+ },
+ "Add a reaction": {
+  "日本語": "リアクションを追加",
+  "Español": "Añadir una reacción",
+  "Deutsch": "Reaktion hinzufügen",
+  "Français": "Ajouter une réaction",
+  "한국어": "반응 추가",
+  "中文": "添加回应",
+  "العربية": "إضافة تفاعل",
+  "Tiếng Việt": "Thêm biểu cảm"
+ },
+ "That's a lot of profiles - slow down a little.": {
+  "日本語": "たくさんのプロフィールを開いています。少しペースを落としてください。",
+  "Español": "Son muchos perfiles: ve un poco más despacio.",
+  "Deutsch": "Das sind viele Profile – mach etwas langsamer.",
+  "Français": "Ça fait beaucoup de profils – ralentissez un peu.",
+  "한국어": "프로필을 너무 많이 열었어요. 조금 천천히 해 주세요.",
+  "中文": "打开的主页太多了——请慢一点。",
+  "العربية": "هذه ملفات كثيرة – تمهّل قليلًا.",
+  "Tiếng Việt": "Bạn đang xem nhiều hồ sơ quá – chậm lại một chút nhé."
+ },
+ "That isn't one of the moods.": {
+  "日本語": "その気分はありません。",
+  "Español": "Ese no es uno de los estados de ánimo.",
+  "Deutsch": "Das ist keine der Stimmungen.",
+  "Français": "Ce n'est pas l'une des humeurs.",
+  "한국어": "그런 기분은 없어요.",
+  "中文": "没有这个心情选项。",
+  "العربية": "هذا ليس من الأمزجة المتاحة.",
+  "Tiếng Việt": "Đó không phải là một tâm trạng có sẵn."
+ },
+ "That isn't one of the profile themes.": {
+  "日本語": "そのプロフィールのテーマはありません。",
+  "Español": "Ese no es uno de los temas del perfil.",
+  "Deutsch": "Das ist keines der Profil-Designs.",
+  "Français": "Ce n'est pas l'un des thèmes de profil.",
+  "한국어": "그런 프로필 테마는 없어요.",
+  "中文": "没有这个主页主题。",
+  "العربية": "هذا ليس من مظاهر الملف الشخصي.",
+  "Tiếng Việt": "Đó không phải là một chủ đề hồ sơ có sẵn."
+ },
+ "That's a lot of profile changes - try again later.": {
+  "日本語": "プロフィールの変更が多すぎます。あとでもう一度お試しください。",
+  "Español": "Son muchos cambios de perfil: inténtalo más tarde.",
+  "Deutsch": "Das sind viele Profiländerungen – versuch es später noch einmal.",
+  "Français": "Ça fait beaucoup de modifications de profil – réessayez plus tard.",
+  "한국어": "프로필을 너무 자주 바꿨어요. 나중에 다시 해 주세요.",
+  "中文": "主页修改次数太多——请稍后再试。",
+  "العربية": "هذه تغييرات كثيرة على الملف الشخصي – حاول لاحقًا.",
+  "Tiếng Việt": "Bạn đã đổi hồ sơ nhiều lần quá – hãy thử lại sau."
+ },
+ "You can only clear the profiles of people below you.": {
+  "日本語": "自分より下の役割の人のプロフィールだけ消去できます。",
+  "Español": "Solo puedes vaciar los perfiles de quienes están por debajo de ti.",
+  "Deutsch": "Du kannst nur die Profile von Leuten unter dir leeren.",
+  "Français": "Vous ne pouvez effacer que les profils des personnes en dessous de vous.",
+  "한국어": "나보다 낮은 역할의 사람 프로필만 비울 수 있어요.",
+  "中文": "你只能清空比你级别低的人的主页。",
+  "العربية": "يمكنك مسح ملفات من هم أدنى منك فقط.",
+  "Tiếng Việt": "Bạn chỉ có thể xóa hồ sơ của người có vai trò thấp hơn bạn."
  }
 }

@@ -58,6 +58,7 @@ from .common import (STAFF_PREFIX, TAG_CHARS, RequestError, device_id, key_bytes
 from .admin import STAFF_ROLES, AdminMixin, one_line
 from .bugs import PRE_HELLO, BugMixin
 from .gifs import GifMixin
+from .profiles import ProfileMixin
 from .social import DEVICE_IDLE_DAYS, MAX_DEVICES, SocialMixin, dm_room
 from .store import Store, dm_people
 
@@ -384,7 +385,7 @@ APP_ANNOUNCEMENTS_SHOWN = 10
 APP_TITLE_MAX, APP_TEXT_MAX = 80, 1000
 
 
-class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
+class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin, ProfileMixin):
     def __init__(self, store: Store, clock=time.time, limit_new_accounts=True, giphy=None, fetch=None):
         """limit_new_accounts=False (python -m server --dev) is for testing on
         one PC, where every test identity comes from the same address.
@@ -393,6 +394,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
         self.store = store
         self.giphy, self.fetch = giphy, fetch
         self._init_gifs()
+        self._init_profiles()
         self.clock = clock
         self.limit_new_accounts = limit_new_accounts
         self.limits = RateLimiter(clock)
@@ -410,6 +412,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
     def disconnect(self, session: Session):
         for room in session.rooms:
             self._subscribers[room].discard(session)
+        self._who_changed(session.rooms)
         session.rooms.clear()
         for room in session.watching:
             self._watchers[room].discard(session)
@@ -435,6 +438,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
         self.store.purge_nameless(now - NAMELESS_DAYS * 86400, set(self._by_user))
         self.purge_admin()
         self.purge_bugs()
+        self._prune_profile_views()
         self.limits.prune()
         if now - self._compacted >= COMPACT_EVERY:
             # Deleted and edited text otherwise lingers in the file's free
@@ -549,7 +553,10 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
                        # A Buddy offers images only where the server says it takes them.
                        "max_image_bytes": MAX_IMAGE_BYTES, "max_image_side": MAX_IMAGE_SIDE,
                        "image_part_chars": IMAGE_PART_CHARS, "image_days": IMAGE_DAYS,
-                       "gifs": self.gifs_offered()},
+                       "gifs": self.gifs_offered(),
+                       # Profile pages and who's-here lists (profiles.py): a Buddy offers
+                       # them only where the server says it has them.
+                       "profiles": True, "who": True},
         }
         if new_token:
             welcome["token"] = new_token
@@ -575,6 +582,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
         self.store.set_name(session.user_id, name)
         session.send({"type": "name_set", "user": public_user(self.store.user(session.user_id))})
         self._push_buddy_lists(self._people_who_see(session.user_id))
+        self._who_changed_for(session.user_id)
 
     def _avatar_payload(self, user_id: str) -> dict:
         return {"type": "avatar_set", "user": public_user(self.store.user(user_id)),
@@ -594,6 +602,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
         for s in self._sessions_of(session.user_id):   # all of their Buddys
             s.send(self._avatar_payload(session.user_id))
         self._push_buddy_lists(self._people_who_see(session.user_id))
+        self._who_changed_for(session.user_id)
 
     def _save_avatars(self, session: Session, msg: dict):
         """The avatars they liked, kept with the account so every PC has them."""
@@ -629,12 +638,18 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
 
     def _join(self, session: Session, msg: dict):
         room = self._room_or_error(msg.get("room"), session)
+        new = room["id"] not in session.rooms
         session.rooms.add(room["id"])
         self._subscribers[room["id"]].add(session)
         self._send_history(session, room["id"], None)
+        self._send_who(session, room["id"])
+        if new:
+            self._who_changed([room["id"]])
 
     def _leave(self, session: Session, msg: dict):
         room_id = msg.get("room")
+        if room_id in session.rooms:
+            self._who_changed([room_id])
         session.rooms.discard(room_id)
         self._subscribers.get(room_id, set()).discard(session)
 
@@ -1174,6 +1189,7 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin):
         **AdminMixin._ADMIN_HANDLERS,
         **GifMixin._GIF_HANDLERS,
         **BugMixin._BUG_HANDLERS,
+        **ProfileMixin._PROFILE_HANDLERS,
     }
 
 

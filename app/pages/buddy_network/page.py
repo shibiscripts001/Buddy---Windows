@@ -25,7 +25,9 @@ are checked before sending - see safety.py. Direct messages are
 end-to-end encrypted (e2e.py), with a safety code per DM and a warning when
 keys change; any chat can be exported (export.py), and DMs kept on this PC
 (archive.py). Replies, editing, @mentions, unread counts and muting,
-search, slow mode (staff) and generated avatars (avatars.py). Images -
+search, slow mode (staff) and generated avatars (avatars.py). Profile pages
+- clicking anyone's name or avatar - and who's here in public rooms
+(profile_page.py, profiles.py). Images -
 picked, pasted or dropped, shrunk on this PC, kept on the server for a
 week, encrypted in DMs (attachments.py, images.py). GIFs stay animated,
 and GIF search finds them on GIPHY through the server (gif_search.py).
@@ -50,13 +52,13 @@ and leave the address at DEFAULT_SERVER_URL.
 Protocol:
     to the view    state, sidebar, room, messages, compose, notice, people,
                    search, buddies, found_rooms, ask, menu, alert, toast,
-                   panels (and attachments.py's and gif_search.py's)
+                   panels (and attachments.py's, gif_search.py's and profile_page.py's)
     from the view  turn_on, turn_off, import_transfer, open, anchor, send,
                    cancel_compose, answer, menu_pick, chat_menu, sidebar_menu,
                    new_room, browse, find_rooms, open_found, buddies, social,
                    add_buddy, appear_offline, account, admin, rules,
                    open_search, search, close_search, safety_code,
-                   panel_action, panel_close
+                   panel_action, panel_close (and profile_page.py's)
 """
 
 import os
@@ -74,6 +76,7 @@ from . import (archive, avatars, dialogs, e2e, export, mentions, panels, reactio
                transfer, web_view)
 from .attachments import ImageMixin
 from .gif_search import GifSearchMixin
+from .profile_page import ProfileMixin
 from .client import (CONNECTING, MAX_MESSAGE_CHARS, OFF, ONLINE, PROTOCOL_VERSION, WAITING, NetworkClient,
                      missing_support)
 from .identity import IdentityStore
@@ -112,7 +115,7 @@ def dm_room_id(me: str, other: str) -> str:
     return f"dm-{a}-{b}"
 
 
-class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebToolPage):
+class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, ProfileMixin, WebToolPage):
     tool_id = "buddy_network"
     display_name = "Buddy Network"
     category = ""   # its own group at the bottom of the rail, under a plain line
@@ -188,6 +191,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         self._menu = {}                # item id -> what it does, for the menu on screen
         self._init_images()
         self._init_gifs()
+        self._init_profiles()
 
         if self._unsupported:
             self._status = (self._unsupported, "danger")
@@ -210,6 +214,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         self._push_panels()
         self._push_images()
         self._push_attachment()
+        self._push_who()
 
     # --------------------------------------------------------- lifecycle
 
@@ -468,6 +473,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         self._render()
 
     def _push_room(self):
+        self._push_who()   # public rooms have a who's-here list (profile_page.py)
         room = self.rooms.get(self.room_id)
         if not room or not self.me:
             self.emit("room", None)
@@ -538,6 +544,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self._close_search()
             self._join_current()
             self._push_people()
+            self._push_who()
         self._push_sidebar()
 
     def on_open(self, payload):
@@ -1342,6 +1349,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             return panels.saved_chats(p["chats"], p.get("note", ""), p.get("tone", ""))
         if kind == "ban":
             return panels.ban_panel(p["person"])
+        if kind == "profile":
+            return self._profile_panel_view(p)
         if kind == "admin":
             if not self._am_staff():
                 return None
@@ -1380,6 +1389,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self._ask_name()
         elif action == "avatars":
             self.open_avatars()
+        elif action == "profile" and self.me:
+            self.open_profile(self.me["id"])
         elif action == "saved":
             self.open_saved_chats(over=True)
         elif action == "save_transfer":
@@ -1634,6 +1645,8 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         self._push_sidebar()
         self._push_room()
         self._push_people()
+        self._push_who()
+        self._push_panels()   # a profile's Contacting box follows who's a buddy
         self._render()
 
     def _is_looking(self) -> bool:
@@ -1851,7 +1864,9 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
         elif kind == "bn-edit" and arg.isdigit():
             self._start_edit(int(arg))
         elif kind == "bn-user" and arg:
-            self._user_menu(arg, x, y)
+            # Their profile; a server without profiles: the name menu (none for your own name).
+            if not self.open_profile(arg) and arg != (self.me or {}).get("id"):
+                self._user_menu(arg, x, y)
         elif kind == "bn-report" and arg.isdigit():
             self._report(int(arg))
         elif kind == "bn-more" and self.more and self.messages:
@@ -1949,6 +1964,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self.image_limits = limits if isinstance(limits.get("max_image_bytes"), int) else None
             self._reset_images()
             self._reset_gifs()
+            self._profiles_welcome(limits)
             url = self._server_url()
             if msg.get("token"):
                 self.identity.save(url, self.me["id"], msg["token"])
@@ -1987,6 +2003,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                 if m["author"]["id"] == self.me["id"]:
                     m["author"]["name"] = self.me["name"]
             self._render()
+            self._refresh_my_profile()
         elif kind == "avatar_set":
             self.me = msg["user"]
             self.saved_avatars = [s for s in msg.get("saved", []) if isinstance(s, str)]
@@ -1995,6 +2012,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
                     m["author"]["avatar"] = self.me.get("avatar", "")
             self._render()
             self._push_panels()
+            self._refresh_my_profile()
         elif kind == "history" and self._export is not None and msg.get("nonce") == self._export["nonce"]:
             self._export_page(msg)
         elif kind == "history" and msg.get("room") == self.room_id and "nonce" not in msg:
@@ -2144,6 +2162,7 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self.me = msg["user"]
             self._push_room()
             self._render()
+            self._push_panels()   # the staff buttons on a profile
             self._notify(ROLE_NOTICES.get(self.my_role(), ROLE_NOTICES["user"]), "success")
         elif kind == "ban_done":
             self._notify("Banned, along with their network." if msg.get("networks") else "Banned.", "success")
@@ -2157,13 +2176,19 @@ class BuddyNetworkPage(NetworkSettingsMixin, ImageMixin, GifSearchMixin, WebTool
             self._gif_thumb(msg)
         elif kind == "gif_data":
             self._gif_data(msg)
+        elif kind == "profile":
+            self._profile_arrived(msg)
+        elif kind == "profile_saved":
+            self._profile_saved()
+        elif kind == "who":
+            self._who_arrived(msg)
         elif kind == "error":
             self._on_error(msg)
         self._push_state()
 
     def _on_error(self, msg: dict):
         code, text = msg.get("code"), msg.get("message", "Something went wrong.")
-        if self._image_error(msg) or self._gif_error(msg):
+        if self._image_error(msg) or self._gif_error(msg) or self._profile_error(msg):
             pass
         elif msg.get("re") in ("bug_part", "bug_report"):
             pass   # the bug report window's (core/bug_report.py) - it says what went wrong

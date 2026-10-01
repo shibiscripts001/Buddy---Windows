@@ -14,12 +14,14 @@ colours stay inline, from `colors`.
 Links are anchors to "bn-link:<n>", an index into the `links` list the
 caller passes in, never the URL itself: the page looks the URL up and
 always shows the link warning first. Other anchors: "bn-delete:<id>",
-"bn-more" (load earlier messages), "bn-user:<id>" (someone's name: the
-add-buddy / block menu), "bn-report:<id>", "bn-reply:<id>", "bn-edit:<id>"
+"bn-more" (load earlier messages), "bn-user:<id>" (someone's name or
+avatar - yours too: their profile page, or the add-buddy / block menu on a
+server without profiles), "bn-report:<id>", "bn-reply:<id>", "bn-edit:<id>"
 and, for the owner only, "bn-purge:<id>" (delete forever - no "message
 deleted" left behind; offered on deleted messages too). "bn-react:<id>"
 opens the emoticon picker, and "bn-reaction:<id>:<key>" is one of the
 reactions under a message (reactions.py) - clicked, it adds or takes away yours.
+A "+" after a message's reactions opens the picker too.
 
 The actions on a message each have their own shade - "reply", "edit",
 "delete", "report" and "purge" in `colors` (the page mixes them from the
@@ -186,6 +188,8 @@ def _reactions_html(m: dict, can_react: bool, hidden) -> str:
                          f'title="{html.escape(names)}">{inner}</a>')
         else:
             chips.append(f'<span class="{cls}" title="{html.escape(names)}">{inner}</span>')
+    if chips and can_react:
+        chips.append(f'<a class="react add" href="bn-react:{int(m["id"])}" title="Add a reaction">+</a>')
     return f'<div class="reacts" translate="no">{"".join(chips)}</div>' if chips else ""
 
 
@@ -238,14 +242,15 @@ def room_html(messages: list[dict], *, my_id: str, room_name: str, more: bool, l
         name = html.escape(author.get("name") or "Someone")
         head = ""
         if author.get("id"):
-            head = (f'<img class="avatar" src="{html.escape(avatar_url(avatars.key_of(author)))}" '
-                    f'width="{AVATAR_PX}" height="{AVATAR_PX}" alt=""> ')
+            # Their avatar and name both open their profile (yours too).
+            user_link = f'bn-user:{html.escape(author["id"])}'
+            head = (f'<a class="face-link" href="{user_link}" title="See their profile"><img class="avatar" '
+                    f'src="{html.escape(avatar_url(avatars.key_of(author)))}" width="{AVATAR_PX}" '
+                    f'height="{AVATAR_PX}" alt=""></a> ')
         if not author.get("id"):
             head += f'<span style="color:{c["muted"]}; font-weight:600">{DELETED_USER}</span>'
-        elif mine:
-            head += f'<span translate="no" style="color:{name_color}; font-weight:600">{name}</span>'
         else:
-            head += (f'<a class="who" translate="no" href="bn-user:{html.escape(author["id"])}" style="color:{name_color}; '
+            head += (f'<a class="who" translate="no" href="{user_link}" style="color:{name_color}; '
                      f'font-weight:600; text-decoration:none">{name}</a>')
         if author.get("id"):
             head += f'<span translate="no" style="color:{c["muted"]}"> #{html.escape(author.get("tag", ""))}</span>'

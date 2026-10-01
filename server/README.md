@@ -51,6 +51,7 @@ same menu gives it back to them.
 | `social.py` | Buddies, DMs, blocking, deleting an account. |
 | `gifs.py` | GIF search: asks GIPHY for Buddy, keeps results, shares out GIPHY's hourly limit. |
 | `admin.py` | Reports, bans, roles, the admin log. |
+| `profiles.py` | Profile pages (and clearing one, for staff) and the who's-here list in public rooms. |
 | `common.py` | The shapes users, rooms and messages take on the wire. |
 | `net.py` also | Answers `GET /announcements.json`: the app announcements behind the orb in every Buddy - and downloads from GIPHY for `gifs.py`. |
 | `tryout.py` | The terminal chatter from step 4. |

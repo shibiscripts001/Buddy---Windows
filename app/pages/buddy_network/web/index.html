@@ -48,9 +48,9 @@
             </div>
             <nav class="side-list" id="side-list"></nav>
             <div class="me" id="me">
-                <img class="me-avatar" id="me-avatar" alt="">
+                <button type="button" class="me-face" id="me-face" title="Your profile"><img class="me-avatar" id="me-avatar" alt=""></button>
                 <div class="me-text">
-                    <div class="me-name" id="me-name" translate="no"></div>
+                    <button type="button" class="me-name" id="me-name" translate="no" title="Your profile"></button>
                     <label class="check small"><input type="checkbox" id="appear-offline"> Appear offline</label>
                 </div>
             </div>
@@ -72,6 +72,8 @@
                 </div>
                 <button type="button" class="btn" data-action="safety_code" id="safety-btn" hidden
                         title="Check nobody could be reading these messages in between">Safety code</button>
+                <button type="button" class="btn ghost people-btn" id="people-btn" hidden
+                        title="Show or hide who's here" aria-pressed="true">People</button>
                 <button type="button" class="btn ghost icon" id="chat-menu" title="Search, export, mute and more" hidden>⋯</button>
             </div>
             <div class="banner" id="banner" hidden></div>
@@ -127,6 +129,16 @@
                 </div>
             </div>
         </section>
+
+        <!-- Who's here: everyone in a public room, from the server's "who" (profile_page.py). -->
+        <aside class="card people-side" id="people-side" hidden aria-label="Who's here">
+            <div class="people-head">
+                <span class="section-title">Here now</span>
+                <span class="muted small" id="people-count"></span>
+            </div>
+            <div class="people-list" id="people-list"></div>
+            <p class="muted small people-note">People set to appear offline aren't listed.</p>
+        </aside>
     </section>
 
     <div class="popup-menu" id="popup" hidden role="menu"></div>

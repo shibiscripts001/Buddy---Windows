@@ -40,7 +40,7 @@ import json
 import secrets
 import sqlite3
 
-SCHEMA_VERSION = 14
+SCHEMA_VERSION = 15
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -149,6 +149,14 @@ CREATE TABLE IF NOT EXISTS bug_images (id TEXT PRIMARY KEY, report INTEGER NOT N
                                        w INTEGER NOT NULL, h INTEGER NOT NULL, size INTEGER NOT NULL,
                                        data BLOB NOT NULL);
 CREATE INDEX IF NOT EXISTS bug_images_by_report ON bug_images (report);
+-- Profile pages (server/profiles.py): what someone wrote about themselves,
+-- a mood and a page theme (keys from fixed lists), their top buddies (JSON
+-- ids, shown only while they're still buddies) and how often it's been viewed.
+CREATE TABLE IF NOT EXISTS profiles (user_id TEXT PRIMARY KEY, headline TEXT NOT NULL DEFAULT '',
+                                     mood TEXT NOT NULL DEFAULT '', about TEXT NOT NULL DEFAULT '',
+                                     working_on TEXT NOT NULL DEFAULT '', listening TEXT NOT NULL DEFAULT '',
+                                     theme TEXT NOT NULL DEFAULT '', top TEXT NOT NULL DEFAULT '[]',
+                                     views INTEGER NOT NULL DEFAULT 0, updated REAL);
 """
 
 
@@ -283,6 +291,7 @@ class Store:
         db.execute("DELETE FROM buddy_requests WHERE sender = ? OR target = ?", (user_id, user_id))
         db.execute("DELETE FROM blocks WHERE blocker = ? OR blocked = ?", (user_id, user_id))
         db.execute("DELETE FROM devices WHERE user_id = ?", (user_id,))
+        db.execute("DELETE FROM profiles WHERE user_id = ?", (user_id,))
         db.execute("UPDATE bug_reports SET reporter = NULL WHERE reporter = ?", (user_id,))
         db.execute("DELETE FROM users WHERE id = ?", (user_id,))
         db.commit()
@@ -377,6 +386,46 @@ class Store:
 
     def set_avatar(self, user_id: str, seed: str):
         self.db.execute("UPDATE users SET avatar = ? WHERE id = ?", (seed, user_id))
+        self.db.commit()
+
+    # ---------------------------------------------------------- profiles
+
+    _PROFILE_FIELDS = ("headline", "mood", "about", "working_on", "listening", "theme")
+
+    def profile(self, user_id: str) -> dict:
+        """Someone's profile, empty if they've never set one, with when
+        their account was made ("created")."""
+        row = self.db.execute("SELECT p.*, u.created FROM users u LEFT JOIN profiles p ON p.user_id = u.id "
+                              "WHERE u.id = ?", (user_id,)).fetchone()
+        out = {k: (row[k] if row and row[k] is not None else "") for k in self._PROFILE_FIELDS}
+        out["views"] = row["views"] if row and row["views"] is not None else 0
+        out["created"] = row["created"] if row else None
+        try:
+            top = json.loads(row["top"]) if row and row["top"] else []
+        except ValueError:
+            top = []
+        out["top"] = [i for i in top if isinstance(i, str)] if isinstance(top, list) else []
+        return out
+
+    def set_profile(self, user_id: str, fields: dict, now: float):
+        values = [fields[k] for k in self._PROFILE_FIELDS]
+        self.db.execute(
+            "INSERT INTO profiles (user_id, headline, mood, about, working_on, listening, theme, top, updated) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (user_id) DO UPDATE SET headline = excluded.headline, "
+            "mood = excluded.mood, about = excluded.about, working_on = excluded.working_on, "
+            "listening = excluded.listening, theme = excluded.theme, top = excluded.top, "
+            "updated = excluded.updated", (user_id, *values, json.dumps(fields["top"]), now))
+        self.db.commit()
+
+    def clear_profile(self, user_id: str, now: float):
+        """Empties what they wrote (staff); the theme, mood and top buddies stay."""
+        self.db.execute("UPDATE profiles SET headline = '', about = '', working_on = '', listening = '', "
+                        "updated = ? WHERE user_id = ?", (now, user_id))
+        self.db.commit()
+
+    def add_profile_view(self, user_id: str):
+        self.db.execute("INSERT INTO profiles (user_id, views) VALUES (?, 1) "
+                        "ON CONFLICT (user_id) DO UPDATE SET views = views + 1", (user_id,))
         self.db.commit()
 
     def saved_avatars(self, user_id: str) -> list[str]:
