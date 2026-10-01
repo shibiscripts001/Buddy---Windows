@@ -1,5 +1,5 @@
 {
- "_comment": "Command Center. English -> each language; see core/i18n.py.",
+ "_comment": "Command Center: its actions, hot keys and what they say. English -> each language; see core/i18n.py.",
  "Command Center": {
   "日本語": "コマンドセンター",
   "Español": "Centro de comandos",
@@ -10,14 +10,1234 @@
   "العربية": "مركز الأوامر",
   "Tiếng Việt": "Trung tâm lệnh"
  },
- "This tab is in place; setting up hot keys for Buddy's actions is still being built.": {
-  "日本語": "このタブは用意できました。Buddy の操作にホットキーを割り当てる機能は現在作成中です。",
-  "Español": "Esta pestaña ya está lista; la configuración de atajos de teclado para las acciones de Buddy aún se está creando.",
-  "Deutsch": "Dieser Tab ist schon da; Tastenkürzel für Buddys Aktionen werden noch gebaut.",
-  "Français": "Cet onglet est en place ; la configuration des raccourcis clavier pour les actions de Buddy est encore en préparation.",
-  "한국어": "이 탭은 준비되었습니다. Buddy 작업에 단축키를 지정하는 기능은 아직 만드는 중입니다.",
-  "中文": "此标签页已就位；为 Buddy 的操作设置快捷键的功能仍在开发中。",
-  "العربية": "هذا التبويب جاهز؛ وإعداد اختصارات لوحة المفاتيح لإجراءات Buddy لا يزال قيد الإنشاء.",
-  "Tiếng Việt": "Thẻ này đã có; tính năng đặt phím tắt cho các thao tác của Buddy vẫn đang được xây dựng."
+ "Add a marker at the playhead": {
+  "日本語": "再生ヘッドにマーカーを追加",
+  "Español": "Añadir un marcador en el cabezal",
+  "Deutsch": "Marker am Abspielkopf setzen",
+  "Français": "Ajouter un marqueur à la tête de lecture",
+  "한국어": "재생 헤드에 마커 추가",
+  "中文": "在播放头处添加标记",
+  "العربية": "إضافة علامة عند رأس التشغيل",
+  "Tiếng Việt": "Thêm điểm đánh dấu tại đầu phát"
+ },
+ "Drops a marker of your colour where the playhead is – one hot key per colour, if you like.": {
+  "日本語": "再生ヘッドの位置に、選んだ色のマーカーを置きます。色ごとにホットキーを作ることもできます。",
+  "Español": "Pone un marcador de tu color donde está el cabezal; si quieres, un atajo por color.",
+  "Deutsch": "Setzt einen Marker in deiner Farbe an den Abspielkopf – auf Wunsch ein Hotkey pro Farbe.",
+  "Français": "Place un marqueur de votre couleur à la tête de lecture – un raccourci par couleur si vous voulez.",
+  "한국어": "재생 헤드 위치에 원하는 색의 마커를 놓아요. 색마다 단축키를 만들 수도 있어요.",
+  "中文": "在播放头位置放一个你选颜色的标记——愿意的话，每种颜色一个热键。",
+  "العربية": "تضع علامة بلونك حيث رأس التشغيل – اختصار لكل لون إن شئت.",
+  "Tiếng Việt": "Đặt điểm đánh dấu màu bạn chọn tại đầu phát – mỗi màu một phím tắt nếu bạn muốn."
+ },
+ "Jump to the next marker": {
+  "日本語": "次のマーカーへ移動",
+  "Español": "Ir al siguiente marcador",
+  "Deutsch": "Zum nächsten Marker springen",
+  "Français": "Aller au marqueur suivant",
+  "한국어": "다음 마커로 이동",
+  "中文": "跳到下一个标记",
+  "العربية": "الانتقال إلى العلامة التالية",
+  "Tiếng Việt": "Nhảy đến điểm đánh dấu tiếp theo"
+ },
+ "Moves the playhead to the next marker after it.": {
+  "日本語": "再生ヘッドを次のマーカーへ移動します。",
+  "Español": "Lleva el cabezal al siguiente marcador.",
+  "Deutsch": "Setzt den Abspielkopf auf den nächsten Marker.",
+  "Français": "Déplace la tête de lecture au marqueur suivant.",
+  "한국어": "재생 헤드를 다음 마커로 옮겨요.",
+  "中文": "把播放头移到下一个标记。",
+  "العربية": "تنقل رأس التشغيل إلى العلامة التالية.",
+  "Tiếng Việt": "Đưa đầu phát đến điểm đánh dấu tiếp theo."
+ },
+ "Jump to the previous marker": {
+  "日本語": "前のマーカーへ移動",
+  "Español": "Ir al marcador anterior",
+  "Deutsch": "Zum vorigen Marker springen",
+  "Français": "Aller au marqueur précédent",
+  "한국어": "이전 마커로 이동",
+  "中文": "跳到上一个标记",
+  "العربية": "الانتقال إلى العلامة السابقة",
+  "Tiếng Việt": "Nhảy đến điểm đánh dấu trước"
+ },
+ "Moves the playhead back to the marker before it.": {
+  "日本語": "再生ヘッドを前のマーカーへ戻します。",
+  "Español": "Lleva el cabezal al marcador anterior.",
+  "Deutsch": "Setzt den Abspielkopf zurück auf den vorigen Marker.",
+  "Français": "Ramène la tête de lecture au marqueur précédent.",
+  "한국어": "재생 헤드를 이전 마커로 되돌려요.",
+  "中文": "把播放头移回上一个标记。",
+  "العربية": "تعيد رأس التشغيل إلى العلامة السابقة.",
+  "Tiếng Việt": "Đưa đầu phát về điểm đánh dấu trước đó."
+ },
+ "Copy the playhead's timecode": {
+  "日本語": "再生ヘッドのタイムコードをコピー",
+  "Español": "Copiar el código de tiempo del cabezal",
+  "Deutsch": "Timecode des Abspielkopfs kopieren",
+  "Français": "Copier le timecode de la tête de lecture",
+  "한국어": "재생 헤드 타임코드 복사",
+  "中文": "复制播放头的时间码",
+  "العربية": "نسخ الرمز الزمني لرأس التشغيل",
+  "Tiếng Việt": "Sao chép timecode của đầu phát"
+ },
+ "Puts the timecode on the clipboard – for notes, a chat or an email.": {
+  "日本語": "タイムコードをクリップボードに入れます。メモやチャット、メールに。",
+  "Español": "Pone el código de tiempo en el portapapeles, para notas, un chat o un correo.",
+  "Deutsch": "Legt den Timecode in die Zwischenablage – für Notizen, einen Chat oder eine E-Mail.",
+  "Français": "Met le timecode dans le presse-papiers – pour des notes, un chat ou un e-mail.",
+  "한국어": "타임코드를 클립보드에 넣어요. 메모, 채팅, 이메일에 쓰세요.",
+  "中文": "把时间码放到剪贴板——用于笔记、聊天或邮件。",
+  "العربية": "تضع الرمز الزمني في الحافظة – للملاحظات أو المحادثة أو البريد.",
+  "Tiếng Việt": "Đưa timecode vào bảng nhớ tạm – cho ghi chú, tin nhắn hoặc email."
+ },
+ "Set a clip colour": {
+  "日本語": "クリップの色を設定",
+  "Español": "Poner un color de clip",
+  "Deutsch": "Clipfarbe setzen",
+  "Français": "Définir une couleur de clip",
+  "한국어": "클립 색 지정",
+  "中文": "设置片段颜色",
+  "العربية": "تعيين لون المقطع",
+  "Tiếng Việt": "Đặt màu clip"
+ },
+ "Colours the selected clips – or, with nothing selected, the clip under the playhead.": {
+  "日本語": "選択したクリップ（何も選んでいなければ再生ヘッド下のクリップ）に色を付けます。",
+  "Español": "Colorea los clips seleccionados o, si no hay ninguno, el clip bajo el cabezal.",
+  "Deutsch": "Färbt die ausgewählten Clips – oder, wenn nichts ausgewählt ist, den Clip unter dem Abspielkopf.",
+  "Français": "Colore les clips sélectionnés – ou, sans sélection, le clip sous la tête de lecture.",
+  "한국어": "선택한 클립에 색을 입혀요. 아무것도 선택하지 않았으면 재생 헤드 아래 클립에요.",
+  "中文": "给选中的片段上色——没有选中时，给播放头下的片段。",
+  "العربية": "تلوّن المقاطع المحددة – أو، دون تحديد، المقطع تحت رأس التشغيل.",
+  "Tiếng Việt": "Tô màu các clip đã chọn – hoặc, nếu không chọn gì, clip dưới đầu phát."
+ },
+ "Apply an Animation preset": {
+  "日本語": "Animation のプリセットを適用",
+  "Español": "Aplicar un preset de Animation",
+  "Deutsch": "Animation-Vorlage anwenden",
+  "Français": "Appliquer un préréglage d'Animation",
+  "한국어": "Animation 프리셋 적용",
+  "中文": "应用 Animation 预设",
+  "العربية": "تطبيق إعداد Animation مسبق",
+  "Tiếng Việt": "Áp dụng preset Animation"
+ },
+ "Puts one of Animation's presets on the selected clips, as its Apply button does.": {
+  "日本語": "Animation のプリセットを、適用ボタンと同じように選択したクリップへ付けます。",
+  "Español": "Pone uno de los presets de Animation en los clips seleccionados, como su botón Aplicar.",
+  "Deutsch": "Legt eine Animation-Vorlage auf die ausgewählten Clips, wie sein Anwenden-Knopf.",
+  "Français": "Applique un préréglage d'Animation aux clips sélectionnés, comme son bouton Appliquer.",
+  "한국어": "적용 버튼처럼 Animation 프리셋을 선택한 클립에 넣어요.",
+  "中文": "像 Animation 的“应用”按钮一样，把预设加到选中的片段上。",
+  "العربية": "تضع أحد إعدادات Animation على المقاطع المحددة، كما يفعل زر التطبيق.",
+  "Tiếng Việt": "Đặt một preset của Animation lên các clip đã chọn, như nút Áp dụng của nó."
+ },
+ "Copy the frame as an image": {
+  "日本語": "フレームを画像としてコピー",
+  "Español": "Copiar el fotograma como imagen",
+  "Deutsch": "Bild als Grafik kopieren",
+  "Français": "Copier l'image comme image",
+  "한국어": "프레임을 이미지로 복사",
+  "中文": "将画面复制为图片",
+  "العربية": "نسخ الإطار كصورة",
+  "Tiếng Việt": "Sao chép khung hình thành ảnh"
+ },
+ "Puts the frame in the viewer on the clipboard as a picture, ready to paste into a chat or email.": {
+  "日本語": "ビューアのフレームを画像としてクリップボードに入れます。チャットやメールにすぐ貼れます。",
+  "Español": "Pone el fotograma del visor en el portapapeles como imagen, listo para pegar en un chat o correo.",
+  "Deutsch": "Legt das Bild im Viewer als Grafik in die Zwischenablage – bereit zum Einfügen in Chat oder E-Mail.",
+  "Français": "Met l'image du visualiseur dans le presse-papiers, prête à coller dans un chat ou un e-mail.",
+  "한국어": "뷰어의 프레임을 이미지로 클립보드에 넣어요. 채팅이나 이메일에 바로 붙여 넣으세요.",
+  "中文": "把检视器中的画面作为图片放到剪贴板，可直接粘贴到聊天或邮件里。",
+  "العربية": "تضع إطار العارض في الحافظة كصورة، جاهزة للصق في محادثة أو بريد.",
+  "Tiếng Việt": "Đưa khung hình trong trình xem vào bảng nhớ tạm dưới dạng ảnh, sẵn sàng dán vào tin nhắn hoặc email."
+ },
+ "Save a version of the timeline": {
+  "日本語": "タイムラインのバージョンを保存",
+  "Español": "Guardar una versión de la línea de tiempo",
+  "Deutsch": "Version der Timeline sichern",
+  "Français": "Enregistrer une version de la timeline",
+  "한국어": "타임라인 버전 저장",
+  "中文": "保存时间线的一个版本",
+  "العربية": "حفظ نسخة من الخط الزمني",
+  "Tiếng Việt": "Lưu một phiên bản timeline"
+ },
+ "Copies the timeline as “Name – 1 Oct 14.32” in the same bin, and keeps you on the one you're editing.": {
+  "日本語": "タイムラインを「名前 – 1 Oct 14.32」として同じビンに複製し、編集中のタイムラインのままにします。",
+  "Español": "Copia la línea de tiempo como «Nombre – 1 Oct 14.32» en la misma carpeta y te deja en la que estás editando.",
+  "Deutsch": "Kopiert die Timeline als „Name – 1 Oct 14.32“ in denselben Ordner und lässt dich in der, die du bearbeitest.",
+  "Français": "Copie la timeline sous « Nom – 1 Oct 14.32 » dans le même chutier et vous laisse sur celle que vous montez.",
+  "한국어": "타임라인을 “이름 – 1 Oct 14.32”로 같은 빈에 복사하고, 편집 중인 타임라인은 그대로 둬요.",
+  "中文": "把时间线复制为“名称 – 1 Oct 14.32”放在同一素材箱，并留在你正在剪辑的时间线上。",
+  "العربية": "تنسخ الخط الزمني باسم «الاسم – 1 Oct 14.32» في الحاوية نفسها، وتبقيك على الذي تحرره.",
+  "Tiếng Việt": "Sao chép timeline thành “Tên – 1 Oct 14.32” trong cùng bin, và giữ bạn ở timeline đang dựng."
+ },
+ "Timeline": {
+  "日本語": "タイムライン",
+  "Español": "Línea de tiempo",
+  "Deutsch": "Timeline",
+  "Français": "Timeline",
+  "한국어": "타임라인",
+  "中文": "时间线",
+  "العربية": "الخط الزمني",
+  "Tiếng Việt": "Timeline"
+ },
+ "Clips": {
+  "日本語": "クリップ",
+  "Español": "Clips",
+  "Deutsch": "Clips",
+  "Français": "Clips",
+  "한국어": "클립",
+  "中文": "片段",
+  "العربية": "المقاطع",
+  "Tiếng Việt": "Clip"
+ },
+ "Export": {
+  "日本語": "書き出し",
+  "Español": "Exportar",
+  "Deutsch": "Export",
+  "Français": "Export",
+  "한국어": "내보내기",
+  "中文": "导出",
+  "العربية": "تصدير",
+  "Tiếng Việt": "Xuất"
+ },
+ "Colour": {
+  "日本語": "色",
+  "Español": "Color",
+  "Deutsch": "Farbe",
+  "Français": "Couleur",
+  "한국어": "색",
+  "中文": "颜色",
+  "العربية": "اللون",
+  "Tiếng Việt": "Màu"
+ },
+ "Ask for its name": {
+  "日本語": "名前を尋ねる",
+  "Español": "Pedir su nombre",
+  "Deutsch": "Nach dem Namen fragen",
+  "Français": "Demander son nom",
+  "한국어": "이름 묻기",
+  "中文": "询问名称",
+  "العربية": "اسأل عن اسمها",
+  "Tiếng Việt": "Hỏi tên"
+ },
+ "Only": {
+  "日本語": "対象",
+  "Español": "Solo",
+  "Deutsch": "Nur",
+  "Français": "Seulement",
+  "한국어": "대상",
+  "中文": "仅",
+  "العربية": "فقط",
+  "Tiếng Việt": "Chỉ"
+ },
+ "Any": {
+  "日本語": "すべて",
+  "Español": "Cualquiera",
+  "Deutsch": "Alle",
+  "Français": "Tous",
+  "한국어": "모두",
+  "中文": "任意",
+  "العربية": "أي لون",
+  "Tiếng Việt": "Bất kỳ"
+ },
+ "Add the clip's name": {
+  "日本語": "クリップ名を付ける",
+  "Español": "Añadir el nombre del clip",
+  "Deutsch": "Clipnamen anfügen",
+  "Français": "Ajouter le nom du clip",
+  "한국어": "클립 이름 추가",
+  "中文": "附上片段名称",
+  "العربية": "إضافة اسم المقطع",
+  "Tiếng Việt": "Thêm tên clip"
+ },
+ "Preset": {
+  "日本語": "プリセット",
+  "Español": "Preset",
+  "Deutsch": "Vorlage",
+  "Français": "Préréglage",
+  "한국어": "프리셋",
+  "中文": "预设",
+  "العربية": "الإعداد المسبق",
+  "Tiếng Việt": "Preset"
+ },
+ "Put on": {
+  "日本語": "適用",
+  "Español": "Aplicar",
+  "Deutsch": "Anwenden",
+  "Français": "Appliquer",
+  "한국어": "적용",
+  "中文": "应用",
+  "العربية": "التطبيق",
+  "Tiếng Việt": "Áp dụng"
+ },
+ "In & Out": {
+  "日本語": "イン & アウト",
+  "Español": "Entrada y salida",
+  "Deutsch": "Ein & Aus",
+  "Français": "Entrée et sortie",
+  "한국어": "인 & 아웃",
+  "中文": "入场和出场",
+  "العربية": "دخول وخروج",
+  "Tiếng Việt": "Vào & Ra"
+ },
+ "Also save it in": {
+  "日本語": "保存先",
+  "Español": "Guardarlo también en",
+  "Deutsch": "Auch speichern in",
+  "Français": "L'enregistrer aussi dans",
+  "한국어": "다음에도 저장",
+  "中文": "同时保存到",
+  "العربية": "احفظها أيضًا في",
+  "Tiếng Việt": "Đồng thời lưu vào"
+ },
+ "No colour": {
+  "日本語": "色なし",
+  "Español": "Sin color",
+  "Deutsch": "Keine Farbe",
+  "Français": "Aucune couleur",
+  "한국어": "색 없음",
+  "中文": "无颜色",
+  "العربية": "بلا لون",
+  "Tiếng Việt": "Không màu"
+ },
+ "{color} marker at the playhead": {
+  "日本語": "再生ヘッドに {color} のマーカー",
+  "Español": "Marcador {color} en el cabezal",
+  "Deutsch": "{color} Marker am Abspielkopf",
+  "Français": "Marqueur {color} à la tête de lecture",
+  "한국어": "재생 헤드에 {color} 마커",
+  "中文": "在播放头处放 {color} 标记",
+  "العربية": "علامة {color} عند رأس التشغيل",
+  "Tiếng Việt": "Điểm đánh dấu {color} tại đầu phát"
+ },
+ "{color} marker at the playhead, asking its name": {
+  "日本語": "再生ヘッドに {color} のマーカー（名前を尋ねる）",
+  "Español": "Marcador {color} en el cabezal, pidiendo su nombre",
+  "Deutsch": "{color} Marker am Abspielkopf, mit Name",
+  "Français": "Marqueur {color} à la tête de lecture, avec son nom",
+  "한국어": "재생 헤드에 {color} 마커, 이름 묻기",
+  "中文": "在播放头处放 {color} 标记，并询问名称",
+  "العربية": "علامة {color} عند رأس التشغيل، مع السؤال عن اسمها",
+  "Tiếng Việt": "Điểm đánh dấu {color} tại đầu phát, có hỏi tên"
+ },
+ "Next marker": {
+  "日本語": "次のマーカー",
+  "Español": "Siguiente marcador",
+  "Deutsch": "Nächster Marker",
+  "Français": "Marqueur suivant",
+  "한국어": "다음 마커",
+  "中文": "下一个标记",
+  "العربية": "العلامة التالية",
+  "Tiếng Việt": "Điểm đánh dấu tiếp theo"
+ },
+ "Previous marker": {
+  "日本語": "前のマーカー",
+  "Español": "Marcador anterior",
+  "Deutsch": "Voriger Marker",
+  "Français": "Marqueur précédent",
+  "한국어": "이전 마커",
+  "中文": "上一个标记",
+  "العربية": "العلامة السابقة",
+  "Tiếng Việt": "Điểm đánh dấu trước"
+ },
+ "Next {color} marker": {
+  "日本語": "次の {color} のマーカー",
+  "Español": "Siguiente marcador {color}",
+  "Deutsch": "Nächster {color} Marker",
+  "Français": "Marqueur {color} suivant",
+  "한국어": "다음 {color} 마커",
+  "中文": "下一个 {color} 标记",
+  "العربية": "علامة {color} التالية",
+  "Tiếng Việt": "Điểm đánh dấu {color} tiếp theo"
+ },
+ "Previous {color} marker": {
+  "日本語": "前の {color} のマーカー",
+  "Español": "Marcador {color} anterior",
+  "Deutsch": "Voriger {color} Marker",
+  "Français": "Marqueur {color} précédent",
+  "한국어": "이전 {color} 마커",
+  "中文": "上一个 {color} 标记",
+  "العربية": "علامة {color} السابقة",
+  "Tiếng Việt": "Điểm đánh dấu {color} trước"
+ },
+ "Copy timecode": {
+  "日本語": "タイムコードをコピー",
+  "Español": "Copiar código de tiempo",
+  "Deutsch": "Timecode kopieren",
+  "Français": "Copier le timecode",
+  "한국어": "타임코드 복사",
+  "中文": "复制时间码",
+  "العربية": "نسخ الرمز الزمني",
+  "Tiếng Việt": "Sao chép timecode"
+ },
+ "Copy timecode and clip name": {
+  "日本語": "タイムコードとクリップ名をコピー",
+  "Español": "Copiar código de tiempo y nombre del clip",
+  "Deutsch": "Timecode und Clipnamen kopieren",
+  "Français": "Copier le timecode et le nom du clip",
+  "한국어": "타임코드와 클립 이름 복사",
+  "中文": "复制时间码和片段名称",
+  "العربية": "نسخ الرمز الزمني واسم المقطع",
+  "Tiếng Việt": "Sao chép timecode và tên clip"
+ },
+ "Clear the clip colour": {
+  "日本語": "クリップの色を消す",
+  "Español": "Quitar el color del clip",
+  "Deutsch": "Clipfarbe entfernen",
+  "Français": "Retirer la couleur du clip",
+  "한국어": "클립 색 지우기",
+  "中文": "清除片段颜色",
+  "العربية": "إزالة لون المقطع",
+  "Tiếng Việt": "Xóa màu clip"
+ },
+ "{color} clip colour": {
+  "日本語": "クリップの色: {color}",
+  "Español": "Color de clip {color}",
+  "Deutsch": "Clipfarbe {color}",
+  "Français": "Couleur de clip {color}",
+  "한국어": "클립 색 {color}",
+  "中文": "片段颜色 {color}",
+  "العربية": "لون المقطع {color}",
+  "Tiếng Việt": "Màu clip {color}"
+ },
+ "{color} marker at {timecode}": {
+  "日本語": "{timecode} に {color} のマーカー",
+  "Español": "Marcador {color} en {timecode}",
+  "Deutsch": "{color} Marker bei {timecode}",
+  "Français": "Marqueur {color} à {timecode}",
+  "한국어": "{timecode}에 {color} 마커",
+  "中文": "在 {timecode} 放 {color} 标记",
+  "العربية": "علامة {color} عند {timecode}",
+  "Tiếng Việt": "Điểm đánh dấu {color} tại {timecode}"
+ },
+ "{color} marker at {timecode}: {name}": {
+  "日本語": "{timecode} に {color} のマーカー: {name}",
+  "Español": "Marcador {color} en {timecode}: {name}",
+  "Deutsch": "{color} Marker bei {timecode}: {name}",
+  "Français": "Marqueur {color} à {timecode} : {name}",
+  "한국어": "{timecode}에 {color} 마커: {name}",
+  "中文": "在 {timecode} 放 {color} 标记：{name}",
+  "العربية": "علامة {color} عند {timecode}: {name}",
+  "Tiếng Việt": "Điểm đánh dấu {color} tại {timecode}: {name}"
+ },
+ "There's already a marker at the playhead.": {
+  "日本語": "再生ヘッドの位置にはすでにマーカーがあります。",
+  "Español": "Ya hay un marcador en el cabezal.",
+  "Deutsch": "Am Abspielkopf ist schon ein Marker.",
+  "Français": "Il y a déjà un marqueur à la tête de lecture.",
+  "한국어": "재생 헤드 위치에 이미 마커가 있어요.",
+  "中文": "播放头处已经有一个标记。",
+  "العربية": "توجد علامة بالفعل عند رأس التشغيل.",
+  "Tiếng Việt": "Đã có điểm đánh dấu tại đầu phát."
+ },
+ "Resolve didn't say where the playhead is.": {
+  "日本語": "Resolve が再生ヘッドの位置を返しませんでした。",
+  "Español": "Resolve no dijo dónde está el cabezal.",
+  "Deutsch": "Resolve hat nicht gesagt, wo der Abspielkopf ist.",
+  "Français": "Resolve n'a pas indiqué où est la tête de lecture.",
+  "한국어": "Resolve가 재생 헤드 위치를 알려주지 않았어요.",
+  "中文": "Resolve 没有告诉播放头的位置。",
+  "العربية": "لم يخبر Resolve بمكان رأس التشغيل.",
+  "Tiếng Việt": "Resolve không cho biết đầu phát ở đâu."
+ },
+ "No marker after the playhead.": {
+  "日本語": "再生ヘッドより後にマーカーはありません。",
+  "Español": "No hay ningún marcador después del cabezal.",
+  "Deutsch": "Nach dem Abspielkopf ist kein Marker.",
+  "Français": "Aucun marqueur après la tête de lecture.",
+  "한국어": "재생 헤드 뒤에 마커가 없어요.",
+  "中文": "播放头之后没有标记。",
+  "العربية": "لا توجد علامة بعد رأس التشغيل.",
+  "Tiếng Việt": "Không có điểm đánh dấu nào sau đầu phát."
+ },
+ "No marker before the playhead.": {
+  "日本語": "再生ヘッドより前にマーカーはありません。",
+  "Español": "No hay ningún marcador antes del cabezal.",
+  "Deutsch": "Vor dem Abspielkopf ist kein Marker.",
+  "Français": "Aucun marqueur avant la tête de lecture.",
+  "한국어": "재생 헤드 앞에 마커가 없어요.",
+  "中文": "播放头之前没有标记。",
+  "العربية": "لا توجد علامة قبل رأس التشغيل.",
+  "Tiếng Việt": "Không có điểm đánh dấu nào trước đầu phát."
+ },
+ "No {color} marker after the playhead.": {
+  "日本語": "再生ヘッドより後に {color} のマーカーはありません。",
+  "Español": "No hay ningún marcador {color} después del cabezal.",
+  "Deutsch": "Nach dem Abspielkopf ist kein {color} Marker.",
+  "Français": "Aucun marqueur {color} après la tête de lecture.",
+  "한국어": "재생 헤드 뒤에 {color} 마커가 없어요.",
+  "中文": "播放头之后没有 {color} 标记。",
+  "العربية": "لا توجد علامة {color} بعد رأس التشغيل.",
+  "Tiếng Việt": "Không có điểm đánh dấu {color} nào sau đầu phát."
+ },
+ "No {color} marker before the playhead.": {
+  "日本語": "再生ヘッドより前に {color} のマーカーはありません。",
+  "Español": "No hay ningún marcador {color} antes del cabezal.",
+  "Deutsch": "Vor dem Abspielkopf ist kein {color} Marker.",
+  "Français": "Aucun marqueur {color} avant la tête de lecture.",
+  "한국어": "재생 헤드 앞에 {color} 마커가 없어요.",
+  "中文": "播放头之前没有 {color} 标记。",
+  "العربية": "لا توجد علامة {color} قبل رأس التشغيل.",
+  "Tiếng Việt": "Không có điểm đánh dấu {color} nào trước đầu phát."
+ },
+ "Resolve didn't move the playhead.": {
+  "日本語": "Resolve が再生ヘッドを動かしませんでした。",
+  "Español": "Resolve no movió el cabezal.",
+  "Deutsch": "Resolve hat den Abspielkopf nicht bewegt.",
+  "Français": "Resolve n'a pas déplacé la tête de lecture.",
+  "한국어": "Resolve가 재생 헤드를 옮기지 않았어요.",
+  "中文": "Resolve 没有移动播放头。",
+  "العربية": "لم يحرّك Resolve رأس التشغيل.",
+  "Tiếng Việt": "Resolve không di chuyển đầu phát."
+ },
+ "Copied {text}": {
+  "日本語": "{text} をコピーしました",
+  "Español": "Copiado: {text}",
+  "Deutsch": "{text} kopiert",
+  "Français": "{text} copié",
+  "한국어": "{text} 복사함",
+  "中文": "已复制 {text}",
+  "العربية": "تم نسخ {text}",
+  "Tiếng Việt": "Đã sao chép {text}"
+ },
+ "Select some clips, or put the playhead over one.": {
+  "日本語": "クリップを選択するか、再生ヘッドをクリップの上に置いてください。",
+  "Español": "Selecciona algunos clips o pon el cabezal sobre uno.",
+  "Deutsch": "Wähle Clips aus oder setze den Abspielkopf auf einen.",
+  "Français": "Sélectionnez des clips, ou placez la tête de lecture sur l'un d'eux.",
+  "한국어": "클립을 선택하거나 재생 헤드를 클립 위에 두세요.",
+  "中文": "请选中一些片段，或把播放头放在某个片段上。",
+  "العربية": "حدّد بعض المقاطع، أو ضع رأس التشغيل فوق أحدها.",
+  "Tiếng Việt": "Hãy chọn vài clip, hoặc đặt đầu phát lên một clip."
+ },
+ "Resolve didn't change the clip colour.": {
+  "日本語": "Resolve がクリップの色を変えませんでした。",
+  "Español": "Resolve no cambió el color del clip.",
+  "Deutsch": "Resolve hat die Clipfarbe nicht geändert.",
+  "Français": "Resolve n'a pas changé la couleur du clip.",
+  "한국어": "Resolve가 클립 색을 바꾸지 않았어요.",
+  "中文": "Resolve 没有更改片段颜色。",
+  "العربية": "لم يغيّر Resolve لون المقطع.",
+  "Tiếng Việt": "Resolve không đổi màu clip."
+ },
+ "{color} on 1 clip": {
+  "日本語": "1 クリップに {color}",
+  "Español": "{color} en 1 clip",
+  "Deutsch": "{color} auf 1 Clip",
+  "Français": "{color} sur 1 clip",
+  "한국어": "클립 1개에 {color}",
+  "中文": "1 个片段设为 {color}",
+  "العربية": "{color} على مقطع واحد",
+  "Tiếng Việt": "{color} trên 1 clip"
+ },
+ "{color} on {count} clips": {
+  "日本語": "{count} クリップに {color}",
+  "Español": "{color} en {count} clips",
+  "Deutsch": "{color} auf {count} Clips",
+  "Français": "{color} sur {count} clips",
+  "한국어": "클립 {count}개에 {color}",
+  "中文": "{count} 个片段设为 {color}",
+  "العربية": "{color} على {count} مقاطع",
+  "Tiếng Việt": "{color} trên {count} clip"
+ },
+ "Resolve didn't export the frame – is a clip in the viewer?": {
+  "日本語": "Resolve がフレームを書き出しませんでした。ビューアにクリップはありますか？",
+  "Español": "Resolve no exportó el fotograma: ¿hay un clip en el visor?",
+  "Deutsch": "Resolve hat das Bild nicht exportiert – ist ein Clip im Viewer?",
+  "Français": "Resolve n'a pas exporté l'image – y a-t-il un clip dans le visualiseur ?",
+  "한국어": "Resolve가 프레임을 내보내지 않았어요. 뷰어에 클립이 있나요?",
+  "中文": "Resolve 没有导出画面——检视器里有片段吗？",
+  "العربية": "لم يصدّر Resolve الإطار – هل يوجد مقطع في العارض؟",
+  "Tiếng Việt": "Resolve không xuất khung hình – có clip nào trong trình xem không?"
+ },
+ "Frame copied": {
+  "日本語": "フレームをコピーしました",
+  "Español": "Fotograma copiado",
+  "Deutsch": "Bild kopiert",
+  "Français": "Image copiée",
+  "한국어": "프레임 복사함",
+  "中文": "画面已复制",
+  "العربية": "تم نسخ الإطار",
+  "Tiếng Việt": "Đã sao chép khung hình"
+ },
+ "Frame copied, and saved as {name}": {
+  "日本語": "フレームをコピーし、{name} として保存しました",
+  "Español": "Fotograma copiado y guardado como {name}",
+  "Deutsch": "Bild kopiert und als {name} gespeichert",
+  "Français": "Image copiée et enregistrée sous {name}",
+  "한국어": "프레임을 복사하고 {name}(으)로 저장함",
+  "中文": "画面已复制，并保存为 {name}",
+  "العربية": "تم نسخ الإطار وحفظه باسم {name}",
+  "Tiếng Việt": "Đã sao chép khung hình và lưu thành {name}"
+ },
+ "Frame copied – but it couldn't be saved in that folder: {error}": {
+  "日本語": "フレームはコピーしましたが、そのフォルダには保存できませんでした: {error}",
+  "Español": "Fotograma copiado, pero no se pudo guardar en esa carpeta: {error}",
+  "Deutsch": "Bild kopiert – aber es konnte nicht in diesem Ordner gespeichert werden: {error}",
+  "Français": "Image copiée – mais elle n'a pas pu être enregistrée dans ce dossier : {error}",
+  "한국어": "프레임은 복사했지만 그 폴더에 저장하지 못했어요: {error}",
+  "中文": "画面已复制——但无法保存到该文件夹：{error}",
+  "العربية": "تم نسخ الإطار – لكن تعذر حفظه في ذلك المجلد: {error}",
+  "Tiếng Việt": "Đã sao chép khung hình – nhưng không lưu được vào thư mục đó: {error}"
+ },
+ "Resolve didn't copy the timeline.": {
+  "日本語": "Resolve がタイムラインを複製しませんでした。",
+  "Español": "Resolve no copió la línea de tiempo.",
+  "Deutsch": "Resolve hat die Timeline nicht kopiert.",
+  "Français": "Resolve n'a pas copié la timeline.",
+  "한국어": "Resolve가 타임라인을 복사하지 않았어요.",
+  "中文": "Resolve 没有复制时间线。",
+  "العربية": "لم ينسخ Resolve الخط الزمني.",
+  "Tiếng Việt": "Resolve không sao chép timeline."
+ },
+ "Saved “{name}”": {
+  "日本語": "「{name}」を保存しました",
+  "Español": "Guardada «{name}»",
+  "Deutsch": "„{name}“ gesichert",
+  "Français": "« {name} » enregistrée",
+  "한국어": "“{name}” 저장함",
+  "中文": "已保存“{name}”",
+  "العربية": "تم حفظ «{name}»",
+  "Tiếng Việt": "Đã lưu “{name}”"
+ },
+ "Pick an Animation preset for this hot key first.": {
+  "日本語": "先にこのホットキーの Animation プリセットを選んでください。",
+  "Español": "Elige primero un preset de Animation para este atajo.",
+  "Deutsch": "Wähle zuerst eine Animation-Vorlage für diesen Hotkey.",
+  "Français": "Choisissez d'abord un préréglage d'Animation pour ce raccourci.",
+  "한국어": "먼저 이 단축키의 Animation 프리셋을 고르세요.",
+  "中文": "请先为这个热键选择一个 Animation 预设。",
+  "العربية": "اختر أولًا إعداد Animation مسبقًا لهذا الاختصار.",
+  "Tiếng Việt": "Hãy chọn một preset Animation cho phím tắt này trước."
+ },
+ "Something went wrong: {error}": {
+  "日本語": "問題が起きました: {error}",
+  "Español": "Algo salió mal: {error}",
+  "Deutsch": "Etwas ist schiefgelaufen: {error}",
+  "Français": "Un problème est survenu : {error}",
+  "한국어": "문제가 생겼어요: {error}",
+  "中文": "出错了：{error}",
+  "العربية": "حدث خطأ: {error}",
+  "Tiếng Việt": "Đã xảy ra lỗi: {error}"
+ },
+ "Resolve is busy – this runs as soon as it's free.": {
+  "日本語": "Resolve は処理中です。空きしだい実行します。",
+  "Español": "Resolve está ocupado: se hará en cuanto quede libre.",
+  "Deutsch": "Resolve ist beschäftigt – das läuft, sobald es frei ist.",
+  "Français": "Resolve est occupé – cela s'exécutera dès qu'il sera libre.",
+  "한국어": "Resolve가 바빠요. 한가해지면 바로 실행해요.",
+  "中文": "Resolve 正忙——空闲后立即执行。",
+  "العربية": "Resolve مشغول – سيُنفَّذ هذا حالما يتفرغ.",
+  "Tiếng Việt": "Resolve đang bận – sẽ chạy ngay khi rảnh."
+ },
+ "The frame was exported, but it couldn't be read back to copy.": {
+  "日本語": "フレームは書き出しましたが、コピーのために読み込めませんでした。",
+  "Español": "El fotograma se exportó, pero no se pudo leer para copiarlo.",
+  "Deutsch": "Das Bild wurde exportiert, konnte aber zum Kopieren nicht gelesen werden.",
+  "Français": "L'image a été exportée, mais n'a pas pu être relue pour la copier.",
+  "한국어": "프레임을 내보냈지만 복사하려고 다시 읽지 못했어요.",
+  "中文": "画面已导出，但无法读回以复制。",
+  "العربية": "تم تصدير الإطار، لكن تعذرت قراءته لنسخه.",
+  "Tiếng Việt": "Đã xuất khung hình nhưng không đọc lại được để sao chép."
+ },
+ "Done": {
+  "日本語": "完了",
+  "Español": "Hecho",
+  "Deutsch": "Erledigt",
+  "Français": "Terminé",
+  "한국어": "완료",
+  "中文": "完成",
+  "العربية": "تم",
+  "Tiếng Việt": "Xong"
+ },
+ "Another hot key here uses the same keys – only one of them works.": {
+  "日本語": "ここの別のホットキーが同じキーを使っています。動くのはどちらか一方だけです。",
+  "Español": "Otro atajo de aquí usa las mismas teclas: solo funciona uno.",
+  "Deutsch": "Ein anderer Hotkey hier nutzt dieselben Tasten – nur einer davon funktioniert.",
+  "Français": "Un autre raccourci ici utilise les mêmes touches – un seul des deux fonctionne.",
+  "한국어": "여기 다른 단축키가 같은 키를 써요. 둘 중 하나만 작동해요.",
+  "中文": "这里另一个热键用了相同的按键——只有一个会生效。",
+  "العربية": "اختصار آخر هنا يستخدم المفاتيح نفسها – يعمل واحد منهما فقط.",
+  "Tiếng Việt": "Một phím tắt khác ở đây dùng cùng phím – chỉ một cái hoạt động."
+ },
+ "Resolve uses {keys} for {t_what} – Buddy takes it while this is set.": {
+  "日本語": "Resolve は {keys} を「{t_what}」に使っています。これを設定している間は Buddy が使います。",
+  "Español": "Resolve usa {keys} para {t_what}: Buddy lo toma mientras esté puesto.",
+  "Deutsch": "Resolve nutzt {keys} für {t_what} – solange das gesetzt ist, übernimmt Buddy die Tasten.",
+  "Français": "Resolve utilise {keys} pour {t_what} – Buddy le prend tant que ce raccourci est défini.",
+  "한국어": "Resolve는 {keys}를 {t_what}에 써요. 이걸 설정해 두는 동안은 Buddy가 가져가요.",
+  "中文": "Resolve 用 {keys} 做“{t_what}”——设置期间 Buddy 会占用它。",
+  "العربية": "يستخدم Resolve {keys} لـ {t_what} – يأخذه Buddy ما دام هذا مضبوطًا.",
+  "Tiếng Việt": "Resolve dùng {keys} cho {t_what} – Buddy sẽ dùng nó khi phím này được đặt."
+ },
+ "That key can't be a hot key – try a letter, a number or F1–F24.": {
+  "日本語": "そのキーはホットキーにできません。文字、数字、F1〜F24 を試してください。",
+  "Español": "Esa tecla no puede ser un atajo: prueba una letra, un número o F1–F24.",
+  "Deutsch": "Diese Taste kann kein Hotkey sein – versuch einen Buchstaben, eine Zahl oder F1–F24.",
+  "Français": "Cette touche ne peut pas être un raccourci – essayez une lettre, un chiffre ou F1–F24.",
+  "한국어": "그 키는 단축키가 될 수 없어요. 글자, 숫자, F1–F24를 써 보세요.",
+  "中文": "这个键不能做热键——试试字母、数字或 F1–F24。",
+  "العربية": "لا يمكن أن يكون هذا المفتاح اختصارًا – جرّب حرفًا أو رقمًا أو F1–F24.",
+  "Tiếng Việt": "Phím đó không thể làm phím tắt – hãy thử chữ cái, số hoặc F1–F24."
+ },
+ "That isn't a key combination Buddy knows.": {
+  "日本語": "Buddy が知らないキーの組み合わせです。",
+  "Español": "Buddy no conoce esa combinación de teclas.",
+  "Deutsch": "Diese Tastenkombination kennt Buddy nicht.",
+  "Français": "Buddy ne connaît pas cette combinaison de touches.",
+  "한국어": "Buddy가 모르는 키 조합이에요.",
+  "中文": "Buddy 不认识这个组合键。",
+  "العربية": "لا يعرف Buddy مجموعة المفاتيح هذه.",
+  "Tiếng Việt": "Buddy không biết tổ hợp phím đó."
+ },
+ "Windows keeps that combination for itself – pick another.": {
+  "日本語": "その組み合わせは Windows 専用です。別のものを選んでください。",
+  "Español": "Windows se reserva esa combinación: elige otra.",
+  "Deutsch": "Diese Kombination behält Windows für sich – wähle eine andere.",
+  "Français": "Windows garde cette combinaison pour lui – choisissez-en une autre.",
+  "한국어": "그 조합은 Windows가 직접 써요. 다른 걸 고르세요.",
+  "中文": "这个组合被 Windows 自己占用——请换一个。",
+  "العربية": "يحتفظ Windows بهذه المجموعة لنفسه – اختر غيرها.",
+  "Tiếng Việt": "Windows giữ tổ hợp đó cho riêng mình – hãy chọn tổ hợp khác."
+ },
+ "Hold Ctrl, Alt or the Windows key too – on its own (or with Shift) it would get in the way of typing.": {
+  "日本語": "Ctrl、Alt、Windows キーのどれかも押してください。単独（または Shift だけ）だと文字入力の邪魔になります。",
+  "Español": "Mantén también Ctrl, Alt o la tecla Windows: sola (o con Mayús) estorbaría al escribir.",
+  "Deutsch": "Halte auch Strg, Alt oder die Windows-Taste – allein (oder mit Umschalt) würde sie beim Tippen stören.",
+  "Français": "Maintenez aussi Ctrl, Alt ou la touche Windows – seule (ou avec Maj), elle gênerait la saisie.",
+  "한국어": "Ctrl, Alt 또는 Windows 키도 함께 누르세요. 단독(또는 Shift만)으로는 타이핑에 방해돼요.",
+  "中文": "还要按住 Ctrl、Alt 或 Windows 键——单独（或只配 Shift）会妨碍打字。",
+  "العربية": "اضغط أيضًا Ctrl أو Alt أو مفتاح Windows – وحده (أو مع Shift) سيعيق الكتابة.",
+  "Tiếng Việt": "Hãy giữ thêm Ctrl, Alt hoặc phím Windows – chỉ một mình (hoặc với Shift) sẽ cản trở việc gõ chữ."
+ },
+ "Another app already uses that combination.": {
+  "日本語": "別のアプリがその組み合わせを使っています。",
+  "Español": "Otra aplicación ya usa esa combinación.",
+  "Deutsch": "Eine andere App nutzt diese Kombination schon.",
+  "Français": "Une autre application utilise déjà cette combinaison.",
+  "한국어": "다른 앱이 이미 그 조합을 쓰고 있어요.",
+  "中文": "另一个应用已经在用这个组合。",
+  "العربية": "تطبيق آخر يستخدم هذه المجموعة بالفعل.",
+  "Tiếng Việt": "Một ứng dụng khác đã dùng tổ hợp đó."
+ },
+ "Undo": {
+  "日本語": "元に戻す",
+  "Español": "Deshacer",
+  "Deutsch": "Rückgängig",
+  "Français": "Annuler",
+  "한국어": "실행 취소",
+  "中文": "撤销",
+  "العربية": "تراجع",
+  "Tiếng Việt": "Hoàn tác"
+ },
+ "Redo": {
+  "日本語": "やり直す",
+  "Español": "Rehacer",
+  "Deutsch": "Wiederholen",
+  "Français": "Rétablir",
+  "한국어": "다시 실행",
+  "中文": "重做",
+  "العربية": "إعادة",
+  "Tiếng Việt": "Làm lại"
+ },
+ "Save project": {
+  "日本語": "プロジェクトを保存",
+  "Español": "Guardar proyecto",
+  "Deutsch": "Projekt speichern",
+  "Français": "Enregistrer le projet",
+  "한국어": "프로젝트 저장",
+  "中文": "保存项目",
+  "العربية": "حفظ المشروع",
+  "Tiếng Việt": "Lưu dự án"
+ },
+ "Cut": {
+  "日本語": "切り取り",
+  "Español": "Cortar",
+  "Deutsch": "Ausschneiden",
+  "Français": "Couper",
+  "한국어": "잘라내기",
+  "中文": "剪切",
+  "العربية": "قص",
+  "Tiếng Việt": "Cắt"
+ },
+ "Select all": {
+  "日本語": "すべて選択",
+  "Español": "Seleccionar todo",
+  "Deutsch": "Alles auswählen",
+  "Français": "Tout sélectionner",
+  "한국어": "모두 선택",
+  "中文": "全选",
+  "العربية": "تحديد الكل",
+  "Tiếng Việt": "Chọn tất cả"
+ },
+ "Change clip duration": {
+  "日本語": "クリップの長さを変更",
+  "Español": "Cambiar la duración del clip",
+  "Deutsch": "Clipdauer ändern",
+  "Français": "Modifier la durée du clip",
+  "한국어": "클립 길이 변경",
+  "中文": "更改片段时长",
+  "العربية": "تغيير مدة المقطع",
+  "Tiếng Việt": "Đổi thời lượng clip"
+ },
+ "Razor": {
+  "日本語": "レーザー",
+  "Español": "Cuchilla",
+  "Deutsch": "Klinge",
+  "Français": "Lame",
+  "한국어": "면도날",
+  "中文": "刀片",
+  "العربية": "الشفرة",
+  "Tiếng Việt": "Lưỡi cắt"
+ },
+ "Split clip": {
+  "日本語": "クリップを分割",
+  "Español": "Dividir clip",
+  "Deutsch": "Clip teilen",
+  "Français": "Scinder le clip",
+  "한국어": "클립 분할",
+  "中文": "拆分片段",
+  "العربية": "تقسيم المقطع",
+  "Tiếng Việt": "Tách clip"
+ },
+ "New timeline": {
+  "日本語": "新規タイムライン",
+  "Español": "Nueva línea de tiempo",
+  "Deutsch": "Neue Timeline",
+  "Français": "Nouvelle timeline",
+  "한국어": "새 타임라인",
+  "中文": "新建时间线",
+  "العربية": "خط زمني جديد",
+  "Tiếng Việt": "Timeline mới"
+ },
+ "New bin": {
+  "日本語": "新規ビン",
+  "Español": "Nueva carpeta",
+  "Deutsch": "Neuer Ordner",
+  "Français": "Nouveau chutier",
+  "한국어": "새 빈",
+  "中文": "新建素材箱",
+  "العربية": "حاوية جديدة",
+  "Tiếng Việt": "Bin mới"
+ },
+ "Import media": {
+  "日本語": "メディアを読み込む",
+  "Español": "Importar medios",
+  "Deutsch": "Medien importieren",
+  "Français": "Importer des médias",
+  "한국어": "미디어 가져오기",
+  "中文": "导入媒体",
+  "العربية": "استيراد الوسائط",
+  "Tiếng Việt": "Nhập media"
+ },
+ "Quit Resolve": {
+  "日本語": "Resolve を終了",
+  "Español": "Salir de Resolve",
+  "Deutsch": "Resolve beenden",
+  "Français": "Quitter Resolve",
+  "한국어": "Resolve 종료",
+  "中文": "退出 Resolve",
+  "العربية": "إنهاء Resolve",
+  "Tiếng Việt": "Thoát Resolve"
+ },
+ "Paste attributes": {
+  "日本語": "属性をペースト",
+  "Español": "Pegar atributos",
+  "Deutsch": "Attribute einfügen",
+  "Français": "Coller les attributs",
+  "한국어": "속성 붙여넣기",
+  "中文": "粘贴属性",
+  "العربية": "لصق السمات",
+  "Tiếng Việt": "Dán thuộc tính"
+ },
+ "Enter to add it, Esc to cancel": {
+  "日本語": "Enter で追加、Esc でキャンセル",
+  "Español": "Intro para añadirlo, Esc para cancelar",
+  "Deutsch": "Eingabe zum Hinzufügen, Esc zum Abbrechen",
+  "Français": "Entrée pour l'ajouter, Échap pour annuler",
+  "한국어": "Enter로 추가, Esc로 취소",
+  "中文": "按 Enter 添加，Esc 取消",
+  "العربية": "Enter للإضافة، Esc للإلغاء",
+  "Tiếng Việt": "Enter để thêm, Esc để hủy"
+ },
+ "Couldn't apply {name}: {error}": {
+  "日本語": "{name} を適用できませんでした: {error}",
+  "Español": "No se pudo aplicar {name}: {error}",
+  "Deutsch": "{name} konnte nicht angewendet werden: {error}",
+  "Français": "Impossible d'appliquer {name} : {error}",
+  "한국어": "{name}을(를) 적용하지 못했어요: {error}",
+  "中文": "无法应用 {name}：{error}",
+  "العربية": "تعذر تطبيق {name}: {error}",
+  "Tiếng Việt": "Không áp dụng được {name}: {error}"
+ },
+ "{name} is on {n} of {m} clips – the rest couldn't take it.": {
+  "日本語": "{name} は {m} クリップ中 {n} クリップに付きました。残りには付けられませんでした。",
+  "Español": "{name} está en {n} de {m} clips: el resto no lo admitió.",
+  "Deutsch": "{name} liegt auf {n} von {m} Clips – die übrigen konnten sie nicht annehmen.",
+  "Français": "{name} est sur {n} clips sur {m} – les autres n'ont pas pu le recevoir.",
+  "한국어": "{name}이(가) {m}개 중 {n}개 클립에 적용됐어요. 나머지는 적용할 수 없었어요.",
+  "中文": "{name} 已应用到 {m} 个片段中的 {n} 个——其余无法应用。",
+  "العربية": "{name} على {n} من {m} مقاطع – لم تقبله البقية.",
+  "Tiếng Việt": "{name} đã áp lên {n}/{m} clip – số còn lại không nhận được."
+ },
+ "That Animation preset is gone – pick another in Command Center.": {
+  "日本語": "その Animation プリセットはもうありません。Command Center で別のものを選んでください。",
+  "Español": "Ese preset de Animation ya no existe: elige otro en Command Center.",
+  "Deutsch": "Diese Animation-Vorlage gibt es nicht mehr – wähle in Command Center eine andere.",
+  "Français": "Ce préréglage d'Animation n'existe plus – choisissez-en un autre dans Command Center.",
+  "한국어": "그 Animation 프리셋이 없어졌어요. Command Center에서 다른 걸 고르세요.",
+  "中文": "这个 Animation 预设已不存在——请在 Command Center 里另选一个。",
+  "العربية": "لم يعد إعداد Animation هذا موجودًا – اختر غيره في Command Center.",
+  "Tiếng Việt": "Preset Animation đó không còn – hãy chọn cái khác trong Command Center."
+ },
+ "Animation is busy with another change – try again in a moment.": {
+  "日本語": "Animation は別の変更を処理中です。少ししてからもう一度どうぞ。",
+  "Español": "Animation está ocupado con otro cambio: inténtalo en un momento.",
+  "Deutsch": "Animation ist mit einer anderen Änderung beschäftigt – versuch es gleich noch einmal.",
+  "Français": "Animation est occupé par une autre modification – réessayez dans un instant.",
+  "한국어": "Animation이 다른 변경을 처리 중이에요. 잠시 후 다시 해 보세요.",
+  "中文": "Animation 正在处理另一项更改——请稍后再试。",
+  "العربية": "Animation مشغول بتغيير آخر – حاول بعد قليل.",
+  "Tiếng Việt": "Animation đang bận với thay đổi khác – hãy thử lại sau giây lát."
+ },
+ "Can't reach Resolve.": {
+  "日本語": "Resolve に接続できません。",
+  "Español": "No se puede contactar con Resolve.",
+  "Deutsch": "Resolve ist nicht erreichbar.",
+  "Français": "Impossible de joindre Resolve.",
+  "한국어": "Resolve에 연결할 수 없어요.",
+  "中文": "无法连接 Resolve。",
+  "العربية": "تعذر الوصول إلى Resolve.",
+  "Tiếng Việt": "Không kết nối được Resolve."
+ },
+ "Hot keys on": {
+  "日本語": "ホットキーを使う",
+  "Español": "Atajos activados",
+  "Deutsch": "Hotkeys an",
+  "Français": "Raccourcis activés",
+  "한국어": "단축키 사용",
+  "中文": "启用热键",
+  "العربية": "تشغيل الاختصارات",
+  "Tiếng Việt": "Bật phím tắt"
+ },
+ "Press a hot key in Resolve – or any app – and Buddy does it, with a note on screen to say what happened. Click a key box, then press the keys you want: Esc cancels, Backspace clears.": {
+  "日本語": "Resolve（またはどのアプリ）でホットキーを押すと Buddy が実行し、何をしたか画面に表示します。キー欄をクリックしてから、使いたいキーを押してください。Esc でキャンセル、Backspace で消去します。",
+  "Español": "Pulsa un atajo en Resolve, o en cualquier aplicación, y Buddy lo hace, con un aviso en pantalla de lo que pasó. Haz clic en un cuadro de teclas y pulsa las que quieras: Esc cancela, Retroceso borra.",
+  "Deutsch": "Drück einen Hotkey in Resolve – oder einer anderen App – und Buddy erledigt es, mit einem Hinweis auf dem Bildschirm. Klick in ein Tastenfeld und drück die gewünschten Tasten: Esc bricht ab, Rücktaste löscht.",
+  "Français": "Appuyez sur un raccourci dans Resolve – ou n'importe quelle application – et Buddy s'en charge, avec une note à l'écran. Cliquez sur une case, puis appuyez sur les touches voulues : Échap annule, Retour arrière efface.",
+  "한국어": "Resolve(또는 어떤 앱)에서 단축키를 누르면 Buddy가 실행하고, 무슨 일이 있었는지 화면에 알려줘요. 키 상자를 클릭한 다음 원하는 키를 누르세요. Esc는 취소, Backspace는 지우기예요.",
+  "中文": "在 Resolve（或任何应用）里按下热键，Buddy 就会执行，并在屏幕上提示结果。点一下按键框，再按下想要的键：Esc 取消，Backspace 清除。",
+  "العربية": "اضغط اختصارًا في Resolve – أو أي تطبيق – وسينفذه Buddy، مع ملاحظة على الشاشة بما حدث. انقر مربع المفاتيح ثم اضغط المفاتيح التي تريدها: Esc للإلغاء، Backspace للمسح.",
+  "Tiếng Việt": "Nhấn phím tắt trong Resolve – hoặc bất kỳ ứng dụng nào – và Buddy sẽ làm, kèm thông báo trên màn hình. Nhấp vào ô phím rồi nhấn các phím bạn muốn: Esc để hủy, Backspace để xóa."
+ },
+ "Hot keys work on Windows only for now – the Run buttons work here.": {
+  "日本語": "今のところホットキーは Windows でのみ動きます。実行ボタンはここで使えます。",
+  "Español": "Por ahora los atajos solo funcionan en Windows; los botones Ejecutar funcionan aquí.",
+  "Deutsch": "Hotkeys gehen vorerst nur unter Windows – die Ausführen-Knöpfe funktionieren hier.",
+  "Français": "Les raccourcis ne marchent que sous Windows pour l'instant – les boutons Exécuter fonctionnent ici.",
+  "한국어": "지금은 단축키가 Windows에서만 작동해요. 실행 버튼은 여기서 쓸 수 있어요.",
+  "中文": "目前热键只在 Windows 上可用——“运行”按钮在这里可用。",
+  "العربية": "تعمل الاختصارات على Windows فقط حاليًا – أزرار التشغيل تعمل هنا.",
+  "Tiếng Việt": "Hiện phím tắt chỉ chạy trên Windows – các nút Chạy dùng được ở đây."
+ },
+ "Recent": {
+  "日本語": "最近",
+  "Español": "Recientes",
+  "Deutsch": "Zuletzt",
+  "Français": "Récents",
+  "한국어": "최근",
+  "中文": "最近",
+  "العربية": "الأحدث",
+  "Tiếng Việt": "Gần đây"
+ },
+ "Set hot key": {
+  "日本語": "ホットキーを設定",
+  "Español": "Poner atajo",
+  "Deutsch": "Hotkey setzen",
+  "Français": "Définir un raccourci",
+  "한국어": "단축키 설정",
+  "中文": "设置热键",
+  "العربية": "تعيين اختصار",
+  "Tiếng Việt": "Đặt phím tắt"
+ },
+ "Press keys…": {
+  "日本語": "キーを押してください…",
+  "Español": "Pulsa las teclas…",
+  "Deutsch": "Tasten drücken…",
+  "Français": "Appuyez sur les touches…",
+  "한국어": "키를 누르세요…",
+  "中文": "请按键…",
+  "العربية": "اضغط المفاتيح…",
+  "Tiếng Việt": "Nhấn phím…"
+ },
+ "Run": {
+  "日本語": "実行",
+  "Español": "Ejecutar",
+  "Deutsch": "Ausführen",
+  "Français": "Exécuter",
+  "한국어": "실행",
+  "中文": "运行",
+  "العربية": "تشغيل",
+  "Tiếng Việt": "Chạy"
+ },
+ "Running…": {
+  "日本語": "実行中…",
+  "Español": "Ejecutando…",
+  "Deutsch": "Läuft…",
+  "Français": "En cours…",
+  "한국어": "실행 중…",
+  "中文": "运行中…",
+  "العربية": "جارٍ التشغيل…",
+  "Tiếng Việt": "Đang chạy…"
+ },
+ "Remove this hot key": {
+  "日本語": "このホットキーを削除",
+  "Español": "Quitar este atajo",
+  "Deutsch": "Diesen Hotkey entfernen",
+  "Français": "Supprimer ce raccourci",
+  "한국어": "이 단축키 삭제",
+  "中文": "删除这个热键",
+  "العربية": "إزالة هذا الاختصار",
+  "Tiếng Việt": "Xóa phím tắt này"
+ },
+ "Another hot key": {
+  "日本語": "別のホットキー",
+  "Español": "Otro atajo",
+  "Deutsch": "Weiterer Hotkey",
+  "Français": "Un autre raccourci",
+  "한국어": "다른 단축키",
+  "中文": "再加一个热键",
+  "العربية": "اختصار آخر",
+  "Tiếng Việt": "Phím tắt khác"
+ },
+ "Add a hot key": {
+  "日本語": "ホットキーを追加",
+  "Español": "Añadir un atajo",
+  "Deutsch": "Hotkey hinzufügen",
+  "Français": "Ajouter un raccourci",
+  "한국어": "단축키 추가",
+  "中文": "添加热键",
+  "العربية": "إضافة اختصار",
+  "Tiếng Việt": "Thêm phím tắt"
+ },
+ "(only copied)": {
+  "日本語": "（コピーのみ）",
+  "Español": "(solo se copia)",
+  "Deutsch": "(nur kopiert)",
+  "Français": "(copiée seulement)",
+  "한국어": "(복사만)",
+  "中文": "（仅复制）",
+  "العربية": "(نسخ فقط)",
+  "Tiếng Việt": "(chỉ sao chép)"
+ },
+ "Don't save it anywhere": {
+  "日本語": "どこにも保存しない",
+  "Español": "No guardarla en ningún sitio",
+  "Deutsch": "Nirgends speichern",
+  "Français": "Ne l'enregistrer nulle part",
+  "한국어": "어디에도 저장 안 함",
+  "中文": "不保存到任何地方",
+  "العربية": "لا تحفظها في أي مكان",
+  "Tiếng Việt": "Không lưu ở đâu cả"
+ },
+ "Animation's presets appear here once it has loaded.": {
+  "日本語": "Animation が読み込まれると、ここにプリセットが表示されます。",
+  "Español": "Los presets de Animation aparecen aquí cuando se haya cargado.",
+  "Deutsch": "Die Animation-Vorlagen erscheinen hier, sobald es geladen ist.",
+  "Français": "Les préréglages d'Animation apparaissent ici une fois chargé.",
+  "한국어": "Animation이 로드되면 프리셋이 여기에 나와요.",
+  "中文": "Animation 加载后，预设会显示在这里。",
+  "العربية": "تظهر إعدادات Animation هنا بمجرد تحميله.",
+  "Tiếng Việt": "Các preset của Animation sẽ hiện ở đây khi nó tải xong."
+ },
+ "Nothing yet – what your hot keys do shows here.": {
+  "日本語": "まだ何もありません。ホットキーで実行したことがここに表示されます。",
+  "Español": "Aún nada: aquí aparece lo que hacen tus atajos.",
+  "Deutsch": "Noch nichts – was deine Hotkeys tun, erscheint hier.",
+  "Français": "Rien pour l'instant – ce que font vos raccourcis s'affiche ici.",
+  "한국어": "아직 없어요. 단축키로 한 일이 여기에 나와요.",
+  "中文": "还没有——热键执行的操作会显示在这里。",
+  "العربية": "لا شيء بعد – ما تفعله اختصاراتك يظهر هنا.",
+  "Tiếng Việt": "Chưa có gì – những gì phím tắt làm sẽ hiện ở đây."
+ },
+ "Click, then press new keys (Backspace clears)": {
+  "日本語": "クリックしてから新しいキーを押してください（Backspace で消去）",
+  "Español": "Haz clic y pulsa las nuevas teclas (Retroceso borra)",
+  "Deutsch": "Klicken, dann neue Tasten drücken (Rücktaste löscht)",
+  "Français": "Cliquez, puis appuyez sur les nouvelles touches (Retour arrière efface)",
+  "한국어": "클릭한 다음 새 키를 누르세요(Backspace는 지우기)",
+  "中文": "点击后按下新按键（Backspace 清除）",
+  "العربية": "انقر ثم اضغط المفاتيح الجديدة (Backspace للمسح)",
+  "Tiếng Việt": "Nhấp rồi nhấn phím mới (Backspace để xóa)"
+ },
+ "Click, then press the keys you want": {
+  "日本語": "クリックしてから使いたいキーを押してください",
+  "Español": "Haz clic y pulsa las teclas que quieras",
+  "Deutsch": "Klicken, dann die gewünschten Tasten drücken",
+  "Français": "Cliquez, puis appuyez sur les touches voulues",
+  "한국어": "클릭한 다음 원하는 키를 누르세요",
+  "中文": "点击后按下想要的按键",
+  "العربية": "انقر ثم اضغط المفاتيح التي تريدها",
+  "Tiếng Việt": "Nhấp rồi nhấn các phím bạn muốn"
+ },
+ "Choose…": {
+  "日本語": "選択…",
+  "Español": "Elegir…",
+  "Deutsch": "Auswählen…",
+  "Français": "Choisir…",
+  "한국어": "선택…",
+  "中文": "选择…",
+  "العربية": "اختر…",
+  "Tiếng Việt": "Chọn…"
+ },
+ "Remove gaps (experimental)": {
+  "日本語": "隙間を詰める（試験的）",
+  "Español": "Quitar huecos (experimental)",
+  "Deutsch": "Lücken schließen (experimentell)",
+  "Français": "Supprimer les espaces (expérimental)",
+  "한국어": "빈틈 없애기(실험 기능)",
+  "中文": "删除空隙（实验性）",
+  "العربية": "إزالة الفراغات (تجريبي)",
+  "Tiếng Việt": "Xóa khoảng trống (thử nghiệm)"
+ },
+ "Closes the empty stretches between clips – only where every track is empty, so nothing slips out of sync.": {
+  "日本語": "クリップ間の空白を詰めます。すべてのトラックが空いている所だけなので、同期はずれません。",
+  "Español": "Cierra los tramos vacíos entre clips, solo donde todas las pistas están vacías, para que nada se desincronice.",
+  "Deutsch": "Schließt die leeren Stellen zwischen Clips – nur wo jede Spur leer ist, damit nichts aus dem Takt gerät.",
+  "Français": "Referme les passages vides entre les plans – seulement là où toutes les pistes sont vides, pour que rien ne se désynchronise.",
+  "한국어": "클립 사이의 빈 구간을 없애요. 모든 트랙이 비어 있는 곳만 없애서 싱크가 어긋나지 않아요.",
+  "中文": "合上片段之间的空白——只在所有轨道都为空的地方，所以不会失去同步。",
+  "العربية": "تغلق المساحات الفارغة بين المقاطع – فقط حيث تكون كل المسارات فارغة، فلا يخرج شيء عن التزامن.",
+  "Tiếng Việt": "Đóng các đoạn trống giữa các clip – chỉ ở chỗ mọi track đều trống, nên không có gì bị lệch đồng bộ."
+ },
+ "Save a version first": {
+  "日本語": "先にバージョンを保存",
+  "Español": "Guardar una versión antes",
+  "Deutsch": "Vorher eine Version sichern",
+  "Français": "Enregistrer une version d'abord",
+  "한국어": "먼저 버전 저장",
+  "中文": "先保存一个版本",
+  "العربية": "احفظ نسخة أولًا",
+  "Tiếng Việt": "Lưu một phiên bản trước"
+ },
+ "Remove gaps": {
+  "日本語": "隙間を詰める",
+  "Español": "Quitar huecos",
+  "Deutsch": "Lücken schließen",
+  "Français": "Supprimer les espaces",
+  "한국어": "빈틈 없애기",
+  "中文": "删除空隙",
+  "العربية": "إزالة الفراغات",
+  "Tiếng Việt": "Xóa khoảng trống"
+ },
+ "Remove gaps, no copy first": {
+  "日本語": "隙間を詰める（コピーなし）",
+  "Español": "Quitar huecos, sin copia antes",
+  "Deutsch": "Lücken schließen, ohne Kopie vorher",
+  "Français": "Supprimer les espaces, sans copie d'abord",
+  "한국어": "빈틈 없애기(사본 없이)",
+  "中文": "删除空隙，不先复制",
+  "العربية": "إزالة الفراغات دون نسخة أولًا",
+  "Tiếng Việt": "Xóa khoảng trống, không sao chép trước"
+ },
+ "No gaps between clips.": {
+  "日本語": "クリップ間に隙間はありません。",
+  "Español": "No hay huecos entre clips.",
+  "Deutsch": "Keine Lücken zwischen den Clips.",
+  "Français": "Aucun espace entre les plans.",
+  "한국어": "클립 사이에 빈틈이 없어요.",
+  "中文": "片段之间没有空隙。",
+  "العربية": "لا فراغات بين المقاطع.",
+  "Tiếng Việt": "Không có khoảng trống giữa các clip."
+ },
+ "Closed 1 gap ({seconds} s)": {
+  "日本語": "隙間を 1 つ詰めました（{seconds} 秒）",
+  "Español": "Se cerró 1 hueco ({seconds} s)",
+  "Deutsch": "1 Lücke geschlossen ({seconds} s)",
+  "Français": "1 espace refermé ({seconds} s)",
+  "한국어": "빈틈 1개를 없앴어요({seconds}초)",
+  "中文": "合上了 1 个空隙（{seconds} 秒）",
+  "العربية": "أُغلق فراغ واحد ({seconds} ث)",
+  "Tiếng Việt": "Đã đóng 1 khoảng trống ({seconds} giây)"
+ },
+ "Closed {n} gaps ({seconds} s)": {
+  "日本語": "隙間を {n} 個詰めました（{seconds} 秒）",
+  "Español": "Se cerraron {n} huecos ({seconds} s)",
+  "Deutsch": "{n} Lücken geschlossen ({seconds} s)",
+  "Français": "{n} espaces refermés ({seconds} s)",
+  "한국어": "빈틈 {n}개를 없앴어요({seconds}초)",
+  "中文": "合上了 {n} 个空隙（{seconds} 秒）",
+  "العربية": "أُغلقت {n} فراغات ({seconds} ث)",
+  "Tiếng Việt": "Đã đóng {n} khoảng trống ({seconds} giây)"
+ },
+ "Closed 1 gap ({seconds} s) – the old one is saved as “{name}”": {
+  "日本語": "隙間を 1 つ詰めました（{seconds} 秒）。元のものは「{name}」として保存されています",
+  "Español": "Se cerró 1 hueco ({seconds} s); la anterior está guardada como «{name}»",
+  "Deutsch": "1 Lücke geschlossen ({seconds} s) – die alte ist als „{name}“ gesichert",
+  "Français": "1 espace refermé ({seconds} s) – l'ancienne est enregistrée sous « {name} »",
+  "한국어": "빈틈 1개를 없앴어요({seconds}초). 이전 것은 “{name}”(으)로 저장돼 있어요",
+  "中文": "合上了 1 个空隙（{seconds} 秒）——旧的已保存为“{name}”",
+  "العربية": "أُغلق فراغ واحد ({seconds} ث) – القديم محفوظ باسم «{name}»",
+  "Tiếng Việt": "Đã đóng 1 khoảng trống ({seconds} giây) – bản cũ được lưu là “{name}”"
+ },
+ "Closed {n} gaps ({seconds} s) – the old one is saved as “{name}”": {
+  "日本語": "隙間を {n} 個詰めました（{seconds} 秒）。元のものは「{name}」として保存されています",
+  "Español": "Se cerraron {n} huecos ({seconds} s); la anterior está guardada como «{name}»",
+  "Deutsch": "{n} Lücken geschlossen ({seconds} s) – die alte ist als „{name}“ gesichert",
+  "Français": "{n} espaces refermés ({seconds} s) – l'ancienne est enregistrée sous « {name} »",
+  "한국어": "빈틈 {n}개를 없앴어요({seconds}초). 이전 것은 “{name}”(으)로 저장돼 있어요",
+  "中文": "合上了 {n} 个空隙（{seconds} 秒）——旧的已保存为“{name}”",
+  "العربية": "أُغلقت {n} فراغات ({seconds} ث) – القديم محفوظ باسم «{name}»",
+  "Tiếng Việt": "Đã đóng {n} khoảng trống ({seconds} giây) – bản cũ được lưu là “{name}”"
+ },
+ "Unlock {track} first – a locked track wouldn't move along.": {
+  "日本語": "先に {track} のロックを解除してください。ロックされたトラックは一緒に動きません。",
+  "Español": "Desbloquea {track} antes: una pista bloqueada no se movería con el resto.",
+  "Deutsch": "Entsperre zuerst {track} – eine gesperrte Spur würde nicht mitwandern.",
+  "Français": "Déverrouillez d'abord {track} – une piste verrouillée ne suivrait pas.",
+  "한국어": "먼저 {track} 잠금을 풀어 주세요. 잠긴 트랙은 같이 움직이지 않아요.",
+  "中文": "请先解锁 {track}——锁定的轨道不会跟着移动。",
+  "العربية": "ألغِ قفل {track} أولًا – المسار المقفل لن يتحرك مع البقية.",
+  "Tiếng Việt": "Hãy mở khóa {track} trước – track bị khóa sẽ không di chuyển theo."
+ },
+ "Remove gaps needs a video clip on this timeline to work with.": {
+  "日本語": "隙間を詰めるには、このタイムラインにビデオクリップが必要です。",
+  "Español": "Quitar huecos necesita un clip de vídeo en esta línea de tiempo.",
+  "Deutsch": "Lücken schließen braucht einen Videoclip in dieser Timeline.",
+  "Français": "Supprimer les espaces a besoin d'un plan vidéo dans cette timeline.",
+  "한국어": "빈틈 없애기에는 이 타임라인에 비디오 클립이 있어야 해요.",
+  "中文": "删除空隙需要这条时间线上有一个视频片段。",
+  "العربية": "تحتاج إزالة الفراغات إلى مقطع فيديو في هذا الخط الزمني.",
+  "Tiếng Việt": "Xóa khoảng trống cần một clip video trên timeline này."
+ },
+ "Resolve wouldn't fill a gap exactly, so nothing was moved.": {
+  "日本語": "Resolve が隙間をぴったり埋められなかったため、何も動かしていません。",
+  "Español": "Resolve no pudo rellenar un hueco con exactitud, así que no se movió nada.",
+  "Deutsch": "Resolve konnte eine Lücke nicht genau füllen, daher wurde nichts verschoben.",
+  "Français": "Resolve n'a pas pu combler un espace exactement, donc rien n'a bougé.",
+  "한국어": "Resolve가 빈틈을 정확히 채우지 못해서 아무것도 옮기지 않았어요.",
+  "中文": "Resolve 无法准确填满某个空隙，所以什么都没移动。",
+  "العربية": "لم يملأ Resolve فراغًا بدقة، لذا لم يُنقل شيء.",
+  "Tiếng Việt": "Resolve không lấp vừa một khoảng trống, nên không có gì bị di chuyển."
+ },
+ "Resolve didn't close the gaps.": {
+  "日本語": "Resolve は隙間を詰めませんでした。",
+  "Español": "Resolve no cerró los huecos.",
+  "Deutsch": "Resolve hat die Lücken nicht geschlossen.",
+  "Français": "Resolve n'a pas refermé les espaces.",
+  "한국어": "Resolve가 빈틈을 없애지 않았어요.",
+  "中文": "Resolve 没有合上空隙。",
+  "العربية": "لم يغلق Resolve الفراغات.",
+  "Tiếng Việt": "Resolve không đóng các khoảng trống."
+ },
+ "Resolve didn't add the marker.": {
+  "日本語": "Resolve はマーカーを追加しませんでした。",
+  "Español": "Resolve no añadió el marcador.",
+  "Deutsch": "Resolve hat den Marker nicht gesetzt.",
+  "Français": "Resolve n'a pas ajouté le marqueur.",
+  "한국어": "Resolve가 마커를 추가하지 않았어요.",
+  "中文": "Resolve 没有添加标记。",
+  "العربية": "لم يضف Resolve العلامة.",
+  "Tiếng Việt": "Resolve không thêm điểm đánh dấu."
  }
 }

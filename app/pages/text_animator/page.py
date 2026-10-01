@@ -69,6 +69,20 @@ def _count(n, kind):
     return f"{n} {one if n == 1 else many}"
 
 
+def apply_summary(preset, result, error):
+    """(text, ok) for an Apply from Command Center's hot key."""
+    if error is not None:
+        return f"Couldn't apply {preset['label']}: {error}", False
+    applied, failed = result["applied"], result["failed"]
+    skipped = sum(result["skipped"].values())
+    if not applied and not failed:
+        return ("Only audio or subtitle clips are selected – they can't take a motion preset." if skipped
+                else "Select the clips to animate in Resolve's timeline first."), False
+    if failed:   # whole sentences, so each is translated as one
+        return f"{preset['label']} is on {applied} of {applied + len(failed)} clips – the rest couldn't take it.", False
+    return (f"{preset['label']} is on 1 clip." if applied == 1 else f"{preset['label']} is on {applied} clips."), True
+
+
 class AnimationPage(WebToolPage):
     tool_id = "text_animator"
     display_name = "Animation"
@@ -277,6 +291,45 @@ class AnimationPage(WebToolPage):
 
     def on_apply(self, _payload=None):
         self._apply(self._by_id[self.settings.get("chosen")])
+
+    # ------------------------------------------- Command Center's hot keys --
+
+    def hotkey_presets(self):
+        """[(id, label)] for Command Center's Animation action: favourites
+        first, then the rest in Previews' order."""
+        favorites = [i for i in self.settings.get("favorites") or [] if i in self._by_id]
+        rest = [p["id"] for p in self.presets if p["id"] not in favorites]
+        return [(i, self._by_id[i]["label"]) for i in favorites + rest]
+
+    def apply_for_hotkey(self, preset_id, way, done):
+        """Command Center: puts preset_id on the selected clips, as Apply
+        does, through this page's own worker (so its jobs never overlap).
+        done(text, ok) says how it went - this tab may not be on screen."""
+        preset = self._by_id.get(preset_id)
+        if preset is None:
+            return done("That Animation preset is gone – pick another in Command Center.", False)
+        if self.working:
+            return done("Animation is busy with another change – try again in a moment.", False)
+        if self._controller(connect=True) is None:
+            return done(self.problem or "Can't reach Resolve.", False)
+        way = way if way in ("both", "in", "out") else (self.settings.get("way") or "both")
+        speed = float(self.settings.get("speed") or 1)
+
+        def plan_for(frames, fps, at):
+            return motion.plan(preset, frames, fps, way=way, speed=speed, at=at)
+
+        options = {"way": way, "speed": speed}
+        if preset.get("keys"):
+            options["preset"] = motion.stored(preset)
+
+        def finished(result, error):
+            self.working = ""
+            self._push_state()
+            if error is None:
+                self._read_after()
+            done(*apply_summary(preset, result, error))
+
+        self._start("apply", lambda c: motion_resolve.run_apply(c, preset, plan_for, options=options), finished)
 
     def _apply(self, preset):
         way, speed = self.settings.get("way"), float(self.settings.get("speed") or 1)

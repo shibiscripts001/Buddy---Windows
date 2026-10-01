@@ -28,9 +28,12 @@
 
 /* --------------------------------------------------------- apply card -- */
 
+/* A wrapping row, not a grid: whatever doesn't fit beside the rest goes onto
+   the next line, so a wider theme font can never push the options under the
+   buttons. */
 .pv-apply {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    flex-wrap: wrap;
     gap: 14px 18px;
     align-items: center;
     padding: var(--card-pad);
@@ -40,10 +43,11 @@
 .pv-stage-lg { width: 128px; flex: none; }
 .pv-chosen-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .pv-chosen-name { color: var(--text-strong); font-weight: 700; font-size: var(--fs-lg); }
-.pv-options { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; min-width: 0; }
+/* No min-width: 0 - it shrinks only to its widest option, then wraps the card. */
+.pv-options { flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .pv-opt { display: inline-flex; align-items: center; gap: 8px; }
 .pv-where { margin: 0; flex-basis: 100%; }
-.pv-target { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.pv-target { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: auto; }
 .pv-sel { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 280px; }
 .pv-go { justify-content: flex-end; }
 .pv-reframed { justify-content: flex-end; }
@@ -54,8 +58,8 @@
     .page:has(> .pv:not([hidden])) { overflow-y: auto; }
     .pv { flex: none; }
     .pv-scroll { overflow: visible; flex: none; }
-    .pv-apply { grid-template-columns: 1fr; }
-    .pv-target { align-items: stretch; }
+    .pv-apply { flex-direction: column; align-items: stretch; }
+    .pv-target { align-items: stretch; margin-left: 0; }
     .pv-sel { justify-content: flex-start; max-width: none; }
 }
 

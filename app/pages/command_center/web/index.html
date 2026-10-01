@@ -6,6 +6,7 @@
           content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
     <title>Command Center</title>
     <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="command.css">
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
     <script src="../../../web/buddy.js"></script>
 </head>
@@ -13,13 +14,17 @@
 <main class="page">
     <header class="page-head">
         <h1 class="page-title">Command Center</h1>
+        <label class="check cc-enabled"><input type="checkbox" id="enabled"> Hot keys on</label>
     </header>
-
-    <!-- Nothing yet: the hot keys come later. -->
-    <section class="card empty">
-        <div class="strong">Coming soon</div>
-        <div>This tab is in place; setting up hot keys for Buddy's actions is still being built.</div>
+    <p class="muted cc-intro">Press a hot key in Resolve – or any app – and Buddy does it, with a note on screen to say
+        what happened. Click a key box, then press the keys you want: Esc cancels, Backspace clears.</p>
+    <p class="warn-text" id="unsupported" hidden>Hot keys work on Windows only for now – the Run buttons work here.</p>
+    <div class="cc-groups" id="groups"></div>
+    <section class="card cc-recent">
+        <h2 class="section-title">Recent</h2>
+        <div class="cc-recent-list" id="recent"></div>
     </section>
 </main>
+<script src="command.js"></script>
 </body>
 </html>

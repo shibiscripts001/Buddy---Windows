@@ -10,7 +10,7 @@ script and has been ported into the shell.
 
 ## Status
 
-Buddy's integrated tools include the following. Audit, Command Center and parts of Audio Assistant are still in progress:
+Buddy's integrated tools include the following. Audit and parts of Audio Assistant are still in progress:
 
 - Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Subtitles)
 - Ask Buddy (chat agent)
@@ -18,7 +18,7 @@ Buddy's integrated tools include the following. Audit, Command Center and parts 
 - Audit (new; the page only for now - its tools are coming)
 - Asset Manager
 - Color Palette Manager
-- Command Center (new; the page only for now - it will hold hot key combos that run Buddy's actions)
+- Command Center (new; system-wide hot keys - or a Run button - for markers, jumping between them, copying the timecode or the frame, clip colours, Animation presets, saving a timeline version and removing gaps (experimental). Hot keys are Windows-only for now (`core/hotkeys.py`); see `pages/command_center/actions.py`)
 - Dailies (named source tapes, continuous Media Pool review, notes and metadata)
 - Image Importer
 - Media Manager (Batch Clip Renamer and Media Relink tabs)
