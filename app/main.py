@@ -52,6 +52,15 @@ def main(start_hidden=False):
     # Before any preview opens a file: Qt's FFmpeg otherwise prints every
     # clip's stream dump and warnings to the console (core/ffmpeg_log.py).
     ffmpeg_log.silence()
+    # Buddy's own taskbar identity, before any window exists: started by
+    # pythonw.exe (the updater's relaunch, the login watcher) the taskbar
+    # otherwise groups it under Python and shows Python's icon, not Buddy's.
+    if os.name == "nt":
+        try:
+            import ctypes
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Buddy.ResolveTools")
+        except (AttributeError, OSError):
+            pass
     app = QApplication(sys.argv)
     # Cyclic garbage is freed on this thread only, never inside a worker
     # where a web view's destruction crashes QtWebEngine (core/gui_gc.py).
