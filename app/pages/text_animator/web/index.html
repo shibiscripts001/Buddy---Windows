@@ -53,7 +53,36 @@
                         <button type="button" data-speed="2">2×</button>
                     </div>
                 </label>
+                <!-- Text+ only: line by line, word by word or letter by letter (units.py). -->
+                <label class="pv-opt"><span class="muted small">Animate by</span>
+                    <div class="segmented" id="unit">
+                        <button type="button" data-unit="clip">Clip</button>
+                        <button type="button" data-unit="lines">Line</button>
+                        <button type="button" data-unit="words">Word</button>
+                        <button type="button" data-unit="letters">Letter</button>
+                    </div>
+                </label>
+                <label class="pv-opt" id="stagger-row"><span class="muted small">Stagger</span>
+                    <div class="segmented" id="stagger">
+                        <button type="button" data-stagger="0.03">0.03s</button>
+                        <button type="button" data-stagger="0.05">0.05s</button>
+                        <button type="button" data-stagger="0.08">0.08s</button>
+                        <button type="button" data-stagger="0.12">0.12s</button>
+                        <button type="button" data-stagger="0.2">0.2s</button>
+                        <button type="button" data-stagger="0.3">0.3s</button>
+                    </div>
+                </label>
+                <label class="pv-opt" id="order-row"><span class="muted small">Order</span>
+                    <select class="field" id="order">
+                        <option value="forward">First to last</option>
+                        <option value="reverse">Last to first</option>
+                        <option value="middle">From the middle</option>
+                        <option value="edges">From the edges</option>
+                        <option value="random">Random</option>
+                    </select>
+                </label>
                 <p class="muted small pv-where" id="where"></p>
+                <p class="muted small pv-where" id="unit-note"></p>
             </div>
             <div class="pv-target">
                 <div class="pv-sel" id="selection"></div>
@@ -124,7 +153,7 @@
                 <div class="ed-try">
                     <div class="pv-sel" id="ed-selection"></div>
                     <button type="button" class="btn" id="ed-apply">Apply to selected</button>
-                    <p class="muted small ed-note">As it is now, saved or not, with the Put on and Speed chosen on Previews.</p>
+                    <p class="muted small ed-note">As it is now, saved or not, with the Put on, Speed and Animate by chosen on Previews.</p>
                 </div>
             </div>
 

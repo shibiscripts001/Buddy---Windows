@@ -146,9 +146,9 @@ class DialogTests(_Shell):
         status = next(f for f in pages["ai_privacy"]["fields"] if f["kind"] == "status")
         self.assertEqual((status["text"], status["tone"], status["page"]), ("Sends to Someone", "warn", "ai_chat"))
 
-    def test_it_opens_on_the_tool_on_screen(self):
+    def test_it_opens_on_general_whatever_tool_is_on_screen(self):
         smart = self.dialog(self.win.pages["smart"])
-        self.assertEqual(smart._first_page(smart.pages()), "ai_chat")
+        self.assertEqual(smart._first_page(smart.pages()), "general")
         d = self.dialog()
         d.push()
         self.assertEqual(d.emit.call_args[0][1]["open"], "general")
@@ -187,7 +187,7 @@ class ViewTests(_Shell):
         self.addCleanup(self.view_dialog.deleteLater)
         self.addCleanup(self.view_dialog.close)
         self.view_dialog.show()
-        self._until("document.querySelector('[data-page=plain]') !== null")
+        self._until("document.querySelector('[data-page=general]') !== null")
 
     def search(self, text):
         self._js(f"{{ const s = document.getElementById('search'); s.value = {text!r}; s.dispatchEvent(new Event('input')); }}")
@@ -209,7 +209,11 @@ class ViewTests(_Shell):
     def test_the_rail_and_its_pages(self):
         self.assertEqual(self._js("[...document.querySelectorAll('.set-rail-item')].map(b => b.title).join()"),
                          "General,Look,AI,Tools,About")
-        self.assertEqual(self._js("document.querySelector('.set-rail-item[aria-current=page]').title"), "Tools")
+        # General > General first, whatever tool is on screen ("plain", a Tools page).
+        self.assertEqual(self._js("document.querySelector('.set-rail-item[aria-current=page]').title"), "General")
+        self.assertEqual(self._js("document.getElementById('title').textContent"), "General")
+        # No heading over a group's pages repeating the rail's name.
+        self.assertTrue(self._js("document.getElementById('group-name') === null"))
         self._js("document.querySelector('.set-rail-item[title=AI]').click()")
         self._until("document.getElementById('title').textContent === 'Model library'")
         self.assertEqual(self._js("[...document.querySelectorAll('#pages .set-page')].map(b => b.textContent).join()"),

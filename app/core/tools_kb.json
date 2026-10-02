@@ -138,12 +138,17 @@
     },
     "text_animator": {
       "name": "Animation",
-      "summary": "The page for animating things in Resolve. Its top row of tabs is the kind of animation - only Text+ so far, and that tab is empty for now: the Text+ tools (font styling, layout, animation) are tabs on Subtitles, after Subtitle Conversion. Formerly Text Animator.",
+      "summary": "The page for animating things in Resolve: motion presets put on the clips selected in the timeline (stills, video, Text+ and other titles), played line by line, word by word or letter by letter on a Text+ if wanted, and an Editor for presets of your own. Tabs: Previews, Editor, Favorites, Titles (empty for now). Formerly Text Animator.",
       "needs_resolve": true,
       "capabilities": [
-        "Nothing yet - a Text+ tab kept for animation tools to come; Font Styling, Timeline Layout, Word-by-word, Timeline Animation and Custom Animation are on the Subtitles page"
+        "Previews: every motion preset playing in a little viewer, by pack (Essentials, Classic, Magic, and your own Saved ones); Apply to selected puts the chosen one on the clips selected in Resolve's timeline, Remove takes it off",
+        "Put on: In & Out, just the In or just the Out of a preset - the In starts on each clip's first frame and the Out ends on its last; an Emphasis plays at the playhead or mid-clip. Speed: 0.5x to 2x",
+        "Animate by (Text+ only): Clip, Line, Word or Letter - each line, word or letter of a Text+ plays the preset in turn, a Stagger apart (0.03 to 0.3 seconds), in an Order: first to last, last to first, from the middle, from the edges or random. Outlines and shadows fade with their words. Clips that aren't a Text+ move as a whole",
+        "The clip's Inspector framing (zoom, position, rotation, crop) is built into the move so it isn't cut off at the frame's edge; Update framing takes in re-framing done since",
+        "Editor: any preset as curves on a spline editor with a viewer, to apply as it is or save as a preset of your own; Favorites: the hearted presets",
+        "Command Center can put an Animation preset on the selected clips from a hot key"
       ],
-      "notes": "Send people wanting to style, place or animate Text+ to the Subtitles page's Text+ tabs."
+      "notes": "Animate by works on one Text+ through Fusion's text Follower; changed the words afterwards? Apply again so the timing follows them. A trimmed clip keeps its whole move with Clip, but with Animate by needs Apply again. Font styling, placement and the older word-by-word tools are on the Subtitles page's Text+ tabs."
     },
     "audio_assistant": {
       "name": "Audio Assistant",

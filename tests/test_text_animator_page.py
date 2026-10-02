@@ -757,7 +757,8 @@ class AnimationPageTests(unittest.TestCase):
         from pages.text_animator.page import AnimationPage, DEFAULTS
 
         names = ("_load_saved", "_send_presets", "_draft", "_save", "_apply", "on_save", "on_delete",
-                 "on_favorite", "on_keys", "on_apply_draft", "on_update", "on_color", "_colors")
+                 "on_favorite", "on_keys", "on_apply_draft", "on_update", "on_color", "_colors",
+                 "_units", "on_unit", "on_order", "on_stagger")
         Page = type("Page", (), {n: getattr(AnimationPage, n) for n in names})
         page = Page()
         page.settings = Mem({**DEFAULTS, **(settings or {})})
@@ -856,6 +857,36 @@ class AnimationPageTests(unittest.TestCase):
         self.assertEqual(preset["id"], "draft")
         self.assertEqual(options["preset"]["keys"]["s"][1][1], 1.0)
         self.assertEqual(options["preset"]["label"], "Try")
+
+    def test_animate_by_is_kept_and_goes_on_with_apply(self):
+        from pages.text_animator import page as page_module
+        page = self.saved_page()
+        self.assertEqual(page._units(), {"unit": "clip", "order": "forward", "stagger": 0.08})
+        page.on_unit({"unit": "words"})
+        page.on_order({"order": "middle"})
+        page.on_stagger({"stagger": 0.12})
+        for bad in (page.on_unit, page.on_order, page.on_stagger):
+            bad({"unit": "paragraphs", "order": "sideways", "stagger": 0.07})   # none of them a choice
+        page.on_stagger({"stagger": "soon"})
+        self.assertEqual(page._units(), {"unit": "words", "order": "middle", "stagger": 0.12})
+        page._apply(page._by_id["pop"])
+        calls = []
+        real = page_module.motion_resolve.run_apply
+        page_module.motion_resolve.run_apply = lambda c, preset, plan_for, options=None: calls.append(options)
+        try:
+            page.started[0][1]("controller")
+        finally:
+            page_module.motion_resolve.run_apply = real
+        self.assertEqual({k: calls[0][k] for k in ("unit", "order", "stagger")},
+                         {"unit": "words", "order": "middle", "stagger": 0.12})
+
+    def test_saying_which_clips_moved_as_a_whole(self):
+        from pages.text_animator.page import on_clips
+        self.assertEqual(on_clips("Pop", 3), "Pop is on 3 clips.")
+        self.assertEqual(on_clips("Pop", 1, 1), "Pop is on 1 clip – it isn't a Text+, so it moves as a whole.")
+        self.assertEqual(on_clips("Pop", 3, 3), "Pop is on 3 clips – none of them is a Text+, so they move as a whole.")
+        self.assertEqual(on_clips("Pop", 3, 1), "Pop is on 3 clips – 1 isn't a Text+, so it moves as a whole.")
+        self.assertEqual(on_clips("Pop", 5, 2), "Pop is on 5 clips – 2 aren't Text+, so they move as a whole.")
 
     def test_a_second_click_while_working_does_nothing(self):
         page = self.queue_page()

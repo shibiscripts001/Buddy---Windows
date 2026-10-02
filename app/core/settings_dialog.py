@@ -231,10 +231,9 @@ class SettingsDialog(WebDialog):
         ], "What leaves this computer, and what Buddy checks.") | {"owner": "shell"}
 
     def _first_page(self, pages):
-        """The tool on screen's first page, or General."""
-        owner = getattr(self.active_page, "tool_id", None)
-        mine = [p for p in pages if p["owner"] == owner]
-        return mine[0]["id"] if mine else "general"
+        """Where Settings opens: General > General, whatever tool is on
+        screen (or, should a Buddy ever lack it, the first page)."""
+        return "general" if any(p["id"] == "general" for p in pages) else (pages[0]["id"] if pages else "general")
 
     def push(self, owners=None):
         pages = self.pages(owners)

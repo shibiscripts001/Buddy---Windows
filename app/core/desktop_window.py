@@ -487,6 +487,19 @@ class DesktopArea(QWidget):
         super().resizeEvent(event)
         self.sync()
 
+    def moveEvent(self, event):
+        # The windows are native and the desk isn't, so Windows places them
+        # against the main window: when only the desk moves (the link bar
+        # going in above it), Qt leaves them where they were, over the bar -
+        # their geometry on the desk hasn't changed. A step aside and back
+        # puts each where its geometry says now.
+        super().moveEvent(event)
+        for win in self.windows.values():
+            if win.isVisible():
+                spot = win.pos()
+                win.move(spot.x() + 1, spot.y())
+                win.move(spot)
+
     def eventFilter(self, obj, event):
         # A click inside a window's page (the web view's own widgets) brings
         # that window forward too - the page eats the press before the

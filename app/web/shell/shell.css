@@ -233,8 +233,6 @@ body.window { background: var(--surface); }
     background: var(--card-bg); border-right: var(--bw) solid var(--card-border);
 }
 .set-search { width: 100%; margin-bottom: 6px; }
-.set-group-name { padding: 2px 8px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-dim); }
-.set-group-name:empty { display: none; }
 .set-pages { display: flex; flex-direction: column; gap: 2px; }
 .set-page {
     font: inherit; display: flex; align-items: center; gap: 8px; padding: 7px 10px; text-align: left; cursor: pointer;

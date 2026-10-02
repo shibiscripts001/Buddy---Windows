@@ -43,14 +43,23 @@ frame, so framing left there would cut the move off at that frame's edge.
 Re-frame in the Inspector afterwards and Update framing (or Apply) folds
 it in; Remove puts it back.
 
+Animate by (units.py): on a Text+ the preset can play line by line, word by
+word or letter by letter instead. Then no Merge goes in: a text Follower on
+the Text+ itself plays the keys on its Line*, Word* or Character* inputs, at
+each unit's own delay (apply_units). The framing stays in the Inspector,
+since the text moves inside the Text+'s own frame. A clip that isn't a lone
+Text+ moves as a whole, as without.
+
 Resolve 21.0.4 or later: Timeline.GetSelectedClips.
 """
 
+import json
 import os
 import tempfile
 import time
 
 from . import framing as fr
+from . import units as un
 
 TAG = "BuddyMotion"                 # tool data key on the Merge: the preset id
 MERGE_NAME, CANVAS_NAME = "BuddyMotion", "BuddyMotionCanvas"
@@ -58,6 +67,11 @@ CROP_NAME, SHAPE_NAME = "BuddyMotionCrop", "BuddyMotionShape"   # the framing, i
 FRAMING = "BuddyMotionFraming"      # tool data on the Merge: framing.dumps() of what came in
 CARRIER = "BuddyMotionKeys"         # + channel: an unconnected Transform holding its keys (_keyed)
 FAR = -32768                        # AddTool's "don't place it in the flow" position
+TEXT_TAG = "BuddyMotionText"        # tool data on a Text+ Animate by is on: what went on (_units_record)
+FOLLOWER_ID = "StyledTextFollower"  # the text Follower's registry ID (AddModifier "Follower" adds nothing)
+MANUAL_CURVE = 6                    # the Follower's Order "Manual Curve", as stored (21.1; "Automatic" is 7)
+ELEMENTS = range(1, 9)              # a Text+'s shading elements: fill, outline, shadow, background...
+MIN_SIZE = 0.001                    # a unit never scales to 0 (a Text+ at 0 has blacked out frames)
 LOOK_AT = 40                        # summary(): comps opened per read, at most
 
 # What a selected clip is, for the summary and for what can be animated.
@@ -173,9 +187,14 @@ def summary(controller):
             # holds Buddy up while it runs: past LOOK_AT clips, count them
             # as maybe animated rather than open every comp.
             looked += 1
-            if looked > LOOK_AT or _has_motion(item):
+            if looked > LOOK_AT:
                 animated += 1
-                if looked <= LOOK_AT and not fr.is_neutral(read_inspector(item)):
+                continue
+            how = _animated(item)
+            if how:
+                animated += 1
+                # Animate by leaves the framing in the Inspector: never re-framed.
+                if how == "merge" and not fr.is_neutral(read_inspector(item)):
                     reframed += 1
     try:
         fps = float(timeline.GetSetting("timelineFrameRate"))
@@ -193,12 +212,21 @@ def summary(controller):
             "total": sum(counts.values()), "animated": animated, "reframed": reframed, "clip": clip}
 
 
-def _has_motion(item):
-    """A cheap look: does one of the clip's comps hold a Buddy Merge? No comp, no."""
+def _animated(item):
+    """A cheap look at what Buddy put on a clip: "merge" (a preset on the
+    whole clip), "units" (Animate by, on its Text+) or None. No comp, None."""
     try:
-        return _motion_comp(item) is not None
+        if _motion_comp(item) is not None:
+            return "merge"
+        if _units_comp(item) is not None:
+            return "units"
     except Exception:
-        return False
+        pass
+    return None
+
+
+def _has_motion(item):
+    return _animated(item) is not None
 
 
 def _motion_comp(item):
@@ -535,6 +563,7 @@ def apply(item, preset_id, plan_for, clip_frames, at=None, canvas=None, mode=FIT
     "speed", "at"}) are kept for Update framing. Raises with a reason."""
     if clip_frames < 2:
         raise RuntimeError("it's only one frame long - too short for a move")
+    remove_units(item)                  # one Buddy move at a time: Animate by's comes off first
     index, comp, old = _working_comp(item)
     media_out = _media_out(comp)
     if media_out is None:
@@ -666,7 +695,14 @@ def _build(comp, media_out, old, preset_id, keys, base, put, width, height, fram
 
 
 def remove(item):
-    """Takes Buddy's preset off a clip: its comp is as it was before, less the
+    """Takes Buddy's preset off a clip, whichever way it went on (Animate by
+    or the whole clip). False when it had none."""
+    took = remove_units(item)
+    return _remove_merge(item) or took
+
+
+def _remove_merge(item):
+    """Takes a whole-clip preset off: its comp is as it was before, less the
     Buddy tools, and the framing Buddy took in goes back to the Inspector
     (with any re-framing since on top). False when it had none. A comp Buddy
     made stays, empty (MediaIn straight to MediaOut, which looks like the
@@ -706,6 +742,229 @@ def remove(item):
     return True
 
 
+# --------------------------------------------------------------- Animate by --
+
+def text_plus(comp):
+    """The comp's Text+, when it has exactly one - else None."""
+    found = list((comp.GetToolList(False, "TextPlus") or {}).values())
+    return found[0] if len(found) == 1 else None
+
+
+def follower(tp):
+    """The text Follower feeding a Text+'s text, or None."""
+    tool = _source_tool(tp.StyledText)
+    return tool if tool is not None and tool.GetAttrs("TOOLS_RegID") == FOLLOWER_ID else None
+
+
+def _units_record(tp):
+    """What Animate by put on this Text+ ({"preset", "keyed", "options"}), or None."""
+    try:
+        raw = tp.GetData(TEXT_TAG)
+        record = json.loads(raw) if raw else None
+    except (TypeError, ValueError, AttributeError):
+        return None
+    return record if isinstance(record, dict) else None
+
+
+def _units_comp(item):
+    """(index, comp, Text+) for the comp Animate by is in, or None."""
+    for index in range(int(item.GetFusionCompCount() or 0), 0, -1):
+        comp = item.GetFusionCompByIndex(index)
+        tp = text_plus(comp) if comp is not None else None
+        if tp is not None and _units_record(tp) is not None:
+            return index, comp, tp
+    return None
+
+
+def _text_of(tp):
+    """The words on a Text+ - on its Follower, when Animate by's is on it."""
+    source = follower(tp)
+    value = source.GetInput("Text") if source is not None else tp.GetInput("StyledText")
+    return value if isinstance(value, str) else ""
+
+
+def _on(value):
+    try:
+        return float(value) > 0.5
+    except (TypeError, ValueError):
+        return bool(value)
+
+
+def _floored(keys, low):
+    """Keys whose values and handle heights never go under `low`."""
+    lift = lambda h: h and (h[0], max(low, h[1]))
+    return {f: {"value": max(low, k["value"]), "lh": lift(k.get("lh")), "rh": lift(k.get("rh"))}
+            for f, k in keys.items()}
+
+
+def _take_out_units(tp):
+    """Takes Animate by's Follower off a Text+: its curves and motion path go,
+    and the words go back on the Text+ itself."""
+    source = follower(tp)
+    if source is not None:
+        try:
+            text = source.GetInput("Text")
+        except Exception:
+            text = None
+        keyed = set((_units_record(tp) or {}).get("keyed") or []) | {"DelayByCharacterPosition"}
+        for name in sorted(keyed):
+            try:
+                _delete_feeding(getattr(source, name))
+            except Exception:
+                pass
+        tp.StyledText.ConnectTo(None)
+        if isinstance(text, str):
+            tp.SetInput("StyledText", text)
+        source.Delete()
+    try:
+        tp.SetData(TEXT_TAG, None)
+    except Exception:
+        tp.SetData(TEXT_TAG, "")
+
+
+def _build_units(comp, tp, text, keys, base, delays, choice, preset_id, options):
+    """apply_units' change to the comp: a Follower on the Text+, its delays on
+    Manual Curve (one key per character) and the preset's channels keyed on
+    the unit's own inputs. Raises with a reason."""
+    if follower(tp) is not None:
+        _take_out_units(tp)                     # Animate by's own, from before
+    tp.AddModifier("StyledText", FOLLOWER_ID)
+    source = follower(tp)
+    if source is None:
+        raise RuntimeError("Resolve wouldn't put a text Follower on its Text+")
+    source.SetInput("Text", text)
+    source.SetInput("Delay", 1.0)
+    _key(comp, source.DelayByCharacterPosition, {float(i): {"value": d} for i, d in enumerate(delays)})
+    source.SetInput("Order", MANUAL_CURVE)
+    level = un.LEVEL[choice["unit"]]
+    keyed = ["DelayByCharacterPosition"]
+    if "Size" in keys:
+        source.SetInput("TransformSize", 1)
+        for axis in ("X", "Y"):
+            _key(comp, getattr(source, f"{level}Size{axis}"), _floored(keys["Size"], MIN_SIZE), base)
+            keyed.append(f"{level}Size{axis}")
+    if "Angle" in keys:
+        source.SetInput("TransformRotation", 1)
+        _key(comp, getattr(source, f"{level}AngleZ"), keys["Angle"], base)
+        keyed.append(f"{level}AngleZ")
+    if "Blend" in keys:
+        # Each shading element the Text+ shows fades with the unit - its fill,
+        # and its outline and shadow too, or they'd show before it does.
+        for n in ELEMENTS:
+            if _on(tp.GetInput(f"Enabled{n}")):
+                source.SetInput(f"Enabled{n}", 1)
+                _key(comp, getattr(source, f"Opacity{n}"), keys["Blend"], base)
+                keyed.append(f"Opacity{n}")
+    if "Center.X" in keys or "Center.Y" in keys:
+        # The offset is a point, so it moves through an XYPath, as the Merge's
+        # Center does; an offset rests at 0 where a Center rests at 0.5.
+        offset = f"{level}Offset"
+        source.AddModifier(offset, "XYPath")
+        path = _source_tool(getattr(source, offset))
+        if path is None:
+            raise RuntimeError("couldn't attach a motion path")
+        centre = {0: {"value": 0.5}}
+        _key(comp, path.X, _shifted(keys.get("Center.X") or centre, -0.5), base)
+        _key(comp, path.Y, _shifted(keys.get("Center.Y") or centre, -0.5), base)
+        keyed.append(offset)
+    tp.SetData(TEXT_TAG, json.dumps({"preset": preset_id, "keyed": keyed, "options": options or {}}))
+
+
+def _lone_text_plus(item):
+    """(index, comp, Text+) for a clip Animate by can go on: the comp it's
+    already on, or a clip's one comp with one Text+ - else None."""
+    found = _units_comp(item)
+    if found is not None:
+        return found
+    held = _motion_comp(item)
+    if held is not None:
+        index, comp = held[0], held[1]
+    elif int(item.GetFusionCompCount() or 0) == 1:
+        index, comp = 1, item.GetFusionCompByIndex(1)
+    else:
+        return None
+    tp = text_plus(comp) if comp is not None else None
+    return (index, comp, tp) if tp is not None else None
+
+
+def apply_units(item, preset_id, plan_for, clip_frames, fps, choice, at=None, options=None):
+    """Puts a preset on a Text+ clip by unit (units.py) - `choice` is
+    units.clean_options'. `plan_for(frames, rate, at)` is as for apply; it's
+    planned shorter by the longest delay, so the last unit ends on the clip's
+    last frame. `fps` is the timeline's. False (and the clip untouched) when
+    the clip isn't a lone Text+: the caller moves it whole instead. Raises
+    with a reason."""
+    if clip_frames < 2:
+        raise RuntimeError("it's only one frame long - too short for a move")
+    found = _lone_text_plus(item)
+    if found is None:
+        return False
+    index, comp, tp = found
+    if _units_record(tp) is None and follower(tp) is not None:
+        raise RuntimeError("its Text+ already has a text Follower of its own - take that off first")
+    text = _text_of(tp)
+    if not text.strip():
+        raise RuntimeError("its Text+ has no text to animate")
+    if _motion_comp(item) is not None:
+        # A preset on the whole clip comes off first, its framing back in
+        # the Inspector; the comp that plays is then the newest.
+        _remove_merge(item)
+        index = int(item.GetFusionCompCount() or 1)
+        comp = item.GetFusionCompByIndex(index)
+        tp = text_plus(comp)
+        if tp is None:
+            raise RuntimeError("its Text+ went missing taking the old preset off")
+    base, frames = comp_frames(comp, clip_frames)
+    ratio = frames / max(1, clip_frames)
+    step = choice["stagger"] * fps * ratio
+    delays = un.fitted(un.delays(text, choice["unit"], choice["order"], step), frames)
+    keys = plan_for(un.plan_frames(frames, delays), ratio, None if at is None else at * ratio)
+    backup = _export(item, index)
+    if backup is None:
+        raise RuntimeError("Resolve wouldn't save a copy of its Fusion composition first")
+    try:
+        comp.Lock()
+        comp.StartUndo("Buddy motion preset")
+        try:
+            _build_units(comp, tp, text, keys, base, delays, choice, preset_id, options)
+        finally:
+            comp.EndUndo(True)
+            comp.Unlock()
+        if not _reload(item, index):
+            raise RuntimeError("Resolve didn't take the updated Fusion composition")
+    except Exception:
+        _restore(item, index, backup)
+        raise
+    finally:
+        _forget(backup)
+    return True
+
+
+def remove_units(item):
+    """Takes Animate by off a clip's Text+. False when it had none."""
+    found = _units_comp(item)
+    if found is None:
+        return False
+    index, comp, tp = found
+    backup = _export(item, index)
+    if backup is None:
+        raise RuntimeError("Resolve wouldn't save a copy of its Fusion composition first")
+    try:
+        comp.Lock()
+        try:
+            _take_out_units(tp)
+        finally:
+            comp.Unlock()
+        if not _reload(item, index):
+            raise RuntimeError("Resolve didn't take the updated Fusion composition")
+    except Exception:
+        _restore(item, index, backup)
+        raise
+    finally:
+        _forget(backup)
+    return True
+
+
 # ---------------------------------------------------------------- the jobs --
 
 def _timecode_frames(timecode, fps):
@@ -724,8 +983,10 @@ def _timecode_frames(timecode, fps):
 def run_apply(controller, preset, plan_for, name_of=lambda item: item.GetName(), options=None):
     """Applies `preset` to every animatable selected clip. `plan_for(frames,
     rate, at)` gives motion.plan's keys for one clip's comp, `rate` being the
-    comp's frames per timeline frame (see apply). Returns
-    {"applied", "skipped": {kind: n}, "failed": [(clip, reason)], "seconds"}."""
+    comp's frames per timeline frame (see apply). With Animate by in
+    `options` (units.clean_options), a lone Text+ gets it by unit and any
+    other clip the whole-clip move - "whole" counts those. Returns
+    {"applied", "whole", "skipped": {kind: n}, "failed": [(clip, reason)], "seconds"}."""
     started = time.monotonic()
     _project, timeline = current_timeline(controller)
     if timeline is None:
@@ -742,7 +1003,9 @@ def run_apply(controller, preset, plan_for, name_of=lambda item: item.GetName(),
         playhead = _timecode_frames(timeline.GetCurrentTimecode(), fps)
     except Exception:
         playhead = None
-    applied, skipped, failed = 0, {}, []
+    choice = un.clean_options(options)
+    by_unit = choice["unit"] != un.CLIP
+    applied, whole, skipped, failed = 0, 0, {}, []
     for item, track_type in selected_items(timeline):
         kind = classify(item, track_type)
         if kind not in ANIMATABLE:
@@ -752,18 +1015,23 @@ def run_apply(controller, preset, plan_for, name_of=lambda item: item.GetName(),
         at = None
         if playhead is not None and item.GetStart() <= playhead < item.GetEnd():
             at = playhead - item.GetStart()
+        planned = lambda n, ratio, a: plan_for(n, fps * ratio, a)
+        kept = {**(options or {}), "at": at}
         try:
+            if by_unit and kind == TITLE and apply_units(item, preset["id"], planned, frames, fps, choice, at, kept):
+                applied += 1
+                continue
             try:
                 clip_scaling = item.GetProperty("Scaling")
             except Exception:
                 clip_scaling = 0
-            apply(item, preset["id"], lambda n, ratio, a: plan_for(n, fps * ratio, a), frames, at,
-                  canvas, scaling_mode(clip_scaling, fitting), read_inspector(item),
-                  {**(options or {}), "at": at})
+            apply(item, preset["id"], planned, frames, at,
+                  canvas, scaling_mode(clip_scaling, fitting), read_inspector(item), kept)
             applied += 1
+            whole += by_unit
         except Exception as exc:  # noqa: BLE001 - one clip's trouble is reported, the rest go on
             failed.append((name_of(item), str(exc)))
-    return {"applied": applied, "skipped": skipped, "failed": failed,
+    return {"applied": applied, "whole": whole, "skipped": skipped, "failed": failed,
             "seconds": round(time.monotonic() - started, 2)}
 
 

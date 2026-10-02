@@ -2710,16 +2710,6 @@
   "العربية": "محرر المنحنيات",
   "Tiếng Việt": "Trình chỉnh đường cong"
  },
- "As it is now, saved or not, with the Put on and Speed chosen on Previews.": {
-  "日本語": "保存の有無にかかわらず今の状態で、プレビューで選んだ適用範囲と速度を使います。",
-  "Español": "Tal como está ahora, guardada o no, con el Aplicar en y la Velocidad elegidos en Vistas previas.",
-  "Deutsch": "So wie jetzt, gespeichert oder nicht, mit dem in der Vorschau gewählten Anwenden auf und Tempo.",
-  "Français": "Tel quel, enregistré ou non, avec l'Appliquer sur et la Vitesse choisis dans Aperçus.",
-  "한국어": "저장 여부와 관계없이 지금 상태로, 미리보기에서 고른 적용 위치와 속도로 적용합니다.",
-  "中文": "按当前状态（无论是否保存），使用在预览中选择的应用位置和速度。",
-  "العربية": "كما هو الآن، محفوظًا أو لا، مع موضع التطبيق والسرعة المختارين في المعاينات.",
-  "Tiếng Việt": "Đúng như hiện tại, đã lưu hay chưa, với vị trí áp dụng và tốc độ chọn ở Xem trước."
- },
  "Fit the curve to the graph": {
   "日本語": "カーブをグラフに合わせる",
   "Español": "Ajustar la curva al gráfico",
@@ -3179,5 +3169,205 @@
   "中文": "标题",
   "العربية": "العناوين",
   "Tiếng Việt": "Tiêu đề"
+ },
+ "Animate by": {
+  "日本語": "アニメーション単位",
+  "Español": "Animar por",
+  "Deutsch": "Animieren nach",
+  "Français": "Animer par",
+  "한국어": "애니메이션 단위",
+  "中文": "动画单位",
+  "العربية": "التحريك حسب",
+  "Tiếng Việt": "Hoạt ảnh theo"
+ },
+ "Line": {
+  "日本語": "行",
+  "Español": "Línea",
+  "Deutsch": "Zeile",
+  "Français": "Ligne",
+  "한국어": "줄",
+  "中文": "行",
+  "العربية": "السطر",
+  "Tiếng Việt": "Dòng"
+ },
+ "Word": {
+  "日本語": "単語",
+  "Español": "Palabra",
+  "Deutsch": "Wort",
+  "Français": "Mot",
+  "한국어": "단어",
+  "中文": "单词",
+  "العربية": "الكلمة",
+  "Tiếng Việt": "Từ"
+ },
+ "Letter": {
+  "日本語": "文字",
+  "Español": "Letra",
+  "Deutsch": "Buchstabe",
+  "Français": "Lettre",
+  "한국어": "글자",
+  "中文": "字母",
+  "العربية": "الحرف",
+  "Tiếng Việt": "Chữ"
+ },
+ "Stagger": {
+  "日本語": "間隔",
+  "Español": "Intervalo",
+  "Deutsch": "Versatz",
+  "Français": "Décalage",
+  "한국어": "간격",
+  "中文": "间隔",
+  "العربية": "الفاصل",
+  "Tiếng Việt": "Độ trễ"
+ },
+ "Order": {
+  "日本語": "順序",
+  "Español": "Orden",
+  "Deutsch": "Reihenfolge",
+  "Français": "Ordre",
+  "한국어": "순서",
+  "中文": "顺序",
+  "العربية": "الترتيب",
+  "Tiếng Việt": "Thứ tự"
+ },
+ "First to last": {
+  "日本語": "最初から最後へ",
+  "Español": "Del primero al último",
+  "Deutsch": "Vom ersten zum letzten",
+  "Français": "Du premier au dernier",
+  "한국어": "처음부터 끝으로",
+  "中文": "从头到尾",
+  "العربية": "من الأول إلى الأخير",
+  "Tiếng Việt": "Từ đầu đến cuối"
+ },
+ "Last to first": {
+  "日本語": "最後から最初へ",
+  "Español": "Del último al primero",
+  "Deutsch": "Vom letzten zum ersten",
+  "Français": "Du dernier au premier",
+  "한국어": "끝에서 처음으로",
+  "中文": "从尾到头",
+  "العربية": "من الأخير إلى الأول",
+  "Tiếng Việt": "Từ cuối về đầu"
+ },
+ "From the middle": {
+  "日本語": "中央から",
+  "Español": "Desde el centro",
+  "Deutsch": "Von der Mitte aus",
+  "Français": "Depuis le milieu",
+  "한국어": "가운데부터",
+  "中文": "从中间开始",
+  "العربية": "من المنتصف",
+  "Tiếng Việt": "Từ giữa ra"
+ },
+ "From the edges": {
+  "日本語": "両端から",
+  "Español": "Desde los extremos",
+  "Deutsch": "Von den Rändern aus",
+  "Français": "Depuis les bords",
+  "한국어": "양 끝부터",
+  "中文": "从两端开始",
+  "العربية": "من الأطراف",
+  "Tiếng Việt": "Từ hai đầu vào"
+ },
+ "Random": {
+  "日本語": "ランダム",
+  "Español": "Aleatorio",
+  "Deutsch": "Zufällig",
+  "Français": "Aléatoire",
+  "한국어": "무작위",
+  "中文": "随机",
+  "العربية": "عشوائي",
+  "Tiếng Việt": "Ngẫu nhiên"
+ },
+ "As it is now, saved or not, with the Put on, Speed and Animate by chosen on Previews.": {
+  "日本語": "保存の有無にかかわらず今の状態で、プレビューで選んだ適用範囲、速度、アニメーション単位を使います。",
+  "Español": "Tal como está ahora, guardada o no, con el Aplicar en, la Velocidad y el Animar por elegidos en Vistas previas.",
+  "Deutsch": "So wie jetzt, gespeichert oder nicht, mit dem in der Vorschau gewählten Anwenden auf, Tempo und Animieren nach.",
+  "Français": "Tel quel, enregistré ou non, avec l'Appliquer sur, la Vitesse et l'Animer par choisis dans Aperçus.",
+  "한국어": "저장 여부와 관계없이 지금 상태로, 미리보기에서 고른 적용 위치, 속도, 애니메이션 단위로 적용합니다.",
+  "中文": "按当前状态（无论是否保存），使用在预览中选择的应用位置、速度和动画单位。",
+  "العربية": "كما هو الآن، محفوظًا أو لا، مع موضع التطبيق والسرعة والتحريك حسب المختارة في المعاينات.",
+  "Tiếng Việt": "Đúng như hiện tại, đã lưu hay chưa, với vị trí áp dụng, tốc độ và hoạt ảnh theo đã chọn ở Xem trước."
+ },
+ "On a Text+, each line starts {s} after the one before. Other clips move as a whole.": {
+  "日本語": "Text+ では、各行が前の行の {s} 後に始まります。ほかのクリップは全体で動きます。",
+  "Español": "En un Text+, cada línea empieza {s} después de la anterior. Los demás clips se mueven enteros.",
+  "Deutsch": "Auf einem Text+ beginnt jede Zeile {s} nach der vorigen. Andere Clips bewegen sich als Ganzes.",
+  "Français": "Sur un Text+, chaque ligne commence {s} après la précédente. Les autres clips bougent en entier.",
+  "한국어": "Text+에서는 각 줄이 앞 줄보다 {s} 뒤에 시작합니다. 다른 클립은 통째로 움직입니다.",
+  "中文": "在 Text+ 上，每行比上一行晚 {s} 开始。其他片段整体移动。",
+  "العربية": "في Text+، يبدأ كل سطر بعد {s} من السطر الذي قبله. تتحرك المقاطع الأخرى ككل.",
+  "Tiếng Việt": "Trên Text+, mỗi dòng bắt đầu sau dòng trước {s}. Các clip khác chuyển động nguyên khối."
+ },
+ "On a Text+, each word starts {s} after the one before. Other clips move as a whole.": {
+  "日本語": "Text+ では、各単語が前の単語の {s} 後に始まります。ほかのクリップは全体で動きます。",
+  "Español": "En un Text+, cada palabra empieza {s} después de la anterior. Los demás clips se mueven enteros.",
+  "Deutsch": "Auf einem Text+ beginnt jedes Wort {s} nach dem vorigen. Andere Clips bewegen sich als Ganzes.",
+  "Français": "Sur un Text+, chaque mot commence {s} après le précédent. Les autres clips bougent en entier.",
+  "한국어": "Text+에서는 각 단어가 앞 단어보다 {s} 뒤에 시작합니다. 다른 클립은 통째로 움직입니다.",
+  "中文": "在 Text+ 上，每个单词比上一个晚 {s} 开始。其他片段整体移动。",
+  "العربية": "في Text+، تبدأ كل كلمة بعد {s} من الكلمة التي قبلها. تتحرك المقاطع الأخرى ككل.",
+  "Tiếng Việt": "Trên Text+, mỗi từ bắt đầu sau từ trước {s}. Các clip khác chuyển động nguyên khối."
+ },
+ "On a Text+, each letter starts {s} after the one before. Other clips move as a whole.": {
+  "日本語": "Text+ では、各文字が前の文字の {s} 後に始まります。ほかのクリップは全体で動きます。",
+  "Español": "En un Text+, cada letra empieza {s} después de la anterior. Los demás clips se mueven enteros.",
+  "Deutsch": "Auf einem Text+ beginnt jeder Buchstabe {s} nach dem vorigen. Andere Clips bewegen sich als Ganzes.",
+  "Français": "Sur un Text+, chaque lettre commence {s} après la précédente. Les autres clips bougent en entier.",
+  "한국어": "Text+에서는 각 글자가 앞 글자보다 {s} 뒤에 시작합니다. 다른 클립은 통째로 움직입니다.",
+  "中文": "在 Text+ 上，每个字母比上一个晚 {s} 开始。其他片段整体移动。",
+  "العربية": "في Text+، يبدأ كل حرف بعد {s} من الحرف الذي قبله. تتحرك المقاطع الأخرى ككل.",
+  "Tiếng Việt": "Trên Text+, mỗi chữ bắt đầu sau chữ trước {s}. Các clip khác chuyển động nguyên khối."
+ },
+ "{name} is on 1 clip – it isn't a Text+, so it moves as a whole.": {
+  "日本語": "{name} を 1 個のクリップに適用しました。Text+ ではないため、全体で動きます。",
+  "Español": "{name} está en 1 clip: no es un Text+, así que se mueve entero.",
+  "Deutsch": "{name} liegt auf 1 Clip – es ist kein Text+, also bewegt es sich als Ganzes.",
+  "Français": "{name} est sur 1 clip – ce n'est pas un Text+, il bouge donc en entier.",
+  "한국어": "{name}을(를) 클립 1개에 적용했습니다. Text+가 아니어서 통째로 움직입니다.",
+  "中文": "{name} 已应用到 1 个片段——它不是 Text+，所以整体移动。",
+  "العربية": "{name} مطبَّق على مقطع واحد – ليس Text+، لذا يتحرك ككل.",
+  "Tiếng Việt": "{name} đã có trên 1 clip – clip này không phải Text+ nên chuyển động nguyên khối."
+ },
+ "{name} is on {n} clips – none of them is a Text+, so they move as a whole.": {
+  "日本語": "{name} を {n} 個のクリップに適用しました。どれも Text+ ではないため、全体で動きます。",
+  "Español": "{name} está en {n} clips: ninguno es un Text+, así que se mueven enteros.",
+  "Deutsch": "{name} liegt auf {n} Clips – keiner davon ist ein Text+, also bewegen sie sich als Ganzes.",
+  "Français": "{name} est sur {n} clips – aucun n'est un Text+, ils bougent donc en entier.",
+  "한국어": "{name}을(를) 클립 {n}개에 적용했습니다. 모두 Text+가 아니어서 통째로 움직입니다.",
+  "中文": "{name} 已应用到 {n} 个片段——它们都不是 Text+，所以整体移动。",
+  "العربية": "{name} مطبَّق على {n} مقاطع – لا يوجد بينها Text+، لذا تتحرك ككل.",
+  "Tiếng Việt": "{name} đã có trên {n} clip – không clip nào là Text+ nên chúng chuyển động nguyên khối."
+ },
+ "{name} is on {n} clips – 1 isn't a Text+, so it moves as a whole.": {
+  "日本語": "{name} を {n} 個のクリップに適用しました。1 個は Text+ ではないため、全体で動きます。",
+  "Español": "{name} está en {n} clips: 1 no es un Text+, así que se mueve entero.",
+  "Deutsch": "{name} liegt auf {n} Clips – 1 ist kein Text+, also bewegt er sich als Ganzes.",
+  "Français": "{name} est sur {n} clips – 1 n'est pas un Text+, il bouge donc en entier.",
+  "한국어": "{name}을(를) 클립 {n}개에 적용했습니다. 1개는 Text+가 아니어서 통째로 움직입니다.",
+  "中文": "{name} 已应用到 {n} 个片段——其中 1 个不是 Text+，所以整体移动。",
+  "العربية": "{name} مطبَّق على {n} مقاطع – واحد منها ليس Text+، لذا يتحرك ككل.",
+  "Tiếng Việt": "{name} đã có trên {n} clip – 1 clip không phải Text+ nên chuyển động nguyên khối."
+ },
+ "{name} is on {n} clips – {m} aren't Text+, so they move as a whole.": {
+  "日本語": "{name} を {n} 個のクリップに適用しました。{m} 個は Text+ ではないため、全体で動きます。",
+  "Español": "{name} está en {n} clips: {m} no son Text+, así que se mueven enteros.",
+  "Deutsch": "{name} liegt auf {n} Clips – {m} sind kein Text+, also bewegen sie sich als Ganzes.",
+  "Français": "{name} est sur {n} clips – {m} ne sont pas des Text+, ils bougent donc en entier.",
+  "한국어": "{name}을(를) 클립 {n}개에 적용했습니다. {m}개는 Text+가 아니어서 통째로 움직입니다.",
+  "中文": "{name} 已应用到 {n} 个片段——其中 {m} 个不是 Text+，所以整体移动。",
+  "العربية": "{name} مطبَّق على {n} مقاطع – {m} منها ليست Text+، لذا تتحرك ككل.",
+  "Tiếng Việt": "{name} đã có trên {n} clip – {m} clip không phải Text+ nên chuyển động nguyên khối."
+ },
+ "Each clip moves as a whole. Line, Word or Letter play a Text+ piece by piece.": {
+  "日本語": "各クリップが全体で動きます。行・単語・文字を選ぶと、Text+ が部分ごとに再生されます。",
+  "Español": "Cada clip se mueve entero. Línea, Palabra o Letra reproducen un Text+ por partes.",
+  "Deutsch": "Jeder Clip bewegt sich als Ganzes. Zeile, Wort oder Buchstabe spielen ein Text+ Stück für Stück ab.",
+  "Français": "Chaque clip bouge en entier. Ligne, Mot ou Lettre jouent un Text+ morceau par morceau.",
+  "한국어": "각 클립이 통째로 움직입니다. 줄, 단어, 글자를 고르면 Text+를 조각조각 재생합니다.",
+  "中文": "每个片段整体移动。选择行、单词或字母时，Text+ 会逐段播放。",
+  "العربية": "يتحرك كل مقطع ككل. السطر أو الكلمة أو الحرف تُشغّل Text+ جزءًا جزءًا.",
+  "Tiếng Việt": "Mỗi clip chuyển động nguyên khối. Dòng, Từ hoặc Chữ phát Text+ theo từng phần."
  }
 }

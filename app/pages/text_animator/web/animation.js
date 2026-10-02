@@ -22,6 +22,7 @@ const SAVED = "Saved";      // motion.SAVED's pack: the person's own presets
 
 let presets = [], packs = [], kinds = [];
 let state = {tab: "previews", chosen: "", way: "both", speed: 1, play: "all", shape: "card",
+             unit: "clip", order: "forward", stagger: 0.08,
              favorites: [], connected: false, selection: null, problem: "", working: ""};
 let favorites = new Set();
 const view = {q: "", pack: "all", kind: "all"};
@@ -115,9 +116,75 @@ function stage(obj) {
     ]);
 }
 
+// Animate by: the tiles play a line of text unit by unit, as a Text+ will
+// (units.py). Each part is drawn around its own middle, where it turns and
+// scales, at (x, y) on the stage.
+const SAMPLE = {lines: ["First line", "and the next"], words: ["Every", "word", "moves"], letters: "Letters"};
+
+const byUnit = () => (state.unit && state.unit !== "clip" ? state.unit : null);
+const stagger = () => Number(state.stagger) || 0;
+
+function unitParts(unit) {
+    const size = unit === "letters" ? 15 : 11, advance = size * 0.58;
+    const part = (text, x, y) => {
+        const t = svg("text", {class: "pv-obj pv-word", x: 0, y: size * 0.36, "font-size": size, "text-anchor": "middle"});
+        t.textContent = text;
+        // Sample words, split up before they're drawn: never translated piecemeal.
+        return {node: svg("g", {translate: "no"}, [t]), x, y, rank: 0};
+    };
+    if (unit === "lines") return SAMPLE.lines.map((line, i) => part(line, 0, (i - 0.5) * size * 1.35));
+    const items = unit === "words" ? SAMPLE.words : [...SAMPLE.letters];
+    const gap = unit === "words" ? advance : 0;
+    const widths = items.map(s => s.length * advance);
+    let x = -(widths.reduce((a, b) => a + b, 0) + gap * (items.length - 1)) / 2;
+    return items.map((s, i) => {
+        const p = part(s, x + widths[i] / 2, 0);
+        x += widths[i] + gap;
+        return p;
+    });
+}
+
+/* When each of n units starts, in steps from the first (units.ranks). The
+   random order here is only a stand-in for the one Resolve gets. */
+function unitRanks(n, order) {
+    const all = [...Array(n).keys()];
+    if (order === "reverse") return all.map(i => n - 1 - i);
+    if (order === "middle" || order === "edges") {
+        const distance = all.map(i => Math.abs(i - (n - 1) / 2));
+        const steps = [...new Set(distance)].sort((a, b) => (order === "edges" ? b - a : a - b));
+        return distance.map(d => steps.indexOf(d));
+    }
+    if (order === "random") {
+        const shuffled = [...all];
+        let seed = 7;
+        for (let i = n - 1; i > 0; i--) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const j = Math.floor(seed / 233280 * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return all.map(i => shuffled.indexOf(i));
+    }
+    return all;
+}
+
 function reshape() {
     const make = SHAPES[state.shape] || SHAPES.card;
-    for (const t of [...tiles, big, ed.viewer].filter(Boolean)) t.obj.replaceChildren(...make());
+    const unit = byUnit();
+    for (const t of [...tiles, big].filter(Boolean)) {
+        if (unit) {
+            const parts = unitParts(unit), when = unitRanks(parts.length, state.order);
+            parts.forEach((p, i) => { p.rank = when[i]; });
+            t.parts = parts;
+            t.obj.removeAttribute("transform");
+            t.obj.removeAttribute("opacity");
+            t.obj.replaceChildren(...parts.map(p => p.node));
+        } else {
+            t.parts = null;
+            t.obj.replaceChildren(...make());
+        }
+    }
+    // The Editor draws the curves themselves: always the whole thing.
+    if (ed.viewer) ed.viewer.obj.replaceChildren(...make());
 }
 
 // ----------------------------------------------------------------- motion
@@ -150,12 +217,20 @@ function playSpan(kind, runs, drawn) {
     return [0, LAST];
 }
 
-function pose(t, f) {
+/* Draws a viewer at `at`: a frame (in samples), or frameFor's function of
+   how many seconds late a unit starts - each of a tile's parts plays its own
+   rank of staggers behind the first. */
+function pose(t, at) {
+    const frame = typeof at === "function" ? at : () => at;
     const a = t.p.at;
-    t.obj.setAttribute("transform",
-        `translate(${a.x(f) * 2} ${a.y(f) * 2}) rotate(${a.r(f)}) scale(${Math.max(0.001, a.s(f))})`);
-    t.obj.setAttribute("opacity", Math.max(0, Math.min(1, a.o(f))));
-    if (t.head) t.head.style.left = `${(f / LAST) * 100}%`;
+    const place = (node, f, x = 0, y = 0) => {
+        node.setAttribute("transform",
+            `translate(${x + a.x(f) * 2} ${y + a.y(f) * 2}) rotate(${a.r(f)}) scale(${Math.max(0.001, a.s(f))})`);
+        node.setAttribute("opacity", Math.max(0, Math.min(1, a.o(f))));
+    };
+    if (t.parts) for (const p of t.parts) place(p.node, frame(p.rank * stagger()), p.x, p.y);
+    else place(t.obj, frame(0));
+    if (t.head) t.head.style.left = `${(frame(0) / LAST) * 100}%`;
 }
 
 function chosenSpan(p) {
@@ -170,12 +245,18 @@ function chosenSpan(p) {
     return p.span;
 }
 
+/* Where a viewer is now, as a function: seconds a unit starts late -> its
+   frame, in samples. With Animate by, the loop runs until the last unit's
+   move is over too. */
 function frameFor(t, now, always) {
     const [a, b] = always ? chosenSpan(t.p) : (t.p.span || [0, 1]);
     let elapsed;
     if (!always && state.play === "hover") {
         // At rest: mid-hold - or where a lone In ends, where a lone Out starts.
-        if (t.hoverAt === null) return (b - a >= 1 ? 0.5 : t.p.kind === "Out" ? a : b) * LAST;
+        if (t.hoverAt === null) {
+            const rest = (b - a >= 1 ? 0.5 : t.p.kind === "Out" ? a : b) * LAST;
+            return () => rest;
+        }
         elapsed = (now - t.hoverAt) / 1000;
     } else {
         elapsed = now / 1000 + t.offset;
@@ -183,11 +264,15 @@ function frameFor(t, now, always) {
     const speed = Number(state.speed) || 1;
     const fps = Number(state.selection?.fps) || 24;
     const length = Math.max(0.01, (b - a) * t.p.dur / speed);
-    const local = ((elapsed % (length + PAUSE)) + length + PAUSE) % (length + PAUSE);
-    // Resolve shows whole timeline frames. Sampling at the same rate and
-    // selected speed exposes the jumps a fast move makes at 24 fps.
-    const shown = Math.min(length, Math.floor(local * fps) / fps);
-    return Math.min(b, a + shown * speed / t.p.dur) * LAST;
+    const lag = t.parts ? Math.max(0, ...t.parts.map(p => p.rank)) * stagger() : 0;
+    const cycle = length + lag + PAUSE;
+    const local = ((elapsed % cycle) + cycle) % cycle;
+    return late => {
+        // Resolve shows whole timeline frames. Sampling at the same rate and
+        // selected speed exposes the jumps a fast move makes at 24 fps.
+        const shown = Math.min(length, Math.floor(Math.max(0, local - late) * fps) / fps);
+        return Math.min(b, a + shown * speed / t.p.dur) * LAST;
+    };
 }
 
 function tick(now) {
@@ -364,6 +449,9 @@ $("q").addEventListener("input", e => { view.q = e.target.value.trim().toLowerCa
 
 for (const b of $("way").querySelectorAll("button")) b.onclick = () => send("way", {way: b.dataset.way});
 for (const b of $("speed").querySelectorAll("button")) b.onclick = () => send("speed", {speed: Number(b.dataset.speed)});
+for (const b of $("unit").querySelectorAll("button")) b.onclick = () => send("unit", {unit: b.dataset.unit});
+for (const b of $("stagger").querySelectorAll("button")) b.onclick = () => send("stagger", {stagger: Number(b.dataset.stagger)});
+$("order").onchange = e => send("order", {order: e.target.value});
 for (const b of $("play").querySelectorAll("button")) b.onclick = () => send("play", {play: b.dataset.play});
 $("apply").onclick = () => send("apply");
 $("remove").onclick = () => send("remove");
@@ -377,6 +465,14 @@ const WHERE = {
     "Out": "Ends on each clip's last frame.",
     "In": "The In starts on each clip's first frame.",
 };
+
+// Animate by's note, under WHERE's: what plays one after the other, and how far apart.
+const UNIT_NOTE = {
+    lines: s => `On a Text+, each line starts ${s} after the one before. Other clips move as a whole.`,
+    words: s => `On a Text+, each word starts ${s} after the one before. Other clips move as a whole.`,
+    letters: s => `On a Text+, each letter starts ${s} after the one before. Other clips move as a whole.`,
+};
+const CLIP_NOTE = "Each clip moves as a whole. Line, Word or Letter play a Text+ piece by piece.";
 
 function drawChosen() {
     const p = presets.find(x => x.id === state.chosen) || presets[0];
@@ -393,6 +489,14 @@ function drawChosen() {
     const inOut = p.kind === "In · Out";
     $("way-row").hidden = !inOut;
     $("where").textContent = WHERE[inOut ? state.way : p.kind] || "";
+    // Stagger and Order stay where they are with Clip, only switched off, so
+    // nothing around Animate by moves while it's being clicked through.
+    const unit = byUnit();
+    for (const row of [$("stagger-row"), $("order-row")]) {
+        row.classList.toggle("pv-off", !unit);
+        for (const control of row.querySelectorAll("button, select")) control.disabled = !unit;
+    }
+    $("unit-note").textContent = unit ? UNIT_NOTE[unit](`${stagger()}s`) : CLIP_NOTE;
     for (const t of tiles) t.node.setAttribute("aria-pressed", String(t.p.id === p.id));
 }
 
@@ -1747,13 +1851,16 @@ Buddy.on("saved", data => {
 });
 
 Buddy.on("state", data => {
-    const shapeChanged = data.shape !== state.shape;
+    const shapeChanged = data.shape !== state.shape || data.unit !== state.unit || data.order !== state.order;
     const before = JSON.stringify([state.tab === "favorites", [...favorites]]);
     state = data;
     favorites = new Set(state.favorites || []);
     showTab(state.tab);
     pressed($("way"), "way", state.way);
     pressed($("speed"), "speed", state.speed);
+    pressed($("unit"), "unit", state.unit);
+    pressed($("stagger"), "stagger", state.stagger);
+    $("order").value = state.order;
     pressed($("play"), "play", state.play);
     paintColours();
     if (JSON.stringify([state.tab === "favorites", [...favorites]]) !== before) drawGroups();

@@ -270,7 +270,6 @@ function drawResults(query) {
     const count = results.reduce((n, r) => n + r.fields.length, 0);
     $("title").textContent = "Search results";
     $("subtitle").textContent = count === 1 ? "1 setting" : count ? `${count} settings` : "";
-    $("group-name").textContent = "";
     const byPage = [];
     for (const r of results) {
         const seen = byPage.find(b => b.page === r.page);
@@ -330,8 +329,6 @@ function drawRail() {
 }
 
 function drawNav(page) {
-    const group = DATA.groups.find(g => g.id === page.group);
-    $("group-name").textContent = group && group.id === "ai" ? "AI and models" : group ? group.label : "";
     $("pages").replaceChildren(...DATA.pages.filter(p => p.group === page.group).map(p => el("button.set-page", {
         type: "button", role: "listitem", "aria-current": p.id === current ? "page" : null,
         onclick: () => openPage(p.id),

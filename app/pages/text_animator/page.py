@@ -11,6 +11,10 @@ goes into the comp with it (framing.py), so the move is never cut off at the
 frame's edge; re-frame in the Inspector and Update framing folds it in.
 Remove takes the preset off and puts the framing back.
 
+Animate by plays the preset line by line, word by word or letter by letter
+on Text+ clips, a stagger apart in the order chosen (units.py); other clips
+move as a whole, as with Clip.
+
 Editor opens any preset as keys on a spline editor (motion.keys_of) with a
 viewer that plays exactly what's drawn; the edit can go straight on the
 selected clips, or be saved as a preset of the person's own
@@ -28,8 +32,9 @@ arrangement and saved settings carry over. Its own choices are saved under
 
 Protocol:
     to the view    presets, state, keys, saved, toast, alert
-    from the view  tab, choose, way, speed, play, refresh, apply, update, remove,
-                   keys, favorite, save, delete, apply_draft, color
+    from the view  tab, choose, way, speed, unit, order, stagger, play, refresh,
+                   apply, update, remove, keys, favorite, save, delete,
+                   apply_draft, color
 """
 
 import os
@@ -42,11 +47,12 @@ from core.resolve_bridge import ResolveConnectionError
 from core.resolve_worker import ResolveWorker
 from core.web_page import WebToolPage
 
-from . import motion, motion_resolve
+from . import motion, motion_resolve, units
 
 POLL_MS = 1500
 SETTINGS_ID = "animation_previews"
 DEFAULTS = {"tab": "previews", "chosen": "pop", "way": "both", "speed": 1.0, "play": "all",
+            "unit": units.CLIP, "order": units.FORWARD, "stagger": units.DEFAULT_STAGGER,
             "favorites": [], "saved": [], "colors": {}}
 TABS = ("previews", "editor", "favorites", "textplus")
 APPLY_TABS = ("previews", "editor", "favorites")     # the tabs that read the selection
@@ -69,6 +75,21 @@ def _count(n, kind):
     return f"{n} {one if n == 1 else many}"
 
 
+def on_clips(label, applied, whole=0):
+    """What to say once a preset is on `applied` clips - `whole` of them
+    moving as a whole with Animate by on, because they aren't Text+. Whole
+    sentences, so each is translated as one."""
+    if not whole:
+        return f"{label} is on 1 clip." if applied == 1 else f"{label} is on {applied} clips."
+    if applied == 1:
+        return f"{label} is on 1 clip – it isn't a Text+, so it moves as a whole."
+    if whole >= applied:
+        return f"{label} is on {applied} clips – none of them is a Text+, so they move as a whole."
+    if whole == 1:
+        return f"{label} is on {applied} clips – 1 isn't a Text+, so it moves as a whole."
+    return f"{label} is on {applied} clips – {whole} aren't Text+, so they move as a whole."
+
+
 def apply_summary(preset, result, error):
     """(text, ok) for an Apply from Command Center's hot key."""
     if error is not None:
@@ -80,7 +101,7 @@ def apply_summary(preset, result, error):
                 else "Select the clips to animate in Resolve's timeline first."), False
     if failed:   # whole sentences, so each is translated as one
         return f"{preset['label']} is on {applied} of {applied + len(failed)} clips – the rest couldn't take it.", False
-    return (f"{preset['label']} is on 1 clip." if applied == 1 else f"{preset['label']} is on {applied} clips."), True
+    return on_clips(preset["label"], applied, result.get("whole", 0)), True
 
 
 class AnimationPage(WebToolPage):
@@ -200,6 +221,7 @@ class AnimationPage(WebToolPage):
             "chosen": self.settings.get("chosen"),
             "way": self.settings.get("way"),
             "speed": self.settings.get("speed"),
+            **self._units(),
             "play": self.settings.get("play"),
             "favorites": [i for i in self.settings.get("favorites") or [] if i in self._by_id],
             "colors": self._colors(),
@@ -219,6 +241,10 @@ class AnimationPage(WebToolPage):
         return {"timeline": s["timeline"], "fps": s.get("fps", 24.0), "total": s["total"], "animatable": can,
                 "animated": s["animated"], "reframed": s.get("reframed", 0), "clip": s.get("clip"),
                 "parts": [{"text": _count(counts[k], k), "kind": k} for k in _KIND_WORDS if counts.get(k)]}
+
+    def _units(self):
+        """Animate by's choices: {"unit", "order", "stagger"}."""
+        return units.clean_options({k: self.settings.get(k) for k in ("unit", "order", "stagger")})
 
     def _colors(self):
         """The colours picked for the Editor's channels, by channel."""
@@ -257,6 +283,24 @@ class AnimationPage(WebToolPage):
             return
         if speed in motion.SPEEDS:
             self._save("speed", speed)
+
+    def on_unit(self, payload):
+        unit = (payload or {}).get("unit")
+        if unit in units.UNITS:
+            self._save("unit", unit)
+
+    def on_order(self, payload):
+        order = (payload or {}).get("order")
+        if order in units.ORDERS:
+            self._save("order", order)
+
+    def on_stagger(self, payload):
+        try:
+            stagger = float((payload or {}).get("stagger"))
+        except (TypeError, ValueError):
+            return
+        if stagger in units.STAGGERS:
+            self._save("stagger", stagger)
 
     def on_play(self, payload):
         play = (payload or {}).get("play")
@@ -318,7 +362,7 @@ class AnimationPage(WebToolPage):
         def plan_for(frames, fps, at):
             return motion.plan(preset, frames, fps, way=way, speed=speed, at=at)
 
-        options = {"way": way, "speed": speed}
+        options = {"way": way, "speed": speed, **self._units()}
         if preset.get("keys"):
             options["preset"] = motion.stored(preset)
 
@@ -337,7 +381,7 @@ class AnimationPage(WebToolPage):
         def plan_for(frames, fps, at):
             return motion.plan(preset, frames, fps, way=way, speed=speed, at=at)
 
-        options = {"way": way, "speed": speed}
+        options = {"way": way, "speed": speed, **self._units()}
         if preset.get("keys"):
             # Drawn in the Editor: the keys go with the clip, so Update framing
             # still has them once the preset is changed or deleted.
@@ -360,8 +404,7 @@ class AnimationPage(WebToolPage):
             self.emit("toast", {"text": f"{preset['label']} is on {applied} of {applied + skipped + len(failed)} "
                                         "clips – audio and subtitle clips can't move."})
         else:
-            self.emit("toast", {"text": f"{preset['label']} is on 1 clip." if applied == 1
-                                else f"{preset['label']} is on {applied} clips."})
+            self.emit("toast", {"text": on_clips(preset["label"], applied, result.get("whole", 0))})
         if failed:
             self.emit("alert", {"title": "Some clips weren't animated",
                                 "text": "\n".join(f"{name}: {why}" for name, why in failed)})

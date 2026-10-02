@@ -214,8 +214,31 @@ the Fusion page, not that the connection failed.
 
 ### Editing the node graph
 
-- `comp.AddTool("Follower")` returns `None`: a dead end for per-character
-  or per-word text animation.
+- **Text Follower (per-line, per-word, per-letter animation).** Measured
+  on Studio 21.1, 2026-10-02. `pages/text_animator/motion_resolve.py`'s
+  `apply_units` is the working code.
+  - **Attaching it:** `comp.AddTool("Follower")` returns `None`, and
+    `AddModifier("StyledText", "Follower")` attaches nothing. Use
+    `text_tool.AddModifier("StyledText", "StyledTextFollower")`, then
+    find it through `text_tool.StyledText.GetConnectedOutput().GetTool()`.
+    The words now live on the Follower's `Text` input.
+  - **Which inputs:** `Line*`, `Word*` and `Character*` inputs (`WordSizeX`,
+    `LineAngleZ`, `CharacterOffset`…) move each line, word or letter as one
+    piece. Size needs `TransformSize = 1` and rotation
+    `TransformRotation = 1`. The offsets are points, so use an XYPath on
+    them, which rests at 0.
+  - **Timing:** `Delay` counts **characters** at every level, so a long
+    word holds the next one back. For even timing, set `Order` to Manual
+    Curve, which is stored as **6**. (The dropdown's numbers aren't in
+    display order: a fresh Follower reads 7, which is "Automatic".) Then
+    key `DelayByCharacterPosition` with one key per character index,
+    giving each character its delay in frames, and keep `Delay` at 1.
+  - **Fades:** `Opacity<n>` fades per character too. With Manual Curve
+    timing, every letter of a word shares its delay, so the word fades as
+    one.
+  - **Shading:** attaching the Follower keeps the Text+'s outline and
+    shadow. To fade them, switch on the Follower's `Enabled<n>` and key its
+    `Opacity<n>` for each element the Text+ shows.
 - **Keyframing that works:**
   1. `spline = comp.AddTool("BezierSpline")`
   2. `getattr(text_tool, input_name).ConnectTo(spline.Value)`: connect to

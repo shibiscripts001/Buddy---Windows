@@ -12,7 +12,7 @@ script and has been ported into the shell.
 
 Buddy's integrated tools include the following. Audit and parts of Audio Assistant are still in progress:
 
-- Animation (formerly Text Animator; its Text+ tab is empty for now - the Text+ tools are on Subtitles)
+- Animation (formerly Text Animator; Previews puts motion presets on the clips selected in Resolve - stills, video, Text+ - with the In on each clip's first frame and the Out on its last, and an Editor for presets of your own. Animate by plays a preset line by line, word by word or letter by letter on a Text+, a stagger apart in the order chosen, through Fusion's text Follower (`pages/text_animator/units.py`). Its Titles tab is empty for now - the Text+ tools are on Subtitles)
 - Ask Buddy (chat agent)
 - Audio Assistant (new; its Timeline tab mirrors the audio tracks with each clip's waveform, and sets clip volume, pan, fades, loudness to a target, Voice Isolation and the Dialogue Leveler, and a volume curve drawn on the clip that becomes Resolve keyframes - effects are coming)
 - Audit (new; the page only for now - its tools are coming)
