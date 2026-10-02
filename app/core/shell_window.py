@@ -1166,7 +1166,8 @@ class ShellWindow(QMainWindow):
         if not 0 <= index < len(self.links):
             return
         address = self.links[index]["url"]
-        if not link_bar.is_path(address) and (where or link_bar.opens_in(self.shared_settings)) == "buddy"                 and "web" in self.pages:
+        if not link_bar.is_path(address) and (where or link_bar.opens_in(self.shared_settings)) == "buddy" \
+                and self.has_browser():
             self.switch_tool("web")
             self.pages["web"].open_tab(address)
             return
@@ -1228,13 +1229,17 @@ class ShellWindow(QMainWindow):
             self.links.extend(added)
             self._save_links()
 
+    def has_browser(self):
+        """True if the Web tab is the real browser (not a placeholder)."""
+        return hasattr(self.pages.get("web"), "open_tab")
+
     def open_link_menu(self, index):
         """A link's right-click menu (index -1: the bar itself)."""
         menu = QMenu(self)
         if 0 <= index < len(self.links):
             menu.addAction(tr("Open")).triggered.connect(lambda: self.open_link(index))
             address = self.links[index]["url"]
-            if not link_bar.is_path(address) and "web" in self.pages:
+            if not link_bar.is_path(address) and self.has_browser():
                 if link_bar.opens_in(self.shared_settings) == "buddy":
                     menu.addAction(tr("Open in your browser")).triggered.connect(
                         lambda: self.open_link(index, "browser"))
@@ -1459,7 +1464,7 @@ class ShellWindow(QMainWindow):
         current_page = (self.pages.get(self._current_tool_id) if self._layout == "desktop"
                         else self.stack.currentWidget())
         dialog = SettingsDialog(self, self.shared_settings, self._on_settings_applied, current_page,
-                                open_tool=tool_id if self.has_settings(tool_id) else None)
+                                open_tool=tool_id if ShellWindow.has_settings(self, tool_id) else None)
         dialog.exec()
         # A child of this window, so nothing else would ever free it: each
         # opening left a hidden Settings web view (and renderer) behind.
