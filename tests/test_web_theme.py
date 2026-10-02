@@ -10,7 +10,7 @@ import unittest
 
 import _paths
 from core import theme as t
-from core.web_theme import web_theme
+from core.web_theme import link_bar_vars, web_theme
 
 WEB = _paths.APP / "web"
 # Every web tool page: pages/<tool>/web/index.html next to its page.py.
@@ -34,6 +34,8 @@ WINDOW_WEB = {
     _SHELL / "announcements": _CORE / "announcements_window.py",
     _SHELL / "taskbar": _CORE / "desk_web.py",
     _SHELL / "deskmenu": _CORE / "desk_web.py",
+    _SHELL / "peek": _CORE / "link_peek_web.py",
+    _SHELL / "preview": _CORE / "link_peek_web.py",
 }
 # A bespoke theme's own rules (imported by buddy.css): themes/<shape>.css.
 THEME_SHEETS = sorted((WEB / "themes").glob("*.css"))
@@ -126,6 +128,75 @@ class WebThemeTests(unittest.TestCase):
             self.assertIn(v[key], t.RESOLVE.values(), key)
             self.assertNotEqual(v[key], t.RESOLVE["accent"], key)
         self.assertGreaterEqual(t.contrast_ratio(v["emphasis"], t.RESOLVE["panel"]), 4.5)
+
+    def test_defaults_colour_variants_are_resolve_retinted(self):
+        """Blue, Green, Yellow...: Resolve's look, its greys washed toward the
+        colour and the colour where DaVinci has its red - every one as
+        readable as DaVinci."""
+        subs = t.list_subthemes("Resolve")
+        self.assertEqual(subs[0], "DaVinci")
+        self.assertTrue({"Blue", "Green", "Yellow"} <= set(subs))
+        for sub in t.RESOLVE_VARIANTS:
+            tokens = t.get_theme_tokens("Resolve", sub)
+            v = web_theme("Resolve", sub, tokens)["vars"]
+            c = t.resolve_colors(tokens)
+            self.assertEqual(v["nav-marker"], t.RESOLVE_VARIANTS[sub], sub)
+            self.assertNotEqual(v["page-bg"], t.RESOLVE["window"], sub)
+            self.assertEqual(v["danger-fg"], t.RESOLVE["accent"], sub)          # trouble stays red
+            self.assertGreaterEqual(t.contrast_ratio(c["label"], c["panel"]), 4.5, sub)
+            self.assertGreaterEqual(t.contrast_ratio(v["accent-text"], c["panel"]), 4.5, sub)
+            self.assertGreaterEqual(t.contrast_ratio(tokens["on_primary"], tokens["primary"]), 3, sub)
+
+    def test_resolve_greys_come_from_the_palette(self):
+        self.assertEqual(t.resolve_colors(t.get_theme_tokens("Resolve", "DaVinci")), t.RESOLVE)
+        # Custom with nothing picked yet is DaVinci, panels and all.
+        self.assertEqual(t.get_theme_tokens("Resolve", t.SUBTHEME_CUSTOM)["surface_container"], t.RESOLVE["panel"])
+
+    def test_custom_colours_change_default(self):
+        """Default (Resolve's look) used to keep its own greys and red
+        whatever Custom said."""
+        for accent, bg, panel in (("#33CC88", "#202A30", None), ("#3366FF", "#E8E8EC", None),
+                                  ("#FF8800", "#101010", "#303030")):
+            tokens = t.get_theme_tokens("Resolve", t.SUBTHEME_CUSTOM, accent, bg, panel)
+            v = web_theme("Resolve", t.SUBTHEME_CUSTOM, tokens)["vars"]
+            self.assertEqual(v["page-bg"], bg)
+            self.assertEqual(v["nav-marker"], accent)
+            self.assertEqual(v["card-bg"], panel or tokens["surface_container"])
+            for fg, back in (("text", "card-bg"), ("text-strong", "card-bg"), ("field-fg", "field-bg"),
+                             ("btn-fg", "btn-bg")):
+                self.assertGreaterEqual(t.contrast_ratio(v[fg], v[back]), 4.5, f"{bg}: --{fg} on --{back}")
+
+    def test_the_link_bar_stands_out_and_reads(self):
+        for name in t.list_themes():
+            for sub in t.list_subthemes(name):
+                tokens = t.get_theme_tokens(name, sub)
+                v = web_theme(name, sub, tokens)["vars"]
+                header = v["header-bg"] if len(v["header-bg"]) == 7 else tokens["surface_container"]
+                self.assertNotEqual(v["linkbar-bg"], header, f"{name}/{sub}")
+                self.assertGreater(t.contrast_ratio(v["linkbar-bg"], header), 1.15, f"{name}/{sub}")
+                self.assertGreaterEqual(t.contrast_ratio(v["linkbar-fg"], v["linkbar-bg"]), 4.5, f"{name}/{sub}")
+
+    def test_the_link_bars_own_settings(self):
+        from core import link_bar
+        for name in t.list_themes():
+            for sub in t.list_subthemes(name):
+                tokens = t.get_theme_tokens(name, sub)
+                v = web_theme(name, sub, tokens)["vars"]
+                header = v["header-bg"] if len(v["header-bg"]) == 7 else tokens["surface_container"]
+                bar = {(s, c, i): link_bar_vars(name, sub, tokens, {"shade": s, "tint": c, "icons": i})
+                       for s in link_bar.SHADES for c in link_bar.TINTS for i in link_bar.ICON_COLOURS}
+                at = f"{name}/{sub}"
+                self.assertEqual(bar["match", "off", "theme"]["linkbar-bg"], header, at)
+                self.assertGreater(t._relative_luminance(bar["lighter", "off", "theme"]["linkbar-bg"]),
+                                   t._relative_luminance(header), at)
+                self.assertLess(t._relative_luminance(bar["darker", "off", "theme"]["linkbar-bg"]),
+                                t._relative_luminance(header), at)
+                self.assertEqual(bar["auto", "off", "theme"], {k: v[k] for k in bar["auto", "off", "theme"]}, at)
+                gap = lambda c: sum(abs(a - b) for a, b in zip(t._hex_to_rgb(c), t._hex_to_rgb(tokens["primary"])))
+                self.assertLess(gap(bar["match", "strong", "theme"]["linkbar-bg"]), gap(header), at)   # toward the accent
+                for key, colors in bar.items():
+                    self.assertGreaterEqual(t.contrast_ratio(colors["linkbar-fg"], colors["linkbar-bg"]), 4.5, (at, key))
+                    self.assertGreaterEqual(t.contrast_ratio(colors["linkbar-icon"], colors["linkbar-bg"]), 2.9, (at, key))
 
     def test_offworld_is_one_phosphor_on_black(self):
         self.assertEqual(t.theme_label("Offworld"), "Off-world")

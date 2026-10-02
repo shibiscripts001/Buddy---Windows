@@ -25,7 +25,7 @@ from pathlib import Path
 from PySide6.QtCore import QTimer, QUrl
 from PySide6.QtGui import QDesktopServices
 
-from core import crash_log, link_bar, startup_manager
+from core import crash_log, link_bar, nav_layout, shortcuts, startup_manager
 from core import settings_form as sf
 from core.i18n import get_i18n
 from core.message_dialog import alert, confirm
@@ -83,14 +83,23 @@ def gigabytes(size):
     return f"{size / 1e9:.1f} GB" if size >= 1e8 else f"{max(1, round(size / 1e6))} MB"
 
 
+def tool_pages(pages, tool_id):
+    """A tool's own pages among Settings' pages, its Tools page first."""
+    own = [p for p in pages if p.get("owner") == tool_id]
+    return sorted(own, key=lambda p: p.get("group") != "tools")
+
+
 class SettingsDialog(WebDialog):
     web_dir = os.path.join(WEB_COMMON_DIR, "shell", "settings")
 
-    def __init__(self, parent, shared_settings, on_apply, active_page=None):
+    def __init__(self, parent, shared_settings, on_apply, active_page=None, open_tool=None):
+        """open_tool: a tool id to open on that tool's own page (its
+        right-click Settings) instead of General."""
         self.shared_settings = shared_settings
         self.on_apply = on_apply
         self.main_window = parent
         self.active_page = active_page
+        self.open_tool = open_tool
         self.ui = SettingsUI(self)
         self._built = {}            # tool id -> {"pages", "models", "jobs"}
         self._opened = False
@@ -157,6 +166,26 @@ class SettingsDialog(WebDialog):
         except OSError:
             return None
 
+    def _start_tools(self):
+        """(id, name) of the tools Buddy can open on, in the sidebar's order."""
+        shell = self.main_window
+        pages = getattr(shell, "pages", {}) or {}
+        layout = getattr(shell, "nav_layout", None)
+        ids = nav_layout.visible_tool_ids(layout) if layout else list(pages)
+        return [(t, pages[t].display_name) for t in ids if t in pages]
+
+    def _shortcuts(self):
+        if not shortcuts.available:
+            return None
+        try:
+            return {place: shortcuts.exists(place) for place in shortcuts.PLACES}
+        except OSError:
+            return None
+
+    def _shell_pages(self):
+        return sf.shell_pages(self.shared_settings, self._autostart(), getattr(self.main_window, "updates", None),
+                              self._start_tools(), self._shortcuts())
+
     def pages(self, owners=None):
         """Every page, in the rail's order. owners: rebuild only these
         tools' (the rest as last built)."""
@@ -166,8 +195,7 @@ class SettingsDialog(WebDialog):
             if owners is None or owner in owners or owner not in self._built:
                 self._built[owner] = self._build(t)
         built = [self._built[getattr(t, "tool_id", "tool")] for t in tools]
-        shell = [dict(p, owner="shell") for p in
-                 sf.shell_pages(self.shared_settings, self._autostart(), getattr(self.main_window, "updates", None))]
+        shell = [dict(p, owner="shell") for p in self._shell_pages()]
         tool_pages = [p for b in built for p in b["pages"]]
         models = [r for b in built for r in b["models"]]
         jobs = [j for b in built for j in b["jobs"]]
@@ -231,8 +259,12 @@ class SettingsDialog(WebDialog):
         ], "What leaves this computer, and what Buddy checks.") | {"owner": "shell"}
 
     def _first_page(self, pages):
-        """Where Settings opens: General > General, whatever tool is on
-        screen (or, should a Buddy ever lack it, the first page)."""
+        """Where Settings opens: the tool it was opened for (its Tools page
+        first), else General > General, whatever tool is on screen (or,
+        should a Buddy ever lack it, the first page)."""
+        own = tool_pages(pages, self.open_tool) if self.open_tool else []
+        if own:
+            return own[0]["id"]
         return "general" if any(p["id"] == "general" for p in pages) else (pages[0]["id"] if pages else "general")
 
     def push(self, owners=None):
@@ -294,11 +326,26 @@ class SettingsDialog(WebDialog):
                 self.shared_settings[link_bar.SHOW_KEY] = bool(value)
                 self.shared_settings.save()
             return
+        if effect == "linkbar_style":
+            self.shared_settings.save()
+            bar = getattr(self.main_window, "link_bar", None)
+            if bar is not None:
+                bar.on_theme_changed()                         # its colours come with the theme
+            return
         if effect == "language":
             self.shared_settings.save()
             # Every open view (this window too) gets the new language's
             # strings and redraws in it - see core/web_page.py.
             get_i18n().language = value
+            return
+        if effect == "shortcut":
+            # A real side effect straight away: the shortcut made or deleted.
+            place = sf.SHORTCUT_KEYS[key]
+            try:
+                shortcuts.make(place) if value else shortcuts.remove(place)
+            except OSError as exc:
+                alert(self, "Shortcut", (f"Couldn't make the shortcut: {exc.strerror or exc}" if value
+                                         else f"Couldn't remove the shortcut: {exc.strerror or exc}"))
             return
         if effect == "autostart":
             # A real side effect straight away (a registry write).

@@ -201,7 +201,7 @@ def custom_color(shared, which):
     background = shared.get(f"background_{theme}", bg_default)
     if which == "background":
         return background
-    return shared.get(f"panel_{theme}", "") or derive_panel(background)
+    return shared.get(f"panel_{theme}", "") or derive_panel(background, theme)
 
 
 # The rail's groups, top to bottom; "end" sits at the foot of the rail.
@@ -220,11 +220,57 @@ def page(page_id, group, title, fields, subtitle=""):
             "fields": [f for f in fields if f]}
 
 
-def shell_pages(shared, autostart, updates=None):
+# What Buddy opens on (Settings > General > Startup): "" the first tool in
+# the sidebar, "last" the one used last, or a tool's id.
+START_TOOL_KEY = "start_tool"
+START_FIRST, START_LAST = "", "last"
+LAST_TOOL_KEY = "last_tool"
+SHORTCUT_KEYS = {"shortcut_start_menu": "start_menu", "shortcut_desktop": "desktop"}
+
+
+def start_tool(shared, visible):
+    """The tool Buddy opens on, of the `visible` ones (the sidebar's order),
+    or None if there are none."""
+    if not visible:
+        return None
+    choice = shared.get(START_TOOL_KEY, START_FIRST)
+    wanted = shared.get(LAST_TOOL_KEY) if choice == START_LAST else choice
+    return wanted if wanted in visible else visible[0]
+
+
+def startup_fields(shared, tools):
+    """Which tool Buddy opens on. tools: [(id, name)] in the sidebar's order."""
+    choice = shared.get(START_TOOL_KEY, START_FIRST)
+    ids = [t for t, _name in tools]
+    if choice not in (START_FIRST, START_LAST, *ids):
+        choice = START_FIRST
+    return [select(START_TOOL_KEY, "Open Buddy on", choice,
+                   [(START_FIRST, "The first tool in the sidebar"), (START_LAST, "The tool you used last"),
+                    *tools],
+                   tooltip="The tool Buddy shows when it starts.")]
+
+
+def shortcut_fields(state):
+    """Start menu and desktop shortcuts (core/shortcuts.py). state:
+    {"start_menu": bool, "desktop": bool}, or None where they can't be made."""
+    if state is None:
+        return []
+    return [
+        heading("Shortcuts"),
+        check("shortcut_start_menu", "Buddy in the Start menu", bool(state.get("start_menu"))),
+        check("shortcut_desktop", "Buddy shortcut on the desktop", bool(state.get("desktop"))),
+        hint("Shortcuts open Buddy without Resolve's Scripts menu. Only DaVinci Resolve Studio lets a Buddy "
+             "opened this way connect to it, with Preferences > System > General > \"External scripting using\" "
+             "set to Local. In the free version, open Buddy from Workspace > Scripts."),
+    ]
+
+
+def shell_pages(shared, autostart, updates=None, tools=(), shortcuts=None):
     """The shell's own pages: General, Window, Appearance and About.
     autostart: True/False, or None if Windows' startup settings couldn't be
     read. updates: the shell's core/updater.UpdateChecker, or None (then
-    About has no Updates)."""
+    About has no Updates). tools: [(id, name)] Buddy can open on.
+    shortcuts: shortcut_fields' state."""
     autostart_field = check(
         "autostart", "Start Buddy automatically when Resolve starts", bool(autostart),
         tooltip="Registers a small background helper that watches for DaVinci Resolve launching and starts "
@@ -236,6 +282,7 @@ def shell_pages(shared, autostart, updates=None):
         page("general", "general", "General", [
             *language_fields(shared),
             heading("Startup"),
+            *startup_fields(shared, list(tools)),
             autostart_field,
             check("keep_running_in_tray", "Keep running in tray when window is closed",
                   shared.get("keep_running_in_tray", True),
@@ -248,6 +295,7 @@ def shell_pages(shared, autostart, updates=None):
                   hint_text="Once a day Buddy checks for news (updates, known issues) and shows a small glowing dot "
                             "next to \"Buddy\" when there's something new. Nothing about you or your projects is "
                             "sent. Untick to stop checking."),
+            *shortcut_fields(shortcuts),
         ], "Language, starting up and news from Buddy."),
         page("window", "general", "Window", [
             heading("Window"),
@@ -264,6 +312,10 @@ def shell_pages(shared, autostart, updates=None):
                   hint_text="Your own links – web pages, files and folders – in a bar along the bottom of the "
                             "window (along the top under the Desktop theme). Add one with the bar's + or drag a "
                             "link or folder onto it. Right-click a link to rename or remove it; drag it to move it."),
+            select(link_bar.OPEN_KEY, "Open web links in", link_bar.opens_in(shared),
+                   list(link_bar.OPEN_CHOICES.items()), indent=True,
+                   tooltip="Files and folders always open on this PC. Right-click a link for the other choice."),
+            *link_bar_style_fields(shared),
         ], "How Buddy sits beside Resolve, and its sidebar."),
         page("appearance", "look", "Appearance", appearance_fields(shared), "Changes show straight away."),
         page("about", "about", "About Buddy", [
@@ -271,6 +323,20 @@ def shell_pages(shared, autostart, updates=None):
             info("Version", buddy_version(), raw=True),
             *update_fields(shared, updates),
         ]),
+    ]
+
+
+def link_bar_style_fields(shared):
+    """How the link bar looks: its shade beside the header, a wash of the
+    accent, and its icons' colour (core/link_bar.py)."""
+    style = link_bar.style(shared)
+    return [
+        select("link_bar_shade", "Bar shade", style["shade"], list(link_bar.SHADES.items()), indent=True,
+               tooltip="Automatic stands the bar out from the header: lighter on a dark theme, darker on a "
+                       "light one."),
+        select("link_bar_tint", "Accent tint", style["tint"], list(link_bar.TINTS.items()), indent=True,
+               tooltip="Mixes a little of the theme's accent colour into the bar."),
+        select("link_bar_icons", "Icon colour", style["icons"], list(link_bar.ICON_COLOURS.items()), indent=True),
     ]
 
 
@@ -295,9 +361,9 @@ def appearance_fields(shared):
     ]
 
 
-def shell_fields(shared, autostart, updates=None):
+def shell_fields(shared, autostart, updates=None, tools=(), shortcuts=None):
     """Every field of the shell's pages, as one list."""
-    return [f for p in shell_pages(shared, autostart, updates) for f in p["fields"]]
+    return [f for p in shell_pages(shared, autostart, updates, tools, shortcuts) for f in p["fields"]]
 
 
 def update_fields(shared, updates):
@@ -338,7 +404,7 @@ def language_fields(shared):
 def apply_shell(shared, key, value):
     """Stores one shell setting. Returns what it affects - "theme",
     "window", "announcements", "updates", "autostart", "tray", "language",
-    "linkbar" - or None if
+    "linkbar", "linkbar_style", "links", "startup", "shortcut" - or None if
     the value isn't one it takes. Doesn't save; the caller does."""
     if key == "theme":
         if value not in list_themes():
@@ -378,8 +444,25 @@ def apply_shell(shared, key, value):
         return "updates"
     if key == "autostart":
         return "autostart"
+    if key == START_TOOL_KEY:
+        if not isinstance(value, str) or not re.fullmatch(r"[a-z0-9_]*|last", value):
+            return None
+        shared[key] = value
+        return "startup"
+    if key in SHORTCUT_KEYS:
+        return "shortcut"
     if key == link_bar.SHOW_KEY:
         return "linkbar"
+    if key == link_bar.OPEN_KEY:
+        if value not in link_bar.OPEN_CHOICES:
+            return None
+        shared[key] = value
+        return "links"
+    if key in link_bar.STYLE_KEYS:
+        if value not in link_bar.STYLE_KEYS[key][1]:
+            return None
+        shared[key] = value
+        return "linkbar_style"
     return None
 
 

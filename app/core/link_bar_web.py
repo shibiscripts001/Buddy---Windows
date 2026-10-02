@@ -10,7 +10,7 @@ Protocol (bar):
     to the view    linkbar
     from the view  open, add, menu, move, size
 Protocol (edit window):
-    to the view    link, picked, error
+    to the view    link (with the icons to choose from), picked, error
     from the view  save, browse, cancel
 """
 
@@ -22,6 +22,7 @@ from core import link_bar
 from core.i18n import tr
 from core.shell_web import SHELL_WEB_DIR, _ChromeView
 from core.web_page import WebDialog, _FileDropFilter, _theme_host
+from core.web_theme import link_bar_vars
 
 
 def _index(payload, key="index"):
@@ -59,6 +60,13 @@ class LinkBarView(_ChromeView):
     def web_ready(self):
         self.shell.push_link_bar()
 
+    def theme_vars(self, tokens):
+        """The bar's own Shade, Accent tint and Icon colour (core/link_bar.py
+        style) over the theme's colours."""
+        settings = self.shell.shared_settings
+        return link_bar_vars(settings.get("theme", "Default"), settings.get("subtheme"), tokens,
+                             link_bar.style(settings))
+
     def show_state(self, state):
         self.emit("linkbar", state)
 
@@ -86,9 +94,9 @@ class LinkBarView(_ChromeView):
 
 
 class LinkDialog(WebDialog):
-    """Name and address for a new link (start: what's filled in already -
-    a dropped link's address), or one being edited. exec(); the link
-    ({"name", "url"}) is in .link once it's saved."""
+    """Name, address and icon for a new link (start: what's filled in
+    already - a dropped link's address), or one being edited. exec(); the
+    link ({"name", "url"[, "icon"]}) is in .link once it's saved."""
 
     web_dir = os.path.join(SHELL_WEB_DIR, "linkedit")
 
@@ -97,16 +105,17 @@ class LinkDialog(WebDialog):
         self._start = dict(start or {"name": "", "url": ""})
         self.link = None
         title = "Edit link" if self._editing else "Add a link"
-        super().__init__(_theme_host(parent), parent, title, (480, 330))
+        super().__init__(_theme_host(parent), parent, title, (520, 440))
 
     def web_ready(self):
         self.emit("link", {"title": "Edit link" if self._editing else "Add a link",
                            "ok": "Save" if self._editing else "Add",
-                           "name": self._start.get("name", ""), "url": self._start.get("url", "")})
+                           "name": self._start.get("name", ""), "url": self._start.get("url", ""),
+                           "icon": link_bar.clean_icon(self._start.get("icon")), "icons": list(link_bar.ICONS)})
 
     def on_save(self, payload):
         payload = payload or {}
-        link, why = link_bar.make_link(payload.get("name"), payload.get("url"))
+        link, why = link_bar.make_link(payload.get("name"), payload.get("url"), payload.get("icon"))
         if link is None:
             self.emit("error", {"text": why})
             return

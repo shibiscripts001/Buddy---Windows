@@ -1,0 +1,1583 @@
+{
+ "_comment": "Web. English -> each language; see core/i18n.py.",
+ "Web": {
+  "日本語": "ウェブ",
+  "Español": "Web",
+  "Deutsch": "Web",
+  "Français": "Web",
+  "한국어": "웹",
+  "中文": "网页",
+  "العربية": "الويب",
+  "Tiếng Việt": "Web"
+ },
+ "New tab": {
+  "日本語": "新しいタブ",
+  "Español": "Nueva pestaña",
+  "Deutsch": "Neuer Tab",
+  "Français": "Nouvel onglet",
+  "한국어": "새 탭",
+  "中文": "新标签页",
+  "العربية": "علامة تبويب جديدة",
+  "Tiếng Việt": "Thẻ mới"
+ },
+ "Search with {name}": {
+  "日本語": "{name} で検索",
+  "Español": "Buscar con {name}",
+  "Deutsch": "Mit {name} suchen",
+  "Français": "Rechercher avec {name}",
+  "한국어": "{name}(으)로 검색",
+  "中文": "使用 {name} 搜索",
+  "العربية": "البحث باستخدام {name}",
+  "Tiếng Việt": "Tìm bằng {name}"
+ },
+ "Your link bar web links show here.": {
+  "日本語": "リンクバーのウェブリンクがここに表示されます。",
+  "Español": "Aquí aparecen los enlaces web de tu barra de enlaces.",
+  "Deutsch": "Hier erscheinen die Weblinks Ihrer Linkleiste.",
+  "Français": "Les liens web de votre barre de liens s'affichent ici.",
+  "한국어": "링크 바의 웹 링크가 여기에 표시됩니다.",
+  "中文": "链接栏中的网页链接会显示在这里。",
+  "العربية": "تظهر روابط الويب من شريط الروابط هنا.",
+  "Tiếng Việt": "Các liên kết web trên thanh liên kết hiện ở đây."
+ },
+ "Playing sound - it won't sleep.": {
+  "日本語": "音声を再生中のため、スリープしません。",
+  "Español": "Está reproduciendo sonido: no se dormirá.",
+  "Deutsch": "Spielt Ton ab – wird nicht schlafen gelegt.",
+  "Français": "Lit du son : elle ne sera pas mise en veille.",
+  "한국어": "소리를 재생 중이라 잠들지 않습니다.",
+  "中文": "正在播放声音，不会休眠。",
+  "العربية": "تُشغّل صوتاً - لن تدخل في وضع السكون.",
+  "Tiếng Việt": "Đang phát âm thanh - sẽ không ngủ."
+ },
+ "Kept awake.": {
+  "日本語": "起きたままにしています。",
+  "Español": "Se mantiene activa.",
+  "Deutsch": "Bleibt wach.",
+  "Français": "Maintenue active.",
+  "한국어": "깨어 있도록 유지합니다.",
+  "中文": "保持唤醒。",
+  "العربية": "تبقى نشطة.",
+  "Tiếng Việt": "Luôn thức."
+ },
+ "This site never sleeps.": {
+  "日本語": "このサイトはスリープしません。",
+  "Español": "Este sitio nunca se duerme.",
+  "Deutsch": "Diese Website schläft nie.",
+  "Français": "Ce site n'est jamais mis en veille.",
+  "한국어": "이 사이트는 잠들지 않습니다.",
+  "中文": "此网站从不休眠。",
+  "العربية": "هذا الموقع لا يدخل في وضع السكون أبداً.",
+  "Tiếng Việt": "Trang này không bao giờ ngủ."
+ },
+ "Tabs never sleep (Settings).": {
+  "日本語": "タブはスリープしません(設定)。",
+  "Español": "Las pestañas nunca se duermen (Ajustes).",
+  "Deutsch": "Tabs schlafen nie (Einstellungen).",
+  "Français": "Les onglets ne sont jamais mis en veille (Réglages).",
+  "한국어": "탭이 잠들지 않습니다(설정).",
+  "中文": "标签页从不休眠（设置）。",
+  "العربية": "علامات التبويب لا تدخل في وضع السكون أبداً (الإعدادات).",
+  "Tiếng Việt": "Thẻ không bao giờ ngủ (Cài đặt)."
+ },
+ "Never": {
+  "日本語": "しない",
+  "Español": "Nunca",
+  "Deutsch": "Nie",
+  "Français": "Jamais",
+  "한국어": "안 함",
+  "中文": "从不",
+  "العربية": "أبداً",
+  "Tiếng Việt": "Không bao giờ"
+ },
+ "After 5 minutes": {
+  "日本語": "5分後",
+  "Español": "A los 5 minutos",
+  "Deutsch": "Nach 5 Minuten",
+  "Français": "Après 5 minutes",
+  "한국어": "5분 후",
+  "中文": "5 分钟后",
+  "العربية": "بعد 5 دقائق",
+  "Tiếng Việt": "Sau 5 phút"
+ },
+ "After 15 minutes": {
+  "日本語": "15分後",
+  "Español": "A los 15 minutos",
+  "Deutsch": "Nach 15 Minuten",
+  "Français": "Après 15 minutes",
+  "한국어": "15분 후",
+  "中文": "15 分钟后",
+  "العربية": "بعد 15 دقيقة",
+  "Tiếng Việt": "Sau 15 phút"
+ },
+ "After 30 minutes": {
+  "日本語": "30分後",
+  "Español": "A los 30 minutos",
+  "Deutsch": "Nach 30 Minuten",
+  "Français": "Après 30 minutes",
+  "한국어": "30분 후",
+  "中文": "30 分钟后",
+  "العربية": "بعد 30 دقيقة",
+  "Tiếng Việt": "Sau 30 phút"
+ },
+ "After an hour": {
+  "日本語": "1時間後",
+  "Español": "Al cabo de una hora",
+  "Deutsch": "Nach einer Stunde",
+  "Français": "Après une heure",
+  "한국어": "1시간 후",
+  "中文": "1 小时后",
+  "العربية": "بعد ساعة",
+  "Tiếng Việt": "Sau một giờ"
+ },
+ "Downloads": {
+  "日本語": "ダウンロード",
+  "Español": "Descargas",
+  "Deutsch": "Downloads",
+  "Français": "Téléchargements",
+  "한국어": "다운로드",
+  "中文": "下载",
+  "العربية": "التنزيلات",
+  "Tiếng Việt": "Tệp tải xuống"
+ },
+ "Reload": {
+  "日本語": "再読み込み",
+  "Español": "Recargar",
+  "Deutsch": "Neu laden",
+  "Français": "Recharger",
+  "한국어": "새로고침",
+  "中文": "重新加载",
+  "العربية": "إعادة التحميل",
+  "Tiếng Việt": "Tải lại"
+ },
+ "Duplicate": {
+  "日本語": "複製",
+  "Español": "Duplicar",
+  "Deutsch": "Duplizieren",
+  "Français": "Dupliquer",
+  "한국어": "복제",
+  "中文": "复制标签页",
+  "العربية": "تكرار",
+  "Tiếng Việt": "Nhân bản"
+ },
+ "Mute tab": {
+  "日本語": "タブをミュート",
+  "Español": "Silenciar pestaña",
+  "Deutsch": "Tab stummschalten",
+  "Français": "Couper le son de l'onglet",
+  "한국어": "탭 음소거",
+  "中文": "将标签页静音",
+  "العربية": "كتم علامة التبويب",
+  "Tiếng Việt": "Tắt tiếng thẻ"
+ },
+ "Unmute tab": {
+  "日本語": "タブのミュートを解除",
+  "Español": "Activar sonido de la pestaña",
+  "Deutsch": "Stummschaltung aufheben",
+  "Français": "Réactiver le son de l'onglet",
+  "한국어": "탭 음소거 해제",
+  "中文": "取消标签页静音",
+  "العربية": "إلغاء كتم علامة التبويب",
+  "Tiếng Việt": "Bật tiếng thẻ"
+ },
+ "Keep this tab awake": {
+  "日本語": "このタブを起きたままにする",
+  "Español": "Mantener esta pestaña activa",
+  "Deutsch": "Diesen Tab wach halten",
+  "Français": "Garder cet onglet actif",
+  "한국어": "이 탭을 깨어 있게 유지",
+  "中文": "让此标签页保持唤醒",
+  "العربية": "إبقاء علامة التبويب هذه نشطة",
+  "Tiếng Việt": "Giữ thẻ này luôn thức"
+ },
+ "Never sleep on {site}": {
+  "日本語": "{site} ではスリープしない",
+  "Español": "No dormir nunca en {site}",
+  "Deutsch": "Auf {site} nie schlafen",
+  "Français": "Ne jamais mettre en veille sur {site}",
+  "한국어": "{site}에서는 잠들지 않기",
+  "中文": "在 {site} 上从不休眠",
+  "العربية": "عدم السكون أبداً على {site}",
+  "Tiếng Việt": "Không bao giờ ngủ trên {site}"
+ },
+ "Sleep now": {
+  "日本語": "今すぐスリープ",
+  "Español": "Dormir ahora",
+  "Deutsch": "Jetzt schlafen legen",
+  "Français": "Mettre en veille maintenant",
+  "한국어": "지금 잠들기",
+  "中文": "立即休眠",
+  "العربية": "السكون الآن",
+  "Tiếng Việt": "Ngủ ngay"
+ },
+ "Add to link bar…": {
+  "日本語": "リンクバーに追加…",
+  "Español": "Añadir a la barra de enlaces…",
+  "Deutsch": "Zur Linkleiste hinzufügen…",
+  "Français": "Ajouter à la barre de liens…",
+  "한국어": "링크 바에 추가…",
+  "中文": "添加到链接栏…",
+  "العربية": "إضافة إلى شريط الروابط…",
+  "Tiếng Việt": "Thêm vào thanh liên kết…"
+ },
+ "Open in your browser": {
+  "日本語": "いつものブラウザーで開く",
+  "Español": "Abrir en tu navegador",
+  "Deutsch": "In Ihrem Browser öffnen",
+  "Français": "Ouvrir dans votre navigateur",
+  "한국어": "사용하는 브라우저에서 열기",
+  "中文": "在你的浏览器中打开",
+  "العربية": "فتح في متصفحك",
+  "Tiếng Việt": "Mở trong trình duyệt của bạn"
+ },
+ "Close tab": {
+  "日本語": "タブを閉じる",
+  "Español": "Cerrar pestaña",
+  "Deutsch": "Tab schließen",
+  "Français": "Fermer l'onglet",
+  "한국어": "탭 닫기",
+  "中文": "关闭标签页",
+  "العربية": "إغلاق علامة التبويب",
+  "Tiếng Việt": "Đóng thẻ"
+ },
+ "Close other tabs": {
+  "日本語": "他のタブを閉じる",
+  "Español": "Cerrar las demás pestañas",
+  "Deutsch": "Andere Tabs schließen",
+  "Français": "Fermer les autres onglets",
+  "한국어": "다른 탭 닫기",
+  "中文": "关闭其他标签页",
+  "العربية": "إغلاق علامات التبويب الأخرى",
+  "Tiếng Việt": "Đóng các thẻ khác"
+ },
+ "Reopen closed tab": {
+  "日本語": "閉じたタブを再び開く",
+  "Español": "Volver a abrir la pestaña cerrada",
+  "Deutsch": "Geschlossenen Tab wieder öffnen",
+  "Français": "Rouvrir l'onglet fermé",
+  "한국어": "닫은 탭 다시 열기",
+  "中文": "重新打开关闭的标签页",
+  "العربية": "إعادة فتح علامة التبويب المغلقة",
+  "Tiếng Việt": "Mở lại thẻ đã đóng"
+ },
+ "Zoom in": {
+  "日本語": "拡大",
+  "Español": "Acercar",
+  "Deutsch": "Vergrößern",
+  "Français": "Zoom avant",
+  "한국어": "확대",
+  "中文": "放大",
+  "العربية": "تكبير",
+  "Tiếng Việt": "Phóng to"
+ },
+ "Zoom out": {
+  "日本語": "縮小",
+  "Español": "Alejar",
+  "Deutsch": "Verkleinern",
+  "Français": "Zoom arrière",
+  "한국어": "축소",
+  "中文": "缩小",
+  "العربية": "تصغير",
+  "Tiếng Việt": "Thu nhỏ"
+ },
+ "Actual size": {
+  "日本語": "実際のサイズ",
+  "Español": "Tamaño real",
+  "Deutsch": "Originalgröße",
+  "Français": "Taille réelle",
+  "한국어": "실제 크기",
+  "中文": "实际大小",
+  "العربية": "الحجم الفعلي",
+  "Tiếng Việt": "Kích thước thực"
+ },
+ "Sleep other tabs now": {
+  "日本語": "他のタブを今すぐスリープ",
+  "Español": "Dormir ahora las demás pestañas",
+  "Deutsch": "Andere Tabs jetzt schlafen legen",
+  "Français": "Mettre les autres onglets en veille",
+  "한국어": "다른 탭을 지금 잠들게 하기",
+  "中文": "立即让其他标签页休眠",
+  "العربية": "إدخال علامات التبويب الأخرى في السكون الآن",
+  "Tiếng Việt": "Cho các thẻ khác ngủ ngay"
+ },
+ "Web settings…": {
+  "日本語": "ウェブの設定…",
+  "Español": "Ajustes de Web…",
+  "Deutsch": "Web-Einstellungen…",
+  "Français": "Réglages Web…",
+  "한국어": "웹 설정…",
+  "中文": "网页设置…",
+  "العربية": "إعدادات الويب…",
+  "Tiếng Việt": "Cài đặt Web…"
+ },
+ "Tabs": {
+  "日本語": "タブ",
+  "Español": "Pestañas",
+  "Deutsch": "Tabs",
+  "Français": "Onglets",
+  "한국어": "탭",
+  "中文": "标签页",
+  "العربية": "علامات التبويب",
+  "Tiếng Việt": "Thẻ"
+ },
+ "Put background tabs to sleep": {
+  "日本語": "バックグラウンドのタブをスリープ",
+  "Español": "Dormir las pestañas en segundo plano",
+  "Deutsch": "Hintergrund-Tabs schlafen legen",
+  "Français": "Mettre en veille les onglets en arrière-plan",
+  "한국어": "백그라운드 탭 잠들게 하기",
+  "中文": "让后台标签页休眠",
+  "العربية": "إدخال علامات التبويب في الخلفية في السكون",
+  "Tiếng Việt": "Cho thẻ chạy nền ngủ"
+ },
+ "A sleeping tab gives its memory back and reloads when you next open it.": {
+  "日本語": "スリープ中のタブはメモリを解放し、次に開いたときに再読み込みされます。",
+  "Español": "Una pestaña dormida libera su memoria y se vuelve a cargar cuando la abres.",
+  "Deutsch": "Ein schlafender Tab gibt seinen Speicher frei und lädt neu, wenn Sie ihn wieder öffnen.",
+  "Français": "Un onglet en veille libère sa mémoire et se recharge quand vous le rouvrez.",
+  "한국어": "잠든 탭은 메모리를 돌려주고, 다음에 열 때 다시 불러옵니다.",
+  "中文": "休眠的标签页会释放内存，下次打开时重新加载。",
+  "العربية": "تُعيد علامة التبويب النائمة ذاكرتها وتُعاد تحميلها عند فتحها مرة أخرى.",
+  "Tiếng Việt": "Thẻ đang ngủ trả lại bộ nhớ và tải lại khi bạn mở nó."
+ },
+ "A tab playing sound never sleeps, so music keeps going while you work in Resolve. Nor does a tab you keep awake - right-click it.": {
+  "日本語": "音声を再生中のタブはスリープしないので、Resolveで作業中も音楽が流れ続けます。起きたままにしたタブも同様です(タブを右クリック)。",
+  "Español": "Una pestaña que reproduce sonido nunca se duerme, así que la música sigue mientras trabajas en Resolve. Tampoco una pestaña que mantengas activa (haz clic derecho en ella).",
+  "Deutsch": "Ein Tab, der Ton abspielt, schläft nie – die Musik läuft weiter, während Sie in Resolve arbeiten. Ebenso ein Tab, den Sie wach halten (Rechtsklick darauf).",
+  "Français": "Un onglet qui lit du son n'est jamais mis en veille : la musique continue pendant que vous travaillez dans Resolve. Pas plus qu'un onglet que vous gardez actif (clic droit dessus).",
+  "한국어": "소리를 재생 중인 탭은 잠들지 않으므로 Resolve에서 작업하는 동안에도 음악이 계속 재생됩니다. 깨어 있게 유지한 탭도 마찬가지입니다(탭을 마우스 오른쪽 버튼으로 클릭).",
+  "中文": "正在播放声音的标签页从不休眠，因此在 Resolve 中工作时音乐会继续播放。你设为保持唤醒的标签页也不会休眠（右键点击标签页）。",
+  "العربية": "علامة التبويب التي تُشغّل صوتاً لا تدخل في السكون أبداً، لذا تستمر الموسيقى أثناء عملك في Resolve. وكذلك علامة التبويب التي تُبقيها نشطة (انقر عليها بزر الماوس الأيمن).",
+  "Tiếng Việt": "Thẻ đang phát âm thanh không bao giờ ngủ, nên nhạc vẫn phát khi bạn làm việc trong Resolve. Thẻ bạn giữ luôn thức cũng vậy (nhấp chuột phải vào thẻ)."
+ },
+ "Sites that never sleep": {
+  "日本語": "スリープしないサイト",
+  "Español": "Sitios que nunca se duermen",
+  "Deutsch": "Websites, die nie schlafen",
+  "Français": "Sites jamais mis en veille",
+  "한국어": "잠들지 않는 사이트",
+  "中文": "从不休眠的网站",
+  "العربية": "المواقع التي لا تدخل في السكون أبداً",
+  "Tiếng Việt": "Trang không bao giờ ngủ"
+ },
+ "One site per line. A site covers everything under it.": {
+  "日本語": "1行に1サイト。サイトはその配下すべてを含みます。",
+  "Español": "Un sitio por línea. Un sitio incluye todo lo que hay bajo él.",
+  "Deutsch": "Eine Website pro Zeile. Eine Website umfasst alles darunter.",
+  "Français": "Un site par ligne. Un site couvre tout ce qui se trouve en dessous.",
+  "한국어": "한 줄에 사이트 하나. 사이트는 그 아래의 모든 것을 포함합니다.",
+  "中文": "每行一个网站。一个网站包括其下的所有内容。",
+  "العربية": "موقع واحد في كل سطر. يشمل الموقع كل ما تحته.",
+  "Tiếng Việt": "Mỗi dòng một trang. Một trang bao gồm mọi thứ bên dưới nó."
+ },
+ "Search with": {
+  "日本語": "検索エンジン",
+  "Español": "Buscar con",
+  "Deutsch": "Suchen mit",
+  "Français": "Rechercher avec",
+  "한국어": "검색 엔진",
+  "中文": "搜索引擎",
+  "العربية": "البحث باستخدام",
+  "Tiếng Việt": "Tìm bằng"
+ },
+ "Privacy": {
+  "日本語": "プライバシー",
+  "Español": "Privacidad",
+  "Deutsch": "Datenschutz",
+  "Français": "Confidentialité",
+  "한국어": "개인정보",
+  "中文": "隐私",
+  "العربية": "الخصوصية",
+  "Tiếng Việt": "Quyền riêng tư"
+ },
+ "Block ads and trackers": {
+  "日本語": "広告とトラッカーをブロック",
+  "Español": "Bloquear anuncios y rastreadores",
+  "Deutsch": "Werbung und Tracker blockieren",
+  "Français": "Bloquer les publicités et les traqueurs",
+  "한국어": "광고 및 추적기 차단",
+  "中文": "拦截广告和跟踪器",
+  "العربية": "حظر الإعلانات وأدوات التتبع",
+  "Tiếng Việt": "Chặn quảng cáo và trình theo dõi"
+ },
+ "Pages load faster and use less memory. A site's own content is never blocked.": {
+  "日本語": "ページの読み込みが速くなり、メモリの使用量も減ります。サイト自体のコンテンツはブロックされません。",
+  "Español": "Las páginas cargan más rápido y usan menos memoria. El contenido propio de un sitio nunca se bloquea.",
+  "Deutsch": "Seiten laden schneller und brauchen weniger Speicher. Die eigenen Inhalte einer Website werden nie blockiert.",
+  "Français": "Les pages se chargent plus vite et utilisent moins de mémoire. Le contenu propre d'un site n'est jamais bloqué.",
+  "한국어": "페이지가 더 빨리 열리고 메모리를 덜 사용합니다. 사이트 자체 콘텐츠는 차단되지 않습니다.",
+  "中文": "页面加载更快、占用内存更少。网站自身的内容不会被拦截。",
+  "العربية": "تُحمَّل الصفحات أسرع وتستهلك ذاكرة أقل. لا يُحظر محتوى الموقع نفسه أبداً.",
+  "Tiếng Việt": "Trang tải nhanh hơn và dùng ít bộ nhớ hơn. Nội dung của chính trang không bao giờ bị chặn."
+ },
+ "Clear cookies and site data…": {
+  "日本語": "Cookie とサイトデータを消去…",
+  "Español": "Borrar cookies y datos de sitios…",
+  "Deutsch": "Cookies und Websitedaten löschen…",
+  "Français": "Effacer les cookies et les données des sites…",
+  "한국어": "쿠키 및 사이트 데이터 삭제…",
+  "中文": "清除 Cookie 和网站数据…",
+  "العربية": "مسح ملفات تعريف الارتباط وبيانات المواقع…",
+  "Tiếng Việt": "Xóa cookie và dữ liệu trang…"
+ },
+ "Signs you out of every site in the Web tab.": {
+  "日本語": "ウェブタブのすべてのサイトからサインアウトします。",
+  "Español": "Cierra tu sesión en todos los sitios de la pestaña Web.",
+  "Deutsch": "Meldet Sie bei allen Websites im Web-Tab ab.",
+  "Français": "Vous déconnecte de tous les sites de l'onglet Web.",
+  "한국어": "웹 탭의 모든 사이트에서 로그아웃합니다.",
+  "中文": "退出“网页”标签中的所有网站。",
+  "العربية": "يسجّل خروجك من كل المواقع في تبويب الويب.",
+  "Tiếng Việt": "Đăng xuất bạn khỏi mọi trang trong thẻ Web."
+ },
+ "Save downloads to": {
+  "日本語": "ダウンロードの保存先",
+  "Español": "Guardar descargas en",
+  "Deutsch": "Downloads speichern in",
+  "Français": "Enregistrer les téléchargements dans",
+  "한국어": "다운로드 저장 위치",
+  "中文": "下载保存到",
+  "العربية": "حفظ التنزيلات في",
+  "Tiếng Việt": "Lưu tệp tải xuống vào"
+ },
+ "That folder isn't there. Choose one with Browse.": {
+  "日本語": "そのフォルダーはありません。「参照」で選んでください。",
+  "Español": "Esa carpeta no existe. Elige una con Examinar.",
+  "Deutsch": "Diesen Ordner gibt es nicht. Wählen Sie einen über Durchsuchen.",
+  "Français": "Ce dossier n'existe pas. Choisissez-en un avec Parcourir.",
+  "한국어": "그 폴더가 없습니다. 찾아보기로 선택하세요.",
+  "中文": "该文件夹不存在。请用“浏览”选择一个。",
+  "العربية": "هذا المجلد غير موجود. اختر مجلداً باستخدام استعراض.",
+  "Tiếng Việt": "Thư mục đó không tồn tại. Hãy chọn bằng Duyệt."
+ },
+ "Clear cookies and site data": {
+  "日本語": "Cookie とサイトデータを消去",
+  "Español": "Borrar cookies y datos de sitios",
+  "Deutsch": "Cookies und Websitedaten löschen",
+  "Français": "Effacer les cookies et les données des sites",
+  "한국어": "쿠키 및 사이트 데이터 삭제",
+  "中文": "清除 Cookie 和网站数据",
+  "العربية": "مسح ملفات تعريف الارتباط وبيانات المواقع",
+  "Tiếng Việt": "Xóa cookie và dữ liệu trang"
+ },
+ "Sign out of every site in the Web tab and clear what they've stored?": {
+  "日本語": "ウェブタブのすべてのサイトからサインアウトし、保存されたデータを消去しますか?",
+  "Español": "¿Cerrar sesión en todos los sitios de la pestaña Web y borrar lo que han guardado?",
+  "Deutsch": "Bei allen Websites im Web-Tab abmelden und ihre gespeicherten Daten löschen?",
+  "Français": "Se déconnecter de tous les sites de l'onglet Web et effacer ce qu'ils ont enregistré ?",
+  "한국어": "웹 탭의 모든 사이트에서 로그아웃하고 저장된 데이터를 삭제할까요?",
+  "中文": "要退出“网页”标签中的所有网站并清除它们存储的数据吗？",
+  "العربية": "هل تريد تسجيل الخروج من كل المواقع في تبويب الويب ومسح ما خزّنته؟",
+  "Tiếng Việt": "Đăng xuất khỏi mọi trang trong thẻ Web và xóa dữ liệu chúng đã lưu?"
+ },
+ "Cleared.": {
+  "日本語": "消去しました。",
+  "Español": "Borrado.",
+  "Deutsch": "Gelöscht.",
+  "Français": "Effacé.",
+  "한국어": "삭제했습니다.",
+  "中文": "已清除。",
+  "العربية": "تم المسح.",
+  "Tiếng Việt": "Đã xóa."
+ },
+ "New tab (Ctrl+T)": {
+  "日本語": "新しいタブ (Ctrl+T)",
+  "Español": "Nueva pestaña (Ctrl+T)",
+  "Deutsch": "Neuer Tab (Strg+T)",
+  "Français": "Nouvel onglet (Ctrl+T)",
+  "한국어": "새 탭 (Ctrl+T)",
+  "中文": "新标签页 (Ctrl+T)",
+  "العربية": "علامة تبويب جديدة (Ctrl+T)",
+  "Tiếng Việt": "Thẻ mới (Ctrl+T)"
+ },
+ "Back (Alt+Left)": {
+  "日本語": "戻る (Alt+←)",
+  "Español": "Atrás (Alt+Izquierda)",
+  "Deutsch": "Zurück (Alt+Links)",
+  "Français": "Précédent (Alt+Gauche)",
+  "한국어": "뒤로 (Alt+왼쪽)",
+  "中文": "后退 (Alt+左)",
+  "العربية": "رجوع (Alt+يسار)",
+  "Tiếng Việt": "Quay lại (Alt+Trái)"
+ },
+ "Forward (Alt+Right)": {
+  "日本語": "進む (Alt+→)",
+  "Español": "Adelante (Alt+Derecha)",
+  "Deutsch": "Vorwärts (Alt+Rechts)",
+  "Français": "Suivant (Alt+Droite)",
+  "한국어": "앞으로 (Alt+오른쪽)",
+  "中文": "前进 (Alt+右)",
+  "العربية": "تقدّم (Alt+يمين)",
+  "Tiếng Việt": "Tiến (Alt+Phải)"
+ },
+ "Reload (F5)": {
+  "日本語": "再読み込み (F5)",
+  "Español": "Recargar (F5)",
+  "Deutsch": "Neu laden (F5)",
+  "Français": "Recharger (F5)",
+  "한국어": "새로고침 (F5)",
+  "中文": "重新加载 (F5)",
+  "العربية": "إعادة التحميل (F5)",
+  "Tiếng Việt": "Tải lại (F5)"
+ },
+ "Search or type an address": {
+  "日本語": "検索、またはアドレスを入力",
+  "Español": "Busca o escribe una dirección",
+  "Deutsch": "Suchen oder Adresse eingeben",
+  "Français": "Rechercher ou saisir une adresse",
+  "한국어": "검색하거나 주소 입력",
+  "中文": "搜索或输入网址",
+  "العربية": "ابحث أو اكتب عنواناً",
+  "Tiếng Việt": "Tìm kiếm hoặc nhập địa chỉ"
+ },
+ "Zoom - Ctrl+0 for actual size": {
+  "日本語": "ズーム - Ctrl+0 で実際のサイズ",
+  "Español": "Zoom: Ctrl+0 para el tamaño real",
+  "Deutsch": "Zoom – Strg+0 für Originalgröße",
+  "Français": "Zoom - Ctrl+0 pour la taille réelle",
+  "한국어": "확대/축소 - Ctrl+0으로 실제 크기",
+  "中文": "缩放 - 按 Ctrl+0 恢复实际大小",
+  "العربية": "التكبير - Ctrl+0 للحجم الفعلي",
+  "Tiếng Việt": "Thu phóng - Ctrl+0 để về kích thước thực"
+ },
+ "Memory the open pages use. Sleeping tabs use none.": {
+  "日本語": "開いているページが使っているメモリ。スリープ中のタブは使いません。",
+  "Español": "Memoria que usan las páginas abiertas. Las pestañas dormidas no usan nada.",
+  "Deutsch": "Speicher, den die offenen Seiten nutzen. Schlafende Tabs brauchen keinen.",
+  "Français": "Mémoire utilisée par les pages ouvertes. Les onglets en veille n'en utilisent pas.",
+  "한국어": "열린 페이지가 사용하는 메모리. 잠든 탭은 사용하지 않습니다.",
+  "中文": "已打开页面使用的内存。休眠的标签页不占用。",
+  "العربية": "الذاكرة التي تستخدمها الصفحات المفتوحة. علامات التبويب النائمة لا تستخدم شيئاً.",
+  "Tiếng Việt": "Bộ nhớ các trang đang mở sử dụng. Thẻ đang ngủ không dùng."
+ },
+ "More": {
+  "日本語": "その他",
+  "Español": "Más",
+  "Deutsch": "Mehr",
+  "Français": "Plus",
+  "한국어": "더 보기",
+  "中文": "更多",
+  "العربية": "المزيد",
+  "Tiếng Việt": "Thêm"
+ },
+ "Close tab (Ctrl+W)": {
+  "日本語": "タブを閉じる (Ctrl+W)",
+  "Español": "Cerrar pestaña (Ctrl+W)",
+  "Deutsch": "Tab schließen (Strg+W)",
+  "Français": "Fermer l'onglet (Ctrl+W)",
+  "한국어": "탭 닫기 (Ctrl+W)",
+  "中文": "关闭标签页 (Ctrl+W)",
+  "العربية": "إغلاق علامة التبويب (Ctrl+W)",
+  "Tiếng Việt": "Đóng thẻ (Ctrl+W)"
+ },
+ "Asleep - it reloads when you open it": {
+  "日本語": "スリープ中 - 開くと再読み込みされます",
+  "Español": "Dormida: se vuelve a cargar al abrirla",
+  "Deutsch": "Schläft – lädt neu, wenn Sie ihn öffnen",
+  "Français": "En veille : se recharge quand vous l'ouvrez",
+  "한국어": "잠든 상태 - 열면 다시 불러옵니다",
+  "中文": "已休眠 - 打开时重新加载",
+  "العربية": "نائمة - تُعاد تحميلها عند فتحها",
+  "Tiếng Việt": "Đang ngủ - sẽ tải lại khi bạn mở"
+ },
+ "Downloading… {n}%": {
+  "日本語": "ダウンロード中… {n}%",
+  "Español": "Descargando… {n}%",
+  "Deutsch": "Wird heruntergeladen… {n} %",
+  "Français": "Téléchargement… {n} %",
+  "한국어": "다운로드 중… {n}%",
+  "中文": "正在下载… {n}%",
+  "العربية": "جارٍ التنزيل… {n}٪",
+  "Tiếng Việt": "Đang tải xuống… {n}%"
+ },
+ "Drag into Resolve's Media Pool, or click to see your downloads": {
+  "日本語": "Resolveのメディアプールへドラッグ、またはクリックでダウンロードを表示",
+  "Español": "Arrástralo al Media Pool de Resolve o haz clic para ver tus descargas",
+  "Deutsch": "In den Media Pool von Resolve ziehen oder klicken, um Ihre Downloads zu sehen",
+  "Français": "Faites glisser dans le Media Pool de Resolve, ou cliquez pour voir vos téléchargements",
+  "한국어": "Resolve의 미디어 풀로 드래그하거나 클릭해 다운로드 보기",
+  "中文": "拖到 Resolve 的媒体池，或点击查看下载内容",
+  "العربية": "اسحب إلى Media Pool في Resolve، أو انقر لعرض تنزيلاتك",
+  "Tiếng Việt": "Kéo vào Media Pool của Resolve, hoặc bấm để xem tệp tải xuống"
+ },
+ "Back": {
+  "日本語": "戻る",
+  "Español": "Atrás",
+  "Deutsch": "Zurück",
+  "Français": "Précédent",
+  "한국어": "뒤로",
+  "中文": "后退",
+  "العربية": "رجوع",
+  "Tiếng Việt": "Quay lại"
+ },
+ "Forward": {
+  "日本語": "進む",
+  "Español": "Adelante",
+  "Deutsch": "Vorwärts",
+  "Français": "Suivant",
+  "한국어": "앞으로",
+  "中文": "前进",
+  "العربية": "تقدّم",
+  "Tiếng Việt": "Tiến"
+ },
+ "Region": {
+  "日本語": "地域",
+  "Español": "Región",
+  "Deutsch": "Region",
+  "Français": "Région",
+  "한국어": "지역",
+  "中文": "地区",
+  "العربية": "المنطقة",
+  "Tiếng Việt": "Khu vực"
+ },
+ "Which country's results a search gives, and the region sites are told you're in. Automatic leaves it to the search engine and the sites.": {
+  "日本語": "検索結果をどの国のものにするか、またサイトに伝える地域です。「自動」では検索エンジンとサイトに任せます。",
+  "Español": "De qué país son los resultados de búsqueda y en qué región les dices a los sitios que estás. Automático lo deja en manos del buscador y de los sitios.",
+  "Deutsch": "Aus welchem Land die Suchergebnisse kommen und welche Region den Websites mitgeteilt wird. Automatisch überlässt es der Suchmaschine und den Websites.",
+  "Français": "De quel pays viennent les résultats de recherche, et la région indiquée aux sites. Automatique laisse le moteur de recherche et les sites décider.",
+  "한국어": "검색 결과를 어느 나라 기준으로 할지, 그리고 사이트에 알릴 지역입니다. 자동은 검색 엔진과 사이트에 맡깁니다.",
+  "中文": "搜索结果来自哪个国家，以及告诉网站你所在的地区。“自动”由搜索引擎和网站决定。",
+  "العربية": "نتائج أي بلد تعرضها عمليات البحث، والمنطقة التي تُبلَّغ بها المواقع. يترك الخيار التلقائي ذلك لمحرك البحث والمواقع.",
+  "Tiếng Việt": "Kết quả tìm kiếm theo quốc gia nào, và khu vực báo cho các trang biết bạn đang ở. Tự động để công cụ tìm kiếm và các trang tự quyết định."
+ },
+ "Open web links in": {
+  "日本語": "ウェブリンクを開く場所",
+  "Español": "Abrir los enlaces web en",
+  "Deutsch": "Weblinks öffnen in",
+  "Français": "Ouvrir les liens web dans",
+  "한국어": "웹 링크 열 위치",
+  "中文": "网页链接打开方式",
+  "العربية": "فتح روابط الويب في",
+  "Tiếng Việt": "Mở liên kết web trong"
+ },
+ "Your default browser": {
+  "日本語": "既定のブラウザー",
+  "Español": "Tu navegador predeterminado",
+  "Deutsch": "Ihrem Standardbrowser",
+  "Français": "Votre navigateur par défaut",
+  "한국어": "기본 브라우저",
+  "中文": "你的默认浏览器",
+  "العربية": "متصفحك الافتراضي",
+  "Tiếng Việt": "Trình duyệt mặc định"
+ },
+ "Buddy's Web tab": {
+  "日本語": "Buddyのウェブタブ",
+  "Español": "La pestaña Web de Buddy",
+  "Deutsch": "Dem Web-Tab von Buddy",
+  "Français": "L'onglet Web de Buddy",
+  "한국어": "Buddy의 웹 탭",
+  "中文": "Buddy 的“网页”标签",
+  "العربية": "تبويب الويب في Buddy",
+  "Tiếng Việt": "Thẻ Web của Buddy"
+ },
+ "Files and folders always open on this PC. Right-click a link for the other choice.": {
+  "日本語": "ファイルとフォルダーは常にこのPCで開きます。もう一方で開くにはリンクを右クリックします。",
+  "Español": "Los archivos y carpetas siempre se abren en este PC. Haz clic derecho en un enlace para la otra opción.",
+  "Deutsch": "Dateien und Ordner öffnen sich immer auf diesem PC. Für die andere Möglichkeit einen Link mit der rechten Maustaste anklicken.",
+  "Français": "Les fichiers et dossiers s'ouvrent toujours sur ce PC. Faites un clic droit sur un lien pour l'autre choix.",
+  "한국어": "파일과 폴더는 항상 이 PC에서 열립니다. 다른 방법으로 열려면 링크를 마우스 오른쪽 버튼으로 클릭하세요.",
+  "中文": "文件和文件夹始终在这台电脑上打开。右键点击链接可选择另一种方式。",
+  "العربية": "تُفتح الملفات والمجلدات دائماً على هذا الكمبيوتر. انقر بزر الماوس الأيمن على رابط للخيار الآخر.",
+  "Tiếng Việt": "Tệp và thư mục luôn mở trên máy này. Nhấp chuột phải vào liên kết để chọn cách còn lại."
+ },
+ "Open in Buddy's Web tab": {
+  "日本語": "Buddyのウェブタブで開く",
+  "Español": "Abrir en la pestaña Web de Buddy",
+  "Deutsch": "Im Web-Tab von Buddy öffnen",
+  "Français": "Ouvrir dans l'onglet Web de Buddy",
+  "한국어": "Buddy의 웹 탭에서 열기",
+  "中文": "在 Buddy 的“网页”标签中打开",
+  "العربية": "فتح في تبويب الويب في Buddy",
+  "Tiếng Việt": "Mở trong thẻ Web của Buddy"
+ },
+ "Settings…": {
+  "日本語": "設定…",
+  "Español": "Ajustes…",
+  "Deutsch": "Einstellungen…",
+  "Français": "Réglages…",
+  "한국어": "설정…",
+  "中文": "设置…",
+  "العربية": "الإعدادات…",
+  "Tiếng Việt": "Cài đặt…"
+ },
+ "United States": {
+  "日本語": "アメリカ合衆国",
+  "Español": "Estados Unidos",
+  "Deutsch": "Vereinigte Staaten",
+  "Français": "États-Unis",
+  "한국어": "미국",
+  "中文": "美国",
+  "العربية": "الولايات المتحدة",
+  "Tiếng Việt": "Hoa Kỳ"
+ },
+ "United Kingdom": {
+  "日本語": "イギリス",
+  "Español": "Reino Unido",
+  "Deutsch": "Vereinigtes Königreich",
+  "Français": "Royaume-Uni",
+  "한국어": "영국",
+  "中文": "英国",
+  "العربية": "المملكة المتحدة",
+  "Tiếng Việt": "Vương quốc Anh"
+ },
+ "Canada": {
+  "日本語": "カナダ",
+  "Español": "Canadá",
+  "Deutsch": "Kanada",
+  "Français": "Canada",
+  "한국어": "캐나다",
+  "中文": "加拿大",
+  "العربية": "كندا",
+  "Tiếng Việt": "Canada"
+ },
+ "Australia": {
+  "日本語": "オーストラリア",
+  "Español": "Australia",
+  "Deutsch": "Australien",
+  "Français": "Australie",
+  "한국어": "오스트레일리아",
+  "中文": "澳大利亚",
+  "العربية": "أستراليا",
+  "Tiếng Việt": "Úc"
+ },
+ "New Zealand": {
+  "日本語": "ニュージーランド",
+  "Español": "Nueva Zelanda",
+  "Deutsch": "Neuseeland",
+  "Français": "Nouvelle-Zélande",
+  "한국어": "뉴질랜드",
+  "中文": "新西兰",
+  "العربية": "نيوزيلندا",
+  "Tiếng Việt": "New Zealand"
+ },
+ "Ireland": {
+  "日本語": "アイルランド",
+  "Español": "Irlanda",
+  "Deutsch": "Irland",
+  "Français": "Irlande",
+  "한국어": "아일랜드",
+  "中文": "爱尔兰",
+  "العربية": "أيرلندا",
+  "Tiếng Việt": "Ireland"
+ },
+ "India": {
+  "日本語": "インド",
+  "Español": "India",
+  "Deutsch": "Indien",
+  "Français": "Inde",
+  "한국어": "인도",
+  "中文": "印度",
+  "العربية": "الهند",
+  "Tiếng Việt": "Ấn Độ"
+ },
+ "Singapore": {
+  "日本語": "シンガポール",
+  "Español": "Singapur",
+  "Deutsch": "Singapur",
+  "Français": "Singapour",
+  "한국어": "싱가포르",
+  "中文": "新加坡",
+  "العربية": "سنغافورة",
+  "Tiếng Việt": "Singapore"
+ },
+ "Philippines": {
+  "日本語": "フィリピン",
+  "Español": "Filipinas",
+  "Deutsch": "Philippinen",
+  "Français": "Philippines",
+  "한국어": "필리핀",
+  "中文": "菲律宾",
+  "العربية": "الفلبين",
+  "Tiếng Việt": "Philippines"
+ },
+ "South Africa": {
+  "日本語": "南アフリカ",
+  "Español": "Sudáfrica",
+  "Deutsch": "Südafrika",
+  "Français": "Afrique du Sud",
+  "한국어": "남아프리카 공화국",
+  "中文": "南非",
+  "العربية": "جنوب أفريقيا",
+  "Tiếng Việt": "Nam Phi"
+ },
+ "Germany": {
+  "日本語": "ドイツ",
+  "Español": "Alemania",
+  "Deutsch": "Deutschland",
+  "Français": "Allemagne",
+  "한국어": "독일",
+  "中文": "德国",
+  "العربية": "ألمانيا",
+  "Tiếng Việt": "Đức"
+ },
+ "Austria": {
+  "日本語": "オーストリア",
+  "Español": "Austria",
+  "Deutsch": "Österreich",
+  "Français": "Autriche",
+  "한국어": "오스트리아",
+  "中文": "奥地利",
+  "العربية": "النمسا",
+  "Tiếng Việt": "Áo"
+ },
+ "Switzerland": {
+  "日本語": "スイス",
+  "Español": "Suiza",
+  "Deutsch": "Schweiz",
+  "Français": "Suisse",
+  "한국어": "스위스",
+  "中文": "瑞士",
+  "العربية": "سويسرا",
+  "Tiếng Việt": "Thụy Sĩ"
+ },
+ "France": {
+  "日本語": "フランス",
+  "Español": "Francia",
+  "Deutsch": "Frankreich",
+  "Français": "France",
+  "한국어": "프랑스",
+  "中文": "法国",
+  "العربية": "فرنسا",
+  "Tiếng Việt": "Pháp"
+ },
+ "Belgium": {
+  "日本語": "ベルギー",
+  "Español": "Bélgica",
+  "Deutsch": "Belgien",
+  "Français": "Belgique",
+  "한국어": "벨기에",
+  "中文": "比利时",
+  "العربية": "بلجيكا",
+  "Tiếng Việt": "Bỉ"
+ },
+ "Spain": {
+  "日本語": "スペイン",
+  "Español": "España",
+  "Deutsch": "Spanien",
+  "Français": "Espagne",
+  "한국어": "스페인",
+  "中文": "西班牙",
+  "العربية": "إسبانيا",
+  "Tiếng Việt": "Tây Ban Nha"
+ },
+ "Mexico": {
+  "日本語": "メキシコ",
+  "Español": "México",
+  "Deutsch": "Mexiko",
+  "Français": "Mexique",
+  "한국어": "멕시코",
+  "中文": "墨西哥",
+  "العربية": "المكسيك",
+  "Tiếng Việt": "Mexico"
+ },
+ "Argentina": {
+  "日本語": "アルゼンチン",
+  "Español": "Argentina",
+  "Deutsch": "Argentinien",
+  "Français": "Argentine",
+  "한국어": "아르헨티나",
+  "中文": "阿根廷",
+  "العربية": "الأرجنتين",
+  "Tiếng Việt": "Argentina"
+ },
+ "Italy": {
+  "日本語": "イタリア",
+  "Español": "Italia",
+  "Deutsch": "Italien",
+  "Français": "Italie",
+  "한국어": "이탈리아",
+  "中文": "意大利",
+  "العربية": "إيطاليا",
+  "Tiếng Việt": "Ý"
+ },
+ "Netherlands": {
+  "日本語": "オランダ",
+  "Español": "Países Bajos",
+  "Deutsch": "Niederlande",
+  "Français": "Pays-Bas",
+  "한국어": "네덜란드",
+  "中文": "荷兰",
+  "العربية": "هولندا",
+  "Tiếng Việt": "Hà Lan"
+ },
+ "Portugal": {
+  "日本語": "ポルトガル",
+  "Español": "Portugal",
+  "Deutsch": "Portugal",
+  "Français": "Portugal",
+  "한국어": "포르투갈",
+  "中文": "葡萄牙",
+  "العربية": "البرتغال",
+  "Tiếng Việt": "Bồ Đào Nha"
+ },
+ "Brazil": {
+  "日本語": "ブラジル",
+  "Español": "Brasil",
+  "Deutsch": "Brasilien",
+  "Français": "Brésil",
+  "한국어": "브라질",
+  "中文": "巴西",
+  "العربية": "البرازيل",
+  "Tiếng Việt": "Brazil"
+ },
+ "Sweden": {
+  "日本語": "スウェーデン",
+  "Español": "Suecia",
+  "Deutsch": "Schweden",
+  "Français": "Suède",
+  "한국어": "스웨덴",
+  "中文": "瑞典",
+  "العربية": "السويد",
+  "Tiếng Việt": "Thụy Điển"
+ },
+ "Norway": {
+  "日本語": "ノルウェー",
+  "Español": "Noruega",
+  "Deutsch": "Norwegen",
+  "Français": "Norvège",
+  "한국어": "노르웨이",
+  "中文": "挪威",
+  "العربية": "النرويج",
+  "Tiếng Việt": "Na Uy"
+ },
+ "Denmark": {
+  "日本語": "デンマーク",
+  "Español": "Dinamarca",
+  "Deutsch": "Dänemark",
+  "Français": "Danemark",
+  "한국어": "덴마크",
+  "中文": "丹麦",
+  "العربية": "الدنمارك",
+  "Tiếng Việt": "Đan Mạch"
+ },
+ "Finland": {
+  "日本語": "フィンランド",
+  "Español": "Finlandia",
+  "Deutsch": "Finnland",
+  "Français": "Finlande",
+  "한국어": "핀란드",
+  "中文": "芬兰",
+  "العربية": "فنلندا",
+  "Tiếng Việt": "Phần Lan"
+ },
+ "Poland": {
+  "日本語": "ポーランド",
+  "Español": "Polonia",
+  "Deutsch": "Polen",
+  "Français": "Pologne",
+  "한국어": "폴란드",
+  "中文": "波兰",
+  "العربية": "بولندا",
+  "Tiếng Việt": "Ba Lan"
+ },
+ "Turkey": {
+  "日本語": "トルコ",
+  "Español": "Turquía",
+  "Deutsch": "Türkei",
+  "Français": "Turquie",
+  "한국어": "튀르키예",
+  "中文": "土耳其",
+  "العربية": "تركيا",
+  "Tiếng Việt": "Thổ Nhĩ Kỳ"
+ },
+ "Japan": {
+  "日本語": "日本",
+  "Español": "Japón",
+  "Deutsch": "Japan",
+  "Français": "Japon",
+  "한국어": "일본",
+  "中文": "日本",
+  "العربية": "اليابان",
+  "Tiếng Việt": "Nhật Bản"
+ },
+ "South Korea": {
+  "日本語": "韓国",
+  "Español": "Corea del Sur",
+  "Deutsch": "Südkorea",
+  "Français": "Corée du Sud",
+  "한국어": "대한민국",
+  "中文": "韩国",
+  "العربية": "كوريا الجنوبية",
+  "Tiếng Việt": "Hàn Quốc"
+ },
+ "China": {
+  "日本語": "中国",
+  "Español": "China",
+  "Deutsch": "China",
+  "Français": "Chine",
+  "한국어": "중국",
+  "中文": "中国",
+  "العربية": "الصين",
+  "Tiếng Việt": "Trung Quốc"
+ },
+ "Taiwan": {
+  "日本語": "台湾",
+  "Español": "Taiwán",
+  "Deutsch": "Taiwan",
+  "Français": "Taïwan",
+  "한국어": "대만",
+  "中文": "台湾",
+  "العربية": "تايوان",
+  "Tiếng Việt": "Đài Loan"
+ },
+ "Hong Kong": {
+  "日本語": "香港",
+  "Español": "Hong Kong",
+  "Deutsch": "Hongkong",
+  "Français": "Hong Kong",
+  "한국어": "홍콩",
+  "中文": "香港",
+  "العربية": "هونغ كونغ",
+  "Tiếng Việt": "Hồng Kông"
+ },
+ "Vietnam": {
+  "日本語": "ベトナム",
+  "Español": "Vietnam",
+  "Deutsch": "Vietnam",
+  "Français": "Viêt Nam",
+  "한국어": "베트남",
+  "中文": "越南",
+  "العربية": "فيتنام",
+  "Tiếng Việt": "Việt Nam"
+ },
+ "Saudi Arabia": {
+  "日本語": "サウジアラビア",
+  "Español": "Arabia Saudí",
+  "Deutsch": "Saudi-Arabien",
+  "Français": "Arabie saoudite",
+  "한국어": "사우디아라비아",
+  "中文": "沙特阿拉伯",
+  "العربية": "المملكة العربية السعودية",
+  "Tiếng Việt": "Ả Rập Xê Út"
+ },
+ "United Arab Emirates": {
+  "日本語": "アラブ首長国連邦",
+  "Español": "Emiratos Árabes Unidos",
+  "Deutsch": "Vereinigte Arabische Emirate",
+  "Français": "Émirats arabes unis",
+  "한국어": "아랍에미리트",
+  "中文": "阿拉伯联合酋长国",
+  "العربية": "الإمارات العربية المتحدة",
+  "Tiếng Việt": "Các Tiểu vương quốc Ả Rập Thống nhất"
+ },
+ "Playing sound": {
+  "日本語": "音声を再生中",
+  "Español": "Reproduciendo sonido",
+  "Deutsch": "Spielt Ton ab",
+  "Français": "Lecture du son",
+  "한국어": "소리 재생 중",
+  "中文": "正在播放声音",
+  "العربية": "يُشغّل صوتاً",
+  "Tiếng Việt": "Đang phát âm thanh"
+ },
+ "Sound": {
+  "日本語": "サウンド",
+  "Español": "Sonido",
+  "Deutsch": "Ton",
+  "Français": "Son",
+  "한국어": "소리",
+  "中文": "声音",
+  "العربية": "الصوت",
+  "Tiếng Việt": "Âm thanh"
+ },
+ "Lower the Web tab's sound": {
+  "日本語": "ウェブタブの音量を下げる",
+  "Español": "Bajar el sonido de la pestaña Web",
+  "Deutsch": "Ton des Web-Tabs absenken",
+  "Français": "Baisser le son de l'onglet Web",
+  "한국어": "웹 탭 소리 줄이기",
+  "中文": "降低“网页”标签的声音",
+  "العربية": "خفض صوت تبويب الويب",
+  "Tiếng Việt": "Giảm âm thanh của thẻ Web"
+ },
+ "When DaVinci Resolve plays sound": {
+  "日本語": "DaVinci Resolveが音声を再生しているとき",
+  "Español": "Cuando DaVinci Resolve reproduce sonido",
+  "Deutsch": "Wenn DaVinci Resolve Ton abspielt",
+  "Français": "Quand DaVinci Resolve lit du son",
+  "한국어": "DaVinci Resolve에서 소리가 날 때",
+  "中文": "DaVinci Resolve 播放声音时",
+  "العربية": "عندما يُشغّل DaVinci Resolve صوتاً",
+  "Tiếng Việt": "Khi DaVinci Resolve phát âm thanh"
+ },
+ "When any other app plays sound": {
+  "日本語": "他のアプリが音声を再生しているとき",
+  "Español": "Cuando cualquier otra aplicación reproduce sonido",
+  "Deutsch": "Wenn eine andere App Ton abspielt",
+  "Français": "Quand une autre application lit du son",
+  "한국어": "다른 앱에서 소리가 날 때",
+  "中文": "其他任何应用播放声音时",
+  "العربية": "عندما يُشغّل أي تطبيق آخر صوتاً",
+  "Tiếng Việt": "Khi bất kỳ ứng dụng nào khác phát âm thanh"
+ },
+ "Lower it to": {
+  "日本語": "下げる量",
+  "Español": "Bajarlo al",
+  "Deutsch": "Absenken auf",
+  "Français": "Le baisser à",
+  "한국어": "줄일 크기",
+  "中文": "降低到",
+  "العربية": "خفضه إلى",
+  "Tiếng Việt": "Giảm xuống còn"
+ },
+ "Music in the Web tab drops while Resolve plays your timeline, and comes back when it stops.": {
+  "日本語": "Resolveでタイムラインを再生している間はウェブタブの音楽が小さくなり、止めると元に戻ります。",
+  "Español": "La música de la pestaña Web baja mientras Resolve reproduce tu línea de tiempo y vuelve cuando se detiene.",
+  "Deutsch": "Die Musik im Web-Tab wird leiser, während Resolve Ihre Timeline abspielt, und kommt zurück, wenn sie stoppt.",
+  "Français": "La musique de l'onglet Web baisse pendant que Resolve lit votre timeline, et revient quand elle s'arrête.",
+  "한국어": "Resolve에서 타임라인을 재생하는 동안 웹 탭의 음악이 작아지고, 멈추면 돌아옵니다.",
+  "中文": "Resolve 播放时间线时，“网页”标签中的音乐会变小，停止后恢复。",
+  "العربية": "تنخفض الموسيقى في تبويب الويب أثناء تشغيل Resolve للخط الزمني، وتعود عند توقفه.",
+  "Tiếng Việt": "Nhạc trong thẻ Web nhỏ lại khi Resolve phát timeline, và trở lại khi dừng."
+ },
+ "Lowering the Web tab's sound works on Windows only for now.": {
+  "日本語": "ウェブタブの音量を下げる機能は、今のところWindowsでのみ使えます。",
+  "Español": "Bajar el sonido de la pestaña Web solo funciona en Windows por ahora.",
+  "Deutsch": "Das Absenken des Web-Tab-Tons funktioniert vorerst nur unter Windows.",
+  "Français": "Baisser le son de l'onglet Web ne fonctionne que sous Windows pour l'instant.",
+  "한국어": "웹 탭 소리 줄이기는 현재 Windows에서만 작동합니다.",
+  "中文": "降低“网页”标签声音的功能目前仅适用于 Windows。",
+  "العربية": "يعمل خفض صوت تبويب الويب على Windows فقط حالياً.",
+  "Tiếng Việt": "Tính năng giảm âm thanh thẻ Web hiện chỉ hoạt động trên Windows."
+ },
+ "Lowered while another app plays sound - click to mute": {
+  "日本語": "他のアプリが音声を再生中のため音量を下げています - クリックでミュート",
+  "Español": "Bajado mientras otra aplicación reproduce sonido: haz clic para silenciar",
+  "Deutsch": "Abgesenkt, während eine andere App Ton abspielt – zum Stummschalten klicken",
+  "Français": "Baissé pendant qu'une autre application lit du son : cliquez pour couper le son",
+  "한국어": "다른 앱에서 소리가 나서 줄였습니다 - 클릭하면 음소거",
+  "中文": "因其他应用正在播放声音而降低 - 点击静音",
+  "العربية": "تم الخفض أثناء تشغيل تطبيق آخر للصوت - انقر للكتم",
+  "Tiếng Việt": "Đã giảm vì ứng dụng khác đang phát âm thanh - bấm để tắt tiếng"
+ },
+ "Finish addresses as you type": {
+  "日本語": "入力中にアドレスを補完",
+  "Español": "Completar direcciones al escribir",
+  "Deutsch": "Adressen beim Tippen vervollständigen",
+  "Français": "Compléter les adresses pendant la saisie",
+  "한국어": "입력하는 동안 주소 자동 완성",
+  "中文": "输入时自动补全网址",
+  "العربية": "إكمال العناوين أثناء الكتابة",
+  "Tiếng Việt": "Tự hoàn thành địa chỉ khi gõ"
+ },
+ "Type \"goo\" and the address bar offers google.com. Buddy counts the sites you visit to suggest them - only the site, never the page.": {
+  "日本語": "「goo」と入力するとアドレスバーに google.com が表示されます。Buddyは候補を出すため、訪れたサイトを数えます(サイトのみで、ページは記録しません)。",
+  "Español": "Escribe «goo» y la barra de direcciones te ofrece google.com. Buddy cuenta los sitios que visitas para sugerirlos: solo el sitio, nunca la página.",
+  "Deutsch": "Tippen Sie „goo“ und die Adressleiste bietet google.com an. Buddy zählt die besuchten Websites, um sie vorzuschlagen – nur die Website, nie die Seite.",
+  "Français": "Tapez « goo » et la barre d'adresse propose google.com. Buddy compte les sites que vous visitez pour les suggérer : seulement le site, jamais la page.",
+  "한국어": "\"goo\"를 입력하면 주소 표시줄에 google.com이 제안됩니다. Buddy는 제안을 위해 방문한 사이트를 셉니다. 사이트만 기록하고 페이지는 기록하지 않습니다.",
+  "中文": "输入“goo”，地址栏就会提示 google.com。Buddy 会统计你访问的网站以便提示——只记网站，从不记具体页面。",
+  "العربية": "اكتب \"goo\" فيقترح شريط العنوان google.com. يحسب Buddy المواقع التي تزورها لاقتراحها - الموقع فقط، وليس الصفحة أبداً.",
+  "Tiếng Việt": "Gõ \"goo\" và thanh địa chỉ gợi ý google.com. Buddy đếm các trang bạn ghé để gợi ý - chỉ trang web, không bao giờ là trang con."
+ },
+ "Forget visited sites": {
+  "日本語": "訪れたサイトを消去",
+  "Español": "Olvidar los sitios visitados",
+  "Deutsch": "Besuchte Websites vergessen",
+  "Français": "Oublier les sites visités",
+  "한국어": "방문한 사이트 지우기",
+  "中文": "清除访问过的网站",
+  "العربية": "نسيان المواقع التي تمت زيارتها",
+  "Tiếng Việt": "Quên các trang đã ghé"
+ },
+ "Forgotten.": {
+  "日本語": "消去しました。",
+  "Español": "Olvidados.",
+  "Deutsch": "Vergessen.",
+  "Français": "Oubliés.",
+  "한국어": "지웠습니다.",
+  "中文": "已清除。",
+  "العربية": "تم النسيان.",
+  "Tiếng Việt": "Đã quên."
+ },
+ "Private tab": {
+  "日本語": "プライベートタブ",
+  "Español": "Pestaña privada",
+  "Deutsch": "Privater Tab",
+  "Français": "Onglet privé",
+  "한국어": "비공개 탭",
+  "中文": "无痕标签页",
+  "العربية": "تبويب خاص",
+  "Tiếng Việt": "Thẻ riêng tư"
+ },
+ "New private tab": {
+  "日本語": "新しいプライベートタブ",
+  "Español": "Nueva pestaña privada",
+  "Deutsch": "Neuer privater Tab",
+  "Français": "Nouvel onglet privé",
+  "한국어": "새 비공개 탭",
+  "中文": "新建无痕标签页",
+  "العربية": "تبويب خاص جديد",
+  "Tiếng Việt": "Thẻ riêng tư mới"
+ },
+ "Open in a private tab": {
+  "日本語": "プライベートタブで開く",
+  "Español": "Abrir en una pestaña privada",
+  "Deutsch": "In privatem Tab öffnen",
+  "Français": "Ouvrir dans un onglet privé",
+  "한국어": "비공개 탭에서 열기",
+  "中文": "在无痕标签页中打开",
+  "العربية": "فتح في تبويب خاص",
+  "Tiếng Việt": "Mở trong thẻ riêng tư"
+ },
+ "Add a shortcut to the new-tab page…": {
+  "日本語": "新しいタブのページにショートカットを追加…",
+  "Español": "Añadir un acceso directo a la página de nueva pestaña…",
+  "Deutsch": "Verknüpfung zur Neuer-Tab-Seite hinzufügen…",
+  "Français": "Ajouter un raccourci à la page Nouvel onglet…",
+  "한국어": "새 탭 페이지에 바로가기 추가…",
+  "中文": "向新标签页添加快捷方式…",
+  "العربية": "إضافة اختصار إلى صفحة التبويب الجديد…",
+  "Tiếng Việt": "Thêm lối tắt vào trang thẻ mới…"
+ },
+ "Add a shortcut": {
+  "日本語": "ショートカットを追加",
+  "Español": "Añadir acceso directo",
+  "Deutsch": "Verknüpfung hinzufügen",
+  "Français": "Ajouter un raccourci",
+  "한국어": "바로가기 추가",
+  "中文": "添加快捷方式",
+  "العربية": "إضافة اختصار",
+  "Tiếng Việt": "Thêm lối tắt"
+ },
+ "Buddy forgets the sites, cookies and sign-ins of private tabs once you close the last one. Downloads stay.": {
+  "日本語": "最後のプライベートタブを閉じると、Buddyはそのサイト、Cookie、ログインを消去します。ダウンロードは残ります。",
+  "Español": "Buddy olvida los sitios, las cookies y los inicios de sesión de las pestañas privadas al cerrar la última. Las descargas se quedan.",
+  "Deutsch": "Buddy vergisst Websites, Cookies und Anmeldungen privater Tabs, sobald Sie den letzten schließen. Downloads bleiben.",
+  "Français": "Buddy oublie les sites, cookies et connexions des onglets privés dès que vous fermez le dernier. Les téléchargements restent.",
+  "한국어": "마지막 비공개 탭을 닫으면 Buddy가 사이트, 쿠키, 로그인을 잊습니다. 다운로드는 남습니다.",
+  "中文": "关闭最后一个无痕标签页后，Buddy 会忘记其中的网站、Cookie 和登录信息。下载的文件会保留。",
+  "العربية": "ينسى Buddy مواقع التبويبات الخاصة وملفات تعريف الارتباط وتسجيلات الدخول بمجرد إغلاق آخر تبويب منها. تبقى التنزيلات.",
+  "Tiếng Việt": "Buddy quên các trang, cookie và đăng nhập của thẻ riêng tư khi bạn đóng thẻ cuối cùng. Tệp tải xuống vẫn được giữ."
+ },
+ "Search or type an address - private": {
+  "日本語": "検索またはアドレスを入力 - プライベート",
+  "Español": "Busca o escribe una dirección - privado",
+  "Deutsch": "Suchen oder Adresse eingeben – privat",
+  "Français": "Rechercher ou saisir une adresse - privé",
+  "한국어": "검색하거나 주소 입력 - 비공개",
+  "中文": "搜索或输入网址 - 无痕",
+  "العربية": "ابحث أو اكتب عنواناً - خاص",
+  "Tiếng Việt": "Tìm kiếm hoặc nhập địa chỉ - riêng tư"
+ },
+ "New tab (Ctrl+T) - right-click for a private tab (Ctrl+Shift+N)": {
+  "日本語": "新しいタブ (Ctrl+T) - 右クリックでプライベートタブ (Ctrl+Shift+N)",
+  "Español": "Nueva pestaña (Ctrl+T): clic derecho para una pestaña privada (Ctrl+Shift+N)",
+  "Deutsch": "Neuer Tab (Strg+T) – Rechtsklick für einen privaten Tab (Strg+Umschalt+N)",
+  "Français": "Nouvel onglet (Ctrl+T) - clic droit pour un onglet privé (Ctrl+Maj+N)",
+  "한국어": "새 탭 (Ctrl+T) - 오른쪽 클릭하면 비공개 탭 (Ctrl+Shift+N)",
+  "中文": "新建标签页 (Ctrl+T) - 右键单击打开无痕标签页 (Ctrl+Shift+N)",
+  "العربية": "تبويب جديد (Ctrl+T) - انقر بزر الماوس الأيمن لتبويب خاص (Ctrl+Shift+N)",
+  "Tiếng Việt": "Thẻ mới (Ctrl+T) - nhấp chuột phải để mở thẻ riêng tư (Ctrl+Shift+N)"
+ },
+ "The new-tab page holds up to {count} shortcuts.": {
+  "日本語": "新しいタブのページに置けるショートカットは{count}個までです。",
+  "Español": "La página de nueva pestaña admite hasta {count} accesos directos.",
+  "Deutsch": "Die Neuer-Tab-Seite fasst bis zu {count} Verknüpfungen.",
+  "Français": "La page Nouvel onglet contient jusqu'à {count} raccourcis.",
+  "한국어": "새 탭 페이지에는 바로가기를 {count}개까지 둘 수 있습니다.",
+  "中文": "新标签页最多可放 {count} 个快捷方式。",
+  "العربية": "تتسع صفحة التبويب الجديد لما يصل إلى {count} اختصاراً.",
+  "Tiếng Việt": "Trang thẻ mới chứa tối đa {count} lối tắt."
+ },
+ "Shortcuts on the new-tab page are web addresses. Folders go on the link bar.": {
+  "日本語": "新しいタブのページのショートカットはウェブアドレスです。フォルダーはリンクバーに置きます。",
+  "Español": "Los accesos directos de la página de nueva pestaña son direcciones web. Las carpetas van en la barra de enlaces.",
+  "Deutsch": "Verknüpfungen auf der Neuer-Tab-Seite sind Webadressen. Ordner gehören in die Linkleiste.",
+  "Français": "Les raccourcis de la page Nouvel onglet sont des adresses web. Les dossiers vont dans la barre de liens.",
+  "한국어": "새 탭 페이지의 바로가기는 웹 주소입니다. 폴더는 링크 바에 둡니다.",
+  "中文": "新标签页上的快捷方式是网址。文件夹请放在链接栏。",
+  "العربية": "اختصارات صفحة التبويب الجديد عناوين ويب. توضع المجلدات في شريط الروابط.",
+  "Tiếng Việt": "Lối tắt trên trang thẻ mới là địa chỉ web. Thư mục thì đặt trên thanh liên kết."
+ },
+ "Leave": {
+  "日本語": "移動する",
+  "Español": "Salir",
+  "Deutsch": "Verlassen",
+  "Français": "Quitter",
+  "한국어": "나가기",
+  "中文": "离开",
+  "العربية": "مغادرة",
+  "Tiếng Việt": "Rời đi"
+ },
+ "Stay": {
+  "日本語": "留まる",
+  "Español": "Quedarse",
+  "Deutsch": "Bleiben",
+  "Français": "Rester",
+  "한국어": "머무르기",
+  "中文": "留下",
+  "العربية": "البقاء",
+  "Tiếng Việt": "Ở lại"
+ },
+ "Leave {site}?": {
+  "日本語": "{site} から移動しますか?",
+  "Español": "¿Salir de {site}?",
+  "Deutsch": "{site} verlassen?",
+  "Français": "Quitter {site} ?",
+  "한국어": "{site}에서 나가시겠습니까?",
+  "中文": "要离开 {site} 吗?",
+  "العربية": "مغادرة {site}؟",
+  "Tiếng Việt": "Rời khỏi {site}?"
+ },
+ "This page": {
+  "日本語": "このページ",
+  "Español": "Esta página",
+  "Deutsch": "Diese Seite",
+  "Français": "Cette page",
+  "한국어": "이 페이지",
+  "中文": "此页面",
+  "العربية": "هذه الصفحة",
+  "Tiếng Việt": "Trang này"
+ },
+ "The site asks before you leave. Anything you haven't saved on it, like a half-filled form, may be lost - and what it's playing stops.": {
+  "日本語": "このサイトは移動する前に確認を求めています。入力途中のフォームなど、保存していない内容は失われることがあり、再生中のものも止まります。",
+  "Español": "El sitio pregunta antes de que salgas. Lo que no hayas guardado en él, como un formulario a medio rellenar, puede perderse, y lo que esté reproduciendo se detiene.",
+  "Deutsch": "Die Website fragt nach, bevor Sie sie verlassen. Nicht Gespeichertes, etwa ein halb ausgefülltes Formular, kann verloren gehen – und was sie abspielt, stoppt.",
+  "Français": "Le site demande avant que vous partiez. Ce que vous n'y avez pas enregistré, comme un formulaire à moitié rempli, peut être perdu, et ce qu'il lit s'arrête.",
+  "한국어": "사이트가 나가기 전에 확인을 요청합니다. 작성 중인 양식처럼 저장하지 않은 내용은 사라질 수 있고, 재생 중인 것도 멈춥니다.",
+  "中文": "该网站在你离开前要求确认。尚未保存的内容（例如填了一半的表单）可能会丢失，正在播放的内容也会停止。",
+  "العربية": "يطلب الموقع التأكيد قبل مغادرتك. قد يضيع ما لم تحفظه فيه، مثل نموذج نصف مكتمل، ويتوقف ما يشغّله.",
+  "Tiếng Việt": "Trang web hỏi lại trước khi bạn rời đi. Những gì bạn chưa lưu trên đó, như biểu mẫu điền dở, có thể bị mất - và nội dung đang phát sẽ dừng."
+ },
+ "Signed out. Restart Buddy to finish clearing what sites stored.": {
+  "日本語": "サインアウトしました。サイトが保存したデータの消去を終えるには、Buddyを再起動してください。",
+  "Español": "Sesión cerrada. Reinicia Buddy para terminar de borrar lo que guardaron los sitios.",
+  "Deutsch": "Abgemeldet. Starten Sie Buddy neu, um das Löschen der von Websites gespeicherten Daten abzuschließen.",
+  "Français": "Déconnecté. Redémarrez Buddy pour finir d'effacer ce que les sites ont stocké.",
+  "한국어": "로그아웃했습니다. 사이트가 저장한 데이터를 모두 지우려면 Buddy를 다시 시작하세요.",
+  "中文": "已退出登录。重新启动 Buddy 以完成清除网站存储的数据。",
+  "العربية": "تم تسجيل الخروج. أعد تشغيل Buddy لإكمال مسح ما خزّنته المواقع.",
+  "Tiếng Việt": "Đã đăng xuất. Khởi động lại Buddy để xóa hết dữ liệu các trang đã lưu."
+ },
+ "YouTube video quality": {
+  "日本語": "YouTubeの画質",
+  "Español": "Calidad de vídeo de YouTube",
+  "Deutsch": "YouTube-Videoqualität",
+  "Français": "Qualité vidéo YouTube",
+  "한국어": "YouTube 동영상 화질",
+  "中文": "YouTube 视频画质",
+  "العربية": "جودة فيديو YouTube",
+  "Tiếng Việt": "Chất lượng video YouTube"
+ },
+ "Automatic (YouTube decides)": {
+  "日本語": "自動 (YouTubeが決定)",
+  "Español": "Automática (decide YouTube)",
+  "Deutsch": "Automatisch (YouTube entscheidet)",
+  "Français": "Automatique (YouTube décide)",
+  "한국어": "자동 (YouTube가 결정)",
+  "中文": "自动（由 YouTube 决定）",
+  "العربية": "تلقائي (يقرر YouTube)",
+  "Tiếng Việt": "Tự động (YouTube quyết định)"
+ },
+ "Best available": {
+  "日本語": "利用できる最高画質",
+  "Español": "La mejor disponible",
+  "Deutsch": "Beste verfügbare",
+  "Français": "La meilleure disponible",
+  "한국어": "가능한 최고 화질",
+  "中文": "最佳可用",
+  "العربية": "أفضل جودة متاحة",
+  "Tiếng Việt": "Tốt nhất hiện có"
+ },
+ "2160p (4K)": {
+  "日本語": "2160p (4K)",
+  "Español": "2160p (4K)",
+  "Deutsch": "2160p (4K)",
+  "Français": "2160p (4K)",
+  "한국어": "2160p (4K)",
+  "中文": "2160p (4K)",
+  "العربية": "2160p (4K)",
+  "Tiếng Việt": "2160p (4K)"
+ },
+ "144p (least data)": {
+  "日本語": "144p (データ量最小)",
+  "Español": "144p (menos datos)",
+  "Deutsch": "144p (wenigste Daten)",
+  "Français": "144p (moins de données)",
+  "한국어": "144p (데이터 최소)",
+  "中文": "144p（最省流量）",
+  "العربية": "144p (أقل استهلاك للبيانات)",
+  "Tiếng Việt": "144p (ít dữ liệu nhất)"
+ },
+ "YouTube and YouTube Music play at this quality, or the nearest below it a video has - lower uses less data and memory. You can still change one video's quality in YouTube's own menu. Other sites choose their own.": {
+  "日本語": "YouTubeとYouTube Musicはこの画質、または動画にあるそれ以下で最も近い画質で再生されます。低いほどデータ量とメモリが少なくなります。個々の動画の画質はYouTubeのメニューで変更できます。ほかのサイトは独自に画質を選びます。",
+  "Español": "YouTube y YouTube Music se reproducen con esta calidad, o la más cercana por debajo que tenga el vídeo; cuanto más baja, menos datos y memoria usa. Puedes seguir cambiando la calidad de un vídeo en el menú de YouTube. Otros sitios eligen la suya.",
+  "Deutsch": "YouTube und YouTube Music spielen in dieser Qualität ab oder in der nächstniedrigeren, die ein Video hat – niedriger braucht weniger Daten und Speicher. Die Qualität eines einzelnen Videos lässt sich weiterhin im YouTube-Menü ändern. Andere Websites wählen ihre eigene.",
+  "Français": "YouTube et YouTube Music sont lus dans cette qualité, ou la plus proche en dessous dont dispose la vidéo ; plus elle est basse, moins elle utilise de données et de mémoire. Vous pouvez toujours changer la qualité d'une vidéo dans le menu de YouTube. Les autres sites choisissent la leur.",
+  "한국어": "YouTube와 YouTube Music은 이 화질 또는 동영상에 있는 그보다 낮은 가장 가까운 화질로 재생됩니다. 낮을수록 데이터와 메모리를 적게 씁니다. 동영상별 화질은 YouTube 메뉴에서 바꿀 수 있습니다. 다른 사이트는 자체적으로 화질을 고릅니다.",
+  "中文": "YouTube 和 YouTube Music 以此画质播放，或使用视频现有的低于它的最接近画质——越低，流量和内存占用越少。你仍可在 YouTube 的菜单中更改单个视频的画质。其他网站自行选择画质。",
+  "العربية": "يُشغَّل YouTube وYouTube Music بهذه الجودة، أو بأقرب جودة أدنى منها يتيحها الفيديو - الأقل يستهلك بيانات وذاكرة أقل. لا يزال بإمكانك تغيير جودة فيديو واحد من قائمة YouTube نفسها. تختار المواقع الأخرى جودتها بنفسها.",
+  "Tiếng Việt": "YouTube và YouTube Music phát ở chất lượng này, hoặc mức gần nhất thấp hơn mà video có - càng thấp càng tốn ít dữ liệu và bộ nhớ. Bạn vẫn có thể đổi chất lượng từng video trong menu của YouTube. Các trang khác tự chọn chất lượng."
+ },
+ "How loud the Web tab stays while it's lowered: 0% is silent, 100% leaves it as it is.": {
+  "日本語": "音量を下げている間のウェブタブの大きさ: 0%で無音、100%で変わりません。",
+  "Español": "Lo alto que se queda la pestaña Web mientras está bajada: 0% es silencio y 100% la deja como está.",
+  "Deutsch": "Wie laut der Web-Tab bleibt, während er abgesenkt ist: 0 % ist stumm, 100 % lässt ihn, wie er ist.",
+  "Français": "Le volume que garde l'onglet Web lorsqu'il est baissé : 0 % est silencieux, 100 % le laisse tel quel.",
+  "한국어": "소리를 줄이는 동안 웹 탭의 크기: 0%는 무음, 100%는 그대로입니다.",
+  "中文": "降低时“网页”标签保留的音量：0% 为静音，100% 为保持不变。",
+  "العربية": "مدى ارتفاع صوت تبويب الويب أثناء خفضه: 0% صامت، و100% يتركه كما هو.",
+  "Tiếng Việt": "Âm lượng thẻ Web giữ lại khi bị giảm: 0% là im lặng, 100% giữ nguyên."
+ },
+ "Known trackers only": {
+  "日本語": "既知のトラッカーのみ",
+  "Español": "Solo rastreadores conocidos",
+  "Deutsch": "Nur bekannte Tracker",
+  "Français": "Traqueurs connus uniquement",
+  "한국어": "알려진 추적기만",
+  "中文": "仅已知跟踪器",
+  "العربية": "المتتبعات المعروفة فقط",
+  "Tiếng Việt": "Chỉ trình theo dõi đã biết"
+ },
+ "Ads and trackers (EasyList and uBlock filter lists)": {
+  "日本語": "広告とトラッカー (EasyListとuBlockのフィルターリスト)",
+  "Español": "Anuncios y rastreadores (listas de filtros EasyList y uBlock)",
+  "Deutsch": "Werbung und Tracker (Filterlisten von EasyList und uBlock)",
+  "Français": "Publicités et traqueurs (listes de filtres EasyList et uBlock)",
+  "한국어": "광고와 추적기 (EasyList 및 uBlock 필터 목록)",
+  "中文": "广告和跟踪器（EasyList 和 uBlock 过滤列表）",
+  "العربية": "الإعلانات والمتتبعات (قوائم تصفية EasyList وuBlock)",
+  "Tiếng Việt": "Quảng cáo và trình theo dõi (danh sách lọc EasyList và uBlock)"
+ },
+ "Pages load faster and use less memory with ads and trackers blocked.": {
+  "日本語": "広告とトラッカーをブロックすると、ページの読み込みが速くなり、メモリの使用量も減ります。",
+  "Español": "Con los anuncios y rastreadores bloqueados, las páginas cargan más rápido y usan menos memoria.",
+  "Deutsch": "Mit blockierter Werbung und blockierten Trackern laden Seiten schneller und brauchen weniger Speicher.",
+  "Français": "Avec les publicités et les traqueurs bloqués, les pages se chargent plus vite et utilisent moins de mémoire.",
+  "한국어": "광고와 추적기를 차단하면 페이지가 더 빨리 열리고 메모리도 덜 씁니다.",
+  "中文": "拦截广告和跟踪器后，页面加载更快，占用内存更少。",
+  "العربية": "مع حظر الإعلانات والمتتبعات تُحمَّل الصفحات أسرع وتستهلك ذاكرة أقل.",
+  "Tiếng Việt": "Khi chặn quảng cáo và trình theo dõi, trang tải nhanh hơn và tốn ít bộ nhớ hơn."
+ },
+ "Filter lists": {
+  "日本語": "フィルターリスト",
+  "Español": "Listas de filtros",
+  "Deutsch": "Filterlisten",
+  "Français": "Listes de filtres",
+  "한국어": "필터 목록",
+  "中文": "过滤列表",
+  "العربية": "قوائم التصفية",
+  "Tiếng Việt": "Danh sách lọc"
+ },
+ "EasyList, EasyPrivacy and uBlock Origin's lists, from their makers, updated every {days} days. They block ads and trackers, and hide the boxes ads leave behind.": {
+  "日本語": "EasyList、EasyPrivacy、uBlock Originのリストを作成元から取得し、{days}日ごとに更新します。広告とトラッカーをブロックし、広告が残す枠も隠します。",
+  "Español": "Las listas de EasyList, EasyPrivacy y uBlock Origin, de sus creadores, actualizadas cada {days} días. Bloquean anuncios y rastreadores, y ocultan los huecos que dejan los anuncios.",
+  "Deutsch": "Die Listen von EasyList, EasyPrivacy und uBlock Origin, direkt von ihren Machern, alle {days} Tage aktualisiert. Sie blockieren Werbung und Tracker und blenden die Lücken aus, die Werbung hinterlässt.",
+  "Français": "Les listes d'EasyList, EasyPrivacy et uBlock Origin, de leurs auteurs, mises à jour tous les {days} jours. Elles bloquent publicités et traqueurs, et masquent les cases vides laissées par les publicités.",
+  "한국어": "EasyList, EasyPrivacy, uBlock Origin의 목록을 제작자에게서 받아 {days}일마다 업데이트합니다. 광고와 추적기를 차단하고, 광고가 남긴 빈 상자도 숨깁니다.",
+  "中文": "来自制作者的 EasyList、EasyPrivacy 和 uBlock Origin 列表，每 {days} 天更新一次。它们拦截广告和跟踪器，并隐藏广告留下的空框。",
+  "العربية": "قوائم EasyList وEasyPrivacy وuBlock Origin من صانعيها، تُحدَّث كل {days} أيام. تحظر الإعلانات والمتتبعات، وتخفي المربعات التي تتركها الإعلانات.",
+  "Tiếng Việt": "Danh sách của EasyList, EasyPrivacy và uBlock Origin, lấy từ nơi tạo ra chúng, cập nhật mỗi {days} ngày. Chúng chặn quảng cáo và trình theo dõi, và ẩn các ô trống quảng cáo để lại."
+ },
+ "Update the lists now": {
+  "日本語": "今すぐリストを更新",
+  "Español": "Actualizar las listas ahora",
+  "Deutsch": "Listen jetzt aktualisieren",
+  "Français": "Mettre à jour les listes maintenant",
+  "한국어": "지금 목록 업데이트",
+  "中文": "立即更新列表",
+  "العربية": "تحديث القوائم الآن",
+  "Tiếng Việt": "Cập nhật danh sách ngay"
+ },
+ "Sites where nothing's blocked": {
+  "日本語": "何もブロックしないサイト",
+  "Español": "Sitios donde no se bloquea nada",
+  "Deutsch": "Websites, auf denen nichts blockiert wird",
+  "Français": "Sites où rien n'est bloqué",
+  "한국어": "아무것도 차단하지 않는 사이트",
+  "中文": "不拦截任何内容的网站",
+  "العربية": "مواقع لا يُحظر فيها شيء",
+  "Tiếng Việt": "Trang không chặn gì"
+ },
+ "One site per line, for a site that doesn't work with its ads blocked - or right-click its tab.": {
+  "日本語": "1行に1サイト。広告をブロックすると動かないサイト用です。タブを右クリックしても設定できます。",
+  "Español": "Un sitio por línea, para un sitio que no funcione con sus anuncios bloqueados; o haz clic derecho en su pestaña.",
+  "Deutsch": "Eine Website pro Zeile, für eine Website, die mit blockierter Werbung nicht funktioniert – oder ihren Tab rechtsklicken.",
+  "Français": "Un site par ligne, pour un site qui ne fonctionne pas avec ses publicités bloquées - ou faites un clic droit sur son onglet.",
+  "한국어": "한 줄에 사이트 하나. 광고를 차단하면 작동하지 않는 사이트용입니다. 탭을 오른쪽 클릭해도 됩니다.",
+  "中文": "每行一个网站，用于拦截广告后无法正常使用的网站——也可以右键单击它的标签页。",
+  "العربية": "موقع واحد في كل سطر، لموقع لا يعمل عند حظر إعلاناته - أو انقر بزر الماوس الأيمن على تبويبه.",
+  "Tiếng Việt": "Mỗi dòng một trang, cho trang không hoạt động khi bị chặn quảng cáo - hoặc nhấp chuột phải vào thẻ của nó."
+ },
+ "Allow ads on {site}": {
+  "日本語": "{site} で広告を許可",
+  "Español": "Permitir anuncios en {site}",
+  "Deutsch": "Werbung auf {site} erlauben",
+  "Français": "Autoriser les publicités sur {site}",
+  "한국어": "{site}에서 광고 허용",
+  "中文": "允许 {site} 上的广告",
+  "العربية": "السماح بالإعلانات على {site}",
+  "Tiếng Việt": "Cho phép quảng cáo trên {site}"
+ },
+ "Updating the filter lists…": {
+  "日本語": "フィルターリストを更新中…",
+  "Español": "Actualizando las listas de filtros…",
+  "Deutsch": "Filterlisten werden aktualisiert…",
+  "Français": "Mise à jour des listes de filtres…",
+  "한국어": "필터 목록 업데이트 중…",
+  "中文": "正在更新过滤列表…",
+  "العربية": "جارٍ تحديث قوائم التصفية…",
+  "Tiếng Việt": "Đang cập nhật danh sách lọc…"
+ },
+ "The filter lists aren't downloaded yet.": {
+  "日本語": "フィルターリストはまだダウンロードされていません。",
+  "Español": "Las listas de filtros aún no se han descargado.",
+  "Deutsch": "Die Filterlisten sind noch nicht heruntergeladen.",
+  "Français": "Les listes de filtres ne sont pas encore téléchargées.",
+  "한국어": "필터 목록을 아직 내려받지 않았습니다.",
+  "中文": "过滤列表尚未下载。",
+  "العربية": "لم يتم تنزيل قوائم التصفية بعد.",
+  "Tiếng Việt": "Chưa tải xuống danh sách lọc."
+ },
+ "The filter lists couldn't be downloaded. Buddy blocks known trackers until they are.": {
+  "日本語": "フィルターリストをダウンロードできませんでした。ダウンロードできるまで、Buddyは既知のトラッカーをブロックします。",
+  "Español": "No se pudieron descargar las listas de filtros. Buddy bloquea los rastreadores conocidos hasta entonces.",
+  "Deutsch": "Die Filterlisten konnten nicht heruntergeladen werden. Bis dahin blockiert Buddy bekannte Tracker.",
+  "Français": "Les listes de filtres n'ont pas pu être téléchargées. En attendant, Buddy bloque les traqueurs connus.",
+  "한국어": "필터 목록을 내려받지 못했습니다. 내려받을 때까지 Buddy가 알려진 추적기를 차단합니다.",
+  "中文": "无法下载过滤列表。在下载之前，Buddy 会拦截已知跟踪器。",
+  "العربية": "تعذّر تنزيل قوائم التصفية. يحظر Buddy المتتبعات المعروفة إلى أن يتم ذلك.",
+  "Tiếng Việt": "Không tải được danh sách lọc. Buddy chặn các trình theo dõi đã biết cho đến khi tải được."
+ },
+ "{rules} rules from {count} lists, updated {date}.": {
+  "日本語": "{count}個のリストから{rules}件のルール、{date}に更新。",
+  "Español": "{rules} reglas de {count} listas, actualizadas el {date}.",
+  "Deutsch": "{rules} Regeln aus {count} Listen, aktualisiert am {date}.",
+  "Français": "{rules} règles de {count} listes, mises à jour le {date}.",
+  "한국어": "목록 {count}개의 규칙 {rules}개, {date} 업데이트.",
+  "中文": "来自 {count} 个列表的 {rules} 条规则，更新于 {date}。",
+  "العربية": "{rules} قاعدة من {count} قوائم، حُدِّثت في {date}.",
+  "Tiếng Việt": "{rules} quy tắc từ {count} danh sách, cập nhật {date}."
+ },
+ "Couldn't update {lists}.": {
+  "日本語": "{lists} を更新できませんでした。",
+  "Español": "No se pudo actualizar {lists}.",
+  "Deutsch": "{lists} konnte nicht aktualisiert werden.",
+  "Français": "Impossible de mettre à jour {lists}.",
+  "한국어": "{lists}을(를) 업데이트할 수 없습니다.",
+  "中文": "无法更新 {lists}。",
+  "العربية": "تعذّر تحديث {lists}.",
+  "Tiếng Việt": "Không cập nhật được {lists}."
+ },
+ "Remove YouTube's video ads": {
+  "日本語": "YouTubeの動画広告を除去",
+  "Español": "Quitar los anuncios de vídeo de YouTube",
+  "Deutsch": "Videowerbung auf YouTube entfernen",
+  "Français": "Supprimer les publicités vidéo de YouTube",
+  "한국어": "YouTube 동영상 광고 제거",
+  "中文": "移除 YouTube 的视频广告",
+  "العربية": "إزالة إعلانات فيديو YouTube",
+  "Tiếng Việt": "Xóa quảng cáo video YouTube"
+ },
+ "YouTube's ads come from YouTube itself, so the filter lists can't stop them. This takes them out of the video data YouTube sends its player. YouTube works against it: it may show its \"ad blockers aren't allowed\" message, or ads may come back until Buddy is updated. Reload YouTube after turning it on or off.": {
+  "日本語": "YouTubeの広告はYouTube自身から配信されるため、フィルターリストでは止められません。この設定は、YouTubeがプレーヤーに送る動画データから広告を取り除きます。YouTubeはこれに対抗しており、「広告ブロッカーは許可されていません」と表示されたり、Buddyが更新されるまで広告が戻ったりすることがあります。オン/オフを切り替えたらYouTubeを再読み込みしてください。",
+  "Español": "Los anuncios de YouTube vienen del propio YouTube, así que las listas de filtros no pueden detenerlos. Esto los quita de los datos del vídeo que YouTube envía a su reproductor. YouTube lo combate: puede mostrar su mensaje de \"no se permiten bloqueadores de anuncios\", o los anuncios pueden volver hasta que Buddy se actualice. Recarga YouTube después de activarlo o desactivarlo.",
+  "Deutsch": "Die Werbung auf YouTube kommt von YouTube selbst, daher können Filterlisten sie nicht stoppen. Diese Option entfernt sie aus den Videodaten, die YouTube an seinen Player schickt. YouTube wehrt sich dagegen: Es zeigt eventuell seine Meldung „Werbeblocker sind nicht erlaubt“, oder Werbung kommt zurück, bis Buddy aktualisiert wird. Laden Sie YouTube nach dem Ein- oder Ausschalten neu.",
+  "Français": "Les publicités de YouTube viennent de YouTube lui-même, les listes de filtres ne peuvent donc pas les arrêter. Ceci les retire des données vidéo que YouTube envoie à son lecteur. YouTube s'y oppose : il peut afficher son message « les bloqueurs de publicités ne sont pas autorisés », ou les publicités peuvent revenir jusqu'à la mise à jour de Buddy. Rechargez YouTube après l'avoir activé ou désactivé.",
+  "한국어": "YouTube 광고는 YouTube 자체에서 오므로 필터 목록으로는 막을 수 없습니다. 이 기능은 YouTube가 플레이어에 보내는 동영상 데이터에서 광고를 빼냅니다. YouTube는 이를 막으려 하므로 \"광고 차단기는 허용되지 않습니다\" 메시지가 나오거나, Buddy가 업데이트될 때까지 광고가 다시 나올 수 있습니다. 켜거나 끈 뒤에는 YouTube를 새로고침하세요.",
+  "中文": "YouTube 的广告来自 YouTube 本身，因此过滤列表无法拦截。此功能会从 YouTube 发送给其播放器的视频数据中移除广告。YouTube 会对此进行反制：可能显示“不允许使用广告拦截器”的提示，或者在 Buddy 更新之前广告可能重新出现。开启或关闭后请重新加载 YouTube。",
+  "العربية": "تأتي إعلانات YouTube من YouTube نفسه، لذا لا تستطيع قوائم التصفية إيقافها. يزيلها هذا من بيانات الفيديو التي يرسلها YouTube إلى مشغّله. يقاوم YouTube ذلك: قد يعرض رسالة \"أدوات حظر الإعلانات غير مسموح بها\"، أو قد تعود الإعلانات إلى أن يتم تحديث Buddy. أعد تحميل YouTube بعد تشغيله أو إيقافه.",
+  "Tiếng Việt": "Quảng cáo YouTube đến từ chính YouTube nên danh sách lọc không chặn được. Tùy chọn này gỡ chúng khỏi dữ liệu video mà YouTube gửi cho trình phát. YouTube chống lại việc này: có thể hiện thông báo \"không cho phép trình chặn quảng cáo\", hoặc quảng cáo có thể quay lại cho đến khi Buddy được cập nhật. Hãy tải lại YouTube sau khi bật hoặc tắt."
+ }
+}

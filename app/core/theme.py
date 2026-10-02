@@ -561,6 +561,74 @@ RESOLVE = {
     "accent": "#E64B3D", "scroll": "#48484A", "scroll_hi": "#6A6A6E",
 }
 
+# Where each of Resolve's greys sits from the window grey, or from the
+# panel's (the ones drawn on a panel, text included), as an RGB step. A dark
+# Custom background, or a colour variant's tinted greys, takes the same
+# steps, so the look survives a new base colour and DaVinci comes out
+# exactly as above.
+_ON_PANEL = ("header", "button_border", "button_border_hi", "hover", "label", "value", "dim")
+
+
+def _rgb_step(color, base):
+    return tuple(a - b for a, b in zip(_hex_to_rgb(color), _hex_to_rgb(base)))
+
+
+def _stepped(base, step):
+    return _rgb_to_hex(tuple(max(0, min(255, c + d)) for c, d in zip(_hex_to_rgb(base), step)))
+
+
+# A light background can't take the dark steps (they'd make grey text paler
+# still): its greys are blends instead - lines and text toward black,
+# fields toward white.
+_LIGHT_RESOLVE = {
+    "toolbar": ("window", "#000000", 0.05), "header": ("panel", "#000000", 0.04),
+    "field": ("window", "#FFFFFF", 0.7), "field_border": ("window", "#000000", 0.3),
+    "divider": ("window", "#000000", 0.18), "button_border": ("panel", "#000000", 0.28),
+    "button_border_hi": ("panel", "#000000", 0.45), "hover": ("panel", "#000000", 0.06),
+    "label": ("window", "#000000", 0.62), "value": ("window", "#000000", 0.85),
+    "bright": ("window", "#000000", 1.0), "dim": ("window", "#000000", 0.38),
+    "scroll": ("window", "#000000", 0.25), "scroll_hi": ("window", "#000000", 0.4),
+}
+
+
+def resolve_colors(tokens):
+    """Resolve's named greys (RESOLVE's keys) for a token set: the window
+    is the palette's surface, the panels its surface_container and the
+    accent its primary. DaVinci's tokens give RESOLVE itself."""
+    window, panel = tokens["surface"], tokens["surface_container"]
+    out = {"window": window, "panel": panel, "accent": tokens["primary"]}
+    for key, value in RESOLVE.items():
+        if key in out:
+            continue
+        if _is_light(window):
+            base, toward, amount = _LIGHT_RESOLVE[key]
+            out[key] = _blend(out[base], toward, amount)
+        else:
+            base = "panel" if key in _ON_PANEL else "window"
+            out[key] = _stepped(out[base], _rgb_step(value, RESOLVE[base]))
+    # A panel picked far from the window can still leave text faint.
+    for key, target in (("label", 4.5), ("value", 7)):
+        out[key] = ensure_contrast(out[key], panel, target)
+    return out
+
+
+# Default's colour variants: Resolve's greys washed a little toward a
+# colour, and that colour as the accent where DaVinci has its red.
+RESOLVE_VARIANTS = {
+    "Blue": "#3D8BFF", "Teal": "#1FB5AC", "Green": "#4CB860", "Yellow": "#E8B931",
+    "Orange": "#F07F2E", "Purple": "#9D6BFF", "Pink": "#EC5F9E",
+}
+RESOLVE_TINT = 0.06
+
+
+def _resolve_variant(accent):
+    base = _PALETTES["DaVinci"]
+    palette = {key: _blend(value, accent, RESOLVE_TINT) for key, value in base.items()}
+    palette["primary"] = accent
+    palette["on_primary"] = "#FFFFFF" if contrast_ratio("#FFFFFF", accent) >= 3 else "#17181A"
+    palette["on_primary_container"] = "#FFFFFF"
+    return palette
+
 # Keys are what settings.json stores (and what custom palettes are filed
 # under), so they never change; "label" is the name shown in Settings.
 THEMES = {
@@ -570,7 +638,7 @@ THEMES = {
         "status": "resolve",
         "selection": "container",
         "default_subtheme": "DaVinci",
-        "subthemes": ["DaVinci"],
+        "subthemes": ["DaVinci", *RESOLVE_VARIANTS],
     },
     "Default": {
         "label": "Don't be evil",
@@ -810,8 +878,12 @@ def _surface_steps(surface):
     return 0.08, 0.14
 
 
-def derive_panel(surface):
-    """The panel colour Custom uses when the user has not picked one."""
+def derive_panel(surface, theme=None):
+    """The panel colour Custom uses when the user has not picked one.
+    Under Default (Resolve's look) on a dark background it's Resolve's own
+    step from window to panel, so Custom starts out as DaVinci."""
+    if theme in THEMES and THEMES[theme]["shape"] == "resolve" and not _is_light(surface):
+        return _stepped(surface, _rgb_step(RESOLVE["panel"], RESOLVE["window"]))
     return _blend(surface, "#FFFFFF", _surface_steps(surface)[0])
 
 
@@ -865,6 +937,10 @@ def _blend(c1, c2, factor):
     g = int(g1 + (g2 - g1) * factor)
     b = int(b1 + (b2 - b1) * factor)
     return _rgb_to_hex((max(0, min(255, r)), max(0, min(255, g)), max(0, min(255, b))))
+
+
+for _name, _accent in RESOLVE_VARIANTS.items():
+    _PALETTES[_name] = _resolve_variant(_accent)
 
 
 # Status colours live outside the colour-role token set but still have to
@@ -1054,14 +1130,14 @@ def get_theme_tokens(theme="Default", subtheme=None, custom_accent=None,
     # Panels sit above the page. The presets draw these as two separate
     # hand-picked colours (Retro is #F6E0C8 behind #FBEEDC), so Custom gets
     # to pick the second one too rather than only ever deriving it.
-    panel_step, raised_step = _surface_steps(surface)
+    raised_step = _surface_steps(surface)[1]
     if custom_panel:
         panel = custom_panel
         # One more step up from whatever they chose, so a raised surface is
         # still distinguishable from a panel.
         raised = _blend(panel, "#FFFFFF", _surface_steps(panel)[0])
     else:
-        panel = _blend(surface, "#FFFFFF", panel_step)
+        panel = derive_panel(surface, theme)
         raised = _blend(surface, "#FFFFFF", raised_step)
 
     return _with_selection({
@@ -1907,7 +1983,7 @@ def _pane_rules(theme, tokens, shape, card_bg):
     win over every family's rules. Resolve has no pane card: its panes are
     flat, boxed only by its divider line."""
     if THEMES[theme]["shape"] == "resolve":
-        bg, edge, radius, pad = "transparent", RESOLVE["divider"], "0px", 0
+        bg, edge, radius, pad = "transparent", resolve_colors(tokens)["divider"], "0px", 0
     else:
         gradient = shape.get("backdrop") == "gradient"
         radius = shape["r_2xl"]
@@ -2076,7 +2152,7 @@ def _resolve_extra_rules(tokens, shape):
     own (see the palette above); the red accent is kept for the
     few places Resolve itself uses it - the active page, focus of attention -
     and never as a button fill, because Resolve has none."""
-    c = RESOLVE
+    c = resolve_colors(tokens)
     tick = _tick_asset_path(c["bright"])
     dot = _dot_asset_path(c["bright"])
     chevron = _chevron_asset_path(c["label"])

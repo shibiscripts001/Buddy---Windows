@@ -30,6 +30,7 @@ from pages.svg_importer.page import SVGImporterPage
 from pages.text_animator.page import AnimationPage
 from pages.time_tracker.page import TimeTrackerPage
 from pages.transcribe.page import TranscribePage
+from pages.web.page import WebBrowserPage
 
 
 def _placeholder(tool_id, display_name, category):
@@ -58,6 +59,8 @@ REGISTRY = [
     ("Export & Delivery", MarkerManagerPage),
 
     ("Business", TimeTrackerPage),
+
+    ("Web", WebBrowserPage),
 
     ("Command Center", CommandCenterPage),
 

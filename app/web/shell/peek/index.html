@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Peek</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="peek">
+    <header class="peek-head">
+        <button type="button" class="btn icon ghost" id="up" title="Up a folder" aria-label="Up a folder"></button>
+        <nav class="peek-crumbs" id="crumbs" aria-label="Folder" translate="no"></nav>
+        <button type="button" class="btn icon ghost" id="refresh" title="Refresh" aria-label="Refresh"></button>
+        <button type="button" class="btn icon ghost" id="reveal" title="Show in File Explorer"
+                aria-label="Show in File Explorer"></button>
+    </header>
+    <input type="search" class="field peek-filter" id="filter" placeholder="Filter" autocomplete="off"
+           spellcheck="false" aria-label="Filter">
+    <div class="peek-list" id="list" role="listbox" aria-multiselectable="true" aria-label="Folder contents"
+         tabindex="0"></div>
+    <footer class="peek-foot">
+        <span id="count"></span>
+        <span class="spacer"></span>
+        <span class="peek-tip">Drag into Resolve's Media Pool</span>
+    </footer>
+</main>
+<script src="peek.js"></script>
+</body>
+</html>

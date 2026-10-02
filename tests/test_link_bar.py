@@ -2,9 +2,11 @@
 the names links get, what survives the settings file, moving them, and
 where the bar goes. No Qt."""
 
+import re
 import unittest
+from pathlib import Path
 
-import _paths  # noqa: F401
+import _paths
 from core import link_bar as lb
 from core import settings_form as sf
 
@@ -71,6 +73,65 @@ class StoredTests(unittest.TestCase):
     def test_the_view_gets_each_links_kind(self):
         items = lb.view_items([{"name": "a", "url": "https://a.com"}, {"name": "b", "url": "D:\\b"}])
         self.assertEqual([i["kind"] for i in items], ["web", "path"])
+
+
+class IconTests(unittest.TestCase):
+    def test_a_link_without_one_gets_a_guess(self):
+        for address, icon in (("https://www.youtube.com/watch?v=1", "play"), ("https://drive.google.com/x", "cloud"),
+                              ("https://mail.example.com", "mail"), ("https://en.wikipedia.org/wiki/X", "book"),
+                              ("https://foo.github.com", "code"), ("https://example.com", "globe"),
+                              ("http://192.168.1.20:8080", "globe"), (r"D:\Footage", "folder"),
+                              (r"D:\Footage\A001.MOV", "film"), (r"D:\Edit\cut.drp", "file"),
+                              (r"D:\Music\bed.wav", "music")):
+            self.assertEqual(lb.auto_icon(address), icon, address)
+
+    def test_a_chosen_icon_is_kept_and_a_strange_one_dropped(self):
+        self.assertEqual(lb.make_link("", "a.com", "star")[0], {"name": "a.com", "url": "https://a.com", "icon": "star"})
+        self.assertNotIn("icon", lb.make_link("", "a.com", "<svg>")[0])
+        self.assertNotIn("icon", lb.make_link("", "a.com")[0])
+        raw = [{"name": "a", "url": "a.com", "icon": "heart"}, {"name": "b", "url": "b.com", "icon": 3}]
+        self.assertEqual(lb.load_links(raw), [{"name": "a", "url": "https://a.com", "icon": "heart"},
+                                              {"name": "b", "url": "https://b.com"}])
+
+    def test_the_view_gets_each_links_icon(self):
+        items = lb.view_items([{"name": "a", "url": "https://youtube.com", "icon": "star"},
+                               {"name": "b", "url": "https://youtube.com"}, {"name": "c", "url": r"D:\c"}])
+        self.assertEqual([i["icon"] for i in items], ["star", "play", "folder"])
+
+    def test_buddy_js_draws_every_icon(self):
+        script = (_paths.APP / "web" / "buddy.js").read_text(encoding="utf-8")
+        start = script.index("const ICONS = {")
+        drawn = set(re.findall(r"^\s+([a-z]+): '", script[start:script.index("};", start)], re.M))
+        self.assertEqual(set(lb.ICONS) - drawn, set())
+        self.assertEqual(len(set(lb.ICONS)), len(lb.ICONS))
+        self.assertTrue(set(lb._SITE_ICONS.values()) | set(lb._SUBDOMAIN_ICONS.values()) | set(lb._FILE_ICONS)
+                        <= set(lb.ICONS))
+
+
+class StyleTests(unittest.TestCase):
+    def test_the_bars_look_defaults_and_drops_strange_values(self):
+        self.assertEqual(lb.style({}), {"shade": "auto", "tint": "off", "icons": "theme"})
+        self.assertEqual(lb.style({"link_bar_shade": "darker", "link_bar_tint": "loud", "link_bar_icons": "accent"}),
+                         {"shade": "darker", "tint": "off", "icons": "accent"})
+
+    def test_settings_store_only_real_choices(self):
+        shared = {}
+        self.assertEqual(sf.apply_shell(shared, "link_bar_tint", "strong"), "linkbar_style")
+        self.assertIsNone(sf.apply_shell(shared, "link_bar_shade", "purple"))
+        self.assertEqual(shared, {"link_bar_tint": "strong"})
+        keys = [f["key"] for f in sf.shell_fields({}, True) if f.get("key", "").startswith("link_bar_")]
+        self.assertEqual(keys, ["link_bar_open", "link_bar_shade", "link_bar_tint", "link_bar_icons"])
+
+
+class OpensInTests(unittest.TestCase):
+    def test_where_web_links_open(self):
+        self.assertEqual(lb.opens_in({}), "browser")
+        self.assertEqual(lb.opens_in({lb.OPEN_KEY: "buddy"}), "buddy")
+        self.assertEqual(lb.opens_in({lb.OPEN_KEY: "elsewhere"}), "browser")
+        shared = {}
+        self.assertEqual(sf.apply_shell(shared, lb.OPEN_KEY, "buddy"), "links")
+        self.assertIsNone(sf.apply_shell(shared, lb.OPEN_KEY, "nowhere"))
+        self.assertEqual(shared, {lb.OPEN_KEY: "buddy"})
 
 
 class MoveTests(unittest.TestCase):

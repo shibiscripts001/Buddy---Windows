@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Preview</title>
+    <link rel="stylesheet" href="../../buddy.css">
+    <link rel="stylesheet" href="../shell.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../buddy.js"></script>
+</head>
+<body class="window">
+<main class="preview">
+    <header class="preview-head">
+        <div class="preview-names">
+            <div class="preview-title" id="title" translate="no"></div>
+            <div class="preview-url" id="url" translate="no"></div>
+        </div>
+        <button type="button" class="btn icon ghost" id="refresh" title="Take a new picture"
+                aria-label="Take a new picture"></button>
+        <button type="button" class="btn" id="browser">Open in browser</button>
+    </header>
+    <div class="preview-frame" id="frame">
+        <img class="preview-shot" id="shot" alt="" hidden>
+        <div class="preview-note" id="note" role="status"></div>
+    </div>
+    <p class="preview-tip">A picture of the page - nothing on it can be clicked.</p>
+</main>
+<script src="preview.js"></script>
+</body>
+</html>

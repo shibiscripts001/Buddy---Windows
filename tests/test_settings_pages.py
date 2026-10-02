@@ -13,6 +13,7 @@ from unittest import mock
 
 import _paths  # noqa: F401
 from core import settings_form as sf
+from core.web_theme import link_bar_vars
 
 try:
     from PySide6.QtCore import QEventLoop, QTimer
@@ -127,6 +128,31 @@ class _Shell(unittest.TestCase):
 
 
 @unittest.skipUnless(HAVE_QT, "PySide6 not installed")
+class LinkBarThemeTests(_Shell):
+    def test_the_link_bar_takes_each_new_theme(self):
+        """It kept the last theme's look (Desktop's, after going back to
+        Default): the shell repainted every bar but it."""
+        self.win.set_link_bar_visible(True)
+        self.win.link_bar.on_theme_changed = mock.Mock()
+        self.settings.update(theme="Desktop", subtheme="Cocoa")
+        self.win.apply_theme()
+        self.settings.update(theme="Resolve", subtheme="DaVinci")
+        self.win.apply_theme()
+        self.assertEqual(self.win.link_bar.on_theme_changed.call_count, 2)
+
+    def test_its_own_settings_repaint_it_at_once(self):
+        self.win.set_link_bar_visible(True)
+        self.win.link_bar.on_theme_changed = mock.Mock()
+        d = self.dialog()
+        d.on_set({"key": "link_bar_shade", "value": "darker", "section": "shell"})
+        self.assertEqual(self.settings["link_bar_shade"], "darker")
+        self.win.link_bar.on_theme_changed.assert_called_once()
+        self.assertEqual(self.win.link_bar.theme_vars(self.win.theme_tokens())["linkbar-bg"],
+                         link_bar_vars("Resolve", None, self.win.theme_tokens(),
+                                       {"shade": "darker", "tint": "off", "icons": "theme"})["linkbar-bg"])
+
+
+@unittest.skipUnless(HAVE_QT, "PySide6 not installed")
 class DialogTests(_Shell):
     def test_every_tools_pages_in_the_rails_order(self):
         pages = self.dialog().pages()
@@ -154,6 +180,42 @@ class DialogTests(_Shell):
         self.assertEqual(d.emit.call_args[0][1]["open"], "general")
         d.push()
         self.assertNotIn("open", d.emit.call_args[0][1])          # only the first time
+
+    def test_a_tools_right_click_opens_its_own_page(self):
+        smart = SettingsDialog(self.win, self.settings, lambda: None, None, open_tool="smart")
+        self.addCleanup(smart.deleteLater)
+        self.assertEqual(smart._first_page(smart.pages()), "smart")             # its Tools page, not an AI one
+        plain = SettingsDialog(self.win, self.settings, lambda: None, None, open_tool="plain")
+        self.addCleanup(plain.deleteLater)
+        self.assertEqual(plain._first_page(plain.pages()), "plain")
+        self.assertEqual(settings_dialog.tool_pages([{"id": "x", "owner": "a", "group": "ai"}], "a")[0]["id"], "x")
+        self.assertTrue(self.win.has_settings("smart"))
+        self.assertFalse(self.win.has_settings("broken"))                       # its pages raise
+        self.assertFalse(self.win.has_settings("nope"))
+        with mock.patch.object(shell_window, "SettingsDialog") as dialog:
+            self.win.open_settings("smart")
+            self.win.open_settings("broken")
+        self.assertEqual([c.kwargs["open_tool"] for c in dialog.call_args_list], ["smart", None])
+
+    def test_the_sidebar_and_taskbar_menus_offer_it(self):
+        made = []
+
+        class Menu(shell_window.QMenu):
+            def exec(self, *_a):
+                made.append({a.text(): a.isEnabled() for a in self.actions() if a.text()})
+
+        with mock.patch.object(shell_window, "QMenu", Menu):
+            self.win.rail.on_menu({"id": "smart"})
+            self.win.rail.on_menu({"id": "broken"})
+        self.assertEqual([m["Settings…"] for m in made], [True, False])
+        self.win.desk_menu = mock.Mock()
+        with mock.patch.object(self.win.desktop, "window_state", return_value=None):
+            self.win.open_task_menu("smart", None)
+        items = self.win.desk_menu.popup.call_args[0][1]["items"]
+        self.assertIn("settings", [i["action"] for i in items])
+        with mock.patch.object(self.win, "open_settings") as opened:
+            self.win.task_action("settings", "smart")
+        opened.assert_called_once_with("smart")
 
     def test_changes_go_to_the_page_they_came_from(self):
         d = self.dialog(self.win.pages["plain"])
@@ -353,3 +415,44 @@ class AskBuddyRowTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StartToolTests(unittest.TestCase):
+    def test_which_tool_buddy_opens_on(self):
+        visible = ["ask", "web", "text_animator"]
+        self.assertEqual(sf.start_tool({}, visible), "ask")                                  # the first, as ever
+        self.assertEqual(sf.start_tool({sf.START_TOOL_KEY: "web"}, visible), "web")
+        self.assertEqual(sf.start_tool({sf.START_TOOL_KEY: "gone"}, visible), "ask")          # hidden or removed
+        last = {sf.START_TOOL_KEY: sf.START_LAST, sf.LAST_TOOL_KEY: "text_animator"}
+        self.assertEqual(sf.start_tool(last, visible), "text_animator")
+        self.assertEqual(sf.start_tool({sf.START_TOOL_KEY: sf.START_LAST}, visible), "ask")    # none used yet
+        self.assertIsNone(sf.start_tool({}, []))
+
+    def test_the_setting(self):
+        shared = Mem()
+        general = next(p for p in sf.shell_pages(shared, True, tools=[("web", "Web")]) if p["id"] == "general")
+        field = next(f for f in general["fields"] if f.get("key") == sf.START_TOOL_KEY)
+        self.assertEqual([o["value"] for o in field["options"]], ["", "last", "web"])
+        self.assertEqual(sf.apply_shell(shared, sf.START_TOOL_KEY, "web"), "startup")
+        self.assertEqual(shared[sf.START_TOOL_KEY], "web")
+        self.assertIsNone(sf.apply_shell(shared, sf.START_TOOL_KEY, "../evil"))
+        self.assertEqual(shared[sf.START_TOOL_KEY], "web")
+
+    def test_switching_tools_remembers_the_last(self):
+        from types import SimpleNamespace
+        from core.shell_window import ShellWindow
+        shell = SimpleNamespace(shared_settings=Mem())
+        ShellWindow._remember_tool(shell, "web")
+        self.assertEqual(shell.shared_settings[sf.LAST_TOOL_KEY], "web")
+        ShellWindow._remember_tool(SimpleNamespace(), "web")                # a shell without settings: nothing
+
+
+class ShortcutSettingTests(unittest.TestCase):
+    def test_the_switches_show_whats_there(self):
+        general = next(p for p in sf.shell_pages(Mem(), True, shortcuts={"start_menu": True, "desktop": False})
+                       if p["id"] == "general")
+        values = {f["key"]: f["value"] for f in general["fields"] if f.get("key", "").startswith("shortcut_")}
+        self.assertEqual(values, {"shortcut_start_menu": True, "shortcut_desktop": False})
+        self.assertFalse(any(f.get("key", "").startswith("shortcut_")
+                             for f in sf.shell_fields(Mem(), True, shortcuts=None)))   # where they can't be made
+        self.assertEqual(sf.apply_shell(Mem(), "shortcut_desktop", True), "shortcut")

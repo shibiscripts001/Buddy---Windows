@@ -47,6 +47,17 @@ class ToolPage(QWidget):
         page, for pages that want to refresh data lazily rather than
         polling in the background."""
 
+    def rail_badge(self):
+        """Optional hook: a small mark beside this tool's name in the
+        sidebar and on its taskbar button - "sound" (the Web tab playing
+        something, with a pause button) or "paused" (a play button) - or
+        None. Call host.refresh_badges() when it changes."""
+        return None
+
+    def rail_media(self):
+        """Optional hook: the pause / play button beside a "sound" or
+        "paused" mark was clicked."""
+
     def on_connection_changed(self, connected):
         """Optional hook: Buddy connected to Resolve, or lost it
         (host.connected is already the new value)."""

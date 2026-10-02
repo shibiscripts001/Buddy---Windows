@@ -26,8 +26,12 @@ html[data-family="desktop"] :is(.dropzone, .drop-hint) {
 
 /* The taskbar (the desktop layout's header and rail in one): halftone,
 and the Programs button in the first window colour. */
-html[data-family="desktop"] :is(.taskbar, .linkbar) {
+html[data-family="desktop"] .taskbar {
     background: radial-gradient(var(--halftone) 1.2px, transparent 1.6px) 0 0 / 9px 9px, var(--header-bg);
+}
+/* The link bar a step off it (core/web_theme.py _link_bar), so the two read apart. */
+html[data-family="desktop"] .linkbar {
+    background: radial-gradient(var(--halftone) 1.2px, transparent 1.6px) 0 0 / 9px 9px, var(--linkbar-bg);
 }
 html[data-family="desktop"] .task-start { background: var(--chrome-title-bg); color: var(--accent-fg); }
 html[data-family="desktop"] .task[aria-pressed="true"] { box-shadow: var(--btn-shadow); }

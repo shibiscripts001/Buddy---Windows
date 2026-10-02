@@ -21,13 +21,25 @@ survived all of that.
 Drawing in software (--disable-gpu) never crashed, but managed 7 frames a
 second on a busy page where the GPU does 60.
 
+11 on 12 on AMD's integrated graphics (the low-power adapter above) draws
+some rounded corners wrong: a box's bottom-left curve and border go
+missing and a long thin sliver runs from the corner across the box - on
+Buddy's own cards and fields (Nova shows it most) and on sites' pages
+alike, and redrawn with every frame of whatever animates over it. It's
+Chromium painting the page on the GPU (GPU rasterization): with the
+painting on the CPU and only the compositing on the GPU
+(--disable-gpu-rasterization), every corner came out right, still at 60
+frames a second on the Animation tab. Plain Direct3D 11 and the NVIDIA
+card drew them right too, but crash (above). So that goes with 11 on 12.
+
 BUDDY_WEB_SOFTWARE=1 draws in software again (a machine where the GPU
 still crashes); BUDDY_WEB_GPU=1 adds nothing, leaving Chromium's own
 default (for comparing). Whatever QTWEBENGINE_CHROMIUM_FLAGS already holds
-is kept, and a --use-angle there wins over Buddy's.
+is kept, and a --use-angle there wins over Buddy's - as does
+--enable-gpu-rasterization over its painting on the CPU.
 """
 
-GPU = ("--use-angle=d3d11on12",)
+GPU = ("--use-angle=d3d11on12", "--disable-gpu-rasterization")
 SOFTWARE = ("--disable-gpu", "--disable-gpu-compositing")
 
 
@@ -37,7 +49,7 @@ def chromium_flags(env):
     if env.get("BUDDY_WEB_SOFTWARE") == "1":
         flags += [f for f in SOFTWARE if f not in flags]
     elif env.get("BUDDY_WEB_GPU") != "1" and not any(f.startswith("--use-angle") for f in flags):
-        flags += GPU
+        flags += [f for f in GPU if not (f == "--disable-gpu-rasterization" and "--enable-gpu-rasterization" in flags)]
     return " ".join(flags)
 
 

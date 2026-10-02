@@ -28,13 +28,26 @@ setInterval(tick, 15000);
 
 new ResizeObserver(() => send("size", {height: $("bar").getBoundingClientRect().height})).observe($("bar"));
 
+// The Web tab playing sound (with a pause button), or paused (a play
+// button) - as beside its name in the sidebar (rail.js), button first.
+function taskBadge(item) {
+    if (item.badge !== "sound" && item.badge !== "paused") return [];
+    const paused = item.badge === "paused";
+    const label = paused ? "Play" : "Pause";
+    const media = el("span.task-media", {role: "button", title: label, "aria-label": label,
+                                         onclick: e => { e.stopPropagation(); send("media", {id: item.id}); }},
+                     [icon(paused ? "play" : "pause")]);
+    return paused ? [media] : [media, el("span.task-badge", {title: "Playing sound"}, [icon("volume")])];
+}
+
 Buddy.on("taskbar", t => {
     $("tasks").replaceChildren(...t.items.map(item => {
         const button = el("button.task", {
             type: "button", title: item.label, "data-state": item.state,
             "aria-pressed": String(item.active), "data-pinned": item.pinned ? "true" : undefined,
             onclick: () => send("task", {id: item.id}),
-        }, [el("i.task-swatch", {style: `background:${item.color}`}), el("span.task-label", {text: item.label})]);
+        }, [el("i.task-swatch", {style: `background:${item.color}`}), el("span.task-label", {text: item.label}),
+            ...taskBadge(item)]);
         button.oncontextmenu = e => { e.preventDefault(); send("task_menu", {id: item.id, left: left(button)}); };
         return button;
     }));

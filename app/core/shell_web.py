@@ -134,3 +134,9 @@ class RailView(_ChromeView):
         tool_id = (payload or {}).get("id")
         if tool_id in self.shell.pages:
             self.shell.switch_tool(tool_id)
+
+    def on_menu(self, payload):
+        self.shell.open_tool_menu((payload or {}).get("id"))
+
+    def on_media(self, payload):
+        self.shell.badge_media((payload or {}).get("id"))

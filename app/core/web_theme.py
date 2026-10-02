@@ -15,7 +15,6 @@ No Qt imports - tests/test_web_theme.py runs on plain Python.
 """
 
 from core.theme import (
-    RESOLVE,
     THEMES,
     _blend,
     _is_light,
@@ -26,6 +25,7 @@ from core.theme import (
     get_shape_tokens,
     hue_distance,
     resolve,
+    resolve_colors,
 )
 
 # Hue gap below which a palette's secondary is too close to its primary to
@@ -269,8 +269,10 @@ def _nova(tokens, shape):
 def _resolve(tokens, shape):
     """Resolve: _resolve_extra_rules' Resolve greys - outlined grey pills,
     near-black square fields, and no filled accent button, since Resolve
-    has none. The red only marks focus of attention."""
-    c = RESOLVE
+    has none. The accent (DaVinci's red) only marks focus of attention.
+    The greys follow the palette, so a colour variant or a Custom
+    background re-tints them all."""
+    c = resolve_colors(tokens)
     pill = shape["r_xl"]
     return {
         # Resolve's window grey, painted by the page itself rather than seen
@@ -290,7 +292,7 @@ def _resolve(tokens, shape):
         "accent-bg": c["panel"], "accent-fg": c["bright"], "accent-border": c["button_border_hi"],
         "accent-hover-bg": c["hover"], "accent-hover-fg": c["bright"], "accent-weight": "600",
         "accent-glow": "none",
-        "danger-bg": c["panel"], "danger-fg": c["accent"], "danger-border": c["accent"],
+        "danger-bg": c["panel"], "danger-fg": tokens["danger"], "danger-border": tokens["danger"],
         "danger-hover-bg": c["hover"],
         "field-bg": c["field"], "field-fg": c["value"], "field-border": c["field_border"],
         "field-radius": "2px", "field-pad": "3px 6px",
@@ -478,6 +480,7 @@ def web_theme(theme, subtheme, tokens):
     build = _BY_FAMILY.get(family, _material)
     variables = {**_common(tokens, shape), **build(tokens, shape)}
     variables.update(_disabled_button(variables, tokens))
+    variables.update(_link_bar(variables, tokens))
     return {"family": family, "light": _is_light(tokens["surface"]), "vars": variables}
 
 
@@ -515,3 +518,59 @@ def _disabled_button(variables, tokens):
         "btn-disabled-fg": fg,
         "btn-disabled-border": border,
     }
+
+
+# How far the link bar steps off the header it would otherwise match, by its
+# Shade setting (core/link_bar.py SHADES) - "auto" is lighter on a dark theme
+# and darker on a light one. Light themes need smaller steps toward black
+# and bigger ones toward white, where there's little room left.
+LINK_BAR_STEPS = {
+    "lighter": {"dark": 0.14, "light": 0.6},
+    "darker": {"dark": 0.4, "light": 0.07},
+}
+# How much of the accent its Accent tint setting mixes into the bar.
+LINK_BAR_TINTS = {"off": 0.0, "subtle": 0.08, "strong": 0.18}
+
+
+def _solid(value, fallback):
+    return value if value.startswith("#") and len(value) == 7 else fallback
+
+
+def _link_bar(variables, tokens, shade="auto", tint="off", icons="theme"):
+    """The link bar (app/web/shell/shell.css): by default a strip a clear
+    step off the header, page and cards around it, so it reads as a bar of
+    its own - with its links at full strength and an edge to match. The
+    bar's own settings (core/link_bar.py style) pick the step's direction
+    (or none), a wash of the accent, and what colour its icons are; the
+    text is kept readable whatever they choose."""
+    header = _solid(variables["header-bg"], tokens["surface_container"])
+    light = _is_light(tokens["surface"])
+    if shade not in ("lighter", "darker", "match"):
+        shade = "darker" if light else "lighter"
+    bg = header
+    if shade != "match":
+        toward = "#FFFFFF" if shade == "lighter" else "#000000"
+        bg = _blend(header, toward, LINK_BAR_STEPS[shade]["light" if light else "dark"])
+    bg = _blend(bg, tokens["primary"], LINK_BAR_TINTS.get(tint, 0.0))
+    ink = "#000000" if _is_light(bg) else "#FFFFFF"
+    fg = ensure_contrast(_solid(variables["text-strong"], tokens["on_surface"]), bg, 7)
+    if icons == "accent":
+        icon = ensure_contrast(tokens["primary"], bg, 3)
+    elif icons == "text":
+        icon = fg
+    else:
+        emphasis = _solid(variables["emphasis"], variables["accent-text"])
+        icon = ensure_contrast(_solid(emphasis, tokens["primary"]), bg, 3)
+    return {
+        "linkbar-bg": bg,
+        "linkbar-fg": fg,
+        "linkbar-border": _blend(bg, ink, 0.22),
+        "linkbar-icon": icon,
+    }
+
+
+def link_bar_vars(theme, subtheme, tokens, style):
+    """The link bar's variables for its own settings (`style`: core/link_bar.py
+    style()), laid over the theme's - core/link_bar_web.py sends them."""
+    variables = web_theme(theme, subtheme, tokens)["vars"]
+    return _link_bar(variables, tokens, style["shade"], style["tint"], style["icons"])

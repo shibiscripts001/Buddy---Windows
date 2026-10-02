@@ -46,11 +46,21 @@ body.window { background: var(--surface); }
 }
 .nav-item {
     font: inherit; text-align: left; cursor: pointer; white-space: nowrap; flex: none;
+    display: flex; align-items: center;       /* a name and its marks centred on one line */
     color: var(--nav-fg); background: transparent; border: var(--bw) solid transparent;
     border-radius: var(--nav-radius); padding: var(--nav-pad);
     font-size: var(--nav-size); font-weight: var(--nav-weight);
 }
 .nav-item:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+/* A tool's mark beside its name: the Web tab playing sound. */
+.nav-badge, .task-badge { flex: none; display: inline-flex; margin-left: 4px; color: var(--emphasis); }
+.nav-badge .icon-svg, .task-badge .icon-svg { width: 14px; height: 14px; }
+.nav-media, .task-media {
+    flex: none; display: inline-grid; place-items: center; margin-left: 6px; width: 20px; height: 20px;
+    border-radius: var(--r-xs); color: var(--text); cursor: pointer;
+}
+.nav-media:hover, .task-media:hover, .nav-media:focus-visible { background: var(--raised-bg); color: var(--text-strong); }
+.nav-media .icon-svg, .task-media .icon-svg { width: 12px; height: 12px; }
 .nav-item[aria-current="page"] {
     background: var(--nav-active-bg); color: var(--nav-active-fg); font-weight: var(--nav-active-weight);
     border-color: var(--nav-active-border);
@@ -118,7 +128,7 @@ body.window { background: var(--surface); }
 
 .linkbar {
     display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 4px 6px 4px 8px;
-    background: var(--header-bg); border: var(--bw) solid var(--shell-border); border-radius: var(--header-radius);
+    background: var(--linkbar-bg); border: var(--bw) solid var(--linkbar-border); border-radius: var(--header-radius);
 }
 .linkbar[data-place="top"] { border-width: 0 0 var(--bw); border-radius: 0; min-height: 40px; }
 .linkbar.drop-over { box-shadow: inset 0 0 0 2px var(--accent-text); }
@@ -130,12 +140,12 @@ body.window { background: var(--surface); }
 .link {
     font: inherit; font-size: var(--fs-sm); position: relative; flex: 0 0 auto; max-width: 220px;
     display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; cursor: pointer;
-    color: var(--nav-fg); background: transparent; border: var(--bw) solid transparent; border-radius: var(--btn-radius);
+    color: var(--linkbar-fg); background: transparent; border: var(--bw) solid transparent; border-radius: var(--btn-radius);
     touch-action: none; user-select: none;
 }
-.link:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.link:hover { background: color-mix(in srgb, var(--linkbar-fg) 14%, transparent); }
 .link:focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
-.link .icon-svg { width: 16px; height: 16px; flex: none; color: var(--emphasis); }
+.link .icon-svg { width: 16px; height: 16px; flex: none; color: var(--linkbar-icon); }
 .link-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .link.dragging {
     z-index: 1; cursor: grabbing; background: var(--raised-bg); border-color: var(--card-border);
@@ -148,7 +158,10 @@ body.window { background: var(--surface); }
 }
 .link.drop-before::before { left: -4px; }
 .link.drop-after::after { right: -4px; }
-.link-empty { padding: 0 6px; font-size: var(--fs-sm); color: var(--text-dim); white-space: nowrap; }
+.link-empty {
+    padding: 0 6px; font-size: var(--fs-sm); white-space: nowrap;
+    color: color-mix(in srgb, var(--linkbar-fg) 70%, var(--linkbar-bg));
+}
 .link-add { flex: none; gap: 6px; padding: 4px 10px; min-height: 0; font-size: var(--fs-sm); }
 .link-add .icon-svg { width: 16px; height: 16px; }
 /* Once there are links, the + says enough on its own. */
@@ -157,6 +170,73 @@ body.window { background: var(--surface); }
 
 /* The window that adds or edits one. */
 .link-address .field { flex: 1; min-width: 0; }
+/* Auto down the left, the icons in two rows of twelve beside it. */
+.link-icons { display: grid; grid-template-columns: auto repeat(12, 28px); gap: 4px; justify-content: start; }
+.link-icon { width: 28px; height: 28px; min-height: 0; padding: 0; justify-content: center; }
+.link-icon-auto { grid-row: span 2; width: auto; height: auto; padding: 0 10px; }
+.link-icon[aria-checked="true"] {
+    background: var(--selection-bg); color: var(--selection-fg); border-color: var(--selection-bg);
+}
+
+/* Peek (core/link_peek_web.py): a folder link's contents in a window of its own. */
+.peek { height: 100vh; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 8px; }
+.peek-head { display: flex; align-items: center; gap: 4px; }
+.peek-crumbs {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: 2px; overflow: hidden;
+    font-size: var(--fs-sm); white-space: nowrap;
+}
+.peek-crumb {
+    font: inherit; padding: 2px 4px; border: 0; border-radius: var(--r-xs); background: transparent;
+    color: var(--text); cursor: pointer; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; min-width: 2ch;
+}
+.peek-crumb:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.peek-crumb.here { cursor: default; color: var(--text-strong); font-weight: 600; flex-shrink: 0; max-width: 70%; }
+.peek-crumb.here:hover { background: transparent; color: var(--text-strong); }
+.peek-sep { color: var(--text-dim); flex: none; }
+.peek-filter { width: 100%; }
+.peek-list {
+    flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 1px;
+    background: var(--card-bg); border: var(--bw) solid var(--card-border); border-radius: var(--r-md); padding: 4px;
+    outline: none; user-select: none;
+}
+.peek-item {
+    display: flex; align-items: center; gap: 8px; padding: 4px 8px; min-height: 30px; border-radius: var(--r-sm);
+    cursor: default; font-size: var(--fs-sm); color: var(--text);
+}
+.peek-item:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.peek-item[aria-selected="true"] { background: var(--selection-bg); color: var(--selection-fg); }
+.peek-item .icon-svg { width: 18px; height: 18px; flex: none; color: var(--emphasis); }
+.peek-item[aria-selected="true"] .icon-svg { color: inherit; }
+.peek-thumb { width: 22px; height: 22px; flex: none; object-fit: cover; border-radius: var(--r-xs); margin: 0 -2px; }
+.peek-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.peek-size { flex: none; font-size: var(--fs-xs); color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.peek-item[aria-selected="true"] .peek-size { color: inherit; opacity: .8; }
+.peek-empty { padding: 16px 8px; text-align: center; font-size: var(--fs-sm); color: var(--text-dim); }
+.peek-foot { display: flex; align-items: center; gap: 8px; font-size: var(--fs-xs); color: var(--text-dim); }
+
+/* A web link's preview: a picture of the page. */
+.preview { height: 100vh; display: flex; flex-direction: column; gap: 10px; padding: 12px 14px 10px; }
+.preview-head { display: flex; align-items: center; gap: 8px; }
+.preview-names { flex: 1; min-width: 0; }
+.preview-title {
+    font-size: var(--fs-md); font-weight: 600; color: var(--text-strong);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.preview-url {
+    font-size: var(--fs-xs); color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.preview-frame {
+    flex: 1; min-height: 0; position: relative; overflow: hidden; display: flex; align-items: flex-start;
+    justify-content: center; background: var(--field-bg); border: var(--bw) solid var(--card-border);
+    border-radius: var(--r-md);
+}
+.preview-shot { width: 100%; height: 100%; object-fit: contain; object-position: top; user-select: none; }
+.preview-note {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px;
+    text-align: center; font-size: var(--fs-sm); color: var(--text-dim);
+}
+.preview-note:empty { display: none; }
+.preview-tip { margin: 0; font-size: var(--fs-xs); color: var(--text-dim); }
 
 /* The taskbar's popup (Programs, or a button's actions) - a window of its
    own, exactly the card's size plus room for its shadow. */

@@ -1,0 +1,96 @@
+/* The Web tab's bar (browser.js): a row of tabs over a row of navigation,
+   on the header's colours so it reads as Buddy's, not the site's. */
+
+html, body { margin: 0; background: transparent; overflow: hidden; }
+
+.wb {
+    display: flex; flex-direction: column; gap: 4px; padding: 6px 8px 6px;
+    background: var(--header-bg); border-bottom: var(--bw) solid var(--shell-border);
+    user-select: none;
+}
+
+/* ------------------------------------------------------------- tabs -- */
+.wb-tabs-row { display: flex; align-items: center; gap: 4px; min-width: 0; }
+/* The tabs take only the room they need, so the + sits just after the last
+   one; past the bar's width they scroll and the + stays at the end. */
+.wb-tabs { flex: 0 1 auto; min-width: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.wb-tabs::-webkit-scrollbar { display: none; }
+.wb-tab {
+    position: relative; flex: 0 1 200px; min-width: 96px; height: 30px; display: flex; align-items: center; gap: 6px;
+    padding: 0 6px 0 10px; border-radius: var(--r-md); cursor: default; font-size: var(--fs-sm);
+    color: var(--nav-fg); border: var(--bw) solid transparent;
+}
+.wb-tab:hover { background: var(--nav-hover-bg); color: var(--nav-hover-fg); }
+.wb-tab[aria-selected="true"] {
+    background: var(--card-bg); color: var(--text-strong); border-color: var(--card-border);
+}
+.wb-tab.dragging {
+    z-index: 1; cursor: grabbing; background: var(--card-bg); border-color: var(--accent-text);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+}
+.wb-tab[data-asleep="true"] .wb-title, .wb-tab[data-asleep="true"] .wb-icon { opacity: .55; }
+.wb-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wb-icon { width: 16px; height: 16px; flex: none; border-radius: 3px; }
+.wb-tab > .icon-svg { width: 16px; height: 16px; flex: none; color: var(--text-dim); }
+.wb-spin {
+    width: 12px; height: 12px; margin: 0 2px; flex: none; border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--accent-text) 25%, transparent); border-top-color: var(--accent-text);
+    animation: wb-spin .8s linear infinite;
+}
+@keyframes wb-spin { to { transform: rotate(360deg); } }
+.wb-mark {
+    flex: none; display: grid; place-items: center; width: 18px; height: 18px; padding: 0; border: 0;
+    border-radius: var(--r-xs); background: transparent; color: var(--text-dim);
+}
+.wb-mark .icon-svg { width: 13px; height: 13px; }
+.wb-sound { color: var(--accent-text); cursor: pointer; }
+.wb-sound:hover { background: var(--nav-hover-bg); }
+.wb-sound.ducked { opacity: .5; }                 /* lowered under Resolve's sound */
+.wb-media { cursor: pointer; color: var(--text); }
+.wb-media:hover { background: var(--nav-hover-bg); color: var(--text-strong); }
+.wb-media .icon-svg { width: 12px; height: 12px; }
+
+/* Private tabs: their own mark, and a dashed edge in the accent. */
+.wb-tab[data-private="true"] { border-style: dashed; border-color: color-mix(in srgb, var(--accent-text) 55%, transparent); }
+.wb-tab[data-private="true"] > .icon-svg, .wb-private { color: var(--accent-text); }
+.wb.private .wb-address .field { border-color: color-mix(in srgb, var(--accent-text) 60%, transparent); }
+.wb-close {
+    flex: none; display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0;
+    border-radius: var(--r-xs); background: transparent; color: var(--text-dim); cursor: pointer;
+}
+.wb-close .icon-svg { width: 12px; height: 12px; }
+.wb-close:hover { background: var(--nav-hover-bg); color: var(--text-strong); }
+.wb-new { flex: none; }
+
+/* -------------------------------------------------------- navigation -- */
+.wb-nav { display: flex; align-items: center; gap: 4px; }
+.wb-address { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; margin: 0 4px; }
+.wb-address .field { flex: 1; min-width: 0; padding-right: 54px; }
+.wb-zoom {
+    position: absolute; right: 8px; font-size: var(--fs-xs); color: var(--text-dim); cursor: pointer;
+    padding: 1px 5px; border-radius: var(--r-xs); background: var(--raised-bg);
+}
+.wb-progress {
+    position: absolute; left: 2px; bottom: 1px; height: 2px; width: 0; border-radius: 1px;
+    background: var(--accent-text); opacity: 0; transition: width .2s ease, opacity .3s ease;
+}
+.wb-progress.on { opacity: 1; }
+.wb-memory {
+    flex: none; font-size: var(--fs-xs); color: var(--text-dim); padding: 0 6px; font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.wb-toast {
+    flex: 0 1 auto; min-width: 0; max-width: 280px; display: flex; align-items: center; gap: 6px; padding: 3px 10px;
+    border-radius: var(--r-full); font-size: var(--fs-xs); color: var(--text-strong); cursor: grab;
+    background: var(--emphasis-container); border: var(--bw) solid var(--card-border); white-space: nowrap;
+}
+.wb-toast[hidden] { display: none; }
+.wb-toast span { overflow: hidden; text-overflow: ellipsis; }
+.wb-toast .icon-svg { width: 13px; height: 13px; flex: none; color: var(--success); }
+.wb-downloads { position: relative; }
+.wb-badge {
+    position: absolute; right: 1px; top: 1px; min-width: 14px; height: 14px; padding: 0 3px; border-radius: 7px;
+    font-size: var(--fs-xs); line-height: 14px; font-weight: 700; text-align: center;
+    background: var(--primary); color: var(--on-primary);
+}
+.wb-badge[hidden] { display: none; }

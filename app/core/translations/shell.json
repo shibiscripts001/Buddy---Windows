@@ -2589,5 +2589,625 @@
   "中文": "链接",
   "العربية": "رابط",
   "Tiếng Việt": "Liên kết"
+ },
+ "Icon": {
+  "日本語": "アイコン",
+  "Español": "Icono",
+  "Deutsch": "Symbol",
+  "Français": "Icône",
+  "한국어": "아이콘",
+  "中文": "图标",
+  "العربية": "أيقونة",
+  "Tiếng Việt": "Biểu tượng"
+ },
+ "Chosen from the address": {
+  "日本語": "アドレスから選択",
+  "Español": "Elegido según la dirección",
+  "Deutsch": "Anhand der Adresse gewählt",
+  "Français": "Choisie d'après l'adresse",
+  "한국어": "주소에 따라 선택",
+  "中文": "根据地址选择",
+  "العربية": "يُختار حسب العنوان",
+  "Tiếng Việt": "Chọn theo địa chỉ"
+ },
+ "Globe": {
+  "日本語": "地球",
+  "Español": "Globo",
+  "Deutsch": "Globus",
+  "Français": "Globe",
+  "한국어": "지구본",
+  "中文": "地球",
+  "العربية": "كرة أرضية",
+  "Tiếng Việt": "Quả địa cầu"
+ },
+ "Film": {
+  "日本語": "フィルム",
+  "Español": "Película",
+  "Deutsch": "Film",
+  "Français": "Film",
+  "한국어": "필름",
+  "中文": "胶片",
+  "العربية": "فيلم",
+  "Tiếng Việt": "Phim"
+ },
+ "Music": {
+  "日本語": "音楽",
+  "Español": "Música",
+  "Deutsch": "Musik",
+  "Français": "Musique",
+  "한국어": "음악",
+  "中文": "音乐",
+  "العربية": "موسيقى",
+  "Tiếng Việt": "Âm nhạc"
+ },
+ "Mic": {
+  "日本語": "マイク",
+  "Español": "Micrófono",
+  "Deutsch": "Mikrofon",
+  "Français": "Micro",
+  "한국어": "마이크",
+  "中文": "麦克风",
+  "العربية": "ميكروفون",
+  "Tiếng Việt": "Micrô"
+ },
+ "Camera": {
+  "日本語": "カメラ",
+  "Español": "Cámara",
+  "Deutsch": "Kamera",
+  "Français": "Caméra",
+  "한국어": "카메라",
+  "中文": "相机",
+  "العربية": "كاميرا",
+  "Tiếng Việt": "Máy ảnh"
+ },
+ "Palette": {
+  "日本語": "パレット",
+  "Español": "Paleta",
+  "Deutsch": "Palette",
+  "Français": "Palette",
+  "한국어": "팔레트",
+  "中文": "调色板",
+  "العربية": "لوحة ألوان",
+  "Tiếng Việt": "Bảng màu"
+ },
+ "Mail": {
+  "日本語": "メール",
+  "Español": "Correo",
+  "Deutsch": "Mail",
+  "Français": "Courriel",
+  "한국어": "메일",
+  "中文": "邮件",
+  "العربية": "بريد",
+  "Tiếng Việt": "Thư"
+ },
+ "Calendar": {
+  "日本語": "カレンダー",
+  "Español": "Calendario",
+  "Deutsch": "Kalender",
+  "Français": "Calendrier",
+  "한국어": "캘린더",
+  "中文": "日历",
+  "العربية": "تقويم",
+  "Tiếng Việt": "Lịch"
+ },
+ "Book": {
+  "日本語": "本",
+  "Español": "Libro",
+  "Deutsch": "Buch",
+  "Français": "Livre",
+  "한국어": "책",
+  "中文": "书",
+  "العربية": "كتاب",
+  "Tiếng Việt": "Sách"
+ },
+ "Code": {
+  "日本語": "コード",
+  "Español": "Código",
+  "Deutsch": "Code",
+  "Français": "Code",
+  "한국어": "코드",
+  "中文": "代码",
+  "العربية": "شيفرة",
+  "Tiếng Việt": "Mã"
+ },
+ "Cart": {
+  "日本語": "カート",
+  "Español": "Carrito",
+  "Deutsch": "Warenkorb",
+  "Français": "Panier",
+  "한국어": "장바구니",
+  "中文": "购物车",
+  "العربية": "عربة التسوق",
+  "Tiếng Việt": "Giỏ hàng"
+ },
+ "Users": {
+  "日本語": "ユーザー",
+  "Español": "Usuarios",
+  "Deutsch": "Personen",
+  "Français": "Utilisateurs",
+  "한국어": "사용자",
+  "中文": "用户",
+  "العربية": "مستخدمون",
+  "Tiếng Việt": "Người dùng"
+ },
+ "Home": {
+  "日本語": "ホーム",
+  "Español": "Inicio",
+  "Deutsch": "Startseite",
+  "Français": "Accueil",
+  "한국어": "홈",
+  "中文": "主页",
+  "العربية": "الرئيسية",
+  "Tiếng Việt": "Trang chủ"
+ },
+ "Star": {
+  "日本語": "星",
+  "Español": "Estrella",
+  "Deutsch": "Stern",
+  "Français": "Étoile",
+  "한국어": "별",
+  "中文": "星标",
+  "العربية": "نجمة",
+  "Tiếng Việt": "Ngôi sao"
+ },
+ "Heart": {
+  "日本語": "ハート",
+  "Español": "Corazón",
+  "Deutsch": "Herz",
+  "Français": "Cœur",
+  "한국어": "하트",
+  "中文": "爱心",
+  "العربية": "قلب",
+  "Tiếng Việt": "Trái tim"
+ },
+ "Bookmark": {
+  "日本語": "ブックマーク",
+  "Español": "Marcador",
+  "Deutsch": "Lesezeichen",
+  "Français": "Signet",
+  "한국어": "북마크",
+  "中文": "书签",
+  "العربية": "إشارة مرجعية",
+  "Tiếng Việt": "Dấu trang"
+ },
+ "Map": {
+  "日本語": "地図",
+  "Español": "Mapa",
+  "Deutsch": "Karte",
+  "Français": "Carte",
+  "한국어": "지도",
+  "中文": "地图",
+  "العربية": "خريطة",
+  "Tiếng Việt": "Bản đồ"
+ },
+ "Same as the header": {
+  "日本語": "ヘッダーと同じ",
+  "Español": "Igual que el encabezado",
+  "Deutsch": "Wie die Kopfzeile",
+  "Français": "Comme l'en-tête",
+  "한국어": "헤더와 같게",
+  "中文": "与标题栏相同",
+  "العربية": "مثل الشريط العلوي",
+  "Tiếng Việt": "Giống thanh tiêu đề"
+ },
+ "Subtle": {
+  "日本語": "控えめ",
+  "Español": "Sutil",
+  "Deutsch": "Dezent",
+  "Français": "Discret",
+  "한국어": "은은하게",
+  "中文": "柔和",
+  "العربية": "خفيف",
+  "Tiếng Việt": "Nhẹ"
+ },
+ "Strong": {
+  "日本語": "強め",
+  "Español": "Intenso",
+  "Deutsch": "Kräftig",
+  "Français": "Prononcé",
+  "한국어": "진하게",
+  "中文": "浓烈",
+  "العربية": "قوي",
+  "Tiếng Việt": "Đậm"
+ },
+ "Theme": {
+  "日本語": "テーマ",
+  "Español": "Tema",
+  "Deutsch": "Design",
+  "Français": "Thème",
+  "한국어": "테마",
+  "中文": "主题",
+  "العربية": "السمة",
+  "Tiếng Việt": "Chủ đề"
+ },
+ "Accent": {
+  "日本語": "アクセント",
+  "Español": "Acento",
+  "Deutsch": "Akzent",
+  "Français": "Accent",
+  "한국어": "강조 색",
+  "中文": "强调色",
+  "العربية": "لون التمييز",
+  "Tiếng Việt": "Màu nhấn"
+ },
+ "Same as the text": {
+  "日本語": "文字と同じ",
+  "Español": "Igual que el texto",
+  "Deutsch": "Wie der Text",
+  "Français": "Comme le texte",
+  "한국어": "글자와 같게",
+  "中文": "与文字相同",
+  "العربية": "مثل النص",
+  "Tiếng Việt": "Giống chữ"
+ },
+ "Bar shade": {
+  "日本語": "バーの明暗",
+  "Español": "Tono de la barra",
+  "Deutsch": "Helligkeit der Leiste",
+  "Français": "Teinte de la barre",
+  "한국어": "바 밝기",
+  "中文": "栏的明暗",
+  "العربية": "درجة الشريط",
+  "Tiếng Việt": "Độ sáng của thanh"
+ },
+ "Accent tint": {
+  "日本語": "アクセントの色味",
+  "Español": "Tinte de acento",
+  "Deutsch": "Akzenttönung",
+  "Français": "Teinte d'accent",
+  "한국어": "강조 색조",
+  "中文": "强调色调",
+  "العربية": "صبغة لون التمييز",
+  "Tiếng Việt": "Pha màu nhấn"
+ },
+ "Icon colour": {
+  "日本語": "アイコンの色",
+  "Español": "Color de los iconos",
+  "Deutsch": "Symbolfarbe",
+  "Français": "Couleur des icônes",
+  "한국어": "아이콘 색",
+  "中文": "图标颜色",
+  "العربية": "لون الأيقونات",
+  "Tiếng Việt": "Màu biểu tượng"
+ },
+ "Automatic stands the bar out from the header: lighter on a dark theme, darker on a light one.": {
+  "日本語": "「自動」ではバーをヘッダーから目立たせます。暗いテーマでは明るく、明るいテーマでは暗くなります。",
+  "Español": "Automático destaca la barra del encabezado: más clara en un tema oscuro y más oscura en uno claro.",
+  "Deutsch": "Automatisch hebt die Leiste von der Kopfzeile ab: heller bei einem dunklen Design, dunkler bei einem hellen.",
+  "Français": "Automatique détache la barre de l'en-tête : plus claire sur un thème sombre, plus foncée sur un thème clair.",
+  "한국어": "자동은 바를 헤더와 구분되게 합니다. 어두운 테마에서는 더 밝게, 밝은 테마에서는 더 어둡게 표시됩니다.",
+  "中文": "“自动”会让栏与标题栏区分开：深色主题下更亮，浅色主题下更暗。",
+  "العربية": "يُبرز الخيار التلقائي الشريط عن الشريط العلوي: أفتح في السمة الداكنة وأغمق في السمة الفاتحة.",
+  "Tiếng Việt": "Tự động làm thanh nổi bật so với thanh tiêu đề: sáng hơn với chủ đề tối, tối hơn với chủ đề sáng."
+ },
+ "Mixes a little of the theme's accent colour into the bar.": {
+  "日本語": "テーマのアクセントカラーを少しバーに混ぜます。",
+  "Español": "Mezcla un poco del color de acento del tema en la barra.",
+  "Deutsch": "Mischt etwas von der Akzentfarbe des Designs in die Leiste.",
+  "Français": "Mélange un peu de la couleur d'accent du thème à la barre.",
+  "한국어": "테마의 강조 색을 바에 조금 섞습니다.",
+  "中文": "在栏中混入少许主题的强调色。",
+  "العربية": "يمزج قليلاً من لون التمييز في السمة مع الشريط.",
+  "Tiếng Việt": "Pha một chút màu nhấn của chủ đề vào thanh."
+ },
+ "Peek": {
+  "日本語": "のぞき見",
+  "Español": "Echar un vistazo",
+  "Deutsch": "Kurz ansehen",
+  "Français": "Aperçu rapide",
+  "한국어": "미리 보기",
+  "中文": "速览",
+  "العربية": "نظرة سريعة",
+  "Tiếng Việt": "Xem nhanh"
+ },
+ "Up a folder": {
+  "日本語": "1つ上のフォルダーへ",
+  "Español": "Subir una carpeta",
+  "Deutsch": "Einen Ordner nach oben",
+  "Français": "Dossier parent",
+  "한국어": "상위 폴더로",
+  "中文": "上一级文件夹",
+  "العربية": "مجلد للأعلى",
+  "Tiếng Việt": "Lên một thư mục"
+ },
+ "Show in File Explorer": {
+  "日本語": "エクスプローラーで表示",
+  "Español": "Mostrar en el Explorador de archivos",
+  "Deutsch": "Im Datei-Explorer anzeigen",
+  "Français": "Afficher dans l'Explorateur de fichiers",
+  "한국어": "파일 탐색기에서 보기",
+  "中文": "在文件资源管理器中显示",
+  "العربية": "إظهار في مستكشف الملفات",
+  "Tiếng Việt": "Hiện trong File Explorer"
+ },
+ "Filter": {
+  "日本語": "絞り込み",
+  "Español": "Filtrar",
+  "Deutsch": "Filtern",
+  "Français": "Filtrer",
+  "한국어": "필터",
+  "中文": "筛选",
+  "العربية": "تصفية",
+  "Tiếng Việt": "Lọc"
+ },
+ "Drag into Resolve's Media Pool": {
+  "日本語": "Resolveのメディアプールへドラッグ",
+  "Español": "Arrastra al Media Pool de Resolve",
+  "Deutsch": "In den Media Pool von Resolve ziehen",
+  "Français": "Faites glisser dans le Media Pool de Resolve",
+  "한국어": "Resolve의 미디어 풀로 드래그",
+  "中文": "拖到 Resolve 的媒体池",
+  "العربية": "اسحب إلى Media Pool في Resolve",
+  "Tiếng Việt": "Kéo vào Media Pool của Resolve"
+ },
+ "Nothing matches.": {
+  "日本語": "一致するものはありません。",
+  "Español": "No hay coincidencias.",
+  "Deutsch": "Keine Treffer.",
+  "Français": "Aucun résultat.",
+  "한국어": "일치하는 항목이 없습니다.",
+  "中文": "没有匹配项。",
+  "العربية": "لا توجد نتائج مطابقة.",
+  "Tiếng Việt": "Không có kết quả phù hợp."
+ },
+ "This folder is empty.": {
+  "日本語": "このフォルダーは空です。",
+  "Español": "Esta carpeta está vacía.",
+  "Deutsch": "Dieser Ordner ist leer.",
+  "Français": "Ce dossier est vide.",
+  "한국어": "이 폴더는 비어 있습니다.",
+  "中文": "此文件夹为空。",
+  "العربية": "هذا المجلد فارغ.",
+  "Tiếng Việt": "Thư mục này trống."
+ },
+ "…and {n} more": {
+  "日本語": "…ほか{n}件",
+  "Español": "…y {n} más",
+  "Deutsch": "…und {n} weitere",
+  "Français": "…et {n} de plus",
+  "한국어": "…외 {n}개",
+  "中文": "…还有 {n} 项",
+  "العربية": "…و{n} أخرى",
+  "Tiếng Việt": "…và {n} mục khác"
+ },
+ "{n} of {total} selected": {
+  "日本語": "{total}件中{n}件を選択",
+  "Español": "{n} de {total} seleccionados",
+  "Deutsch": "{n} von {total} ausgewählt",
+  "Français": "{n} sur {total} sélectionnés",
+  "한국어": "{total}개 중 {n}개 선택됨",
+  "中文": "已选择 {n}/{total} 项",
+  "العربية": "تم تحديد {n} من {total}",
+  "Tiếng Việt": "Đã chọn {n}/{total}"
+ },
+ "1 item": {
+  "日本語": "1件",
+  "Español": "1 elemento",
+  "Deutsch": "1 Element",
+  "Français": "1 élément",
+  "한국어": "항목 1개",
+  "中文": "1 项",
+  "العربية": "عنصر واحد",
+  "Tiếng Việt": "1 mục"
+ },
+ "{n} items": {
+  "日本語": "{n}件",
+  "Español": "{n} elementos",
+  "Deutsch": "{n} Elemente",
+  "Français": "{n} éléments",
+  "한국어": "항목 {n}개",
+  "中文": "{n} 项",
+  "العربية": "{n} عناصر",
+  "Tiếng Việt": "{n} mục"
+ },
+ "This folder isn't there any more.": {
+  "日本語": "このフォルダーはもうありません。",
+  "Español": "Esta carpeta ya no existe.",
+  "Deutsch": "Diesen Ordner gibt es nicht mehr.",
+  "Français": "Ce dossier n'existe plus.",
+  "한국어": "이 폴더는 더 이상 없습니다.",
+  "中文": "此文件夹已不存在。",
+  "العربية": "لم يعد هذا المجلد موجوداً.",
+  "Tiếng Việt": "Thư mục này không còn nữa."
+ },
+ "Windows won't let Buddy look in this folder.": {
+  "日本語": "WindowsがこのフォルダーへのBuddyのアクセスを許可していません。",
+  "Español": "Windows no deja que Buddy vea esta carpeta.",
+  "Deutsch": "Windows lässt Buddy nicht in diesen Ordner sehen.",
+  "Français": "Windows n'autorise pas Buddy à regarder dans ce dossier.",
+  "한국어": "Windows에서 Buddy가 이 폴더를 볼 수 없게 합니다.",
+  "中文": "Windows 不允许 Buddy 查看此文件夹。",
+  "العربية": "لا يسمح Windows لـ Buddy بالاطلاع على هذا المجلد.",
+  "Tiếng Việt": "Windows không cho Buddy xem thư mục này."
+ },
+ "Couldn't read this folder: {error}": {
+  "日本語": "このフォルダーを読み込めませんでした: {error}",
+  "Español": "No se pudo leer esta carpeta: {error}",
+  "Deutsch": "Dieser Ordner konnte nicht gelesen werden: {error}",
+  "Français": "Impossible de lire ce dossier : {error}",
+  "한국어": "이 폴더를 읽을 수 없습니다: {error}",
+  "中文": "无法读取此文件夹：{error}",
+  "العربية": "تعذّرت قراءة هذا المجلد: {error}",
+  "Tiếng Việt": "Không đọc được thư mục này: {error}"
+ },
+ "Take a new picture": {
+  "日本語": "撮り直す",
+  "Español": "Tomar una imagen nueva",
+  "Deutsch": "Neues Bild aufnehmen",
+  "Français": "Prendre une nouvelle image",
+  "한국어": "새로 찍기",
+  "中文": "重新截取",
+  "العربية": "التقاط صورة جديدة",
+  "Tiếng Việt": "Chụp lại"
+ },
+ "Open in browser": {
+  "日本語": "ブラウザーで開く",
+  "Español": "Abrir en el navegador",
+  "Deutsch": "Im Browser öffnen",
+  "Français": "Ouvrir dans le navigateur",
+  "한국어": "브라우저에서 열기",
+  "中文": "在浏览器中打开",
+  "العربية": "فتح في المتصفح",
+  "Tiếng Việt": "Mở trong trình duyệt"
+ },
+ "A picture of the page - nothing on it can be clicked.": {
+  "日本語": "ページの画像です。クリックはできません。",
+  "Español": "Una imagen de la página: no se puede hacer clic en nada.",
+  "Deutsch": "Ein Bild der Seite – nichts darauf lässt sich anklicken.",
+  "Français": "Une image de la page : rien n'y est cliquable.",
+  "한국어": "페이지의 그림입니다. 아무것도 클릭할 수 없습니다.",
+  "中文": "这是页面的图片，无法点击其中任何内容。",
+  "العربية": "صورة للصفحة - لا يمكن النقر على أي شيء فيها.",
+  "Tiếng Việt": "Ảnh chụp trang - không bấm được gì trên đó."
+ },
+ "Loading a preview of {host}…": {
+  "日本語": "{host} のプレビューを読み込み中…",
+  "Español": "Cargando una vista previa de {host}…",
+  "Deutsch": "Vorschau von {host} wird geladen…",
+  "Français": "Chargement d'un aperçu de {host}…",
+  "한국어": "{host} 미리 보기를 불러오는 중…",
+  "中文": "正在加载 {host} 的预览…",
+  "العربية": "جارٍ تحميل معاينة {host}…",
+  "Tiếng Việt": "Đang tải bản xem trước của {host}…"
+ },
+ "Couldn't load the page. Check the address, and that you're online.": {
+  "日本語": "ページを読み込めませんでした。アドレスとインターネット接続を確認してください。",
+  "Español": "No se pudo cargar la página. Comprueba la dirección y que tienes conexión.",
+  "Deutsch": "Die Seite konnte nicht geladen werden. Prüfen Sie die Adresse und Ihre Internetverbindung.",
+  "Français": "Impossible de charger la page. Vérifiez l'adresse et votre connexion.",
+  "한국어": "페이지를 불러올 수 없습니다. 주소와 인터넷 연결을 확인하세요.",
+  "中文": "无法加载页面。请检查地址和网络连接。",
+  "العربية": "تعذّر تحميل الصفحة. تحقق من العنوان ومن اتصالك بالإنترنت.",
+  "Tiếng Việt": "Không tải được trang. Hãy kiểm tra địa chỉ và kết nối mạng."
+ },
+ "The page didn't draw anything to show.": {
+  "日本語": "ページに表示できるものがありませんでした。",
+  "Español": "La página no mostró nada.",
+  "Deutsch": "Die Seite hat nichts angezeigt.",
+  "Français": "La page n'a rien affiché.",
+  "한국어": "페이지에 표시할 내용이 없습니다.",
+  "中文": "页面没有可显示的内容。",
+  "العربية": "لم تعرض الصفحة أي شيء.",
+  "Tiếng Việt": "Trang không hiển thị gì."
+ },
+ "Folder contents": {
+  "日本語": "フォルダーの内容",
+  "Español": "Contenido de la carpeta",
+  "Deutsch": "Ordnerinhalt",
+  "Français": "Contenu du dossier",
+  "한국어": "폴더 내용",
+  "中文": "文件夹内容",
+  "العربية": "محتويات المجلد",
+  "Tiếng Việt": "Nội dung thư mục"
+ },
+ "Open Buddy on": {
+  "日本語": "Buddy起動時に開く画面",
+  "Español": "Abrir Buddy en",
+  "Deutsch": "Buddy öffnen mit",
+  "Français": "Ouvrir Buddy sur",
+  "한국어": "Buddy 시작 화면",
+  "中文": "Buddy 启动时打开",
+  "العربية": "فتح Buddy على",
+  "Tiếng Việt": "Mở Buddy ở"
+ },
+ "The first tool in the sidebar": {
+  "日本語": "サイドバーの最初のツール",
+  "Español": "La primera herramienta de la barra lateral",
+  "Deutsch": "Dem ersten Werkzeug in der Seitenleiste",
+  "Français": "Le premier outil de la barre latérale",
+  "한국어": "사이드바의 첫 번째 도구",
+  "中文": "侧边栏中的第一个工具",
+  "العربية": "أول أداة في الشريط الجانبي",
+  "Tiếng Việt": "Công cụ đầu tiên trong thanh bên"
+ },
+ "The tool you used last": {
+  "日本語": "最後に使ったツール",
+  "Español": "La última herramienta que usaste",
+  "Deutsch": "Dem zuletzt benutzten Werkzeug",
+  "Français": "Le dernier outil utilisé",
+  "한국어": "마지막으로 사용한 도구",
+  "中文": "上次使用的工具",
+  "العربية": "آخر أداة استخدمتها",
+  "Tiếng Việt": "Công cụ bạn dùng gần nhất"
+ },
+ "The tool Buddy shows when it starts.": {
+  "日本語": "Buddyの起動時に表示するツールです。",
+  "Español": "La herramienta que muestra Buddy al iniciarse.",
+  "Deutsch": "Das Werkzeug, das Buddy beim Start zeigt.",
+  "Français": "L'outil que Buddy affiche au démarrage.",
+  "한국어": "Buddy가 시작할 때 보여 줄 도구입니다.",
+  "中文": "Buddy 启动时显示的工具。",
+  "العربية": "الأداة التي يعرضها Buddy عند بدء تشغيله.",
+  "Tiếng Việt": "Công cụ Buddy hiển thị khi khởi động."
+ },
+ "Shortcuts": {
+  "日本語": "ショートカット",
+  "Español": "Accesos directos",
+  "Deutsch": "Verknüpfungen",
+  "Français": "Raccourcis",
+  "한국어": "바로 가기",
+  "中文": "快捷方式",
+  "العربية": "الاختصارات",
+  "Tiếng Việt": "Lối tắt"
+ },
+ "Buddy in the Start menu": {
+  "日本語": "スタートメニューにBuddyを追加",
+  "Español": "Buddy en el menú Inicio",
+  "Deutsch": "Buddy im Startmenü",
+  "Français": "Buddy dans le menu Démarrer",
+  "한국어": "시작 메뉴에 Buddy 추가",
+  "中文": "在“开始”菜单中添加 Buddy",
+  "العربية": "Buddy في قائمة ابدأ",
+  "Tiếng Việt": "Buddy trong menu Start"
+ },
+ "Buddy shortcut on the desktop": {
+  "日本語": "デスクトップにBuddyのショートカット",
+  "Español": "Acceso directo a Buddy en el escritorio",
+  "Deutsch": "Buddy-Verknüpfung auf dem Desktop",
+  "Français": "Raccourci Buddy sur le bureau",
+  "한국어": "바탕 화면에 Buddy 바로 가기",
+  "中文": "桌面上的 Buddy 快捷方式",
+  "العربية": "اختصار Buddy على سطح المكتب",
+  "Tiếng Việt": "Lối tắt Buddy trên màn hình nền"
+ },
+ "Shortcuts open Buddy without Resolve's Scripts menu. Only DaVinci Resolve Studio lets a Buddy opened this way connect to it, with Preferences > System > General > \"External scripting using\" set to Local. In the free version, open Buddy from Workspace > Scripts.": {
+  "日本語": "ショートカットを使うと、ResolveのScriptsメニューを使わずにBuddyを開けます。この方法で開いたBuddyが接続できるのはDaVinci Resolve Studioだけで、環境設定 > システム > 一般 >「外部スクリプトに使用」を「ローカル」にする必要があります。無償版では、ワークスペース > スクリプトからBuddyを開いてください。",
+  "Español": "Los accesos directos abren Buddy sin el menú Scripts de Resolve. Solo DaVinci Resolve Studio permite que un Buddy abierto así se conecte, con Preferencias > Sistema > General > \"External scripting using\" en Local. En la versión gratuita, abre Buddy desde Workspace > Scripts.",
+  "Deutsch": "Verknüpfungen öffnen Buddy ohne Resolves Scripts-Menü. Nur DaVinci Resolve Studio lässt einen so geöffneten Buddy verbinden, mit Einstellungen > System > Allgemein > „External scripting using“ auf Local. In der kostenlosen Version öffnen Sie Buddy über Workspace > Scripts.",
+  "Français": "Les raccourcis ouvrent Buddy sans le menu Scripts de Resolve. Seul DaVinci Resolve Studio permet à un Buddy ouvert ainsi de s'y connecter, avec Préférences > Système > Général > « External scripting using » réglé sur Local. Dans la version gratuite, ouvrez Buddy depuis Workspace > Scripts.",
+  "한국어": "바로 가기를 쓰면 Resolve의 Scripts 메뉴 없이 Buddy를 열 수 있습니다. 이렇게 연 Buddy는 DaVinci Resolve Studio에서만 연결되며, 환경 설정 > 시스템 > 일반 > \"External scripting using\"을 Local로 설정해야 합니다. 무료 버전에서는 Workspace > Scripts에서 Buddy를 여세요.",
+  "中文": "快捷方式无需通过 Resolve 的 Scripts 菜单即可打开 Buddy。只有 DaVinci Resolve Studio 允许这样打开的 Buddy 连接，需将“偏好设置 > 系统 > 常规 > External scripting using”设为 Local。免费版请从 Workspace > Scripts 打开 Buddy。",
+  "العربية": "تفتح الاختصارات Buddy دون قائمة Scripts في Resolve. لا يسمح إلا DaVinci Resolve Studio لـ Buddy المفتوح بهذه الطريقة بالاتصال به، مع ضبط Preferences > System > General > \"External scripting using\" على Local. في الإصدار المجاني، افتح Buddy من Workspace > Scripts.",
+  "Tiếng Việt": "Lối tắt mở Buddy mà không cần menu Scripts của Resolve. Chỉ DaVinci Resolve Studio cho phép Buddy mở theo cách này kết nối, với Preferences > System > General > \"External scripting using\" đặt là Local. Ở bản miễn phí, hãy mở Buddy từ Workspace > Scripts."
+ },
+ "Shortcut": {
+  "日本語": "ショートカット",
+  "Español": "Acceso directo",
+  "Deutsch": "Verknüpfung",
+  "Français": "Raccourci",
+  "한국어": "바로 가기",
+  "中文": "快捷方式",
+  "العربية": "اختصار",
+  "Tiếng Việt": "Lối tắt"
+ },
+ "Couldn't make the shortcut: {reason}": {
+  "日本語": "ショートカットを作成できませんでした: {reason}",
+  "Español": "No se pudo crear el acceso directo: {reason}",
+  "Deutsch": "Die Verknüpfung konnte nicht erstellt werden: {reason}",
+  "Français": "Impossible de créer le raccourci : {reason}",
+  "한국어": "바로 가기를 만들 수 없습니다: {reason}",
+  "中文": "无法创建快捷方式：{reason}",
+  "العربية": "تعذّر إنشاء الاختصار: {reason}",
+  "Tiếng Việt": "Không tạo được lối tắt: {reason}"
+ },
+ "Couldn't remove the shortcut: {reason}": {
+  "日本語": "ショートカットを削除できませんでした: {reason}",
+  "Español": "No se pudo quitar el acceso directo: {reason}",
+  "Deutsch": "Die Verknüpfung konnte nicht entfernt werden: {reason}",
+  "Français": "Impossible de supprimer le raccourci : {reason}",
+  "한국어": "바로 가기를 제거할 수 없습니다: {reason}",
+  "中文": "无法删除快捷方式：{reason}",
+  "العربية": "تعذّرت إزالة الاختصار: {reason}",
+  "Tiếng Việt": "Không xóa được lối tắt: {reason}"
  }
 }

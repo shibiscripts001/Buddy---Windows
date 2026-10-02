@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Web</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="browser.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<div class="wb" id="bar">
+    <div class="wb-tabs-row">
+        <div class="wb-tabs" id="tabs" role="tablist" aria-label="Tabs"></div>
+        <button type="button" class="btn icon ghost wb-new" id="new" title="New tab (Ctrl+T) - right-click for a private tab (Ctrl+Shift+N)" aria-label="New tab"></button>
+    </div>
+    <div class="wb-nav">
+        <button type="button" class="btn icon ghost" id="back" title="Back (Alt+Left)" aria-label="Back"></button>
+        <button type="button" class="btn icon ghost" id="forward" title="Forward (Alt+Right)" aria-label="Forward"></button>
+        <button type="button" class="btn icon ghost" id="reload" title="Reload (F5)" aria-label="Reload"></button>
+        <form class="wb-address" id="address-form" autocomplete="off">
+            <input class="field" id="address" spellcheck="false" placeholder="Search or type an address"
+                   aria-label="Address" translate="no">
+            <span class="wb-zoom" id="zoom" title="Zoom - Ctrl+0 for actual size" hidden></span>
+            <i class="wb-progress" id="progress"></i>
+        </form>
+        <span class="wb-toast" id="toast" hidden></span>
+        <span class="wb-memory" id="memory" title="Memory the open pages use. Sleeping tabs use none." hidden></span>
+        <button type="button" class="btn icon ghost wb-downloads" id="downloads" title="Downloads"
+                aria-label="Downloads"><b class="wb-badge" id="badge" hidden></b></button>
+        <button type="button" class="btn icon ghost" id="more" title="More" aria-label="More"></button>
+    </div>
+</div>
+<script src="browser.js"></script>
+</body>
+</html>

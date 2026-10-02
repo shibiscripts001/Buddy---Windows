@@ -14,6 +14,7 @@ Qt is the frame itself: the panes, the dual-view divider and its tint,
 the busy overlay and the tray.
 """
 
+import os
 import traceback
 
 from PySide6.QtCore import QEvent, QRectF, Qt, QThread, QTimer, QUrl, Signal
@@ -53,11 +54,13 @@ from core.busy_overlay import BusyOverlay
 from core.desk_web import DeskMenu, TaskbarView
 from core.desktop_window import DesktopArea
 from core.link_bar_web import LinkBarView, LinkDialog
+from core.link_peek_web import FolderPeek, PagePreview
 from core import crash_log
 from core.i18n import get_i18n, tr
 from core.settings_dialog import SettingsDialog
 from core.shell_web import HeaderView, RailView
 from core.message_dialog import alert, confirm
+from core import settings_form as sf
 
 # Widest each pane grows in dual view, so two tools side by side on a big
 # monitor stay near each other; past that the space is left empty on the
@@ -416,6 +419,8 @@ class ShellWindow(QMainWindow):
         self.taskbar.on_theme_changed()
         if self.desk_menu is not None:
             self.desk_menu.on_theme_changed()
+        if getattr(self, "link_bar", None) is not None:      # made later in __init__
+            self.link_bar.on_theme_changed()
         # "outline", not the fainter divider colour: that one is near-black
         # in Resolve and all but vanishes on Modern's gradient backdrop.
         self.panes.set_line_colors(tokens["outline"], tokens["primary"])
@@ -834,9 +839,9 @@ class ShellWindow(QMainWindow):
         self.busy_overlay.setAttribute(Qt.WA_DontCreateNativeAncestors, True)
         self.busy_overlay.setAttribute(Qt.WA_NativeWindow, True)
 
-        visible = nav_layout.visible_tool_ids(self.nav_layout)
-        if visible:
-            self.switch_tool(visible[0])
+        first = sf.start_tool(self.shared_settings, nav_layout.visible_tool_ids(self.nav_layout))
+        if first is not None:
+            self.switch_tool(first)
         if self.shared_settings.get("split_view", False):
             self.set_split_view(True)
 
@@ -1035,6 +1040,7 @@ class ShellWindow(QMainWindow):
                 "id": tool_id, "label": self.pages[tool_id].display_name, "state": state,
                 "active": tool_id == front, "pinned": pinned,
                 "color": self.desktop.window_color(tool_id) if state != "closed" else "transparent",
+                "badge": self._badge(tool_id),
             })
         self.taskbar.show_state({
             "items": items, "connected": self.connected,
@@ -1080,6 +1086,8 @@ class ShellWindow(QMainWindow):
         pinned = tool_id in self.pins
         items.append({"action": "unpin" if pinned else "pin",
                       "label": "Unpin from taskbar" if pinned else "Pin to taskbar"})
+        if self.has_settings(tool_id):
+            items.append({"action": "settings", "label": "Settings…"})
         if state is not None:
             items.append({"action": "close", "label": "Close window", "danger": True})
         self.desk_menu.popup(f"task:{tool_id}", {"mode": "actions", "id": tool_id,
@@ -1099,6 +1107,8 @@ class ShellWindow(QMainWindow):
             self.desktop.close(tool_id)
         elif action in ("pin", "unpin"):
             self.set_pinned(tool_id, action == "pin")
+        elif action == "settings":
+            self.open_settings(tool_id)
 
     def set_pinned(self, tool_id, on):
         """Pin a tool to the taskbar (at the end) or unpin it."""
@@ -1150,10 +1160,16 @@ class ShellWindow(QMainWindow):
         self.shared_settings.save()
         self.push_link_bar()
 
-    def open_link(self, index):
+    def open_link(self, index, where=None):
+        """A link clicked: a web page in the user's browser or Buddy's Web tab
+        (`where`, or the bar's setting), a file or folder on this PC."""
         if not 0 <= index < len(self.links):
             return
         address = self.links[index]["url"]
+        if not link_bar.is_path(address) and (where or link_bar.opens_in(self.shared_settings)) == "buddy"                 and "web" in self.pages:
+            self.switch_tool("web")
+            self.pages["web"].open_tab(address)
+            return
         url = QUrl.fromLocalFile(address) if link_bar.is_path(address) else QUrl(address)
         if not QDesktopServices.openUrl(url):
             alert(self, "Couldn't open the link",
@@ -1179,6 +1195,17 @@ class ShellWindow(QMainWindow):
             self.links[index] = dialog.link
             self._save_links()
         dialog.deleteLater()
+
+    def peek_link(self, index):
+        """A folder link's contents, in a small window of its own beside
+        Resolve (core/link_peek_web.py)."""
+        if 0 <= index < len(self.links) and os.path.isdir(self.links[index]["url"]):
+            FolderPeek(self, self.links[index]["url"], self.links[index]["name"]).show()
+
+    def preview_link(self, index):
+        """A still picture of a web link's page (core/link_peek_web.py)."""
+        if 0 <= index < len(self.links) and not link_bar.is_path(self.links[index]["url"]):
+            PagePreview(self, self.links[index]["url"], self.links[index]["name"]).show()
 
     def remove_link(self, index):
         if 0 <= index < len(self.links):
@@ -1206,6 +1233,18 @@ class ShellWindow(QMainWindow):
         menu = QMenu(self)
         if 0 <= index < len(self.links):
             menu.addAction(tr("Open")).triggered.connect(lambda: self.open_link(index))
+            address = self.links[index]["url"]
+            if not link_bar.is_path(address) and "web" in self.pages:
+                if link_bar.opens_in(self.shared_settings) == "buddy":
+                    menu.addAction(tr("Open in your browser")).triggered.connect(
+                        lambda: self.open_link(index, "browser"))
+                else:
+                    menu.addAction(tr("Open in Buddy's Web tab")).triggered.connect(
+                        lambda: self.open_link(index, "buddy"))
+            if not link_bar.is_path(address):
+                menu.addAction(tr("Preview")).triggered.connect(lambda: self.preview_link(index))
+            elif os.path.isdir(address):
+                menu.addAction(tr("Peek")).triggered.connect(lambda: self.peek_link(index))
             menu.addAction(tr("Edit…")).triggered.connect(lambda: self.edit_link(index))
             menu.addAction(tr("Remove")).triggered.connect(lambda: self.remove_link(index))
             menu.addSeparator()
@@ -1233,8 +1272,24 @@ class ShellWindow(QMainWindow):
             elif entry["visible"]:
                 tool_id = entry["id"]
                 items.append({"type": "tool", "id": tool_id, "label": self.pages[tool_id].display_name,
-                              "active": tool_id == self._current_tool_id})
+                              "active": tool_id == self._current_tool_id, "badge": self._badge(tool_id)})
         self.rail.show_items(items)
+
+    def _badge(self, tool_id):
+        try:
+            return self.pages[tool_id].rail_badge()
+        except Exception:  # noqa: BLE001 - a tool's bug never breaks the rail
+            return None
+
+    def refresh_badges(self):
+        """A tool's mark beside its name changed (ToolPage.rail_badge)."""
+        self.push_rail()
+        self.push_taskbar()
+
+    def badge_media(self, tool_id):
+        """The pause / play button beside a tool's mark (ToolPage.rail_media)."""
+        if tool_id in self.pages:
+            self.pages[tool_id].rail_media()
 
     # ------------------------------------------------------------ nav rail --
     def rebuild_nav(self):
@@ -1320,6 +1375,7 @@ class ShellWindow(QMainWindow):
             holder.show_tool(tool_id)
             tool_id = holder.tool_id
         crash_log.trail("shown", tool_id)
+        ShellWindow._remember_tool(self, tool_id)
         if self._layout == "desktop":
             # Open its window, bring it back from minimised, or to the front.
             self._current_tool_id = tool_id
@@ -1337,6 +1393,13 @@ class ShellWindow(QMainWindow):
             # rather than leaving the right side empty.
             swap = tool_id == self._side_tool_id and previous is not None
             self._show_side(previous if swap else self._side_tool_id)
+
+    def _remember_tool(self, tool_id):
+        """For "Open Buddy on: the tool you used last" (settings_form.start_tool)."""
+        shared = getattr(self, "shared_settings", None)
+        if shared is not None and shared.get(sf.LAST_TOOL_KEY) != tool_id:
+            shared[sf.LAST_TOOL_KEY] = tool_id
+            shared.save()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -1390,15 +1453,41 @@ class ShellWindow(QMainWindow):
         self._connect_worker = None
 
     # ------------------------------------------------------------ settings --
-    def open_settings(self):
+    def open_settings(self, tool_id=None):
+        """The Settings window - on General, or on a tool's own page (its
+        right-click Settings)."""
         current_page = (self.pages.get(self._current_tool_id) if self._layout == "desktop"
                         else self.stack.currentWidget())
-        dialog = SettingsDialog(self, self.shared_settings, self._on_settings_applied, current_page)
+        dialog = SettingsDialog(self, self.shared_settings, self._on_settings_applied, current_page,
+                                open_tool=tool_id if self.has_settings(tool_id) else None)
         dialog.exec()
         # A child of this window, so nothing else would ever free it: each
         # opening left a hidden Settings web view (and renderer) behind.
         # deleteLater: destroyed from the event loop, on this thread.
         dialog.deleteLater()
+
+    def has_settings(self, tool_id):
+        """True if a tool has a page of its own in Settings."""
+        page = self.pages.get(tool_id)
+        if page is None:
+            return False
+        try:
+            return bool(page.settings_pages())
+        except Exception:  # noqa: BLE001 - a tool's bug never breaks the menu
+            return False
+
+    def open_tool_menu(self, tool_id):
+        """A tool's right-click menu in the sidebar."""
+        if tool_id not in self.pages:
+            return
+        menu = QMenu(self)
+        settings = menu.addAction(tr("Settings…"))
+        settings.triggered.connect(lambda: self.open_settings(tool_id))
+        settings.setEnabled(self.has_settings(tool_id))
+        menu.addSeparator()
+        menu.addAction(tr("Organize sidebar…")).triggered.connect(lambda: self.open_nav_organizer(self))
+        menu.exec(QCursor.pos())
+        menu.deleteLater()
 
     def _on_settings_applied(self):
         self.apply_theme()

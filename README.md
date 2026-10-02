@@ -27,6 +27,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - SVG Importer
 - Time Tracker
 - Subtitles (Transcribe, Translate, Subtitle Conversion and the Text+ styling, layout, word-by-word and animation tabs included)
+- Web (new; a light browser - tabs (drag to reorder), private tabs (Ctrl+Shift+N), YouTube quality, search, new-tab shortcuts, a pause button on a tab that plays sound, Google sign-in, sign-ins saved encrypted with the Windows account (`pages/web/cookie_vault.py`), downloads that drag into the Media Pool, ad and tracker blocking with EasyList, EasyPrivacy and uBlock Origin's filter lists (`pages/web/filters.py`). Background tabs sleep after a while, except ones playing sound, kept awake or on a never-sleep site. Its sound ducks while Resolve plays (Windows; `core/audio_sessions.py`), and a speaker beside "Web" in the sidebar shows when it plays. Built on the Chromium Buddy already ships, so it can't play H.264 or DRM video; see `pages/web/`)
 
 The bug button in the header (and on the desktop layout's taskbar) sends a
 bug report - what went wrong, up to six screenshots, and Buddy's, the
@@ -308,7 +309,9 @@ docs/RESOLVE_API_GUIDE.md  Resolve scripting API traps, for anyone working on th
 Themes live in `core/theme.py` as a Theme → Subtheme hierarchy: **Default**
 (DaVinci Resolve's own look - colours, control sizes and the Open Sans type
 matched to Resolve 21's UI, so Buddy sits in Resolve as if it were part
-of it; the default for new installs), **Don't be evil** (dark,
+of it; the default for new installs) with DaVinci and the colour variants
+Blue, Teal, Green, Yellow, Orange, Purple and Pink (Resolve's greys washed
+toward the colour, which takes the place of Resolve's red), **Don't be evil** (dark,
 softly rounded), **Retro** (flat, square) with dark
 (Mulberry - its default - and Licorice) and light paper (Peach, Bubblegum)
 palettes, and **Modern** (soft-rounded product-dashboard look: a navy-teal glow behind slate cards and

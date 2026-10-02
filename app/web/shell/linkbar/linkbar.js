@@ -103,7 +103,7 @@ Buddy.on("linkbar", state => {
     $("links").replaceChildren(...state.links.map((link, index) => {
         // translate="no": the name and address are the user's.
         const button = el("button.link", {type: "button", title: link.url, "data-kind": link.kind, translate: "no"}, [
-            icon(link.kind === "path" ? "folder" : "globe"),
+            icon(link.icon || (link.kind === "path" ? "folder" : "globe")),
             el("span.link-name", {text: link.name}),
         ]);
         wire(button, index);

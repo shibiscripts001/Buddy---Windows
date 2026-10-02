@@ -70,6 +70,9 @@ class TaskbarView(_ChromeView):
         if tool_id in self.shell.pages:
             self.shell.open_task_menu(tool_id, self._anchor(payload))
 
+    def on_media(self, payload):
+        self.shell.badge_media((payload or {}).get("id"))
+
     def on_reconnect(self, _payload=None):
         self.shell.reconnect()
 
