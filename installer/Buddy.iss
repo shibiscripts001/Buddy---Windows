@@ -12,7 +12,14 @@
 ;      requirements.txt, ~300 MB, mostly PySide6), skipping any already there.
 ;      Resolve / Buddy being open is checked for first (they lock the files
 ;      pip replaces), and pip's output goes to the setup log in %TEMP%, so a
-;      failure says why instead of guessing.
+;      failure says why instead of guessing;
+;   4. optionally adds Start menu / desktop shortcuts that open Buddy without
+;      Resolve's Scripts menu: pythonw.exe of that same Python running the
+;      same Buddy.py, so both ways start one app, from one install, and
+;      updates reach both. (A Buddy started this way reaches Resolve only
+;      in Resolve Studio, with its "External scripting using" set to Local.
+;      The free version runs Buddy only from Workspace > Scripts, and only
+;      up to 21.0.4: from 21.1 on, only Studio supports Python.)
 ;
 ; Nothing compiled is installed: Buddy stays plain Python source inside a zip.
 ; (The earlier tools' installer found Windows Defender deleting an unsigned
@@ -35,6 +42,12 @@
 #define ScriptsDir "{userappdata}\Blackmagic Design\DaVinci Resolve\Support\Fusion\Scripts\Utility"
 #define PythonVersion "3.13.15"
 #define PythonUrl "https://www.python.org/ftp/python/3.13.15/python-3.13.15-amd64.exe"
+; Where InstallPython puts it (its per-user default, passed explicitly): the
+; shortcuts are made before Python is installed, so they need to know.
+#define PythonDir "{localappdata}\Programs\Python\Python313"
+; main.py's SetCurrentProcessExplicitAppUserModelID: a shortcut carrying the
+; same ID is the one Buddy's taskbar button belongs to (and pins as).
+#define AppUserModelID "Buddy.ResolveTools"
 ; SHA-256 of that exact file, checked by the downloader before it runs.
 ; (Also Authenticode-signed by the Python Software Foundation.)
 #define PythonSha256 "edec09c4853aeae9ac36efb8c9f95b6b8e2fee65eee56d9767a8b7c69c574403"
@@ -83,13 +96,27 @@ RedirectionGuard=no
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
-FinishedLabel=Buddy is installed.%n%nOpen DaVinci Resolve and choose Workspace > Scripts > Buddy. If Resolve was already open, restart it so the menu picks Buddy up. If Buddy was running, quit it from the system tray first.
+FinishedLabel=Buddy is installed.%n%nOpen DaVinci Resolve and choose Workspace > Scripts > Buddy, or (with Resolve Studio) use Buddy's Start menu or desktop shortcut if you added one. If Resolve was already open, restart it so the menu picks Buddy up. If Buddy was running, quit it from the system tray first.
+
+SelectTasksLabel2=Shortcuts open Buddy without going through Resolve's Scripts menu. Only DaVinci Resolve Studio lets a Buddy opened this way connect to it, with Preferences > System > General > "External scripting using" set to Local. In the free version, open Buddy from Workspace > Scripts instead.
+
+[CustomMessages]
+ShortcutsGroup=Shortcuts (connect to DaVinci Resolve Studio only):
+
+[Tasks]
+Name: "startmenuicon"; Description: "Add Buddy to the &Start menu"; GroupDescription: "{cm:ShortcutsGroup}"
+Name: "desktopicon"; Description: "Create a &desktop shortcut"; GroupDescription: "{cm:ShortcutsGroup}"; Flags: unchecked
 
 [Files]
 Source: "..\build\Buddy.py"; DestDir: "{#ScriptsDir}"; Flags: ignoreversion
 Source: "..\build\buddy.zip"; DestDir: "{#ScriptsDir}"; Flags: ignoreversion
 Source: "buddy.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "requirements.txt"; DestDir: "{tmp}"; Flags: deleteafterinstall
+
+; Removed again by the uninstaller.
+[Icons]
+Name: "{autoprograms}\{#AppName}"; Filename: "{code:BuddyPythonw}"; Parameters: """{#ScriptsDir}\Buddy.py"""; WorkingDir: "{#ScriptsDir}"; IconFilename: "{app}\buddy.ico"; Comment: "Buddy for DaVinci Resolve"; AppUserModelID: "{#AppUserModelID}"; Tasks: startmenuicon
+Name: "{autodesktop}\{#AppName}"; Filename: "{code:BuddyPythonw}"; Parameters: """{#ScriptsDir}\Buddy.py"""; WorkingDir: "{#ScriptsDir}"; IconFilename: "{app}\buddy.ico"; Comment: "Buddy for DaVinci Resolve"; AppUserModelID: "{#AppUserModelID}"; Tasks: desktopicon
 
 ; The Resolve watcher's files. Buddy writes them (not this installer), into
 ; the same folder as {app} - startup_manager.py's _WATCHER_DIR. The watcher
@@ -178,12 +205,16 @@ begin
     'What Gets Installed', 'Buddy needs a few things alongside it',
     'This installer will set up:' + #13#10#13#10
     + '*  Buddy, in DaVinci Resolve''s Workspace > Scripts menu' + #13#10
+    + '*  If you want them, Start menu and desktop shortcuts to open Buddy without Resolve''s menu '
+    + '(these connect to DaVinci Resolve Studio only)' + #13#10
     + '*  Python {#PythonVersion} from python.org - only if this PC doesn''t already have Python 3.10 or newer' + #13#10
     + '*  The Python packages Buddy uses (PySide6, Pillow, NumPy, openpyxl, pynput, PyMuPDF, cryptography) - '
     + 'only the ones that are missing' + #13#10#13#10
     + 'Anything missing is downloaded while installing - up to about 330 MB, so it needs an '
     + 'internet connection and can take a few minutes.' + #13#10#13#10
-    + 'Transcription (Whisper) is set up later from inside Buddy, only if you want it.');
+    + 'Transcription (Whisper) is set up later from inside Buddy, only if you want it.' + #13#10#13#10
+    + 'Free version of DaVinci Resolve: Buddy runs from Workspace > Scripts only up to Resolve 21.0.4. '
+    + 'From 21.1 on, only DaVinci Resolve Studio supports Python scripts.');
 
   DownloadPage := CreateDownloadPage(SetupMessage(msgWizardPreparing),
     'Downloading Python {#PythonVersion} from python.org...', @OnDownloadProgress);
@@ -240,12 +271,31 @@ begin
     reach the certificate revocation servers - Windows Sandbox, some office
     networks - each one waits 2 minutes on that check, so fewer is faster.) }
   Exec(ExpandConstant('{tmp}\python-installer.exe'),
-    '/quiet InstallAllUsers=0 PrependPath=0 Include_launcher=1 InstallLauncherAllUsers=0 ' +
+    '/quiet InstallAllUsers=0 TargetDir="' + ExpandConstant('{#PythonDir}') + '" ' +
+    'PrependPath=0 Include_launcher=1 InstallLauncherAllUsers=0 ' +
     'Include_pip=1 Include_dev=0 Include_tcltk=0 Include_test=0 Include_doc=0',
     '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   WizardForm.ProgressGauge.Style := npbstNormal;
   Log(Format('Python installer exit code: %d', [ResultCode]));
   Result := DetectPython(PythonExe);
+end;
+
+{ What the shortcuts run ([Icons]): the windowless pythonw.exe of the Python
+  Resolve uses. They're made before ssPostInstall installs a missing Python,
+  so that one is named by where InstallPython puts it. A Python without a
+  pythonw.exe gets its python.exe (a console window behind Buddy). }
+function BuddyPythonw(Param: string): string;
+var
+  Dir: string;
+begin
+  if NeedPython then
+    Dir := ExpandConstant('{#PythonDir}')
+  else
+    Dir := RemoveBackslashUnlessRoot(ExtractFilePath(PythonExe));
+  Result := AddBackslash(Dir) + 'pythonw.exe';
+  if not NeedPython and not FileExists(Result) then
+    Result := PythonExe;
+  Log('Shortcuts run: ' + Result);
 end;
 
 { ---------------------------------------------------------------- packages }

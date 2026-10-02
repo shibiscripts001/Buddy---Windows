@@ -60,6 +60,17 @@ Requires **Resolve Preferences > System > General > "External scripting
 using" = Local**. It's the first thing to check when a connection fails
 silently.
 
+Which Resolve allows which connection:
+
+- **Studio:** both. That covers Buddy launched from Workspace > Scripts
+  (inside `fuscript.exe`) and a Buddy started outside Resolve (Start menu or
+  desktop shortcut, the "start with Resolve" watcher). It also covers Buddy's
+  own helper processes, such as Transcribe's `resolve_child.py`.
+- **Free, up to 21.0.4:** only a Buddy launched from Workspace > Scripts.
+  Nothing started outside Resolve can connect.
+- **Free, 21.1 and later:** none. From 21.1 on, only Studio supports Python
+  scripting, so Workspace > Scripts doesn't run Buddy either.
+
 **Every step in the chain can return `None` instead of raising:**
 
 ```

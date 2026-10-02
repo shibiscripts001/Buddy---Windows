@@ -9,7 +9,21 @@ Buddy is two files - Buddy.py and buddy.zip - that DaVinci Resolve runs
 with Python. So a manual install is: have Python, give it Buddy's
 packages, and put the two files where Resolve looks for scripts.
 
-Windows 10 or 11 and DaVinci Resolve (free or Studio). Windows only for now.
+Windows 10 or 11 and DaVinci Resolve. Windows only for now.
+
+Which Resolve you have decides how Buddy can reach it:
+
+  - DaVinci Resolve Studio: from Workspace > Scripts, and from outside
+    Resolve too (Buddy started on its own, or "Start Buddy automatically
+    when Resolve starts"). Outside Resolve needs Preferences > System >
+    General > "External scripting using" set to Local.
+  - The free version, up to 21.0.4: from Workspace > Scripts only. A Buddy
+    started outside Resolve can't connect to it.
+  - The free version, 21.1 and later: not at all - from 21.1 on, only
+    Studio supports Python scripts.
+
+Without a connection Buddy still opens, and the tools that don't use
+Resolve still work.
 
 
 1. Python 3.10 or newer
@@ -94,7 +108,8 @@ Restart DaVinci Resolve, then choose Workspace > Scripts > Buddy.
 
 That's all of Buddy, Buddy Network included. Once it's open, Buddy can
 also start itself whenever Resolve starts: Settings > Window > "Start
-Buddy automatically when Resolve starts".
+Buddy automatically when Resolve starts". That starts Buddy outside
+Resolve, so it connects only in Resolve Studio (see the top of this file).
 
 
 Updating
@@ -133,7 +148,15 @@ to run. Run it, with that path, in Command Prompt. (This happens when a PC
 has more than one Python and packages went into a different one.)
 
 Nothing under Workspace > Scripts - check both files are directly in the
-Utility folder (not in a subfolder), and restart Resolve.
+Utility folder (not in a subfolder), and restart Resolve. On the free
+version of Resolve 21.1 or later, that menu runs no Python scripts at all;
+Buddy needs Studio there, or the free version up to 21.0.4.
+
+Buddy opened from outside Resolve but can't reach it - that only works in
+Resolve Studio, with Preferences > System > General > "External scripting
+using" set to Local. In the free version, quit that Buddy from the system
+tray, then open it from Workspace > Scripts (while one is already open,
+the menu only brings that one up).
 
 A feature says a package is missing - run the step 2 line again; it only
 adds what isn't there yet.

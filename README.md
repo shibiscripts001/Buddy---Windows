@@ -65,6 +65,30 @@ python.org (checksum-verified) and Buddy's Python packages, downloaded while
 installing (up to ~330 MB, so it needs internet). Then open Resolve and pick
 **Workspace > Scripts > Buddy**.
 
+It can also add a Start menu entry (on by default) and a desktop shortcut
+(off by default) that open the same Buddy without going through Resolve.
+Either way it's one app: opening it a second way brings up the copy already
+running.
+
+**Which Resolve works which way:**
+
+| Resolve | Workspace > Scripts | Start menu / desktop shortcut |
+| --- | --- | --- |
+| Studio | Yes | Yes |
+| Free, up to 21.0.4 | Yes | Opens, but can't reach Resolve |
+| Free, 21.1 and later | No | Opens, but can't reach Resolve |
+
+- Only **DaVinci Resolve Studio** lets Buddy connect from outside Resolve
+  (a shortcut, or "Start Buddy automatically when Resolve starts"). Turn on
+  **Preferences > System > General > "External scripting using" > Local**.
+- The free version runs Buddy only from **Workspace > Scripts**, and only up
+  to **21.0.4**. From **21.1** on, only Studio supports Python scripts.
+- Where Buddy can't reach Resolve, it still opens, and the tools that don't
+  use Resolve still work. The ones that do say they can't reach it.
+- In the free version, open Buddy from Workspace > Scripts first. If a copy
+  started from a shortcut is already running, the menu only brings that one
+  up, so quit it from the system tray first.
+
 Windows may show "Windows protected your PC" because the installer isn't
 code-signed: **More info > Run anyway**. Uninstall from Settings > Apps; it
 removes Buddy and leaves Python, its packages and your `~/.buddy` settings.
@@ -108,7 +132,10 @@ overwritten. It packages what is on `main`, so push changes before bumping. The 
 
 ## Requirements
 
-- DaVinci Resolve (free or Studio) — only needed for the tools that talk to it
+- DaVinci Resolve — only needed for the tools that talk to it. Studio works
+  from Workspace > Scripts and from outside Resolve; the free version only
+  from Workspace > Scripts, and only up to 21.0.4 (see
+  [Installing](#installing-for-users))
 - Python 3.10+
 - PySide6, plus Pillow, NumPy, openpyxl, pynput and PyMuPDF for some tools
 
