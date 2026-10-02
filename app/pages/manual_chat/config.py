@@ -4,16 +4,19 @@ Ask Buddy's settings: which AI provider, its key and model, and where the
 manual data lives. No Qt - Transcribe's AI translation reads the same
 settings (one place to set a key), and the tests run on plain Python.
 
-API keys: read from the environment FIRST, settings second. ToolSettings
-writes plaintext JSON under ~/.manual_chat/, so anyone who would rather not
-have a key on disk can export BUDDY_LLM_API_KEY (or GEMINI_API_KEY) and
-leave the settings field empty.
+API keys: read from the environment FIRST, settings second. In settings a
+key is kept locked to the Windows account (core/secrets_store.py, DPAPI), not
+as typed, so a copied or synced settings file - or its .bak - holds nothing
+usable; anyone who would rather not have a key on disk at all can export
+BUDDY_LLM_API_KEY (or GEMINI_API_KEY) and leave the settings field empty.
 """
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
+
+from core import atomic_io, secrets_store
 
 from .agent import DEFAULT_MAX_STEPS, MAX_MAX_STEPS
 from .llm import (
@@ -257,6 +260,7 @@ DEFAULTS = {
     # Agentic project changes. Off unless the user has typed the consent
     # sentence; see core/write_consent.py for why it is not just a flag.
     "allow_project_writes": False,
+    "project_read_consent": "",           # the address (llm.destination) project details may be sent to
 }
 
 # Where the manual data lives, best first. ~/.buddy/manual is where
@@ -283,7 +287,12 @@ def api_key_from_settings(settings, provider=None) -> str:
         value = os.environ.get(var)
         if value:
             return value
-    return settings.get(spec["api_key_key"], "") if spec["api_key_key"] else ""
+    return secrets_store.unlock(settings.get(spec["api_key_key"], "")) if spec["api_key_key"] else ""
+
+
+def key_fields() -> list[str]:
+    """Every settings field that holds a key."""
+    return [s["api_key_key"] for s in PROVIDER_SPEC.values() if s["api_key_key"]] + ["embed_api_key"]
 
 
 def llm_client_from_settings(settings, **kwargs) -> LLMClient:
@@ -351,7 +360,9 @@ def migrate_legacy_settings(settings):
     moved onto whichever provider was selected when they were written -
     the only provider they could have belonged to - so someone who had
     Gemini working does not open this build to an empty key field. The
-    legacy keys are left in place; nothing reads them after this.
+    legacy keys are dropped once moved (a key is no longer left in the file
+    as typed); nothing reads them after this. Every key still stored as typed
+    is locked here (lock_stored_keys).
     """
     spec = PROVIDER_SPEC.get(settings.get("provider", PROVIDER_GEMINI))
     if not spec:
@@ -368,3 +379,34 @@ def migrate_legacy_settings(settings):
             moved = True
     if moved:
         settings.save()
+    lock_stored_keys(settings)
+
+
+def lock_stored_keys(settings):
+    """Seals every key still in the file as typed - and the old shared
+    `api_key`, which is removed - then deletes the settings file's .bak,
+    which holds the file as it was before (the keys as typed). Returns True
+    if anything was locked."""
+    values = getattr(settings, "values", None)
+    if not isinstance(values, dict):
+        values = settings                 # a plain dict stands in for ToolSettings
+    changed = False
+    for name in key_fields():
+        text = values.get(name)
+        if isinstance(text, str) and text and not secrets_store.is_locked(text):
+            locked = secrets_store.lock(text)
+            if locked != text:
+                values[name] = locked
+                changed = True
+    if values.get("api_key"):
+        values.pop("api_key", None)
+        changed = True
+    if changed:
+        settings.save()
+        path = getattr(settings, "_path", None)
+        if path:
+            try:
+                os.remove(atomic_io.backup_path(path))
+            except OSError:
+                pass                         # none there
+    return changed

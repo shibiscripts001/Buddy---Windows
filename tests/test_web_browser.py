@@ -412,6 +412,35 @@ class BrowserTests(unittest.TestCase):
         page.close_tab(page.tabs[0])
         self.assertEqual([t.url for t in page.tabs], [""])                  # never no tabs at all
 
+    def test_a_new_tab_starts_in_the_themes_colour_not_white(self):
+        page = self.browser()
+        tab = page.open_tab("")
+        surface = self.host.theme_tokens()["surface"]
+        self.assertEqual(tab.page.backgroundColor().name(), surface.lower())
+        tab.url = self.pages[0]                                   # a site: the white every browser gives it
+        tab._ground()
+        self.assertEqual(tab.page.backgroundColor().name(), "#ffffff")
+        page.on_go({"text": self.pages[1]})
+        self.until(lambda: page.active.title == "Page B")
+        self.assertEqual(page.active.page.backgroundColor().name(), "#ffffff")
+
+    def test_new_tabs_always_join_the_right_hand_end(self):
+        page = self.browser()
+        first = page.tabs[0]
+        page.open_tab(self.pages[0], show=False)
+        page.open_tab(self.pages[1], show=False)
+        page.select(first)                                                   # the active tab is the leftmost
+        page.on_new_tab()
+        made = page.tabs[-1]
+        page.new_private_tab()
+        private = page.tabs[-1]
+        opened = page.open_tab_for_page(first)                               # a link opening a new window
+        page.open_tab(first.url, private=first.private)                      # Duplicate
+        self.assertEqual(len(page.tabs), 7)
+        self.assertIs(page.tabs[0], first)
+        self.assertEqual([page.tabs[3], page.tabs[4], page.tabs[5]], [made, private, opened])
+        self.assertTrue(private.private and not made.private)
+
     def test_private_tabs_leave_nothing_behind(self):
         page = self.browser()
         page.on_go({"text": self.pages[0]})

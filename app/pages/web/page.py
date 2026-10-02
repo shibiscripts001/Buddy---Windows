@@ -10,13 +10,18 @@ only gets a page once it's first shown, and a background tab sleeps after
 a while (Settings > Tools > Web) unless it's playing sound, kept awake, or
 on a site that never sleeps - so music plays on with the Web tab out of
 sight, and a dozen idle tabs cost next to nothing. Downloads go to a
-folder of the user's choosing and can be dragged from the bar straight
-into Resolve's Media Pool.
+folder of the user's choosing and can be dragged from the bar or the
+Downloads window straight into Resolve's Media Pool.
 
 Protocol (bar, web/):
     to the view    browser, focus_address, toast
     from the view  new_tab, close, select, move, go, back, forward, reload,
                    stop, mute, media, menu, more, downloads, drag_download, size
+
+The Downloads button opens a window of its own (downloads_window.py): the
+history of what's been downloaded, searchable and filterable, with each
+file draggable into Resolve - where it lands in a Downloads bin of the
+Media Pool (resolve_ext.py).
 
 A private tab (Ctrl+Shift+N) is in a profile kept in memory only
 (engine.private_profile): nothing of it is saved, remembered for the
@@ -24,32 +29,41 @@ address bar or kept once the last private tab closes.
 """
 
 import base64
+import json
 import os
+import shutil
+import subprocess
+import sys
 import time
 
 from PySide6.QtCore import QBuffer, QByteArray, QIODevice, Qt, QTimer, QUrl
-from PySide6.QtGui import QCursor, QKeySequence, QShortcut
+from PySide6.QtGui import QColor, QCursor, QDesktopServices, QKeySequence, QShortcut
 from PySide6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage, QWebEngineScript
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QFileDialog, QMenu, QStackedWidget, QVBoxLayout, QWidget
 
+from core import recycle
 from core import settings_form as sf
 from core import link_bar
 from core.i18n import LANGUAGE_CODES, get_i18n, tr
 from core.link_bar_web import LinkDialog
-from core.link_peek_web import FolderPeek, start_file_drag
-from core.message_dialog import alert
+from core.link_peek_web import start_file_drag
+from core.message_dialog import alert, confirm
 from pages.base import ToolPage
 from core import audio_sessions
-from pages.web import browser, ducking, engine, filter_lists
+from pages.web import browser, download_guard, downloads_log, ducking, engine, filter_lists, resolve_ext
 from pages.web.bar import BrowserBar
+from pages.web.downloads_window import DownloadsWindow
+from pages.web.fullscreen_notice import FullScreenNotice
+from pages.web.video_window import Videos
 
 SETTINGS_ID = "buddy_web"
 CHECK_SLEEP_MS = 20_000
 MEMORY_MS = 4_000
 SAVE_DELAY_MS = 1_500
 ZOOMS = (0.5, 0.67, 0.75, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 1.75, 2.0)
-RECENT_DOWNLOADS = 5
+FILE_TRIES = 14                # a file dragged onto Resolve is looked for in the Media Pool this many times...
+FILE_EVERY_MS = 1_500          # ...this far apart
 # Chromium says a tab is audible a moment late and stays so a moment
 # after it stops: sound reported this soon after Buddy paused it is the
 # old sound, not the page playing again.
@@ -114,9 +128,9 @@ class Tab:
         self.web.setPage(self.page)
         b = self.browser
         self.page.titleChanged.connect(lambda t: self._set(title=t))
-        self.page.urlChanged.connect(lambda u: self._set(url=self._shown_url(u)))
+        self.page.urlChanged.connect(lambda u: (self._set(url=self._shown_url(u)), self._ground()))
         self.page.iconChanged.connect(self._icon)
-        self.page.loadStarted.connect(lambda: self._set(loading=True, progress=0, paused=False))
+        self.page.loadStarted.connect(lambda: (self._set(loading=True, progress=0, paused=False), self._ground()))
         self.page.loadProgress.connect(lambda p: self._set(progress=p))
         self.page.loadFinished.connect(lambda ok: (self._set(loading=False, progress=100), ok and b.visited(self)))
         self.page.recentlyAudibleChanged.connect(self._audible)
@@ -124,9 +138,19 @@ class Tab:
         self.page.lifecycleStateChanged.connect(lambda _s: b.changed())
         self.page.fullScreenRequested.connect(lambda request: b.full_screen(self, request))
         self.page.renderProcessPidChanged.connect(lambda _p: b.changed())
+        self._ground()
         b.stack.addWidget(self.web)
         if load:
             self.load()
+
+    def _ground(self):
+        """What shows before a page has painted - and behind one that sets no
+        background. The new-tab page is drawn in the theme, so it starts in
+        the theme's colour (a dark theme no longer flashes white); a site
+        gets the white every browser gives it, or a page with no background
+        of its own would be dark text on dark."""
+        if self.page is not None:
+            self.page.setBackgroundColor(QColor(Qt.white) if self.url else self.browser.ground_color())
 
     def load(self):
         if self.url:
@@ -188,7 +212,15 @@ class WebBrowserPage(ToolPage):
         self.tabs = []
         self.active = None
         self._next_id = 1
-        self.downloads = []                   # QWebEngineDownloadRequest, newest last
+        # Every download, oldest first (downloads_log), and the requests of those still going.
+        self.history = downloads_log.clean_history(self.settings.get("download_history"))
+        self._active = {}                     # record id -> QWebEngineDownloadRequest
+        self._serial = 0
+        self._panel = None                    # the Downloads window, while it's open
+        self.videos = Videos(self.host)       # Buddy's player, for videos the page can't decode
+        self._filing = {}                     # path -> record: dragged onto Resolve, to move into Downloads
+        self._burst = download_guard.BurstGuard()
+        self._filing_tries = 0
         self._full = None                     # (tab, window) while a page is full screen
         self.memory = None
 
@@ -252,15 +284,16 @@ class WebBrowserPage(ToolPage):
         self._closed = []                     # (url, title) of closed tabs, newest last
 
     # ------------------------------------------------------------- tabs --
-    def _add(self, url="", title="", awake=False, after=None, private=False):
+    def _add(self, url="", title="", awake=False, private=False):
+        """A new tab always joins the row at its right-hand end - never
+        beside the active one, which could put it among the others."""
         tab = Tab(self, self._next_id, url, title, awake, private)
         self._next_id += 1
-        index = len(self.tabs) if after is None else self.tabs.index(after) + 1
-        self.tabs.insert(index, tab)
+        self.tabs.append(tab)
         return tab
 
-    def open_tab(self, url="", show=True, after=None, private=False):
-        tab = self._add(url, after=after, private=private)
+    def open_tab(self, url="", show=True, private=False):
+        tab = self._add(url, private=private)
         if show:
             self.select(tab)
         else:
@@ -270,9 +303,9 @@ class WebBrowserPage(ToolPage):
 
     def open_tab_for_page(self, opener):
         """A page opened a new window (a link to a new tab, a sign-in
-        pop-up): it becomes a tab beside its opener, shown, with a page the
-        site fills in itself."""
-        tab = self._add("", after=opener, private=opener.private)     # a private page's stay private
+        pop-up): it becomes a tab at the end of the row, shown, with a page
+        the site fills in itself."""
+        tab = self._add("", private=opener.private)     # a private page's stay private
         tab.make_view(load=False)
         self.select(tab)
         self.changed(save=True)
@@ -314,7 +347,7 @@ class WebBrowserPage(ToolPage):
         self.changed(save=True)
 
     def new_private_tab(self, url=""):
-        self.open_tab(url, after=self.active, private=True)
+        self.open_tab(url, private=True)
 
     def _drop_private(self):
         """The last private tab closed: all it knew forgotten."""
@@ -405,7 +438,7 @@ class WebBrowserPage(ToolPage):
         minutes, never = self.sleep_minutes(), self.never_sleep()
         page = self.active.page if self.active else None
         history = page.history() if page else None
-        busy = [d for d in self.downloads if not d.isFinished()]
+        busy = [d for d in self._active.values() if not d.isFinished()]
         total = sum(max(d.totalBytes(), 0) for d in busy)
         got = sum(d.receivedBytes() for d in busy)
         self.emit("browser", {
@@ -416,9 +449,13 @@ class WebBrowserPage(ToolPage):
             "zoom": round((self.active.web.zoomFactor() if self.active and self.active.web else 1) * 100),
             "memory": self.memory,
             "ducked": self._ducked,
-            "downloads": {"busy": len(busy), "progress": (got / total) if total else None,
-                          "recent": [self._download_state(d) for d in self.downloads[-RECENT_DOWNLOADS:]][::-1]},
+            "downloads": {"busy": len(busy), "progress": (got / total) if total else None},
         })
+        if self._panel is not None:
+            try:
+                self._panel.refresh()
+            except RuntimeError:              # the window has gone
+                self._panel = None
 
     # --------------------------------------------------------- autofill --
     def visited(self, tab):
@@ -501,7 +538,15 @@ class WebBrowserPage(ToolPage):
         saved = [{"url": t.url, "title": t.title, "awake": t.awake} for t in kept]
         self.settings["tabs"] = browser.clean_tabs(saved)
         self.settings["active"] = kept.index(self.active) if self.active in kept else 0
+        self.settings["download_history"] = downloads_log.save(self.history)
         self.settings.save()
+
+    def ground_color(self):
+        """The new-tab page's background: the theme's own surface."""
+        try:
+            return QColor(self.host.theme_tokens()["surface"])
+        except Exception:  # noqa: BLE001 - a host without a theme
+            return QColor(Qt.white)
 
     def start_html(self, private=False):
         t = self.host.theme_tokens()
@@ -588,6 +633,10 @@ class WebBrowserPage(ToolPage):
             esc = QShortcut(QKeySequence("Esc"), window)
             esc.activated.connect(lambda: tab.page.triggerAction(QWebEnginePage.ExitFullScreen))
             window.showFullScreen()
+            # Buddy's bar is covered: say whose page this is, over the top of it.
+            site = request.origin().host() or browser.site_of(tab.url) or tr("A page")
+            FullScreenNotice(window, tab.web,
+                             tr("{site} is full screen - press Esc to exit").replace("{site}", site))
             self._full = (tab, window)
         elif not request.toggleOn() and self._full is not None:
             full_tab, window = self._full
@@ -597,6 +646,30 @@ class WebBrowserPage(ToolPage):
                 self.stack.setCurrentWidget(full_tab.web)
             window.hide()
             window.deleteLater()
+
+    # ------------------------------------------------------------ videos --
+    def play_video(self, tab, raw):
+        """A page's video that Chromium here can't decode (video_fallback.js
+        told us): played in Buddy's own window."""
+        try:
+            info = json.loads(raw)
+            url = info["url"]
+        except (ValueError, KeyError, TypeError):
+            return
+        if not isinstance(url, str) or QUrl(url).scheme().lower() not in ("http", "https"):
+            return
+        title = info.get("title") if isinstance(info.get("title"), str) else ""
+        start = info.get("time") if isinstance(info.get("time"), (int, float)) else 0.0
+        self.videos.play(url, title or tab.title or browser.site_of(tab.url), start,
+                         save=lambda address, t=tab: self._save_video(t, address),
+                         page_host=browser.site_of(tab.url),
+                         refused=lambda why: self.emit("toast", {"text": tr(why), "id": None}))
+
+    def _save_video(self, tab, url):
+        """Save in the video window: a download through the tab's page, so
+        it has the page's cookies and lands in the Downloads window."""
+        if tab.page is not None and tab in self.tabs:
+            tab.page.download(QUrl(url))
 
     # -------------------------------------------------------- downloads --
     def downloads_folder(self):
@@ -608,43 +681,246 @@ class WebBrowserPage(ToolPage):
         os.makedirs(folder, exist_ok=True)
         item.setDownloadDirectory(folder)
         item.setDownloadFileName(browser.unique_name(folder, item.downloadFileName()))
+        tab = getattr(item.page(), "tab", None)
+        source = tab.url if tab is not None and tab.url else item.url().toString()
+        if not self._download_allowed(item, downloads_log.site_of(source)):
+            item.cancel()
+            return
+        self._serial += 1
+        record = downloads_log.new_record(self._serial, item.downloadFileName(),
+                                          os.path.join(folder, item.downloadFileName()), downloads_log.site_of(source))
+        record["private"] = bool(tab is not None and tab.private)
+        record["source"] = source if source.lower().startswith(("http://", "https://")) else ""
+        self.history.append(record)
+        self._active[record["id"]] = item
         item.receivedBytesChanged.connect(self.changed)
-        item.isFinishedChanged.connect(lambda: self._download_done(item))
-        self.downloads = (self.downloads + [item])[-20:]
+        item.isFinishedChanged.connect(lambda: self._download_done(item, record))
         item.accept()
         self.changed()
 
-    def _download_done(self, item):
-        if item.state() == QWebEngineDownloadRequest.DownloadCompleted:
-            self.emit("toast", {"text": tr("Saved {name}").replace("{name}", item.downloadFileName()),
-                                    "download": len(self.downloads) - 1 - self.downloads.index(item)
-                                    if item in self.downloads else None})
+    def _download_allowed(self, item, site):
+        """A download is only started if it fits: not too many together or
+        for the disk, and a program, or a burst of files from one site, only
+        if the user says so. A refusal says why."""
+        name, parent = item.downloadFileName(), self._panel or self.window()
+        who = site or tr("A page")
+        if len([d for d in self._active.values() if not d.isFinished()]) >= download_guard.MAX_AT_ONCE:
+            self.emit("toast", {"text": tr("Too many downloads at once - wait for some to finish"), "id": None})
+            return False
+        try:
+            free = shutil.disk_usage(item.downloadDirectory()).free
+        except OSError:
+            free = None
+        if free is not None and not download_guard.room_for(free, item.totalBytes()):
+            self.emit("toast", {"text": tr("Not enough room on that drive to download {name}").replace("{name}", name),
+                                "id": None})
+            return False
+        if self._burst.burst(site or "?", time.time()) and not confirm(
+                parent, "Many downloads",
+                tr("{site} is downloading a lot of files in a row. Allow it to keep going?").replace("{site}", who),
+                ok="Allow", cancel="Stop", danger=True):
+            return False
+        if download_guard.is_program_file(name) and not confirm(
+                parent, "Download a program?",
+                tr("{site} wants to download {name}. This kind of file runs code when it is opened, so only "
+                   "keep it if you trust the site.").replace("{site}", who).replace("{name}", name),
+                ok="Download", cancel="Cancel", danger=True):
+            return False
+        return True
+
+    def _download_done(self, item, record):
+        completed = item.state() == QWebEngineDownloadRequest.DownloadCompleted
+        record["name"] = item.downloadFileName()
+        record["path"] = os.path.join(item.downloadDirectory(), record["name"])
+        record["state"] = "done" if completed else "failed"
+        try:
+            record["size"] = os.path.getsize(record["path"]) if completed else 0
+        except OSError:
+            record["size"] = max(item.totalBytes(), 0)
+        self._active.pop(record["id"], None)
+        if completed:                         # Windows then warns before it is run
+            download_guard.mark_from_internet(record["path"], item.url().toString(), record.get("source", ""))
+        self.history = downloads_log.trim(self.history)
+        self._save_timer.start()
+        if completed:
+            self.emit("toast", {"text": tr("Saved {name}").replace("{name}", record["name"]), "id": record["id"]})
         self.changed()
 
+    def _records(self, ids):
+        """The history's records for these ids, in the order asked."""
+        by_id = {r["id"]: r for r in self.history}
+        return [by_id[i] for i in ids if i in by_id]
+
     @staticmethod
-    def _download_state(item):
-        done = item.state() == QWebEngineDownloadRequest.DownloadCompleted
-        total = item.totalBytes()
-        return {"name": item.downloadFileName(), "done": done,
-                "failed": item.state() in (QWebEngineDownloadRequest.DownloadCancelled,
-                                           QWebEngineDownloadRequest.DownloadInterrupted),
-                "progress": (item.receivedBytes() / total) if total > 0 else None}
+    def _has_file(record):
+        return record["state"] == "done" and os.path.isfile(record["path"])
 
-    def _download_path(self, recent_index):
-        recent = self.downloads[-RECENT_DOWNLOADS:][::-1]
-        if isinstance(recent_index, int) and 0 <= recent_index < len(recent):
-            item = recent[recent_index]
-            path = os.path.join(item.downloadDirectory(), item.downloadFileName())
-            if item.state() == QWebEngineDownloadRequest.DownloadCompleted and os.path.exists(path):
-                return path
-        return None
+    def downloads_view(self):
+        """The Downloads window's list: newest first."""
+        items = []
+        for record in reversed(self.history):
+            item = self._active.get(record["id"])
+            if item is None:
+                items.append(downloads_log.shown(record, self._has_file(record)))
+                continue
+            total, got = item.totalBytes(), item.receivedBytes()
+            items.append(downloads_log.shown(dict(record, size=max(total, got, 0)), False,
+                                             (got / total) if total > 0 else None))
+        return {"items": items, "folder": self.downloads_folder()}
 
-    def peek_downloads(self):
-        FolderPeek(self.window(), self.downloads_folder(), tr("Downloads")).show()
+    def show_downloads(self):
+        if self._panel is not None:
+            try:
+                self._panel.show()
+                self._panel.raise_()
+                self._panel.activateWindow()
+                return
+            except RuntimeError:
+                self._panel = None
+        panel = DownloadsWindow(self)
+        panel.destroyed.connect(lambda: setattr(self, "_panel", None))
+        self._panel = panel
+        panel.show()
+
+    def drag_downloads(self, ids, view=None):
+        """Carries downloads out as files (the button is down). Let go over
+        Resolve, they're moved into its Downloads bin once it has them."""
+        records = [r for r in self._records(ids) if self._has_file(r)]
+        if not records:
+            return
+        view = view or self.bar.view
+        start_file_drag(view, view, [r["path"] for r in records])
+        if resolve_ext.cursor_over_resolve():
+            self._file_in_resolve(records)
+
+    def _file_in_resolve(self, records):
+        """Resolve takes a dragged file into whichever bin is open: look
+        for them in the Media Pool and move them into Downloads."""
+        started = not self._filing
+        self._filing.update({r["path"]: r for r in records})
+        self._filing_tries = 0
+        if started:
+            QTimer.singleShot(FILE_EVERY_MS, self._file_step)
+
+    def _file_step(self):
+        if not self._filing:
+            return
+        self._filing_tries += 1
+        filed, failed = [], None
+        try:
+            controller = self.host.ensure_connected()
+            for path, record in list(self._filing.items()):
+                if resolve_ext.file_into_bin(controller, path):
+                    record["resolve"] = True
+                    filed.append(path)
+                    del self._filing[path]
+        except Exception as exc:              # noqa: BLE001 - Resolve gone, or no project open
+            failed = exc
+        if filed:
+            self._save_timer.start()
+            self.changed()
+            self.emit("toast", {"text": tr("Moved to the Downloads bin in Resolve"), "id": None})
+        if failed is not None or (self._filing and self._filing_tries >= FILE_TRIES):
+            if self._filing:
+                self.emit("toast", {"text": tr("Couldn't find it in the Media Pool - use Send to Resolve"), "id": None})
+            self._filing.clear()
+        elif self._filing:
+            QTimer.singleShot(FILE_EVERY_MS, self._file_step)
+
+    def send_downloads(self, ids):
+        """Imports downloads into the Media Pool's Downloads bin."""
+        records = [r for r in self._records(ids) if self._has_file(r)]
+        parent = self._panel or self.window()
+        if not records:
+            alert(parent, "Send to Resolve", "Those files aren't on disk any more.")
+            return
+        busy = getattr(self.host, "set_busy", None)
+        if busy:
+            busy(True, tr("Sending to Resolve…"))
+        try:
+            controller = self.host.ensure_connected()
+            resolve_ext.send_to_bin(controller, [r["path"] for r in records])
+        except Exception as exc:              # noqa: BLE001 - Resolve refused, gone, or no project open
+            alert(parent, "Send to Resolve", str(exc))
+            return
+        finally:
+            if busy:
+                busy(False)
+        for record in records:
+            record["resolve"] = True
+        self._save_timer.start()
+        self.changed()
+        self.emit("toast", {"text": tr("Sent to the Downloads bin in Resolve"), "id": None})
+
+    def open_downloads(self, ids):
+        records = [r for r in self._records(ids) if self._has_file(r)][:10]
+        programs = [r["name"] for r in records if download_guard.is_program_file(r["name"])]
+        if programs and not confirm(
+                self._panel or self.window(), "Open a program?",
+                tr("{name} is a program or script. Opening it runs it on this PC - only do that if you "
+                   "trust where it came from.").replace("{name}", programs[0]) if len(programs) == 1 else
+                tr("{count} of these are programs or scripts. Opening them runs them on this PC - only do "
+                   "that if you trust where they came from.").replace("{count}", str(len(programs))),
+                ok="Open", cancel="Cancel", danger=True):
+            records = [r for r in records if r["name"] not in programs]      # the rest open as asked
+        for record in records:
+            QDesktopServices.openUrl(QUrl.fromLocalFile(record["path"]))
+
+    def reveal_download(self, ident):
+        record = next(iter(self._records([ident])), None)
+        if record is None:
+            return
+        if self._has_file(record) and sys.platform == "win32":
+            subprocess.Popen(["explorer", "/select," + os.path.normpath(record["path"])])
+        else:
+            folder = os.path.dirname(record["path"])
+            QDesktopServices.openUrl(QUrl.fromLocalFile(folder if os.path.isdir(folder) else self.downloads_folder()))
+
+    def open_downloads_folder(self):
+        QDesktopServices.openUrl(QUrl.fromLocalFile(self.downloads_folder()))
+
+    def cancel_downloads(self, ids):
+        for record in self._records(ids):
+            item = self._active.get(record["id"])
+            if item is not None:
+                item.cancel()
+
+    def remove_downloads(self, ids):
+        """Off the list (a download still going is cancelled); the files stay."""
+        gone = {r["id"] for r in self._records(ids)}
+        for ident in gone:
+            item = self._active.pop(ident, None)
+            if item is not None:
+                item.cancel()
+        self.history = [r for r in self.history if r["id"] not in gone]
+        self._save_timer.start()
+        self.changed()
+
+    def delete_downloads(self, ids):
+        """The files to the Recycle Bin, and off the list."""
+        records = [r for r in self._records(ids) if r["state"] != "active"]
+        files = [r["path"] for r in records if os.path.isfile(r["path"])]
+        parent = self._panel or self.window()
+        if files:
+            text = (tr("Move {name} to the Recycle Bin?").replace("{name}", os.path.basename(files[0]))
+                    if len(files) == 1 else
+                    tr("Move {count} files to the Recycle Bin?").replace("{count}", str(len(files))))
+            if not confirm(parent, "Delete downloads", text, ok="Move to Recycle Bin", danger=True):
+                return
+            try:
+                recycle.to_recycle_bin(files)
+            except OSError as exc:
+                alert(parent, "Delete downloads", str(exc))
+                return
+        self.remove_downloads([r["id"] for r in records])
+
+    def clear_downloads(self):
+        """The list emptied of what's finished; the files stay."""
+        self.remove_downloads([r["id"] for r in self.history if r["state"] != "active"])
 
     # ---------------------------------------------------------- the bar --
     def on_new_tab(self, payload=None):
-        self.open_tab("", after=self.active, private=bool((payload or {}).get("private")))
+        self.open_tab("", private=bool((payload or {}).get("private")))
 
     def on_close(self, payload):
         tab = self.tab(payload)
@@ -772,11 +1048,11 @@ class WebBrowserPage(ToolPage):
         self.zoom(0)
 
     def on_downloads(self, _payload=None):
-        self.peek_downloads()
+        self.show_downloads()
 
     def on_drag_download(self, payload):
-        path = self._download_path((payload or {}).get("index"))
-        start_file_drag(self, self.bar.view, [path] if path else [])
+        ident = (payload or {}).get("id")
+        self.drag_downloads([ident] if isinstance(ident, str) else [])
         self.emit("drag_done")
 
     def on_menu(self, payload):
@@ -787,9 +1063,9 @@ class WebBrowserPage(ToolPage):
         site = browser.site_of(tab.url)
         add = lambda text, run, enabled=True: menu.addAction(tr(text), run).setEnabled(enabled)
         add("Reload", lambda: (self.select(tab), self.on_reload()), bool(tab.url))
-        add("Duplicate", lambda: self.open_tab(tab.url, after=tab, private=tab.private), bool(tab.url))
+        add("Duplicate", lambda: self.open_tab(tab.url, private=tab.private), bool(tab.url))
         if not tab.private:
-            add("Open in a private tab", lambda: self.open_tab(tab.url, after=tab, private=True), bool(tab.url))
+            add("Open in a private tab", lambda: self.open_tab(tab.url, private=True), bool(tab.url))
         muted = bool(tab.page and tab.page.isAudioMuted())
         add("Unmute tab" if muted else "Mute tab", lambda: self.on_mute({"id": tab.id}), tab.page is not None)
         menu.addSeparator()
@@ -837,7 +1113,7 @@ class WebBrowserPage(ToolPage):
                        lambda: [self.sleep(t) for t in self.tabs if t is not self.active])
         menu.addSeparator()
         menu.addAction(tr("Add a shortcut to the new-tab page…"), self.add_shortcut)
-        menu.addAction(tr("Downloads"), self.peek_downloads)
+        menu.addAction(tr("Downloads"), self.show_downloads)
         if hasattr(self.host, "open_settings"):
             menu.addAction(tr("Web settings…"), lambda: self.host.open_settings(self.tool_id))
         menu.exec(QCursor.pos())
@@ -860,6 +1136,7 @@ class WebBrowserPage(ToolPage):
                 tab.load()
 
     def on_app_quitting(self):
+        self.videos.close_all()
         self.ducker.stop()                    # the Web tab's volume put back first
         engine.save_sign_ins()
         self._save_timer.stop()

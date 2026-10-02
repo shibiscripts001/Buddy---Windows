@@ -117,16 +117,16 @@ class ProviderTests(unittest.TestCase):
     def test_model_lists_leave_out_what_cant_chat(self):
         body = io.BytesIO(json.dumps({"data": [{"id": "gpt-4.1"}, {"id": "text-embedding-3-large"},
                                                {"id": "whisper-1"}, {"id": "gpt-4.1"}, {"id": "o4-mini"}]}).encode())
-        with mock.patch.object(llm.urllib.request, "urlopen", return_value=body) as opened:
+        with mock.patch.object(llm.safe_http, "urlopen", return_value=body) as opened:
             self.assertEqual(llm.list_openai_models("https://api.openai.com/v1", "k"), ["gpt-4.1", "o4-mini"])
         request = opened.call_args[0][0]
         self.assertEqual((request.full_url, request.get_header("Authorization")),
                          ("https://api.openai.com/v1/models", "Bearer k"))
         tags = io.BytesIO(json.dumps({"models": [{"name": "qwen3:14b"}, {"name": "nomic-embed-text"}]}).encode())
-        with mock.patch.object(llm.urllib.request, "urlopen", return_value=tags) as opened:
+        with mock.patch.object(llm.safe_http, "urlopen", return_value=tags) as opened:
             self.assertEqual(llm.list_ollama_models("192.168.1.20:11434"), ["qwen3:14b"])
         self.assertEqual(opened.call_args[0][0], "http://192.168.1.20:11434/api/tags")
-        with mock.patch.object(llm.urllib.request, "urlopen", side_effect=OSError("refused")):
+        with mock.patch.object(llm.safe_http, "urlopen", side_effect=OSError("refused")):
             self.assertEqual(llm.list_ollama_models(), [])
             with self.assertRaises(llm.LLMError):
                 llm.list_openai_models("http://127.0.0.1:1234/v1")

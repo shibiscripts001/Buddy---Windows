@@ -177,6 +177,23 @@ class CheckTests(unittest.TestCase):
         self.assertIsNone(images.check(b"<svg onload=alert(1)>"))
         self.assertIsNone(images.check(b""))
 
+    def test_a_small_file_that_unpacks_to_a_lot_is_not_shown(self):
+        """The sender chooses the size a picture unpacks to, so it is judged from the header."""
+        moving = animation(w=200, h=200, frames=10, fmt="WEBP", lossless=True)
+        self.assertEqual(images.check(moving), "image/webp")
+        with unittest.mock.patch.object(images, "MAX_SHOWN_PIXELS", 10 * 200 * 200 - 1):    # all frames together
+            self.assertIsNone(images.check(moving))
+        with unittest.mock.patch.object(images, "MAX_SHOWN_FRAMES", 9):
+            self.assertIsNone(images.check(moving))
+        with unittest.mock.patch.object(images, "MAX_SHOWN_AREA", 200 * 200 - 1):           # one frame
+            self.assertIsNone(images.check(picture(w=200, h=200, fmt="PNG")))
+            self.assertIsNone(images.check(moving))
+        # Buddy's own largest animation (ANIM_MAX_FRAMES at ANIM_SIDE) stays well inside the budget.
+        self.assertLess(images.ANIM_MAX_FRAMES * images.ANIM_SIDE ** 2, images.MAX_SHOWN_PIXELS)
+        self.assertLess(images.MAX_SHOWN_FRAMES * 100 * 100, images.MAX_SHOWN_PIXELS)
+        self.assertIsNone(images.thumb_check(animation(w=400, h=400, frames=3, fmt="GIF"))
+                          if images.THUMB_MAX_PIXELS < 3 * 400 * 400 else None)
+
     def test_shown_size_fits_the_box_and_never_grows(self):
         self.assertEqual(images.shown_size(1600, 1200), (320, 240))
         self.assertEqual(images.shown_size(100, 50), (100, 50))

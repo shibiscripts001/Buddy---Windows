@@ -839,19 +839,28 @@ class TranscribePage(TranscribeSettingsMixin, WebToolPage):
         if model_id != plan.AI_ID:
             return then({"id": model_id, "dir": self.tmodels[model_id], "family": es.translation_family(model_id)})
         engine = {"id": plan.AI_ID, "family": "ai"}
+        client = self._ai_client()
         key = f"ai_consent_{self._ai_provider()}"
-        if self._ai_is_local() or self.settings.get(key):
+        if self._ai_is_local() or self._consented(client, self.settings.get(key)):
             return then(engine)
+        where = self._ai_name() + ("" if client.destination == client.provider else f" at {client.destination}")
         if quiet:
             return self._add_log(f"Didn't translate automatically: AI translation sends the transcript to "
-                                 f"{self._ai_name()}, and that hasn't been OK'd yet. Translate once by hand "
+                                 f"{where}, and that hasn't been OK'd yet. Translate once by hand "
                                  "to allow it.", "error")
 
         def allowed(_value):
-            self.settings[key] = True
+            self.settings[key] = client.destination      # this address, not the provider whatever its address
             self.settings.save()
             then(engine)
-        self._ask("consent", {"name": self._ai_name()}, allowed)
+        self._ask("consent", {"name": where}, allowed)
+
+    @staticmethod
+    def _consented(client, saved):
+        """The transcript may go to this destination: OK'd for it - or, from
+        before consent named a destination (saved True), for the provider's
+        own address."""
+        return client.default_address if saved is True else bool(saved) and saved == client.destination
 
     def _ask_language(self, prompt, then):
         """An NLLB code picked in the view, remembered for next time."""

@@ -284,7 +284,8 @@ class ToolSectionTests(unittest.TestCase):
             self.assertIn("api_key", fields)
             self.assertNotIn("base_url", fields)                  # only OpenAI-compatible has one
             page.on_setting("api_key", "abc", UI())
-            self.assertEqual(page.settings["api_key_gemini"], "abc")
+            from core import secrets_store
+            self.assertEqual(secrets_store.unlock(page.settings["api_key_gemini"]), "abc")
             page.on_setting("provider", "openai", UI())
             fields = kinds(page.settings_fields())
             self.assertIn("base_url", fields)

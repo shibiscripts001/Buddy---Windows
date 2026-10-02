@@ -738,7 +738,7 @@ def preview_delete_markers(controller, args) -> ProposedAction:
         ]
         if not doomed:
             raise ActionError(f"No {color} markers exist on this timeline.")
-        plan = [("color", color)]
+        _check_count(doomed, "markers")
     else:
         _check_count(frames, "frames")
         doomed = []
@@ -751,7 +751,10 @@ def preview_delete_markers(controller, args) -> ProposedAction:
             if match is None:
                 raise ActionError(f"There is no marker at frame {frame}.")
             doomed.append((match, existing[match]))
-        plan = [("frames", [f for f, _ in doomed])]
+    # Exactly the markers listed in the preview, as they are now: Apply
+    # deletes these and no others (a colour or a frame could name different
+    # ones by then), and only those still as shown.
+    plan = [("frames", [(f, info.get("color", ""), info.get("name", "")) for f, info in doomed])]
 
     for frame, info in sorted(doomed, key=lambda p: float(p[0])):
         details.append(
@@ -773,20 +776,21 @@ def preview_delete_markers(controller, args) -> ProposedAction:
 
 def execute_delete_markers(controller, proposal, log=lambda m: None) -> str:
     timeline = _require_timeline(controller)
-    mode, value = proposal.plan[0]
-    if mode == "color":
-        if not timeline.DeleteMarkersByColor(value):
-            raise ActionError(f"Resolve refused to delete the {value} markers.")
-        log(f"Deleted all {value} markers.")
-        return f"Deleted the {value} markers."
+    _mode, value = proposal.plan[0]
+    now = {float(f): info for f, info in (_safe(timeline.GetMarkers, {}) or {}).items()}
     done = 0
-    for frame in value:
-        if timeline.DeleteMarkerAtFrame(frame):
+    for frame, color, name in value:
+        info = now.get(float(frame))
+        if info is None or info.get("color", "") != color or info.get("name", "") != name:
+            log(f"Left the marker at frame {frame}: it isn't the one that was shown.")
+        elif timeline.DeleteMarkerAtFrame(frame):
             done += 1
             log(f"Deleted the marker at frame {frame}.")
         else:
             log(f"Resolve refused to delete the marker at frame {frame}.")
-    return f"Deleted {done} of {len(value)} marker(s)."
+    left = len(value) - done
+    return f"Deleted {done} of {len(value)} marker(s)." + (
+        " The rest changed since the preview or were refused - ask again to see what is there now." if left else "")
 
 
 def preview_delete_timeline_clips(controller, args) -> ProposedAction:

@@ -287,7 +287,8 @@ class HelpAndConfigTests(unittest.TestCase):
 
         s = S(provider="gemini", api_key="k", model="m")
         config.migrate_legacy_settings(s)
-        self.assertEqual((s["api_key_gemini"], s["model_gemini"], s.saved), ("k", "m", True))
+        self.assertEqual((config.api_key_from_settings(s), s["model_gemini"], s.saved), ("k", "m", True))
+        self.assertNotIn("api_key", s)                      # the old shared field doesn't keep the key as typed
 
 
 if __name__ == "__main__":

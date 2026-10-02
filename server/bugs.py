@@ -53,7 +53,7 @@ class BugMixin:
     def _bug_part(self, session, msg: dict):
         """One piece of a screenshot on its way up. seq 0 starts one; the
         one marked last completes it. One at a time, BUG_IMAGES_MAX in all."""
-        from .core import IMAGE_PART_CHARS, MAX_IMAGE_BYTES
+        from .core import IMAGE_PART_CHARS, MAX_IMAGE_BYTES, MAX_IMAGE_PARTS, UPLOAD_SECONDS
         session.bug_started = True
         image_id, seq, data = msg.get("id"), msg.get("seq"), msg.get("data")
         if (not isinstance(image_id, str) or not _IMAGE_ID.fullmatch(image_id) or not is_id(seq)
@@ -63,14 +63,17 @@ class BugMixin:
             if len(session.bug_images) >= BUG_IMAGES_MAX:
                 session.bug_upload, session.bug_images = None, []
                 raise RequestError("too_many", f"A report can have {BUG_IMAGES_MAX} screenshots at most.")
-            session.bug_upload = {"id": image_id, "parts": [], "size": 0}
+            session.bug_upload = {"id": image_id, "parts": [], "size": 0, "t": self.clock()}
         upload = session.bug_upload
-        if upload is None or upload["id"] != image_id or seq != len(upload["parts"]):
+        if (upload is None or upload["id"] != image_id or seq != len(upload["parts"])
+                or seq >= MAX_IMAGE_PARTS or self.clock() - upload["t"] > UPLOAD_SECONDS):
             raise self._bug_problem(session)
         try:
             chunk = base64.b64decode(data, validate=True)
         except (binascii.Error, ValueError):
             raise self._bug_problem(session) from None
+        if not chunk:                      # nothing to add (see core.py _image_part)
+            raise self._bug_problem(session)
         upload["size"] += len(chunk)
         if upload["size"] > MAX_IMAGE_BYTES:
             session.bug_upload, session.bug_images = None, []

@@ -29,7 +29,9 @@ import urllib.request
 from pathlib import Path
 
 from . import local_llama
-from .llm import PROVIDER_LMSTUDIO, is_local_url, normalize_base_url
+from core import safe_http, secrets_store
+
+from .llm import PROVIDER_LMSTUDIO, _safe_to_send_key, is_local_url, normalize_base_url
 from .retrieval import EMBED_MODEL, OLLAMA_HOST
 
 BACKEND_AUTO, BACKEND_BUDDY, BACKEND_OLLAMA, BACKEND_SERVER, BACKEND_OFF = "auto", "buddy", "ollama", "server", "off"
@@ -73,7 +75,7 @@ def _post(url: str, body: dict, timeout: float, key: str = "") -> dict:
     if key:
         headers["Authorization"] = f"Bearer {key}"
     req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), headers=headers)
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+    with safe_http.urlopen(req, timeout=timeout) as resp:
         return json.load(resp)
 
 
@@ -92,7 +94,7 @@ class OllamaEmbedder(Embedder):
 
     def ready(self):
         try:
-            with urllib.request.urlopen(f"{OLLAMA_HOST}/api/tags", timeout=READY_TIMEOUT) as resp:
+            with safe_http.urlopen(f"{OLLAMA_HOST}/api/tags", timeout=READY_TIMEOUT) as resp:
                 models = json.load(resp).get("models") or []
         except (urllib.error.URLError, OSError, ValueError, TimeoutError):
             return False, "Ollama isn't running."
@@ -125,11 +127,20 @@ class ServerEmbedder(Embedder):
     def leaves_machine(self):
         return not is_local_url(self.base_url)
 
+    def _unsafe_key(self):
+        """Why the key can't be sent to this address, or ""."""
+        if self.api_key and not _safe_to_send_key(self.base_url):
+            return (f"The address {self.base_url} starts with http:// - your API key would be sent unencrypted. "
+                    "Use https://, or leave the key empty for a server on your own network that doesn't need one.")
+        return ""
+
     def ready(self):
+        if self._unsafe_key():
+            return False, self._unsafe_key()
         try:
             req = urllib.request.Request(f"{self.base_url}/models",
                                          headers={"Authorization": f"Bearer {self.api_key}"} if self.api_key else {})
-            with urllib.request.urlopen(req, timeout=READY_TIMEOUT):
+            with safe_http.urlopen(req, timeout=READY_TIMEOUT):
                 return True, ""
         except urllib.error.HTTPError as exc:
             return False, f"The server at {self.base_url} answered {exc.code}."
@@ -137,6 +148,8 @@ class ServerEmbedder(Embedder):
             return False, f"Nothing is answering at {self.base_url} – is the server running?"
 
     def embed(self, texts, timeout=EMBED_TIMEOUT):
+        if self._unsafe_key():
+            raise EmbedError(self._unsafe_key())
         body = {"input": texts}
         if self.model:
             body["model"] = self.model
@@ -201,7 +214,7 @@ def from_settings(settings) -> Embedder | None:
         return OllamaEmbedder()
     if backend == BACKEND_SERVER:
         return ServerEmbedder(settings.get("embed_base_url") or "", settings.get("embed_model") or "",
-                              settings.get("embed_api_key") or "")
+                              secrets_store.unlock(settings.get("embed_api_key") or ""))
     buddy = BuddyEmbedder(chosen_model_file(settings))
     if backend == BACKEND_BUDDY or buddy.ready()[0]:
         return buddy

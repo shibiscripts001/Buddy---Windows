@@ -389,7 +389,8 @@ class PageTests(unittest.TestCase):
     def test_cloud_translation_asks_first_and_never_automatically(self):
         self.page.settings["translate_targets"] = ["jpn_Jpan"]
         self.page.settings["translate_model"] = plan.AI_ID
-        client = SimpleNamespace(validate=lambda: None, provider="anthropic", model="claude-test")
+        from pages.manual_chat.llm import LLMClient
+        client = LLMClient("anthropic", "key", "claude-test")
         self._patch(self.page_mod.TranscribePage, "_ai_client", lambda s: client)
         self._patch(self.page_mod.TranscribePage, "_ai_is_local", lambda s: False)
         self._patch(self.page_mod.TranscribePage, "_ai_provider", lambda s: "anthropic")
@@ -406,7 +407,17 @@ class PageTests(unittest.TestCase):
         self.assertEqual(ask["kind"], "consent")
         self.page.on_answer({"id": ask["id"], "ok": True})
         self.assertEqual(len(FakeJob.made), 1)
-        self.assertTrue(self.page.settings.get("ai_consent_anthropic"))
+        self.assertEqual(self.page.settings.get("ai_consent_anthropic"), "anthropic")
+
+    def test_consent_to_cloud_translation_belongs_to_the_address(self):
+        from pages.manual_chat.llm import LLMClient
+        consented = self.page_mod.TranscribePage._consented
+        home = LLMClient("openai", "k", "m", base_url="https://relay.example/v1")
+        self.assertFalse(consented(home, None))
+        self.assertTrue(consented(home, "relay.example"))
+        self.assertFalse(consented(home, "other.example"))                    # same provider, another address
+        self.assertFalse(consented(home, True))                               # an old yes can't cover a typed address
+        self.assertTrue(consented(LLMClient("anthropic", "k", "m"), True))    # but does for a provider's own
 
     def test_subtitle_conversion_suggests_the_topmost_empty_track(self):
         self.page.on_shown()

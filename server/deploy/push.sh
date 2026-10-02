@@ -25,18 +25,34 @@ tar --exclude='__pycache__' --exclude='*.db' --exclude='*.db-*' --exclude='*.loc
         /opt/buddy-network/venv/bin/pip install -q -r /opt/buddy-network/server/requirements.txt
         DROPIN=/etc/systemd/system/buddy-network.service.d
         mkdir -p "$DROPIN"
+        rm -f "$DROPIN/hardening.conf.prev"
+        [ -f "$DROPIN/hardening.conf" ] && cp -a "$DROPIN/hardening.conf" "$DROPIN/hardening.conf.prev"
         cp /opt/buddy-network/server/deploy/hardening.conf "$DROPIN/hardening.conf"
         cp /opt/buddy-network/server/deploy/giphy.conf "$DROPIN/giphy.conf"
         systemctl daemon-reload
         systemctl restart buddy-network
         sleep 2
         if ! systemctl is-active --quiet buddy-network; then
-            echo "It did not start with the extra limits (hardening.conf) - trying without them."
-            rm -f "$DROPIN/hardening.conf"
+            # Never carry on without the limits (memory, processes, umask):
+            # say why it failed, put back what was running before, and fail.
+            echo "It did not start with this release and its limits (hardening.conf). Why:"
+            journalctl -u buddy-network -n 30 --no-pager || true
+            rm -rf /opt/buddy-network/server.failed
+            mv /opt/buddy-network/server /opt/buddy-network/server.failed
+            [ -d /opt/buddy-network/server.old ] && mv /opt/buddy-network/server.old /opt/buddy-network/server
+            if [ -f "$DROPIN/hardening.conf.prev" ]; then
+                mv "$DROPIN/hardening.conf.prev" "$DROPIN/hardening.conf"
+            else
+                rm -f "$DROPIN/hardening.conf"
+            fi
             systemctl daemon-reload
             systemctl restart buddy-network
             sleep 2
+            echo "Rolled back to the release that was running (the failed one is in server.failed)."
+            echo "buddy-network: $(systemctl is-active buddy-network || true)"
+            exit 1
         fi
+        rm -f "$DROPIN/hardening.conf.prev"
         echo "buddy-network: $(systemctl is-active buddy-network)"
     fi
 '

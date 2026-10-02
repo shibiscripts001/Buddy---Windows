@@ -49,7 +49,7 @@ Command Prompt and run the check again.
 In Command Prompt, run this one line. It installs into the same Python
 Resolve will use, and takes a few minutes (about 300 MB, mostly PySide6):
 
-    py -3 -m pip install "PySide6>=6.8,<7" pillow numpy openpyxl pynput pymupdf pymupdf4llm cryptography
+    py -3 -m pip install "PySide6>=6.10,<7" "pillow>=12.3" numpy openpyxl pynput "pymupdf>=1.26.7" pymupdf4llm "cryptography>=50.0"
 
 (From a copy of the source you can run the equivalent
 "py -3 -m pip install -r installer\requirements.txt" instead - it's the

@@ -31,6 +31,7 @@ import time
 from PySide6.QtCore import QThread, QUrl, Signal
 from PySide6.QtGui import QDesktopServices
 
+from core import secrets_store
 from core import settings_form as sf
 from core.recycle import to_recycle_bin
 from core.i18n import tr
@@ -241,7 +242,7 @@ class ChatSettingsMixin:
             sf.text("model", spec.get("model_label", "Model"), self.settings.get(spec["model_key"], ""),
                     placeholder=spec["model_placeholder"], live=True, suggest=models),
             sf.hint(list_error, tone="danger") if list_error else None,
-            sf.text("api_key", spec.get("key_label", "API key"), self.settings.get(spec["api_key_key"], ""),
+            sf.text("api_key", spec.get("key_label", "API key"), secrets_store.unlock(self.settings.get(spec["api_key_key"], "")),
                     placeholder="Paste your API key", password=True, live=True) if spec["api_key_key"] else None,
             sf.text("api_version", "API version", self.settings.get(spec["api_version_key"], ""),
                     placeholder=AZURE_API_VERSION) if spec.get("api_version_key") else None,
@@ -258,6 +259,12 @@ class ChatSettingsMixin:
                                 "searches, reading your project, offering tools. More calls let it dig deeper on "
                                 "hard questions, but each one is an extra model round-trip that uses more tokens."),
             sf.heading("Project changes"),
+            sf.check("allow_project_reads", "Let Ask Buddy send my project's details to my AI provider",
+                     self.project_reads_allowed(),
+                     hint_text="Ask Buddy reads your project's settings, timeline, clip and marker names to answer "
+                               "questions about it, and a cloud provider receives what it reads. Off, it answers "
+                               "from the manual only. A server on your own PC or network needs no permission.")
+            if not llm_client_from_settings(self.settings).local else None,
             sf.check("allow_project_writes", "Allow Buddy to make changes to my project",
                      self.settings.get("allow_project_writes", False),
                      hint_text="Off by default. Turning it on asks you to type a sentence confirming you understand "
@@ -293,6 +300,14 @@ class ChatSettingsMixin:
         ]
 
     # ------------------------------------------------ the Model library --
+
+    def project_reads_allowed(self, llm=None) -> bool:
+        """What Ask Buddy reads of the open project (names, clips, markers,
+        settings) goes to the AI provider with the question. A server on this
+        PC or the user's network needs no leave; a cloud one needs theirs, for
+        that address."""
+        llm = llm or llm_client_from_settings(self.settings)
+        return llm.local or self.settings.get("project_read_consent") == llm.destination
 
     def ai_models(self):
         """The chat model, the embedding models on disk (or the one to get)
@@ -408,7 +423,7 @@ class ChatSettingsMixin:
                         placeholder="LM Studio on this PC (127.0.0.1:1234)"),
                 sf.text("embed_model", "Model", self.settings.get("embed_model") or "",
                         placeholder="its name there, e.g. text-embedding-embeddinggemma-300m"),
-                sf.text("embed_api_key", "API key (optional)", self.settings.get("embed_api_key") or "",
+                sf.text("embed_api_key", "API key (optional)", secrets_store.unlock(self.settings.get("embed_api_key") or ""),
                         placeholder="only if the server asks for one", password=True),
                 sf.hint("LM Studio, a llama-server started with --embedding, or any other OpenAI-compatible "
                         "/embeddings endpoint. It needs to run EmbeddingGemma to match the manual's index."),
@@ -545,7 +560,7 @@ class ChatSettingsMixin:
             value = str(value or "").strip()
             if key == "embed_backend" and value not in dict(emb.BACKENDS):
                 return
-            self._save(key, value)
+            self._save(key, secrets_store.lock(value) if key == "embed_api_key" else value)
             self._embed_result = None
             self._reload_manual()           # the next question searches with it
             return
@@ -558,7 +573,7 @@ class ChatSettingsMixin:
         elif key == "model":
             self._save(spec["model_key"], str(value or "").strip())
         elif key == "api_key" and spec["api_key_key"]:
-            self._save(spec["api_key_key"], str(value or "").strip())
+            self._save(spec["api_key_key"], secrets_store.lock(str(value or "").strip()))
         elif key == "base_url" and spec["base_url_key"]:
             self._save(spec["base_url_key"], str(value or "").strip())
         elif key == "api_version" and spec.get("api_version_key"):
@@ -570,6 +585,9 @@ class ChatSettingsMixin:
             self._on_history_limit_changed()
         elif key == "max_steps" and isinstance(value, int) and DEFAULT_MAX_STEPS <= value <= MAX_MAX_STEPS:
             self._save("max_steps", value)
+        elif key == "allow_project_reads":
+            self._save("project_read_consent", llm_client_from_settings(self.settings).destination if value else "")
+            self._read_declined = None
         elif key == "allow_project_writes":
             self._on_writes_toggled(bool(value), ui)
 

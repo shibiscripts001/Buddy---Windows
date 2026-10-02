@@ -27,7 +27,7 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - SVG Importer
 - Time Tracker
 - Subtitles (Transcribe, Translate, Subtitle Conversion and the Text+ styling, layout, word-by-word and animation tabs included)
-- Web (new; a light browser - tabs (drag to reorder), private tabs (Ctrl+Shift+N), YouTube quality, search, new-tab shortcuts, a pause button on a tab that plays sound, Google sign-in, sign-ins saved encrypted with the Windows account (`pages/web/cookie_vault.py`), downloads that drag into the Media Pool, ad and tracker blocking with EasyList, EasyPrivacy and uBlock Origin's filter lists (`pages/web/filters.py`). Background tabs sleep after a while, except ones playing sound, kept awake or on a never-sleep site. Its sound ducks while Resolve plays (Windows; `core/audio_sessions.py`), and a speaker beside "Web" in the sidebar shows when it plays. Built on the Chromium Buddy already ships, so it can't play H.264 or DRM video; see `pages/web/`)
+- Web (new; a light browser - tabs (drag to reorder), private tabs (Ctrl+Shift+N), YouTube quality, search, new-tab shortcuts, a pause button on a tab that plays sound, Google sign-in, sign-ins saved encrypted with the Windows account (`pages/web/cookie_vault.py`), a Downloads window (searchable, filter by kind, size and date) whose files drag into Resolve and land in a Downloads bin of the Media Pool, ad and tracker blocking with EasyList, EasyPrivacy and uBlock Origin's filter lists (`pages/web/filters.py`). Background tabs sleep after a while, except ones playing sound, kept awake or on a never-sleep site. Its sound ducks while Resolve plays (Windows; `core/audio_sessions.py`), and a speaker beside "Web" in the sidebar shows when it plays. Built on the Chromium Buddy already ships, which has no H.264/AAC decoder, so a video that fails there is offered to Buddy's own player (`pages/web/video_window.py`, Qt Multimedia's FFmpeg); DRM video still can't play; see `pages/web/`)
 
 The bug button in the header (and on the desktop layout's taskbar) sends a
 bug report - what went wrong, up to six screenshots, and Buddy's, the
@@ -108,7 +108,7 @@ Settings > Updates turns the daily check off, checks now, or rolls
 back to the version the last update replaced. A release that needs a package
 Buddy doesn't have yet sends you to its installer instead. Updates aren't
 signed: they're trusted as far as GitHub and the account publishing the
-releases are (see `app/core/updater.py`).
+releases are (see `app/core/updater.py`, which says where a signature would go).
 
 ## Building the installer
 
@@ -129,7 +129,13 @@ publishes release `v1.0.1` with `BuddySetup-1.0.1.exe` attached - and `buddy.zip
 don't change `VERSION` release nothing, and an existing version is never
 overwritten. It packages what is on `main`, so push changes before bumping. The installer script is
 `installer/Buddy.iss`; the packages it installs are `installer/requirements.txt`
-(a test fails if Buddy imports a package that isn't listed there).
+(a test fails if Buddy imports a package that isn't listed there). The lower
+bounds in that file are security floors - the installer upgrades anything
+older, and an update that needs more than a PC has sends it to the installer.
+`python tools/check_dependencies.py` checks them against PyPI's advisory data
+(the release workflow runs it as a warning); raise a floor when it reports one.
+The workflow builds with a read-only token and publishes from a separate job,
+and every action it uses is pinned to a commit.
 
 ## Requirements
 
@@ -266,7 +272,11 @@ or failed build leaves the current one untouched.
 **Reading your project.** With Resolve running, it can read your project and
 timeline settings, which edition you have, what is on the timeline, any clips
 whose frame rate or resolution does not match it, and your markers. Mismatches
-are computed in Python rather than left to the model.
+are computed in Python rather than left to the model. What it reads goes to
+your AI provider with the question, so with a cloud provider it asks first
+(once, for that provider's address; Settings > AI has the switch) and answers
+from the manual alone if you say no - a server on your own PC or network needs
+no permission.
 The detected Free or Studio edition is included with every question while
 Buddy is connected to Resolve; without a connection, the edition is marked
 unknown. **Check project** scans the current timeline for frame-rate and

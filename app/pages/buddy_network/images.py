@@ -59,10 +59,15 @@ ANIM_MAX_FRAMES = 150             # more than this and every other one (or more)
 ANIM_QUALITY, ANIM_LOW_QUALITY = 75, 45
 MAX_ANIM_PIXELS = 1_500_000_000   # frames x width x height; past that it's refused, not decoded
 ANIM_MIN_MS = 20                  # a frame's shortest time (browsers slow shorter ones right down)
-MAX_SHOWN_FRAMES = 1000           # an animation with more isn't shown
+MAX_SHOWN_FRAMES = 300            # an animation with more isn't shown (Buddy sends at most ANIM_MAX_FRAMES)
+# What the page may be asked to decode: a small file can unpack to far more
+# (frames x width x height x 4 bytes in the browser), and the sender's the one choosing.
+MAX_SHOWN_PIXELS = 300_000_000    # all frames together: ~1.2 GB if the browser held them at once, never more
+MAX_SHOWN_AREA = 4096 * 4096      # any one frame
 # A GIF search's previews: small, and GIFs allowed (they're GIPHY's own).
 THUMB_MAX_BYTES = 128 * 1024
 THUMB_MAX_SIDE = 400
+THUMB_MAX_PIXELS = 40_000_000
 THUMB_FORMATS = {**SHOWN_FORMATS, "GIF": "image/gif"}
 
 
@@ -225,13 +230,17 @@ def shrink(data: bytes, max_side: int = MAX_SIDE) -> Shrunk:
         side = max(MIN_SIDE, int(side * SMALLER))
 
 
-def _checked(data: bytes, max_bytes: int, max_side: int, formats: dict) -> str | None:
+def _checked(data: bytes, max_bytes: int, max_side: int, formats: dict, max_pixels: int | None = None) -> str | None:
     if not AVAILABLE or not data or len(data) > max_bytes:
         return None
     try:
         image = Image.open(io.BytesIO(data))
+        frames = getattr(image, "n_frames", 1)
+        # Everything is judged from the header, before any frame is decoded.
+        max_pixels = MAX_SHOWN_PIXELS if max_pixels is None else max_pixels
         if (image.format not in formats or max(image.size) > max_side
-                or getattr(image, "n_frames", 1) > MAX_SHOWN_FRAMES):
+                or image.width * image.height > MAX_SHOWN_AREA or frames > MAX_SHOWN_FRAMES
+                or frames * image.width * image.height > max_pixels):
             return None
         image.load()
     except Exception:
@@ -247,7 +256,7 @@ def check(data: bytes) -> str | None:
 
 def thumb_check(data: bytes) -> str | None:
     """The same for a GIF search's preview, which may be a GIF."""
-    return _checked(data, THUMB_MAX_BYTES, THUMB_MAX_SIDE, THUMB_FORMATS)
+    return _checked(data, THUMB_MAX_BYTES, THUMB_MAX_SIDE, THUMB_FORMATS, THUMB_MAX_PIXELS)
 
 
 def data_url(data: bytes, mime: str) -> str:

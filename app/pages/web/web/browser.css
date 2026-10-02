@@ -13,7 +13,7 @@ html, body { margin: 0; background: transparent; overflow: hidden; }
 .wb-tabs-row { display: flex; align-items: center; gap: 4px; min-width: 0; }
 /* The tabs take only the room they need, so the + sits just after the last
    one; past the bar's width they scroll and the + stays at the end. */
-.wb-tabs { flex: 0 1 auto; min-width: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.wb-tabs { position: relative; flex: 0 1 auto; min-width: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
 .wb-tabs::-webkit-scrollbar { display: none; }
 .wb-tab {
     position: relative; flex: 0 1 200px; min-width: 96px; height: 30px; display: flex; align-items: center; gap: 6px;
@@ -25,7 +25,7 @@ html, body { margin: 0; background: transparent; overflow: hidden; }
     background: var(--card-bg); color: var(--text-strong); border-color: var(--card-border);
 }
 .wb-tab.dragging {
-    z-index: 1; cursor: grabbing; background: var(--card-bg); border-color: var(--accent-text);
+    z-index: 2; cursor: grabbing; background: var(--card-bg); border-color: var(--accent-text);
     box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
 }
 .wb-tab[data-asleep="true"] .wb-title, .wb-tab[data-asleep="true"] .wb-icon { opacity: .55; }

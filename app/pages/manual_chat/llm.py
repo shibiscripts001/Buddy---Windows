@@ -45,6 +45,8 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 
+from core import safe_http
+
 GEMINI_ENDPOINT = (
     "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 )
@@ -145,7 +147,7 @@ def list_ollama_models(base_url: str = "", timeout: int = 3) -> list[str]:
     root = normalize_base_url(PROVIDER_OLLAMA, base_url or OLLAMA_BASE_URL)
     root = root[:-3] if root.endswith("/v1") else root
     try:
-        with urllib.request.urlopen(f"{root}/api/tags", timeout=timeout) as resp:
+        with safe_http.urlopen(f"{root}/api/tags", timeout=timeout) as resp:
             models = json.load(resp).get("models") or []
     except (urllib.error.URLError, OSError, ValueError, TimeoutError):
         return []
@@ -156,10 +158,13 @@ def list_openai_models(base_url: str, api_key: str = "", timeout: int = 5) -> li
     """The models an OpenAI-compatible server offers (GET /models) - what
     llama.cpp has loaded, LM Studio's downloads, OpenRouter's catalogue.
     Raises LLMError when it can't be read, so Settings can say why."""
+    if api_key and not _safe_to_send_key(base_url):
+        raise LLMError("That address starts with http:// - your API key would be sent unencrypted. "
+                       "Use https://, or leave the key empty for a server on your own network that doesn't need one.")
     headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
     req = urllib.request.Request(f"{base_url.rstrip('/')}/models", headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with safe_http.urlopen(req, timeout=timeout) as resp:
             data = json.load(resp)
     except urllib.error.HTTPError as e:
         raise LLMError(f"Couldn't list the models: HTTP {e.code}")
@@ -210,7 +215,7 @@ def _post(url: str, payload: dict, headers: dict, label: str, timeout: int) -> d
     body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with safe_http.urlopen(req, timeout=timeout) as resp:
             return json.load(resp)
     except urllib.error.HTTPError as e:
         detail = ""
@@ -266,9 +271,25 @@ class LLMClient:
         timeouts."""
         if self.provider == PROVIDER_OLLAMA and self.model.lower().endswith(("-cloud", ":cloud")):
             return False   # Ollama's cloud models run on Ollama's servers
+        # Where the address points decides, never the provider's name: an
+        # "Ollama" whose address is a hosted service is a cloud service.
         if self.endpoint and self.endpoint["local"]:
-            return True
+            return is_local_url(self.base_url)
         return self.provider == PROVIDER_OPENAI and bool(self.base_url) and is_local_url(self.base_url)
+
+    @property
+    def destination(self) -> str:
+        """Who receives what's sent: the address's host, else the provider
+        (Gemini and Anthropic have no address to type). What a consent to
+        send text away is tied to - the same provider at another address
+        needs asking again."""
+        host = (urllib.parse.urlsplit(self.base_url).hostname or "").lower() if self.base_url else ""
+        return host or self.provider
+
+    @property
+    def default_address(self) -> bool:
+        """True while the address is the provider's own (or there is none)."""
+        return not self.base_url or bool(self.endpoint and self.base_url == self.endpoint["base"])
 
     @property
     def key_required(self) -> bool:

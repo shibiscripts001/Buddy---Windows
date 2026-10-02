@@ -13,6 +13,31 @@ from .ui_utils import format_date, format_clock, format_duration_words
 
 COLUMN_HEADERS = ["Date", "Project", "Start", "End", "Duration", "Notes"]
 
+# A spreadsheet reads a cell starting with one of these as a formula - and
+# project names and notes are the user's (or an imported backup's) own text.
+_FORMULA_START = ("=", "+", "-", "@")
+
+
+def safe_csv(value):
+    """Text for a CSV cell that a spreadsheet shows as written: one that
+    starts like a formula (after any spaces and control characters, which
+    some spreadsheets skip) gets a leading apostrophe."""
+    if not isinstance(value, str):
+        return value
+    first = value.lstrip(" \t\r\n\x00\x0b\x0c")
+    if value[:1] in ("\t", "\r", "\n") or first.startswith(_FORMULA_START):
+        return "'" + value
+    return value
+
+
+def append_text_safe(ws, row):
+    """Adds `row` to a worksheet with every text cell stored as text, never
+    as a formula (openpyxl turns a string starting "=" into one)."""
+    ws.append(row)
+    for cell in ws[ws.max_row]:
+        if isinstance(cell.value, str):
+            cell.data_type = "s"
+
 
 def _row_values(entry, data_mgr):
     return [
@@ -32,11 +57,11 @@ def export_csv(entries, data_mgr, path):
         for entry in entries:
             writer.writerow([
                 format_date(entry["start"]),
-                entry.get("project", ""),
+                safe_csv(entry.get("project", "")),
                 entry["start"],
                 entry.get("end", ""),
                 int(data_mgr.duration_seconds(entry)),
-                entry.get("notes", ""),
+                safe_csv(entry.get("notes", "")),
             ])
 
 
@@ -58,7 +83,7 @@ def export_xlsx(entries, data_mgr, path):
         cell.font = Font(bold=True)
 
     for entry in entries:
-        ws.append(_row_values(entry, data_mgr))
+        append_text_safe(ws, _row_values(entry, data_mgr))
 
     widths = [12, 32, 10, 10, 12, 40]
     for col_index, width in enumerate(widths, start=1):
@@ -156,17 +181,17 @@ def export_report_csv(report_data, path):
         writer = csv.writer(f)
         writer.writerow(["Metric", "Duration (seconds)"])
         for label_key, seconds_key, currency_key in _totals_sections_for(report_data):
-            writer.writerow([report_data[label_key], int(report_data[seconds_key])])
+            writer.writerow([safe_csv(report_data[label_key]), int(report_data[seconds_key])])
             for currency, amount in sorted(report_data.get(currency_key, {}).items()):
-                writer.writerow([f"{report_data[label_key]} Earnings ({currency})", f"{amount:.2f}"])
+                writer.writerow([safe_csv(f"{report_data[label_key]} Earnings ({currency})"), f"{amount:.2f}"])
         writer.writerow([])
         writer.writerow(["Date", "Duration (seconds)"])
         for label, seconds in report_data["daily"]:
-            writer.writerow([label, int(seconds)])
+            writer.writerow([safe_csv(label), int(seconds)])
         writer.writerow([])
         writer.writerow(["Project", "Duration (seconds)", "Earnings", "Currency"])
         for project, seconds, earnings, currency in report_data["by_project"]:
-            writer.writerow([project, int(seconds), f"{earnings:.2f}", currency])
+            writer.writerow([safe_csv(project), int(seconds), f"{earnings:.2f}", safe_csv(currency)])
 
 
 def export_report_json(report_data, path):
@@ -199,9 +224,9 @@ def export_report_xlsx(report_data, path):
     for cell in summary[1]:
         cell.font = Font(bold=True)
     for label_key, seconds_key, currency_key in _totals_sections_for(report_data):
-        summary.append([report_data[label_key], format_duration_words(report_data[seconds_key])])
+        append_text_safe(summary, [report_data[label_key], format_duration_words(report_data[seconds_key])])
         for text in _format_earnings(report_data, currency_key, lambda a, c: f"{c} Earnings: {format_money(a, c)}"):
-            summary.append([text])
+            append_text_safe(summary, [text])
     summary.column_dimensions["A"].width = 30
     summary.column_dimensions["B"].width = 16
 
@@ -209,7 +234,7 @@ def export_report_xlsx(report_data, path):
     daily.append(["Date", "Duration"])
     daily["A1"].font = daily["B1"].font = Font(bold=True)
     for label, seconds in report_data["daily"]:
-        daily.append([label, format_duration_words(seconds) if seconds else "-"])
+        append_text_safe(daily, [label, format_duration_words(seconds) if seconds else "-"])
     daily.column_dimensions["A"].width = 16
     daily.column_dimensions["B"].width = 16
 
@@ -219,7 +244,7 @@ def export_report_xlsx(report_data, path):
         cell.font = Font(bold=True)
     for project, seconds, earnings, currency in report_data["by_project"]:
         earnings_text = format_money(earnings, currency) if earnings > 0 else ""
-        projects.append([project, format_duration_words(seconds), earnings_text])
+        append_text_safe(projects, [project, format_duration_words(seconds), earnings_text])
     projects.column_dimensions["A"].width = 32
     projects.column_dimensions["B"].width = 16
     projects.column_dimensions["C"].width = 16

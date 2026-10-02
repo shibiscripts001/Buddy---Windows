@@ -16,6 +16,7 @@ import ctypes
 import json
 import os
 import re
+import secrets
 import shutil
 import sys
 
@@ -148,6 +149,32 @@ def _set_up(made):
     made.scripts().insert(script)
     _put_quality_script(made)
     _put_youtube_ads_script(made)
+    _put_video_script(made)
+
+
+# Chromium here can't decode H.264 or AAC; video_fallback.js notices a video
+# that failed for it and says so on the console, behind this secret (a page
+# can't guess it, so it can't make Buddy open a video). TabPage hears it.
+VIDEO_TOKEN = secrets.token_hex(12)
+VIDEO_SCRIPT = "buddy-video-fallback"
+_VIDEO_JS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "video_fallback.js")
+
+
+def _put_video_script(made):
+    for old in made.scripts().find(VIDEO_SCRIPT):
+        made.scripts().remove(old)
+    try:
+        with open(_VIDEO_JS, encoding="utf-8") as fh:
+            source = fh.read().replace("__TOKEN__", VIDEO_TOKEN)
+    except OSError:
+        return
+    script = QWebEngineScript()
+    script.setName(VIDEO_SCRIPT)
+    script.setInjectionPoint(QWebEngineScript.DocumentReady)
+    script.setWorldId(QWebEngineScript.ApplicationWorld)       # out of the page's reach
+    script.setRunsOnSubFrames(True)                            # players embedded in other sites too
+    script.setSourceCode(source)
+    made.scripts().insert(script)
 
 
 def _put_quality_script(made):
@@ -409,7 +436,11 @@ class TabPage(QWebEnginePage):
         alert(self._parent(), self._site(origin), message)
 
     def javaScriptConsoleMessage(self, level, message, line, source):
-        pass                                  # the web's own logging isn't Buddy's
+        # The web's own logging isn't Buddy's - except a video that couldn't
+        # play here (video_fallback.js), which Buddy's player takes.
+        if message.startswith(VIDEO_TOKEN):
+            raw = message[len(VIDEO_TOKEN):]
+            QTimer.singleShot(0, lambda: self.tab.browser.play_video(self.tab, raw))
 
 
 # ---------------------------------------------------------------- memory --

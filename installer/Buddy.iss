@@ -112,6 +112,7 @@ Source: "..\build\Buddy.py"; DestDir: "{#ScriptsDir}"; Flags: ignoreversion
 Source: "..\build\buddy.zip"; DestDir: "{#ScriptsDir}"; Flags: ignoreversion
 Source: "buddy.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "requirements.txt"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "check_packages.py"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 ; Removed again by the uninstaller.
 [Icons]
@@ -361,6 +362,12 @@ begin
   Result := Exec(PythonExe,
     '-I -c "import PySide6.QtWidgets, PySide6.QtMultimedia, PySide6.QtWebEngineWidgets, PIL, numpy, openpyxl, pynput, pymupdf, pymupdf4llm, cryptography"',
     '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0);
+  { Present is not enough: each must be at a version requirements.txt allows
+    (its lower bounds are security floors), or pip upgrades it. }
+  if Result then
+    Result := Exec(PythonExe,
+      '-I "' + ExpandConstant('{tmp}\check_packages.py') + '" "' + ExpandConstant('{tmp}\requirements.txt') + '"',
+      '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0);
 end;
 
 function PipInstall(): Boolean;
@@ -472,7 +479,7 @@ begin
   SuppressibleMsgBox('Buddy is installed, but its Python packages couldn''t be installed.' + #13#10#13#10 +
     Reason + #13#10#13#10 +
     'Or install them yourself with:' + #13#10 +
-    '"' + PythonExe + '" -s -m pip install PySide6 pillow numpy openpyxl pynput pymupdf pymupdf4llm cryptography' + #13#10#13#10 +
+    '"' + PythonExe + '" -s -m pip install "PySide6>=6.10,<7" "pillow>=12.3" numpy openpyxl pynput "pymupdf>=1.26.7" pymupdf4llm "cryptography>=50.0"' + #13#10#13#10 +
     'Full details are in the setup log:' + #13#10 + ExpandConstant('{log}'),
     mbError, MB_OK, IDOK);
 end;

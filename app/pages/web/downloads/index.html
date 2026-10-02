@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Downloads</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="downloads.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body class="window">
+<main class="dl">
+    <header class="dl-head">
+        <input type="search" class="field dl-search" id="search" placeholder="Search downloads" autocomplete="off"
+               spellcheck="false" aria-label="Search downloads">
+        <button type="button" class="btn icon ghost" id="folder" title="Open the downloads folder"
+                aria-label="Open the downloads folder"></button>
+    </header>
+    <div class="dl-kinds segmented" id="kinds" role="group" aria-label="Kind of file"></div>
+    <div class="dl-filters">
+        <label class="lbl">Size
+            <select class="field" id="size">
+                <option value="any">Any size</option>
+                <option value="tiny">Under 1 MB</option>
+                <option value="small">1 - 10 MB</option>
+                <option value="medium">10 - 100 MB</option>
+                <option value="large">100 MB - 1 GB</option>
+                <option value="huge">Over 1 GB</option>
+            </select>
+        </label>
+        <label class="lbl">Date
+            <select class="field" id="when">
+                <option value="any">Any time</option>
+                <option value="today">Today</option>
+                <option value="week">Past 7 days</option>
+                <option value="month">Past 30 days</option>
+            </select>
+        </label>
+        <label class="lbl">Sort
+            <select class="field" id="sort">
+                <option value="new">Newest first</option>
+                <option value="old">Oldest first</option>
+                <option value="big">Largest first</option>
+                <option value="small">Smallest first</option>
+                <option value="name">Name A - Z</option>
+            </select>
+        </label>
+    </div>
+    <div class="dl-list" id="list" role="listbox" aria-multiselectable="true" aria-label="Downloads" tabindex="0"></div>
+    <div class="dl-actions" id="actions" hidden>
+        <button type="button" class="btn accent" id="send" title="Import into the Media Pool's Downloads bin">Send to Resolve</button>
+        <button type="button" class="btn" id="open">Open</button>
+        <button type="button" class="btn" id="reveal">Show in folder</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn" id="remove" title="Take it off the list - the file stays">Remove from list</button>
+        <button type="button" class="btn danger" id="delete" title="Move the file to the Recycle Bin">Delete</button>
+    </div>
+    <footer class="dl-foot">
+        <span id="count"></span>
+        <span class="spacer"></span>
+        <button type="button" class="dl-link" id="clear" hidden title="Empty the list - the files stay">Clear list</button>
+        <span class="dl-tip">Drag into Resolve - it goes to the Downloads bin</span>
+    </footer>
+</main>
+<script src="downloads.js"></script>
+</body>
+</html>

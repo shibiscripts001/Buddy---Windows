@@ -134,10 +134,15 @@ function tabNode(tab) {
     return node;
 }
 
-/* Dragging a tab left or right moves it in the row: it follows the
-   pointer, the others make room, and Python hears where it ended up
-   ("move"). Redraws from Python wait until it's dropped. */
-const tabDrag = {id: null, node: null, x: 0, moved: false, justDropped: false, pending: null};
+/* Dragging a tab left or right, as in Chrome: it follows the pointer along
+   the row, the others slide aside to make room, and on release it settles
+   into its place and Python hears where that is ("move"). The row's own
+   order isn't touched until the drop, so every tab's layout position
+   (offsetLeft) stays what it was and the slots are read from that; only
+   transforms move. Redraws from Python wait until it's dropped. */
+const tabDrag = {id: null, node: null, x: 0, grab: 0, moved: false, justDropped: false, pending: null,
+                 pointer: 0, from: 0, to: 0, others: [], gap: 0, timer: 0};
+const SLIDE = "transform .14s ease";
 
 function startTabDrag(e, node, id) {
     if (e.button !== 0 || e.target.closest("button")) return;      // its own buttons click as ever
@@ -145,30 +150,73 @@ function startTabDrag(e, node, id) {
     node.setPointerCapture(e.pointerId);
 }
 
+function dragLayout() {
+    const d = tabDrag, row = $("tabs"), r = row.getBoundingClientRect();
+    // Where the tab's left edge wants to be, in the row's scrolled content.
+    const want = d.pointer - r.left + row.scrollLeft - d.grab;
+    const left = Math.max(0, Math.min(want, row.scrollWidth - d.node.offsetWidth));
+    d.node.style.transform = `translateX(${left - d.node.offsetLeft}px)`;
+    const centre = left + d.node.offsetWidth / 2;
+    d.to = d.others.filter(n => n.offsetLeft + n.offsetWidth / 2 < centre).length;
+    const shift = d.node.offsetWidth + d.gap;
+    d.others.forEach((n, i) => {
+        // Past the dragged tab's old place and not yet past its new one: out of its way.
+        const x = i >= d.from && i < d.to ? -shift : i >= d.to && i < d.from ? shift : 0;
+        n.style.transform = x ? `translateX(${x}px)` : "";
+    });
+}
+
 $("tabs").addEventListener("pointermove", e => {
     const d = tabDrag;
     if (d.id === null) return;
-    if (!d.moved && Math.abs(e.clientX - d.x) < DRAG_START) return;
-    if (!d.moved) { d.moved = true; d.node.classList.add("dragging"); }
-    const others = [...$("tabs").children].filter(n => n !== d.node);
-    const before = others.find(n => { const r = n.getBoundingClientRect(); return e.clientX < r.left + r.width / 2; });
-    if (before ? d.node.nextSibling !== before : $("tabs").lastChild !== d.node) $("tabs").insertBefore(d.node, before || null);
-    // Near either end of a row that scrolls: scroll it along.
-    const row = $("tabs").getBoundingClientRect();
-    if (e.clientX < row.left + 24) $("tabs").scrollLeft -= 12;
-    else if (e.clientX > row.right - 24) $("tabs").scrollLeft += 12;
+    d.pointer = e.clientX;
+    if (!d.moved) {
+        if (Math.abs(e.clientX - d.x) < DRAG_START) return;
+        d.moved = true;
+        const kids = [...$("tabs").children];
+        d.others = kids.filter(n => n !== d.node);
+        d.from = d.to = kids.indexOf(d.node);
+        d.grab = d.x - d.node.getBoundingClientRect().left;
+        d.gap = parseFloat(getComputedStyle($("tabs")).columnGap) || 0;
+        d.node.classList.add("dragging");
+        d.others.forEach(n => { n.style.transition = SLIDE; });
+        // Near either end of a row that scrolls, it scrolls along - even
+        // while the pointer holds still.
+        d.timer = setInterval(() => {
+            const row = $("tabs").getBoundingClientRect();
+            if (d.pointer < row.left + 28) $("tabs").scrollLeft -= 10;
+            else if (d.pointer > row.right - 28) $("tabs").scrollLeft += 10;
+            else return;
+            dragLayout();
+        }, 16);
+    }
+    dragLayout();
 });
 
 function endTabDrag() {
     const d = tabDrag;
     if (d.id === null) return;
+    clearInterval(d.timer);
     if (d.moved) {
-        d.node.classList.remove("dragging");
-        send("move", {id: d.id, index: [...$("tabs").children].indexOf(d.node)});
+        const row = $("tabs"), id = d.id, node = d.node, index = d.to;
+        const was = node.getBoundingClientRect().left;
+        // The row in its new order; the tab then eases from where it was let go.
+        d.others.forEach(n => { n.style.transition = ""; n.style.transform = ""; });
+        node.style.transform = "";
+        row.insertBefore(node, d.others[index] || null);
+        node.classList.remove("dragging");
+        node.style.transition = "none";
+        node.style.transform = `translateX(${was - node.getBoundingClientRect().left}px)`;
+        node.getBoundingClientRect();
+        node.style.transition = SLIDE;
+        node.style.transform = "";
+        setTimeout(() => { node.style.transition = ""; }, 200);
+        send("move", {id, index});
         d.justDropped = true;                          // the click that ends a drag isn't a select
         setTimeout(() => { d.justDropped = false; }, 0);
     }
     d.id = d.node = null;
+    d.others = [];
     if (d.pending) { const s = d.pending; d.pending = null; drawBrowser(s); }
 }
 $("tabs").addEventListener("pointerup", endTabDrag);
@@ -215,23 +263,24 @@ Buddy.on("focus_address", () => {
 });
 
 /* A finished download: its name for a few seconds - drag it straight
-   into the Media Pool, or click to see the folder. */
+   into Resolve (the Downloads bin), or click to see the Downloads window. */
 let press = null, dragging = false;
 Buddy.on("toast", t => {
     clearTimeout(toastTimer);
     $("toast").hidden = false;
     $("toast").replaceChildren(icon("check"), el("span", {text: t.text, translate: "no"}));
-    $("toast").dataset.index = t.download === null || t.download === undefined ? "" : String(t.download);
-    $("toast").title = "Drag into Resolve's Media Pool, or click to see your downloads";
+    $("toast").dataset.id = t.id || "";
+    $("toast").title = t.id ? "Drag into Resolve (it goes to the Downloads bin), or click to see your downloads"
+        : "Click to see your downloads";
     toastTimer = setTimeout(() => { if (!dragging) $("toast").hidden = true; }, 8000);
 });
 $("toast").addEventListener("pointerdown", e => { if (e.button === 0) press = {x: e.clientX, y: e.clientY}; });
 $("toast").addEventListener("pointermove", e => {
-    if (!press || dragging || !(e.buttons & 1) || $("toast").dataset.index === "") return;
+    if (!press || dragging || !(e.buttons & 1) || !$("toast").dataset.id) return;
     if (Math.hypot(e.clientX - press.x, e.clientY - press.y) < DRAG_START) return;
     dragging = true;
     press = null;
-    send("drag_download", {index: Number($("toast").dataset.index)});
+    send("drag_download", {id: $("toast").dataset.id});
 });
 $("toast").addEventListener("pointerup", () => {
     if (press && !dragging) send("downloads");

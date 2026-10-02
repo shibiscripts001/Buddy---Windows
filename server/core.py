@@ -79,6 +79,8 @@ _DEVICE_ID = re.compile(r"[0-9a-f]{16}")
 IMAGE_DAYS = 7
 MAX_IMAGE_BYTES = 400 * 1024       # what Buddy shrinks a picture to fit (a DM's plus its 16-byte tag)
 MAX_IMAGE_SIDE = 4096
+MAX_IMAGE_PARTS = 64               # Buddy sends a 400 KB picture in ~17 parts; more is a client holding memory
+UPLOAD_SECONDS = 120.0             # from its first part to its last
 IMAGE_PART_CHARS = 24000           # base64 per image_part frame: ~24 KB, under net.py's frame limit
 IMAGE_STORE_MAX = 4 * 1024 ** 3    # every image on the server together; past it, new ones wait
 _IMAGE_ID = re.compile(r"[0-9a-f]{32}")   # the sender's Buddy picks it (random)
@@ -735,9 +737,10 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin, ProfileMixin):
                 session.upload = None
                 raise RequestError("rate_limited", "That's a lot of images - try again later.",
                                    retry_after=round(wait))
-            session.upload = {"id": image_id, "parts": [], "size": 0}
+            session.upload = {"id": image_id, "parts": [], "size": 0, "t": self.clock()}
         upload = session.upload
-        if upload is None or upload["id"] != image_id or seq != len(upload["parts"]):
+        if (upload is None or upload["id"] != image_id or seq != len(upload["parts"])
+                or seq >= MAX_IMAGE_PARTS or self.clock() - upload["t"] > UPLOAD_SECONDS):
             session.upload = None
             raise RequestError("bad_image", "That image didn't arrive in one piece - try again.")
         try:
@@ -745,6 +748,9 @@ class NetworkCore(SocialMixin, AdminMixin, GifMixin, BugMixin, ProfileMixin):
         except (binascii.Error, ValueError):
             session.upload = None
             raise RequestError("bad_image", "That image didn't arrive in one piece - try again.") from None
+        if not chunk:                      # nothing to add: only a way to keep an upload (and its memory) open
+            session.upload = None
+            raise RequestError("bad_image", "That image didn't arrive in one piece - try again.")
         upload["size"] += len(chunk)
         if upload["size"] > MAX_IMAGE_BYTES:
             session.upload = None

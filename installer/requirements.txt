@@ -2,11 +2,22 @@
 # scripts with. Ranges, not pins: pip picks builds that match whatever
 # Python the PC already has. PySide6 includes its Addons half (QtMultimedia,
 # for Asset Manager's previews, and QtWebEngine for the web tool pages).
-PySide6>=6.8,<7
-pillow>=10
+#
+# The lower bounds are SECURITY FLOORS, not "what works": a PC with an older
+# one is upgraded by the installer, and an update that needs more than a PC
+# has sends it to the installer (app/core/updater.py). Set 2026-10-03 from
+# PyPI's advisory data (the lowest release with no known advisory): pillow
+# 12.3.0 (every earlier release has image-decoder advisories), pymupdf 1.26.7
+# (CVE-2026-3029), cryptography 50.0.0 (a run of OpenSSL/parser advisories
+# through 49.x). PySide6 carries Chromium (QtWebEngine), whose fixes don't
+# appear in PyPI's data: 6.10 is the oldest series kept on a recent Chromium
+# - raise it when Qt does. Python 3.10 or newer, as the installer already needs.
+# Re-run the check (and these) before each release; the tests keep them honest.
+PySide6>=6.10,<7
+pillow>=12.3
 numpy>=1.26
 openpyxl>=3.1
 pynput>=1.7
-pymupdf>=1.24
+pymupdf>=1.26.7
 pymupdf4llm>=0.0.17
-cryptography>=42      # Buddy Network's end-to-end encrypted DMs
+cryptography>=50.0   # Buddy Network's end-to-end encrypted DMs

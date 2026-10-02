@@ -52,20 +52,22 @@ def _place(window, size):
 def start_file_drag(owner, view, paths):
     """Carries `paths` out of a web page as files, as Explorer's drag
     would - copy only, never a move. Called while the page's button is
-    still down (it says when a drag starts); runs until it's let go."""
+    still down (it says when a drag starts); runs until it's let go, and
+    returns what the drop did (Qt.IgnoreAction: nothing took it)."""
     if not paths:
-        return
+        return Qt.IgnoreAction
     mime = QMimeData()
     mime.setUrls([QUrl.fromLocalFile(p) for p in paths])
     drag = QDrag(owner)
     drag.setMimeData(mime)
-    drag.exec(Qt.CopyAction)
+    result = drag.exec(Qt.CopyAction)
     # Windows' drag took the button's release, so the page never saw it -
     # without one it would think the button's still down.
     target = view.focusProxy() or view
     local = QPointF(target.mapFromGlobal(QCursor.pos()))
     QApplication.sendEvent(target, QMouseEvent(QEvent.MouseButtonRelease, local, QPointF(QCursor.pos()),
                                                Qt.LeftButton, Qt.NoButton, Qt.NoModifier))
+    return result
 
 
 class FolderPeek(WebDialog):

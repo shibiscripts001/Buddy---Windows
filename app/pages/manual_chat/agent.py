@@ -304,11 +304,16 @@ class ManualAgent:
 
     def __init__(self, retriever, llm, connect_resolve=None, registry=None,
                  allow_writes=False, max_steps=DEFAULT_MAX_STEPS, instructions="", edition=None,
-                 prefetch_focus=False):
+                 prefetch_focus=False, allow_reads=True):
         self.retriever = retriever
         self.llm = llm
         self.connect_resolve = connect_resolve
         self.prefetch_focus = bool(prefetch_focus)
+        # Whether what it reads of the project may go to the model's server.
+        # Decided by the page, from the user's consent for that destination,
+        # before the agent is built - nothing the model (or a project's own
+        # text) says can change it.
+        self.allow_reads = bool(allow_reads)
         self.registry = registry
         # Captured at build time from the saved consent. page.py rebuilds
         # the agent whenever that setting changes, so a conversation
@@ -365,7 +370,15 @@ class ManualAgent:
             out.append(f"[{p.citation()}]\n{text}")
         return "\n\n".join(out)
 
+    NOT_ALLOWED_TO_READ = (
+        "The user has not allowed Ask Buddy to send details of their project to their AI provider, so the project "
+        "was not read. Say that in one line - they can allow it in Settings > AI, or when asked - and answer "
+        "from the manual instead. Do not guess at their project's settings.")
+
     def _do_project_state(self, args: dict, result: AgentResult) -> str:
+        if not self.allow_reads:
+            result.events.append(ToolEvent("project_state", "not allowed"))
+            return self.NOT_ALLOWED_TO_READ
         self._say("Reading your Resolve project…")
         if not self.connect_resolve:
             return "Resolve integration is unavailable in this context."
@@ -453,6 +466,8 @@ class ManualAgent:
                 "Project changes are not enabled. Tell the user they can turn "
                 "them on in Settings; do not describe the change as done."
             )
+        if not self.allow_reads:
+            return self.NOT_ALLOWED_TO_READ       # a proposal quotes the project's own names and settings
         if result.proposed_action is not None:
             return (
                 "A change has already been proposed in this answer. Only one "
@@ -527,7 +542,7 @@ class ManualAgent:
         result = AgentResult()
         messages = list(history or [])
         model_question = question
-        if self.prefetch_focus:
+        if self.prefetch_focus and self.allow_reads:
             focus = self._do_project_state({"include_focused_clip": True}, result)
             model_question += "\n\nLive Resolve context for this question (read only):\n" + focus
         messages.append({"role": "user", "content": model_question,

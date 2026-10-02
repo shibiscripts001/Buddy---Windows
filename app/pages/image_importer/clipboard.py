@@ -8,31 +8,53 @@ worker is a plain QObject with signals rather than something tangled into
 a window.
 """
 
-import mimetypes
 import os
 import re
 import threading
 import urllib.parse
 import urllib.request
 
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtCore import QBuffer, QByteArray, QIODevice, QObject, Signal
+from PySide6.QtGui import QImageReader
 from PySide6.QtWidgets import QApplication
 
 from .staging import IMAGE_EXTS, sanitize_filename, unique_filename  # noqa: F401 - re-exported
 
 
-CONTENT_TYPE_EXT = {
-    "image/jpeg": ".jpg",
-    "image/pjpeg": ".jpg",
-    "image/png": ".png",
-    "image/gif": ".gif",
-    "image/bmp": ".bmp",
-    "image/tiff": ".tiff",
-    "image/webp": ".webp",
-    "image/x-icon": ".ico",
+# What a download is saved as, by what it turns out to be (the picture's own
+# bytes, as Qt reads them) - never by the server's Content-Type or the URL's
+# ending, which a server can set to anything, ".exe" included.
+VERIFIED_EXT = {
+    b"jpeg": ".jpg",
+    b"png": ".png",
+    b"gif": ".gif",
+    b"bmp": ".bmp",
+    b"tiff": ".tiff",
+    b"webp": ".webp",
 }
 
 MAX_DOWNLOAD_BYTES = 25 * 1024 * 1024  # 25 MB safety cap
+MAX_PIXELS = 100_000_000               # a small file can still unpack to gigabytes
+
+
+def verified_extension(data):
+    """The file extension for picture bytes of a kind Image Importer takes
+    (JPEG, PNG, GIF, BMP, TIFF, WebP), read from the bytes themselves.
+    Raises ValueError for anything else - not a picture, a kind it doesn't
+    take, or one that would unpack to more than MAX_PIXELS."""
+    raw = QByteArray(data)
+    buffer = QBuffer(raw)
+    buffer.open(QIODevice.ReadOnly)
+    reader = QImageReader(buffer)
+    reader.setDecideFormatFromContent(True)
+    ext = VERIFIED_EXT.get(bytes(reader.format()).lower())
+    size = reader.size()
+    if ext is None or not reader.canRead():
+        raise ValueError("That URL did not return a picture Image Importer can use "
+                         "(JPEG, PNG, GIF, BMP, TIFF or WebP).")
+    if size.isValid() and size.width() * size.height() > MAX_PIXELS:
+        raise ValueError("That picture is too large to import.")
+    return ext
 
 
 class DownloadCancelled(Exception):
@@ -87,12 +109,7 @@ def download_image_from_url(url, dest_folder, timeout=15, cancelled=None):
         if len(data) > MAX_DOWNLOAD_BYTES:
             raise ValueError("Image exceeds the 25 MB safety limit.")
 
-    ext = (
-        CONTENT_TYPE_EXT.get(content_type)
-        or mimetypes.guess_extension(content_type)
-        or os.path.splitext(parsed.path)[1].lower()
-        or ".jpg"
-    )
+    ext = verified_extension(data)
     base_name = (
         sanitize_filename(os.path.splitext(os.path.basename(parsed.path))[0])
         or "image"

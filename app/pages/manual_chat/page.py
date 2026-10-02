@@ -43,6 +43,7 @@ from PySide6.QtCore import QBuffer, QIODevice, QStandardPaths, QThread, Signal
 from PySide6.QtWidgets import QApplication, QFileDialog
 
 from core.i18n import tr, tr_filter
+from core.message_dialog import confirm
 from core.resolve_bridge import ResolveConnectionError
 from core.tools_kb import get_tool
 from core.web_page import WebToolPage
@@ -124,6 +125,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
     def build_state(self):
         self.settings = self.host.tool_settings(self.tool_id, dict(DEFAULTS))
         migrate_legacy_settings(self.settings)
+        self._read_declined = None            # the address whose project-reading question was answered no
         self._retriever = None
         self._worker = None
         self._sending = False
@@ -202,6 +204,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         # agent is rebuilt per send, so revoking consent in Settings takes
         # effect on the very next message instead of the next launch.
         allow_writes = bool(self.settings.get("allow_project_writes", False))
+        allow_reads = self.project_reads_allowed(llm)
         controller = self.host.controller if getattr(self.host, "connected", False) else None
         edition = resolve_info(controller) if controller else None
         # host.registry rather than importing registry.py - that module
@@ -218,7 +221,26 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
             instructions=instructions_for_prompt(self.ask_folder),
             edition=edition,
             prefetch_focus=prefetch_focus,
+            allow_reads=allow_reads,
         )
+
+    def _ask_to_read_project(self):
+        """Once, before a question to a cloud model with Resolve connected:
+        may it read the project? Not asked again for that address if the
+        answer was no (Settings has the switch)."""
+        llm = llm_client_from_settings(self.settings)
+        if (not getattr(self.host, "connected", False) or self.project_reads_allowed(llm)
+                or self._read_declined == llm.destination or llm.validate()):
+            return
+        where = llm.label + ("" if llm.destination in (llm.provider, llm.label.lower()) else f" ({llm.destination})")
+        if confirm(self.window(), "Let Ask Buddy read your project?",
+                   tr("To answer questions about your project, Ask Buddy reads its settings, timeline, clip and "
+                      "marker names and sends what it reads to {where} along with your question. Allow that? "
+                      "You can change it any time in Settings > AI.").replace("{where}", where),
+                   ok="Allow", cancel="Not now"):
+            self._save("project_read_consent", llm.destination)
+        else:
+            self._read_declined = llm.destination
 
     def _resolve_source(self):
         """A zero-arg callable handing the worker the shell's EXISTING
@@ -394,6 +416,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
 
         if self._retriever is None:
             self.on_shown()
+        self._ask_to_read_project()
 
         self._pending_question = question
         sent, self.pictures = self.pictures, []
