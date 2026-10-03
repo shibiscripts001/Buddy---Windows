@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Essentials</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="essentials.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page ess">
+    <header class="page-head">
+        <h1 class="page-title">Essentials</h1>
+    </header>
+
+    <nav class="tabs" role="tablist" id="ess-tabs" aria-label="Essentials tools">
+        <button type="button" role="tab" data-tab="calc">Calculator</button>
+        <button type="button" role="tab" data-tab="data">Data Rate</button>
+        <button type="button" role="tab" data-tab="aspect">Aspect Ratio</button>
+        <button type="button" role="tab" data-tab="timer">Timer</button>
+        <button type="button" role="tab" data-tab="clock">World Clock</button>
+        <button type="button" role="tab" data-tab="notes">Notes</button>
+    </nav>
+
+    <!-- ------------------------------------------------------ calculator -->
+    <section class="ess-panel" data-panel="calc" hidden>
+        <div class="ess-calc">
+            <div class="card ess-calc-main">
+                <div class="row ess-calc-mode">
+                    <div class="segmented" id="calc-mode" role="group" aria-label="Calculator mode">
+                        <button type="button" data-mode="std">Standard</button>
+                        <button type="button" data-mode="tc">Timecode</button>
+                    </div>
+                    <span class="spacer"></span>
+                    <label class="row ess-inline" id="calc-fps-wrap" hidden>
+                        <span class="muted small">Frame rate</span>
+                        <select class="field" id="calc-fps" data-pref="calc_fps" aria-label="Frame rate"></select>
+                    </label>
+                </div>
+                <div class="ess-display">
+                    <input class="field ess-expr" id="calc-expr" type="text" spellcheck="false" autocomplete="off"
+                           aria-label="Calculation" translate="no">
+                    <div class="ess-result" id="calc-result">0</div>
+                    <div class="ess-result-sub muted" id="calc-sub"></div>
+                </div>
+                <div class="ess-keys" id="calc-keys"></div>
+                <p class="muted small ess-hint" id="calc-hint-std">Type or click. Enter works out the answer; Esc clears.</p>
+                <p class="muted small ess-hint" id="calc-hint-tc" hidden>Digits fill a timecode from the right, as in
+                    Resolve: 1000 is 00:00:10:00. Add f for frames (48f) or s for seconds (2.5s). After × or ÷ a number
+                    is a plain multiplier, and a timecode ÷ a timecode says how many times one fits in the other.</p>
+            </div>
+            <div class="card ess-history">
+                <div class="card-head">
+                    <h2 class="section-title">History</h2>
+                    <span class="spacer"></span>
+                    <button type="button" class="btn ghost" id="calc-history-clear">Clear</button>
+                </div>
+                <div class="ess-history-list" id="calc-history"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ------------------------------------------------------- data rate -->
+    <section class="ess-panel" data-panel="data" hidden>
+        <div class="ess-two">
+            <div class="card ess-form">
+                <h2 class="section-title">Recording</h2>
+                <label class="lbl">Codec
+                    <select class="field" id="dr-codec" data-pref="dr_codec"></select>
+                </label>
+                <label class="lbl" id="dr-custom-wrap" hidden>Bitrate (Mb/s)
+                    <input class="field" id="dr-custom" data-pref="dr_custom" type="number" min="0" step="any" value="50">
+                </label>
+                <label class="lbl" id="dr-res-wrap">Resolution
+                    <select class="field" id="dr-res" data-pref="dr_res"></select>
+                </label>
+                <div class="row ess-wh" id="dr-wh" hidden>
+                    <label class="lbl">Width <input class="field" id="dr-w" data-pref="dr_w" type="number" min="1" value="1920"></label>
+                    <span class="ess-x">×</span>
+                    <label class="lbl">Height <input class="field" id="dr-h" data-pref="dr_h" type="number" min="1" value="1080"></label>
+                </div>
+                <label class="lbl" id="dr-fps-wrap">Frame rate
+                    <select class="field" id="dr-fps" data-pref="dr_fps"></select>
+                </label>
+                <label class="lbl">Audio channels (48 kHz, 24-bit)
+                    <input class="field" id="dr-audio" data-pref="dr_audio" type="number" min="0" max="64" value="2">
+                </label>
+                <h2 class="section-title ess-sub-title">How much</h2>
+                <div class="row ess-hms">
+                    <label class="lbl">Hours <input class="field" id="dr-dh" data-pref="dr_dh" type="number" min="0" value="1"></label>
+                    <label class="lbl">Minutes <input class="field" id="dr-dm" data-pref="dr_dm" type="number" min="0" value="0"></label>
+                    <label class="lbl">Seconds <input class="field" id="dr-ds" data-pref="dr_ds" type="number" min="0" value="0"></label>
+                </div>
+                <div class="row ess-drive">
+                    <label class="lbl">Drive size <input class="field" id="dr-drive" data-pref="dr_drive" type="number" min="0" step="any" value="2"></label>
+                    <label class="lbl">Unit
+                        <select class="field" id="dr-unit" data-pref="dr_unit">
+                            <option value="1000">TB</option>
+                            <option value="1">GB</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="card ess-out">
+                <h2 class="section-title">Result</h2>
+                <div class="ess-stat"><span class="muted small">Data rate</span><b id="dr-rate" translate="no">–</b>
+                    <span class="muted small" id="dr-rate-sub"></span></div>
+                <div class="ess-stat"><span class="muted small">File size</span><b id="dr-size" translate="no">–</b>
+                    <span class="muted small" id="dr-size-sub"></span></div>
+                <div class="ess-stat"><span class="muted small">Fits on the drive</span><b id="dr-fits" translate="no">–</b></div>
+                <button type="button" class="btn ess-copy" id="dr-copy">Copy summary</button>
+                <p class="muted small ess-note">ProRes, DNxHR and RAW figures are the makers' published rates, scaled to
+                    your frame size and frame rate - real files vary a little with the picture. Sizes are counted the
+                    way drives are sold: 1 GB = 1000 MB.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------- aspect ratio -->
+    <section class="ess-panel" data-panel="aspect" hidden>
+        <div class="ess-two">
+            <div class="card ess-form">
+                <h2 class="section-title">Resize, keeping the shape</h2>
+                <div class="row ess-wh">
+                    <label class="lbl">Width <input class="field" id="ar-w" data-pref="ar_w" type="number" min="1" value="1920"></label>
+                    <span class="ess-x">×</span>
+                    <label class="lbl">Height <input class="field" id="ar-h" data-pref="ar_h" type="number" min="1" value="1080"></label>
+                </div>
+                <div class="ess-ratio" id="ar-ratio" translate="no"></div>
+                <div class="row ess-wh">
+                    <label class="lbl">New width <input class="field" id="ar-nw" type="number" min="1"></label>
+                    <span class="ess-x">×</span>
+                    <label class="lbl">New height <input class="field" id="ar-nh" type="number" min="1"></label>
+                </div>
+                <label class="check"><input type="checkbox" id="ar-even" data-pref="ar_even" checked> Round to even numbers</label>
+                <p class="muted small ess-note">Type a new width or a new height and the other follows. Most video
+                    codecs need even sizes.</p>
+            </div>
+            <div class="card ess-form">
+                <h2 class="section-title">Fit a shape in a frame</h2>
+                <label class="lbl">Frame
+                    <select class="field" id="fit-frame" data-pref="fit_frame"></select>
+                </label>
+                <div class="row ess-wh" id="fit-wh" hidden>
+                    <label class="lbl">Width <input class="field" id="fit-w" data-pref="fit_w" type="number" min="1" value="1920"></label>
+                    <span class="ess-x">×</span>
+                    <label class="lbl">Height <input class="field" id="fit-h" data-pref="fit_h" type="number" min="1" value="1080"></label>
+                </div>
+                <label class="lbl">Shape
+                    <select class="field" id="fit-ratio" data-pref="fit_ratio"></select>
+                </label>
+                <label class="lbl" id="fit-custom-wrap" hidden>Ratio (width ÷ height, e.g. 2.39)
+                    <input class="field" id="fit-custom" data-pref="fit_custom" type="number" min="0.1" step="any" value="2.39">
+                </label>
+                <div class="ess-fit">
+                    <div class="ess-fit-frame" id="fit-preview"><i id="fit-pic"></i></div>
+                    <div class="ess-fit-text">
+                        <div class="ess-stat"><span class="muted small">Picture</span><b id="fit-size" translate="no">–</b></div>
+                        <div class="ess-stat"><span class="muted small" id="fit-bars-label">Bars</span><b id="fit-bars">–</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------------- timer -->
+    <section class="ess-panel" data-panel="timer" hidden>
+        <div class="ess-two">
+            <div class="card ess-form ess-clock">
+                <h2 class="section-title">Stopwatch</h2>
+                <div class="ess-time" id="sw-time" translate="no">00:00.00</div>
+                <div class="row ess-clock-buttons">
+                    <button type="button" class="btn accent" id="sw-start">Start</button>
+                    <button type="button" class="btn" id="sw-lap" disabled>Lap</button>
+                    <button type="button" class="btn" id="sw-reset" disabled>Reset</button>
+                </div>
+                <div class="ess-laps" id="sw-laps"></div>
+            </div>
+            <div class="card ess-form ess-clock">
+                <h2 class="section-title">Countdown</h2>
+                <div class="ess-time" id="cd-time" translate="no">05:00</div>
+                <div class="ess-progress"><i id="cd-bar"></i></div>
+                <div class="row ess-hms" id="cd-set">
+                    <label class="lbl">Hours <input class="field" id="cd-h" data-pref="cd_h" type="number" min="0" max="99" value="0"></label>
+                    <label class="lbl">Minutes <input class="field" id="cd-m" data-pref="cd_m" type="number" min="0" max="59" value="5"></label>
+                    <label class="lbl">Seconds <input class="field" id="cd-s" data-pref="cd_s" type="number" min="0" max="59" value="0"></label>
+                </div>
+                <div class="row ess-presets" id="cd-presets"></div>
+                <div class="row ess-clock-buttons">
+                    <button type="button" class="btn accent" id="cd-start">Start</button>
+                    <button type="button" class="btn" id="cd-reset" disabled>Reset</button>
+                </div>
+                <p class="muted small ess-note">Keeps running while you use other tools - Buddy chimes and shows a
+                    note when it's done.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------- world clock -->
+    <section class="ess-panel" data-panel="clock" hidden>
+        <div class="row ess-clock-bar">
+            <button type="button" class="btn accent" id="clock-add">Add a city</button>
+            <div class="segmented" id="clock-hours" role="group" aria-label="Clock style">
+                <button type="button" data-hours="24">24-hour</button>
+                <button type="button" data-hours="12">12-hour</button>
+            </div>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="clock-copy">Copy times</button>
+        </div>
+        <div class="card ess-plan">
+            <div class="row ess-plan-row">
+                <h2 class="section-title">Plan a time</h2>
+                <label class="lbl">Date <input class="field" id="plan-date" type="date"></label>
+                <label class="lbl">Time <input class="field" id="plan-time" type="time"></label>
+                <label class="lbl">In <select class="field" id="plan-zone" aria-label="Time zone of the planned time"></select></label>
+                <button type="button" class="btn" id="plan-now">Back to now</button>
+            </div>
+            <p class="muted small ess-note" id="plan-say">Pick a date and time - a client's "10 am Tuesday", say - and
+                every clock shows what time that is there.</p>
+        </div>
+        <div class="ess-clocks" id="clocks"></div>
+        <p class="muted small ess-note">Working hours are 9 am to 6 pm, Monday to Friday, in each place.</p>
+    </section>
+
+    <!-- ----------------------------------------------------------- notes -->
+    <section class="ess-panel ess-notes-panel" data-panel="notes" hidden>
+        <div class="card ess-notes">
+            <div class="row ess-notes-head">
+                <label class="row ess-inline">
+                    <span class="muted small">Notes for</span>
+                    <select class="field ess-notes-scope" id="notes-scope" aria-label="Notes for"></select>
+                </label>
+                <span class="spacer"></span>
+                <label class="check small" title="When you open another project in Resolve, its notes show here">
+                    <input type="checkbox" id="notes-follow" checked> Follow the open project</label>
+            </div>
+            <p class="muted small ess-note" id="notes-no-resolve" hidden>The project you open in Resolve is added to the list by
+                itself - or pick New project notes… to start some for any project.</p>
+            <textarea class="field ess-notes-text" id="notes" spellcheck="true"
+                      placeholder="Jot anything down - it's saved as you type."></textarea>
+            <div class="row ess-notes-foot">
+                <span class="muted small" id="notes-count"></span>
+                <span class="muted small" id="notes-saved"></span>
+                <span class="spacer"></span>
+                <button type="button" class="btn" id="notes-copy">Copy all</button>
+                <button type="button" class="btn ghost" id="notes-clear">Clear</button>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="essentials.js"></script>
+<script src="worldclock.js"></script>
+</body>
+</html>

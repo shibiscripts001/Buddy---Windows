@@ -48,6 +48,21 @@ class NavigationTests(unittest.TestCase):
         self.events = []
         self.page.emit = lambda name, value=None: self.events.append((name, value))
 
+    def test_buddy_opens_on_a_fresh_chat_with_the_saved_ones_in_the_list(self):
+        self.page._append(YOU, "Relink my clips")
+        self.page.on_new_chat(None)
+        self.page._append(YOU, "Make subtitles")
+        self.page.on_select_chat({"index": 0})       # left on the first one
+        chat_store.save(self.folder, self.page.chats)
+        again = ManualChatPage(Host())                # Buddy launched again
+        self.addCleanup(delete, again)
+        events = []
+        again.emit = lambda name, value=None: events.append((name, value))
+        again.web_ready()
+        self.assertTrue(again.chats.is_empty())
+        self.assertEqual(again.chats.index, len(again.chats.chats) - 1)
+        self.assertEqual([c.title for c in again.chats.chats], ["Relink my clips", "Make subtitles", "New chat"])
+
     def offer(self):
         return [value for name, value in self.events if name == "offer"][-1]
 

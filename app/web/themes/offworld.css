@@ -35,7 +35,8 @@ html[data-family="offworld"] .modal {
    keeps the space for it (the type is monospace) so labels stay aligned. */
 html[data-family="offworld"] .nav-item::before { content: "\00a0\00a0"; }
 html[data-family="offworld"] .nav-item[aria-current="page"]::before { content: "\203A\00a0"; }
-html[data-family="offworld"] .shell-title::after {
-    content: "_"; margin-left: 2px; animation: offworld-blink 1.1s steps(1) infinite;
-}
+/* The cursor blinks only while Buddy is the window in use (the shell says,
+   header.js): every blink redraws the header - ~4% of a core, measured. */
+html[data-family="offworld"] .shell-title::after { content: "_"; margin-left: 2px; }
+html[data-family="offworld"].buddy-active .shell-title::after { animation: offworld-blink 1.1s steps(1) infinite; }
 @keyframes offworld-blink { 50% { opacity: 0; } }

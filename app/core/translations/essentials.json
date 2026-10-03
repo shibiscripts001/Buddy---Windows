@@ -1,0 +1,1293 @@
+{
+ "_comment": "Essentials. English -> each language; see core/i18n.py.",
+ "Essentials": {
+  "日本語": "基本ツール",
+  "Español": "Esenciales",
+  "Deutsch": "Grundwerkzeuge",
+  "Français": "Essentiels",
+  "한국어": "필수 도구",
+  "中文": "常用工具",
+  "العربية": "الأساسيات",
+  "Tiếng Việt": "Thiết yếu"
+ },
+ "Essentials tools": {
+  "日本語": "基本ツール一覧",
+  "Español": "Herramientas esenciales",
+  "Deutsch": "Grundwerkzeuge",
+  "Français": "Outils essentiels",
+  "한국어": "필수 도구 목록",
+  "中文": "常用工具列表",
+  "العربية": "أدوات أساسية",
+  "Tiếng Việt": "Công cụ thiết yếu"
+ },
+ "Calculator": {
+  "日本語": "電卓",
+  "Español": "Calculadora",
+  "Deutsch": "Rechner",
+  "Français": "Calculatrice",
+  "한국어": "계산기",
+  "中文": "计算器",
+  "العربية": "الآلة الحاسبة",
+  "Tiếng Việt": "Máy tính"
+ },
+ "Data Rate": {
+  "日本語": "データレート",
+  "Español": "Tasa de datos",
+  "Deutsch": "Datenrate",
+  "Français": "Débit de données",
+  "한국어": "데이터 전송률",
+  "中文": "数据速率",
+  "العربية": "معدل البيانات",
+  "Tiếng Việt": "Tốc độ dữ liệu"
+ },
+ "Data rate": {
+  "日本語": "データレート",
+  "Español": "Tasa de datos",
+  "Deutsch": "Datenrate",
+  "Français": "Débit de données",
+  "한국어": "데이터 전송률",
+  "中文": "数据速率",
+  "العربية": "معدل البيانات",
+  "Tiếng Việt": "Tốc độ dữ liệu"
+ },
+ "Aspect Ratio": {
+  "日本語": "アスペクト比",
+  "Español": "Relación de aspecto",
+  "Deutsch": "Seitenverhältnis",
+  "Français": "Format d'image",
+  "한국어": "화면 비율",
+  "中文": "宽高比",
+  "العربية": "نسبة العرض إلى الارتفاع",
+  "Tiếng Việt": "Tỷ lệ khung hình"
+ },
+ "Timer": {
+  "日本語": "タイマー",
+  "Español": "Temporizador",
+  "Deutsch": "Timer",
+  "Français": "Minuteur",
+  "한국어": "타이머",
+  "中文": "计时器",
+  "العربية": "المؤقت",
+  "Tiếng Việt": "Hẹn giờ"
+ },
+ "Calculator mode": {
+  "日本語": "電卓モード",
+  "Español": "Modo de calculadora",
+  "Deutsch": "Rechnermodus",
+  "Français": "Mode de la calculatrice",
+  "한국어": "계산기 모드",
+  "中文": "计算器模式",
+  "العربية": "وضع الآلة الحاسبة",
+  "Tiếng Việt": "Chế độ máy tính"
+ },
+ "Frame rate": {
+  "日本語": "フレームレート",
+  "Español": "Velocidad de fotogramas",
+  "Deutsch": "Bildrate",
+  "Français": "Fréquence d'images",
+  "한국어": "프레임 레이트",
+  "中文": "帧率",
+  "العربية": "معدل الإطارات",
+  "Tiếng Việt": "Tốc độ khung hình"
+ },
+ "Calculation": {
+  "日本語": "計算式",
+  "Español": "Cálculo",
+  "Deutsch": "Berechnung",
+  "Français": "Calcul",
+  "한국어": "계산식",
+  "中文": "算式",
+  "العربية": "العملية الحسابية",
+  "Tiếng Việt": "Phép tính"
+ },
+ "Type or click. Enter works out the answer; Esc clears.": {
+  "日本語": "入力またはクリックしてください。Enter で計算、Esc でクリアします。",
+  "Español": "Escribe o haz clic. Enter calcula el resultado; Esc borra.",
+  "Deutsch": "Tippen oder klicken. Enter rechnet das Ergebnis aus, Esc leert.",
+  "Français": "Tapez ou cliquez. Entrée calcule le résultat ; Échap efface.",
+  "한국어": "입력하거나 클릭하세요. Enter로 계산하고 Esc로 지웁니다.",
+  "中文": "输入或点击。按 Enter 计算结果，按 Esc 清除。",
+  "العربية": "اكتب أو انقر. يحسب Enter الناتج، ويمسح Esc.",
+  "Tiếng Việt": "Gõ hoặc bấm. Enter để tính kết quả; Esc để xóa."
+ },
+ "Digits fill a timecode from the right, as in Resolve: 1000 is 00:00:10:00. Add f for frames (48f) or s for seconds (2.5s). After × or ÷ a number is a plain multiplier, and a timecode ÷ a timecode says how many times one fits in the other.": {
+  "日本語": "Resolve と同じく、数字はタイムコードの右から埋まります：1000 は 00:00:10:00 です。フレームは f（48f）、秒は s（2.5s）を付けます。× や ÷ の後の数字はただの倍率で、タイムコード ÷ タイムコードは一方が他方に何回入るかを示します。",
+  "Español": "Como en Resolve, los dígitos llenan el código de tiempo desde la derecha: 1000 es 00:00:10:00. Añade f para fotogramas (48f) o s para segundos (2.5s). Después de × o ÷ un número es un simple multiplicador, y un código de tiempo ÷ otro dice cuántas veces cabe uno en el otro.",
+  "Deutsch": "Wie in Resolve füllen Ziffern einen Timecode von rechts: 1000 ist 00:00:10:00. Mit f gibst du Frames an (48f), mit s Sekunden (2.5s). Nach × oder ÷ ist eine Zahl ein einfacher Faktor, und Timecode ÷ Timecode sagt, wie oft der eine in den anderen passt.",
+  "Français": "Comme dans Resolve, les chiffres remplissent un timecode par la droite : 1000 donne 00:00:10:00. Ajoutez f pour des images (48f) ou s pour des secondes (2.5s). Après × ou ÷, un nombre est un simple multiplicateur, et un timecode ÷ un timecode indique combien de fois l'un tient dans l'autre.",
+  "한국어": "Resolve처럼 숫자는 타임코드를 오른쪽부터 채웁니다: 1000은 00:00:10:00입니다. 프레임은 f(48f), 초는 s(2.5s)를 붙이세요. × 또는 ÷ 뒤의 숫자는 단순한 배수이며, 타임코드 ÷ 타임코드는 하나가 다른 하나에 몇 번 들어가는지 알려 줍니다.",
+  "中文": "与 Resolve 一样，数字从右往左填入时间码：1000 即 00:00:10:00。加 f 表示帧（48f），加 s 表示秒（2.5s）。× 或 ÷ 后面的数字是普通倍数，时间码 ÷ 时间码则表示一个能装进另一个几次。",
+  "العربية": "كما في Resolve، تملأ الأرقام الكود الزمني من اليمين: 1000 تعني 00:00:10:00. أضف f للإطارات (48f) أو s للثواني (2.5s). بعد × أو ÷ يكون الرقم مجرد مُضاعِف، وقسمة كود زمني على آخر تبيّن كم مرة يتسع أحدهما في الآخر.",
+  "Tiếng Việt": "Giống Resolve, chữ số điền timecode từ bên phải: 1000 là 00:00:10:00. Thêm f cho khung hình (48f) hoặc s cho giây (2.5s). Sau × hoặc ÷, một số chỉ là hệ số nhân, còn timecode ÷ timecode cho biết cái này chứa được cái kia bao nhiêu lần."
+ },
+ "Recording": {
+  "日本語": "収録",
+  "Español": "Grabación",
+  "Deutsch": "Aufnahme",
+  "Français": "Enregistrement",
+  "한국어": "녹화",
+  "中文": "录制",
+  "العربية": "التسجيل",
+  "Tiếng Việt": "Ghi hình"
+ },
+ "Codec": {
+  "日本語": "コーデック",
+  "Español": "Códec",
+  "Deutsch": "Codec",
+  "Français": "Codec",
+  "한국어": "코덱",
+  "中文": "编解码器",
+  "العربية": "الترميز",
+  "Tiếng Việt": "Codec"
+ },
+ "Bitrate (Mb/s)": {
+  "日本語": "ビットレート (Mb/s)",
+  "Español": "Tasa de bits (Mb/s)",
+  "Deutsch": "Bitrate (Mb/s)",
+  "Français": "Débit (Mb/s)",
+  "한국어": "비트레이트 (Mb/s)",
+  "中文": "码率 (Mb/s)",
+  "العربية": "معدل البت (Mb/s)",
+  "Tiếng Việt": "Bitrate (Mb/s)"
+ },
+ "Resolution": {
+  "日本語": "解像度",
+  "Español": "Resolución",
+  "Deutsch": "Auflösung",
+  "Français": "Résolution",
+  "한국어": "해상도",
+  "中文": "分辨率",
+  "العربية": "الدقة",
+  "Tiếng Việt": "Độ phân giải"
+ },
+ "Width": {
+  "日本語": "幅",
+  "Español": "Ancho",
+  "Deutsch": "Breite",
+  "Français": "Largeur",
+  "한국어": "너비",
+  "中文": "宽度",
+  "العربية": "العرض",
+  "Tiếng Việt": "Chiều rộng"
+ },
+ "Height": {
+  "日本語": "高さ",
+  "Español": "Alto",
+  "Deutsch": "Höhe",
+  "Français": "Hauteur",
+  "한국어": "높이",
+  "中文": "高度",
+  "العربية": "الارتفاع",
+  "Tiếng Việt": "Chiều cao"
+ },
+ "Audio channels (48 kHz, 24-bit)": {
+  "日本語": "オーディオチャンネル (48 kHz, 24-bit)",
+  "Español": "Canales de audio (48 kHz, 24 bits)",
+  "Deutsch": "Audiokanäle (48 kHz, 24 Bit)",
+  "Français": "Canaux audio (48 kHz, 24 bits)",
+  "한국어": "오디오 채널 (48 kHz, 24비트)",
+  "中文": "音频声道 (48 kHz, 24 位)",
+  "العربية": "قنوات الصوت (48 kHz، 24 بت)",
+  "Tiếng Việt": "Kênh âm thanh (48 kHz, 24-bit)"
+ },
+ "How much": {
+  "日本語": "長さと容量",
+  "Español": "Cuánto",
+  "Deutsch": "Wie viel",
+  "Français": "Combien",
+  "한국어": "길이와 용량",
+  "中文": "时长与容量",
+  "العربية": "الكمية",
+  "Tiếng Việt": "Bao nhiêu"
+ },
+ "Hours": {
+  "日本語": "時間",
+  "Español": "Horas",
+  "Deutsch": "Stunden",
+  "Français": "Heures",
+  "한국어": "시간",
+  "中文": "小时",
+  "العربية": "الساعات",
+  "Tiếng Việt": "Giờ"
+ },
+ "Minutes": {
+  "日本語": "分",
+  "Español": "Minutos",
+  "Deutsch": "Minuten",
+  "Français": "Minutes",
+  "한국어": "분",
+  "中文": "分钟",
+  "العربية": "الدقائق",
+  "Tiếng Việt": "Phút"
+ },
+ "Seconds": {
+  "日本語": "秒",
+  "Español": "Segundos",
+  "Deutsch": "Sekunden",
+  "Français": "Secondes",
+  "한국어": "초",
+  "中文": "秒",
+  "العربية": "الثواني",
+  "Tiếng Việt": "Giây"
+ },
+ "Drive size": {
+  "日本語": "ドライブ容量",
+  "Español": "Tamaño del disco",
+  "Deutsch": "Laufwerksgröße",
+  "Français": "Taille du disque",
+  "한국어": "드라이브 용량",
+  "中文": "硬盘容量",
+  "العربية": "سعة القرص",
+  "Tiếng Việt": "Dung lượng ổ"
+ },
+ "Unit": {
+  "日本語": "単位",
+  "Español": "Unidad",
+  "Deutsch": "Einheit",
+  "Français": "Unité",
+  "한국어": "단위",
+  "中文": "单位",
+  "العربية": "الوحدة",
+  "Tiếng Việt": "Đơn vị"
+ },
+ "Result": {
+  "日本語": "結果",
+  "Español": "Resultado",
+  "Deutsch": "Ergebnis",
+  "Français": "Résultat",
+  "한국어": "결과",
+  "中文": "结果",
+  "العربية": "النتيجة",
+  "Tiếng Việt": "Kết quả"
+ },
+ "File size": {
+  "日本語": "ファイルサイズ",
+  "Español": "Tamaño del archivo",
+  "Deutsch": "Dateigröße",
+  "Français": "Taille du fichier",
+  "한국어": "파일 크기",
+  "中文": "文件大小",
+  "العربية": "حجم الملف",
+  "Tiếng Việt": "Dung lượng tệp"
+ },
+ "Fits on the drive": {
+  "日本語": "ドライブに収まる長さ",
+  "Español": "Cabe en el disco",
+  "Deutsch": "Passt auf das Laufwerk",
+  "Français": "Tient sur le disque",
+  "한국어": "드라이브에 담기는 길이",
+  "中文": "硬盘可容纳",
+  "العربية": "يتسع على القرص",
+  "Tiếng Việt": "Vừa trên ổ"
+ },
+ "Copy summary": {
+  "日本語": "概要をコピー",
+  "Español": "Copiar resumen",
+  "Deutsch": "Zusammenfassung kopieren",
+  "Français": "Copier le résumé",
+  "한국어": "요약 복사",
+  "中文": "复制摘要",
+  "العربية": "نسخ الملخص",
+  "Tiếng Việt": "Sao chép tóm tắt"
+ },
+ "ProRes, DNxHR and RAW figures are the makers' published rates, scaled to your frame size and frame rate - real files vary a little with the picture. Sizes are counted the way drives are sold: 1 GB = 1000 MB.": {
+  "日本語": "ProRes、DNxHR、RAW の数値はメーカー公表のレートをフレームサイズとフレームレートに合わせて換算したものです。実際のファイルは映像によって少し変わります。容量はドライブの販売表記と同じく 1 GB = 1000 MB で数えます。",
+  "Español": "Las cifras de ProRes, DNxHR y RAW son las tasas publicadas por los fabricantes, escaladas a tu tamaño de fotograma y velocidad; los archivos reales varían un poco según la imagen. Los tamaños se cuentan como se venden los discos: 1 GB = 1000 MB.",
+  "Deutsch": "Die Werte für ProRes, DNxHR und RAW sind die veröffentlichten Raten der Hersteller, umgerechnet auf deine Bildgröße und Bildrate – echte Dateien schwanken je nach Bild etwas. Größen werden wie beim Laufwerkskauf gezählt: 1 GB = 1000 MB.",
+  "Français": "Les chiffres ProRes, DNxHR et RAW sont les débits publiés par les fabricants, ajustés à votre taille et fréquence d'image – les fichiers réels varient un peu selon l'image. Les tailles sont comptées comme pour les disques vendus : 1 Go = 1000 Mo.",
+  "한국어": "ProRes, DNxHR, RAW 수치는 제조사가 발표한 비트레이트를 프레임 크기와 프레임 레이트에 맞게 환산한 값입니다. 실제 파일은 영상에 따라 조금 다릅니다. 용량은 드라이브 판매 기준처럼 1 GB = 1000 MB로 계산합니다.",
+  "中文": "ProRes、DNxHR 和 RAW 的数值是厂商公布的码率，按你的画幅和帧率换算——实际文件会随画面略有不同。容量按硬盘的销售标准计算：1 GB = 1000 MB。",
+  "العربية": "أرقام ProRes وDNxHR وRAW هي المعدلات التي نشرها المصنّعون، محسوبة حسب حجم إطارك ومعدل الإطارات - تختلف الملفات الفعلية قليلًا بحسب الصورة. تُحسب الأحجام كما تُباع الأقراص: 1 GB = 1000 MB.",
+  "Tiếng Việt": "Số liệu ProRes, DNxHR và RAW là tốc độ do nhà sản xuất công bố, quy đổi theo kích thước và tốc độ khung hình của bạn – tệp thực tế chênh lệch chút ít tùy hình ảnh. Dung lượng tính như cách bán ổ đĩa: 1 GB = 1000 MB."
+ },
+ "Resize, keeping the shape": {
+  "日本語": "比率を保ってサイズ変更",
+  "Español": "Redimensionar manteniendo la forma",
+  "Deutsch": "Größe ändern, Form behalten",
+  "Français": "Redimensionner en gardant la forme",
+  "한국어": "비율을 유지하며 크기 변경",
+  "中文": "保持比例调整尺寸",
+  "العربية": "تغيير الحجم مع الحفاظ على الشكل",
+  "Tiếng Việt": "Đổi kích thước, giữ nguyên tỷ lệ"
+ },
+ "New width": {
+  "日本語": "新しい幅",
+  "Español": "Nuevo ancho",
+  "Deutsch": "Neue Breite",
+  "Français": "Nouvelle largeur",
+  "한국어": "새 너비",
+  "中文": "新宽度",
+  "العربية": "العرض الجديد",
+  "Tiếng Việt": "Chiều rộng mới"
+ },
+ "New height": {
+  "日本語": "新しい高さ",
+  "Español": "Nuevo alto",
+  "Deutsch": "Neue Höhe",
+  "Français": "Nouvelle hauteur",
+  "한국어": "새 높이",
+  "中文": "新高度",
+  "العربية": "الارتفاع الجديد",
+  "Tiếng Việt": "Chiều cao mới"
+ },
+ "Round to even numbers": {
+  "日本語": "偶数に丸める",
+  "Español": "Redondear a números pares",
+  "Deutsch": "Auf gerade Zahlen runden",
+  "Français": "Arrondir aux nombres pairs",
+  "한국어": "짝수로 반올림",
+  "中文": "取整为偶数",
+  "العربية": "التقريب إلى أعداد زوجية",
+  "Tiếng Việt": "Làm tròn thành số chẵn"
+ },
+ "Type a new width or a new height and the other follows. Most video codecs need even sizes.": {
+  "日本語": "新しい幅か高さを入力すると、もう一方が自動で決まります。ほとんどの動画コーデックは偶数のサイズが必要です。",
+  "Español": "Escribe un nuevo ancho o alto y el otro se ajusta. La mayoría de los códecs de vídeo necesitan tamaños pares.",
+  "Deutsch": "Gib eine neue Breite oder Höhe ein, der andere Wert folgt. Die meisten Videocodecs brauchen gerade Größen.",
+  "Français": "Saisissez une nouvelle largeur ou hauteur, l'autre suit. La plupart des codecs vidéo exigent des tailles paires.",
+  "한국어": "새 너비나 높이를 입력하면 나머지가 따라 바뀝니다. 대부분의 비디오 코덱은 짝수 크기가 필요합니다.",
+  "中文": "输入新的宽度或高度，另一个会自动跟随。大多数视频编码需要偶数尺寸。",
+  "العربية": "اكتب عرضًا أو ارتفاعًا جديدًا ويتبعه الآخر. تحتاج معظم ترميزات الفيديو إلى أحجام زوجية.",
+  "Tiếng Việt": "Nhập chiều rộng hoặc chiều cao mới, giá trị còn lại tự theo. Hầu hết codec video cần kích thước chẵn."
+ },
+ "Fit a shape in a frame": {
+  "日本語": "フレームに比率を収める",
+  "Español": "Encajar una forma en un fotograma",
+  "Deutsch": "Eine Form ins Bild einpassen",
+  "Français": "Placer une forme dans une image",
+  "한국어": "프레임에 비율 맞추기",
+  "中文": "在画面中套用比例",
+  "العربية": "ملاءمة شكل داخل إطار",
+  "Tiếng Việt": "Đặt một tỷ lệ vào khung hình"
+ },
+ "Frame": {
+  "日本語": "フレーム",
+  "Español": "Fotograma",
+  "Deutsch": "Bild",
+  "Français": "Image",
+  "한국어": "프레임",
+  "中文": "画面",
+  "العربية": "الإطار",
+  "Tiếng Việt": "Khung hình"
+ },
+ "Shape": {
+  "日本語": "比率",
+  "Español": "Forma",
+  "Deutsch": "Form",
+  "Français": "Forme",
+  "한국어": "비율",
+  "中文": "比例",
+  "العربية": "الشكل",
+  "Tiếng Việt": "Tỷ lệ"
+ },
+ "Ratio (width ÷ height, e.g. 2.39)": {
+  "日本語": "比率（幅 ÷ 高さ、例：2.39）",
+  "Español": "Proporción (ancho ÷ alto, p. ej. 2.39)",
+  "Deutsch": "Verhältnis (Breite ÷ Höhe, z. B. 2.39)",
+  "Français": "Rapport (largeur ÷ hauteur, ex. 2.39)",
+  "한국어": "비율 (너비 ÷ 높이, 예: 2.39)",
+  "中文": "比例（宽 ÷ 高，例如 2.39）",
+  "العربية": "النسبة (العرض ÷ الارتفاع، مثل 2.39)",
+  "Tiếng Việt": "Tỷ lệ (rộng ÷ cao, ví dụ 2.39)"
+ },
+ "Picture": {
+  "日本語": "映像",
+  "Español": "Imagen",
+  "Deutsch": "Bild",
+  "Français": "Image",
+  "한국어": "영상",
+  "中文": "画面",
+  "العربية": "الصورة",
+  "Tiếng Việt": "Hình ảnh"
+ },
+ "Bars": {
+  "日本語": "黒帯",
+  "Español": "Bandas",
+  "Deutsch": "Balken",
+  "Français": "Bandes",
+  "한국어": "레터박스",
+  "中文": "黑边",
+  "العربية": "الأشرطة",
+  "Tiếng Việt": "Viền đen"
+ },
+ "Stopwatch": {
+  "日本語": "ストップウォッチ",
+  "Español": "Cronómetro",
+  "Deutsch": "Stoppuhr",
+  "Français": "Chronomètre",
+  "한국어": "스톱워치",
+  "中文": "秒表",
+  "العربية": "ساعة الإيقاف",
+  "Tiếng Việt": "Đồng hồ bấm giờ"
+ },
+ "Lap": {
+  "日本語": "ラップ",
+  "Español": "Vuelta",
+  "Deutsch": "Runde",
+  "Français": "Tour",
+  "한국어": "랩",
+  "中文": "计次",
+  "العربية": "لفة",
+  "Tiếng Việt": "Vòng"
+ },
+ "Countdown": {
+  "日本語": "カウントダウン",
+  "Español": "Cuenta atrás",
+  "Deutsch": "Countdown",
+  "Français": "Compte à rebours",
+  "한국어": "카운트다운",
+  "中文": "倒计时",
+  "العربية": "العد التنازلي",
+  "Tiếng Việt": "Đếm ngược"
+ },
+ "Keeps running while you use other tools - Buddy chimes and shows a note when it's done.": {
+  "日本語": "他のツールを使っている間も動き続けます。終わると Buddy がチャイムを鳴らして通知します。",
+  "Español": "Sigue corriendo mientras usas otras herramientas: Buddy suena y muestra un aviso al terminar.",
+  "Deutsch": "Läuft weiter, während du andere Werkzeuge nutzt – Buddy klingelt und zeigt einen Hinweis, wenn er abgelaufen ist.",
+  "Français": "Continue pendant que vous utilisez d'autres outils – Buddy sonne et affiche une note à la fin.",
+  "한국어": "다른 도구를 쓰는 동안에도 계속 돌아갑니다. 끝나면 Buddy가 알림음과 함께 알려 줍니다.",
+  "中文": "使用其他工具时也会继续运行——结束时 Buddy 会响铃并显示提醒。",
+  "العربية": "يستمر في العمل أثناء استخدامك أدوات أخرى - يرنّ Buddy ويعرض تنبيهًا عند انتهائه.",
+  "Tiếng Việt": "Vẫn chạy khi bạn dùng công cụ khác – Buddy sẽ báo chuông và hiện thông báo khi hết giờ."
+ },
+ "Jot anything down - it's saved as you type.": {
+  "日本語": "何でもメモできます。入力しながら保存されます。",
+  "Español": "Apunta lo que quieras: se guarda mientras escribes.",
+  "Deutsch": "Notiere, was du willst – es wird beim Tippen gespeichert.",
+  "Français": "Notez ce que vous voulez – c'est enregistré au fil de la frappe.",
+  "한국어": "무엇이든 적어 두세요. 입력하는 대로 저장됩니다.",
+  "中文": "随手记下任何内容——输入时自动保存。",
+  "العربية": "دوّن أي شيء - يُحفظ أثناء الكتابة.",
+  "Tiếng Việt": "Ghi lại bất cứ điều gì – tự lưu khi bạn gõ."
+ },
+ "Copy all": {
+  "日本語": "すべてコピー",
+  "Español": "Copiar todo",
+  "Deutsch": "Alles kopieren",
+  "Français": "Tout copier",
+  "한국어": "모두 복사",
+  "中文": "全部复制",
+  "العربية": "نسخ الكل",
+  "Tiếng Việt": "Sao chép tất cả"
+ },
+ "Frames": {
+  "日本語": "フレーム",
+  "Español": "Fotogramas",
+  "Deutsch": "Frames",
+  "Français": "Images",
+  "한국어": "프레임",
+  "中文": "帧",
+  "العربية": "الإطارات",
+  "Tiếng Việt": "Khung hình"
+ },
+ "Click to copy": {
+  "日本語": "クリックでコピー",
+  "Español": "Haz clic para copiar",
+  "Deutsch": "Zum Kopieren klicken",
+  "Français": "Cliquez pour copier",
+  "한국어": "클릭하여 복사",
+  "中文": "点击复制",
+  "العربية": "انقر للنسخ",
+  "Tiếng Việt": "Bấm để sao chép"
+ },
+ "Use this answer": {
+  "日本語": "この答えを使う",
+  "Español": "Usar este resultado",
+  "Deutsch": "Dieses Ergebnis verwenden",
+  "Français": "Utiliser ce résultat",
+  "한국어": "이 답 사용",
+  "中文": "使用此结果",
+  "العربية": "استخدام هذا الناتج",
+  "Tiếng Việt": "Dùng kết quả này"
+ },
+ "Your answers show here.": {
+  "日本語": "答えはここに表示されます。",
+  "Español": "Tus resultados aparecen aquí.",
+  "Deutsch": "Deine Ergebnisse erscheinen hier.",
+  "Français": "Vos résultats s'affichent ici.",
+  "한국어": "답이 여기에 표시됩니다.",
+  "中文": "结果会显示在这里。",
+  "العربية": "تظهر نتائجك هنا.",
+  "Tiếng Việt": "Kết quả của bạn hiện ở đây."
+ },
+ "times": {
+  "日本語": "倍",
+  "Español": "veces",
+  "Deutsch": "Mal",
+  "Français": "fois",
+  "한국어": "배",
+  "中文": "倍",
+  "العربية": "مرة",
+  "Tiếng Việt": "lần"
+ },
+ "{frames} frames · {time} real time": {
+  "日本語": "{frames} フレーム · 実時間 {time}",
+  "Español": "{frames} fotogramas · {time} de tiempo real",
+  "Deutsch": "{frames} Frames · {time} Echtzeit",
+  "Français": "{frames} images · {time} en temps réel",
+  "한국어": "{frames} 프레임 · 실제 시간 {time}",
+  "中文": "{frames} 帧 · 实际时长 {time}",
+  "العربية": "{frames} إطار · {time} وقت فعلي",
+  "Tiếng Việt": "{frames} khung hình · {time} thời gian thực"
+ },
+ "Can't read \"{text}\"": {
+  "日本語": "「{text}」を読み取れません",
+  "Español": "No se puede leer «{text}»",
+  "Deutsch": "„{text}“ ist nicht lesbar",
+  "Français": "Impossible de lire « {text} »",
+  "한국어": "\"{text}\"을(를) 읽을 수 없습니다",
+  "中文": "无法识别“{text}”",
+  "العربية": "تعذّرت قراءة \"{text}\"",
+  "Tiếng Việt": "Không đọc được \"{text}\""
+ },
+ "\"{text}\" isn't a timecode": {
+  "日本語": "「{text}」はタイムコードではありません",
+  "Español": "«{text}» no es un código de tiempo",
+  "Deutsch": "„{text}“ ist kein Timecode",
+  "Français": "« {text} » n'est pas un timecode",
+  "한국어": "\"{text}\"은(는) 타임코드가 아닙니다",
+  "中文": "“{text}”不是时间码",
+  "العربية": "\"{text}\" ليس كودًا زمنيًا",
+  "Tiếng Việt": "\"{text}\" không phải timecode"
+ },
+ "Unexpected \"{text}\"": {
+  "日本語": "予期しない「{text}」",
+  "Español": "«{text}» inesperado",
+  "Deutsch": "Unerwartetes „{text}“",
+  "Français": "« {text} » inattendu",
+  "한국어": "예상치 못한 \"{text}\"",
+  "中文": "意外的“{text}”",
+  "العربية": "\"{text}\" غير متوقع",
+  "Tiếng Việt": "\"{text}\" không hợp lệ ở đây"
+ },
+ "A frame count is a number, like 48f": {
+  "日本語": "フレーム数は 48f のような数字です",
+  "Español": "Un número de fotogramas es un número, como 48f",
+  "Deutsch": "Eine Frame-Anzahl ist eine Zahl, etwa 48f",
+  "Français": "Un nombre d'images est un nombre, comme 48f",
+  "한국어": "프레임 수는 48f처럼 숫자입니다",
+  "中文": "帧数是数字，例如 48f",
+  "العربية": "عدد الإطارات رقم، مثل 48f",
+  "Tiếng Việt": "Số khung hình là một số, như 48f"
+ },
+ "Seconds are a number, like 2.5s": {
+  "日本語": "秒は 2.5s のような数字です",
+  "Español": "Los segundos son un número, como 2.5s",
+  "Deutsch": "Sekunden sind eine Zahl, etwa 2.5s",
+  "Français": "Les secondes sont un nombre, comme 2.5s",
+  "한국어": "초는 2.5s처럼 숫자입니다",
+  "中文": "秒数是数字，例如 2.5s",
+  "العربية": "الثواني رقم، مثل 2.5s",
+  "Tiếng Việt": "Số giây là một số, như 2.5s"
+ },
+ "A timecode has at most 8 digits": {
+  "日本語": "タイムコードは最大 8 桁です",
+  "Español": "Un código de tiempo tiene como máximo 8 dígitos",
+  "Deutsch": "Ein Timecode hat höchstens 8 Ziffern",
+  "Français": "Un timecode a au plus 8 chiffres",
+  "한국어": "타임코드는 최대 8자리입니다",
+  "中文": "时间码最多 8 位数字",
+  "العربية": "الكود الزمني 8 أرقام كحد أقصى",
+  "Tiếng Việt": "Timecode có tối đa 8 chữ số"
+ },
+ "Something's missing at the end": {
+  "日本語": "最後に何かが足りません",
+  "Español": "Falta algo al final",
+  "Deutsch": "Am Ende fehlt etwas",
+  "Français": "Il manque quelque chose à la fin",
+  "한국어": "끝에 무언가 빠졌습니다",
+  "中文": "末尾缺少内容",
+  "العربية": "هناك شيء ناقص في النهاية",
+  "Tiếng Việt": "Thiếu gì đó ở cuối"
+ },
+ "Two timecodes can't be multiplied": {
+  "日本語": "タイムコード同士は掛け算できません",
+  "Español": "No se pueden multiplicar dos códigos de tiempo",
+  "Deutsch": "Zwei Timecodes lassen sich nicht multiplizieren",
+  "Français": "Deux timecodes ne peuvent pas être multipliés",
+  "한국어": "타임코드끼리는 곱할 수 없습니다",
+  "中文": "两个时间码不能相乘",
+  "العربية": "لا يمكن ضرب كودين زمنيين",
+  "Tiếng Việt": "Không thể nhân hai timecode"
+ },
+ "Can't divide by zero": {
+  "日本語": "0 で割ることはできません",
+  "Español": "No se puede dividir entre cero",
+  "Deutsch": "Division durch null ist nicht möglich",
+  "Français": "Division par zéro impossible",
+  "한국어": "0으로 나눌 수 없습니다",
+  "中文": "不能除以零",
+  "العربية": "لا يمكن القسمة على صفر",
+  "Tiếng Việt": "Không thể chia cho 0"
+ },
+ "A number can't be divided by a timecode": {
+  "日本語": "数字をタイムコードで割ることはできません",
+  "Español": "Un número no se puede dividir entre un código de tiempo",
+  "Deutsch": "Eine Zahl lässt sich nicht durch einen Timecode teilen",
+  "Français": "Un nombre ne peut pas être divisé par un timecode",
+  "한국어": "숫자를 타임코드로 나눌 수 없습니다",
+  "中文": "数字不能除以时间码",
+  "العربية": "لا يمكن قسمة رقم على كود زمني",
+  "Tiếng Việt": "Không thể chia một số cho timecode"
+ },
+ "That's too big a number": {
+  "日本語": "数が大きすぎます",
+  "Español": "Ese número es demasiado grande",
+  "Deutsch": "Diese Zahl ist zu groß",
+  "Français": "Ce nombre est trop grand",
+  "한국어": "숫자가 너무 큽니다",
+  "中文": "数字太大了",
+  "العربية": "هذا الرقم كبير جدًا",
+  "Tiếng Việt": "Số quá lớn"
+ },
+ "That can't be worked out": {
+  "日本語": "計算できません",
+  "Español": "No se puede calcular",
+  "Deutsch": "Das lässt sich nicht ausrechnen",
+  "Français": "Impossible de calculer cela",
+  "한국어": "계산할 수 없습니다",
+  "中文": "无法计算",
+  "العربية": "لا يمكن حساب ذلك",
+  "Tiếng Việt": "Không tính được"
+ },
+ "Uncompressed": {
+  "日本語": "非圧縮",
+  "Español": "Sin comprimir",
+  "Deutsch": "Unkomprimiert",
+  "Français": "Non compressé",
+  "한국어": "비압축",
+  "中文": "无压缩",
+  "العربية": "غير مضغوط",
+  "Tiếng Việt": "Không nén"
+ },
+ "H.264, H.265 or other - enter the bitrate": {
+  "日本語": "H.264、H.265 など - ビットレートを入力",
+  "Español": "H.264, H.265 u otro: introduce la tasa de bits",
+  "Deutsch": "H.264, H.265 oder andere – Bitrate eingeben",
+  "Français": "H.264, H.265 ou autre – saisissez le débit",
+  "한국어": "H.264, H.265 등 - 비트레이트 입력",
+  "中文": "H.264、H.265 或其他——输入码率",
+  "العربية": "H.264 أو H.265 أو غيرها - أدخل معدل البت",
+  "Tiếng Việt": "H.264, H.265 hoặc khác – nhập bitrate"
+ },
+ "Custom size": {
+  "日本語": "カスタムサイズ",
+  "Español": "Tamaño personalizado",
+  "Deutsch": "Eigene Größe",
+  "Français": "Taille personnalisée",
+  "한국어": "사용자 지정 크기",
+  "中文": "自定义尺寸",
+  "العربية": "حجم مخصص",
+  "Tiếng Việt": "Kích thước tùy chỉnh"
+ },
+ "Vertical HD – {size}": {
+  "日本語": "縦型 HD – {size}",
+  "Español": "HD vertical – {size}",
+  "Deutsch": "Hochformat HD – {size}",
+  "Français": "HD vertical – {size}",
+  "한국어": "세로형 HD – {size}",
+  "中文": "竖屏 HD – {size}",
+  "العربية": "HD عمودي – {size}",
+  "Tiếng Việt": "HD dọc – {size}"
+ },
+ "Vertical UHD – {size}": {
+  "日本語": "縦型 UHD – {size}",
+  "Español": "UHD vertical – {size}",
+  "Deutsch": "Hochformat UHD – {size}",
+  "Français": "UHD vertical – {size}",
+  "한국어": "세로형 UHD – {size}",
+  "中文": "竖屏 UHD – {size}",
+  "العربية": "UHD عمودي – {size}",
+  "Tiếng Việt": "UHD dọc – {size}"
+ },
+ "Custom ratio": {
+  "日本語": "カスタム比率",
+  "Español": "Proporción personalizada",
+  "Deutsch": "Eigenes Verhältnis",
+  "Français": "Rapport personnalisé",
+  "한국어": "사용자 지정 비율",
+  "中文": "自定义比例",
+  "العربية": "نسبة مخصصة",
+  "Tiếng Việt": "Tỷ lệ tùy chỉnh"
+ },
+ "{ratio} – Scope": {
+  "日本語": "{ratio} – シネスコ",
+  "Español": "{ratio} – Scope",
+  "Deutsch": "{ratio} – Scope",
+  "Français": "{ratio} – Scope",
+  "한국어": "{ratio} – 시네마스코프",
+  "中文": "{ratio} – 宽银幕",
+  "العربية": "{ratio} – سكوب",
+  "Tiếng Việt": "{ratio} – Scope"
+ },
+ "{ratio} – Flat": {
+  "日本語": "{ratio} – ビスタ",
+  "Español": "{ratio} – Flat",
+  "Deutsch": "{ratio} – Flat",
+  "Français": "{ratio} – Flat",
+  "한국어": "{ratio} – 비스타",
+  "中文": "{ratio} – 遮幅",
+  "العربية": "{ratio} – فلات",
+  "Tiếng Việt": "{ratio} – Flat"
+ },
+ "{ratio} – Square": {
+  "日本語": "{ratio} – 正方形",
+  "Español": "{ratio} – Cuadrado",
+  "Deutsch": "{ratio} – Quadratisch",
+  "Français": "{ratio} – Carré",
+  "한국어": "{ratio} – 정사각형",
+  "中文": "{ratio} – 方形",
+  "العربية": "{ratio} – مربع",
+  "Tiếng Việt": "{ratio} – Vuông"
+ },
+ "{ratio} – Portrait": {
+  "日本語": "{ratio} – 縦長",
+  "Español": "{ratio} – Retrato",
+  "Deutsch": "{ratio} – Hochformat",
+  "Français": "{ratio} – Portrait",
+  "한국어": "{ratio} – 세로형",
+  "中文": "{ratio} – 竖幅",
+  "العربية": "{ratio} – طولي",
+  "Tiếng Việt": "{ratio} – Dọc"
+ },
+ "{ratio} – Vertical": {
+  "日本語": "{ratio} – 縦型",
+  "Español": "{ratio} – Vertical",
+  "Deutsch": "{ratio} – Vertikal",
+  "Français": "{ratio} – Vertical",
+  "한국어": "{ratio} – 세로",
+  "中文": "{ratio} – 竖屏",
+  "العربية": "{ratio} – عمودي",
+  "Tiếng Việt": "{ratio} – Dọc"
+ },
+ "{rate} MB/s · {size} per hour": {
+  "日本語": "{rate} MB/s · 1 時間あたり {size}",
+  "Español": "{rate} MB/s · {size} por hora",
+  "Deutsch": "{rate} MB/s · {size} pro Stunde",
+  "Français": "{rate} Mo/s · {size} par heure",
+  "한국어": "{rate} MB/s · 시간당 {size}",
+  "中文": "{rate} MB/s · 每小时 {size}",
+  "العربية": "{rate} MB/s · {size} في الساعة",
+  "Tiếng Việt": "{rate} MB/s · {size} mỗi giờ"
+ },
+ "for {time}": {
+  "日本語": "{time} の場合",
+  "Español": "para {time}",
+  "Deutsch": "für {time}",
+  "Français": "pour {time}",
+  "한국어": "{time} 기준",
+  "中文": "时长 {time}",
+  "العربية": "لمدة {time}",
+  "Tiếng Việt": "cho {time}"
+ },
+ "No bars - it's the frame's own shape": {
+  "日本語": "黒帯なし - フレームと同じ比率です",
+  "Español": "Sin bandas: es la forma del propio fotograma",
+  "Deutsch": "Keine Balken – das ist die Form des Bildes selbst",
+  "Français": "Pas de bandes – c'est la forme de l'image elle-même",
+  "한국어": "레터박스 없음 - 프레임과 같은 비율입니다",
+  "中文": "无黑边——与画面比例相同",
+  "العربية": "لا أشرطة - هذا هو شكل الإطار نفسه",
+  "Tiếng Việt": "Không có viền – đúng tỷ lệ của khung hình"
+ },
+ "{n} px top and bottom": {
+  "日本語": "上下に各 {n} px",
+  "Español": "{n} px arriba y abajo",
+  "Deutsch": "{n} px oben und unten",
+  "Français": "{n} px en haut et en bas",
+  "한국어": "위아래 각 {n} px",
+  "中文": "上下各 {n} px",
+  "العربية": "{n} px أعلى وأسفل",
+  "Tiếng Việt": "{n} px trên và dưới"
+ },
+ "{n} px left and right": {
+  "日本語": "左右に各 {n} px",
+  "Español": "{n} px a izquierda y derecha",
+  "Deutsch": "{n} px links und rechts",
+  "Français": "{n} px à gauche et à droite",
+  "한국어": "좌우 각 {n} px",
+  "中文": "左右各 {n} px",
+  "العربية": "{n} px يمينًا ويسارًا",
+  "Tiếng Việt": "{n} px trái và phải"
+ },
+ "Time's up": {
+  "日本語": "時間です",
+  "Español": "Se acabó el tiempo",
+  "Deutsch": "Die Zeit ist um",
+  "Français": "Temps écoulé",
+  "한국어": "시간이 다 됐습니다",
+  "中文": "时间到",
+  "العربية": "انتهى الوقت",
+  "Tiếng Việt": "Hết giờ"
+ },
+ "Saving…": {
+  "日本語": "保存中…",
+  "Español": "Guardando…",
+  "Deutsch": "Wird gespeichert…",
+  "Français": "Enregistrement…",
+  "한국어": "저장 중…",
+  "中文": "正在保存…",
+  "العربية": "جارٍ الحفظ…",
+  "Tiếng Việt": "Đang lưu…"
+ },
+ "{words} words · {chars} characters": {
+  "日本語": "{words} 語 · {chars} 文字",
+  "Español": "{words} palabras · {chars} caracteres",
+  "Deutsch": "{words} Wörter · {chars} Zeichen",
+  "Français": "{words} mots · {chars} caractères",
+  "한국어": "{words}단어 · {chars}자",
+  "中文": "{words} 个词 · {chars} 个字符",
+  "العربية": "{words} كلمة · {chars} حرف",
+  "Tiếng Việt": "{words} từ · {chars} ký tự"
+ },
+ "Clear the notes?": {
+  "日本語": "メモを消去しますか？",
+  "Español": "¿Borrar las notas?",
+  "Deutsch": "Notizen leeren?",
+  "Français": "Effacer les notes ?",
+  "한국어": "메모를 지울까요?",
+  "中文": "清除笔记？",
+  "العربية": "مسح الملاحظات؟",
+  "Tiếng Việt": "Xóa ghi chú?"
+ },
+ "Timer finished": {
+  "日本語": "タイマー終了",
+  "Español": "Temporizador terminado",
+  "Deutsch": "Timer abgelaufen",
+  "Français": "Minuteur terminé",
+  "한국어": "타이머 종료",
+  "中文": "计时结束",
+  "العربية": "انتهى المؤقت",
+  "Tiếng Việt": "Hẹn giờ đã xong"
+ },
+ "Your Essentials countdown is done.": {
+  "日本語": "基本ツールのカウントダウンが終わりました。",
+  "Español": "Tu cuenta atrás de Esenciales ha terminado.",
+  "Deutsch": "Dein Countdown in Grundwerkzeuge ist abgelaufen.",
+  "Français": "Votre compte à rebours Essentiels est terminé.",
+  "한국어": "필수 도구의 카운트다운이 끝났습니다.",
+  "中文": "常用工具的倒计时已结束。",
+  "العربية": "انتهى العد التنازلي في الأساسيات.",
+  "Tiếng Việt": "Đếm ngược trong Thiết yếu đã xong."
+ },
+ "Notes for": {
+  "日本語": "メモの対象",
+  "Español": "Notas de",
+  "Deutsch": "Notizen für",
+  "Français": "Notes pour",
+  "한국어": "메모 대상",
+  "中文": "笔记对象",
+  "العربية": "ملاحظات لـ",
+  "Tiếng Việt": "Ghi chú cho"
+ },
+ "Follow the open project": {
+  "日本語": "開いているプロジェクトに合わせる",
+  "Español": "Seguir el proyecto abierto",
+  "Deutsch": "Dem geöffneten Projekt folgen",
+  "Français": "Suivre le projet ouvert",
+  "한국어": "열린 프로젝트 따라가기",
+  "中文": "跟随打开的项目",
+  "العربية": "اتباع المشروع المفتوح",
+  "Tiếng Việt": "Theo dự án đang mở"
+ },
+ "When you open another project in Resolve, its notes show here": {
+  "日本語": "Resolve で別のプロジェクトを開くと、そのメモがここに表示されます",
+  "Español": "Al abrir otro proyecto en Resolve, sus notas aparecen aquí",
+  "Deutsch": "Öffnest du in Resolve ein anderes Projekt, erscheinen hier seine Notizen",
+  "Français": "Quand vous ouvrez un autre projet dans Resolve, ses notes s'affichent ici",
+  "한국어": "Resolve에서 다른 프로젝트를 열면 그 메모가 여기에 표시됩니다",
+  "中文": "在 Resolve 中打开其他项目时，这里会显示该项目的笔记",
+  "العربية": "عند فتح مشروع آخر في Resolve تظهر ملاحظاته هنا",
+  "Tiếng Việt": "Khi bạn mở dự án khác trong Resolve, ghi chú của dự án đó hiện ở đây"
+ },
+ "The project you open in Resolve is added to the list by itself - or pick New project notes… to start some for any project.": {
+  "日本語": "Resolve で開いたプロジェクトは自動でリストに追加されます。どのプロジェクトでも「新しいプロジェクトのメモ…」から始められます。",
+  "Español": "El proyecto que abras en Resolve se añade solo a la lista; o elige Nuevas notas de proyecto… para empezar unas para cualquier proyecto.",
+  "Deutsch": "Das Projekt, das du in Resolve öffnest, kommt von selbst in die Liste – oder wähle Neue Projektnotizen…, um welche für ein beliebiges Projekt anzulegen.",
+  "Français": "Le projet ouvert dans Resolve s'ajoute tout seul à la liste – ou choisissez Nouvelles notes de projet… pour en créer pour n'importe quel projet.",
+  "한국어": "Resolve에서 연 프로젝트는 자동으로 목록에 추가됩니다. 아니면 새 프로젝트 메모…를 골라 어떤 프로젝트든 메모를 시작하세요.",
+  "中文": "在 Resolve 中打开的项目会自动加入列表；也可以选择“新建项目笔记…”为任意项目开始记笔记。",
+  "العربية": "يُضاف المشروع الذي تفتحه في Resolve إلى القائمة تلقائيًا - أو اختر ملاحظات مشروع جديد… لبدء ملاحظات لأي مشروع.",
+  "Tiếng Việt": "Dự án bạn mở trong Resolve tự được thêm vào danh sách – hoặc chọn Ghi chú dự án mới… để bắt đầu cho bất kỳ dự án nào."
+ },
+ "General – all projects": {
+  "日本語": "全般 – すべてのプロジェクト",
+  "Español": "General – todos los proyectos",
+  "Deutsch": "Allgemein – alle Projekte",
+  "Français": "Général – tous les projets",
+  "한국어": "일반 – 모든 프로젝트",
+  "中文": "通用 – 所有项目",
+  "العربية": "عام – كل المشاريع",
+  "Tiếng Việt": "Chung – mọi dự án"
+ },
+ "{name} (open in Resolve)": {
+  "日本語": "{name}（Resolve で開いています）",
+  "Español": "{name} (abierto en Resolve)",
+  "Deutsch": "{name} (in Resolve geöffnet)",
+  "Français": "{name} (ouvert dans Resolve)",
+  "한국어": "{name} (Resolve에서 열림)",
+  "中文": "{name}（已在 Resolve 中打开）",
+  "العربية": "{name} (مفتوح في Resolve)",
+  "Tiếng Việt": "{name} (đang mở trong Resolve)"
+ },
+ "New project notes": {
+  "日本語": "新しいプロジェクトのメモ",
+  "Español": "Nuevas notas de proyecto",
+  "Deutsch": "Neue Projektnotizen",
+  "Français": "Nouvelles notes de projet",
+  "한국어": "새 프로젝트 메모",
+  "中文": "新建项目笔记",
+  "العربية": "ملاحظات مشروع جديد",
+  "Tiếng Việt": "Ghi chú dự án mới"
+ },
+ "Notes for this project - saved as you type.": {
+  "日本語": "このプロジェクトのメモ。入力しながら保存されます。",
+  "Español": "Notas de este proyecto: se guardan mientras escribes.",
+  "Deutsch": "Notizen zu diesem Projekt – werden beim Tippen gespeichert.",
+  "Français": "Notes de ce projet – enregistrées au fil de la frappe.",
+  "한국어": "이 프로젝트의 메모입니다. 입력하는 대로 저장됩니다.",
+  "中文": "此项目的笔记——输入时自动保存。",
+  "العربية": "ملاحظات هذا المشروع - تُحفظ أثناء الكتابة.",
+  "Tiếng Việt": "Ghi chú cho dự án này – tự lưu khi bạn gõ."
+ },
+ "Which project are these notes for? Use the name it has in Resolve and they'll come up when you open it.": {
+  "日本語": "どのプロジェクトのメモですか？Resolve での名前にしておくと、そのプロジェクトを開いたときに表示されます。",
+  "Español": "¿Para qué proyecto son estas notas? Usa el nombre que tiene en Resolve y aparecerán cuando lo abras.",
+  "Deutsch": "Für welches Projekt sind diese Notizen? Nimm den Namen aus Resolve, dann erscheinen sie, wenn du es öffnest.",
+  "Français": "Pour quel projet sont ces notes ? Utilisez son nom dans Resolve et elles s'afficheront à son ouverture.",
+  "한국어": "어떤 프로젝트의 메모인가요? Resolve에서 쓰는 이름을 입력하면 그 프로젝트를 열 때 표시됩니다.",
+  "中文": "这些笔记属于哪个项目？使用它在 Resolve 中的名称，打开该项目时就会显示。",
+  "العربية": "لأي مشروع هذه الملاحظات؟ استخدم اسمه في Resolve وستظهر عند فتحه.",
+  "Tiếng Việt": "Ghi chú này cho dự án nào? Dùng đúng tên trong Resolve để ghi chú hiện ra khi bạn mở dự án."
+ },
+ "Start notes": {
+  "日本語": "メモを始める",
+  "Español": "Empezar notas",
+  "Deutsch": "Notizen anlegen",
+  "Français": "Commencer les notes",
+  "한국어": "메모 시작",
+  "中文": "开始记笔记",
+  "العربية": "بدء الملاحظات",
+  "Tiếng Việt": "Bắt đầu ghi chú"
+ },
+ "These project notes go, and the project leaves the list unless it's open in Resolve. This can't be undone.": {
+  "日本語": "このプロジェクトのメモは消え、Resolve で開いていなければリストからも外れます。元に戻せません。",
+  "Español": "Se borran las notas de este proyecto, y sale de la lista salvo que esté abierto en Resolve. No se puede deshacer.",
+  "Deutsch": "Die Notizen dieses Projekts werden gelöscht, und es verschwindet aus der Liste, außer es ist in Resolve geöffnet. Das lässt sich nicht rückgängig machen.",
+  "Français": "Les notes de ce projet seront supprimées, et il quittera la liste s'il n'est pas ouvert dans Resolve. Action irréversible.",
+  "한국어": "이 프로젝트의 메모가 지워지고, Resolve에서 열려 있지 않으면 목록에서도 빠집니다. 되돌릴 수 없습니다.",
+  "中文": "此项目的笔记将被删除；若未在 Resolve 中打开，它也会从列表中移除。此操作无法撤销。",
+  "العربية": "ستُحذف ملاحظات هذا المشروع، ويخرج من القائمة ما لم يكن مفتوحًا في Resolve. لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Ghi chú của dự án này sẽ mất, và dự án rời khỏi danh sách nếu không mở trong Resolve. Không thể hoàn tác."
+ },
+ "Everything in the general notes goes. This can't be undone.": {
+  "日本語": "全般のメモがすべて消えます。元に戻せません。",
+  "Español": "Se borrará todo lo de las notas generales. No se puede deshacer.",
+  "Deutsch": "Alles in den allgemeinen Notizen wird gelöscht. Das lässt sich nicht rückgängig machen.",
+  "Français": "Tout le contenu des notes générales sera supprimé. Action irréversible.",
+  "한국어": "일반 메모의 모든 내용이 사라집니다. 되돌릴 수 없습니다.",
+  "中文": "通用笔记中的所有内容都会被删除，且无法撤销。",
+  "العربية": "سيُحذف كل ما في الملاحظات العامة. لا يمكن التراجع عن ذلك.",
+  "Tiếng Việt": "Mọi nội dung trong ghi chú chung sẽ mất. Không thể hoàn tác."
+ },
+ "Showing the notes for {name}": {
+  "日本語": "{name} のメモを表示しています",
+  "Español": "Mostrando las notas de {name}",
+  "Deutsch": "Notizen für {name} werden angezeigt",
+  "Français": "Notes de {name} affichées",
+  "한국어": "{name}의 메모를 표시합니다",
+  "中文": "正在显示 {name} 的笔记",
+  "العربية": "عرض ملاحظات {name}",
+  "Tiếng Việt": "Đang hiện ghi chú của {name}"
+ },
+ "World Clock": {
+  "日本語": "世界時計",
+  "Español": "Reloj mundial",
+  "Deutsch": "Weltuhr",
+  "Français": "Horloge mondiale",
+  "한국어": "세계 시계",
+  "中文": "世界时钟",
+  "العربية": "الساعة العالمية",
+  "Tiếng Việt": "Đồng hồ thế giới"
+ },
+ "Add a city": {
+  "日本語": "都市を追加",
+  "Español": "Añadir una ciudad",
+  "Deutsch": "Stadt hinzufügen",
+  "Français": "Ajouter une ville",
+  "한국어": "도시 추가",
+  "中文": "添加城市",
+  "العربية": "إضافة مدينة",
+  "Tiếng Việt": "Thêm thành phố"
+ },
+ "Clock style": {
+  "日本語": "時計の表示",
+  "Español": "Formato del reloj",
+  "Deutsch": "Uhrformat",
+  "Français": "Format de l'horloge",
+  "한국어": "시계 형식",
+  "中文": "时钟格式",
+  "العربية": "نمط الساعة",
+  "Tiếng Việt": "Kiểu đồng hồ"
+ },
+ "24-hour": {
+  "日本語": "24 時間",
+  "Español": "24 horas",
+  "Deutsch": "24 Stunden",
+  "Français": "24 heures",
+  "한국어": "24시간",
+  "中文": "24 小时制",
+  "العربية": "24 ساعة",
+  "Tiếng Việt": "24 giờ"
+ },
+ "12-hour": {
+  "日本語": "12 時間",
+  "Español": "12 horas",
+  "Deutsch": "12 Stunden",
+  "Français": "12 heures",
+  "한국어": "12시간",
+  "中文": "12 小时制",
+  "العربية": "12 ساعة",
+  "Tiếng Việt": "12 giờ"
+ },
+ "Copy times": {
+  "日本語": "時刻をコピー",
+  "Español": "Copiar horas",
+  "Deutsch": "Uhrzeiten kopieren",
+  "Français": "Copier les heures",
+  "한국어": "시간 복사",
+  "中文": "复制时间",
+  "العربية": "نسخ الأوقات",
+  "Tiếng Việt": "Sao chép giờ"
+ },
+ "Plan a time": {
+  "日本語": "時刻を計画",
+  "Español": "Planear una hora",
+  "Deutsch": "Zeit planen",
+  "Français": "Planifier une heure",
+  "한국어": "시간 계획",
+  "中文": "规划时间",
+  "العربية": "تخطيط وقت",
+  "Tiếng Việt": "Lên lịch giờ"
+ },
+ "Time": {
+  "日本語": "時刻",
+  "Español": "Hora",
+  "Deutsch": "Uhrzeit",
+  "Français": "Heure",
+  "한국어": "시간",
+  "中文": "时间",
+  "العربية": "الوقت",
+  "Tiếng Việt": "Giờ"
+ },
+ "Time zone of the planned time": {
+  "日本語": "計画する時刻のタイムゾーン",
+  "Español": "Zona horaria de la hora planeada",
+  "Deutsch": "Zeitzone der geplanten Zeit",
+  "Français": "Fuseau horaire de l'heure planifiée",
+  "한국어": "계획한 시간의 시간대",
+  "中文": "规划时间所在时区",
+  "العربية": "المنطقة الزمنية للوقت المخطط",
+  "Tiếng Việt": "Múi giờ của giờ đã lên lịch"
+ },
+ "Back to now": {
+  "日本語": "現在に戻る",
+  "Español": "Volver a ahora",
+  "Deutsch": "Zurück zu jetzt",
+  "Français": "Revenir à maintenant",
+  "한국어": "지금으로 돌아가기",
+  "中文": "回到现在",
+  "العربية": "العودة إلى الآن",
+  "Tiếng Việt": "Về giờ hiện tại"
+ },
+ "Pick a date and time - a client's \"10 am Tuesday\", say - and every clock shows what time that is there.": {
+  "日本語": "日付と時刻（たとえばクライアントの「火曜の午前 10 時」）を選ぶと、各時計にその地の時刻が表示されます。",
+  "Español": "Elige una fecha y hora (el «martes a las 10» de un cliente, por ejemplo) y cada reloj muestra qué hora será allí.",
+  "Deutsch": "Wähle Datum und Uhrzeit – etwa „Dienstag 10 Uhr“ eines Kunden – und jede Uhr zeigt, wie spät es dann dort ist.",
+  "Français": "Choisissez une date et une heure – le « mardi 10 h » d'un client, par exemple – et chaque horloge affiche l'heure qu'il sera là-bas.",
+  "한국어": "날짜와 시간(예: 고객의 \"화요일 오전 10시\")을 고르면 각 시계에 그곳의 시간이 표시됩니다.",
+  "中文": "选择日期和时间（比如客户说的“周二上午 10 点”），每个时钟都会显示当地对应的时间。",
+  "العربية": "اختر تاريخًا ووقتًا - \"الثلاثاء العاشرة صباحًا\" لعميل مثلًا - وستعرض كل ساعة الوقت المقابل هناك.",
+  "Tiếng Việt": "Chọn ngày giờ – chẳng hạn \"10 giờ sáng thứ Ba\" của khách hàng – và mỗi đồng hồ sẽ hiện giờ tương ứng ở đó."
+ },
+ "Every clock shows the planned time. Back to now shows the live time again.": {
+  "日本語": "各時計に計画した時刻を表示しています。「現在に戻る」で現在時刻に戻ります。",
+  "Español": "Cada reloj muestra la hora planeada. Volver a ahora muestra otra vez la hora actual.",
+  "Deutsch": "Jede Uhr zeigt die geplante Zeit. Zurück zu jetzt zeigt wieder die aktuelle Zeit.",
+  "Français": "Chaque horloge affiche l'heure planifiée. Revenir à maintenant réaffiche l'heure actuelle.",
+  "한국어": "각 시계에 계획한 시간이 표시됩니다. 지금으로 돌아가기를 누르면 현재 시간이 다시 표시됩니다.",
+  "中文": "每个时钟显示的是规划的时间。点“回到现在”可重新显示实时时间。",
+  "العربية": "تعرض كل ساعة الوقت المخطط. يعيد زر العودة إلى الآن عرض الوقت الحالي.",
+  "Tiếng Việt": "Mỗi đồng hồ đang hiện giờ đã lên lịch. Về giờ hiện tại để xem lại giờ thực."
+ },
+ "Working hours are 9 am to 6 pm, Monday to Friday, in each place.": {
+  "日本語": "勤務時間は各地の月曜〜金曜、午前 9 時〜午後 6 時としています。",
+  "Español": "El horario laboral es de 9 a 18 h, de lunes a viernes, en cada lugar.",
+  "Deutsch": "Arbeitszeit ist an jedem Ort Montag bis Freitag von 9 bis 18 Uhr.",
+  "Français": "Les heures de travail sont de 9 h à 18 h, du lundi au vendredi, dans chaque lieu.",
+  "한국어": "근무 시간은 각 지역의 월~금 오전 9시~오후 6시입니다.",
+  "中文": "工作时间按各地周一至周五上午 9 点到下午 6 点计算。",
+  "العربية": "ساعات العمل من 9 صباحًا إلى 6 مساءً، من الاثنين إلى الجمعة، في كل مكان.",
+  "Tiếng Việt": "Giờ làm việc là 9 giờ sáng đến 6 giờ chiều, thứ Hai đến thứ Sáu, tại mỗi nơi."
+ },
+ "Here": {
+  "日本語": "現在地",
+  "Español": "Aquí",
+  "Deutsch": "Hier",
+  "Français": "Ici",
+  "한국어": "현재 위치",
+  "中文": "本地",
+  "العربية": "هنا",
+  "Tiếng Việt": "Tại đây"
+ },
+ "Here – {city}": {
+  "日本語": "現在地 – {city}",
+  "Español": "Aquí – {city}",
+  "Deutsch": "Hier – {city}",
+  "Français": "Ici – {city}",
+  "한국어": "현재 위치 – {city}",
+  "中文": "本地 – {city}",
+  "العربية": "هنا – {city}",
+  "Tiếng Việt": "Tại đây – {city}"
+ },
+ "Move earlier": {
+  "日本語": "前へ移動",
+  "Español": "Mover antes",
+  "Deutsch": "Nach vorne",
+  "Français": "Déplacer avant",
+  "한국어": "앞으로 이동",
+  "中文": "前移",
+  "العربية": "نقل للأمام",
+  "Tiếng Việt": "Chuyển lên trước"
+ },
+ "Move later": {
+  "日本語": "後ろへ移動",
+  "Español": "Mover después",
+  "Deutsch": "Nach hinten",
+  "Français": "Déplacer après",
+  "한국어": "뒤로 이동",
+  "中文": "后移",
+  "العربية": "نقل للخلف",
+  "Tiếng Việt": "Chuyển ra sau"
+ },
+ "tomorrow": {
+  "日本語": "翌日",
+  "Español": "mañana",
+  "Deutsch": "morgen",
+  "Français": "demain",
+  "한국어": "다음 날",
+  "中文": "次日",
+  "العربية": "غدًا",
+  "Tiếng Việt": "ngày mai"
+ },
+ "yesterday": {
+  "日本語": "前日",
+  "Español": "ayer",
+  "Deutsch": "gestern",
+  "Français": "hier",
+  "한국어": "전날",
+  "中文": "前一天",
+  "العربية": "أمس",
+  "Tiếng Việt": "hôm qua"
+ },
+ "Your time": {
+  "日本語": "あなたの時刻",
+  "Español": "Tu hora",
+  "Deutsch": "Deine Zeit",
+  "Français": "Votre heure",
+  "한국어": "내 시간",
+  "中文": "你的时间",
+  "العربية": "وقتك",
+  "Tiếng Việt": "Giờ của bạn"
+ },
+ "Same time": {
+  "日本語": "同じ時刻",
+  "Español": "Misma hora",
+  "Deutsch": "Gleiche Zeit",
+  "Français": "Même heure",
+  "한국어": "같은 시간",
+  "中文": "时间相同",
+  "العربية": "الوقت نفسه",
+  "Tiếng Việt": "Cùng giờ"
+ },
+ "Working hours": {
+  "日本語": "勤務時間内",
+  "Español": "Horario laboral",
+  "Deutsch": "Arbeitszeit",
+  "Français": "Heures de travail",
+  "한국어": "근무 시간",
+  "中文": "工作时间",
+  "العربية": "ساعات العمل",
+  "Tiếng Việt": "Giờ làm việc"
+ },
+ "Off hours": {
+  "日本語": "勤務時間外",
+  "Español": "Fuera de horario",
+  "Deutsch": "Feierabend",
+  "Français": "Hors horaires",
+  "한국어": "근무 외 시간",
+  "中文": "非工作时间",
+  "العربية": "خارج الدوام",
+  "Tiếng Việt": "Ngoài giờ"
+ },
+ "Night": {
+  "日本語": "夜間",
+  "Español": "Noche",
+  "Deutsch": "Nacht",
+  "Français": "Nuit",
+  "한국어": "밤",
+  "中文": "夜间",
+  "العربية": "ليلًا",
+  "Tiếng Việt": "Ban đêm"
+ },
+ "Name this clock": {
+  "日本語": "時計に名前を付ける",
+  "Español": "Nombrar este reloj",
+  "Deutsch": "Diese Uhr benennen",
+  "Français": "Nommer cette horloge",
+  "한국어": "이 시계 이름 짓기",
+  "中文": "为此时钟命名",
+  "العربية": "تسمية هذه الساعة",
+  "Tiếng Việt": "Đặt tên đồng hồ này"
+ },
+ "A name of your own - a client, a studio - shown instead of the city. Leave it empty for the city's name.": {
+  "日本語": "クライアントやスタジオなど、都市名の代わりに表示する名前です。空欄なら都市名になります。",
+  "Español": "Un nombre propio (un cliente, un estudio) que se muestra en lugar de la ciudad. Déjalo vacío para usar el nombre de la ciudad.",
+  "Deutsch": "Ein eigener Name – ein Kunde, ein Studio –, der statt der Stadt angezeigt wird. Leer lassen für den Namen der Stadt.",
+  "Français": "Un nom à vous – un client, un studio – affiché à la place de la ville. Laissez vide pour le nom de la ville.",
+  "한국어": "도시 대신 표시할 이름(고객, 스튜디오 등)입니다. 비워 두면 도시 이름이 표시됩니다.",
+  "中文": "自定义名称（客户、工作室等），显示在城市名的位置。留空则显示城市名。",
+  "العربية": "اسم من اختيارك - عميل أو استوديو - يظهر بدل المدينة. اتركه فارغًا لاسم المدينة.",
+  "Tiếng Việt": "Tên riêng của bạn – khách hàng, studio – hiện thay cho tên thành phố. Để trống để dùng tên thành phố."
+ },
+ "Search a city or time zone": {
+  "日本語": "都市またはタイムゾーンを検索",
+  "Español": "Buscar una ciudad o zona horaria",
+  "Deutsch": "Stadt oder Zeitzone suchen",
+  "Français": "Rechercher une ville ou un fuseau horaire",
+  "한국어": "도시 또는 시간대 검색",
+  "中文": "搜索城市或时区",
+  "العربية": "ابحث عن مدينة أو منطقة زمنية",
+  "Tiếng Việt": "Tìm thành phố hoặc múi giờ"
+ },
+ "Cities": {
+  "日本語": "都市",
+  "Español": "Ciudades",
+  "Deutsch": "Städte",
+  "Français": "Villes",
+  "한국어": "도시",
+  "中文": "城市",
+  "العربية": "المدن",
+  "Tiếng Việt": "Thành phố"
+ },
+ "No city or time zone by that name.": {
+  "日本語": "その名前の都市やタイムゾーンはありません。",
+  "Español": "No hay ninguna ciudad ni zona horaria con ese nombre.",
+  "Deutsch": "Keine Stadt oder Zeitzone mit diesem Namen.",
+  "Français": "Aucune ville ni fuseau horaire de ce nom.",
+  "한국어": "그런 이름의 도시나 시간대가 없습니다.",
+  "中文": "没有这个名称的城市或时区。",
+  "العربية": "لا توجد مدينة أو منطقة زمنية بهذا الاسم.",
+  "Tiếng Việt": "Không có thành phố hoặc múi giờ nào tên như vậy."
+ }
+}

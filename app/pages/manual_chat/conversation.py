@@ -463,6 +463,15 @@ class ChatSessions:
         self.add(BUDDY, WELCOME)
         return True
 
+    def start_fresh(self):
+        """Buddy starting: a new, empty conversation in front, every saved
+        one still in the list to go back to. Ones left with nothing asked
+        in them are dropped first, so a launch never piles up empty chats."""
+        self.chats = [c for c in self.chats if c.history or len(c.blocks) > 1]
+        self.chats.append(_Chat())
+        self.index = len(self.chats) - 1
+        self.add(BUDDY, WELCOME)
+
     def go(self, index) -> bool:
         if not (0 <= index < len(self.chats)) or index == self.index:
             return False

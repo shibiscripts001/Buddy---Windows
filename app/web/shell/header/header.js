@@ -46,6 +46,8 @@ Buddy.on("header", h => {
         $("update").title = u.kind === "restart" ? `Buddy ${u.version} is installed – restart Buddy to start using it`
                                                  : `Buddy ${u.version} is ready to install`;
     }
+    // Buddy is the window in use (Off-world's cursor blinks only then).
+    document.documentElement.classList.toggle("buddy-active", !!h.active);
     $("split").setAttribute("aria-pressed", String(h.split));
     const side = $("side");
     side.hidden = !h.split;

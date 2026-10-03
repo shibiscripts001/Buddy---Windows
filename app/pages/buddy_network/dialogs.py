@@ -10,14 +10,14 @@ from PySide6.QtGui import QGuiApplication
 
 # Bump when the rules change in a way people should re-read: everyone is
 # asked to accept them again the next time they open Buddy Network.
-RULES_VERSION = 4       # 2: messages kept 60 days. 3: DMs end-to-end encrypted. 4: back to 30 days
+RULES_VERSION = 5       # 2: messages kept 60 days. 3: DMs end-to-end encrypted. 4: back to 30 days. 5: 18 or older
 
 RULES_HTML = """
 <h3>Buddy Network rules</h3>
 <p>Buddy Network is a public text chat for people who use Buddy. Please read
 this before you join.</p>
 <ul>
-<li><b>13 or older only.</b></li>
+<li><b>18 or older only.</b></li>
 <li><b>Be kind.</b> No harassment, hate, threats, spam or anything illegal.</li>
 <li><b>Keep yourself private.</b> Never share passwords, API keys, licence
 keys, or personal details: your real name, address, phone number, email,

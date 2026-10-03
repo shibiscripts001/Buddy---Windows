@@ -129,6 +129,17 @@ class SessionTests(unittest.TestCase):
         chats.go(1)                     # on "second"; an empty fourth is last
         return chats
 
+    def test_a_launch_starts_on_a_fresh_chat_keeping_the_saved_ones(self):
+        chats = self._three_chats()                 # on "second"; an empty fourth is last
+        chats.start_fresh()
+        self.assertEqual([c.title for c in chats.chats], ["first", "second", "third", "New chat"])
+        self.assertEqual(chats.index, 3)
+        self.assertTrue(chats.is_empty())
+        self.assertEqual([b["body"] for b in chats.blocks], [WELCOME])
+        self.assertEqual(chats.chats[1].blocks[1]["body"], "second")      # nothing lost
+        chats.start_fresh()                          # again, with nothing asked: still just one empty chat
+        self.assertEqual(len(chats.chats), 4)
+
     def test_deleting_another_chat_keeps_the_open_one(self):
         chats = self._three_chats()
         self.assertTrue(chats.delete(0))

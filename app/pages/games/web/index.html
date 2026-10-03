@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; script-src file: qrc:; style-src file: 'unsafe-inline'; font-src file:; img-src file: data:">
+    <title>Games</title>
+    <link rel="stylesheet" href="../../../web/buddy.css">
+    <link rel="stylesheet" href="games.css">
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script src="../../../web/buddy.js"></script>
+</head>
+<body>
+<main class="page games">
+    <header class="page-head">
+        <h1 class="page-title">Games</h1>
+    </header>
+
+    <nav class="tabs" role="tablist" id="game-tabs" aria-label="Games">
+        <button type="button" role="tab" data-tab="pong" aria-selected="true">Pong</button>
+        <button type="button" role="tab" data-tab="snake">Snake</button>
+        <button type="button" role="tab" data-tab="mines">Minesweeper</button>
+        <button type="button" role="tab" data-tab="solitaire">Solitaire</button>
+        <button type="button" role="tab" data-tab="blocks">Falling blocks</button>
+        <button type="button" role="tab" data-tab="2048">2048</button>
+        <button type="button" role="tab" data-tab="breakout">Breakout</button>
+        <button type="button" role="tab" data-tab="sudoku">Sudoku</button>
+    </nav>
+
+    <!-- ------------------------------------------------------------ pong -->
+    <section class="game-panel" data-panel="pong">
+        <div class="row game-bar">
+            <div class="segmented" id="pong-mode" role="group" aria-label="Players">
+                <button type="button" data-mode="cpu">Against the computer</button>
+                <button type="button" data-mode="two">Two players</button>
+            </div>
+            <label class="row game-opt" id="pong-level-wrap">
+                <span class="muted small">Difficulty</span>
+                <select class="field" id="pong-level" data-pref="pong_level" aria-label="Difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </label>
+            <label class="row game-opt">
+                <span class="muted small">Points to win</span>
+                <select class="field" id="pong-points" data-pref="pong_points" aria-label="Points to win">
+                    <option value="5">5</option>
+                    <option value="7" selected>7</option>
+                    <option value="11">11</option>
+                </select>
+            </label>
+            <label class="check small" id="pong-mouse-wrap" title="Your paddle follows the mouse over the court">
+                <input type="checkbox" id="pong-mouse" data-pref="pong_mouse"> Mouse control</label>
+            <label class="check small"><input type="checkbox" id="pong-sound" data-pref="pong_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="pong-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court" id="pong-court" tabindex="0" aria-label="Pong court">
+                <canvas id="pong-canvas"></canvas>
+                <div class="game-overlay" id="pong-overlay">
+                    <div class="game-overlay-title" id="pong-overlay-title">Pong</div>
+                    <div class="game-overlay-text" id="pong-overlay-text">Press Space or click to start</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys" id="pong-keys"></p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="pong-record"></p>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------------- snake -->
+    <section class="game-panel" data-panel="snake" hidden>
+        <div class="row game-bar">
+            <label class="row game-opt">
+                <span class="muted small">Speed</span>
+                <select class="field" id="snake-speed" data-pref="snake_speed" aria-label="Speed">
+                    <option value="slow">Slow</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="fast">Fast</option>
+                </select>
+            </label>
+            <label class="check small" title="Off: the snake goes out one side and comes back in the other">
+                <input type="checkbox" id="snake-walls" data-pref="snake_walls" checked> Walls</label>
+            <label class="check small"><input type="checkbox" id="snake-sound" data-pref="snake_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="snake-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court" id="snake-court" tabindex="0" aria-label="Snake board">
+                <canvas id="snake-canvas"></canvas>
+                <div class="game-overlay" id="snake-overlay">
+                    <div class="game-overlay-title" id="snake-overlay-title">Snake</div>
+                    <div class="game-overlay-text" id="snake-overlay-text">Press Space or click to start</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Steer with the arrow keys or W, A, S and D. Space pauses.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="snake-score"></p>
+        </div>
+    </section>
+
+    <!-- ----------------------------------------------------- minesweeper -->
+    <section class="game-panel" data-panel="mines" hidden>
+        <div class="row game-bar">
+            <label class="row game-opt">
+                <span class="muted small">Difficulty</span>
+                <select class="field" id="mines-level" data-pref="mines_level" aria-label="Difficulty">
+                    <option value="beginner" selected>Beginner – 9 × 9, 10 mines</option>
+                    <option value="intermediate">Intermediate – 16 × 16, 40 mines</option>
+                    <option value="expert">Expert – 30 × 16, 99 mines</option>
+                </select>
+            </label>
+            <label class="check small"><input type="checkbox" id="mines-sound" data-pref="mines_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Mines left</span> <b id="mines-left">10</b></span>
+            <span class="mines-count"><span class="muted small">Time</span> <b id="mines-time">0</b></span>
+            <button type="button" class="btn" id="mines-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court mines-court" id="mines-court" tabindex="0" aria-label="Minefield">
+                <canvas id="mines-canvas"></canvas>
+                <div class="game-overlay" id="mines-overlay" hidden>
+                    <div class="game-overlay-title" id="mines-overlay-title">Paused</div>
+                    <div class="game-overlay-text" id="mines-overlay-text">Click to carry on</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Click to dig. Right-click or Shift+click to flag a mine. Click a number
+                whose flags are all placed to dig the squares round it.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="mines-best"></p>
+        </div>
+    </section>
+
+    <!-- ------------------------------------------------------- solitaire -->
+    <section class="game-panel" data-panel="solitaire" hidden>
+        <div class="row game-bar">
+            <label class="row game-opt">
+                <span class="muted small">Deal</span>
+                <select class="field" id="sol-draw" data-pref="sol_draw" aria-label="Deal">
+                    <option value="1" selected>Draw one</option>
+                    <option value="3">Draw three</option>
+                </select>
+            </label>
+            <label class="check small"><input type="checkbox" id="sol-sound" data-pref="sol_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Moves</span> <b id="sol-moves">0</b></span>
+            <span class="mines-count"><span class="muted small">Time</span> <b id="sol-time">0:00</b></span>
+            <button type="button" class="btn" id="sol-undo" title="Ctrl+Z">Undo</button>
+            <button type="button" class="btn" id="sol-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court sol-court" id="sol-court" tabindex="0" aria-label="Solitaire table">
+                <canvas id="sol-canvas"></canvas>
+                <div class="game-overlay" id="sol-overlay" hidden>
+                    <div class="game-overlay-title" id="sol-overlay-title">Paused</div>
+                    <div class="game-overlay-text" id="sol-overlay-text">Click to carry on</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Drag cards, or click one to send it where it fits. Click the deck to draw.
+                Ctrl+Z undoes.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="sol-stats"></p>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------- falling blocks -->
+    <section class="game-panel" data-panel="blocks" hidden>
+        <div class="row game-bar">
+            <label class="row game-opt">
+                <span class="muted small">Start at level</span>
+                <select class="field" id="blocks-level" data-pref="blocks_level" aria-label="Start at level">
+                    <option value="1" selected>1</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+            </label>
+            <label class="check small" title="Shows where the piece will land">
+                <input type="checkbox" id="blocks-ghost" data-pref="blocks_ghost" checked> Ghost piece</label>
+            <label class="check small"><input type="checkbox" id="blocks-sound" data-pref="blocks_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Score</span> <b id="blocks-score">0</b></span>
+            <span class="mines-count"><span class="muted small">Lines</span> <b id="blocks-lines">0</b></span>
+            <span class="mines-count"><span class="muted small">Level</span> <b id="blocks-level-now">1</b></span>
+            <button type="button" class="btn" id="blocks-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court" id="blocks-court" tabindex="0" aria-label="Falling blocks well">
+                <canvas id="blocks-canvas"></canvas>
+                <div class="game-overlay" id="blocks-overlay">
+                    <div class="game-overlay-title" id="blocks-overlay-title">Falling blocks</div>
+                    <div class="game-overlay-text" id="blocks-overlay-text">Press Enter or click to start</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Left and Right move, Up or X turns, Z turns back, Down drops faster,
+                Space drops at once, C or Shift holds the piece. Esc pauses.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="blocks-best"></p>
+        </div>
+    </section>
+
+    <!-- ------------------------------------------------------------ 2048 -->
+    <section class="game-panel" data-panel="2048" hidden>
+        <div class="row game-bar">
+            <label class="check small"><input type="checkbox" id="g2048-sound" data-pref="g2048_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Score</span> <b id="g2048-score">0</b></span>
+            <button type="button" class="btn" id="g2048-undo" title="Ctrl+Z">Undo</button>
+            <button type="button" class="btn" id="g2048-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court g2048-court" id="g2048-court" tabindex="0" aria-label="2048 board">
+                <canvas id="g2048-canvas"></canvas>
+                <div class="game-overlay" id="g2048-overlay" hidden>
+                    <div class="game-overlay-title" id="g2048-overlay-title">2048</div>
+                    <div class="game-overlay-text" id="g2048-overlay-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Slide the tiles with the arrow keys or W, A, S and D, or drag across the
+                board. Matching numbers merge. Ctrl+Z undoes one slide.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="g2048-best"></p>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------- breakout -->
+    <section class="game-panel" data-panel="breakout" hidden>
+        <div class="row game-bar">
+            <label class="check small" id="breakout-mouse-wrap" title="The paddle follows the mouse over the court">
+                <input type="checkbox" id="breakout-mouse" data-pref="breakout_mouse"> Mouse control</label>
+            <label class="check small"><input type="checkbox" id="breakout-sound" data-pref="breakout_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Score</span> <b id="breakout-score">0</b></span>
+            <span class="mines-count"><span class="muted small">Level</span> <b id="breakout-level-now">1</b></span>
+            <span class="mines-count"><span class="muted small">Lives</span> <b id="breakout-lives">3</b></span>
+            <button type="button" class="btn" id="breakout-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court" id="breakout-court" tabindex="0" aria-label="Breakout court">
+                <canvas id="breakout-canvas"></canvas>
+                <div class="game-overlay" id="breakout-overlay">
+                    <div class="game-overlay-title" id="breakout-overlay-title">Breakout</div>
+                    <div class="game-overlay-text" id="breakout-overlay-text">Press Space or click to start</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Move with the arrow keys or A and D. Space launches the ball and pauses.</p>
+            <p class="small breakout-serve" id="breakout-serve" hidden>Press Space or click to launch the ball</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="breakout-best"></p>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- sudoku -->
+    <section class="game-panel" data-panel="sudoku" hidden>
+        <div class="row game-bar">
+            <label class="row game-opt">
+                <span class="muted small">Difficulty</span>
+                <select class="field" id="sudoku-level" data-pref="sudoku_level" aria-label="Difficulty">
+                    <option value="easy" selected>Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </label>
+            <label class="check small" title="Numbers that don't match the answer turn red">
+                <input type="checkbox" id="sudoku-mistakes" data-pref="sudoku_mistakes" checked> Show mistakes</label>
+            <label class="check small"><input type="checkbox" id="sudoku-sound" data-pref="sudoku_sound" checked> Sound</label>
+            <span class="spacer"></span>
+            <span class="mines-count"><span class="muted small">Time</span> <b id="sudoku-time">0:00</b></span>
+            <button type="button" class="btn" id="sudoku-notes" aria-pressed="false" title="N">Notes</button>
+            <button type="button" class="btn" id="sudoku-undo" title="Ctrl+Z">Undo</button>
+            <button type="button" class="btn" id="sudoku-new">New game</button>
+        </div>
+
+        <div class="card game-court-card">
+            <div class="game-court sudoku-court" id="sudoku-court" tabindex="0" aria-label="Sudoku grid">
+                <canvas id="sudoku-canvas"></canvas>
+                <div class="game-overlay" id="sudoku-overlay" hidden>
+                    <div class="game-overlay-title" id="sudoku-overlay-title">Paused</div>
+                    <div class="game-overlay-text" id="sudoku-overlay-text">Click to carry on</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row game-foot">
+            <p class="muted small game-keys">Click a square, then type a number or click one on the right. Notes (or
+                Shift with a number) pencils it in. Arrow keys move, Backspace clears, Ctrl+Z undoes.</p>
+            <span class="spacer"></span>
+            <p class="small game-score" id="sudoku-best"></p>
+        </div>
+    </section>
+</main>
+<script src="games.js"></script>
+<script src="pong.js"></script>
+<script src="snake.js"></script>
+<script src="mines.js"></script>
+<script src="solitaire.js"></script>
+<script src="blocks.js"></script>
+<script src="g2048.js"></script>
+<script src="breakout.js"></script>
+<script src="sudoku.js"></script>
+</body>
+</html>

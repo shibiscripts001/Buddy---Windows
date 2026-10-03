@@ -560,15 +560,15 @@
   "العربية": "قواعد شبكة Buddy",
   "Tiếng Việt": "Quy tắc Mạng Buddy"
  },
- "I'm 13 or older and I'll follow these rules": {
-  "日本語": "13 歳以上で、これらのルールに従います",
-  "Español": "Tengo 13 años o más y seguiré estas normas",
-  "Deutsch": "Ich bin 13 oder älter und halte mich an diese Regeln",
-  "Français": "J'ai 13 ans ou plus et je respecterai ces règles",
-  "한국어": "13세 이상이며 이 규칙을 따르겠습니다",
-  "中文": "我已年满 13 岁并会遵守这些规则",
-  "العربية": "عمري 13 عامًا أو أكثر وسألتزم بهذه القواعد",
-  "Tiếng Việt": "Tôi từ 13 tuổi trở lên và sẽ tuân theo các quy tắc này"
+ "I'm 18 or older and I'll follow these rules": {
+  "日本語": "18 歳以上で、これらのルールに従います",
+  "Español": "Tengo 18 años o más y seguiré estas normas",
+  "Deutsch": "Ich bin 18 oder älter und halte mich an diese Regeln",
+  "Français": "J'ai 18 ans ou plus et je respecterai ces règles",
+  "한국어": "18세 이상이며 이 규칙을 따르겠습니다",
+  "中文": "我已年满 18 岁并会遵守这些规则",
+  "العربية": "عمري 18 عامًا أو أكثر وسألتزم بهذه القواعد",
+  "Tiếng Việt": "Tôi từ 18 tuổi trở lên và sẽ tuân theo các quy tắc này"
  },
  "Buddy Network is a public text chat for people who use Buddy. Please read this before you join.": {
   "日本語": "Buddy ネットワークは、Buddy を使う人のための公開テキストチャットです。参加する前にお読みください。",
@@ -580,15 +580,15 @@
   "العربية": "شبكة Buddy دردشة نصية عامة لمستخدمي Buddy. يرجى قراءة هذا قبل الانضمام.",
   "Tiếng Việt": "Mạng Buddy là kênh trò chuyện văn bản công khai cho người dùng Buddy. Hãy đọc điều này trước khi tham gia."
  },
- "13 or older only.": {
-  "日本語": "13 歳以上のみ。",
-  "Español": "Solo mayores de 13 años.",
-  "Deutsch": "Nur ab 13 Jahren.",
-  "Français": "13 ans ou plus uniquement.",
-  "한국어": "13세 이상만 이용 가능.",
-  "中文": "仅限 13 岁及以上。",
-  "العربية": "لمن هم في سن 13 أو أكثر فقط.",
-  "Tiếng Việt": "Chỉ dành cho người từ 13 tuổi."
+ "18 or older only.": {
+  "日本語": "18 歳以上のみ。",
+  "Español": "Solo mayores de 18 años.",
+  "Deutsch": "Nur ab 18 Jahren.",
+  "Français": "18 ans ou plus uniquement.",
+  "한국어": "18세 이상만 이용 가능.",
+  "中文": "仅限 18 岁及以上。",
+  "العربية": "لمن هم في سن 18 أو أكثر فقط.",
+  "Tiếng Việt": "Chỉ dành cho người từ 18 tuổi."
  },
  "Be kind.": {
   "日本語": "親切に。",

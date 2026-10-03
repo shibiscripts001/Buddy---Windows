@@ -9,7 +9,9 @@ Chromium pages in the browser's own profile, so sites remember you; a tab
 only gets a page once it's first shown, and a background tab sleeps after
 a while (Settings > Tools > Web) unless it's playing sound, kept awake, or
 on a site that never sleeps - so music plays on with the Web tab out of
-sight, and a dozen idle tabs cost next to nothing. Downloads go to a
+sight, and a dozen idle tabs cost next to nothing. Buddy starts with every
+tab asleep, the one it shows too (SleepingPanel stands in for its page):
+a site that plays on its own - music, a video - waits until it's opened. Downloads go to a
 folder of the user's choosing and can be dragged from the bar or the
 Downloads window straight into Resolve's Media Pool.
 
@@ -40,7 +42,7 @@ from PySide6.QtCore import QBuffer, QByteArray, QIODevice, Qt, QTimer, QUrl
 from PySide6.QtGui import QColor, QCursor, QDesktopServices, QKeySequence, QShortcut
 from PySide6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage, QWebEngineScript
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtWidgets import QFileDialog, QMenu, QStackedWidget, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QFileDialog, QLabel, QMenu, QPushButton, QStackedWidget, QVBoxLayout, QWidget
 
 from core import recycle
 from core import settings_form as sf
@@ -132,25 +134,29 @@ class Tab:
         self.page.iconChanged.connect(self._icon)
         self.page.loadStarted.connect(lambda: (self._set(loading=True, progress=0, paused=False), self._ground()))
         self.page.loadProgress.connect(lambda p: self._set(progress=p))
-        self.page.loadFinished.connect(lambda ok: (self._set(loading=False, progress=100), ok and b.visited(self)))
+        self.page.loadFinished.connect(lambda ok: (self._set(loading=False, progress=100), self._ground(),
+                                                   ok and b.visited(self)))
         self.page.recentlyAudibleChanged.connect(self._audible)
         self.page.audioMutedChanged.connect(lambda _m: b.changed())
         self.page.lifecycleStateChanged.connect(lambda _s: b.changed())
         self.page.fullScreenRequested.connect(lambda request: b.full_screen(self, request))
         self.page.renderProcessPidChanged.connect(lambda _p: b.changed())
-        self._ground()
+        self._ground(loading=True)            # a page is on its way: no white before it
         b.stack.addWidget(self.web)
         if load:
             self.load()
 
-    def _ground(self):
+    def _ground(self, loading=None):
         """What shows before a page has painted - and behind one that sets no
-        background. The new-tab page is drawn in the theme, so it starts in
-        the theme's colour (a dark theme no longer flashes white); a site
-        gets the white every browser gives it, or a page with no background
-        of its own would be dark text on dark."""
+        background. While a page loads (opened, reloaded, woken from sleep)
+        it's the theme's own colour, so a dark theme isn't lit up white
+        between pages; so is the new-tab page, drawn in the theme. Once a
+        site has loaded it gets the white every browser gives it, or a page
+        with no background of its own would be dark text on dark."""
         if self.page is not None:
-            self.page.setBackgroundColor(QColor(Qt.white) if self.url else self.browser.ground_color())
+            loading = self.loading if loading is None else loading
+            themed = not self.url or loading
+            self.page.setBackgroundColor(self.browser.ground_color() if themed else QColor(Qt.white))
 
     def load(self):
         if self.url:
@@ -201,6 +207,54 @@ class Tab:
         }
 
 
+class SleepingPanel(QWidget):
+    """Where the shown tab's page goes until it's opened, after Buddy starts:
+    its name, why it's asleep, and a button that loads it."""
+
+    def __init__(self, browser_page):
+        super().__init__()
+        self.browser = browser_page
+        self.setObjectName("webSleeping")
+        self.setAttribute(Qt.WA_StyledBackground, True)
+        layout = QVBoxLayout(self)
+        layout.setAlignment(Qt.AlignCenter)
+        layout.setSpacing(10)
+        self.title = QLabel(objectName="webSleepingTitle", alignment=Qt.AlignCenter, wordWrap=True)
+        self.site = QLabel(objectName="webSleepingSite", alignment=Qt.AlignCenter, wordWrap=True)
+        self.note = QLabel(objectName="webSleepingNote", alignment=Qt.AlignCenter, wordWrap=True)
+        self.button = QPushButton(objectName="webSleepingWake", cursor=Qt.PointingHandCursor)
+        self.button.clicked.connect(self.browser.wake_active)
+        for widget in (self.title, self.site, self.note):
+            widget.setMaximumWidth(520)
+            widget.setTextInteractionFlags(Qt.NoTextInteraction)
+            layout.addWidget(widget, 0, Qt.AlignHCenter)
+        layout.addSpacing(6)
+        layout.addWidget(self.button, 0, Qt.AlignHCenter)
+        self.on_theme_changed()
+
+    def show_tab(self, tab):
+        self.title.setText(tab.title or browser.site_of(tab.url) or tab.url)
+        self.site.setText(browser.site_of(tab.url) or tab.url)
+        self.site.setVisible(bool(tab.title))
+        self.note.setText(tr("This tab is asleep. Buddy starts with its tabs asleep, so nothing "
+                             "plays until you open one."))
+        self.button.setText(tr("Open the page"))
+
+    def on_theme_changed(self):
+        try:
+            t = self.browser.host.theme_tokens()
+        except Exception:  # noqa: BLE001 - a host without a theme
+            return
+        self.setStyleSheet(f"""
+            #webSleeping {{ background: {t["surface"]}; }}
+            #webSleepingTitle {{ color: {t["on_surface"]}; font-size: 15px; font-weight: 700; }}
+            #webSleepingSite, #webSleepingNote {{ color: {t["on_surface"]}; font-size: 12px; }}
+            #webSleepingWake {{ background: {t["primary"]}; color: {t["on_primary"]}; border: none;
+                                border-radius: 14px; padding: 7px 18px; font-weight: 600; }}
+            #webSleepingWake:hover {{ background: {t["primary"]}; }}
+        """)
+
+
 class WebBrowserPage(ToolPage):
     tool_id = "web"
     display_name = "Web"
@@ -232,6 +286,8 @@ class WebBrowserPage(ToolPage):
         self.stack = QStackedWidget(self)
         self.blank = QWidget()                # behind a tab that has no page yet
         self.stack.addWidget(self.blank)
+        self.sleeping = SleepingPanel(self)   # the shown tab, until it's opened after a start
+        self.stack.addWidget(self.sleeping)
         layout.addWidget(self.bar)
         layout.addWidget(self.stack, 1)
 
@@ -265,7 +321,7 @@ class WebBrowserPage(ToolPage):
         if not self.tabs:
             self._add("")
         active = self.settings.get("active", 0)
-        self.select(self.tabs[active if isinstance(active, int) and 0 <= active < len(self.tabs) else 0])
+        self._start_on(self.tabs[active if isinstance(active, int) and 0 <= active < len(self.tabs) else 0])
 
     def _shortcuts(self):
         keys = {
@@ -326,6 +382,23 @@ class WebBrowserPage(ToolPage):
         if not tab.url:
             self.focus_address()
         self.changed(save=True)
+
+    def _start_on(self, tab):
+        """Buddy starting: the tab it was on is shown but left asleep - its
+        site isn't loaded, so nothing it plays starts with Buddy. A new-tab
+        page (no site) is drawn as usual."""
+        if not tab.url:
+            self.select(tab)
+            return
+        self.active = tab
+        self.sleeping.show_tab(tab)
+        self.stack.setCurrentWidget(self.sleeping)
+        self.changed()
+
+    def wake_active(self):
+        """The asleep tab's Open button: its page loads."""
+        if self.active is not None:
+            self.select(self.active)
 
     def close_tab(self, tab):
         if tab not in self.tabs:
@@ -986,7 +1059,7 @@ class WebBrowserPage(ToolPage):
         if url and self.active is not None:
             self.active.url = url
             if self.active.web is None:
-                self.active.make_view()
+                self.select(self.active)      # its page made, loading the address, and shown
             else:
                 self.active.page.load(QUrl(url))
             self.active.web.setFocus()
@@ -1001,7 +1074,9 @@ class WebBrowserPage(ToolPage):
             self.active.page.triggerAction(QWebEnginePage.Forward)
 
     def on_reload(self, _payload=None):
-        if self.active and self.active.page:
+        if self.active is not None and self.active.web is None:
+            self.select(self.active)          # asleep since Buddy started: loads it
+        elif self.active and self.active.page:
             if self.active.url:
                 self.active.page.triggerAction(QWebEnginePage.Reload)
             else:
@@ -1127,6 +1202,7 @@ class WebBrowserPage(ToolPage):
 
     def on_theme_changed(self):
         self.bar.on_theme_changed()
+        self.sleeping.on_theme_changed()
         self._redraw_start_pages()
 
     def _redraw_start_pages(self):

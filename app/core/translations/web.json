@@ -1579,5 +1579,25 @@
   "中文": "YouTube 的广告来自 YouTube 本身，因此过滤列表无法拦截。此功能会从 YouTube 发送给其播放器的视频数据中移除广告。YouTube 会对此进行反制：可能显示“不允许使用广告拦截器”的提示，或者在 Buddy 更新之前广告可能重新出现。开启或关闭后请重新加载 YouTube。",
   "العربية": "تأتي إعلانات YouTube من YouTube نفسه، لذا لا تستطيع قوائم التصفية إيقافها. يزيلها هذا من بيانات الفيديو التي يرسلها YouTube إلى مشغّله. يقاوم YouTube ذلك: قد يعرض رسالة \"أدوات حظر الإعلانات غير مسموح بها\"، أو قد تعود الإعلانات إلى أن يتم تحديث Buddy. أعد تحميل YouTube بعد تشغيله أو إيقافه.",
   "Tiếng Việt": "Quảng cáo YouTube đến từ chính YouTube nên danh sách lọc không chặn được. Tùy chọn này gỡ chúng khỏi dữ liệu video mà YouTube gửi cho trình phát. YouTube chống lại việc này: có thể hiện thông báo \"không cho phép trình chặn quảng cáo\", hoặc quảng cáo có thể quay lại cho đến khi Buddy được cập nhật. Hãy tải lại YouTube sau khi bật hoặc tắt."
+ },
+ "This tab is asleep. Buddy starts with its tabs asleep, so nothing plays until you open one.": {
+  "日本語": "このタブはスリープ中です。Buddy は起動時にタブをスリープさせるので、開くまで何も再生されません。",
+  "Español": "Esta pestaña está dormida. Buddy se inicia con las pestañas dormidas, así que nada suena hasta que abras una.",
+  "Deutsch": "Dieser Tab schläft. Buddy startet mit schlafenden Tabs, damit nichts abspielt, bis du einen öffnest.",
+  "Français": "Cet onglet est en veille. Buddy démarre avec ses onglets en veille : rien ne joue avant que vous en ouvriez un.",
+  "한국어": "이 탭은 절전 중입니다. Buddy는 탭을 절전 상태로 시작하므로 탭을 열기 전에는 아무것도 재생되지 않습니다.",
+  "中文": "此标签页处于休眠状态。Buddy 启动时所有标签页都处于休眠，打开之前不会播放任何内容。",
+  "العربية": "علامة التبويب هذه نائمة. يبدأ Buddy وعلاماته نائمة، فلا يُشغَّل شيء حتى تفتح واحدة.",
+  "Tiếng Việt": "Thẻ này đang ngủ. Buddy khởi động với các thẻ đang ngủ, nên không có gì phát cho đến khi bạn mở một thẻ."
+ },
+ "Open the page": {
+  "日本語": "ページを開く",
+  "Español": "Abrir la página",
+  "Deutsch": "Seite öffnen",
+  "Français": "Ouvrir la page",
+  "한국어": "페이지 열기",
+  "中文": "打开页面",
+  "العربية": "فتح الصفحة",
+  "Tiếng Việt": "Mở trang"
  }
 }

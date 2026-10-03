@@ -1,35 +1,53 @@
 """Buddy's web views draw on the GPU through ANGLE's Direct3D 11 on 12 -
 plain Direct3D 11 crashes in ANGLE's state cache, and software drawing
-(BUDDY_WEB_SOFTWARE=1) is slow - painting pages on the CPU (11 on 12's
-GPU painting cuts rounded corners on AMD's integrated graphics) - and,
-with two GPUs, on the low-power one (core/gpu_adapter.py)."""
+(BUDDY_WEB_SOFTWARE=1) is slow - painting pages on the GPU without
+multisampling (with it, 11 on 12 cuts rounded corners on AMD's integrated
+graphics; painting on the CPU made switching tools slow) - and, with two
+GPUs, on the low-power one (core/gpu_adapter.py). All of Buddy's own pages
+share one renderer process (--process-per-site)."""
 
 import unittest
 
 import _paths  # noqa: F401
 from core import gpu_adapter, web_flags
 
+GPU = "--use-angle=d3d11on12 --gpu-rasterization-msaa-sample-count=0"
+DEFAULT = "--process-per-site " + GPU
+
 
 class WebFlagsTests(unittest.TestCase):
     def test_d3d11on12_by_default(self):
-        self.assertEqual(web_flags.chromium_flags({}), "--use-angle=d3d11on12 --disable-gpu-rasterization")
+        self.assertEqual(web_flags.chromium_flags({}), DEFAULT)
 
     def test_existing_flags_are_kept(self):
         env = {"QTWEBENGINE_CHROMIUM_FLAGS": "--remote-debugging-port=9223"}
-        self.assertEqual(web_flags.chromium_flags(env),
-                         "--remote-debugging-port=9223 --use-angle=d3d11on12 --disable-gpu-rasterization")
+        self.assertEqual(web_flags.chromium_flags(env), "--remote-debugging-port=9223 " + DEFAULT)
 
-    def test_gpu_painting_can_be_put_back(self):
-        env = {"QTWEBENGINE_CHROMIUM_FLAGS": "--enable-gpu-rasterization"}
-        self.assertEqual(web_flags.chromium_flags(env), "--enable-gpu-rasterization --use-angle=d3d11on12")
+    def test_painting_on_the_cpu_can_be_put_back(self):
+        self.assertEqual(web_flags.chromium_flags({"BUDDY_WEB_CPU_PAINT": "1"}),
+                         DEFAULT + " --disable-gpu-rasterization")
+        env = {"BUDDY_WEB_CPU_PAINT": "1", "QTWEBENGINE_CHROMIUM_FLAGS": "--disable-gpu-rasterization"}
+        self.assertEqual(web_flags.chromium_flags(env), "--disable-gpu-rasterization " + DEFAULT)
+
+    def test_a_multisampling_count_of_its_own_wins(self):
+        env = {"QTWEBENGINE_CHROMIUM_FLAGS": "--gpu-rasterization-msaa-sample-count=4"}
+        self.assertEqual(web_flags.chromium_flags(env),
+                         "--gpu-rasterization-msaa-sample-count=4 --process-per-site --use-angle=d3d11on12")
 
     def test_an_existing_angle_choice_wins(self):
         env = {"QTWEBENGINE_CHROMIUM_FLAGS": "--use-angle=d3d9"}
-        self.assertEqual(web_flags.chromium_flags(env), "--use-angle=d3d9")
+        self.assertEqual(web_flags.chromium_flags(env), "--use-angle=d3d9 --process-per-site")
 
     def test_software_can_be_put_back_and_is_not_doubled(self):
         env = {"BUDDY_WEB_SOFTWARE": "1", "QTWEBENGINE_CHROMIUM_FLAGS": "--disable-gpu"}
-        self.assertEqual(web_flags.chromium_flags(env), "--disable-gpu --disable-gpu-compositing")
+        self.assertEqual(web_flags.chromium_flags(env), "--disable-gpu --process-per-site --disable-gpu-compositing")
+
+    def test_one_renderer_per_page_can_be_put_back(self):
+        self.assertEqual(web_flags.chromium_flags({"BUDDY_WEB_PROCESS_PER_PAGE": "1"}), GPU)
+
+    def test_the_shared_renderer_is_not_doubled(self):
+        env = {"QTWEBENGINE_CHROMIUM_FLAGS": "--process-per-site"}
+        self.assertEqual(web_flags.chromium_flags(env), DEFAULT)
 
     def test_chromium_default_can_be_put_back(self):
         env = {"BUDDY_WEB_GPU": "1", "QTWEBENGINE_CHROMIUM_FLAGS": "--foo"}

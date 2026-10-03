@@ -21,6 +21,8 @@ from pages.buddy_network.page import BuddyNetworkPage
 from pages.color_palette.page import ColorPalettePage
 from pages.command_center.page import CommandCenterPage
 from pages.dailies.page import DailiesPage
+from pages.essentials.page import EssentialsPage
+from pages.games.page import GamesPage
 from pages.image_importer.page import ImageImporterPage
 from pages.manual_chat.page import ManualChatPage
 from pages.media_manager.page import MediaManagerPage
@@ -63,6 +65,10 @@ REGISTRY = [
     ("Web", WebBrowserPage),
 
     ("Command Center", CommandCenterPage),
+
+    ("Essentials", EssentialsPage),
+
+    ("Games", GamesPage),
 
     # "" = a plain line above it instead of a heading.
     ("", BuddyNetworkPage),

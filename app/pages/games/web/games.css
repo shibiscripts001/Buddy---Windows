@@ -1,0 +1,53 @@
+/* Games: a tab row, a panel per game. Each game's court keeps a 16:10
+   shape and fills what room the page has (games.js fitCourt). */
+
+.games { gap: var(--section-gap); }
+/* Eight games: in a narrow window (or Offworld's wide capitals) the row wraps instead of scrolling sideways. */
+#game-tabs { flex: none; flex-wrap: wrap; }
+.game-panel { flex: 1 1 auto; display: flex; flex-direction: column; gap: var(--section-gap); min-height: 0; }
+
+.game-bar { flex-wrap: wrap; gap: 8px 14px; }
+.game-opt { gap: 8px; }
+.game-opt select.field { min-width: 90px; }
+
+.game-court-card { flex: 1 1 auto; min-height: 260px; padding: 10px; display: flex; align-items: center; justify-content: center; }
+.game-court {
+    position: relative; flex: none;   /* its size: the largest 16:10 that fits (fitCourt) */
+    border-radius: var(--r-md); overflow: hidden; outline: none;
+    background: color-mix(in srgb, var(--raised-bg) 70%, black 30%);
+    box-shadow: inset 0 0 0 var(--bw) var(--card-border);
+}
+.game-court.mouse { cursor: none; }      /* the paddle is the pointer */
+.game-court.idle { cursor: pointer; }
+.game-court canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.game-overlay {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; text-align: center; padding: 16px; pointer-events: none;
+    background: color-mix(in srgb, black 35%, transparent);
+}
+.game-overlay-title { font-size: var(--fs-2xl); font-weight: 800; color: var(--text-strong); letter-spacing: .02em; }
+.game-overlay-text { font-size: var(--fs-md); color: var(--text); }
+
+.game-foot { flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+.game-keys, .game-score { margin: 0; }
+.game-score { color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* Minesweeper: the counters in its bar; paused, the board is covered. */
+.mines-count { display: inline-flex; align-items: baseline; gap: 6px; }
+.mines-count b { min-width: 2.5ch; font-family: var(--font-mono); font-size: var(--fs-lg); color: var(--text-strong);
+    font-variant-numeric: tabular-nums; }
+.mines-court { cursor: default; }
+.game-overlay.covered { background: color-mix(in srgb, var(--raised-bg) 94%, black 6%); }
+.mines-court .game-overlay:not(.covered) { background: color-mix(in srgb, black 62%, transparent); }   /* the message over the numbers */
+
+/* Solitaire: the table in the theme, like the other courts; the end message dims it more. */
+.sol-court { cursor: default; touch-action: none; }
+.sol-court .game-overlay:not(.covered) { background: color-mix(in srgb, black 55%, transparent); }
+
+/* 2048 is dragged across; Sudoku is clicked square by square. */
+.g2048-court { cursor: grab; touch-action: none; }
+.sudoku-court { cursor: default; }
+.sudoku-court .game-overlay:not(.covered) { background: color-mix(in srgb, black 55%, transparent); }
+.btn[aria-pressed="true"] { background: var(--selection-bg); color: var(--selection-fg); }
+.breakout-serve { margin: 0; color: var(--text); }

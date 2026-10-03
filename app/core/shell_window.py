@@ -15,7 +15,9 @@ the busy overlay and the tray.
 """
 
 import os
+import time
 import traceback
+import weakref
 
 from PySide6.QtCore import QEvent, QRectF, Qt, QThread, QTimer, QUrl, Signal
 from PySide6.QtGui import QAction, QColor, QCursor, QDesktopServices, QIcon, QPainter, QPainterPath, QPixmap, QRegion
@@ -85,15 +87,188 @@ def _generate_window_icon(accent_hex):
     return QIcon(pixmap)
 
 
+# A web page is drawn out of sight, underneath the one in front, and comes to
+# the front once Chromium has a picture of it at the pane's size (_PaneStack).
+# Shown straight away, a tool appeared at an old size (640 x 480 the first
+# time, or the size before Buddy was maximized) and then jumped to fill the
+# pane - or, once Chromium had let a hidden page's picture go, blank.
+SETTLE_MS = 150         # drawn before at another size: its old picture isn't trusted for this long
+LAYOUT_SETTLE_MS = 150  # never drawn: after Chromium lays it out at the pane's size (its full-size
+                        # picture followed 15-120 ms later, measured at 4K)...
+FIRST_DRAW_MS = 700     # ...or this long, if Chromium never says
+MAX_WAIT_MS = 1200      # however it's going, the page comes to the front by then
+POLL_MS = 30            # how often a page waiting underneath is looked at
+
+
+def _web_views(page):
+    """The web views a page shows (Media Manager holds two tools: the one on its tab)."""
+    # Here, not at the top: core.web_page sets Chromium up before it's imported.
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    return [v for v in page.findChildren(QWebEngineView) if v.isVisibleTo(page) and v.width() > 1]
+
+
+def _has_picture(view) -> bool:
+    """Whether Chromium has drawn this view: a page with no picture (never
+    drawn, or one Chromium let go while it was hidden) grabs as one flat
+    colour. Every Buddy page has text on it somewhere."""
+    img = view.grab().toImage()
+    w, h = img.width(), img.height()
+    if w < 8 or h < 8:
+        return False
+    first = None
+    for gy in range(1, 16):
+        for gx in range(1, 24):
+            c = img.pixel(gx * w // 24, gy * h // 16)
+            if first is None:
+                first = c
+            elif c != first:
+                return True
+    return False
+
+
+def _watch_layout(view):
+    """Notes when Chromium lays the view's page out at its width
+    (contentsSizeChanged): a page never shown is first laid out at 640 x
+    480, then at the view's size - and its picture at that size follows."""
+    if getattr(view, "_layout_watched", False):
+        return
+    view._layout_watched = True
+    view._laid_out_at = None
+    ref = weakref.ref(view)
+
+    def changed(size):
+        v = ref()
+        if v is not None and size.width() * v.zoomFactor() >= v.width() - 2:
+            v._laid_out_at = time.monotonic()
+
+    view.page().contentsSizeChanged.connect(changed)
+
+
+def _laid_out_since(view, started):
+    """When Chromium last laid the view out at its width, if that was after
+    `started` (time.monotonic()); else None."""
+    at = getattr(view, "_laid_out_at", None)
+    return at if at is not None and at >= started else None
+
+
 class _PaneStack(QStackedWidget):
     """A stack sized by the page on show. A plain QStackedWidget asks for
     the largest minimum of EVERY page it holds, and the left pane holds all
     the pages not on show - so a narrow tool in dual view scrolled sideways
-    for Asset Manager's sake."""
+    for Asset Manager's sake.
+
+    It also brings a web page to the front only once Chromium has a picture
+    of it at the pane's size (show_page). A tool is built hidden at Qt's
+    default 640 x 480 and Chromium ignores size changes while a page is
+    hidden, so shown straight away a tool first appeared at 640 x 480 (or at
+    the size it had before Buddy was maximized), then jumped to fill the
+    pane; and Chromium lets a hidden page's picture go after a while, so one
+    could also come up blank. Instead the page is shown underneath the one
+    in front - which stays on screen - until it has a picture.
+
+    Tools aren't drawn ahead of time: every tool drawn keeps ~130 MB of
+    images at 4K (in RAM, on integrated graphics) for as long as Buddy
+    runs, and drawing all of them in the background cost ~2.4 GB. Painted
+    on the GPU (core/web_flags.py), a tool's first showing takes ~60-170 ms."""
 
     def __init__(self):
         super().__init__()
-        self.currentChanged.connect(lambda _index: self.updateGeometry())
+        self._pending = None          # picked, and on its way to the front
+        self._waiting = None          # (page, started, min_ms, size, first) while show_page waits
+        self._poll = QTimer(self, interval=POLL_MS, timeout=self._check_pending)
+        self.currentChanged.connect(lambda _index: (self.updateGeometry(), self._note_drawn()))
+
+    def _note_drawn(self):
+        """The page in front is drawn at the stack's size."""
+        page = self.currentWidget()
+        if page is not None and self.isVisible():
+            page._drawn_size = self.contentsRect().size()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._note_drawn()
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self._note_drawn()            # the page Buddy opened on
+
+    def front(self):
+        """The page on show - or on its way there."""
+        return self._pending or self.currentWidget()
+
+    def _show_underneath(self, page):
+        page.setGeometry(self.contentsRect())
+        page.show()
+        current = self.currentWidget()
+        if current is not None and current is not page:
+            current.raise_()
+
+    def show_page(self, page):
+        """setCurrentWidget - for a web page, once Chromium has a picture of
+        it at this size: until then it's drawn underneath the page in front."""
+        self._drop_pending(keep=page)
+        current = self.currentWidget()
+        if page is current or self.indexOf(page) < 0:
+            return
+        if current is None or not self.isVisible() or not _web_views(page):
+            self.setCurrentWidget(page)
+            return
+        drawn = getattr(page, "_drawn_size", None)
+        size = self.contentsRect().size()
+        first = drawn is None
+        min_ms = 0 if drawn == size else SETTLE_MS if not first else FIRST_DRAW_MS
+        started = time.monotonic()
+        self._pending = page
+        if self._waiting is None or self._waiting[0] is not page:
+            self._show_underneath(page)
+            for view in _web_views(page):
+                _watch_layout(view)
+            self._waiting = (page, started, min_ms, size, first)
+        self._poll.start()
+        QTimer.singleShot(0, self._check_pending)
+
+    def _ready_to_check(self, page, started, min_ms, first, waited):
+        """Long enough underneath for its picture to be trusted."""
+        if waited >= min_ms:
+            return True
+        if not first:
+            return False
+        # Never drawn: once Chromium has laid every view out at its size.
+        times = [_laid_out_since(v, started) for v in _web_views(page)]
+        if not times or None in times:
+            return False
+        return (time.monotonic() - max(times)) * 1000 >= LAYOUT_SETTLE_MS
+
+    def _check_pending(self):
+        if self._waiting is None:
+            self._poll.stop()
+            return
+        page, started, min_ms, size, first = self._waiting
+        if self._pending is not page or self.indexOf(page) < 0:
+            self._waiting = None
+            self._poll.stop()
+            return
+        waited = (time.monotonic() - started) * 1000
+        if waited < MAX_WAIT_MS:
+            if not self._ready_to_check(page, started, min_ms, first, waited):
+                return
+            views = _web_views(page)
+            if views and not all(_has_picture(v) for v in views):
+                return
+        self._waiting = None
+        self._poll.stop()
+        self._pending = None
+        page._drawn_size = size
+        self.setCurrentWidget(page)
+
+    def _drop_pending(self, keep=None):
+        """Another tool picked before the last one came to the front."""
+        pending, self._pending = self._pending, None
+        if pending is not keep:
+            self._waiting = None
+        if (pending is not None and pending is not keep and pending is not self.currentWidget()
+                and self.indexOf(pending) >= 0):
+            pending.hide()
 
     def minimumSizeHint(self):
         page = self.currentWidget()
@@ -649,7 +824,7 @@ class ShellWindow(QMainWindow):
         if self._layout == "desktop":
             front = self.desktop.front()
             return [self.pages[front]] if front in self.pages else []
-        shown = [self.stack.currentWidget()]
+        shown = [self.stack.front()]
         if self._split_on and self._side_tool_id in self.pages:
             shown.append(self.pages[self._side_tool_id])
         return [page for page in shown if getattr(page, "display_name", None)]
@@ -676,6 +851,8 @@ class ShellWindow(QMainWindow):
         # Show/Hide entry should say.
         if event.type() == QEvent.WindowStateChange:
             self._update_tray_show_action()
+        elif event.type() == QEvent.ActivationChange and getattr(self, "header", None) is not None:
+            self.push_header()
         super().changeEvent(event)
 
     def _quit_app(self):
@@ -1265,6 +1442,9 @@ class ShellWindow(QMainWindow):
             "update": self.updates.header_state() if hasattr(self, "updates") else None,
             "split": self._split_on, "side": self._side_tool_id,
             "choices": [{"id": tid, "label": self.pages[tid].display_name} for tid in self.side_choices()],
+            # Off-world's cursor blinks only while Buddy is in use: each blink
+            # redraws the header, ~4% of a core for as long as Buddy runs.
+            "active": self.isActiveWindow(),
         })
         # The desktop layout's taskbar shows the connection and the orb too.
         self.push_taskbar()
@@ -1388,15 +1568,18 @@ class ShellWindow(QMainWindow):
             return
         previous = self._current_tool_id
         page = self.pages[tool_id]
+        # Picking the tool that's on the right (dual view) swaps the two
+        # sides, rather than leaving the right side empty.
+        swap = self._split_on and tool_id == self._side_tool_id and previous is not None
         self._place_page(page, self.stack)
-        self.stack.setCurrentWidget(page)
+        if swap:
+            self.stack.setCurrentWidget(page)     # the old front page moves to the right at once
+        else:
+            self.stack.show_page(page)
         self._current_tool_id = tool_id
         self.push_rail()
         page.on_shown()
         if self._split_on:
-            # Picking the tool that's on the right swaps the two sides,
-            # rather than leaving the right side empty.
-            swap = tool_id == self._side_tool_id and previous is not None
             self._show_side(previous if swap else self._side_tool_id)
 
     def _remember_tool(self, tool_id):
@@ -1462,7 +1645,7 @@ class ShellWindow(QMainWindow):
         """The Settings window - on General, or on a tool's own page (its
         right-click Settings)."""
         current_page = (self.pages.get(self._current_tool_id) if self._layout == "desktop"
-                        else self.stack.currentWidget())
+                        else self.stack.front())
         dialog = SettingsDialog(self, self.shared_settings, self._on_settings_applied, current_page,
                                 open_tool=tool_id if ShellWindow.has_settings(self, tool_id) else None)
         dialog.exec()

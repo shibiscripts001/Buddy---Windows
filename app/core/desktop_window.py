@@ -23,10 +23,25 @@ overlay) or a window of its own (the taskbar's menus).
 A page only ever moves straight from one parent to another - never out to
 no parent at all (QScrollArea.takeWidget() does that), which would make it
 a top-level window of its own for a moment.
+
+Dragging a window by its title moves a picture of it (_DragGhost), not the
+window. Moving a native window makes Qt repaint and re-present every
+window on the desk - ~30 ms a move at 4K on integrated graphics, so a drag
+managed ~30 frames a second, fell behind the pointer, and showed what Qt
+hadn't repainted yet (black or white) behind it. The picture is a small
+window of its own that Windows moves without Buddy drawing anything
+(~0.4 ms a move, measured); the real window steps off the desk for the
+drag - still shown, so it keeps the mouse - and lands once, under the
+picture, which goes once it has painted.
+
+Resizing from an edge or corner works the same way, worse before: every
+step also re-laid the page out in Chromium. The picture is the window's
+frame drawn at the new size around the page as it was (anchored top left,
+the rest the page's colour); the page takes its new size once, on release.
 """
 
-from PySide6.QtCore import QEvent, QPointF, QRect, QRectF, Qt
-from PySide6.QtGui import QBrush, QColor, QFont, QPainter, QPainterPath, QPen, QPixmap, QRegion
+from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, QRectF, QSize, Qt, QTimer
+from PySide6.QtGui import QBrush, QColor, QFont, QGuiApplication, QPainter, QPainterPath, QPen, QPixmap, QRegion
 from PySide6.QtWidgets import QApplication, QFrame, QScrollArea, QWidget
 
 from core import desktop_layout as dl
@@ -42,6 +57,11 @@ CORNER = 18         # how far along an edge a corner reaches - bigger, so it's e
 BTN = 20            # title-bar button size
 BTN_GAP = 6
 DOT_STEP = 16       # the desk's dot grid
+DRAG_START = 3      # how far the pointer goes before a press on the title becomes a drag
+OFF_DESK = -30000   # where a window waits while its picture is dragged
+LAND_MS = 80        # the picture stays this long over the window that's landed (it paints in ~20 ms)...
+LAND_RESIZED_MS = 300   # ...or resized (the page lays itself out again and redraws first)
+DRAG_CHECK_MS = 100 # how often a drag checks the button is still down (a release it never heard of)
 
 # Edges a resize drags, by where the press landed.
 _CURSORS = {
@@ -58,6 +78,62 @@ def _families(css_font):
             if f.strip() and f.strip() not in ("sans-serif", "serif", "monospace")]
 
 
+def _primary_button_down():
+    """Whether the primary mouse button is down right now - asked of Windows,
+    since a release that went elsewhere never reaches Qt."""
+    try:
+        import ctypes
+        user32 = ctypes.windll.user32
+        vk = 0x02 if user32.GetSystemMetrics(23) else 0x01      # SM_SWAPBUTTON: VK_RBUTTON : VK_LBUTTON
+        return bool(user32.GetAsyncKeyState(vk) & 0x8000)
+    except (AttributeError, OSError):
+        return bool(QGuiApplication.mouseButtons() & Qt.LeftButton)
+
+
+def _frame_rect(size):
+    """A window of this size's frame; the widget reaches SHADOW past its
+    right and bottom edges for the shadow."""
+    return QRect(0, 0, size.width() - SHADOW, size.height() - SHADOW)
+
+
+def _content_rect(size):
+    return _frame_rect(size).adjusted(INSET, TITLE_H + BORDER, -INSET, -INSET)
+
+
+def _shape(size):
+    """The rounded frame and its shadow: what a window of this size covers."""
+    frame = QRectF(_frame_rect(size))
+    region = QRegion()
+    for rect in (frame, frame.translated(SHADOW, SHADOW)):
+        path = QPainterPath()
+        path.addRoundedRect(rect.adjusted(-0.5, -0.5, 0.5, 0.5), RADIUS, RADIUS)
+        region = region.united(QRegion(path.toFillPolygon().toPolygon()))
+    return region
+
+
+class _DragGhost(QWidget):
+    """A picture of a tool window, dragged or resized in its place (see the
+    module docstring): a window of its own, above Buddy's, that never takes
+    focus or the mouse, clipped to the window's shape. paint(painter, size)
+    draws it at its size."""
+
+    def __init__(self, owner, paint):
+        super().__init__(owner, Qt.Tool | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+        self.setAttribute(Qt.WA_ShowWithoutActivating, True)
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self.setAttribute(Qt.WA_DeleteOnClose, True)
+        self._paint = paint
+
+    def resizeEvent(self, event):
+        self.setMask(_shape(self.size()))
+        super().resizeEvent(event)
+
+    def paintEvent(self, _event):
+        p = QPainter(self)
+        self._paint(p, self.size())
+        p.end()
+
+
 class ToolWindow(QWidget):
     """One tool's window: frame, title bar, buttons, and the page in a
     scroll area (a window smaller than its page scrolls, as a pane does)."""
@@ -72,6 +148,12 @@ class ToolWindow(QWidget):
         self._hover = None          # the title-bar button under the pointer
         self._pressed = None
         self._title_color = color
+        self._ghost = None          # the picture being dragged in this window's place
+        self._ghost_geom = None     # where it is on the desk: where the window lands
+        self._resizing = False      # the picture is of a resize, not a move
+        self._lifted = False        # the window has stepped off the desk for the drag
+        self._lift_timer = QTimer(self, singleShot=True, interval=30, timeout=self._step_off)
+        self._drag_check = QTimer(self, interval=DRAG_CHECK_MS, timeout=self._check_button)
         self.setMouseTracking(True)
         self.setAttribute(Qt.WA_Hover, True)
         # A native window of its own, so Windows keeps the stacking order
@@ -100,10 +182,10 @@ class ToolWindow(QWidget):
     def frame_rect(self):
         """The window itself; the widget reaches SHADOW past its right and
         bottom edges for the shadow."""
-        return QRect(0, 0, self.width() - SHADOW, self.height() - SHADOW)
+        return _frame_rect(self.size())
 
     def content_rect(self):
-        return self.frame_rect().adjusted(INSET, TITLE_H + BORDER, -INSET, -INSET)
+        return _content_rect(self.size())
 
     def resizeEvent(self, event):
         self.scroller.setGeometry(self.content_rect())
@@ -113,17 +195,11 @@ class ToolWindow(QWidget):
     def _clip_to_shape(self):
         """A native window is a rectangle: clip it to the rounded frame and
         its shadow, so what's behind shows through the corners."""
-        frame = QRectF(self.frame_rect())
-        region = QRegion()
-        for rect in (frame, frame.translated(SHADOW, SHADOW)):
-            path = QPainterPath()
-            path.addRoundedRect(rect.adjusted(-0.5, -0.5, 0.5, 0.5), RADIUS, RADIUS)
-            region = region.united(QRegion(path.toFillPolygon().toPolygon()))
-        self.setMask(region)
+        self.setMask(_shape(self.size()))
 
-    def _buttons(self):
+    def _buttons(self, size=None):
         """{"close"|"max"|"min": QRect}, right to left along the title bar."""
-        f = self.frame_rect()
+        f = _frame_rect(size or self.size())
         y = f.top() + (TITLE_H - BTN) // 2 + 1
         out, x = {}, f.right() - 10 - BTN
         for name in ("close", "max", "min"):
@@ -170,11 +246,16 @@ class ToolWindow(QWidget):
             kind, start, geom = self._drag
             d = event.globalPosition().toPoint() - start
             g = (geom.x(), geom.y(), geom.width(), geom.height())
+            if self._ghost is None:
+                if d.manhattanLength() < DRAG_START:
+                    return
+                self._lift(resizing=kind != "move")
             if kind == "move":
-                g = dl.clamp((g[0] + d.x(), g[1] + d.y(), g[2], g[3]), self.desk.area())
+                self._ghost_geom = dl.clamp((g[0] + d.x(), g[1] + d.y(), g[2], g[3]), self.desk.area())
             else:
-                g = dl.resize(g, kind, d.x(), d.y(), self.desk.area())
-            self.setGeometry(QRect(*g))
+                self._ghost_geom = dl.resize(g, kind, d.x(), d.y(), self.desk.area())
+            if self._lifted:
+                self._place_ghost()
             return
         hover = self._button_at(pos)
         if hover != self._hover:
@@ -194,8 +275,84 @@ class ToolWindow(QWidget):
             return
         if self._drag:
             self._drag = None
+            if self._ghost is not None:
+                self._land()
+                return
             g = self.geometry()
             self.desk.moved(self.tool_id, (g.x(), g.y(), g.width(), g.height()))
+
+    # -------------------------------------------------------------- drag --
+    def _lift(self, resizing=False):
+        """The drag starts: a picture of the window goes over it, and once
+        that's on screen the window steps off the desk (_step_off). Moving,
+        it's the window as it is; resizing, the frame is drawn at each new
+        size around the page as it was."""
+        g = self.geometry()
+        self._ghost_geom = (g.x(), g.y(), g.width(), g.height())
+        self._resizing = resizing
+        if resizing:
+            page = self.scroller.grab()
+            fill = QColor(self.desk.palette_colors["surface"])
+
+            def paint(p, size):
+                self.paint_chrome(p, size)
+                r = _content_rect(size)
+                p.setClipRect(r)
+                p.fillRect(r, fill)
+                p.drawPixmap(r.topLeft(), page)
+        else:
+            picture = self.grab()
+
+            def paint(p, _size):
+                p.drawPixmap(0, 0, picture)
+        self._ghost = _DragGhost(self.window(), paint)
+        self._ghost.setGeometry(QRect(self.mapToGlobal(QPoint(0, 0)), self.size()))
+        self._ghost.show()
+        self._lifted = False
+        self._lift_timer.start()
+        self._drag_check.start()
+
+    def _step_off(self):
+        if self._ghost is None:
+            return
+        self._lifted = True
+        self.move(OFF_DESK, OFF_DESK)       # still shown: it keeps the mouse
+        self._place_ghost()
+
+    def _place_ghost(self):
+        x, y, w, h = self._ghost_geom
+        self._ghost.setGeometry(QRect(self.desk.mapToGlobal(QPoint(x, y)), QSize(w, h)))
+
+    def _land(self):
+        """The drag ends: the window goes where the picture is, under it, and
+        the picture goes once the window has painted."""
+        ghost, self._ghost = self._ghost, None
+        self._lift_timer.stop()
+        self._drag_check.stop()
+        self._lifted = False
+        g = self._ghost_geom
+        self.setGeometry(QRect(*g))
+        self.desk.moved(self.tool_id, g)
+        QTimer.singleShot(LAND_RESIZED_MS if self._resizing else LAND_MS, ghost.close)
+
+    def drop_drag(self):
+        """Put a drag down where it is now (the window is closing, the
+        layout changing)."""
+        self._drag = None
+        if self._ghost is not None:
+            self._land()
+
+    def _check_button(self):
+        """The release a drag never heard of (the mouse let go elsewhere):
+        it lands where it is."""
+        if not _primary_button_down():
+            self.drop_drag()
+
+    def hideEvent(self, event):
+        # Closed, minimised or the layout changing mid-drag: no picture left behind.
+        if self._ghost is not None:
+            self.drop_drag()
+        super().hideEvent(event)
 
     def mouseDoubleClickEvent(self, event):
         pos = event.position().toPoint()
@@ -211,10 +368,16 @@ class ToolWindow(QWidget):
 
     # ------------------------------------------------------------ paint --
     def paintEvent(self, _event):
+        p = QPainter(self)
+        self.paint_chrome(p, self.size())
+        p.end()
+
+    def paint_chrome(self, p, size):
+        """The frame, title bar and buttons of this window at `size` - its
+        own, or the picture of it being resized (_lift)."""
         c = self.desk.palette_colors
         ink, paper = QColor(c["ink"]), QColor(c["surface"])
-        f = QRectF(self.frame_rect()).adjusted(BORDER / 2, BORDER / 2, -BORDER / 2, -BORDER / 2)
-        p = QPainter(self)
+        f = QRectF(_frame_rect(size)).adjusted(BORDER / 2, BORDER / 2, -BORDER / 2, -BORDER / 2)
         p.setRenderHint(QPainter.Antialiasing)
 
         p.setPen(Qt.NoPen)
@@ -244,7 +407,7 @@ class ToolWindow(QWidget):
         font.setPixelSize(13)
         font.setBold(True)
         p.setFont(font)
-        buttons = self._buttons()
+        buttons = self._buttons(size)
         text_rect = QRect(16, 0, buttons["min"].left() - 24, TITLE_H + 1)
         # Dark text on the candy bar; faded on an inactive one, but never
         # past readable (a dark palette fades the bar toward dark).
@@ -256,7 +419,6 @@ class ToolWindow(QWidget):
 
         for name, rect in buttons.items():
             self._paint_button(p, name, QRectF(rect), c)
-        p.end()
 
     def _paint_button(self, p, name, r, c):
         ink = QColor(c["ink"])
@@ -374,6 +536,7 @@ class DesktopArea(QWidget):
         page left it isn't fit to reuse). Where the windows were is kept for
         next time."""
         for win in self.windows.values():
+            win.drop_drag()
             page = win.page()
             if page is not None:
                 self.stash(page)
@@ -476,7 +639,8 @@ class DesktopArea(QWidget):
             win.color = self._color(tool_id)
             win.maximized = w["max"]
             geom = (0, 0, *area) if w["max"] else dl.clamp(w["geom"] or (0, 0, *area), area)
-            win.setGeometry(QRect(*geom))
+            if win._ghost is None:          # mid-drag it stays off the desk until it lands
+                win.setGeometry(QRect(*geom))
             win.active = tool_id == front
             win.show()
             win.raise_()

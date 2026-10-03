@@ -19,7 +19,9 @@ Buddy's integrated tools include the following. Audit and parts of Audio Assista
 - Asset Manager
 - Color Palette Manager
 - Command Center (new; system-wide hot keys - or a Run button - for markers, jumping between them, copying the timecode or the frame, clip colours, Animation presets, saving a timeline version and removing gaps (experimental). Hot keys are Windows-only for now (`core/hotkeys.py`); see `pages/command_center/actions.py`)
+- Essentials (new; a calculator that also does timecode, data rate, aspect ratio, a countdown timer, notes kept per project and a world clock; see `pages/essentials/`)
 - Dailies (named source tapes, continuous Media Pool review, notes and metadata)
+- Games (new; Pong, Snake, Minesweeper, Solitaire, Falling blocks, 2048, Breakout and Sudoku - each pauses itself when you look away and keeps its best scores; see `pages/games/`)
 - Image Importer
 - Media Manager (Batch Clip Renamer and Media Relink tabs)
 - Project Setup (bins, folder import, timeline populate, multicam sync, proxy rendering)

@@ -116,7 +116,7 @@ class DuckerTests(unittest.TestCase):
         _Mixer.peaks[RESOLVE] = 0.5                                          # Resolve plays
         self.until(lambda: abs(_Mixer.volume[OURS] - 0.2) < 1e-6)             # 0.8 x 0.25
         self.assertEqual(_Mixer.volume[RESOLVE], 1.0)                        # Resolve's own left alone
-        self.assertIn(0.8, saved)
+        self.until(lambda: 0.8 in saved)       # posted before the volume moved, delivered by the event loop
         _Mixer.peaks[RESOLVE] = 0.0                                          # and stops
         self.until(lambda: abs(_Mixer.volume[OURS] - 0.8) < 1e-6)
         self.until(lambda: saved[-1] is None)

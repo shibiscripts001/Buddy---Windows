@@ -26,30 +26,54 @@ some rounded corners wrong: a box's bottom-left curve and border go
 missing and a long thin sliver runs from the corner across the box - on
 Buddy's own cards and fields (Nova shows it most) and on sites' pages
 alike, and redrawn with every frame of whatever animates over it. It's
-Chromium painting the page on the GPU (GPU rasterization): with the
-painting on the CPU and only the compositing on the GPU
-(--disable-gpu-rasterization), every corner came out right, still at 60
-frames a second on the Animation tab. Plain Direct3D 11 and the NVIDIA
-card drew them right too, but crash (above). So that goes with 11 on 12.
+the multisampling Chromium paints those curves with on the GPU: with it
+off (--gpu-rasterization-msaa-sample-count=0) every corner comes out right.
+
+Painting on the CPU instead (--disable-gpu-rasterization) drew the corners
+right too, but slowly: a maximized tool on a 4K screen took ~450-650 ms to
+appear after switching to it, against ~70-190 ms painted on the GPU
+(measured from screen captures, 2026-10-03) - Chromium repaints a page
+that's been out of sight from scratch. BUDDY_WEB_CPU_PAINT=1 puts that
+back, for a machine whose GPU paints something else wrong.
 
 BUDDY_WEB_SOFTWARE=1 draws in software again (a machine where the GPU
 still crashes); BUDDY_WEB_GPU=1 adds nothing, leaving Chromium's own
 default (for comparing). Whatever QTWEBENGINE_CHROMIUM_FLAGS already holds
-is kept, and a --use-angle there wins over Buddy's - as does
---enable-gpu-rasterization over its painting on the CPU.
+is kept, and a --use-angle there wins over Buddy's - as does a
+multisampling count of its own.
+
+Every one of Buddy's own pages (all local files: one "site" to Chromium)
+shares one renderer process (--process-per-site). By default each got its
+own - 25 of them, ~540 MB of private memory and ~1.9 GB of working set
+between them, against ~130 MB and ~250 MB shared (measured 2026-10-03).
+Switching tools, the Animation tab's 60 fps and startup were unchanged;
+none of Buddy's pages ran a task over 50 ms, so sharing the one thread
+holds nothing up; and when the shared renderer was killed every page
+reloaded within 2 s (core/web_page.py). Sites in the Web tab still get
+their own process, one per site. BUDDY_WEB_PROCESS_PER_PAGE=1 goes back to
+one per page.
 """
 
-GPU = ("--use-angle=d3d11on12", "--disable-gpu-rasterization")
+GPU = ("--use-angle=d3d11on12", "--gpu-rasterization-msaa-sample-count=0")
+CPU_PAINT = "--disable-gpu-rasterization"
 SOFTWARE = ("--disable-gpu", "--disable-gpu-compositing")
+SHARED_RENDERER = "--process-per-site"
 
 
 def chromium_flags(env):
     """QTWEBENGINE_CHROMIUM_FLAGS for this run, given the environment."""
     flags = env.get("QTWEBENGINE_CHROMIUM_FLAGS", "").split()
+    if env.get("BUDDY_WEB_GPU") == "1":
+        return " ".join(flags)
+    if env.get("BUDDY_WEB_PROCESS_PER_PAGE") != "1" and SHARED_RENDERER not in flags:
+        flags.append(SHARED_RENDERER)
     if env.get("BUDDY_WEB_SOFTWARE") == "1":
         flags += [f for f in SOFTWARE if f not in flags]
-    elif env.get("BUDDY_WEB_GPU") != "1" and not any(f.startswith("--use-angle") for f in flags):
-        flags += [f for f in GPU if not (f == "--disable-gpu-rasterization" and "--enable-gpu-rasterization" in flags)]
+    elif not any(f.startswith("--use-angle") for f in flags):
+        given = {f.split("=")[0] for f in flags}
+        flags += [f for f in GPU if f.split("=")[0] not in given]
+        if env.get("BUDDY_WEB_CPU_PAINT") == "1" and CPU_PAINT not in flags:
+            flags.append(CPU_PAINT)
     return " ".join(flags)
 
 

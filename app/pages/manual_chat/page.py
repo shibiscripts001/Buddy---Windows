@@ -142,6 +142,7 @@ class ManualChatPage(ChatSettingsMixin, WebToolPage):
         try:
             self.chats, warnings = chat_store.load(self.ask_folder)
             self._chat_store_error = " ".join(warnings)
+            self.chats.start_fresh()        # a launch opens on a new chat; the saved ones are in the list
         except (OSError, ValueError) as exc:
             self.chats = ChatSessions()
             self._chat_store_error = f"Saved chats could not be read: {exc}. Saving is disabled to protect the file."

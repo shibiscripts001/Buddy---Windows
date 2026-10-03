@@ -574,7 +574,7 @@ Buddy.on("ask", q => {
             const buttons = [{label: "Cancel"}, {label: "Turn on Buddy Network", kind: "accent", id: "rules-ok",
                               onClick: close => { if (agree.checked) { reply(true, true); close(); } }}];
             const dlg = Buddy.modal({title: "Buddy Network rules", wide: true, onClose, buttons,
-                body: [rules, el("label.check", {}, [agree, " I'm 13 or older and I'll follow these rules"])]});
+                body: [rules, el("label.check", {}, [agree, " I'm 18 or older and I'll follow these rules"])]});
             const ok = dlg.node.querySelector("#rules-ok");
             ok.disabled = true;
             agree.onchange = () => { ok.disabled = !agree.checked; };
